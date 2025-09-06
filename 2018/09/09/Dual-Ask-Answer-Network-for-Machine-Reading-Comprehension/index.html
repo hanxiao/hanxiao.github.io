@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="en"><style>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,header,main{display:block}a{background-color:transparent}h1{font-size:2em;margin:.67em 0}img{border:0}body,html{width:100%;height:100%}html{width:100%;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--bgColor);--bgColor:#fff;--textColor:#2c3e50;--bg2ndColor:none;--bg3rdColor:#f8f8f8;--preCodeColor:#525252;--imgOpacity:1.0}@media (prefers-color-scheme:dark){html{background:var(--bgColor);--bgColor:#121212;--textColor:#fff;--bg2ndColor:#fff;--bg3rdColor:#332940;--preCodeColor:#f8f8f8;--imgOpacity:0.5}}body{margin:0;color:var(--textColor);font-size:18px;line-height:1.6;background-color:var(--bgColor);font-family:sourcesanspro,'Helvetica Neue',Arial,sans-serif}ul.nav{margin:0;padding:0;list-style-type:none}ul{margin:1rem 0}a{color:var(--textColor);text-decoration:none}.flag-icon{height:25px;width:25px;display:inline;border-radius:50%;vertical-align:sub}.icon_item{padding-left:5px!important;padding-right:5px!important}.reading-progress-bar{background:#42b983;display:block;height:2px;left:0;position:fixed;top:0;width:0;z-index:10001}header{min-height:60px}header .logo-link{float:left}header .nav{float:right;left:80px}header .logo-link img{height:60px}header .nav-list-item{display:inline-block;padding:19px 10px}header .nav-list-item a{line-height:1.4}@media screen and (max-width:900px){header .nav-list-item a{font-size:12px}}@media screen and (min-width:900px){header .nav-list-item a{font-size:18px}}.post{padding-top:1em}.post-block .post-title{margin:.65em 0;color:var(--textColor);font-size:1.5em}.post-block .post-info{color:#7f8c8d}.post-block .post-info .read-time{text-align:right}.post-content h2,.post-content h4{position:relative;margin:1em 0}.post-content h2 :before,.post-content h4 :before{content:"#";color:#42b983;position:absolute;left:-.7em;top:-4px;font-size:1.2em;font-weight:700}.post-content h4 :before{content:">"}.post-content h2{font-size:22px}.post-content h4{font-size:18px}.post-content a{color:#42b983;word-break:break-all}main.container{margin:2em 10px}@media screen and (min-width:900px){.wrap{width:900px;margin:0 auto}header{padding:20px 60px}}@media screen and (max-width:900px){.wrap{width:100%}header{min-height:50px;padding:2px 2px;position:fixed;z-index:10000;border-radius:15px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}header a.logo-link,header ul.nav.nav-list{float:none;display:inline;text-align:center}header li.nav-list-item{padding:10px 5px}header .logo-link img{height:20px;vertical-align:sub}header .flag-icon{height:20px;width:20px}header{background-color:rgba(255,255,255,.9)}@supports ((-webkit-backdrop-filter:blur(2em)) or (backdrop-filter:blur(2em))){header{background-color:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}}main.container{padding-top:2em}main.container{margin:0 20px}.post-content h2,.post-content h4{max-width:300px;left:15px}}@font-face{font-family:sourcesanspro;src:url(/font/sourcesanspro.woff2) format("woff2"),url(/font/sourcesanspro.woff) format("woff");font-weight:400;font-style:normal}</style><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Machine Reading Comprehension Part II: Learning to Ask & Answer · Han Xiao Tech Blog - Neural Search & AI Engineering</title><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@hxiao"><meta name="twitter:creator" content="@hxiao"><meta name="description" content="In the last post of this series, I have introduced the task of machine reading comprehension (MRC) and presented a simple neural architecture for tack ... · Han Xiao"><meta property="og:title" content="Machine Reading Comprehension Part II: Learning to Ask &amp; Answer · Han Xiao Tech Blog - Neural Search &amp; AI Engineering"><meta property="og:description" content="In the last post of this series, I have introduced the task of machine reading comprehension (MRC) and presented a simple neural architecture for tack ... · Han Xiao"><meta property="og:url" content="https://hanxiao.io/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/"><meta property="og:image" content="https://hanxiao.io/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension//d20488e5.png"><meta property="og:type" content="article"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/myavatar.png"><link rel="alternate" type="application/rss+xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering" href="https://hanxiao.io/atom.xml"><!-- - use css preload trick--><link rel="preload" href="/css/apollo.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/apollo.css"></noscript><script>/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/
+(function( w ){
+    "use strict";
+    // rel=preload support test
+    if( !w.loadCSS ){
+        w.loadCSS = function(){};
+    }
+    // define on the loadCSS obj
+    var rp = loadCSS.relpreload = {};
+    // rel=preload feature support test
+    // runs once and returns a function for compat purposes
+    rp.support = (function(){
+        var ret;
+        try {
+            ret = w.document.createElement( "link" ).relList.supports( "preload" );
+        } catch (e) {
+            ret = false;
+        }
+        return function(){
+            return ret;
+        };
+    })();
+
+    // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+    // then change that media back to its intended value on load
+    rp.bindMediaToggle = function( link ){
+        // remember existing media attr for ultimate state, or default to 'all'
+        var finalMedia = link.media || "all";
+
+        function enableStylesheet(){
+            link.media = finalMedia;
+        }
+
+        // bind load handlers to enable media
+        if( link.addEventListener ){
+            link.addEventListener( "load", enableStylesheet );
+        } else if( link.attachEvent ){
+            link.attachEvent( "onload", enableStylesheet );
+        }
+
+        // Set rel and non-applicable media type to start an async request
+        // note: timeout allows this to happen async to let rendering continue in IE
+        setTimeout(function(){
+            link.rel = "stylesheet";
+            link.media = "only x";
+        });
+        // also enable media after 3 seconds,
+        // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+        setTimeout( enableStylesheet, 3000 );
+    };
+
+    // loop through link elements in DOM
+    rp.poly = function(){
+        // double check this to prevent external calls from running
+        if( rp.support() ){
+            return;
+        }
+        var links = w.document.getElementsByTagName( "link" );
+        for( var i = 0; i < links.length; i++ ){
+            var link = links[ i ];
+            // qualify links to those with rel=preload and as=style attrs
+            if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+                // prevent rerunning on link
+                link.setAttribute( "data-loadcss", true );
+                // bind listeners to toggle media back
+                rp.bindMediaToggle( link );
+            }
+        }
+    };
+
+    // if unsupported, run the polyfill
+    if( !rp.support() ){
+        // run once at least
+        rp.poly();
+
+        // rerun poly on an interval until onload
+        var run = w.setInterval( rp.poly, 500 );
+        if( w.addEventListener ){
+            w.addEventListener( "load", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        } else if( w.attachEvent ){
+            w.attachEvent( "onload", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        }
+    }
+
+
+    // commonjs
+    if( typeof exports !== "undefined" ){
+        exports.loadCSS = loadCSS;
+    }
+    else {
+        w.loadCSS = loadCSS;
+    }
+}( typeof global !== "undefined" ? global : this ) );</script><script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/7da58fc9885cb85d4a9f0ad9a/987f901145f1749fd3e800e86.js");</script><link rel="search" type="application/opensearchdescription+xml" href="https://hanxiao.io/atom.xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering"></head><body><div class="reading-progress-bar"></div><div class="wrap"><header><ul class="nav nav-list"><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="https://www.linkedin.com/in/hxiao87" target="_blank" class="nav-list-link">LINKEDIN</a></li><li class="nav-list-item"><a href="https://x.com/hxiao" target="_blank" class="nav-list-link">X</a></li><li class="nav-list-item"><a href="https://github.com/hanxiao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="https://scholar.google.com/citations?user=jp7swwIAAAAJ" target="_blank" class="nav-list-link">SCHOLAR</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Machine Reading Comprehension Part II: Learning to Ask & Answer</h1><div class="post-info">Sep 9, 2018 by &nbsp;&nbsp;&nbsp;<img src="/myavatar.png" alt="logo" width="18px" height="18px" style="vertical-align: sub;">&nbsp;<a href="/about" target="_blank" class="nav-list-link">Han Xiao - <i>ex</i> Engineering Lead @ Tencent AI Lab</a></div><div class="post-info"><div class="read-time">◷&nbsp;&nbsp;&nbsp; 23  min read</div></div><div class="post-content"><h2><span id="recap">Recap</span></h2><p>In <a href="/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/" title="the last post of this series">the last post of this series</a>, I have introduced the task of machine reading comprehension (MRC) and presented a simple neural architecture for tackling such task. In fact, this architecture can be found in many state-of-the-art MRC models, e.g. BiDAF, S-Net, R-Net, match-LSTM, ReasonNet, Document Reader, Reinforced Mnemonic Reader, FusionNet and QANet.</p>
+<p>I also pointed out an assumption made in this architecture: the answer is always a continuous span of a given passage. Under this assumption, an answer can be simplified as a pair of two integers, representing its start and end position<a id="more"></a> in the passage respectively. This greatly reduces the solution space and simplifies the training, yielding <a href="https://rajpurkar.github.io/SQuAD-explorer/" target="_blank" rel="noopener">promising score on SQuAD dataset</a>. Unfortunately, beyond artificial datasets this assumption is often not true in practice.</p>
+<div class="tip"><br>  This post is the part II of the Machine Reading Comprehension series. If you are not familiar with this topic, you may first <a href="/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/" title="read through the part I">read through the part I</a>. If you are a professional researcher who already knows well of the problem and the technique, please read my research paper <a href="https://arxiv.org/abs/1809.01997" target="_blank" rel="noopener">“Dual Ask-Answer Network for Machine Reading Comprehension” on arXiv</a> for a more comprehensive and formal analysis.<br></div>
+
+<h4><span id="table-of-content">Table of Content</span></h4><!-- toc -->
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#dual-learning-paradigms">Dual Learning Paradigms</a></li>
+<li><a href="#problem-formulation">Problem Formulation</a></li>
+<li><a href="#dual-ask-answer-network">Dual Ask-Answer Network</a><ul>
+<li><a href="#embedding-layer">Embedding Layer</a></li>
+<li><a href="#encoding-layer">Encoding Layer</a></li>
+<li><a href="#attention-layer">Attention Layer</a></li>
+<li><a href="#output-layer">Output Layer</a></li>
+<li><a href="#loss-function">Loss function</a></li>
+<li><a href="#duality-in-the-model">Duality in the Model</a></li>
+</ul>
+</li>
+<li><a href="#results">Results</a><ul>
+<li><a href="#quantitative-evaluation">Quantitative Evaluation</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<!-- tocstop -->
+<h2><span id="background">Background</span></h2><p>As we already know, there are three modalities in the reading comprehension setting: question, answer and context. One can define two problems from different directions:</p>
+<ul>
+<li><strong>Question Answering</strong> (QA): infer an answer given a question and the context;</li>
+<li><strong>Question Generation</strong> (QG): infer a question given an answer and the context.</li>
+</ul>
+<p>Careful readers may notice that there is some sort of <em>cycle consistency</em> between QA and QG: they are both defined as inferring one modality given the counterpart based on context. This makes one wonder if the roles of questions and answers are simply invertible. After all, they are both short text and only make sense when given the context. It is like an object stands side-on to a mirror, whereas the context is the mirror itself, as illustrated in the next figure.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/d20488e5.png">
+<p>In the real world, we know that a good reading comprehension ability means not only giving perfect answer but also asking good question. In fact, there is an effective strategy used to teach reading at school called <a href="https://en.wikipedia.org/wiki/Reading_comprehension#Partner_reading" target="_blank" rel="noopener"><em>partner reading</em></a>, in which two students read an assigned text and ask one another questions in turn. </p>
+<p>At Tencent AI Lab, my team takes a deep dive into the relationship between questions and answers, or what we call it, the <em>duality</em>. We consider QA and QG as two strongly correlated tasks and equally important to the reading comprehension ability. In particular, our goal is to develop a unified neural network that </p>
+<ul>
+<li>learns QA and QG simultaneously in an end-to-end manner;</li>
+<li>exploits the duality between QA and QG to benefit one another. </li>
+</ul>
+<p>The code used in this post is available at <a href="https://github.com/hanxiao/daanet" target="_blank" rel="noopener">my Github repo</a>.</p>
+<h2><span id="dual-learning-paradigms">Dual Learning Paradigms</span></h2><p>How ever I want to be, I’m not the first to invent the idea of duality in deep learning. The idea of dual learning on deep neural network is <a href="https://papers.nips.cc/paper/6469-dual-learning-for-machine-translation.pdf" target="_blank" rel="noopener">first applied to machine translation</a>, in which a two-agent game with an invertible translation process is designed for learning English-to-French and French-to-English translations. Some very recent MRC works have also recognized the relationship between QA and QG and exploited it differently. They designed some sharing scheme in the learning paradigm to utilize the commonality among the tasks. For readers that are familiar with multi-task learning, it should be no surprise. Sharing weights or low-level representations enables the knowledge to be transferred from one task to another, resulting a model with better generalization ability.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/262269bc.png">
+<p>The figure visualized three different learning paradigms that exploit the task correlations of QA and QG. Red line represents data/model-level separation. (a) <a href="https://arxiv.org/abs/1709.01058" target="_blank" rel="noopener">Two separated models with a joint loss function.</a> (b) <a href="https://arxiv.org/abs/1706.01450" target="_blank" rel="noopener">A unified model with alternated training input and two separated loss functions.</a> (c)  <strong>This work</strong>: a unified architecture with locally shared structure that can learn two tasks simultaneously. In contrast to (a) and (b), there is no data-level or model-level separation in this learning paradigm.</p>
+<h2><span id="problem-formulation">Problem Formulation</span></h2><p>Unlike the traditional MRC problem focusing only on QA, the problem considered here is bipartite: QA and QG. Specifically, the model should be able to infer answers or questions when given the counterpart based on context. </p>
+<p>Formally, let’s denote a context paragraph as $C:=\{c_1, \ldots, c_n\}$, a question sentence as $Q:=\{q_1,\ldots,q_m\}$ and an answer sentence as $A:=\{a_1,\ldots,a_k\}$. In the sequel, I will follow this notation and use $n$, $m$, $k$ to represent the length of a context, a question and an answer, respectively. The context $C$ is shared by the two tasks. Given $C$, the QA task is defined as finding the answer $A$ based on the question $Q$; the QG task is defined as finding the question $Q$ based on the answer $A$. In contrast to my last MRC model <a href="/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/" title="that assumes the answer as a continuous span">that assumes the answer as a continuous span</a>, I regard both QA and QG tasks as generation problems and solve them jointly in a neural sequence transduction model.</p>
+<h2><span id="dual-ask-answer-network">Dual Ask-Answer Network</span></h2><p>The high level architecture of our proposed Dual Ask-Answer Network is illustrated in the next figure. This neural sequence transduction model receives string sequences as input and processes them through an embedding layer, an encoding layer, an attention layer, and finally to an output layer to generate sequences.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/05bd204f.png">
+<p>The rectangle super-block on the side can be viewed as a decoder for QG and QA, respectively. Shared components are filled with the same color, i.e. blue for the answer encoder, green for the question encoder and yellow for the pointer generator. Note that, the context encoder is also shared by QA and QG. For the sake of clarity I only draw one context encoder block. During testing, the shifted input is replaced by the model’s own generated words from the previous steps.</p>
+<h4><span id="embedding-layer">Embedding Layer</span></h4><p>The embedding layer maps each word to a high-dimensional vector space. The vector representation includes the word-level and the character-level information. The parameters of this layer are shared by context, question and answer. For the word embedding, we use pre-trained 256-dimensional <a href="https://github.com/stanfordnlp/GloVe" target="_blank" rel="noopener">GloVe</a> word vectors, which are fixed during training. For the character embedding, each character is represented as a 200-dimensional trainable vector. Character embedding is extremely useful for representing out-of-vocabulary words.</p>
+<p>But how can one combine the word embedding with the character embedding? Each word is first represented as a sequence of character vectors, where the sequence length is either truncated or padded to $16$. Next, we conduct 1D CNN with kernel width 3 followed by <a href="/2018/06/24/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/" title="max-pooling along the time axis, which I explained in the last post">max-pooling along the time axis, which I explained in the last post</a>. As a result, it gives us a fixed-size 200-dimensional vector for each word. The final output of the embedding layer is the concatenation of the word and the character embeddings.</p>
+<h4><span id="encoding-layer">Encoding Layer</span></h4><p>The encoding layer contains three encoders for context, question and answer, respectively. They are shared by QA and QG, as depicted in the last Figure. That is, given QA and QG dual tasks, the encoder of the primal task and the decoder of the dual task are forced to be the same. This parameter sharing scheme serves as a regularization to influence the training on both tasks. It also helps the model to find a more general and stable representation for each modality.</p>
+<p>Each encoder consists of the following basic building blocks: an element-wise fully connected feed-forward block, stacked LSTMs and a self-attention block. The final output of an encoder is a concatenation of the outputs of all blocks, as illustrated in the next figure.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/2b1c354a.png">
+<p><a href="https://goo.gl/forms/P7GhZpJsq3lvtquO2" target="_blank" rel="noopener">Followers of my blog</a> probably know that I implemented some state-of-the-art text encoding algorithms with Tensorflow and pack them into an open-source project: <a href="https://github.com/hanxiao/tf-nlp-blocks" target="_blank" rel="noopener"><code>tf-nlp-block</code></a>. Now it’s time to release the hounds! Here is an example implementation of the encoding layer.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nlp.encode_blocks <span class="keyword">import</span> TCN_encode, LSTM_encode</span><br><span class="line"><span class="keyword">from</span> nlp.match_blocks <span class="keyword">import</span> Transformer_match</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_encoding_layer</span><span class="params">(self)</span>:</span></span><br><span class="line">    q_encodes, c_encodes, a_encodes = [], [], []</span><br><span class="line">    <span class="keyword">for</span> algo <span class="keyword">in</span> self.args.encode_algo:</span><br><span class="line">        <span class="keyword">if</span> algo == <span class="string">'TCN'</span>:</span><br><span class="line">            kwargs = &#123;</span><br><span class="line">                <span class="string">'dropout_keep_rate'</span>: self.ph_dropout_keep_prob,</span><br><span class="line">                <span class="string">'residual'</span>: self.args.encode_residual,</span><br><span class="line">                <span class="string">'normalize_output'</span>: self.args.encode_normalize_output</span><br><span class="line">            &#125;</span><br><span class="line">            q_encode = TCN_encode(self.q_emb, self.args.encode_num_layers, causality=<span class="literal">True</span>, scope=<span class="string">'TCN_query'</span>, **kwargs)</span><br><span class="line">            c_encode = TCN_encode(self.c_emb, self.args.encode_num_layers, scope=<span class="string">'TCN_context'</span>, **kwargs)</span><br><span class="line">            a_encode = TCN_encode(self.a_emb, self.args.encode_num_layers, causality=<span class="literal">True</span>, scope=<span class="string">'TCN_answer'</span>, **kwargs)</span><br><span class="line">        <span class="keyword">elif</span> algo == <span class="string">'LSTM'</span>:</span><br><span class="line">            kwargs = &#123;</span><br><span class="line">                <span class="string">'num_layers'</span>: self.args.encode_num_layers,</span><br><span class="line">                <span class="string">'direction'</span>: self.args.encode_direction</span><br><span class="line">            &#125;</span><br><span class="line">            q_encode = LSTM_encode(self.q_emb, causality=<span class="literal">True</span>, scope=<span class="string">'LSTM_query'</span>, **kwargs)</span><br><span class="line">            c_encode = LSTM_encode(self.c_emb, scope=<span class="string">'LSTM_context'</span>, **kwargs)</span><br><span class="line">            a_encode = LSTM_encode(self.a_emb, causality=<span class="literal">True</span>, scope=<span class="string">'LSTM_answer'</span>, **kwargs)</span><br><span class="line">        <span class="keyword">elif</span> algo == <span class="string">'TRANSFORMER'</span>:</span><br><span class="line">            kwargs = &#123;</span><br><span class="line">                <span class="string">'dropout_keep_rate'</span>: self.ph_dropout_keep_prob,</span><br><span class="line">                <span class="string">'residual'</span>: self.args.encode_residual,</span><br><span class="line">                <span class="string">'normalize_output'</span>: self.args.encode_normalize_output,</span><br><span class="line">                <span class="string">'num_heads'</span>: self.args.encode_num_heads</span><br><span class="line">            &#125;</span><br><span class="line">            q_encode = Transformer_match(self.q_emb, self.q_emb, self.q_mask, self.q_mask, causality=<span class="literal">True</span>, scope=<span class="string">'Transformer_query'</span>, **kwargs)</span><br><span class="line">            c_encode = Transformer_match(self.c_emb, self.c_emb, self.c_mask, self.c_mask, scope=<span class="string">'Transformer_context'</span>, **kwargs)</span><br><span class="line">            a_encode = Transformer_match(self.a_emb, self.a_emb, self.a_mask, self.a_mask, causality=<span class="literal">True</span>,scope=<span class="string">'Transformer_answer'</span>, **kwargs)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">        q_encodes.append(q_encode)</span><br><span class="line">        c_encodes.append(c_encode)</span><br><span class="line">        a_encodes.append(a_encode)</span><br><span class="line">    self.q_encode = tf.concat(q_encodes, axis=<span class="number">2</span>) <span class="keyword">if</span> len(q_encodes) &gt; <span class="number">1</span> <span class="keyword">else</span> q_encodes[<span class="number">0</span>]</span><br><span class="line">    self.c_encode = tf.concat(c_encodes, axis=<span class="number">2</span>) <span class="keyword">if</span> len(c_encodes) &gt; <span class="number">1</span> <span class="keyword">else</span> c_encodes[<span class="number">0</span>]</span><br><span class="line">    self.a_encode = tf.concat(a_encodes, axis=<span class="number">2</span>) <span class="keyword">if</span> len(a_encodes) &gt; <span class="number">1</span> <span class="keyword">else</span> a_encodes[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>Finally, one can simply set <code>self.args.encode_algo</code> to <code>[&#39;TCN&#39;, &#39;LSTM&#39;, &#39;TRANSFORMER&#39;]</code> for composing encoders. </p>
+<div class="quiz"><br>Careful readers may notice that <code>causality=True</code> is set particularly for question and answer encoders. As we are going to use question and answer encoders for decoding, preventing the backward signal is crucial to preserve the auto-regressive property. For LSTM we simply use the uni-directional network; for TCN we <a href="/2018/06/24/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/" title="pad the input on the left">pad the input on the left</a>; for self-attention we keep only attention of later position to early position, meanwhile setting the remaining to $-\infty$.<br></div>
+
+<h4><span id="attention-layer">Attention Layer</span></h4><p>In the attention layer, we develop a two-step attention that folds in all information observed so far for generating final sequences. The first fold-in step captures the interaction between question/answer and context and represents it as a <em>new</em> context sequence. The second fold-in step mimics the typical encoder-decoder attention mechanisms in the sequence-to-sequence models. The next figure illustrates this process, where the input $\widetilde{Q},\widetilde{C},\widetilde{A}, \widetilde{Q}_{&lt;t},\widetilde{A}_{&lt;t}$ are from the previous encoding layer.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/a7bafb75.png">
+<p>Again, the implematation is fairly straightforward with the help of <a href="https://github.com/hanxiao/tf-nlp-blocks" target="_blank" rel="noopener"><code>tf-nlp-block</code></a>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_attention_layer_QA</span><span class="params">(self)</span>:</span></span><br><span class="line">    kwargs = &#123;</span><br><span class="line">        <span class="string">'dropout_keep_rate'</span>: self.ph_dropout_keep_prob,</span><br><span class="line">        <span class="string">'residual'</span>: self.args.match_residual,</span><br><span class="line">        <span class="string">'normalize_output'</span>: self.args.match_normalize_output,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> self.args.match_algo == <span class="string">'ATT_CNN'</span>:</span><br><span class="line">        first_attention = AttentiveCNN_match(self.c_encode, self.q_encode, self.c_mask, self.q_mask, score_func=self.args.match_attentive_score, **kwargs)</span><br><span class="line">        second_attention = AttentiveCNN_match(self.a_encode, first_attention, self.a_mask, self.c_mask, score_func=self.args.match_attentive_score, **kwargs)</span><br><span class="line">    <span class="keyword">elif</span> self.args.match_algo == <span class="string">'SIMPLE_ATT'</span>:</span><br><span class="line">        first_attention, _ = Attentive_match(self.c_encode, self.q_encode, self.c_mask, self.q_mask, score_func=self.args.match_attentive_score, **kwargs)</span><br><span class="line">        second_attention, _ = Attentive_match(self.a_encode, first_attention, self.c_mask, self.q_mask, score_func=self.args.match_attentive_score, **kwargs)</span><br><span class="line">    <span class="keyword">elif</span> self.args.match_algo == <span class="string">'TRANSFORMER'</span>:</span><br><span class="line">        first_attention = Transformer_match(self.c_encode, self.q_encode, self.c_mask, self.q_mask, num_heads=self.args.match_num_heads, **kwargs)</span><br><span class="line">        second_attention = Transformer_match(self.a_encode, first_attention, self.c_mask, self.q_mask, num_heads=self.args.match_num_heads, **kwargs)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line">    <span class="keyword">return</span> second_attention</span><br></pre></td></tr></table></figure>
+<h4><span id="output-layer">Output Layer</span></h4><p>The output layer generates an output sequence one word at a time. At each step the model is auto-regressive, consuming the words previously generated as input when generating the next. In this work, we employ <a href="https://arxiv.org/abs/1704.04368" target="_blank" rel="noopener">the pointer generator</a> as the core component of the output layer. It allows both copying words from the context via pointing, and sampling words from a fixed vocabulary. This aids accurate reproduction of information especially in QA, while retaining the ability to generate novel words.</p>
+<h4><span id="loss-function">Loss function</span></h4><p>During training, the model is fed with a question-context-answer triplet $(Q, C, A)$, and the decoded $\widehat{Q}$ and $\widehat{A}$ from the output layer are trained to be similar to $Q$ and $A$, respectively. To achieve that, our loss function consists of two parts: the negative log-likelihood loss widely used in the sequence transduction model and a coverage loss to penalize repetition of the generated text. </p>
+<p>We employ <em>teacher forcing</em> strategy in training, where the model receives the groundtruth token from time $(t-1)$ as input and predicts the token at time $t$. Specifically, given a triplet $(Q, C, A)$ the objective is to minimize the following loss function with respect to all model parameters:<br>$${\begin{aligned}\ell :=&amp; \underbrace{-\sum_{t=1}^{m}\Big(\log p(\widehat{q}_t=q_t\,|\, Q_{&lt;t}, A, C) - \kappa \overbrace{\sum_{\min}(s_{t}^{\mathrm{Q\overline{C}}}, \sum_{t^\prime=1}^{t-1}s_{t^\prime}^{\mathrm{Q\overline{C}}})}^{\text{coverage loss of QG}}\Big)}_{\text{QG loss}}\\&amp;\underbrace{-\sum_{t=1}^{k}\Big(\log p(\widehat{a}_t=a_t\,|\, A_{&lt;t}, Q, C) - \kappa \overbrace{\sum_{\min}(s_{t}^{\mathrm{A\overline{C}}}, \sum_{t^\prime=1}^{t-1}s_{t^\prime}^{\mathrm{A\overline{C}}})}^{\text{coverage loss of QA}}\Big)}_{\text{QA loss}}\end{aligned}}$$<br>where $s_t^{\mathrm{Q\overline{C}}}$ and $s_t^{\mathrm{A\overline{C}}}$ corresponds to the $t^\mathrm{th}$ row of question-context and the answer-context attention score obtained from the second fold-in step in the attention layer, respectively; $\sum_{\min}$ represents the sum of element-wise minimum of two vectors; $\kappa$ is a hyperparameter for weighting the coverage loss. The implementation of the coverage loss is fairly straightforward once you obtained all alignments history from the last state:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">alignment_history = tf.transpose(decoder_state.alignment_history.stack(), [<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>])</span><br><span class="line">coverage_loss = tf.minimum(alignment_history, tf.cumsum(</span><br><span class="line">                                                alignment_history,</span><br><span class="line">                                                axis=<span class="number">2</span>,</span><br><span class="line">                                                exclusive=<span class="literal">True</span>))</span><br><span class="line">coverage_loss = self.args.coverage_loss_weight * \</span><br><span class="line">                    tf.reduce_sum(coverage_loss / tf.to_float(self.batch_size))</span><br></pre></td></tr></table></figure></p>
+<h4><span id="duality-in-the-model">Duality in the Model</span></h4><p>Let’s take a quick summary before moving on to the next. Our model exploits the duality of QA and QG in two places.</p>
+<ul>
+<li>As we consider both QA and QG are sequence generation problems, our architecture is reflectional symmetric. The left QG part is a mirror of the right QA part with identical structures. Such symmetry can be also found in the attention calculation and the loss function. Consequently, the answer modality and the question modality are connected in a two-way process through the context modality, allowing the model to infer answers or questions given the counterpart based on context.</li>
+<li>Our model contains shared components between QA and QG at different levels. Starting from the bottom, the embedding layer and the context encoder are always shared between two tasks. Moreover, the answer encoder in QG is reused in QA for generating the answer sequence, and vice versa. On top of that, in the the pointer generator, QA and QG share the same latent space before the final projection to the vocabulary space (please check the paper <a href="https://arxiv.org/abs/1809.01997" target="_blank" rel="noopener">for more details</a>).  The cycle consistency between question and answer is utilized to regularize the training process at different levels, helping the model to find a more general representation for each modality.</li>
+</ul>
+<h2><span id="results">Results</span></h2><p>As every component in the proposed model is differentiable, all parameters could be trained via back propagation.<br>To demonstrate the effectiveness of dual learning, I now present some generated questions and answers from our  model and the mono-learning models. The model is trained on <a href="https://rajpurkar.github.io/SQuAD-explorer/" target="_blank" rel="noopener">SQuAD dataset</a>. Question or answer is generated given the gold counterpart based on context.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">C</td>
+<td style="text-align:left">In the course of the 10th century, the initially destructive incursions of Norse war bands into the rivers of France evolved into more permanent encampments that included local women and personal property. The Duchy of Normandy, which began in 911 as a fiefdom, was established by the treaty of Saint-Clair-sur-Epte between King…</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">When was the Duchy of Normandy founded?</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">911</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">when did the duchy of normandy open?</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">911</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">when did duchy of normandy begin?</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">10th century</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">C</td>
+<td style="text-align:left">… Melbourne is home to a number of museums, art galleries and theatres and is also described as the “sporting capital of Australia”. The Melbourne Cricket Ground is the largest stadium in Australia, and the host of the 1956 Summer Olympics and the 2006 Commonwealth Games…</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">What is the largest stadium in Australia?</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">Melbourne Cricket Ground</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">what is largest stadium in australia ?</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">melbourne cricket ground</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">what is largest gross state product (AFL)?</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">the melbourne cricket ground</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">C</td>
+<td style="text-align:left">British Sky Broadcasting or BSkyB is a British telecommunications company which serves the United Kingdom. Sky provides television and broadband internet services and fixed line telephone services to consumers and businesses in the United Kingdom. It is the UK’s largest pay-TV broadcaster with 11 million customers as of 2015…</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">Sky UK Limited is formerly known by what name?</td>
+</tr>
+<tr>
+<td style="text-align:center">Gold</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">British Sky Broadcasting</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">what is name of sky uk limited?</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Dual</em></td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">british sky broadcasting or BSkyB</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">Q</td>
+<td style="text-align:left">what is canada’s largest pay-TV service?</td>
+</tr>
+<tr>
+<td style="text-align:center">Mono</td>
+<td style="text-align:left">A</td>
+<td style="text-align:left">BSkyB</td>
+</tr>
+</tbody>
+</table>
+<p>In the first two samples, our dual model works perfectly, whereas the mono-learning model fail to provide the desired output. In the third sample, the generated question from our model is more readable comparing to the groundtruth. Empirically, we find that our model poses questions that are semantically similar to the referenced questions but phrased differently. For more generated examples, please <a href="https://github.com/hanxiao/daanet" target="_blank" rel="noopener">check out my github repo</a>. You may also find out some awesome attention matrices there.</p>
+<img src="/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/390adbc3.png">
+<h4><span id="quantitative-evaluation">Quantitative Evaluation</span></h4><p>As both question and answer are generated in our model, we adopt <a href="https://www.aclweb.org/anthology/P02-1040.pdf" target="_blank" rel="noopener">BLEU-1,2,3,4</a> and <a href="https://www.cs.cmu.edu/~alavie/METEOR/pdf/meteor-1.5.pdf" target="_blank" rel="noopener">Meteor</a> scores from machine translation, and <a href="http://www.aclweb.org/anthology/W04-1013" target="_blank" rel="noopener">ROUGE-L</a> from text summarization to evaluate the quality of the generation. These metrics are calculated by aligning machine generated text with one or more human generated references based on exact, stem, synonym, and paraphrase matches between words. Higher score is preferable as it suggests better alignments with the groundtruth.</p>
+<p>In general, automatically evaluating the quality of generated text is a difficult task, as two sentences have different words can have very similar meaning. Take questions as an example, there are many ways to convey the same question, e.g. by replacing interrogative, thus metrics based on literally matching may underestimate the quality of generated question. That being said, those metrics still serve as an inexpensive and scalable way to demonstrate the fluency of relevance of generated questions and answers from our model.</p>
+<p>Interested readers are encouraged to checkout the experiment section <a href="https://arxiv.org/abs/1809.01997" target="_blank" rel="noopener">in our paper</a>, where we benchmark on four public datasets and show that our dual-learning model outperforms the mono-learning counterpart as well as the state-of-the-art joint models on both QA and QG.</p>
+<h2><span id="conclusion">Conclusion</span></h2><p>In this series, I have introduced the task of machine reading comprehension, a simple framework based on the span assumption, and a unified model that solves QA and QG simultaneously. The effectiveness of our dual-learning model provides a strong evidence for leveraging the duality to improve the reading comprehension ability. </p>
+<p>In the real world, finding the best answer may require reasoning across multiple evidence snippets and involve a series of cognitive processes such as inferring and summarizing. Note that, all models mentioned in this series can not even answer simple yes/no questions, e.g. <em>“Is this written in English?”</em>, <em>“Is this an article about animals?”</em>. They also can’t refuse to answer questions when the given context provides not enough information. For these reasons, developing a real end-to-end MRC model is still a great challenge today.</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/09/28/Fashion-MNIST-Year-In-Review/" class="prev">&nbsp;❮&nbsp;&nbsp;Fashion-MNIST: Year ...</a><a href="/2018/06/24/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/" class="next">4 Sequence Encoding ...&nbsp;&nbsp;❯&nbsp;</a></div><div class="footer-section"><h2><img src="/flower.png" alt="Checkout this">Check out these posts too!</h2><div class="archive-readmore"><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/"><img src="https://hanxiao.io/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0//9ba076d0.png" alt="Video Semantic Search in Large Scale using GNES and Tensorflow 2.0" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/" class="post-title-link">Video Semantic Search in Large Scale using GNES and Tensorflow 2.0</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/"><img src="https://hanxiao.io/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python//banner.png" alt="A Better Practice for Managing Many &lt;code&gt;extras_require&lt;/code&gt; Dependencies in Python" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/" class="post-title-link">A Better Practice for Managing Many <code>extras_require</code> Dependencies in Python</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/"><img src="https://hanxiao.io/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines//gnes-flow-banner.png" alt="GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/" class="post-title-link">GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/"><img src="https://hanxiao.io/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond//gnes-team-1600.JPG" alt="Generic Neural Elastic Search: From &lt;code&gt;bert-as-service&lt;/code&gt; and Go Way Beyond" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/" class="post-title-link">Generic Neural Elastic Search: From <code>bert-as-service</code> and Go Way Beyond</a></h5></div></div></div></div><div class="copyright"><p>© 2017 - 2025 <a href="https://hanxiao.io">Han Xiao</a>. <img src="/by-nc-sa.svg" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License." class="image"></p></div></footer></div><link rel="stylesheet" href="/css/post/katex.min.css"><!--link(rel="stylesheet", href=url_for("css/post/gitment.css"))--><script src="/js/katex.min.js"></script><script src="/js/auto-render.min.js"></script><script>renderMathInElement(
+    document.body,
+    {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false}
+        ]
+    }
+);</script><!--script(src=url_for("js/gitment.browser.js"))--><!--script(src=url_for("js/gitment.loader.js"))--><script src="/js/jquery-3.4.1.min.js"></script><script src="/js/reading_progress.min.js"></script><script src="/js/highlighter.min.js"></script><script src="/js/init-highlighter.js"></script><script async src="https://www.google-analytics.com/analytics.js"></script><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create',"UA-52114253-1",'auto');ga('send','pageview');</script></body></html>

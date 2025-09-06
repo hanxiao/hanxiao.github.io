@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="en"><style>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,header,main{display:block}a{background-color:transparent}h1{font-size:2em;margin:.67em 0}img{border:0}body,html{width:100%;height:100%}html{width:100%;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--bgColor);--bgColor:#fff;--textColor:#2c3e50;--bg2ndColor:none;--bg3rdColor:#f8f8f8;--preCodeColor:#525252;--imgOpacity:1.0}@media (prefers-color-scheme:dark){html{background:var(--bgColor);--bgColor:#121212;--textColor:#fff;--bg2ndColor:#fff;--bg3rdColor:#332940;--preCodeColor:#f8f8f8;--imgOpacity:0.5}}body{margin:0;color:var(--textColor);font-size:18px;line-height:1.6;background-color:var(--bgColor);font-family:sourcesanspro,'Helvetica Neue',Arial,sans-serif}ul.nav{margin:0;padding:0;list-style-type:none}ul{margin:1rem 0}a{color:var(--textColor);text-decoration:none}.flag-icon{height:25px;width:25px;display:inline;border-radius:50%;vertical-align:sub}.icon_item{padding-left:5px!important;padding-right:5px!important}.reading-progress-bar{background:#42b983;display:block;height:2px;left:0;position:fixed;top:0;width:0;z-index:10001}header{min-height:60px}header .logo-link{float:left}header .nav{float:right;left:80px}header .logo-link img{height:60px}header .nav-list-item{display:inline-block;padding:19px 10px}header .nav-list-item a{line-height:1.4}@media screen and (max-width:900px){header .nav-list-item a{font-size:12px}}@media screen and (min-width:900px){header .nav-list-item a{font-size:18px}}.post{padding-top:1em}.post-block .post-title{margin:.65em 0;color:var(--textColor);font-size:1.5em}.post-block .post-info{color:#7f8c8d}.post-block .post-info .read-time{text-align:right}.post-content h2,.post-content h4{position:relative;margin:1em 0}.post-content h2 :before,.post-content h4 :before{content:"#";color:#42b983;position:absolute;left:-.7em;top:-4px;font-size:1.2em;font-weight:700}.post-content h4 :before{content:">"}.post-content h2{font-size:22px}.post-content h4{font-size:18px}.post-content a{color:#42b983;word-break:break-all}main.container{margin:2em 10px}@media screen and (min-width:900px){.wrap{width:900px;margin:0 auto}header{padding:20px 60px}}@media screen and (max-width:900px){.wrap{width:100%}header{min-height:50px;padding:2px 2px;position:fixed;z-index:10000;border-radius:15px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}header a.logo-link,header ul.nav.nav-list{float:none;display:inline;text-align:center}header li.nav-list-item{padding:10px 5px}header .logo-link img{height:20px;vertical-align:sub}header .flag-icon{height:20px;width:20px}header{background-color:rgba(255,255,255,.9)}@supports ((-webkit-backdrop-filter:blur(2em)) or (backdrop-filter:blur(2em))){header{background-color:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}}main.container{padding-top:2em}main.container{margin:0 20px}.post-content h2,.post-content h4{max-width:300px;left:15px}}@font-face{font-family:sourcesanspro;src:url(/font/sourcesanspro.woff2) format("woff2"),url(/font/sourcesanspro.woff) format("woff");font-weight:400;font-style:normal}</style><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Fashion-MNIST: a Drop-In Replacement of MNIST for Benchmarking Machine Learning Algorithms · Han Xiao Tech Blog - Neural Search & AI Engineering</title><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@hxiao"><meta name="twitter:creator" content="@hxiao"><meta name="description" content="The dataset is here: https://github.com/zalandoresearch/fashion-mnist
+I and my colleague Kashif Rasul create this image dataset as a drop-in replaceme ... · Han Xiao"><meta property="og:title" content="Fashion-MNIST: a Drop-In Replacement of MNIST for Benchmarking Machine Learning Algorithms · Han Xiao Tech Blog - Neural Search &amp; AI Engineering"><meta property="og:description" content="The dataset is here: https://github.com/zalandoresearch/fashion-mnist
+I and my colleague Kashif Rasul create this image dataset as a drop-in replaceme ... · Han Xiao"><meta property="og:url" content="https://hanxiao.io/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/"><meta property="og:image" content="https://hanxiao.io/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms//fashion-mnist-sprite.png"><meta property="og:type" content="article"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/myavatar.png"><link rel="alternate" type="application/rss+xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering" href="https://hanxiao.io/atom.xml"><!-- - use css preload trick--><link rel="preload" href="/css/apollo.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/apollo.css"></noscript><script>/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/
+(function( w ){
+    "use strict";
+    // rel=preload support test
+    if( !w.loadCSS ){
+        w.loadCSS = function(){};
+    }
+    // define on the loadCSS obj
+    var rp = loadCSS.relpreload = {};
+    // rel=preload feature support test
+    // runs once and returns a function for compat purposes
+    rp.support = (function(){
+        var ret;
+        try {
+            ret = w.document.createElement( "link" ).relList.supports( "preload" );
+        } catch (e) {
+            ret = false;
+        }
+        return function(){
+            return ret;
+        };
+    })();
+
+    // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+    // then change that media back to its intended value on load
+    rp.bindMediaToggle = function( link ){
+        // remember existing media attr for ultimate state, or default to 'all'
+        var finalMedia = link.media || "all";
+
+        function enableStylesheet(){
+            link.media = finalMedia;
+        }
+
+        // bind load handlers to enable media
+        if( link.addEventListener ){
+            link.addEventListener( "load", enableStylesheet );
+        } else if( link.attachEvent ){
+            link.attachEvent( "onload", enableStylesheet );
+        }
+
+        // Set rel and non-applicable media type to start an async request
+        // note: timeout allows this to happen async to let rendering continue in IE
+        setTimeout(function(){
+            link.rel = "stylesheet";
+            link.media = "only x";
+        });
+        // also enable media after 3 seconds,
+        // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+        setTimeout( enableStylesheet, 3000 );
+    };
+
+    // loop through link elements in DOM
+    rp.poly = function(){
+        // double check this to prevent external calls from running
+        if( rp.support() ){
+            return;
+        }
+        var links = w.document.getElementsByTagName( "link" );
+        for( var i = 0; i < links.length; i++ ){
+            var link = links[ i ];
+            // qualify links to those with rel=preload and as=style attrs
+            if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+                // prevent rerunning on link
+                link.setAttribute( "data-loadcss", true );
+                // bind listeners to toggle media back
+                rp.bindMediaToggle( link );
+            }
+        }
+    };
+
+    // if unsupported, run the polyfill
+    if( !rp.support() ){
+        // run once at least
+        rp.poly();
+
+        // rerun poly on an interval until onload
+        var run = w.setInterval( rp.poly, 500 );
+        if( w.addEventListener ){
+            w.addEventListener( "load", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        } else if( w.attachEvent ){
+            w.attachEvent( "onload", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        }
+    }
+
+
+    // commonjs
+    if( typeof exports !== "undefined" ){
+        exports.loadCSS = loadCSS;
+    }
+    else {
+        w.loadCSS = loadCSS;
+    }
+}( typeof global !== "undefined" ? global : this ) );</script><script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/7da58fc9885cb85d4a9f0ad9a/987f901145f1749fd3e800e86.js");</script><link rel="search" type="application/opensearchdescription+xml" href="https://hanxiao.io/atom.xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering"></head><body><div class="reading-progress-bar"></div><div class="wrap"><header><ul class="nav nav-list"><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="https://www.linkedin.com/in/hxiao87" target="_blank" class="nav-list-link">LINKEDIN</a></li><li class="nav-list-item"><a href="https://x.com/hxiao" target="_blank" class="nav-list-link">X</a></li><li class="nav-list-item"><a href="https://github.com/hanxiao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="https://scholar.google.com/citations?user=jp7swwIAAAAJ" target="_blank" class="nav-list-link">SCHOLAR</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Fashion-MNIST: a Drop-In Replacement of MNIST for Benchmarking Machine Learning Algorithms</h1><div class="post-info">Aug 26, 2017 by &nbsp;&nbsp;&nbsp;<img src="/myavatar.png" alt="logo" width="18px" height="18px" style="vertical-align: sub;">&nbsp;<a href="/about" target="_blank" class="nav-list-link">Han Xiao - <i>ex</i> Senior Research Scientist @ Zalando Research</a></div><div class="post-info"><div class="read-time">◷&nbsp;&nbsp;&nbsp; 6  min read</div></div><div class="post-content"><h2><span id="tldr">TL;DR</span></h2><p>The dataset is here: <a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" rel="noopener">https://github.com/zalandoresearch/fashion-mnist</a></p>
+<p><a href="https://research.zalando.com/welcome/team/han-xiao/" target="_blank" rel="noopener">I</a> and my colleague <a href="https://research.zalando.com/welcome/team/kashif-rasul/" target="_blank" rel="noopener">Kashif Rasul</a> create this image dataset as <strong>a drop-in replacement of MNIST</strong> for benchmarking machine learning algorithms. The dataset is published under MIT License.</p>
+<p>We would appreciate references to the following paper if you use this dataset in publications:</p>
+<blockquote>
+<p><a href="arxiv.pdf">Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms.</a> Han Xiao, Kashif Rasul, Roland Vollgraf. arXiv: cs.LG/1708.07747</p>
+</blockquote>
+<a id="more"></a>
+<p>Bibtex entry:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@online&#123;xiao2017/online,</span><br><span class="line">  author       = &#123;Han Xiao and Kashif Rasul and Roland Vollgraf&#125;,</span><br><span class="line">  title        = &#123;Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms&#125;,</span><br><span class="line">  date         = &#123;2017-08-28&#125;,</span><br><span class="line">  year         = &#123;2017&#125;,</span><br><span class="line">  eprintclass  = &#123;cs.LG&#125;,</span><br><span class="line">  eprinttype   = &#123;arXiv&#125;,</span><br><span class="line">  eprint       = &#123;cs.LG/1708.07747&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://scholar.google.de/scholar?hl=en&amp;as_sdt=0%2C5&amp;q=fashion-mnist&amp;btnG=&amp;oq=fas" target="_blank" rel="noopener">Who is citing Fashion-MNIST?</a></p>
+<h2><span id="what-is-fashion-mnist">What is Fashion-MNIST?</span></h2><p><a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" rel="noopener">Fashion-MNIST</a> is a dataset of Zalando’s article images consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. <code>Fashion-MNIST</code> is intended to serve as a direct <strong>drop-in replacement</strong> of the original <a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST dataset</a> for benchmarking machine learning algorithms.</p>
+<p>Here is an example how the data looks like (<em>each class takes three-rows</em>):</p>
+<img src="/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/fashion-mnist-sprite.png">
+<img src="/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/embedding.gif">
+<h2><span id="why">Why?</span></h2><p>The original <a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST dataset</a> contains a lot of handwritten digits. People from AI/ML/Data Science community love this dataset and use it as a benchmark to validate their algorithms. In fact, MNIST is often the first dataset they would try on. <em>“If it doesn’t work on MNIST, it won’t work at all”</em>, they said. <em>“Well, if it does work on MNIST, it may still fail on others.”</em> </p>
+<p><code>Fashion-MNIST</code> is intended to serve as a direct drop-in replacement for the original MNIST dataset to benchmark machine learning algorithms, as it shares the same image size and the structure of training and testing splits.</p>
+<h4><span id="to-serious-machine-learning-researchers">To Serious Machine Learning Researchers</span></h4><p>Seriously, we are talking about replacing MNIST. Here are some good reasons:</p>
+<ul>
+<li>MNIST is too easy. Check out <a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/" target="_blank" rel="noopener">our side-by-side benchmark</a> and <a href="https://gist.github.com/dgrtwo/aaef94ecc6a60cd50322c0054cc04478" target="_blank" rel="noopener">“Most pairs of MNIST digits can be distinguished pretty well by just one pixel”</a></li>
+<li>MNIST is overused. Check out <a href="https://twitter.com/goodfellow_ian/status/852591106655043584" target="_blank" rel="noopener">“Ian Goodfellow wants people to move away from mnist”</a></li>
+<li>MNIST can not represent modern CV tasks. Check out <a href="https://twitter.com/fchollet/status/852592598128615424" target="_blank" rel="noopener">“Ideas on MNIST do not transfer to real CV”</a></li>
+</ul>
+<h2><span id="get-the-data">Get the Data</span></h2><p>You can use direct links to download the the dataset. The data is stored in the <strong>same</strong> format as the original <a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST data</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Content</th>
+<th>Examples</th>
+<th>Size</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>train-images-idx3-ubyte.gz</code></td>
+<td>training set images</td>
+<td>60,000</td>
+<td>26 MBytes</td>
+<td><a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz" target="_blank" rel="noopener">Download</a></td>
+</tr>
+<tr>
+<td><code>train-labels-idx1-ubyte.gz</code></td>
+<td>training set labels</td>
+<td>60,000</td>
+<td>29 KBytes</td>
+<td><a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz" target="_blank" rel="noopener">Download</a></td>
+</tr>
+<tr>
+<td><code>t10k-images-idx3-ubyte.gz</code></td>
+<td>test set images</td>
+<td>10,000</td>
+<td>4.2 MBytes</td>
+<td><a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz" target="_blank" rel="noopener">Download</a></td>
+</tr>
+<tr>
+<td><code>t10k-labels-idx1-ubyte.gz</code></td>
+<td>test set labels</td>
+<td>10,000</td>
+<td>5.0 KBytes</td>
+<td><a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz" target="_blank" rel="noopener">Download</a></td>
+</tr>
+</tbody>
+</table>
+<p>Or you can clone this repository, the dataset is under <code>data/fashion</code>. This repo contains some scripts for benchmark and visualization.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:zalandoresearch/fashion-mnist.git</span><br></pre></td></tr></table></figure>
+<h3><span id="labels">Labels</span></h3><p>Each training and test example is assigned to one of the following labels:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>T-shirt/top</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Trouser</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pullover</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dress</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Coat</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Sandal</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Shirt</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Sneaker</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Bag</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Ankle boot</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="usage">Usage</span></h2><h4><span id="loading-data-with-python-numpy-is-required">Loading data with Python (<code>numpy</code> is required)</span></h4><ul>
+<li>use <code>utils/mnist_reader</code> in this repo:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mnist_reader</span><br><span class="line">X_train, y_train = mnist_reader.load_mnist(<span class="string">'data/fashion'</span>, kind=<span class="string">'train'</span>)</span><br><span class="line">X_test, y_test = mnist_reader.load_mnist(<span class="string">'data/fashion'</span>, kind=<span class="string">'t10k'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4><span id="loading-data-with-tensorflow">Loading data with Tensorflow</span></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line">data = input_data.read_data_sets(<span class="string">'data/fashion'</span>)</span><br><span class="line"></span><br><span class="line">data.train.next_batch(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<h4><span id="loading-data-with-other-languages">Loading data with other languages</span></h4><p>As one of the most popular dataset in the Machine Learning community, people have implemented MNIST loader in many languages. They can be used to load <code>Fashion-MNIST</code> dataset as well (may require decompressing first). Note that they are not tested by us.</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/10409376" target="_blank" rel="noopener">C</a></li>
+<li><a href="https://github.com/wichtounet/mnist" target="_blank" rel="noopener">C++</a></li>
+<li><a href="https://stackoverflow.com/a/8301949" target="_blank" rel="noopener">Java</a></li>
+<li><a href="https://pypi.python.org/pypi/python-mnist" target="_blank" rel="noopener">Python</a> and <a href="https://pypi.python.org/pypi/mnist" target="_blank" rel="noopener">this</a></li>
+<li><a href="http://mxnet.io/tutorials/scala/mnist.html" target="_blank" rel="noopener">Scala</a></li>
+<li><a href="https://github.com/schuyler/neural-go/blob/master/mnist/mnist.go" target="_blank" rel="noopener">Go</a></li>
+<li><a href="https://jamesmccaffrey.wordpress.com/2013/11/23/reading-the-mnist-data-set-with-c/" target="_blank" rel="noopener">C#</a></li>
+<li><a href="https://github.com/ApelSYN/mnist_dl" target="_blank" rel="noopener">NodeJS</a> and <a href="https://github.com/cazala/mnist" target="_blank" rel="noopener">this</a></li>
+<li><a href="https://github.com/simonlee2/MNISTKit" target="_blank" rel="noopener">Swift</a></li>
+<li><a href="https://gist.github.com/brendano/39760" target="_blank" rel="noopener">R</a></li>
+<li><a href="http://ufldl.stanford.edu/wiki/index.php/Using_the_MNIST_Dataset" target="_blank" rel="noopener">Matlab</a> and <a href="https://de.mathworks.com/matlabcentral/fileexchange/27675-read-digits-and-labels-from-mnist-database?focused=5154133&amp;tab=function" target="_blank" rel="noopener">this</a></li>
+<li><a href="https://github.com/gbuesing/mnist-ruby-test/blob/master/train/mnist_loader.rb" target="_blank" rel="noopener">Ruby</a></li>
+</ul>
+<h2><span id="benchmark">Benchmark</span></h2><p>We build an automatic benchmarking system based on <code>scikit-learn</code>, covering 125 classifiers with different parameters. <a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/" target="_blank" rel="noopener">Results can be found here.</a></p>
+<img src="/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/benchmark.gif">
+<p>You can reproduce the results by running <code>benchmark/runner.py</code>. A recommend way is to  build and deploy this docker container. </p>
+<p>You are welcome to submit your benchmark. Please create a new issue, your results will be listed here. Check out the <a href="https://github.com/zalandoresearch/fashion-mnist#contributing" target="_blank" rel="noopener">Contributing</a> section for details. Before submitting a benchmark, please make sure it is not listed <a href="http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/" target="_blank" rel="noopener">in this list</a>.  </p>
+<h2><span id="visualization">Visualization</span></h2><h4><span id="t-sne-on-fashion-mnist-left-and-original-mnist-right">t-SNE on Fashion-MNIST (left) and original MNIST (right)</span></h4><p><img src="34d72c08.png" width="50%" style="display: inline;"><img src="01e0c4be.png" width="50%" style="display: inline;"></p>
+<h4><span id="pca-on-fashion-mnist-left-and-original-mnist-right">PCA on Fashion-MNIST (left) and original MNIST (right)</span></h4><p><img src="f04ba662.png" width="50%" style="display: inline;"><img src="4433f0e1.png" width="50%" style="display: inline;"></p>
+<h2><span id="license">License</span></h2><p>The MIT License (MIT) Copyright © [2017] Zalando SE, <a href="https://tech.zalando.com" target="_blank" rel="noopener">https://tech.zalando.com</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/11/08/Optimizing-Contrastive-Rank-Triplet-Loss-in-Tensorflow-for-Neural/" class="prev">&nbsp;❮&nbsp;&nbsp;Optimizing Contrasti...</a><a href="/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/" class="next">Why I Use raw_...&nbsp;&nbsp;❯&nbsp;</a></div><div class="footer-section"><h2><img src="/flower.png" alt="Checkout this">Check out these posts too!</h2><div class="archive-readmore"><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/"><img src="https://hanxiao.io/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0//9ba076d0.png" alt="Video Semantic Search in Large Scale using GNES and Tensorflow 2.0" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/" class="post-title-link">Video Semantic Search in Large Scale using GNES and Tensorflow 2.0</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/"><img src="https://hanxiao.io/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python//banner.png" alt="A Better Practice for Managing Many &lt;code&gt;extras_require&lt;/code&gt; Dependencies in Python" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/" class="post-title-link">A Better Practice for Managing Many <code>extras_require</code> Dependencies in Python</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/"><img src="https://hanxiao.io/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines//gnes-flow-banner.png" alt="GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/" class="post-title-link">GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/"><img src="https://hanxiao.io/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond//gnes-team-1600.JPG" alt="Generic Neural Elastic Search: From &lt;code&gt;bert-as-service&lt;/code&gt; and Go Way Beyond" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/" class="post-title-link">Generic Neural Elastic Search: From <code>bert-as-service</code> and Go Way Beyond</a></h5></div></div></div></div><div class="copyright"><p>© 2017 - 2025 <a href="https://hanxiao.io">Han Xiao</a>. <img src="/by-nc-sa.svg" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License." class="image"></p></div></footer></div><link rel="stylesheet" href="/css/post/katex.min.css"><!--link(rel="stylesheet", href=url_for("css/post/gitment.css"))--><script src="/js/katex.min.js"></script><script src="/js/auto-render.min.js"></script><script>renderMathInElement(
+    document.body,
+    {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false}
+        ]
+    }
+);</script><!--script(src=url_for("js/gitment.browser.js"))--><!--script(src=url_for("js/gitment.loader.js"))--><script src="/js/jquery-3.4.1.min.js"></script><script src="/js/reading_progress.min.js"></script><script src="/js/highlighter.min.js"></script><script src="/js/init-highlighter.js"></script><script async src="https://www.google-analytics.com/analytics.js"></script><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create',"UA-52114253-1",'auto');ga('send','pageview');</script></body></html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="en"><style>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,header,main{display:block}a{background-color:transparent}h1{font-size:2em;margin:.67em 0}img{border:0}body,html{width:100%;height:100%}html{width:100%;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--bgColor);--bgColor:#fff;--textColor:#2c3e50;--bg2ndColor:none;--bg3rdColor:#f8f8f8;--preCodeColor:#525252;--imgOpacity:1.0}@media (prefers-color-scheme:dark){html{background:var(--bgColor);--bgColor:#121212;--textColor:#fff;--bg2ndColor:#fff;--bg3rdColor:#332940;--preCodeColor:#f8f8f8;--imgOpacity:0.5}}body{margin:0;color:var(--textColor);font-size:18px;line-height:1.6;background-color:var(--bgColor);font-family:sourcesanspro,'Helvetica Neue',Arial,sans-serif}ul.nav{margin:0;padding:0;list-style-type:none}ul{margin:1rem 0}a{color:var(--textColor);text-decoration:none}.flag-icon{height:25px;width:25px;display:inline;border-radius:50%;vertical-align:sub}.icon_item{padding-left:5px!important;padding-right:5px!important}.reading-progress-bar{background:#42b983;display:block;height:2px;left:0;position:fixed;top:0;width:0;z-index:10001}header{min-height:60px}header .logo-link{float:left}header .nav{float:right;left:80px}header .logo-link img{height:60px}header .nav-list-item{display:inline-block;padding:19px 10px}header .nav-list-item a{line-height:1.4}@media screen and (max-width:900px){header .nav-list-item a{font-size:12px}}@media screen and (min-width:900px){header .nav-list-item a{font-size:18px}}.post{padding-top:1em}.post-block .post-title{margin:.65em 0;color:var(--textColor);font-size:1.5em}.post-block .post-info{color:#7f8c8d}.post-block .post-info .read-time{text-align:right}.post-content h2,.post-content h4{position:relative;margin:1em 0}.post-content h2 :before,.post-content h4 :before{content:"#";color:#42b983;position:absolute;left:-.7em;top:-4px;font-size:1.2em;font-weight:700}.post-content h4 :before{content:">"}.post-content h2{font-size:22px}.post-content h4{font-size:18px}.post-content a{color:#42b983;word-break:break-all}main.container{margin:2em 10px}@media screen and (min-width:900px){.wrap{width:900px;margin:0 auto}header{padding:20px 60px}}@media screen and (max-width:900px){.wrap{width:100%}header{min-height:50px;padding:2px 2px;position:fixed;z-index:10000;border-radius:15px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}header a.logo-link,header ul.nav.nav-list{float:none;display:inline;text-align:center}header li.nav-list-item{padding:10px 5px}header .logo-link img{height:20px;vertical-align:sub}header .flag-icon{height:20px;width:20px}header{background-color:rgba(255,255,255,.9)}@supports ((-webkit-backdrop-filter:blur(2em)) or (backdrop-filter:blur(2em))){header{background-color:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}}main.container{padding-top:2em}main.container{margin:0 20px}.post-content h2,.post-content h4{max-width:300px;left:15px}}@font-face{font-family:sourcesanspro;src:url(/font/sourcesanspro.woff2) format("woff2"),url(/font/sourcesanspro.woff) format("woff");font-weight:400;font-style:normal}</style><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Building Cross-Lingual End-to-End Product Search with Tensorflow · Han Xiao Tech Blog - Neural Search & AI Engineering</title><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@hxiao"><meta name="twitter:creator" content="@hxiao"><meta name="description" content="Product search is one of the key components in an online retail store. Essentially, you need a system that matches a text query with a set of products ... · Han Xiao"><meta property="og:title" content="Building Cross-Lingual End-to-End Product Search with Tensorflow · Han Xiao Tech Blog - Neural Search &amp; AI Engineering"><meta property="og:description" content="Product search is one of the key components in an online retail store. Essentially, you need a system that matches a text query with a set of products ... · Han Xiao"><meta property="og:url" content="https://hanxiao.io/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/"><meta property="og:image" content="https://hanxiao.io/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow//a9cb66d6.png"><meta property="og:type" content="article"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/myavatar.png"><link rel="alternate" type="application/rss+xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering" href="https://hanxiao.io/atom.xml"><!-- - use css preload trick--><link rel="preload" href="/css/apollo.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/css/apollo.css"></noscript><script>/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/
+(function( w ){
+    "use strict";
+    // rel=preload support test
+    if( !w.loadCSS ){
+        w.loadCSS = function(){};
+    }
+    // define on the loadCSS obj
+    var rp = loadCSS.relpreload = {};
+    // rel=preload feature support test
+    // runs once and returns a function for compat purposes
+    rp.support = (function(){
+        var ret;
+        try {
+            ret = w.document.createElement( "link" ).relList.supports( "preload" );
+        } catch (e) {
+            ret = false;
+        }
+        return function(){
+            return ret;
+        };
+    })();
+
+    // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+    // then change that media back to its intended value on load
+    rp.bindMediaToggle = function( link ){
+        // remember existing media attr for ultimate state, or default to 'all'
+        var finalMedia = link.media || "all";
+
+        function enableStylesheet(){
+            link.media = finalMedia;
+        }
+
+        // bind load handlers to enable media
+        if( link.addEventListener ){
+            link.addEventListener( "load", enableStylesheet );
+        } else if( link.attachEvent ){
+            link.attachEvent( "onload", enableStylesheet );
+        }
+
+        // Set rel and non-applicable media type to start an async request
+        // note: timeout allows this to happen async to let rendering continue in IE
+        setTimeout(function(){
+            link.rel = "stylesheet";
+            link.media = "only x";
+        });
+        // also enable media after 3 seconds,
+        // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+        setTimeout( enableStylesheet, 3000 );
+    };
+
+    // loop through link elements in DOM
+    rp.poly = function(){
+        // double check this to prevent external calls from running
+        if( rp.support() ){
+            return;
+        }
+        var links = w.document.getElementsByTagName( "link" );
+        for( var i = 0; i < links.length; i++ ){
+            var link = links[ i ];
+            // qualify links to those with rel=preload and as=style attrs
+            if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+                // prevent rerunning on link
+                link.setAttribute( "data-loadcss", true );
+                // bind listeners to toggle media back
+                rp.bindMediaToggle( link );
+            }
+        }
+    };
+
+    // if unsupported, run the polyfill
+    if( !rp.support() ){
+        // run once at least
+        rp.poly();
+
+        // rerun poly on an interval until onload
+        var run = w.setInterval( rp.poly, 500 );
+        if( w.addEventListener ){
+            w.addEventListener( "load", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        } else if( w.attachEvent ){
+            w.attachEvent( "onload", function(){
+                rp.poly();
+                w.clearInterval( run );
+            } );
+        }
+    }
+
+
+    // commonjs
+    if( typeof exports !== "undefined" ){
+        exports.loadCSS = loadCSS;
+    }
+    else {
+        w.loadCSS = loadCSS;
+    }
+}( typeof global !== "undefined" ? global : this ) );</script><script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/7da58fc9885cb85d4a9f0ad9a/987f901145f1749fd3e800e86.js");</script><link rel="search" type="application/opensearchdescription+xml" href="https://hanxiao.io/atom.xml" title="Han Xiao Tech Blog - Neural Search &amp; AI Engineering"></head><body><div class="reading-progress-bar"></div><div class="wrap"><header><ul class="nav nav-list"><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="https://www.linkedin.com/in/hxiao87" target="_blank" class="nav-list-link">LINKEDIN</a></li><li class="nav-list-item"><a href="https://x.com/hxiao" target="_blank" class="nav-list-link">X</a></li><li class="nav-list-item"><a href="https://github.com/hanxiao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="https://scholar.google.com/citations?user=jp7swwIAAAAJ" target="_blank" class="nav-list-link">SCHOLAR</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Building Cross-Lingual End-to-End Product Search with Tensorflow</h1><div class="post-info">Jan 10, 2018 by &nbsp;&nbsp;&nbsp;<img src="/myavatar.png" alt="logo" width="18px" height="18px" style="vertical-align: sub;">&nbsp;<a href="/about" target="_blank" class="nav-list-link">Han Xiao - <i>ex</i> Senior Research Scientist @ Zalando Research</a></div><div class="post-info"><div class="read-time">◷&nbsp;&nbsp;&nbsp; 29  min read</div></div><div class="post-content"><h2><span id="background">Background</span></h2><p>Product search is one of the key components in an online retail store. Essentially, you need a system that matches a text query with a set of products in your store. A good product search can understand user’s query in any language, retrieve as many relevant products as possible, and finally present the result as a list, in which the preferred products should be at the top, and the irrelevant products should be at the bottom. </p>
+<p>Unlike text retrieval (e.g. Google web search), products are structured data. A product is often described by a list of key-value pairs, a set of pictures and some free text. In the developers’ world, <a id="more"></a><a href="http://lucene.apache.org/solr/" target="_blank" rel="noopener">Apache Solr</a> and <a href="https://www.elastic.co/" target="_blank" rel="noopener">Elasticsearch</a> are known as de-facto solutions for full-text search, making them a top contender for building e-commerce product search. </p>
+<p>At the core, Solr/Elasticsearch is a <em>symbolic information retrieval (IR) system</em>. Mapping query and document to a common string space is crucial to the search quality. This mapping process is an NLP pipeline implemented with <a href="http://lucene.apache.org/core/6_2_1/core/org/apache/lucene/analysis/Analyzer.html" target="_blank" rel="noopener">Lucene Analyzer</a>. In this post, I will reveal some drawbacks of such a symbolic-pipeline approach, and then present an end-to-end way to build a product search system from query logs using Tensorflow. This deep learning based system is less prone to spelling errors, leverages underlying semantics better, and scales out to multiple languages much easier.</p>
+<h4><span id="table-of-content">Table of Content</span></h4><!-- toc -->
+<ul>
+<li><a href="#recap-symbolic-approach-for-product-search">Recap Symbolic Approach for Product Search</a><ul>
+<li><a href="#symbolic-ir-system">Symbolic IR System</a></li>
+</ul>
+</li>
+<li><a href="#pain-points-of-symbolic-ir-system">Pain points of Symbolic IR System</a><ul>
+<li><a href="#1-nlp-pipeline-is-fragile-and-doesnt-scale-out-to-multiple-languages">1. NLP Pipeline is Fragile and doesn’t Scale Out to Multiple Languages</a></li>
+<li><a href="#2-symbolic-system-does-not-understand-semantics-without-hard-coding">2. Symbolic System does not Understand Semantics without Hard Coding</a></li>
+</ul>
+</li>
+<li><a href="#neural-ir-system">Neural IR System</a><ul>
+<li><a href="#end-to-end-model-training">End-to-End Model Training</a></li>
+<li><a href="#where-do-query-product-pairs-come-from">Where Do Query-Product Pairs Come From?</a></li>
+<li><a href="#what-about-negative-query-product-pairs">What about Negative Query-Product Pairs?</a></li>
+</ul>
+</li>
+<li><a href="#symbolic-vs-neural-ir-system">Symbolic vs. Neural IR System</a></li>
+<li><a href="#neural-network-architecture">Neural Network Architecture</a><ul>
+<li><a href="#query-encoder">Query Encoder</a></li>
+<li><a href="#image-encoder">Image Encoder</a></li>
+<li><a href="#attribute-encoder">Attribute Encoder</a></li>
+<li><a href="#metric-loss-layer">Metric &amp; Loss Layer</a></li>
+<li><a href="#inference">Inference</a></li>
+</ul>
+</li>
+<li><a href="#training-and-evaluation-scheme">Training and Evaluation Scheme</a></li>
+<li><a href="#qualitative-results">Qualitative Results</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
+<!-- tocstop -->
+<h2><span id="recap-symbolic-approach-for-product-search">Recap Symbolic Approach for Product Search</span></h2><p>Let’s first do a short review of the classic approach. Typically, an information retrieval system can be divided into three tasks: <strong>indexing</strong>, <strong>parsing</strong> and <strong>matching</strong>. As an example, the next figure illustrates a simple product search system: </p>
+<img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/6bc9332f.png">
+<ol>
+<li><strong>indexing</strong>: storing products in a database with attributes as keys, e.g. brand, color, category;</li>
+<li><strong>parsing</strong>: extracting attribute terms from the input query, e.g. <code>red shirt -&gt; {&quot;color&quot;: &quot;red&quot;, &quot;category&quot;: &quot;shirt&quot;}</code>;</li>
+<li><strong>matching</strong>: filtering the product database by attributes.</li>
+</ol>
+<p>If there is no attribute found in the query, then the system fallbacks to exact string matching, i.e. searching every possible occurrence in the database. Note that, parsing, and matching must be done for each incoming query, whereas indexing can be done less frequently depending on the stock update speed. </p>
+<p>Many existing solutions such as Apache Solr and Elasticsearch follow this simple idea, except they employ more sophisticated algorithms (e.g. Lucene) for these three tasks. Thanks to these open-source projects many e-commerce businesses are able to build product search on their own and serve millions of requests from customers.</p>
+<h4><span id="symbolic-ir-system">Symbolic IR System</span></h4><p>Note, at the core, Solr/Elasticsearch is a <em>symbolic IR system</em> that relies on the effective string representation of the query and product. By parsing or indexing, the system knows which tokens in the query or product description are important. These tokens are the primitive building blocks for matching. Extracting important tokens from the original text is usually implemented as a NLP pipeline, consisting of tokenization, lemmatization, spelling correction, acronym/synonym replacement, named-entity recognition and query expansion.</p>
+<p>Formally, given a query $q\in \mathcal{Q}$ and a product $p\in\mathcal{P}$, one can think the NLP pipeline as a predefined function that maps from $\mathcal{Q}$ or $\mathcal{P}$ to a common string space $\mathcal{S}$, i.e. $f: \mathcal{Q}\mapsto \mathcal{S}$ or $g: \mathcal{P}\mapsto \mathcal{S}$, respectively. For the matching task, we just need a metric $m: \mathcal{S} \times \mathcal{S} \mapsto [0, +\infty)$ and then evaluate $m\left(f(q),g(p)\right)$, as illustrated in the figure below.</p>
+<img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/399488d3.png">
+<h2><span id="pain-points-of-symbolic-ir-system">Pain points of Symbolic IR System</span></h2><p>If you are a machine learning enthusiast who believes everything should be learned from data, you must have tons of questions about the last figure. To name a few:</p>
+<ul>
+<li>Why are $f$ and $g$ predefined? Why can’t we learn $f$ and $g$ from data?</li>
+<li>Why is $\mathcal{S}$ a string space? Why can’t it be a vector space?</li>
+<li>Why is $m$ a string/key matching function? Why can’t we use more well-defined math function, e.g. Euclidean distance, cosine function? Wait, why don’t we just learn $m$?</li>
+</ul>
+<p>In fact, these questions reveal two pain points of a symbolic IR system. </p>
+<h4><span id="1-nlp-pipeline-is-fragile-and-doesnt-scale-out-to-multiple-languages">1. NLP Pipeline is Fragile and doesn’t Scale Out to Multiple Languages</span></h4><p>The NLP Pipeline in Solr/Elasticsearch is based on the Lucene <code>Analyzer</code> class. A simple analyzer such as <code>StandardAnalyzer</code> would just split the sequence by whitespace and remove some stopwords. Quite often you have to extend it by adding more and more functionalities, which eventually results in a pipeline as illustrated in the figure below.<br><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/c37a7fd4.png"></p>
+<p>While it looks legit, my experience is that such NLP pipeline suffers from the following drawbacks:</p>
+<ul>
+<li>The system is fragile. As the output of every component is the input of the next, a defect in the upstream component can easily break down the whole system. For-example,canyourtoken izer split thiscorrectly⁇  </li>
+<li>Dependencies between components can be complicated. A component can take from and output to multiple components, forming a directed acyclic graph. Consequently, you may have to introduce some <em>asynchronous mechanisms</em> to reduce the overall blocking time.</li>
+<li>It is not straightforward to improve the overall search quality. An improvement in one or two components does not necessarily improve the end-user search experience.</li>
+<li>The system doesn’t scale-out to multiple languages. To enable cross-lingual search, developers have to rewrite those language-dependent components in the pipeline for every language, which increases the maintenance cost.</li>
+</ul>
+<h4><span id="2-symbolic-system-does-not-understand-semantics-without-hard-coding">2. Symbolic System does not Understand Semantics without Hard Coding</span></h4><p>A good IR system should understand <code>trainer</code> is <code>sneaker</code> by using some semantic knowledge. No one likes hard coding this knowledge, especially you machine learning guys. Unfortunately, it is difficult for Solr/Elasticsearch to understand any acronym/synonym unless you implement <a href="https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/synonym/SynonymFilter.html" target="_blank" rel="noopener"><code>SynonymFilter</code> class</a>, which is basically a rule-based filter. This severely restricts the generalizability and scalability of the system, as you need someone to maintain a hard-coded language-dependent lexicon. If one can represent query/product by a vector in a space learned from actual data, then synonyms and acronyms could be easily found in the neighborhood without hard coding.</p>
+<h2><span id="neural-ir-system">Neural IR System</span></h2><p>With aforementioned problems in mind, my motivation is twofold: </p>
+<ul>
+<li>eliminate the NLP pipeline to make the system more robust and scalable;</li>
+<li>find a space for query and product that can better represent underlying semantics.</li>
+</ul>
+<p>The next figure illustrates a neural information retrieval framework, which looks pretty much the same as its symbolic counterpart, except that the NLP pipeline is replaced by a deep neural network and the matching job is done in a learned common space. Now $f$ serves as a query encoder, $g$ serves as a product encoder.<br><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/dd4c4faa.png"></p>
+<h4><span id="end-to-end-model-training">End-to-End Model Training</span></h4><p>There are several ways to train a neural IR system. One of the most straightforward (but not necessarily the most effective) ways is <em>end-to-end</em> learning. Namely, your training data is a set of query-product pairs feeding on the top-right and top-left blocks in the last figure. All the other blocks such as $f$, $g$, $m$ and $\mathcal{S}$ are learned from data. Depending on the engineering requirements or resource limitations, one can also fix or pre-train some of the components.</p>
+<h4><span id="where-do-query-product-pairs-come-from">Where Do Query-Product Pairs Come From?</span></h4><p>To train a neural IR system in an end-to-end manner, your need some associations between query and product such as the query log. This log should contain what products a user interacted with (click, add to wishlist, purchase) after typing a query. Typically, you can fetch this information from the query/event log of your system. After some work on segmenting (by time/session), cleaning and aggregating, you can get pretty accurate associations. In fact, any user-generated text can be good association data. This includes comments, product reviews, and crowdsourcing annotations. The next figure shows an example of what German and British users <em>clicked</em> after searching for <code>ananas</code> and <code>pineapple</code> on Zalando, respectively.</p>
+<img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/ecdd3fe7.png">
+<p>Increasing the diversity of training data source is beneficial to a neural IR system, as you certainly want the system to generalize more and not to mimic the behavior of the symbolic counterpart. On the contrary, if your only data source is the query log of a symbolic IR system, then your neural IR system is inevitably biased. The performance of your final system highly depends on the ability of the symbolic system. For example, if your current symbolic system doesn’t correct spell mistakes and returns nothing when user types <code>adidaas</code>, then you won’t find any product associated with <code>adidaas</code> from the query log. As a consequence, your neural IR system is unlikely to learn the ability of spell checking. </p>
+<p>In that sense, we are “bootstrapping” the symbolic IR system to build a neural IR system. Given enough training data, we hope that some previously hard-coded rules or manually coded functions can be picked up and <em>generalized</em> by deep neural networks.</p>
+<h4><span id="what-about-negative-query-product-pairs">What about Negative Query-Product Pairs?</span></h4><p>At some point, you will probably need negative query-product pairs to train a neural IR system more effectively. In general, negative means that a product is irrelevant to the query. A straightforward way is just random sampling all products, hoping that no positive product gets accidentally sampled. It is easy to implement and actually <em>not</em> a bad idea in practice. More sophisticated solutions could be collecting those products that generate impressions on customers yet not receive any clicks as negative ones. This requires some collaborations between you, the frontend team and the logging team, making sure those no-click items are really uninterested to users, not due to screen resolution, lazy loading, etc.</p>
+<p>If you are looking for a more formal and sounding solution, then Positive-Unlabeled Learning (PU learning) could be interesting to you. Instead of relying on the heuristics for identifying negative data, PU learning regards unlabeled data as negative data with smaller weights. <a href="https://arxiv.org/pdf/1703.00593.pdf" target="_blank" rel="noopener">“Positive-Unlabeled Learning with Non-Negative Risk Estimator”</a> is a nice paper about the unbiased PU learning published in NIPS 2017. </p>
+<h2><span id="symbolic-vs-neural-ir-system">Symbolic vs. Neural IR System</span></h2><p>Before I dive into details, let’s take a short break. As you can see I spent quite some effort on explaining symbolic and neural IR systems. This is because the symbolic system is such a classic way to do IR, and developers get used to it. With the help of Apache Solr, Elasticsearch and Lucene, medium and small e-commerce businesses are able to build their own product search in a short time. It is the de-facto solution. On the other hand, Neural IR is a new concept emerging just recently. There are not so many off-the-shelf packages available. Plus, training a neural IR system requires quite some data. The next table summarizes the pros and cons of two systems.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"><strong>Symbolic IR system</strong></th>
+<th style="text-align:center"><strong>Neural IR system</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>Pros</strong></td>
+<td style="text-align:center">Efficient in query-time; <br> straightforward to implement; <br> results are interpretable; <br>many off-the-shelf packages.</td>
+<td style="text-align:center">Automatic; <br>resilient to noise; <br>scale-out easily; <br>requires little domain knowledge.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Cons</strong></td>
+<td style="text-align:center">Fragile;<br>Hard-coded knowledge;<br> high maintenance costs.</td>
+<td style="text-align:center">Less efficient in query-time;<br>hard to add business rules; <br>requires a lot of data.</td>
+</tr>
+</tbody>
+</table>
+<p>This is not a Team Symbol or Team Neural choice. Both systems have their own advantages and can complement each other pretty well. Therefore, a better solution would be combining these two systems in a way so that we can enjoy all advantages from both sides. </p>
+<h2><span id="neural-network-architecture">Neural Network Architecture</span></h2><p>The next figure illustrates the architecture of the neural network. The proposed architecture is composed of multiple encoders, a metric layer, and a loss layer. First, input data is fed to the encoders which generate vector representations. Note that, product information is encoded by an image encoder and an attribute encoder. In the metric layer, we compute the similarity of a query vector with an image vector and an attribute vector, respectively. Finally, in the loss layer, we compute the difference of similarities between positive and negative pairs, which is used as the feedback to train encoders via backpropagation.</p>
+<img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/a9cb66d6.png">
+<p>In the last figure, I labeled one possible model for each component, but the choices are quite open. For the sake of clarity, I will keep the model as simple as possible and briefly go through each component.</p>
+<h4><span id="query-encoder">Query Encoder</span></h4><p>Here we need a model that takes in a sequence and output a vector. Besides the content of a sequence, the vector representation should also encode language information and be resilient to misspellings. The character-RNN (e.g LSTM, GRU, SRU) model is a good choice. By feeding RNN character by character, the model becomes resilient to misspelling such as adding/deleting/replacing characters. The misspelled queries would result in a similar vector representation as the genuine one. Moreover, as European languages (e.g. German and English) share some Unicode characters, one can train queries from different languages in one RNN model. To distinguish the words with the same spelling but different meanings in two languages, such as German <code>rot</code> (color red) and English <code>rot</code>, one can prepend a special character to indicate the language of the sequence, e.g. <code>🇩🇪 rot</code> and <code>🇬🇧 rot</code>.</p>
+<p>Using characters instead of words as model input means that your system is unlikely to meet an out-of-vocabulary word. Any input will be encoded into a vector representation. Consequently, the system has a good recall rate, as it will always return some result regardless the sanity of the input. Of course, the result could be meaningless. However, if a customer is kind and patient enough to click on one relevant product, the system could immediately pick up this signal from the query log as a positive association, retrain the model and provide better results in the next round. In that sense, we close the loop between feedback to users and learning from users.</p>
+<p>Note that, a query can be <em>compositional</em>. It may contain multiple words and describe multiple attributes, such as <code>nike sneaker</code> (brand + category) and <code>nike air max</code> (brand + product name). Unfortunately, it is difficult for a plain character RNN to capture the high-order dependency and concept, as its resolution is limited to a single character. To solve this problem, I stack multiple dilated recurrent layers with hierarchical dilations to construct a <a href="https://papers.nips.cc/paper/6613-dilated-recurrent-neural-networks.pdf" target="_blank" rel="noopener">Dilated Recurrent Neural Networks</a>, which learns temporal dependencies of different scales at different layers. The next figure illustrates a three-layer DilatedRNN with dilation up to 4.</p>
+<img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/b98f6ef1.png">
+<p>An implementation of dilated RNN using <code>static_rnn</code> API can be found <a href="https://github.com/hanxiao/tf-best-practice/blob/master/utils/dilatedRNN.py" target="_blank" rel="noopener">here</a>. The query representation is the last output from dilated RNN, which can be obtained via:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">num_hidden = <span class="number">148</span>  <span class="comment"># 128+20 dims, this will become clear in the sequel</span></span><br><span class="line">dilations = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">8</span>]</span><br><span class="line">encoder_cell = [LSTMCell(num_hidden) <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(dilations))]</span><br><span class="line">q_r = get_last_output_dRNN(input=X_query, cells=encoder_cell, dilations=dilations)</span><br></pre></td></tr></table></figure>
+<p>To speed up training, one can also replace Tensorflow’s <code>LSTMCell</code> by recently proposed <a href="https://arxiv.org/pdf/1709.02755.pdf" target="_blank" rel="noopener">Simple Recurrent Unit (SRU)</a>. According to the paper, SRU is 5-10x faster than an optimized LSTM implementation. The code can be found <a href="https://github.com/hanxiao/tf-best-practice/blob/master/utils/sru.py" target="_blank" rel="noopener">here</a>.</p>
+<p>If you are interested in extending query encoder further, such as adding a more complicated high-order dependency or integrating side information in each recursion step, please read my blog post on <a href="/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/" title="Why I Use raw_rnn Instead of dynamic_rnn in Tensorflow and So Should You">Why I Use raw_rnn Instead of dynamic_rnn in Tensorflow and So Should You</a>.</p>
+<h4><span id="image-encoder">Image Encoder</span></h4><p>The image encoder rests on purely visual information. The RGB image data of a product is fed into a multi-layer convolutional neural network based on the ResNet architecture, resulting in an image vector representation in 128-dimensions.</p>
+<h4><span id="attribute-encoder">Attribute Encoder</span></h4><p>The attributes of a product can be combined into a sparse one-hot encoded vector. It is then supplied to a four-layer, fully connected deep neural network with steadily diminishing layer size. Activation was rendered nonlinear by standard ReLUs, and drop-out is applied to address overfitting. The output yields attribute vector representation in 20 dimensions.</p>
+<div class="quiz"><br>  Some readers may question the necessarity of having image and attribute encoders at the same time. Isn’t an attribute encoder enough? If you think about search queries in the e-commerce context, especially in the fashion e-commerce I’m working in, queries can be loosely divided into two categories: <em>“attribute”</em> queries e.g. <code>nike red shoes</code>, of which all words are already presented in the product database as attributes; and <em>“visual”</em> queries e.g. <code>tshirt logo on back</code>, <code>typical berlin</code> that express more visual or abstract intent from user, and those words never show up in the product database. The former can be trained with attribute encoder only, whereas the latter requires image encoder for effective training. Having both encoders allows some knowledge transfer between them during the training time, which improves the overall performance.<br></div>
+
+<h4><span id="metric-amp-loss-layer">Metric &amp; Loss Layer</span></h4><p>After a query-product pair goes through all three encoders, one can obtain a vector representation $q$ of the query, an image representation $u$ and an attribute representation $v$ of the product. It is now the time to squeeze them into a common latent space. In the metric layer, we need a similarity function $m$ which gives higher value to the positive pair than the negative pair, i.e. $m(q, u^+, v^+) &gt; m(q, u^-, v^-)$. The absolute value of $m(q, u^+, v^+)$ does not bother us too much. We only care about the relative distances between positive and negative pairs. In fact, a larger difference is better for us, as a clearer separation between positive and negative pairs can enhance the generalization ability of the system. As a consequence, we need a loss function $\ell$ which is <em>inversely proportional</em> to the difference between $m(q, u^+, v^+)$ and $m(q, u^-, v^-)$. By splitting $q$ (148-dim) into $q^{\mathrm{img}}$ (128-dim) and $q^{\mathrm{attr}}$ (20-dim), we end up minimizing the following loss function:<br>$${\begin{aligned}&amp;\sum_{\tiny\begin{array}{c} 0&lt;i&lt;N\\ 0&lt;j&lt;|q_{i}^{+}| \\ 0&lt;k&lt;|q_{i}^{-}|\end{array}}\lambda\ell\left(m(q^{\mathrm{img}}_i, u_{i,j}^{+}), m(q^{\mathrm{img}}_i, u_{i,k}^{-})\right) \\ &amp;+ (1-\lambda)\ell\left(m(q^{\mathrm{attr}}_i, v_{i,j}^{+}), m(q^{\mathrm{attr}}_i, v_{i,k}^{-})\right),\end{aligned}}$$</p>
+<p>where $N$ is the total number of queries. $|q_{i}^{+}|$ and $|q_{i}^{-}|$ are the number of positive and negative products associated with query $i$, respectively. Hyperparameter $\lambda$ trades off between image information and attribute information. For functions $\ell$ and $g$, the options are:</p>
+<ul>
+<li><strong>Loss function $\ell$</strong>: logistic, exponential, hinge loss, etc. </li>
+<li><strong>Metric function $m$</strong>: cosine similarity, euclidean distance (i.e. $\ell_2$-norm),  MLP, etc.</li>
+</ul>
+<p>To understand how it ends up with the above loss function, I strongly recommend you  read my other blog post on <a href="/2017/11/08/Optimizing-Contrastive-Rank-Triplet-Loss-in-Tensorflow-for-Neural/" title="Optimizing Contrastive/Rank/Triplet Loss in Tensorflow for Neural Information Retrieval">Optimizing Contrastive/Rank/Triplet Loss in Tensorflow for Neural Information Retrieval</a>. It also explains the metric and loss layer implementation in details.</p>
+<h4><span id="inference">Inference</span></h4><p>For a neural IR system, doing inference means serving search requests from users. Since products are updated regularly (say once a day), we can pre-compute the image representation and attribute representation for all products and store them. During the inference time, we first represent user input as a vector using query encoder; then iterate over all available products and compute the metric between the query vector and each of them; finally, sort the results. Depending on the stock size, the metric computation part could take a while. Fortunately, this process can be easily parallelized.</p>
+<h2><span id="training-and-evaluation-scheme">Training and Evaluation Scheme</span></h2><p>The query-product dataset is partitioned into four sets as illustrated in the next figure.<br><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/6d0746b3.png"></p>
+<p>Data in the orange block is used to train the model, and the evaluation is performed on Test I set. In this way, the model can’t observe any query or product used for training during the test time. For evaluation, we feed the query to the network and return a sorted list of test products. Then we check how groundtruth products are ranked in the results. Some widely-used measurements include: mean average precision (MAP), mean reciprocal rank (MRR), precision@1, precision@1%, negative discounted cumulative gain (NDCG) etc. A comprehensive explanation of these metrics can be found <a href="https://people.cs.umass.edu/~jpjiang/cs646/03_eval_basics.pdf" target="_blank" rel="noopener">in this slides</a>. With <a href="https://www.tensorflow.org/api_docs/python/tf/estimator" target="_blank" rel="noopener">Estimator</a> and <a href="https://www.tensorflow.org/api_docs/python/tf/keras/datasets" target="_blank" rel="noopener">Data</a> API in Tensorflow 1.4, you can easily define the training and evaluation procedure as follows:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model = tf.estimator.Estimator(model_fn=neural_ir, params=params)</span><br><span class="line">train_spec = tf.estimator.TrainSpec(input_fn=<span class="keyword">lambda</span>: input_data.input_fn(ModeKeys.TRAIN))</span><br><span class="line">eval_spec = tf.estimator.EvalSpec(input_fn=<span class="keyword">lambda</span>: input_data.input_fn(ModeKeys.EVAL))</span><br><span class="line">tf.estimator.train_and_evaluate(model, train_spec, eval_spec)</span><br></pre></td></tr></table></figure></p>
+<p>Test II or Test III sets can be also used for evaluation to check how the model generalizes on unseen products or unseen queries, respectively.</p>
+<h2><span id="qualitative-results">Qualitative Results</span></h2><p>Here I will <em>not</em> present any quantitative result. After all, it is a blog, not an academic paper and the goal is mainly to introduce this new idea of neural IR system. So let’s look at some results that are easy to your eyes. This actually poses a good question: how can you tell an IR system is (not) working by visual inspection only? </p>
+<p>Personally, I call an IR system “working” if it meets these two basic conditions:</p>
+<ul>
+<li>it understands singleton query described by a basic concept, e.g. brand, color, category;</li>
+<li>it understands compositional query described by multiple concepts, e.g. brand + color, brand + color + category + product name.</li>
+</ul>
+<p>If it fails to meet these two conditions, then I don’t bother to check fancy features such as spell-checking and cross-lingual. Enough said, here are some search results.</p>
+<table>
+<thead>
+<tr>
+<th>Query &amp; Top-20 Results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>nike</code></td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/eb31253e.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>schwarz</code> (black)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/318f4a85.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>nike schwarz</code></td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/a7b2ccf7.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>nike schwarz shirts</code></td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/755d08d2.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>nike schwarz shirts langarm</code> (long-sleeved)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/3a30e440.png"></td>
+</tr>
+<tr>
+<td>🇬🇧 <code>addidsa</code> (misspelled brand)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/b2fb3a2a.png"></td>
+</tr>
+<tr>
+<td>🇬🇧 <code>addidsa trosers</code> (misspelled brand and category)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/c876f756.png"></td>
+</tr>
+<tr>
+<td>🇬🇧 <code>addidsa trosers blue shorrt</code> (misspelled brand and category and property)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/3b486353.png"></td>
+</tr>
+<tr>
+<td>🇬🇧 <code>striped shirts woman</code></td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/559e2c5f.png"></td>
+</tr>
+<tr>
+<td>🇬🇧 <code>striped shirts man</code></td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/3d7a53b7.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>kleider</code> (dress)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/ba08c560.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 🇬🇧 <code>kleider flowers</code> (mix-language)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/0c60e120.png"></td>
+</tr>
+<tr>
+<td>🇩🇪 🇬🇧 <code>kleid ofshoulder</code> (mix-language &amp; misspelled off-shoulder)</td>
+</tr>
+<tr>
+<td><img src="/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/9d217d91.png"></td>
+</tr>
+</tbody>
+</table>
+<p>Here I demonstrated (cherry-picked) some results for different types of query. It seems that the system goes in the right direction. It is also exciting to see that the neural IR system is able to correctly interpret named-entity, spelling errors and multilinguality without any NLP pipeline or hard-coded rule. However, one can also notice that some top ranked products are not relevant to the query, which leaves quite some room for improvement.</p>
+<p>Speed-wise, the inference time is about two seconds per query on a quad-core CPU for 300,000 products. One can further improve the efficiency by using model compression techniques, approximate nearest neighbour search, e.g. <a href="https://github.com/facebookresearch/faiss" target="_blank" rel="noopener">Faiss (Facebook)</a>, <a href="https://github.com/searchivarius/nmslib" target="_blank" rel="noopener">Nmslib (Leonid Boytsov)</a>, and <a href="https://github.com/spotify/annoy" target="_blank" rel="noopener">Annoy (Spotify)</a>.</p>
+<h2><span id="summary">Summary</span></h2><p>If you are a search developer who is building a symbolic IR system with Solr/Elasticsearch/Lucene, this post should make you aware of the drawbacks of such a system. It should also answer your What? Why? and How? questions regarding a neural IR system. Comparing to the symbolic counterpart, the new system is more resilient to the input noise and requires little domain knowledge about the products and languages. Nonetheless, one should not take it as a Team Symbol or Team Neural kind of choice. Both systems have their own advantages and can complement each other pretty well. A better solution would be combining these two systems in a way that we can enjoy all advantages from both sides.</p>
+<p>Some implementation details and tricks are omitted here but can be found in my other posts. I strongly recommend  readers to continue with the following posts: </p>
+<ul>
+<li><a href="/2017/11/08/Optimizing-Contrastive-Rank-Triplet-Loss-in-Tensorflow-for-Neural/" title="Optimizing Contrastive/Rank/Triplet Loss in Tensorflow for Neural Information Retrieval">Optimizing Contrastive/Rank/Triplet Loss in Tensorflow for Neural Information Retrieval</a></li>
+<li><a href="/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/" title="Why I Use raw_rnn Instead of dynamic_rnn in Tensorflow and So Should You">Why I Use raw_rnn Instead of dynamic_rnn in Tensorflow and So Should You</a>
+</li>
+</ul>
+<p>Last but not least, the open-source project <a href="https://github.com/faneshion/MatchZoo" target="_blank" rel="noopener">MatchZoo</a> contains many state-of-the-art neural IR algorithms. In addition to product search, you may find its application in conversational chatbot, question-answer system.</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/" class="prev">&nbsp;❮&nbsp;&nbsp;Teach Machine to Com...</a><a href="/2017/12/21/Use-HParams-and-YAML-to-Better-Manage-Hyperparameters-in-Tensorflow/" class="next">Use HParams...&nbsp;&nbsp;❯&nbsp;</a></div><div class="footer-section"><h2><img src="/flower.png" alt="Checkout this">Check out these posts too!</h2><div class="archive-readmore"><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/"><img src="https://hanxiao.io/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0//9ba076d0.png" alt="Video Semantic Search in Large Scale using GNES and Tensorflow 2.0" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/" class="post-title-link">Video Semantic Search in Large Scale using GNES and Tensorflow 2.0</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/"><img src="https://hanxiao.io/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python//banner.png" alt="A Better Practice for Managing Many &lt;code&gt;extras_require&lt;/code&gt; Dependencies in Python" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/" class="post-title-link">A Better Practice for Managing Many <code>extras_require</code> Dependencies in Python</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/"><img src="https://hanxiao.io/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines//gnes-flow-banner.png" alt="GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/" class="post-title-link">GNES Flow: a Pythonic Way to Build Cloud-Native Neural Search Pipelines</a></h5></div></div><div style="display: flex; gap: 10px; align-items: flex-start;" class="post-item"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/"><img src="https://hanxiao.io/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond//gnes-team-1600.JPG" alt="Generic Neural Elastic Search: From &lt;code&gt;bert-as-service&lt;/code&gt; and Go Way Beyond" style="width: 120px; height: 90px; object-fit: cover;"></a><div style="flex: 1;" class="book-title"><h5 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0;" class="post-title"><a href="/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/" class="post-title-link">Generic Neural Elastic Search: From <code>bert-as-service</code> and Go Way Beyond</a></h5></div></div></div></div><div class="copyright"><p>© 2017 - 2025 <a href="https://hanxiao.io">Han Xiao</a>. <img src="/by-nc-sa.svg" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License." class="image"></p></div></footer></div><link rel="stylesheet" href="/css/post/katex.min.css"><!--link(rel="stylesheet", href=url_for("css/post/gitment.css"))--><script src="/js/katex.min.js"></script><script src="/js/auto-render.min.js"></script><script>renderMathInElement(
+    document.body,
+    {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false}
+        ]
+    }
+);</script><!--script(src=url_for("js/gitment.browser.js"))--><!--script(src=url_for("js/gitment.loader.js"))--><script src="/js/jquery-3.4.1.min.js"></script><script src="/js/reading_progress.min.js"></script><script src="/js/highlighter.min.js"></script><script src="/js/init-highlighter.js"></script><script async src="https://www.google-analytics.com/analytics.js"></script><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create',"UA-52114253-1",'auto');ga('send','pageview');</script></body></html>
