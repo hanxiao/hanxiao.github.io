@@ -1,0 +1,13 @@
+{
+  "version": "profiling-v1",
+  "fileCount": 5000,
+  "modalityCounts": {
+    "text": 2000,
+    "image": 1500,
+    "audio": 800,
+    "video": 700
+  },
+  "zipBytes": 56140114,
+  "md5": "fa8be9e6fcd016ed10d15b082c9d98a8",
+  "generatedNote": "placeholder content; metadata realistic"
+}
