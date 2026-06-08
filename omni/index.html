@@ -366,6 +366,25 @@ img { max-width: 100%; display: block; }
   .cframe, .carousel-cap > span { animation: none; }
   .cframe:nth-child(1), .carousel-cap > span:nth-child(1) { opacity: 1; }
 }
+/* ---------- Folder map cross-fade (the whole folder, then zoomed in) ---------- */
+.mapfade-wrap { max-width: 920px; margin: 0 auto 16px; }
+.mapfade { position: relative; width: 100%; aspect-ratio: 1012 / 820; }
+.mframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; opacity: 0;
+  border-radius: 12px;
+  filter: drop-shadow(0 16px 38px rgba(17, 24, 39, 0.15));
+  animation: mfade 11s infinite;
+}
+.mframe:nth-child(1) { animation-delay: 0s; }
+.mframe:nth-child(2) { animation-delay: 5.5s; }
+@keyframes mfade {
+  0% { opacity: 0; } 4% { opacity: 1; } 46% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mframe { animation: none; }
+  .mframe:nth-child(1) { opacity: 1; }
+}
 /* the two settings windows are small in reality, so show them small and side by side */
 .shot-row {
   display: grid;
@@ -687,7 +706,7 @@ img { max-width: 100%; display: block; }
         <a class="gh-link" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" aria-label="View source on GitHub" title="View source on GitHub">
           <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.02-1.49-2.01.44-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
-        <a class="btn btn-primary" href="Omni-0.1.31.dmg">Download</a>
+        <a class="btn btn-primary" href="Omni-0.1.32.dmg">Download</a>
       </nav>
     </div>
   </header>
@@ -701,9 +720,9 @@ img { max-width: 100%; display: block; }
         <h1 class="hero-title">Search every file on your Mac by meaning.</h1>
         <p class="hero-sub">Text, code, PDFs, images, audio, and video in one vector space - searched in any language, entirely on-device. Download the model once, then run fully offline.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="Omni-0.1.31.dmg">Download for macOS <span class="dl-ver">v0.1.31</span></a>
+          <a class="btn btn-primary btn-lg" href="Omni-0.1.32.dmg">Download for macOS <span class="dl-ver">v0.1.32</span></a>
         </div>
-        <p class="hero-note mono">Apple silicon &middot; macOS 14+ &middot; MD5 <span class="dl-md5">7300aed0013a171fe6662546971eda1a</span></p>
+        <p class="hero-note mono">Apple silicon &middot; macOS 14+ &middot; MD5 <span class="dl-md5">689f60ff3b50d137834db9af6858cb07</span></p>
       </div>
     </section>
 
@@ -716,6 +735,11 @@ img { max-width: 100%; display: block; }
           <article class="feature-card">
             <h3 class="feature-title">One space for every file</h3>
             <p class="feature-body">Text, code, PDFs, images, audio, and video are embedded into a single vector space. A text query matches them all - including scanned pages.</p>
+          </article>
+
+          <article class="feature-card">
+            <h3 class="feature-title">See a folder, not a list</h3>
+            <p class="feature-body">Click any folder to map every indexed file by meaning - similar files cluster together, colored by type. Hover for a thumbnail, click one to spotlight its nearest neighbors. GPU-rendered, smooth at 50k+ files.</p>
           </article>
 
           <article class="feature-card">
@@ -770,6 +794,14 @@ img { max-width: 100%; display: block; }
             <span><span class="mono">podcast interview</span> &middot; audio</span>
             <span><span class="mono">screen recording demo</span> &middot; video</span>
           </figcaption>
+        </figure>
+
+        <figure class="mapfade-wrap">
+          <div class="mapfade" aria-label="A folder shown as a map of its files arranged by similarity">
+            <img class="mframe" src="assets/map-cloud.png" alt="Folder embedding map: 55,953 files clustered by similarity and colored by type" />
+            <img class="mframe" src="assets/map-zoom.png" alt="Zoomed into the folder map to explore a cluster up close" />
+          </div>
+          <figcaption class="shot-caption">Click a folder to see it as a map - every indexed file placed by meaning, colored by type. Hover for a thumbnail, click a file to spotlight its nearest neighbors, scroll to zoom.</figcaption>
         </figure>
 
         <div class="shot-row">
