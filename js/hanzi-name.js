@@ -86,19 +86,4 @@
       run();
       return;
     }
-    if (tries <= 0) return;
-    setTimeout(function () {
-      waitForLib(tries - 1);
-    }, 100);
-  }
-
-  function start() {
-    waitForLib(50);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
-  } else {
-    start();
-  }
-})();
+    if (tries 
