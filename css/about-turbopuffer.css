@@ -398,6 +398,13 @@
     overflow-x: hidden !important;
     max-width: 100vw !important;
   }
+
+  /* Restore horizontal breathing room on mobile so text doesn't hug edges */
+  .about-page .container {
+    padding-left: 1.25em !important;
+    padding-right: 1.25em !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* === Hanzi animated name (肖涵) === */
