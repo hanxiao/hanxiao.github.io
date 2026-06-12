@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hanxiao.io/"/>
-  <updated>2026-06-12T18:58:54.105Z</updated>
+  <updated>2026-06-12T19:06:54.527Z</updated>
   <id>https://hanxiao.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://hanxiao.io/2026/02/11/Embedding-Inversion-via-Conditional-Masked-Diffusion/"/>
     <id>https://hanxiao.io/2026/02/11/Embedding-Inversion-via-Conditional-Masked-Diffusion/</id>
     <published>2026-02-11T16:17:13.000Z</published>
-    <updated>2026-06-12T18:58:54.105Z</updated>
+    <updated>2026-06-12T19:06:54.527Z</updated>
     
     <summary type="html">
     
@@ -38,7 +38,7 @@
     <link href="https://hanxiao.io/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/"/>
     <id>https://hanxiao.io/2019/11/22/Video-Semantic-Search-in-Large-Scale-using-GNES-and-TF-2-0/</id>
     <published>2019-11-22T15:10:38.000Z</published>
-    <updated>2026-06-12T18:58:54.352Z</updated>
+    <updated>2026-06-12T19:06:54.791Z</updated>
     
     <summary type="html">
     
@@ -54,7 +54,7 @@
     <link href="https://hanxiao.io/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/"/>
     <id>https://hanxiao.io/2019/11/07/A-Better-Practice-for-Managing-extras-require-Dependencies-in-Python/</id>
     <published>2019-11-07T16:16:50.000Z</published>
-    <updated>2026-06-12T18:58:54.062Z</updated>
+    <updated>2026-06-12T19:06:54.480Z</updated>
     
     <summary type="html">
     
@@ -70,7 +70,7 @@
     <link href="https://hanxiao.io/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/"/>
     <id>https://hanxiao.io/2019/10/18/GNES-Flow-a-Pythonic-Way-to-Build-Cloud-Native-Neural-Search-Pipelines/</id>
     <published>2019-10-18T13:51:04.000Z</published>
-    <updated>2026-06-12T18:58:54.234Z</updated>
+    <updated>2026-06-12T19:06:54.672Z</updated>
     
     <summary type="html">
     
@@ -89,7 +89,7 @@
     <link href="https://hanxiao.io/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/"/>
     <id>https://hanxiao.io/2019/07/29/Generic-Neural-Elastic-Search-From-bert-as-service-and-Go-Way-Beyond/</id>
     <published>2019-07-29T12:38:44.000Z</published>
-    <updated>2026-06-12T18:58:54.240Z</updated>
+    <updated>2026-06-12T19:06:54.677Z</updated>
     
     <summary type="html">
     
@@ -105,7 +105,7 @@
     <link href="https://hanxiao.io/2019/01/02/Serving-Google-BERT-in-Production-using-Tensorflow-and-ZeroMQ/"/>
     <id>https://hanxiao.io/2019/01/02/Serving-Google-BERT-in-Production-using-Tensorflow-and-ZeroMQ/</id>
     <published>2019-01-02T14:35:03.000Z</published>
-    <updated>2026-06-12T18:58:54.300Z</updated>
+    <updated>2026-06-12T19:06:54.732Z</updated>
     
     <summary type="html">
     
@@ -125,7 +125,7 @@
     <link href="https://hanxiao.io/2018/09/28/Fashion-MNIST-Year-In-Review/"/>
     <id>https://hanxiao.io/2018/09/28/Fashion-MNIST-Year-In-Review/</id>
     <published>2018-09-28T06:01:41.000Z</published>
-    <updated>2026-06-12T18:58:54.117Z</updated>
+    <updated>2026-06-12T19:06:54.541Z</updated>
     
     <summary type="html">
     
@@ -141,7 +141,7 @@
     <link href="https://hanxiao.io/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/"/>
     <id>https://hanxiao.io/2018/09/09/Dual-Ask-Answer-Network-for-Machine-Reading-Comprehension/</id>
     <published>2018-09-09T12:11:58.000Z</published>
-    <updated>2026-06-12T18:58:54.099Z</updated>
+    <updated>2026-06-12T19:06:54.520Z</updated>
     
     <summary type="html">
     
@@ -158,7 +158,7 @@
     <link href="https://hanxiao.io/2018/06/24/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/"/>
     <id>https://hanxiao.io/2018/06/24/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/</id>
     <published>2018-06-24T16:19:00.000Z</published>
-    <updated>2026-06-12T18:58:54.050Z</updated>
+    <updated>2026-06-12T19:06:54.468Z</updated>
     
     <summary type="html">
     
@@ -175,7 +175,7 @@
     <link href="https://hanxiao.io/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/"/>
     <id>https://hanxiao.io/2018/04/21/Teach-Machine-to-Comprehend-Text-and-Answer-Question-with-Tensorflow/</id>
     <published>2018-04-21T08:03:42.000Z</published>
-    <updated>2026-06-12T18:58:54.329Z</updated>
+    <updated>2026-06-12T19:06:54.764Z</updated>
     
     <summary type="html">
     
@@ -193,7 +193,7 @@
     <link href="https://hanxiao.io/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/"/>
     <id>https://hanxiao.io/2018/01/10/Build-Cross-Lingual-End-to-End-Product-Search-using-Tensorflow/</id>
     <published>2018-01-10T15:24:06.000Z</published>
-    <updated>2026-06-12T18:58:54.064Z</updated>
+    <updated>2026-06-12T19:06:54.483Z</updated>
     
     <summary type="html">
     
@@ -210,7 +210,7 @@
     <link href="https://hanxiao.io/2017/12/21/Use-HParams-and-YAML-to-Better-Manage-Hyperparameters-in-Tensorflow/"/>
     <id>https://hanxiao.io/2017/12/21/Use-HParams-and-YAML-to-Better-Manage-Hyperparameters-in-Tensorflow/</id>
     <published>2017-12-21T13:02:52.000Z</published>
-    <updated>2026-06-12T18:58:54.351Z</updated>
+    <updated>2026-06-12T19:06:54.789Z</updated>
     
     <summary type="html">
     
@@ -226,7 +226,7 @@
     <link href="https://hanxiao.io/2017/11/08/Optimizing-Contrastive-Rank-Triplet-Loss-in-Tensorflow-for-Neural/"/>
     <id>https://hanxiao.io/2017/11/08/Optimizing-Contrastive-Rank-Triplet-Loss-in-Tensorflow-for-Neural/</id>
     <published>2017-11-08T12:38:12.000Z</published>
-    <updated>2026-06-12T18:58:54.297Z</updated>
+    <updated>2026-06-12T19:06:54.728Z</updated>
     
     <summary type="html">
     
@@ -242,7 +242,7 @@
     <link href="https://hanxiao.io/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/"/>
     <id>https://hanxiao.io/2017/08/26/Fashion-MNIST-a-Drop-In-Replacement-of-MNIST-for-Benchmarking-Machine-Learning-Algorithms/</id>
     <published>2017-08-26T10:28:50.000Z</published>
-    <updated>2026-06-12T18:58:54.190Z</updated>
+    <updated>2026-06-12T19:06:54.622Z</updated>
     
     <summary type="html">
     
@@ -263,7 +263,7 @@
     <link href="https://hanxiao.io/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/"/>
     <id>https://hanxiao.io/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/</id>
     <published>2017-08-16T15:51:34.000Z</published>
-    <updated>2026-06-12T18:58:54.435Z</updated>
+    <updated>2026-06-12T19:06:54.879Z</updated>
     
     <summary type="html">
     
@@ -280,7 +280,7 @@
     <link href="https://hanxiao.io/2017/07/07/Get-10x-Speedup-in-Tensorflow-Multi-Task-Learning-using-Python-Multiprocessing/"/>
     <id>https://hanxiao.io/2017/07/07/Get-10x-Speedup-in-Tensorflow-Multi-Task-Learning-using-Python-Multiprocessing/</id>
     <published>2017-07-07T11:59:18.000Z</published>
-    <updated>2026-06-12T18:58:54.294Z</updated>
+    <updated>2026-06-12T19:06:54.725Z</updated>
     
     <summary type="html">
     
@@ -297,7 +297,7 @@
     <link href="https://hanxiao.io/2017/05/19/Extremely-Stupid-Mistakes-I-made-with-Tensorflow-and-Python/"/>
     <id>https://hanxiao.io/2017/05/19/Extremely-Stupid-Mistakes-I-made-with-Tensorflow-and-Python/</id>
     <published>2017-05-19T11:48:46.000Z</published>
-    <updated>2026-06-12T18:58:54.115Z</updated>
+    <updated>2026-06-12T19:06:54.539Z</updated>
     
     <summary type="html">
     
