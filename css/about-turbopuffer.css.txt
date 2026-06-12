@@ -70,6 +70,12 @@
   font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace !important;
 }
 
+/* === Page top breathing room (about has no header nav) === */
+.about-page .container,
+.about-page main.container {
+  padding-top: 3.5em !important;
+}
+
 /* === Title === */
 .about-page .post-block .post-title {
   font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace;
@@ -356,5 +362,37 @@
   .about-page .post {
     overflow-x: hidden !important;
     max-width: 100vw !important;
+  }
+}
+
+/* === Hanzi animated name (肖涵) === */
+.about-page .post-block .hanzi-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 0.75em 0 0.75em;
+}
+
+.about-page .post-block .hanzi-name .hanzi-char {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 0;
+  border: 1px solid var(--ap-border, #ddd);
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.about-page .post-block .hanzi-name svg {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .about-page .post-block .hanzi-name .hanzi-char {
+    width: 34px;
+    height: 34px;
   }
 }
