@@ -1,0 +1,398 @@
+/* TurboPuffer-inspired theme for /about page - light/dark via system preference */
+
+/* === CSS Variables: Light Mode (default) === */
+.about-page {
+  --ap-bg: #ffffff;
+  --ap-text: #1e293b;
+  --ap-text-secondary: #475569;
+  --ap-accent: #c9602d;
+  --ap-accent-hover: #e8845c;
+  --ap-border: #cbd5e1;
+  --ap-surface: #f1f5f9;
+  --ap-muted: #64748b;
+  --ap-heading: #0f172a;
+  --ap-separator: #94a3b8;
+  --ap-footer: #94a3b8;
+  --ap-img-border: #e2e8f0;
+  --ap-img-shadow: rgba(0, 0, 0, 0.08);
+  --ap-selection-bg: #e8845c;
+  --ap-selection-text: #ffffff;
+  --ap-scrollbar-track: #f1f5f9;
+  --ap-scrollbar-thumb: #cbd5e1;
+  --ap-btn-bg: #faf8f5;
+  --ap-btn-border: #1e293b;
+  --ap-btn-text: #1e293b;
+  --ap-btn-hover-bg: #f1ede8;
+  --ap-pill-bg: transparent;
+  --ap-pill-border: #94a3b8;
+  --ap-pill-text: #64748b;
+}
+
+/* === CSS Variables: Dark Mode === */
+@media (prefers-color-scheme: dark) {
+  .about-page {
+    --ap-bg: #0f172a;
+    --ap-text: #cbd5e1;
+    --ap-text-secondary: #94a3b8;
+    --ap-accent: #e8845c;
+    --ap-accent-hover: #f09a76;
+    --ap-border: #334155;
+    --ap-surface: #1e293b;
+    --ap-muted: #94a3b8;
+    --ap-heading: #f1f5f9;
+    --ap-separator: #475569;
+    --ap-footer: #475569;
+    --ap-img-border: #334155;
+    --ap-img-shadow: rgba(232, 132, 92, 0.1);
+    --ap-selection-bg: #e8845c;
+    --ap-selection-text: #0f172a;
+    --ap-scrollbar-track: #1e293b;
+    --ap-scrollbar-thumb: #475569;
+    --ap-btn-bg: #1e293b;
+    --ap-btn-border: #94a3b8;
+    --ap-btn-text: #cbd5e1;
+    --ap-btn-hover-bg: #334155;
+    --ap-pill-bg: transparent;
+    --ap-pill-border: #475569;
+    --ap-pill-text: #94a3b8;
+  }
+}
+
+/* === Base === */
+.about-page,
+.about-page body,
+.about-page .wrap {
+  background-color: var(--ap-bg) !important;
+  color: var(--ap-text) !important;
+}
+
+.about-page {
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace !important;
+}
+
+/* === Page top breathing room (about has no header nav) === */
+.about-page .container,
+.about-page main.container {
+  padding-top: 3.5em !important;
+}
+
+/* === Title === */
+.about-page .post-block .post-title {
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace;
+  font-size: 2.2em;
+  color: var(--ap-heading) !important;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 0.3em;
+}
+
+.about-page .post-block .post-title img {
+  display: none;
+}
+
+/* === Change 1: Social Links as TurboPuffer-style dashed buttons === */
+.about-page .post-block .social-links {
+  text-align: center;
+  margin: 0.5em 0 2em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px dashed var(--ap-border);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.about-page .post-block .social-links .separator {
+  display: none;
+}
+
+.about-page .post-block .social-links .social-link {
+  display: inline-block !important;
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace !important;
+  font-size: 0.72em !important;
+  color: var(--ap-pill-text) !important;
+  background: transparent !important;
+  border: 1px solid var(--ap-pill-border) !important;
+  border-radius: 3px !important;
+  padding: 0.1em 0.5em !important;
+  text-decoration: none !important;
+  transition: border-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.about-page .post-block .social-links .social-link:hover {
+  background: transparent !important;
+  color: var(--ap-accent) !important;
+  border-color: var(--ap-accent) !important;
+}
+
+/* === Content === */
+.about-page .post-content {
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.92em;
+  line-height: 1.75;
+  color: var(--ap-text) !important;
+}
+
+.about-page .post-content p {
+  color: var(--ap-text);
+  margin: 1.2em 0;
+}
+
+/* === Links === */
+.about-page .post-content a {
+  color: var(--ap-accent) !important;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ap-accent);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.about-page .post-content a:hover,
+.about-page .post a:hover {
+  color: var(--ap-accent-hover) !important;
+  border-bottom: 1px solid var(--ap-accent-hover) !important;
+}
+
+/* === Change 2: Pixel-art SVG icons on headings === */
+.about-page .post-content h2,
+.about-page .post-content h3,
+.about-page .post-content h4,
+.about-page .post-content h5,
+.about-page .post-content h6 {
+  color: var(--ap-heading) !important;
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", monospace;
+  border-bottom: 1px dashed var(--ap-border);
+  padding-bottom: 0.4em;
+  margin-top: 2em;
+}
+
+/* Remove default # markers */
+.about-page .post-content h2 :before,
+.about-page .post-content h3 :before,
+.about-page .post-content h4 :before,
+.about-page .post-content h5 :before,
+.about-page .post-content h6 :before {
+  content: none !important;
+}
+
+/* No SVG icons - plain text headings */
+.about-page .post-content h2::before,
+.about-page .post-content h3::before {
+  content: none !important;
+}
+
+/* === Image === */
+.about-page .post-content img {
+  border-radius: 8px;
+  border: 2px solid var(--ap-img-border);
+  box-shadow: 0 0 30px var(--ap-img-shadow);
+  opacity: 1 !important;
+  max-width: 70%;
+}
+
+/* === Change 3: Structured publication/media lists === */
+.about-page .post-content ul {
+  background: var(--ap-surface) !important;
+  border: 1px dashed var(--ap-border) !important;
+  border-radius: 6px !important;
+  padding: 0.6em 1.2em !important;
+  margin: 1.2em 0 !important;
+  list-style: none !important;
+}
+
+.about-page .post-content li {
+  color: var(--ap-text) !important;
+  margin: 0 !important;
+  padding: 0.7em 0 !important;
+  font-size: 0.88em !important;
+  line-height: 1.5 !important;
+  border-bottom: 1px dotted var(--ap-border) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: baseline !important;
+  gap: 0.3em 0.5em !important;
+}
+
+.about-page .post-content li:last-child {
+  border-bottom: none !important;
+}
+
+/* Hide copyright footer on about page */
+.about-page footer,
+.about-page .copyright {
+  display: none !important;
+}
+
+.about-page .post-content li::marker {
+  content: none;
+}
+
+/* First link in each li pushes pills to the right */
+.about-page .post-content li a:first-of-type {
+  margin-left: auto !important;
+}
+
+/* Links inside list items become pill buttons */
+.about-page .post-content li a {
+  display: inline-block;
+  font-size: 0.85em;
+  color: var(--ap-pill-text) !important;
+  background: var(--ap-pill-bg);
+  border: 1px solid var(--ap-pill-border) !important;
+  border-radius: 3px;
+  padding: 0.1em 0.5em;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.about-page .post-content li a:hover {
+  background: transparent !important;
+  color: var(--ap-accent) !important;
+  border-color: var(--ap-accent) !important;
+}
+
+/* === Blockquote === */
+.about-page .post-content blockquote {
+  border-left: 3px solid var(--ap-accent) !important;
+  background: var(--ap-surface);
+  padding: 1em 1.2em;
+  border-radius: 0 6px 6px 0;
+}
+
+/* === Caption === */
+.about-page .post-content center {
+  color: var(--ap-muted);
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+/* === Footer === */
+.about-page footer .copyright,
+.about-page footer .copyright p,
+.about-page footer .copyright a {
+  color: var(--ap-footer) !important;
+}
+
+/* === Selection === */
+.about-page ::selection {
+  background-color: var(--ap-selection-bg) !important;
+  color: var(--ap-selection-text) !important;
+}
+
+/* === Scrollbar === */
+.about-page ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.about-page ::-webkit-scrollbar-track {
+  background: var(--ap-scrollbar-track);
+}
+
+.about-page ::-webkit-scrollbar-thumb {
+  background: var(--ap-scrollbar-thumb);
+  border-radius: 3px;
+}
+
+/* === Code === */
+.about-page code {
+  background-color: var(--ap-surface) !important;
+  color: var(--ap-accent) !important;
+  border-radius: 3px;
+}
+
+/* === Responsive === */
+@media screen and (max-width: 992px) {
+  .about-page .post-block .post-title {
+    font-size: 1.6em;
+  }
+
+  .about-page .post-content img {
+    max-width: 90%;
+  }
+
+  .about-page .post-content ul {
+    padding: 0.4em 0.8em;
+  }
+
+  .about-page .post-content li {
+    font-size: 0.82em;
+  }
+
+  .about-page .post-block .social-links {
+    gap: 0.4em;
+  }
+
+  .about-page .post-block .social-links .social-link {
+    font-size: 0.7em;
+    padding: 0.15em 0.5em;
+  }
+
+  .about-page .post-content li {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .about-page .post-content li a {
+    font-size: 0.75em !important;
+    white-space: normal !important;
+    word-break: break-all !important;
+  }
+
+  /* Mobile: chips wrap below title, left-aligned */
+  .about-page .post-content li {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .about-page .post-content li a:first-of-type {
+    margin-left: 0 !important;
+  }
+
+  .about-page .post-content ul {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+
+  .about-page,
+  .about-page body,
+  .about-page .wrap,
+  .about-page .container,
+  .about-page .post {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* === Hanzi animated name (肖涵) === */
+.about-page .post-block .hanzi-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 0.75em 0 0.75em;
+}
+
+.about-page .post-block .hanzi-name .hanzi-char {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 0;
+  border: 1px solid var(--ap-border, #ddd);
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.about-page .post-block .hanzi-name svg {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .about-page .post-block .hanzi-name .hanzi-char {
+    width: 34px;
+    height: 34px;
+  }
+}
