@@ -19,17 +19,25 @@
       size = 34;
     }
 
+    var isDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
     var strokeColor =
       (getComputedStyle(document.documentElement)
-        .getPropertyValue("--ap-heading") || "").trim() || "#161616";
+        .getPropertyValue("--ap-heading") || "").trim() ||
+      (isDark ? "#f4f4f4" : "#161616");
+
+    var gridColor = isDark ? "#2c2c2c" : "#e2e2e2";
+    var outlineColor = isDark ? "#3a3a3a" : "#d8d8d8";
 
     function gridBg(s) {
       var svg =
         '<svg xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s + '">' +
-        '<line x1="2" y1="2" x2="' + (s - 2) + '" y2="' + (s - 2) + '" stroke="#e2e2e2" stroke-width="1"/>' +
-        '<line x1="' + (s - 2) + '" y1="2" x2="2" y2="' + (s - 2) + '" stroke="#e2e2e2" stroke-width="1"/>' +
-        '<line x1="' + (s / 2) + '" y1="0" x2="' + (s / 2) + '" y2="' + s + '" stroke="#e2e2e2" stroke-width="1"/>' +
-        '<line x1="0" y1="' + (s / 2) + '" x2="' + s + '" y2="' + (s / 2) + '" stroke="#e2e2e2" stroke-width="1"/>' +
+        '<line x1="2" y1="2" x2="' + (s - 2) + '" y2="' + (s - 2) + '" stroke="' + gridColor + '" stroke-width="1"/>' +
+        '<line x1="' + (s - 2) + '" y1="2" x2="2" y2="' + (s - 2) + '" stroke="' + gridColor + '" stroke-width="1"/>' +
+        '<line x1="' + (s / 2) + '" y1="0" x2="' + (s / 2) + '" y2="' + s + '" stroke="' + gridColor + '" stroke-width="1"/>' +
+        '<line x1="0" y1="' + (s / 2) + '" x2="' + s + '" y2="' + (s / 2) + '" stroke="' + gridColor + '" stroke-width="1"/>' +
         "</svg>";
       return "url('data:image/svg+xml;utf8," + encodeURIComponent(svg) + "')";
     }
@@ -47,7 +55,7 @@
           height: size,
           padding: 2,
           showOutline: true,
-          outlineColor: "#d8d8d8",
+          outlineColor: outlineColor,
           strokeAnimationSpeed: 0.9,
           delayBetweenStrokes: 60,
           strokeColor: strokeColor,
