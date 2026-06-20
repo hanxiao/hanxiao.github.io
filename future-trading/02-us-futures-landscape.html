@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2 美股期货全景 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li class="active"><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="2">2 · 美股期货全景</h1>
+<p>"美股期货"在中文语境里通常指<strong>美国股指期货（U.S. Equity Index Futures）</strong>——追踪美国主要股票指数的期货合约。本章帮你建立全局地图：有哪些品种、在哪交易、各自的特点。</p>
+<h2 id="_1">四大主流股指期货</h2>
+<p>美国股指期货绝大部分在<strong>芝加哥商品交易所集团（CME Group）</strong>旗下交易。四个最重要的指数及其期货家族：</p>
+<table>
+<thead>
+<tr>
+<th>指数</th>
+<th>追踪标的</th>
+<th>标准合约</th>
+<th>E-mini</th>
+<th>Micro（微型）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P 500</td>
+<td>500 大盘股</td>
+<td>SP（已基本淘汰）</td>
+<td>ES</td>
+<td>MES</td>
+</tr>
+<tr>
+<td>Nasdaq-100</td>
+<td>100 科技成长股</td>
+<td>—</td>
+<td>NQ</td>
+<td>MNQ</td>
+</tr>
+<tr>
+<td>Dow Jones（道琼斯）</td>
+<td>30 工业股</td>
+<td>—</td>
+<td>YM</td>
+<td>MYM</td>
+</tr>
+<tr>
+<td>Russell 2000</td>
+<td>2000 小盘股</td>
+<td>—</td>
+<td>RTY</td>
+<td>M2K</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>术语说明：<strong>E-mini</strong> 是 CME 在 1997 年推出的"迷你"合约，规模是老式标准合约的 1/5，如今是机构和散户的主力。<strong>Micro E-mini（微型）</strong> 于 2019 年推出，规模又是 E-mini 的 1/10，专为小资金交易者设计。</p>
+</blockquote>
+<h2 id="_2">四大品种的性格</h2>
+<p><strong>ES（E-mini S&amp;P 500）——市场基准</strong>
+全球流动性最好的股指期货，没有之一。日成交量常达上百万手，买卖价差（bid-ask spread）极小，通常只有 1 个跳动点。它代表"美国大盘"，波动相对温和，是新手和机构的默认选择。</p>
+<p><strong>NQ（E-mini Nasdaq-100）——高波动成长</strong>
+科技股为主（Apple、Nvidia、Microsoft 等权重极高）。波动比 ES 大得多，单日几百点很常见。机会大，风险也大，适合有经验、能承受剧烈波动的交易者。</p>
+<p><strong>YM（E-mini Dow）——价格直观</strong>
+追踪道琼斯 30。点值结构简单（每点 $5），价格走势相对"老派"。流动性不如 ES/NQ，但仍然充足。</p>
+<p><strong>RTY（E-mini Russell 2000）——小盘风向标</strong>
+代表美国小盘股，对经济周期、利率（interest rate）更敏感。常被用来交易"大盘 vs 小盘"的轮动（rotation）逻辑。</p>
+<h2 id="_3">不只是股指：其他重要美国期货</h2>
+<p>虽然本书聚焦股指，但你应该知道整个生态。CME Group 还提供：</p>
+<ul>
+<li><strong>利率期货（interest rate futures）</strong>：如美国国债期货（ZN 10年期、ZB 30年期）、SOFR 期货。体量全球最大。</li>
+<li><strong>能源（energy）</strong>：原油 CL（WTI Crude Oil）、天然气 NG。</li>
+<li><strong>金属（metals）</strong>：黄金 GC、白银 SI、铜 HG。</li>
+<li><strong>农产品（agriculture）</strong>：玉米 ZC、大豆 ZS、小麦 ZW。</li>
+<li><strong>外汇（FX）</strong>：欧元 6E、日元 6J 等。</li>
+<li><strong>加密货币（crypto）</strong>：比特币期货 BTC、微型比特币 MBT、以太坊 ETH。</li>
+<li><strong>波动率（volatility）</strong>：VIX 期货（追踪"恐慌指数"）。</li>
+</ul>
+<p>这些品种的交易机制（保证金、点值、移仓）与股指期货完全一致，学会股指期货，你就掌握了通用框架。</p>
+<h2 id="_4">交易所与监管</h2>
+<pre><code>        CFTC（商品期货交易委员会）
+              │ 联邦监管
+              ▼
+        NFA（全国期货协会）
+              │ 行业自律
+              ▼
+   ┌──────────┴──────────┐
+ CME Group            ICE / Cboe 等
+   │
+ ┌─┴─┬─────┬─────┐
+CME  CBOT  NYMEX  COMEX   ← 旗下四大交易所
+</code></pre>
+<ul>
+<li><strong>CFTC（Commodity Futures Trading Commission，商品期货交易委员会）</strong>：美国期货市场的联邦监管机构。</li>
+<li><strong>NFA（National Futures Association，全国期货协会）</strong>：行业自律组织，券商和从业者必须注册。</li>
+<li><strong>CME Group</strong>：旗下整合了 CME、CBOT（芝加哥期货交易所）、NYMEX、COMEX 四家交易所，几乎垄断美国主要期货品种。</li>
+</ul>
+<p>监管框架保证了清算（clearing）的安全：所有交易通过<strong>中央对手方（CCP，central counterparty）</strong>清算，大幅降低对手方违约风险。</p>
+<h2 id="24">几乎 24 小时交易</h2>
+<p>与股票市场不同，股指期货<strong>几乎全天候交易</strong>。以 ES 为例（美东时间 ET）：</p>
+<pre><code>周日 18:00 ── 开盘
+   │
+   │  全周连续交易（每天有短暂维护暂停）
+   │
+周五 17:00 ── 收盘
+
+每日维护暂停：17:00–18:00 ET
+</code></pre>
+<p>这意味着无论亚洲、欧洲还是美洲时段，你都能交易美股期货。这是它相对现货股票（regular trading hours，常规时段 9:30–16:00 ET）的巨大优势——重大新闻发生时，期货能立即反应。</p>
+<h2 id="_5">如何选择第一个品种</h2>
+<p>给新手的建议：</p>
+<ol>
+<li><strong>从 MES（Micro E-mini S&amp;P 500）开始</strong>。流动性好、波动温和、每点只有 $5，试错成本最低。</li>
+<li>熟练后再考虑 MNQ（微型纳指），体会更高波动。</li>
+<li><strong>不要一上来就碰标准 ES/NQ</strong>，一个跳动的盈亏就可能让新手心态失衡。</li>
+</ol>
+<h2 id="_6">本章要点</h2>
+<ul>
+<li>美股期货四大主力：ES、NQ、YM、RTY，均在 CME Group 交易。</li>
+<li>三个规模层级：标准 → E-mini → Micro（微型），资金越小选越小。</li>
+<li>受 CFTC + NFA 监管，通过中央对手方清算，安全性高。</li>
+<li>几乎 24 小时交易，对新闻反应迅速。</li>
+<li>新手首选 <strong>MES</strong>，把试错成本降到最低。</li>
+</ul>
+<p>下一章，我们逐字读懂一份合约的"规格说明书"。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/01-what-is-futures.html"><span class="pn-dir">← 上一章</span><span class="pn-title">1 什么是期货</span></a><a class="pn pn-next" href="/future-trading/03-contract-specs.html"><span class="pn-dir">下一章 →</span><span class="pn-title">3 合约规格解读</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>18 风险控制与止损 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li class="active"><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="18">18 · 风险控制与止损</h1>
+<p>仓位管理（第 17 章）决定你下多少，风险控制决定你<strong>怎么在每笔交易、每一天、每个账户层面守住底线</strong>。这一章是把"活下来"落到具体操作的执行手册。</p>
+<h2 id="_1">止损：不可妥协的纪律</h2>
+<p><strong>止损（stop loss）</strong>是预先设定的离场价，一旦价格触及，无条件平仓认亏。它是期货交易者最重要的工具。</p>
+<pre><code>没有止损的期货交易 = 拿着随时引爆的炸弹睡觉
+高杠杆 + 不止损 = 爆仓只是时间问题
+</code></pre>
+<blockquote>
+<p>第一性原则：你无法控制盈利（市场说了算），但你<strong>完全能控制亏损</strong>（止损说了算）。把能控制的控制到极致，是交易者唯一的确定性。</p>
+</blockquote>
+<h2 id="_2">止损的类型</h2>
+<pre><code>硬止损（hard stop）：
+  在交易所挂出的真实止损单，自动执行，不依赖你盯盘
+  → 强烈推荐，杜绝&quot;再等等&quot;的人性弱点
+
+心理止损（mental stop）：
+  只记在脑子里，价格到了手动平
+  → 危险，关键时刻人会犹豫、自我欺骗
+
+止损市价单 vs 止损限价单：
+  stop market：触发后市价成交，保证出场但可能滑点
+  stop limit：触发后挂限价，可能无法成交（剧烈行情危险）
+</code></pre>
+<p>新手务必用<strong>硬止损 + 止损市价单</strong>：宁可承受滑点，也要保证出得去。剧烈行情中止损限价单可能让你卡在场内眼睁睁看着亏损扩大。</p>
+<h2 id="_3">止损放在哪</h2>
+<p>止损位置由<strong>市场结构</strong>决定，不是拍脑袋：</p>
+<ul>
+<li><strong>结构止损</strong>：放在最近的摆动高/低点（swing high/low）之外。价格突破该点说明你的交易逻辑已失效。</li>
+<li><strong>ATR 止损</strong>：用波动率设定距离（如 1.5×ATR），避免被正常波动"扫损"。</li>
+<li><strong>关键水平之外</strong>：支撑/阻力、VWAP、整数关口的另一侧。</li>
+</ul>
+<pre><code>做多场景：
+  入场 ●
+  止损 ╳ ← 放在最近 swing low 下方一点
+        （跌破这里 = 上涨逻辑失效，认错出场）
+</code></pre>
+<blockquote>
+<p>关键原则：<strong>止损放在"逻辑失效"的地方，而不是"我能忍受的亏损"的地方</strong>。如果逻辑失效点太远、超出你的风险预算，答案是<strong>减少手数</strong>（第 17 章），而不是把止损硬挪近。</p>
+</blockquote>
+<h2 id="_4">移动止损与止盈</h2>
+<p>盈利后如何保护和兑现：</p>
+<ul>
+<li><strong>移动止损（trailing stop）</strong>：随价格有利移动而上移，锁定部分利润，让趋势单奔跑（第 13 章）。</li>
+<li><strong>保本止损（breakeven stop）</strong>：浮盈达到一定程度后，把止损移到入场价，确保这笔不再亏。</li>
+<li><strong>分批止盈（scaling out）</strong>：达到第一目标平一部分，剩余仓位用移动止损博更大空间，兼顾落袋和让利润奔跑。</li>
+</ul>
+<pre><code>入场 ● ──价格上行──▶
+止损先在下方 ╳
+浮盈够了 → 止损上移到保本（入场价）
+继续盈利 → 移动止损跟随，分批止盈
+</code></pre>
+<h2 id="_5">多层风险防线</h2>
+<p>风险控制不止单笔，要建立<strong>层层防线</strong>：</p>
+<pre><code>① 单笔止损：每笔最多亏账户 1%（第 17 章）
+② 每日止损（daily stop）：当日亏损达上限（如 3%）→ 当天停止交易
+③ 每周/每月止损：阶段回撤达上限 → 暂停复盘
+④ 总回撤上限（max drawdown）：账户回撤达 X% → 停止、重新评估系统
+</code></pre>
+<p><strong>每日止损尤其重要</strong>。它防止"报复性交易（revenge trading）"——亏钱后情绪上头、越亏越加注的死亡螺旋。给自己一个硬性熔断：今天亏够了，关掉软件，明天再来。</p>
+<h2 id="_6">灾难性风险防范</h2>
+<p>高杠杆下，有些风险是"一次就致命"的，必须专门防范：</p>
+<ul>
+<li><strong>隔夜跳空（overnight gap）</strong>：重大消息导致开盘跳空，可能直接跳过你的止损。应对：重大事件前减仓或对冲，控制隔夜敞口。</li>
+<li><strong>限制行情（limit move）</strong>：价格触及涨跌停（第 3 章），止损无法成交。应对：极端行情下不满仓。</li>
+<li><strong>流动性枯竭</strong>：薄市场止损滑点巨大。应对：避开低流动性时段持重仓（第 8 章）。</li>
+<li><strong>黑天鹅（black swan）</strong>：永远假设"不可能的事"会发生，<strong>永不满杠杆</strong>，给账户留生存冗余。</li>
+</ul>
+<pre><code>黑天鹅准备 = 悲观打底：
+假设最坏情况会发生，确保即使它发生，你也还在场。
+</code></pre>
+<h2 id="_7">风险/回报必须前置</h2>
+<p>在入场<strong>之前</strong>，就要确定三个价格：</p>
+<pre><code>入场价（entry）
+止损价（stop）   → 风险 R
+目标价（target） → 回报
+
+只接受盈亏比足够的交易（如 ≥ 1.5:1 或 2:1）
+盈亏比不够 → 不做，等下一个
+</code></pre>
+<p>不要事后才想"该在哪止损/止盈"。<strong>计划你的交易，交易你的计划（plan the trade, trade the plan）。</strong></p>
+<h2 id="_8">常见致命错误</h2>
+<ul>
+<li><strong>移动止损扩大亏损</strong>：价格逼近止损时把止损往外挪，"再给它一次机会"——这是爆仓第一杀手。止损只能朝有利方向移，绝不放大。</li>
+<li><strong>加码摊平亏损（averaging down）</strong>：浮亏时不断加仓拉低均价，赌反弹。一旦趋势持续，加倍的仓位加倍的亏。</li>
+<li><strong>没有止损就过夜/过周末</strong>：隔夜跳空风险不可控。</li>
+<li><strong>亏损后加大仓位扳本</strong>：情绪驱动，违背仓位规则，通往爆仓。</li>
+</ul>
+<h2 id="_9">本章要点</h2>
+<ul>
+<li>止损是你<strong>唯一能完全控制的东西</strong>，无条件执行，用<strong>硬止损 + 止损市价单</strong>。</li>
+<li>止损放在<strong>逻辑失效点</strong>（swing point/ATR/关键水平外），太远就减手数，绝不硬挪近。</li>
+<li>盈利用<strong>移动止损、保本止损、分批止盈</strong>保护和兑现。</li>
+<li>建立多层防线：单笔 1% + <strong>每日止损</strong>（防报复性交易）+ 总回撤上限。</li>
+<li>防范灾难性风险：隔夜跳空、限制行情、流动性枯竭、黑天鹅——<strong>永不满杠杆</strong>。</li>
+<li>入场前确定 entry/stop/target，只做盈亏比够的交易；绝不移损放大、绝不摊平。</li>
+</ul>
+<p>下一章：所有规则都懂了还是亏？因为最大的敌人是你自己——交易心理。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/17-position-sizing.html"><span class="pn-dir">← 上一章</span><span class="pn-title">17 仓位管理</span></a><a class="pn pn-next" href="/future-trading/19-psychology.html"><span class="pn-dir">下一章 →</span><span class="pn-title">19 交易心理</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 订单流与市场微观结构 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li class="active"><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="12">12 · 订单流与市场微观结构</h1>
+<p>技术分析看的是"价格画出的图"，订单流（order flow）看的是"价格背后的买卖力量"。这是更微观、更接近交易本质的视角，也是许多职业期货交易者的核心武器。本章帮你理解市场是怎么撮合的，以及如何读懂买卖博弈。</p>
+<h2 id="order-book">订单簿（Order Book）</h2>
+<p>期货在交易所的电子撮合系统（如 CME Globex）上交易。所有挂单汇集成<strong>订单簿（order book）</strong>，也叫<strong>深度（depth of market, DOM）</strong>：</p>
+<pre><code>        卖单（asks / offers）
+   价格        数量
+   5002.00     320  ┐
+   5001.75     410  │ 上方挂着想卖的单
+   5001.50     280  ┘
+   ─────────────────  ← 当前价
+   5001.25     350  ┐
+   5001.00     520  │ 下方挂着想买的单
+   5000.75     290  ┘
+        买单（bids）
+</code></pre>
+<ul>
+<li><strong>买价（bid）</strong>：买方愿意买入的最高价。</li>
+<li><strong>卖价（ask / offer）</strong>：卖方愿意卖出的最低价。</li>
+<li><strong>价差（spread）</strong>：bid 与 ask 之差，流动性好时 ES 仅 1 跳。</li>
+</ul>
+<h2 id="_1">两种订单，两种角色</h2>
+<p>理解订单流，先理解两类订单的本质区别：</p>
+<pre><code>限价单（limit order）：挂在订单簿上等成交
+  → 提供流动性（maker / 被动）
+  → 不会主动推动价格
+
+市价单（market order）：立即吃掉对手挂单
+  → 消耗流动性（taker / 主动）
+  → 主动推动价格移动
+</code></pre>
+<p><strong>价格的移动，由主动的市价单"吃单"造成。</strong> 当主动买单（aggressive buying）吃光某价位的卖单，价格就上移；反之下移。订单流分析，就是研究这种"主动方"是谁、力量多大。</p>
+<h2 id="time-sales-the-tape">成交明细（Time &amp; Sales / The Tape）</h2>
+<p><strong>成交明细（time and sales，俗称 "the tape" 跳动带）</strong>记录每一笔实际成交：价格、数量、时间，以及是<strong>主动买（成交在 ask 上）</strong>还是<strong>主动卖（成交在 bid 上）</strong>。</p>
+<pre><code>时间      价格      量    方向
+09:31:02  5001.25   50    ▲ 主动买（吃 ask）
+09:31:02  5001.25   120   ▲ 主动买
+09:31:03  5001.50   80    ▲ 主动买
+09:31:03  5001.50   200   ▲ 主动买  ← 买方持续吃单，价格上移
+</code></pre>
+<p>"读 tape"（tape reading）是老派但至今有效的技能：通过成交的节奏、大小、方向，感知谁在掌控局面。</p>
+<h2 id="volume-profile">成交量分布（Volume Profile）</h2>
+<p><strong>成交量分布（volume profile）</strong>把成交量按<strong>价格</strong>（而非时间）统计，显示每个价位成交了多少：</p>
+<pre><code>价格      成交量分布
+5010  █
+5008  ███
+5006  ████████          ← POC（成交量最大的价位）
+5004  ██████
+5002  ███
+5000  █
+</code></pre>
+<p>关键概念：</p>
+<ul>
+<li><strong>POC（Point of Control，控制点）</strong>：成交量最大的价位，市场"公认的公允价"，常成为强支撑/阻力。</li>
+<li><strong>价值区（Value Area）</strong>：约 70% 成交量集中的价格区间。</li>
+<li><strong>低成交节点（Low Volume Node）</strong>：成交稀少的价格，价格往往快速穿过。</li>
+</ul>
+<p>成交量分布揭示了"市场在哪里达成了共识、在哪里没有"，是判断支撑阻力比单纯看 K 线更有信息量的工具。</p>
+<h2 id="footprint-delta">Footprint 图与 Delta</h2>
+<p>进阶工具揭示每根 K 线内部的买卖结构：</p>
+<ul>
+<li><strong>Footprint 图（footprint chart）</strong>：显示每根 K 线在每个价位上，主动买和主动卖各成交了多少。</li>
+<li><strong>Delta（净主动量）</strong>：主动买量 − 主动卖量。Delta 为正表示买方主导。</li>
+<li><strong>Delta 背离（divergence）</strong>：价格创新高但 Delta 走弱，可能预示上涨乏力、反转将至。</li>
+</ul>
+<pre><code>某根 K 线 footprint（买×卖）：
+价格     卖 × 买
+5002    12 × 145   ← 买方猛烈吃单
+5001    30 × 98
+5000    85 × 22    ← 此处卖方占优
+Delta = (145+98+22) − (12+30+85) = +138（买方主导）
+</code></pre>
+<h2 id="_2">大单与"冰山"</h2>
+<p>订单流能帮你识别机构行为：</p>
+<ul>
+<li><strong>大单（large orders / blocks）</strong>：突然出现的巨量挂单或成交，可能是机构进出。</li>
+<li><strong>冰山订单（iceberg order）</strong>：只显示一小部分、成交后自动补充的隐藏大单。当某价位反复被吃却"吃不完"，背后可能藏着冰山。</li>
+<li><strong>挂单诱骗（spoofing）</strong>：挂出大单制造假象再撤销（这是违法操纵，但市场上仍有类似博弈痕迹）。</li>
+</ul>
+<h2 id="vs">订单流 vs 技术分析</h2>
+<p>两者不是对立，而是互补：</p>
+<pre><code>技术分析 → 给你&quot;在哪里&quot;交易（支撑/阻力/趋势）
+订单流   → 给你&quot;何时&quot;以及&quot;是否&quot;扣扳机（实时买卖力量确认）
+</code></pre>
+<p>例如：价格回踩到一个技术支撑位，技术分析告诉你"这里可能反弹"，订单流则让你<strong>实时验证</strong>——如果在这个位置看到主动买单大量吃单、卖单被快速消化，反弹的概率就被确认，你可以更有把握地入场。</p>
+<h2 id="_3">给新手的现实建议</h2>
+<ol>
+<li><strong>订单流是进阶工具，不是入门必修。</strong> 先把趋势、支撑阻力、风控练扎实，再学订单流锦上添花。</li>
+<li><strong>从 DOM 和成交明细开始</strong>，理解"主动买卖推动价格"这个最基本的事实，已经能改变你看盘的方式。</li>
+<li><strong>成交量分布（volume profile）性价比最高</strong>，新手也能用 POC 和价值区辅助判断关键价位。</li>
+<li><strong>不要被花哨工具迷惑</strong>：footprint、delta 很强，但没有风控和纪律，再多数据也救不了你。</li>
+</ol>
+<h2 id="_4">本章要点</h2>
+<ul>
+<li>订单簿（DOM）显示各价位的买卖挂单；价差由 bid/ask 构成。</li>
+<li>限价单<strong>提供</strong>流动性（被动），市价单<strong>消耗</strong>流动性（主动）；价格由主动吃单推动。</li>
+<li>成交明细（the tape）记录每笔成交的方向，读 tape 感知掌控方。</li>
+<li>成交量分布的 <strong>POC、价值区</strong>是高信息量的支撑阻力依据。</li>
+<li>Footprint / Delta 揭示 K 线内部买卖结构，背离预示反转。</li>
+<li>订单流给"何时扣扳机"，技术分析给"在哪交易"，两者互补。</li>
+<li>新手先练基础，订单流作为进阶；volume profile 性价比最高。</li>
+</ul>
+<p>第三部分结束。下一章进入第四部分——交易策略，从最经典的趋势跟踪开始。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/11-technical-analysis.html"><span class="pn-dir">← 上一章</span><span class="pn-title">11 技术分析基础</span></a><a class="pn pn-next" href="/future-trading/13-trend-following.html"><span class="pn-dir">下一章 →</span><span class="pn-title">13 趋势跟踪</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

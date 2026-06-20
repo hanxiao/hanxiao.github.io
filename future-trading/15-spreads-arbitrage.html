@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>15 价差与套利 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li class="active"><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="15">15 · 价差与套利</h1>
+<p>前面的策略都在赌方向（directional）。价差（spread）和套利（arbitrage）交易则换了个维度：不赌单边涨跌，而赌<strong>两个相关合约之间的相对关系</strong>。这类策略波动更小、保证金更低，是进阶交易者的重要工具。</p>
+<h2 id="_1">什么是价差交易</h2>
+<p><strong>价差交易（spread trading）</strong>：同时买入一个合约、卖出另一个相关合约，赌的是两者<strong>价差的变化</strong>，而非任一合约的绝对方向。</p>
+<pre><code>普通方向交易：买 ES，赌 ES 涨
+价差交易：    买 ES + 卖 NQ，赌&quot;ES 相对 NQ 走强&quot;
+            （即使两者都跌，只要 ES 跌得少，你也赚）
+</code></pre>
+<p>价差交易的本质是<strong>对冲掉共同的市场风险（market risk），只保留相对表现的风险</strong>。</p>
+<h2 id="_2">三类常见价差</h2>
+<p><strong>1. 日历价差（Calendar Spread / 跨期价差）</strong>
+同一品种、不同到期月份之间。</p>
+<pre><code>买 ESU6（9月）+ 卖 ESM6（6月）
+赌的是两个月份的价差（受利率、分红预期影响）
+</code></pre>
+<p>日历价差主要用于<strong>移仓</strong>（第 6 章），也可用于交易基差结构（contango/backwardation）的变化。</p>
+<p><strong>2. 品种间价差（Inter-market Spread）</strong>
+不同但相关的品种之间。</p>
+<pre><code>买 ES + 卖 NQ：赌大盘 vs 科技股的相对强弱
+买 ES + 卖 RTY：赌大盘 vs 小盘的轮动（rotation）
+</code></pre>
+<p>这是交易<strong>市场内部结构</strong>的玩法。比如你判断"市场避险，资金从科技流向大盘价值股"，就可以做多 ES、做空 NQ，而不必赌大盘整体方向。</p>
+<p><strong>3. 期现套利（Cash-and-Carry / Index Arbitrage）</strong>
+期货 vs 现货（一篮子股票或 ETF）之间。当期货价格偏离理论公允价（第 10 章），机构同时反向操作期货和现货锁定无风险价差。这是维持基差合理的力量，<strong>散户基本无法参与</strong>（需要同时交易一篮子股票、极低成本、极快执行），了解即可。</p>
+<h2 id="vs">套利 vs 价差</h2>
+<p>严格意义上的<strong>套利（arbitrage）</strong>指<strong>无风险或极低风险</strong>的价差捕捉——利用定价错误（mispricing），锁定确定利润。真正的无风险套利在成熟市场极其稀少，且被高频机构（HFT）瞬间吃掉，散户没有机会。</p>
+<p>散户能做的是<strong>价差交易（spread trading）/ 统计套利（statistical arbitrage）</strong>：不是无风险，而是赌两个高度相关品种的价差会回归历史常态。</p>
+<pre><code>无风险套利（arbitrage）：定价错误，确定利润 → 机构/HFT 专属
+统计套利（stat-arb）：    相关性回归，概率优势 → 散户可参与
+</code></pre>
+<h2 id="_3">价差交易的优势</h2>
+<p>为什么进阶交易者爱用价差？</p>
+<ol>
+<li><strong>波动更小</strong>：两腿相互对冲，价差的波动通常远小于单边，回撤更平滑。</li>
+<li><strong>保证金更低</strong>：交易所的 SPAN 模型（第 5 章）对对冲组合给予保证金优惠，价差仓位占用资金少。</li>
+<li><strong>降低系统性风险</strong>：大盘整体暴跌时，对冲价差受冲击小，对"黑天鹅"更有韧性。</li>
+<li><strong>交易"逻辑"而非"方向"</strong>：你可以表达更精细的观点（如"科技要跑输大盘"），而不必押注大盘涨跌。</li>
+</ol>
+<h2 id="pairs-trading">配对交易（Pairs Trading）</h2>
+<p>最经典的统计套利形式是<strong>配对交易（pairs trading）</strong>：</p>
+<pre><code>1. 找两个历史高度相关的品种（如 ES 与 NQ）
+2. 计算它们价差（或比值 ratio）的历史均值与标准差
+3. 当价差偏离均值 &gt; 2 个标准差 → 做空价差（卖强买弱）
+4. 价差回归均值 → 平仓获利
+</code></pre>
+<p>这本质是把<strong>均值回归（第 14 章）应用到"两个品种的价差"上</strong>，而非单一价格。它的优势是价差比单一价格更稳定、更可能回归，因为剥离了共同的市场方向。</p>
+<pre><code>价差（ES − NQ 标准化后）
++2σ ──────●─────  ← 做空价差
+         ╱ ╲
+均值 ───╱───╲───  ← 平仓目标
+       ╱     ╲
+-2σ ─●────────  ← 做多价差
+</code></pre>
+<h2 id="_4">风险与陷阱</h2>
+<p>价差交易并非"稳赚"，有它独特的风险：</p>
+<ul>
+<li><strong>相关性破裂（correlation breakdown）</strong>：历史相关不代表未来相关。当两个品种的关系因结构性变化而断裂，价差不回归反而扩大，会持续亏损。</li>
+<li><strong>腿部风险（leg risk）</strong>：两腿不能同时成交时，会暂时暴露单边风险。用交易所支持的<strong>价差订单（spread order）</strong>一键下两腿可缓解。</li>
+<li><strong>双倍成本</strong>：两条腿 = 两份佣金和交易所费，频繁交易成本不低。</li>
+<li><strong>看似低波动 = 容易上重仓</strong>：因为价差波动小，人容易加大杠杆，一旦相关性破裂，放大的仓位会造成大亏。</li>
+</ul>
+<h2 id="_5">给新手的定位</h2>
+<ol>
+<li>价差/套利是<strong>进阶内容</strong>，建立在你对单一品种交易、风控已经熟练的基础上。</li>
+<li>最实用的入门是<strong>日历价差移仓</strong>和<strong>理解 ES/NQ/RTY 之间的轮动逻辑</strong>。</li>
+<li>真正的统计套利需要数据、相关性分析和系统化执行（第 20、23 章），不适合凭感觉手动做。</li>
+<li>永远记住：<strong>价差交易降低的是方向风险，不是所有风险</strong>。相关性破裂同样能让你大亏。</li>
+</ol>
+<h2 id="_6">本章要点</h2>
+<ul>
+<li>价差交易赌<strong>两合约相对关系</strong>，不赌单边方向，对冲掉共同市场风险。</li>
+<li>三类：日历价差（跨期/移仓）、品种间价差（ES/NQ/RTY 轮动）、期现套利（机构专属）。</li>
+<li>无风险套利属机构/HFT；散户做的是<strong>统计套利</strong>（概率优势，非无风险）。</li>
+<li>优势：波动小、保证金低（SPAN 优惠）、抗系统性风险、表达精细观点。</li>
+<li>配对交易 = 把均值回归用在两品种的价差上，价差比单价更易回归。</li>
+<li>风险：<strong>相关性破裂</strong>、腿部风险、双倍成本、低波动诱使上重仓。</li>
+</ul>
+<p>下一章：价差思维的实战延伸——用期货对冲现有持仓。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/14-mean-reversion.html"><span class="pn-dir">← 上一章</span><span class="pn-title">14 均值回归与区间</span></a><a class="pn pn-next" href="/future-trading/16-hedging.html"><span class="pn-dir">下一章 →</span><span class="pn-title">16 对冲应用</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

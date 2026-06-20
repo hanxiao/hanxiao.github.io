@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 合约规格解读 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li class="active"><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="3">3 · 合约规格解读</h1>
+<p>每一份期货合约都有一份"规格说明书"——合约规格（contract specifications）。看不懂它，你就不知道自己一笔交易到底在赌多少钱、一个跳动值多少。本章用 E-mini S&amp;P 500（ES）为主线，教你逐项读懂。</p>
+<h2 id="_1">合约规格的核心字段</h2>
+<p>以 <strong>ES（E-mini S&amp;P 500）</strong> 为例：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标的（underlying）</td>
+<td>S&amp;P 500 指数</td>
+</tr>
+<tr>
+<td>合约乘数（multiplier）</td>
+<td>$50 × 指数点数</td>
+</tr>
+<tr>
+<td>最小跳动（tick size）</td>
+<td>0.25 点</td>
+</tr>
+<tr>
+<td>每跳价值（tick value）</td>
+<td>$12.50</td>
+</tr>
+<tr>
+<td>报价单位（quotation）</td>
+<td>指数点</td>
+</tr>
+<tr>
+<td>合约月份（contract months）</td>
+<td>3、6、9、12 月（季月，quarterly）</td>
+</tr>
+<tr>
+<td>结算方式（settlement）</td>
+<td>现金结算（cash-settled）</td>
+</tr>
+<tr>
+<td>交易代码（ticker root）</td>
+<td>ES</td>
+</tr>
+<tr>
+<td>交易所</td>
+<td>CME</td>
+</tr>
+</tbody>
+</table>
+<p>下面逐个拆解最关键的三个：乘数、跳动、合约月份。</p>
+<h2 id="multiplier">合约乘数（Multiplier）</h2>
+<p>乘数决定了"一个指数点 = 多少美元"。这是合约规模的核心。</p>
+<pre><code>ES：  $50  × 指数点
+MES： $5   × 指数点   （Micro，1/10）
+NQ：  $20  × 指数点
+MNQ： $2   × 指数点   （Micro，1/10）
+YM：  $5   × 指数点
+MYM： $0.5 × 指数点   （Micro，1/10）
+RTY： $50  × 指数点
+M2K： $5   × 指数点   （Micro，1/10）
+</code></pre>
+<p>名义价值（notional value）= 指数点位 × 乘数。</p>
+<p>例：ES 在 5000 点 → 名义价值 = 5000 × $50 = <strong>$250,000</strong>。
+而 MES 在 5000 点 → 名义价值 = 5000 × $5 = <strong>$25,000</strong>。</p>
+<blockquote>
+<p>注意 NQ 的乘数是 $20（不是 $50），这是新手常错的点。务必以交易所官方规格为准，不要套用 ES 的数字。</p>
+</blockquote>
+<h2 id="tick-size-tick-value">最小跳动与每跳价值（Tick Size &amp; Tick Value）</h2>
+<p>价格不能任意变动，只能按<strong>最小跳动单位（tick size）</strong>跳。每跳对应的钱叫<strong>每跳价值（tick value）</strong>。</p>
+<p>ES 的最小跳动是 <strong>0.25 点</strong>，每跳价值：</p>
+<pre><code>tick value = tick size × multiplier
+           = 0.25 × $50
+           = $12.50
+</code></pre>
+<p>也就是说，ES 价格从 5000.00 跳到 5000.25，你每持有一手就盈亏 $12.50。</p>
+<p>各品种对照：</p>
+<table>
+<thead>
+<tr>
+<th>品种</th>
+<th>tick size</th>
+<th>tick value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ES</td>
+<td>0.25 点</td>
+<td>$12.50</td>
+</tr>
+<tr>
+<td>MES</td>
+<td>0.25 点</td>
+<td>$1.25</td>
+</tr>
+<tr>
+<td>NQ</td>
+<td>0.25 点</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td>0.25 点</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>YM</td>
+<td>1 点</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>MYM</td>
+<td>1 点</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>RTY</td>
+<td>0.10 点</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>M2K</td>
+<td>0.10 点</td>
+<td>$0.50</td>
+</tr>
+</tbody>
+</table>
+<p>记住每跳价值，是计算盈亏、设止损的基础（详见第 7 章）。</p>
+<h2 id="contract-months-symbols">合约月份与代码（Contract Months &amp; Symbols）</h2>
+<p>股指期货按<strong>季月（quarterly）</strong>循环：3 月、6 月、9 月、12 月。每个月份用一个字母代码表示：</p>
+<pre><code>3 月 = H      6 月 = M      9 月 = U      12 月 = Z
+</code></pre>
+<p>完整合约代码 = 品种 + 月份字母 + 年份。例如：</p>
+<pre><code>ESM6  =  ES（E-mini S&amp;P）+ M（6月）+ 6（2026 年）
+       =  2026 年 6 月到期的 E-mini S&amp;P 500 期货
+</code></pre>
+<blockquote>
+<p>不同平台写法略有差异（有的写 ESM26、ES6M），但逻辑一致：品种 + 月份 + 年份。</p>
+</blockquote>
+<p>任意时刻，市场上会同时存在多个月份的合约，但<strong>绝大部分成交量集中在最近的活跃月份</strong>，称为<strong>前月合约 / 主力合约（front month）</strong>。你几乎总是交易主力合约。</p>
+<h2 id="price-limits">涨跌停与限制（Price Limits）</h2>
+<p>为防止极端行情，CME 对股指期货设有<strong>价格限制（price limits）</strong>和<strong>熔断（circuit breakers）</strong>：</p>
+<ul>
+<li>盘中下跌 7%、13% 触发不同级别限制，配合现货市场熔断机制。</li>
+<li>夜盘（overnight）有 ±7% 的涨跌幅限制带（limit up / limit down）。</li>
+</ul>
+<p>这些机制平时用不到，但你必须知道它们存在——剧烈行情时，价格可能"卡"在限制位无法成交。</p>
+<h2 id="_2">在哪查官方规格</h2>
+<p><strong>铁律：合约规格以交易所官方为准。</strong> 任何二手资料（包括本书）都可能过时。查询路径：</p>
+<ul>
+<li>CME Group 官网 → 对应产品的 "Contract Specs" 页面。</li>
+<li>你的交易平台里，合约详情通常直接显示乘数、tick、保证金。</li>
+</ul>
+<p>每次交易一个新品种前，<strong>先查官方规格</strong>，确认乘数和 tick value，再下单。</p>
+<h2 id="_3">本章要点</h2>
+<ul>
+<li>合约规格三要素：乘数（multiplier）、最小跳动（tick size）、合约月份。</li>
+<li>名义价值 = 点位 × 乘数；每跳价值 = tick size × 乘数。</li>
+<li>注意 NQ 乘数是 $20，不是 $50，别套错。</li>
+<li>月份代码 H/M/U/Z = 3/6/9/12 月；交易主力（front month）合约。</li>
+<li>规格永远以<strong>交易所官方</strong>为准，下单前必查。</li>
+</ul>
+<p>下一章：怎么开户、选哪种平台、把这些合约真正"打"出去。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/02-us-futures-landscape.html"><span class="pn-dir">← 上一章</span><span class="pn-title">2 美股期货全景</span></a><a class="pn pn-next" href="/future-trading/04-broker-platform.html"><span class="pn-dir">下一章 →</span><span class="pn-title">4 开户与交易平台</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

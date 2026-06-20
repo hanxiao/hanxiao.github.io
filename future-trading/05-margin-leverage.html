@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 保证金与杠杆 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li class="active"><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="5">5 · 保证金与杠杆</h1>
+<p>保证金（margin）和杠杆（leverage）是期货的核心机制，也是新手最该敬畏的部分。理解它们，等于理解了期货为什么"小钱博大钱"，以及为什么大多数人会亏光。</p>
+<h2 id="_1">保证金不是首付</h2>
+<p>很多人把期货保证金类比成买房首付（down payment）——<strong>这是错的</strong>。</p>
+<p>买股票用保证金（margin）是<strong>借钱</strong>，你借券商的钱买更多股票，要付利息。期货保证金完全不同：它是一笔<strong>履约保证金（performance bond / good-faith deposit）</strong>，是你向清算所证明"我有能力承担合约盈亏"的押金。你没有借任何钱，也不付利息。</p>
+<pre><code>股票保证金 = 借款 → 付利息
+期货保证金 = 履约押金 → 不付利息，是诚信担保
+</code></pre>
+<h2 id="_2">两个关键数字</h2>
+<p><strong>初始保证金（initial margin）</strong>
+开仓时账户必须有的最低资金。由交易所设定（SPAN 模型计算），随市场波动率调整。ES 目前约 $13,000 上下。</p>
+<p><strong>维持保证金（maintenance margin）</strong>
+持仓期间账户权益必须维持的最低水平，通常略低于初始保证金（约为其 90%）。</p>
+<pre><code>账户权益 ≥ 初始保证金  → 可以开新仓
+账户权益 &lt; 维持保证金  → 触发追加保证金（margin call）
+</code></pre>
+<h2 id="_3">追加保证金与强平</h2>
+<p>当浮亏（unrealized loss）让你的账户权益跌破维持保证金，会发生：</p>
+<ol>
+<li><strong>追加保证金通知（margin call）</strong>：券商要求你补钱，或自行减仓。</li>
+<li><strong>强制平仓（liquidation / auto-liquidation）</strong>：若不及时处理，券商有权直接平掉你的仓位，不需要你同意。</li>
+</ol>
+<pre><code>权益 $13,500  ── 初始保证金 $13,000（开仓）
+   │  价格下跌，浮亏扩大
+   ▼
+权益 $11,700  ── 跌破维持保证金 $11,800
+   │  → MARGIN CALL
+   ▼
+权益 继续下跌  ── 券商强平，亏损落袋
+</code></pre>
+<blockquote>
+<p>期货强平往往在<strong>最糟糕的时刻</strong>发生——价格剧烈波动时。这就是为什么永远不要把账户资金顶到保证金极限。</p>
+</blockquote>
+<h2 id="_4">杠杆到底有多大</h2>
+<p>杠杆 = 名义价值 / 所用保证金。</p>
+<pre><code>ES 在 5000 点：
+  名义价值 = 5000 × $50 = $250,000
+
+按交易所初始保证金 $13,000：
+  杠杆 = 250,000 / 13,000 ≈ 19 倍
+
+按某券商日内保证金 $500：
+  杠杆 = 250,000 / 500 = 500 倍
+</code></pre>
+<p>19 倍已经很高，500 倍是疯狂。<strong>日内保证金越低，杠杆越高，离爆仓越近</strong>。低门槛是糖衣，毒药是杠杆。</p>
+<h2 id="_5">杠杆的双向放大</h2>
+<p>记住这条铁律：<strong>杠杆同等放大盈利和亏损，但亏损是不对称的致命。</strong></p>
+<pre><code>账户 $13,000，1 手 ES（19 倍杠杆）
+
+市场 +2%（+100 点）→ 盈利 $5,000 → 账户 +38%
+市场 -2%（-100 点）→ 亏损 $5,000 → 账户 -38%
+市场 -5%（-250 点）→ 亏损 $12,500 → 账户几乎归零
+</code></pre>
+<p>一次 5% 的反向波动，就能让满杠杆账户接近爆仓。而美股单日波动 5% 在危机时并不罕见（2020 年 3 月多次发生）。</p>
+<h2 id="span">SPAN 保证金模型</h2>
+<p>交易所用 <strong>SPAN（Standard Portfolio Analysis of Risk）</strong> 模型计算保证金。它不是简单按合约数量算，而是评估你<strong>整个组合</strong>在各种情景下的最大可能损失。</p>
+<p>实际意义：</p>
+<ul>
+<li>持有相互对冲的仓位（如多 ES 同时空 NQ），总保证金可能低于分别计算之和。</li>
+<li>波动率（volatility）上升时，交易所会<strong>提高</strong>保证金要求，可能在你持仓期间就调高，逼你补钱或减仓。</li>
+</ul>
+<h2 id="_6">实战准则</h2>
+<ol>
+<li><strong>永远不要满保证金交易。</strong> 留足缓冲，理想情况是单笔风险占账户的 1%–2%（详见第 17 章）。</li>
+<li><strong>隔夜持仓用交易所标准保证金衡量风险</strong>，别用日内低保证金麻痹自己。</li>
+<li><strong>波动率飙升时主动减仓</strong>，别等交易所调高保证金把你逼到墙角。</li>
+<li><strong>把"账户能承受几次连续止损"算清楚</strong>，而不是"能开几手"。</li>
+</ol>
+<h2 id="_7">本章要点</h2>
+<ul>
+<li>期货保证金是<strong>履约押金</strong>，不是借款，不付利息。</li>
+<li>初始保证金（开仓门槛）&gt; 维持保证金（持仓底线），跌破就 margin call 甚至强平。</li>
+<li>杠杆 = 名义价值 / 保证金；日内低保证金对应数百倍杠杆，是爆仓主因。</li>
+<li>杠杆双向放大，亏损可致命；5% 反向波动就能击穿满杠杆账户。</li>
+<li>SPAN 模型按组合风险算保证金，波动率上升会被动提高要求。</li>
+<li>铁律：永不满仓，留足缓冲，按风险而非"能开几手"来思考。</li>
+</ul>
+<p>下一章：合约会到期，你必须懂结算与移仓，否则会"被交割"。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/04-broker-platform.html"><span class="pn-dir">← 上一章</span><span class="pn-title">4 开户与交易平台</span></a><a class="pn pn-next" href="/future-trading/06-settlement-rollover.html"><span class="pn-dir">下一章 →</span><span class="pn-title">6 结算、到期与移仓</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

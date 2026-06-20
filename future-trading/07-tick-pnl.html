@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7 点值与盈亏计算 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li class="active"><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="7">7 · 点值与盈亏计算</h1>
+<p>这是全书最"硬"也最不能含糊的一章。不会算盈亏，你就不知道一次止损亏多少、一笔交易赚多少、账户能扛几次失败。期货交易者必须像呼吸一样熟练地做这些算术。</p>
+<h2 id="_1">三个基础公式</h2>
+<pre><code>① 每跳价值 = 最小跳动（tick size）× 合约乘数（multiplier）
+② 一笔盈亏 = 价格变动跳数 × 每跳价值 × 手数
+③ 价格变动跳数 = 价格变动点数 ÷ tick size
+</code></pre>
+<p>把这三条刻进脑子，剩下都是代入。</p>
+<h2 id="_2">各品种点值速查</h2>
+<table>
+<thead>
+<tr>
+<th>品种</th>
+<th>tick size</th>
+<th>每跳价值</th>
+<th>每点价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ES</td>
+<td>0.25</td>
+<td>$12.50</td>
+<td>$50</td>
+</tr>
+<tr>
+<td>MES</td>
+<td>0.25</td>
+<td>$1.25</td>
+<td>$5</td>
+</tr>
+<tr>
+<td>NQ</td>
+<td>0.25</td>
+<td>$5.00</td>
+<td>$20</td>
+</tr>
+<tr>
+<td>MNQ</td>
+<td>0.25</td>
+<td>$0.50</td>
+<td>$2</td>
+</tr>
+<tr>
+<td>YM</td>
+<td>1</td>
+<td>$5.00</td>
+<td>$5</td>
+</tr>
+<tr>
+<td>MYM</td>
+<td>1</td>
+<td>$0.50</td>
+<td>$0.5</td>
+</tr>
+<tr>
+<td>RTY</td>
+<td>0.10</td>
+<td>$5.00</td>
+<td>$50</td>
+</tr>
+<tr>
+<td>M2K</td>
+<td>0.10</td>
+<td>$0.50</td>
+<td>$5</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>"每点价值"= 合约乘数；"每跳价值"= tick size × 乘数。注意 RTY/M2K 的 tick 是 0.10，不是 0.25。</p>
+</blockquote>
+<h2 id="es">例子一：ES 一笔多头</h2>
+<pre><code>买入 1 手 ES @ 5000.00
+卖出 1 手 ES @ 5012.50   （上涨 12.50 点）
+
+跳数 = 12.50 ÷ 0.25 = 50 跳
+盈利 = 50 跳 × $12.50 × 1 手 = $625
+
+或直接用每点价值：
+盈利 = 12.50 点 × $50 × 1 手 = $625
+</code></pre>
+<h2 id="nq">例子二：NQ 一笔空头（注意乘数不同）</h2>
+<pre><code>卖出 2 手 NQ @ 18000.00
+买入 2 手 NQ @ 17950.00   （下跌 50 点，空头获利）
+
+盈利 = 50 点 × $20 × 2 手 = $2,000
+</code></pre>
+<p>新手最常见的错误，就是把 NQ 当成 $50/点来算。<strong>NQ 是 $20/点</strong>，记错会让你的风险评估完全失真。</p>
+<h2 id="micro">例子三：Micro 合约（新手实战）</h2>
+<pre><code>买入 3 手 MES @ 5000.00
+卖出 3 手 MES @ 4995.00   （下跌 5 点，多头亏损）
+
+亏损 = 5 点 × $5 × 3 手 = $75
+</code></pre>
+<p>Micro 合约让你能用很小的金额练习真实的盈亏感受，这是新手起步的最佳工具。</p>
+<h2 id="_3">把止损翻译成美元</h2>
+<p>风险控制的起点，是把"止损多少点"换算成"亏多少钱"。</p>
+<pre><code>交易 1 手 ES，止损设在入场下方 8 点：
+  风险 = 8 点 × $50 = $400/手
+
+如果你的单笔风险预算是 $200：
+  → 8 点止损只能做 0.5 手 → 不可行（ES 最小 1 手）
+  → 改用 MES：8 点 × $5 = $40/手 → 可做 5 手内灵活控制
+</code></pre>
+<p>这就是为什么小账户必须用 micro 合约——它让你能精确地把风险控制在预算内（第 17 章详述仓位计算）。</p>
+<h2 id="_4">盈亏比与盈亏平衡</h2>
+<p>把每笔交易的潜在盈利和潜在亏损都换算成美元，得到<strong>盈亏比（risk-reward ratio）</strong>：</p>
+<pre><code>止损 8 点（风险 $400），目标 24 点（回报 $1,200）
+盈亏比 = 1,200 : 400 = 3 : 1
+</code></pre>
+<p>盈亏比决定了你需要多高的<strong>胜率（win rate）</strong>才能盈利：</p>
+<pre><code>盈亏平衡胜率 = 风险 ÷（风险 + 回报）
+
+盈亏比 3:1 → 平衡胜率 = 1 ÷ 4 = 25%
+盈亏比 1:1 → 平衡胜率 = 1 ÷ 2 = 50%
+盈亏比 1:2 → 平衡胜率 = 2 ÷ 3 = 67%
+</code></pre>
+<p>含义：盈亏比 3:1 时，你只要赢 25% 以上就不亏。<strong>高盈亏比放宽了对胜率的要求</strong>——这是稳健交易系统的数学基石。</p>
+<h2 id="_5">别忘了成本</h2>
+<p>每笔交易扣除佣金和交易所费（第 4 章），实际盈亏要打折：</p>
+<pre><code>ES 一笔盈利 $625
+减往返成本 ≈ $5
+净盈利 ≈ $620
+
+但若是一笔只赚 2 点的小单：
+毛利 = 2 × $50 = $100
+减成本 $5 → 净 $95（成本占了 5%）
+</code></pre>
+<p>交易越频繁、目标越小，成本占比越高。高频小目标的"剥头皮（scalping）"对成本极其敏感。</p>
+<h2 id="_6">一张速算心法</h2>
+<p>下单前，30 秒内回答三个问题：</p>
+<ol>
+<li>这一手，<strong>止损到位会亏多少美元</strong>？</li>
+<li>这笔的<strong>盈亏比</strong>是多少？</li>
+<li>这个亏损，占我账户的<strong>百分之几</strong>？</li>
+</ol>
+<p>答不出来，就不要下单。</p>
+<h2 id="_7">本章要点</h2>
+<ul>
+<li>核心公式：每跳价值 = tick × 乘数；盈亏 = 跳数 × 每跳价值 × 手数。</li>
+<li>牢记各品种点值，尤其 <strong>NQ 是 $20/点</strong>，RTY/M2K 的 tick 是 0.10。</li>
+<li>把止损"点数"翻译成"美元"，是风险控制的第一步。</li>
+<li>盈亏比决定盈亏平衡胜率：3:1 只需 25% 胜率。</li>
+<li>扣除佣金成本后才是净利，小目标高频交易对成本极敏感。</li>
+<li>下单前必答三问：亏多少钱、盈亏比多少、占账户百分之几。</li>
+</ul>
+<p>下一章：什么时候市场流动性最好、什么时候是"陷阱时段"。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/06-settlement-rollover.html"><span class="pn-dir">← 上一章</span><span class="pn-title">6 结算、到期与移仓</span></a><a class="pn pn-next" href="/future-trading/08-hours-liquidity.html"><span class="pn-dir">下一章 →</span><span class="pn-title">8 交易时段与流动性</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

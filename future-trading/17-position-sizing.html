@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>17 仓位管理 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li class="active"><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="17">17 · 仓位管理</h1>
+<p>如果全书只能记住一章，就是这一章。<strong>仓位管理（position sizing）决定你能活多久</strong>，而活下去是长期盈利的唯一前提。无数技术高超的人爆仓，不是因为不会看图，而是因为下单太重。</p>
+<h2 id="_1">第一性原则：先活下来</h2>
+<pre><code>能否盈利 = 优势（edge）× 时间 × 复利
+但前提是：你还在场上。
+一次爆仓 = 游戏结束，再大的优势也归零。
+</code></pre>
+<p>期货的高杠杆让"一次重仓 + 一次反向波动 = 爆仓"变得轻而易举。仓位管理的全部目的，就是确保<strong>任何单笔交易都无法重创你的账户</strong>。</p>
+<h2 id="_2">核心规则：固定百分比风险</h2>
+<p>最经典、最稳健的方法是<strong>固定百分比风险（fixed fractional / percent risk）</strong>：</p>
+<pre><code>每笔交易的最大亏损 = 账户权益的固定百分比（通常 0.5% – 2%）
+</code></pre>
+<p>新手建议从 <strong>1%（甚至 0.5%）</strong> 起步。含义：哪怕连续亏 20 次，你也只损失约 18%-20%，远未伤筋动骨。</p>
+<pre><code>账户 $50,000，单笔风险 1% = $500
+→ 任何一笔交易，止损到位最多亏 $500
+</code></pre>
+<h2 id="_3">仓位计算公式</h2>
+<p>把"风险预算"翻译成"下几手"：</p>
+<pre><code>手数 = 单笔风险预算 ÷ (止损距离 × 每点价值)
+</code></pre>
+<p><strong>例子</strong>：</p>
+<pre><code>账户 $50,000，单笔风险 1% = $500
+交易 MES，止损距离 = 10 点，每点价值 = $5
+
+手数 = 500 ÷ (10 × 5) = 500 ÷ 50 = 10 手 MES
+</code></pre>
+<p>如果用 ES（每点 $50）：</p>
+<pre><code>手数 = 500 ÷ (10 × 50) = 500 ÷ 500 = 1 手 ES
+</code></pre>
+<blockquote>
+<p>看到了吗？同样的风险预算，ES 只能做 1 手，MES 能做 10 手并精细调节。<strong>这就是小账户必须用 micro 合约的根本原因</strong>——它让你能精确地把风险锁在预算内，而不是被合约规模逼着超额下注。</p>
+</blockquote>
+<h2 id="_4">止损决定仓位，而非反过来</h2>
+<p>新手常犯的致命错误：<strong>先决定下几手，再随便放个止损</strong>。正确顺序相反：</p>
+<pre><code>错误：我想做 5 手 → 止损随便放
+正确：① 根据图表定合理止损位
+      ② 根据风险预算反算能做几手
+</code></pre>
+<p>止损位置由市场结构（支撑阻力、波动）决定，仓位由止损距离反算。<strong>你永远先问"止损在哪"，再问"能做几手"。</strong></p>
+<h2 id="_5">波动率调整仓位</h2>
+<p>更进阶的做法是用 <strong>ATR（平均真实波幅）</strong>根据市场波动率动态调整：</p>
+<pre><code>波动大（ATR 高）→ 止损要放宽 → 手数减少
+波动小（ATR 低）→ 止损可收紧 → 手数增加
+
+固定的&quot;美元风险&quot;，浮动的&quot;手数&quot;
+</code></pre>
+<p>这样无论市场平静还是剧烈，你每笔承担的<strong>美元风险恒定</strong>，避免在高波动期被放大的波动击穿。</p>
+<h2 id="_6">账户层面的总风险</h2>
+<p>单笔风控之外，还要控制<strong>同时持仓的总风险</strong>：</p>
+<pre><code>同时持有多个仓位时：
+总风险 = Σ 各仓位风险 ≤ 账户的某上限（如 3%-6%）
+
+特别注意相关性：
+同时做多 ES + NQ + RTY = 实际上是同一个&quot;做多美股&quot;的大赌注
+→ 它们高度相关，总风险远大于表面之和
+</code></pre>
+<p>不要被"我分散了 3 个品种"迷惑——如果它们高度相关，你只是把同一注下了三倍。</p>
+<h2 id="kelly">凯利公式（Kelly）与现实</h2>
+<p>理论上，<strong>凯利公式（Kelly Criterion）</strong>给出使长期复利最大化的最优下注比例：</p>
+<pre><code>凯利比例 f = 胜率 − (败率 ÷ 盈亏比)
+</code></pre>
+<p>但实务中：</p>
+<ul>
+<li>你无法精确知道真实胜率和盈亏比（它们会变）。</li>
+<li>满凯利波动极大，回撤吓人。</li>
+<li><strong>实务普遍用"分数凯利"（如 1/4 凯利）甚至更保守</strong>，牺牲一点理论增长换取生存和心理可承受。</li>
+</ul>
+<p>新手别迷信凯利，<strong>固定 1% 风险已经足够稳健</strong>，等你有了可靠的胜率统计再谈优化。</p>
+<h2 id="_7">连续亏损与回撤</h2>
+<p>把"能扛几次连亏"算清楚，是仓位管理的现实检验：</p>
+<pre><code>单笔风险 1%：
+连亏 10 次 → 回撤约 10%（可控）
+连亏 20 次 → 回撤约 18%（仍可恢复）
+
+单笔风险 10%：
+连亏 5 次 → 回撤约 41%
+连亏 10 次 → 回撤约 65%（几乎无法恢复）
+</code></pre>
+<p>回撤的恢复是<strong>非线性</strong>的：亏 50% 需要赚 100% 才回本，亏 65% 需要赚 186%。<strong>控制回撤 &gt; 追求收益</strong>，这是复利的数学铁律。</p>
+<h2 id="_8">实战清单</h2>
+<p>每次下单前，仓位三问（配合第 7 章的盈亏三问）：</p>
+<ol>
+<li>我的<strong>止损位</strong>在哪（由市场结构决定）？</li>
+<li>按 1% 风险，我该下<strong>几手</strong>（反算）？</li>
+<li>加上现有仓位，我的<strong>账户总风险</strong>是否超限？</li>
+</ol>
+<h2 id="_9">本章要点</h2>
+<ul>
+<li>仓位管理的目的是<strong>先活下来</strong>——一次爆仓让所有优势归零。</li>
+<li>用<strong>固定百分比风险</strong>，新手 1%（或 0.5%），单笔最多亏账户的 1%。</li>
+<li>手数 = 风险预算 ÷ (止损距离 × 每点价值)；小账户必须用 <strong>micro</strong> 才能精确控制。</li>
+<li>顺序是<strong>先定止损、再反算手数</strong>，绝不先决定手数。</li>
+<li>用 ATR 按波动率调整手数，保持美元风险恒定；注意相关品种的<strong>总风险叠加</strong>。</li>
+<li>凯利用分数版即可；控制回撤优先于追求收益（回撤恢复是非线性的）。</li>
+</ul>
+<p>下一章：仓位定好后，怎么用止损和风险控制把"活下来"落到实处。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/16-hedging.html"><span class="pn-dir">← 上一章</span><span class="pn-title">16 对冲应用</span></a><a class="pn pn-next" href="/future-trading/18-risk-management.html"><span class="pn-dir">下一章 →</span><span class="pn-title">18 风险控制与止损</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

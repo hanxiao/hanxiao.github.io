@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20 交易系统与回测 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li class="active"><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="20">20 · 交易系统与回测</h1>
+<p>凭感觉交易，你永远无法知道自己是真有优势还是运气好。<strong>交易系统（trading system）</strong>把模糊的直觉变成明确的规则，<strong>回测（backtesting）</strong>则用历史数据检验这些规则是否真有优势（edge）。这是从"赌徒"走向"经营者"的关键一步。</p>
+<h2 id="_1">什么是交易系统</h2>
+<p>交易系统是一套<strong>完整、明确、可重复</strong>的规则，覆盖交易的每个环节：</p>
+<pre><code>一个完整系统必须回答：
+① 市场过滤：什么环境下交易？（趋势/震荡，第 13/14 章）
+② 入场（entry）：什么信号下单？方向？
+③ 止损（stop）：在哪认错离场？（第 18 章）
+④ 止盈（exit）：怎么兑现利润？
+⑤ 仓位（sizing）：下几手？（第 17 章）
+⑥ 风控：每日/总回撤上限？
+</code></pre>
+<p>每条规则都要<strong>具体到可以让另一个人照着执行得出相同结果</strong>。"价格看起来要涨"不是规则；"价格收盘突破 20 周期高点且在 50 均线上方"才是规则。</p>
+<h2 id="vs">机械系统 vs 自由裁量</h2>
+<pre><code>机械系统（systematic / mechanical）：
+  规则完全客观，可代码化，可自动执行
+  → 排除情绪，可严格回测，适合自动化（第 23 章）
+
+自由裁量（discretionary）：
+  依赖交易者的实时判断
+  → 灵活，但难验证、易受情绪干扰、难复制
+</code></pre>
+<p>新手强烈建议从<strong>偏机械的系统</strong>起步——它逼你把模糊直觉写成明确规则，并能用回测客观检验。成熟后可加入有纪律的自由裁量。</p>
+<h2 id="_2">什么是回测</h2>
+<p><strong>回测（backtesting）</strong>：把你的系统规则应用到历史数据上，模拟"如果过去这样交易，结果会怎样"。</p>
+<pre><code>历史数据 + 系统规则 → 模拟交易 → 绩效统计
+</code></pre>
+<p>目的不是预测未来收益，而是回答：<strong>这套规则在历史上是否有统计优势？它的风险特征我能承受吗？</strong></p>
+<h2 id="_3">关键绩效指标</h2>
+<p>回测后看哪些数字（别只看总收益）：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>净利润（net profit）</td>
+<td>扣成本后总盈亏</td>
+<td>必须扣佣金+滑点</td>
+</tr>
+<tr>
+<td>最大回撤（max drawdown）</td>
+<td>历史最大资金回撤</td>
+<td><strong>比收益更重要</strong>，你能扛吗</td>
+</tr>
+<tr>
+<td>胜率（win rate）</td>
+<td>盈利交易占比</td>
+<td>配合盈亏比看</td>
+</tr>
+<tr>
+<td>盈亏比（profit factor）</td>
+<td>总盈利 ÷ 总亏损</td>
+<td>&gt;1.3 较可用</td>
+</tr>
+<tr>
+<td>夏普比率（Sharpe ratio）</td>
+<td>风险调整后收益</td>
+<td>越高越好</td>
+</tr>
+<tr>
+<td>交易次数</td>
+<td>样本量</td>
+<td>太少则不可信</td>
+</tr>
+<tr>
+<td>平均盈/亏</td>
+<td>单笔期望</td>
+<td>是否覆盖成本</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>第一性原则：<strong>最大回撤和样本量，比总收益更重要</strong>。一个高收益但回撤 60% 的系统你实盘扛不住；一个只有 30 笔交易的"高胜率"系统，可能纯属运气。</p>
+</blockquote>
+<h2 id="_4">回测的致命陷阱</h2>
+<p>回测最大的危险是<strong>骗自己</strong>。几个必须避开的陷阱：</p>
+<p><strong>过度拟合（overfitting / curve fitting）</strong>
+不断调参数，直到历史曲线完美——但这只是"记住了历史的噪音"，未来必失效。</p>
+<pre><code>症状：参数极其精确（如&quot;23.7 周期均线&quot;）、规则越来越多、
+     只在特定历史段有效。
+解药：规则尽量少而简单；参数稳健（小幅改动绩效不应剧变）。
+</code></pre>
+<p><strong>前视偏差（look-ahead bias）</strong>
+用了当时根本不知道的信息（如用当天收盘价决定当天盘中入场）。回测里很隐蔽，结果好得不真实。</p>
+<p><strong>幸存者偏差（survivorship bias）</strong>
+数据只含"活下来"的合约/标的，忽略了消失的，高估收益。</p>
+<p><strong>忽略成本</strong>
+不扣佣金、交易所费、滑点的回测毫无意义。<strong>频率越高，成本影响越大</strong>，必须真实计入（第 4、7 章）。</p>
+<p><strong>连续合约拼接问题</strong>
+期货回测要处理移仓（第 6 章），不同拼接方式（不调整/比例/差值）会改变历史价格和盈亏，必须明确。</p>
+<h2 id="_5">样本外验证</h2>
+<p>防止过度拟合的核心方法：<strong>别用全部数据调参数</strong>。</p>
+<pre><code>全部历史数据
+├── 样本内（in-sample，如 70%）：用来开发和优化系统
+└── 样本外（out-of-sample，如 30%）：开发完后才用来验证
+         ↑
+    系统在从未见过的数据上仍有效 → 才可信
+</code></pre>
+<p>进阶方法有<strong>前进分析（walk-forward analysis）</strong>：滚动地用一段优化、下一段验证，更接近实盘的动态适应。</p>
+<h2 id="_6">从回测到实盘的桥梁</h2>
+<p>回测通过了，别急着上真金白银。三步过渡：</p>
+<pre><code>① 回测（backtest）→ 验证历史有优势
+② 模拟/前向测试（paper / forward test）→ 实时数据、虚拟资金跑数周到数月
+③ 小仓位实盘（micro 合约）→ 真金白银但风险极小，检验执行和心理
+④ 逐步放大 → 每次确认心理和绩效稳定再加
+</code></pre>
+<blockquote>
+<p>现实差距：回测假设完美执行，实盘有滑点、延迟、断网、以及第 19 章的心理崩溃。<strong>回测绩效是上限，实盘永远更差</strong>。预留这个折扣。</p>
+</blockquote>
+<h2 id="_7">持续迭代</h2>
+<p>系统不是一劳永逸的。市场会变（regime change），系统会衰减（alpha decay）。需要：</p>
+<ul>
+<li>持续记录实盘结果，与回测预期对比。</li>
+<li>实盘绩效显著偏离回测 → 检查是市场变了，还是执行出了问题。</li>
+<li><strong>不要因为几笔亏损就推翻系统</strong>（连亏是正常的，第 19 章），但要警惕系统性失效。</li>
+<li>改动要有依据、要重新验证，不能凭情绪即兴改参数。</li>
+</ul>
+<h2 id="_8">本章要点</h2>
+<ul>
+<li>交易系统 = 覆盖过滤/入场/止损/止盈/仓位/风控的<strong>明确可重复规则</strong>。</li>
+<li>新手从<strong>机械系统</strong>起步，逼自己把直觉写成可检验的规则。</li>
+<li>回测检验"历史是否有统计优势"；<strong>最大回撤和样本量比总收益更重要</strong>。</li>
+<li>避开致命陷阱：过度拟合、前视偏差、幸存者偏差、忽略成本、合约拼接错误。</li>
+<li>用<strong>样本外验证 / 前进分析</strong>防过度拟合；参数要稳健、规则要少。</li>
+<li>过渡四步：回测 → 前向测试 → micro 实盘 → 逐步放大；实盘绩效永远低于回测。</li>
+<li>系统会衰减，持续迭代但不凭情绪乱改。</li>
+</ul>
+<p>第五部分结束。下一章进入第六部分——进阶精通，先看最适合实践的微型与迷你合约。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/19-psychology.html"><span class="pn-dir">← 上一章</span><span class="pn-title">19 交易心理</span></a><a class="pn pn-next" href="/future-trading/21-micro-emini.html"><span class="pn-dir">下一章 →</span><span class="pn-title">21 微型与迷你合约</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

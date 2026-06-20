@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 开户与交易平台 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li class="active"><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="4">4 · 开户与交易平台</h1>
+<p>理论懂了，怎么真正下单？本章讲清楚：选什么券商（broker）、用什么平台（platform）、要交哪些费用、以及一个不可跳过的环节——模拟交易（paper trading）。</p>
+<h2 id="_1">期货账户和股票账户不一样</h2>
+<p>交易美股期货，你需要一个<strong>期货账户（futures account）</strong>，而不是普通的股票账户（brokerage account）。两者监管框架、保证金规则、清算方式都不同。</p>
+<p>整个链条是这样的：</p>
+<pre><code>你
+ │ 开户
+ ▼
+期货经纪商（FCM / IB）
+ │ 提供资金、风控、接入
+ ▼
+清算所（Clearing House，如 CME Clearing）
+ │ 中央对手方，保证履约
+ ▼
+交易所撮合（CME Globex 电子盘）
+</code></pre>
+<ul>
+<li><strong>FCM（Futures Commission Merchant，期货佣金商）</strong>：有资格持有客户保证金、接入清算的机构。</li>
+<li><strong>IB（Introducing Broker，介绍经纪商）</strong>：拉客户但把清算外包给 FCM 的中间商。</li>
+</ul>
+<h2 id="_2">主流期货券商与平台</h2>
+<p>面向散户的常见选择（务必自行核实最新政策，本书不做推荐）：</p>
+<ul>
+<li><strong>Interactive Brokers（盈透，IBKR）</strong>：全球品种最全、费用低，适合有一定经验的人。平台偏专业。</li>
+<li><strong>NinjaTrader</strong>：专注期货，图表和下单工具强，社区活跃，micro 合约友好。</li>
+<li><strong>Tradovate</strong>：纯云端、按月订阅可降低单笔佣金，界面现代。</li>
+<li><strong>TradeStation / AMP / Optimus Futures</strong> 等：各有侧重。</li>
+</ul>
+<p>平台（platform）和券商（broker）有时是分开的——很多券商支持你用第三方平台（如 NinjaTrader、Sierra Chart）接入。</p>
+<h2 id="_3">选券商看什么</h2>
+<p>按重要性排序：</p>
+<ol>
+<li><strong>监管资质</strong>：必须是 NFA 注册、CFTC 监管的合规机构。这是底线，不合规一票否决。</li>
+<li><strong>佣金（commission）</strong>：期货按"每手每边（per contract per side）"收费。散户常见区间约 $0.25–$2.5/手/边，micro 合约更低。</li>
+<li><strong>日内保证金（day-trade margin）</strong>：很多券商对日内交易提供远低于交易所标准的保证金（见下文）。</li>
+<li><strong>数据费（market data fees）</strong>：实时行情需要订阅交易所数据，CME 实时数据散户约几美元到十几美元/月。</li>
+<li><strong>平台稳定性与下单速度</strong>：关键时刻不能卡。</li>
+<li><strong>出入金</strong>：对非美国居民，确认是否接受、电汇成本如何。</li>
+</ol>
+<h2 id="_4">费用结构全解</h2>
+<p>一笔期货交易的总成本：</p>
+<pre><code>总成本 = 佣金（commission）
+       + 交易所费（exchange fee）
+       + NFA 费
+       + 数据费（按月，分摊）
+       + 点差/滑点（spread / slippage）
+</code></pre>
+<p>举例：交易一手 ES，往返（round turn，开+平）大致：</p>
+<pre><code>佣金     ≈ $2.5（双边合计，因券商而异）
+交易所费 ≈ $2.4（CME 对 ES 收取，约 $1.18/边）
+NFA 费   ≈ $0.04
+─────────────────────────
+往返显性成本 ≈ $5 左右
+</code></pre>
+<p>加上滑点，每笔实际成本更高。<strong>对日内频繁交易者，成本是头号敌人</strong>——这也是为什么从 micro 合约练手如此重要。</p>
+<h2 id="vs">日内保证金 vs 隔夜保证金</h2>
+<p>这是期货新手最容易忽略、也最容易爆仓的点：</p>
+<ul>
+<li><strong>交易所初始保证金（initial margin）</strong>：持仓（尤其隔夜，overnight）必须满足的标准，ES 约 $13,000 上下（会随波动率调整）。</li>
+<li><strong>日内保证金（day-trade / intraday margin）</strong>：很多券商允许日内只用极低保证金（如 ES 仅几百到一两千美元）持仓，但<strong>必须在收盘前平仓</strong>。</li>
+</ul>
+<blockquote>
+<p>⚠️ 日内保证金极低 = 杠杆极高。用 $500 控制 $250,000 名义价值，杠杆高达 500 倍。一次反向波动就可能击穿账户。<strong>低保证金不代表低风险，恰恰相反。</strong></p>
+</blockquote>
+<h2 id="_5">模拟交易：绝不能跳过</h2>
+<p>在投入真金白银前，<strong>至少用模拟账户（paper trading / sim account）练习 1–3 个月</strong>。几乎所有平台都提供免费模拟环境，用虚拟资金、真实行情下单。</p>
+<p>模拟阶段的目标，不是"赚虚拟钱"，而是：</p>
+<ul>
+<li>把平台操作练成肌肉记忆（下单、改单、止损、平仓）。</li>
+<li>验证你的交易系统（trading system）在真实波动下是否成立。</li>
+<li>体会一手亏损时的盈亏数字（哪怕是虚拟的）。</li>
+<li>形成并记录交易日志（trading journal）。</li>
+</ul>
+<blockquote>
+<p>现实提醒：模拟交易和实盘最大的差别是<strong>心理</strong>。模拟时你下得了重手、扛得住浮亏；实盘一旦真金白银，恐惧和贪婪会完全改变你的行为。所以模拟过关只是"必要条件"，不是"充分条件"。第 19 章会专门讲心理。</p>
+</blockquote>
+<h2 id="_6">给非美国居民的提示</h2>
+<ul>
+<li>多数大型期货券商接受国际客户，但需完成 W-8BEN 等税务表格。</li>
+<li>出入金、合规要求因国家而异，开户前务必与券商确认。</li>
+<li>税务处理（如美国 1256 合约的特殊税制）见第 22 章。</li>
+</ul>
+<h2 id="_7">本章要点</h2>
+<ul>
+<li>期货要开<strong>专门的期货账户</strong>，链条为：你 → FCM → 清算所 → 交易所。</li>
+<li>选券商：合规第一，再看佣金、保证金、数据费、平台稳定性。</li>
+<li>每笔交易的显性成本（佣金+交易所费）约 $5/手往返（ES），加滑点更高。</li>
+<li><strong>日内低保证金 = 超高杠杆</strong>，是新手爆仓主因，别被"门槛低"迷惑。</li>
+<li>实盘前必须用<strong>模拟账户</strong>练 1–3 个月，但要知道实盘的真正考验是心理。</li>
+</ul>
+<p>第一部分结束。接下来进入第二部分——市场机制，第一站：保证金与杠杆。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/03-contract-specs.html"><span class="pn-dir">← 上一章</span><span class="pn-title">3 合约规格解读</span></a><a class="pn pn-next" href="/future-trading/05-margin-leverage.html"><span class="pn-dir">下一章 →</span><span class="pn-title">5 保证金与杠杆</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

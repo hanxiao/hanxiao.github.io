@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13 趋势跟踪 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li class="active"><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="13">13 · 趋势跟踪</h1>
+<p>趋势跟踪（trend following）是最经典、最被验证有效的交易策略族。它的逻辑朴素到近乎平庸："顺着已经形成的趋势交易，让利润奔跑，截断亏损"。但正是这种简单，让它穿越了几十年市场考验。</p>
+<h2 id="_1">核心理念</h2>
+<pre><code>不预测，只跟随。
+趋势形成后入场，趋势结束后离场。
+</code></pre>
+<p>趋势跟踪者不试图抄底摸顶，也不预测拐点。他们承认自己<strong>无法预知未来</strong>，只在趋势确立后搭车，在趋势反转后下车。这是一种"右侧交易（right-side trading）"——等价格证明方向，再行动。</p>
+<h2 id="_2">为什么趋势跟踪有效</h2>
+<p>它的盈利结构很特别：</p>
+<pre><code>胜率往往不高（约 35%–45%）
+但盈亏比很高（盈利单 &gt;&gt; 亏损单）
+
+少数大趋势的盈利 &gt; 大量小止损的亏损总和
+</code></pre>
+<p>这叫<strong>正偏态（positive skew）</strong>：大部分交易小亏，少数交易大赚。心理上很难受（频繁止损），但数学上稳健。第一性原则在这里体现得淋漓尽致：<strong>截断亏损、让利润奔跑（cut losses, let profits run）</strong>。</p>
+<h2 id="_3">识别趋势</h2>
+<p>回到第 11 章的高低点序列：</p>
+<pre><code>上升趋势确认：连续 HH/HL（更高的高点和低点）
+下降趋势确认：连续 LH/LL（更低的高点和低点）
+</code></pre>
+<p>常用的趋势确认工具：</p>
+<ul>
+<li><strong>移动平均线（MA）</strong>：价格在 MA 上方且 MA 向上 = 上升趋势。双均线（如 20/50）金叉/死叉是经典信号。</li>
+<li><strong>均线斜率</strong>：均线本身的方向比价格与均线的关系更稳健。</li>
+<li><strong>唐奇安通道（Donchian Channel）</strong>：价格突破 N 日最高/最低 = 趋势启动。著名的"海龟交易法（Turtle Trading）"就用此入场。</li>
+</ul>
+<h2 id="_4">一个简单的趋势跟踪框架</h2>
+<p>以日内/波段为例，给新手一个可执行的骨架：</p>
+<pre><code>1. 方向过滤：价格在 50 周期 MA 上方 → 只做多
+2. 入场信号：价格回调后突破前高，或突破 N 周期高点
+3. 初始止损：放在最近的摆动低点（swing low）下方
+4. 加仓（可选）：趋势延续时金字塔加仓（pyramiding），但每次减小手数
+5. 离场：移动止损（trailing stop）跟随，趋势破位才出
+</code></pre>
+<pre><code>价格
+ │                    ╱╲    ← 让利润奔跑
+ │              ╱╲   ╱  ╲
+ │   入场→●   ╱  ╲ ╱    ╲ ← 移动止损被触发，离场
+ │        ╲ ╱    ╲╱
+ │  止损───╳（若一开始就错，小亏出局）
+ └──────────────────────────▶ 时间
+</code></pre>
+<h2 id="_5">移动止损：让利润奔跑的关键</h2>
+<p>趋势跟踪的灵魂在离场。固定目标会过早离场，错过大趋势。用<strong>移动止损（trailing stop）</strong>：</p>
+<ul>
+<li><strong>跟随摆动点</strong>：止损跟着不断抬高的 swing low 上移。</li>
+<li><strong>ATR 跟踪止损</strong>：用平均真实波幅（ATR, Average True Range）动态设定止损距离，如"价格回落 3×ATR 就出"。ATR 让止损自适应波动率——市场波动大时止损宽，波动小时止损紧。</li>
+<li><strong>均线跟踪</strong>：价格收盘跌破某均线才离场。</li>
+</ul>
+<blockquote>
+<p>原则：<strong>永远不要因为"赚够了"而手动平掉趋势单。</strong> 让市场用你的移动止损把你请出场，而不是你自己提前下车。这是趋势跟踪者纪律的核心。</p>
+</blockquote>
+<h2 id="_6">趋势跟踪的敌人：震荡市</h2>
+<p>趋势跟踪在<strong>震荡/区间市场（choppy / range-bound market）</strong>会被反复"打脸"：假突破不断触发止损，连续小亏（这叫"whipsaw 锯齿"）。</p>
+<p>应对：</p>
+<ul>
+<li>加<strong>趋势过滤器</strong>：如 ADX（平均趋向指标）衡量趋势强度，ADX 低于某阈值（如 20-25）时停止交易。</li>
+<li>接受<strong>连续亏损是系统的一部分</strong>，不要因为几次锯齿就放弃系统或频繁改参数。</li>
+<li>减少在低流动性、无方向的时段（如午盘）交易。</li>
+</ul>
+<h2 id="_7">时间周期的选择</h2>
+<p>趋势跟踪可用于任何周期，但性格不同：</p>
+<pre><code>长周期（日线/周线）：趋势更可靠，信号少，回撤大，适合波段
+短周期（5/15分钟）：信号多，噪音大，需更强过滤，适合日内
+</code></pre>
+<p>新手建议从<strong>较高周期</strong>起步——噪音少、决策慢、心理压力小，更容易体会趋势跟踪的精髓。</p>
+<h2 id="_8">务实提醒</h2>
+<ul>
+<li>趋势跟踪<strong>心理上很反人性</strong>：你要忍受频繁小亏，还要在浮盈很大时不落袋、继续持有。大多数人做不到，所以它长期有效。</li>
+<li><strong>不要优化到完美</strong>：在历史数据上调出"最佳参数"通常是过度拟合，实盘会失效（第 20 章）。简单稳健 &gt; 复杂精确。</li>
+<li>它<strong>不保证每段时间都赚钱</strong>。趋势跟踪在无趋势的年份会持续小亏，这是它的代价，要有心理准备。</li>
+</ul>
+<h2 id="_9">本章要点</h2>
+<ul>
+<li>趋势跟踪 = 不预测、右侧入场、顺势而为、截断亏损让利润奔跑。</li>
+<li>盈利结构是<strong>正偏态</strong>：胜率不高但盈亏比高，少数大趋势贡献主要利润。</li>
+<li>用 MA、均线斜率、唐奇安通道识别和确认趋势。</li>
+<li>灵魂在<strong>移动止损</strong>：用 swing point / ATR / 均线跟踪，让市场请你出场。</li>
+<li>最大敌人是<strong>震荡市</strong>，用 ADX 等过滤器和纪律应对锯齿。</li>
+<li>高周期更适合新手起步；警惕过度拟合，接受无趋势期的小亏。</li>
+</ul>
+<p>下一章：趋势的"对手盘"策略——均值回归与区间交易。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/12-order-flow.html"><span class="pn-dir">← 上一章</span><span class="pn-title">12 订单流与市场微观结构</span></a><a class="pn pn-next" href="/future-trading/14-mean-reversion.html"><span class="pn-dir">下一章 →</span><span class="pn-title">14 均值回归与区间</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>
