@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li class="active"><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -59,6 +60,9 @@
 <blockquote>
 <p>看到了吗？同样的风险预算，ES 只能做 1 手，MES 能做 10 手并精细调节。<strong>这就是小账户必须用 micro 合约的根本原因</strong>——它让你能精确地把风险锁在预算内，而不是被合约规模逼着超额下注。</p>
 </blockquote>
+<p>下面这个计算器就是上面公式的交互版。填入账户权益、风险百分比、止损距离和每点价值，它替你把"风险预算"反算成"几手"。先固定 1% 风险，再调止损距离，体会手数如何随止损反比变化——这正是"止损决定仓位"的算术。</p>
+<figure class="widget" data-widget="position-sizer"><figcaption>玩一玩：固定百分比风险的手数计算器</figcaption></figure>
+
 <h2 id="_4">止损决定仓位，而非反过来</h2>
 <p>新手常犯的致命错误：<strong>先决定下几手，再随便放个止损</strong>。正确顺序相反：</p>
 <pre><code>错误：我想做 5 手 → 止损随便放
@@ -95,6 +99,13 @@
 <li><strong>实务普遍用"分数凯利"（如 1/4 凯利）甚至更保守</strong>，牺牲一点理论增长换取生存和心理可承受。</li>
 </ul>
 <p>新手别迷信凯利，<strong>固定 1% 风险已经足够稳健</strong>，等你有了可靠的胜率统计再谈优化。</p>
+<p>下面这个组件画的是长期增长率关于下注比例 <code>f</code> 的抛物线，并标出了 <code>f*</code>、<code>½f*</code>、<code>2f*</code> 三个点。把滑块从 0 推到 <code>f*</code>：增长率爬到顶；推到 <code>½f*</code>：你拿到约四分之三的增长，方差却只有四分之一；继续推过 <code>2f*</code>：增长率跌回零甚至转负。注意那条曲线在 <code>2f*</code> 处穿过横轴——下注越重不是收益越高，而是把自己推下悬崖。</p>
+<figure class="widget" data-widget="kelly"><figcaption>玩一玩：增长率 vs 下注比例 (凯利 = 学习率)</figcaption></figure>
+
+<div class="researcher-note">
+<p><strong>凯利就是对数效用下的最优学习率——你已经在调度它，只是换了个领域。</strong> 凯利准则本质是 <code>max E[log W]</code>，即增长最优组合（growth-optimal portfolio）：最大化对数财富的期望，等价于最大化几何增长率。把下注比例 <code>f</code> 看成梯度下降的学习率（learning rate），单注情形的最优解就是 <code>f* = μ/σ²</code>——一个被方差归一化的步长，和你在优化里见过的 <code>Δw = (μ/σ²)·g</code> 一模一样。半凯利 <code>½f*</code> 对应学习率退火（lr annealing）：步长减半，增长率因为抛物线在顶点附近是二阶平坦的，只掉到约 ¾，而方差正比于 <code>f²</code> 故降到约 ¼——用一点增长换四倍的方差稳定，几乎免费。越过 <code>2f*</code> 则是训练发散：步长大到每步的期望对数增量转负，财富在对数空间里漂移向下，再多的优势也被过冲（overshoot）吃光。</p>
+<p>回撤恢复的非线性也是同一个对数空间的几何：亏 50% 要赚 100% 才回本，因为 <code>log</code> 是凹的（concave），对称的百分比损益在对数尺度上不对称，向下的腿更长。所以控制 <code>f</code> 不只是控风险，是直接在控你那条增长曲线的曲率。最后，相关仓位为什么不能简单相加：多资产凯利的最优解是 <code>f* = Σ⁻¹μ</code>，总风险走的是协方差矩阵 <code>Σ</code> 的二次型 <code>fᵀΣf</code>，不是各腿方差之和。同时做多 ES + NQ + RTY，<code>Σ</code> 的非对角项接近 1，等于把同一个因子押了三倍——这和相关特征导致协方差谱的有效秩（effective rank）坍缩、participation ratio 掉到 1 是同一件事。</p>
+</div>
 <h2 id="_7">连续亏损与回撤</h2>
 <p>把"能扛几次连亏"算清楚，是仓位管理的现实检验：</p>
 <pre><code>单笔风险 1%：

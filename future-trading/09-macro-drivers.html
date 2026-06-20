@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li class="active"><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -57,6 +58,18 @@
 <blockquote>
 <p>市场交易的是<strong>预期（expectation）</strong>，不是事实。即使加息符合预期，只要措辞（前瞻指引，forward guidance）比预期"鹰派（hawkish）"或"鸽派（dovish）"，价格就会剧烈反应。"buy the rumor, sell the news"（买预期，卖事实）的现象在议息日很常见。</p>
 </blockquote>
+<div class="researcher-note">
+<p><strong>议息日真正被定价的不是利率本身，而是"利率减去市场已经定价的那部分"——也就是意外（surprise）。</strong></p>
+<p>这和你熟悉的信息论是同一回事：一个事件携带的信息量正比于 <code>-log p</code>，越是被预期（<code>p ≈ 1</code>）的结果，实现时信息增益越小，价格越不动；真正的 surprise（<code>p</code> 很低）才带来大跳。所以"加息符合预期但措辞偏鹰"往往比"加息本身"更能驱动价格——前者是分布外的（distribution shift），后者早被折现。</p>
+<p>还可以把整套宏观框架翻译成你的建模语言：宏观变量（利率、CPI、NFP）是特征/协变量（features / covariates），而市场制度（regime：risk-on/risk-off、加息/降息周期）是不可直接观测的隐状态（latent state），更像 HMM 里的隐变量——你看到的只是发射（emission），制度切换本身要靠推断。两个提醒：一是相关 ≠ 因果，"低利率 → 涨"在某些制度下会反号（滞胀期降息也托不住估值）；二是重大数据/议息本质是一次外生冲击，模型恰在制度切换点上最容易失效——正如你的分类器遇到 distribution shift 时最先崩的地方。</p>
+</div>
+<h2 id="hawkish-hold">一个有代表性的情景：鹰派按兵不动（hawkish hold）</h2>
+<p>以下为<strong>示意情景（illustrative scenario）</strong>，用来演示上面的框架如何落地，所有数值仅为举例，<strong>具体数值以官方发布与 CME FedWatch 为准</strong>：</p>
+<ul>
+<li><strong>利率：鹰派按兵不动。</strong> 假设某次 FOMC 会议维持联邦基金目标区间不变（按兵不动），但点阵图（dot plot）将未来利率中位数上调、发布会措辞明显转鹰，整体指向"按住不动甚至倾向加息"而非降息；利率期货随之上调年内加息概率（具体概率以 CME FedWatch 实时为准）。</li>
+<li><strong>这是一次教科书式的"意外驱动价格"。</strong> 按兵不动本身完全符合预期，真正搅动市场的是更鹰的点阵图与发布会措辞——再次印证<strong>措辞胜过事实、意外才驱动价格</strong>（参见上面的研究者视角）。</li>
+<li><strong>为什么会偏鹰：一种典型组合。</strong> 例如当通胀（CPI/核心 CPI）重新加速、同时就业（非农、失业率）依然稳健时，美联储往往缺乏降息空间，从而倾向维持或收紧——这类宏观组合是鹰派转向的常见背景。真实读数请以官方发布为准。</li>
+</ul>
 <h2 id="_3">关键宏观数据</h2>
 <p>按市场敏感度排序的常见美国经济数据：</p>
 <table>
@@ -125,7 +138,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>通胀和就业是当前市场最关注的两条主线</strong>，因为它们决定美联储的政策路径。</p>
+<p><strong>通胀和就业是当前市场最关注的两条主线</strong>，因为它们决定美联储的政策路径——具体到 2026 年 6 月，是"通胀再加速 + 就业稳健"把美联储推向鹰派（详见上文「当前利率环境」一节）。</p>
 <h2 id="_4">风险情绪与轮动</h2>
 <p>除了基本面，市场情绪（sentiment）和资金轮动（rotation）也驱动短期价格：</p>
 <ul>
@@ -154,7 +167,7 @@
 <li>股指 ≈ 盈利 × 估值倍数；宏观通过这两项驱动价格。</li>
 <li><strong>利率是头号变量</strong>，成长股/NQ 对利率最敏感。</li>
 <li>紧盯<strong>美联储 FOMC</strong>；市场交易预期，措辞比事实更重要。</li>
-<li>最敏感数据：<strong>非农、CPI、FOMC、PCE</strong>——通胀与就业是当前主线。</li>
+<li>最敏感数据：<strong>非农、CPI、FOMC、PCE</strong>——通胀与就业是当前主线（2026-06：通胀再加速、就业稳健，美联储转鹰、点阵图指向加息）。</li>
 <li>风险情绪（risk-on/off）、板块轮动、VIX 驱动短期；美元与美债收益率是跨市场信号。</li>
 <li>新手不预测宏观，而是看日历、避开数据时点、理解主线叙事。</li>
 </ul>

@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li class="active"><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -76,6 +77,12 @@
   → 例如只对冲 50%，卖出半数所需手数
 </code></pre>
 <p>实务中部分对冲更常见——既降风险，又不完全放弃上涨。</p>
+<div class="researcher-note">
+<p><strong>Beta 对冲就是一次 OLS 投影——你早就在用最小二乘做这件事，只是换了个名字。</strong></p>
+<p>最小方差对冲比（minimum-variance hedge ratio）<code>h* = Cov(资产, 期货) / Var(期货)</code>，这正是把资产收益对期货收益做一元回归（regression）的斜率（slope）。书里用的 <code>组合价值 × Beta</code> 只是把这个斜率换算成手数：Beta 本身就是组合对指数的回归系数 <code>β = Cov(r_p, r_idx) / Var(r_idx)</code>。所以"估对冲比率"和"估回归斜率"是同一道题，连 Beta 不稳定（basis risk）都对应着你熟悉的——回归系数在样本外漂移、置信区间该多宽。</p>
+<p>几何上更干净：把组合收益向量投影到期货收益张成的一维子空间，<code>h*·期货</code> 是投影分量，对冲就是减掉它。<strong>完全对冲 = 把组合投影到期货子空间的正交补（orthogonal complement）</strong>，留下的残差（residual）正交于市场因子——这就是 alpha。你保留的暴露 = 残差风险 <code>Var(r_p) − h*²·Var(r_fut) = (1 − ρ²)·Var(r_p)</code>，<code>ρ</code> 是组合与期货的相关系数。对冲不可能消掉 <code>R²</code> 之外的那部分，跟回归的判定系数是同一个 <code>R²</code>。</p>
+<p>延伸一步：用单一指数期货对冲多资产组合，等价于 <code>K=1</code> 的因子模型——只能消掉市场这一个共同因子。想压掉行业或风格暴露，就得多腿对冲，相当于把回归扩成多元（multiple regression），每条腿一个回归系数。这跟在嵌入里做正交化、把某个方向投影掉是同一套线性代数。</p>
+</div>
 <h2 id="_4">对冲的代价</h2>
 <p>对冲不是免费的午餐：</p>
 <ol>

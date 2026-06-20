@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li class="active"><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -94,6 +95,11 @@
 <blockquote>
 <p>指标越多越乱。<strong>少即是多</strong>——选 1 个趋势指标（如 MA）+ 1 个动能指标（如 RSI）+ 成交量，足矣。指标都是滞后的（lagging），价格本身才是第一手信息。</p>
 </blockquote>
+<div class="researcher-note">
+<p><strong>技术指标就是价格序列上的滤波器（filter）和特征提取——你的"工具箱"远没有看起来那么大。</strong></p>
+<p>把 MA 看成低通滤波（low-pass filter），EMA 看成指数加权平滑（EWMA，等价于一阶 IIR），RSI 是把动量压进 <code>[0,100]</code> 的有界变换（bounded transform）。它们绝大多数都是同一段收盘价 <code>Pₜ</code> 的不同线性/非线性变换。所以当你在图上叠十个指标时，把这十路输出排成矩阵做协方差谱（covariance spectrum），有效秩（effective rank）/参与比（participation ratio）大概率只有 1–2：你以为加了十个证据，实际只有一两个正交方向，其余全是同一信号的回声。</p>
+<p>这正是"少即是多"的正则化（regularization）直觉——少而正交的特征 &gt; 多而共线的特征。堆指标的真正危险有两个，要分开命名：一是过拟合（overfitting），在历史曲线上调参数总能调出完美回测；二是数据窥探（data-snooping / multiple testing），你试了几百种指标-参数组合再挑最好的那个，p 值早被偷光（White 2000；Sullivan, Timmermann &amp; White 1999）。这也是为什么技术规则的样本外（out-of-sample）证据如此薄弱：Park &amp; Irwin（2007）综述与 Bajgrowicz &amp; Scaillet（2012）都指出，做完数据窥探校正后，技术规则的超额收益大多消失。和 Fashion-MNIST 上 leaderboard 刷分一个道理——报告样本内胜率毫无意义，要么样本外，要么闭嘴。</p>
+</div>
 <h2 id="multi-timeframe">多周期分析（Multi-Timeframe）</h2>
 <p>专业做法是结合多个时间周期（timeframe）：</p>
 <pre><code>高周期（如日线/4小时）→ 判断大方向（趋势）
@@ -112,7 +118,7 @@
 <h2 id="_3">务实警告</h2>
 <ul>
 <li>技术分析有<strong>自我实现（self-fulfilling）</strong>成分：很多人看同样的水平，行为趋同。这既是它有效的原因，也是它会被"反向收割"的原因（如止损猎杀，stop hunt）。</li>
-<li><strong>不要过度拟合（overfitting）</strong>：在历史图上总能找到"完美预测"的指标参数，但未来未必有效。</li>
+<li><strong>不要过度拟合（overfitting），也别忽视数据窥探（data-snooping）</strong>：在历史图上总能找到"完美预测"的指标参数，但未来未必有效；更隐蔽的是多重检验偏差——同时试几百种指标组合再挑最好的，胜出者往往只是运气。学术综述（Park &amp; Irwin 2007；Bajgrowicz &amp; Scaillet 2012）反复发现：做完数据窥探校正后，技术规则的样本外超额收益大多消失。这不是说技术分析没用，而是提醒你对"回测很漂亮"的指标保持怀疑。</li>
 <li>技术分析必须配合<strong>风险管理</strong>才有价值。再好的图表判断也会出错，活下去靠的是止损和仓位（第 17、18 章）。</li>
 </ul>
 <h2 id="_4">本章要点</h2>

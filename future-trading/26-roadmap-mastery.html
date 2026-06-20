@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>24 通往精通之路 · 美股期货交易</title>
+<title>26 通往精通之路 · 美股期货交易</title>
 <meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="/future-trading/style.css">
@@ -21,13 +21,14 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li class="active"><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li class="active"><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
 <main>
   <article class="content">
-  <h1 id="24">24 · 通往精通之路</h1>
+  <h1 id="26">26 · 通往精通之路</h1>
 <p>你已经走完了从"什么是期货"到"算法自动化"的全程。这最后一章不教新知识，而是把全书串成一条路线，帮你规划真实的成长，并诚实地告诉你这条路有多难、以及如何走得更稳。</p>
 <h2 id="_1">全书地图</h2>
 <pre><code>入门基础（1-4）
@@ -45,8 +46,11 @@
 风险与执行（17-20）★最重要
   └─ 仓位管理、风险控制、交易心理、系统回测
         ▼
-进阶精通（21-24）
-  └─ 微型合约、税务监管、自动化、本章路线图
+实战进阶（21-23）
+  └─ 微型合约、税务监管、算法自动化
+        ▼
+AI 时代（24-26）
+  └─ LLM与Agent、AI交易工作流、本章路线图
 </code></pre>
 <blockquote>
 <p>如果你只能记住三件事：<strong>① 仓位管理决定你能活多久（第17章）② 止损是唯一你能完全控制的东西（第18章）③ 最大的敌人是你自己（第19章）。</strong> 方法人人能学，活下来的人靠的是纪律。</p>
@@ -113,6 +117,18 @@
 每季：检查系统是否仍有效，市场是否变了
 长期：扩展知识（新策略/工具），但不贪多求快
 </code></pre>
+<h2 id="ai">用 AI 最大化你的学习率</h2>
+<p>成长本质上是一个优化问题：你的"参数"是盘感与纪律，你的"学习率（learning rate）"是单位时间里把经验转化成能力的效率。AI 不能替你交易，但它能显著抬高这个学习率——前提是你把它用在对的地方。承接第25章的 AI 工作流，这里给三个具体抓手：</p>
+<ul>
+<li><strong>用 LLM 做复盘与提问。</strong> 把交易日志（进出场理由、当时的情绪、事后的盘面）喂给模型，让它当一个不带情绪的复盘伙伴：找出你反复犯的同一类错误、追问"如果价格反向你原计划怎么做"。它的价值不是给答案，而是逼你把模糊的直觉显式化（externalize）。注意：LLM 会顺着你的话讲，别让它变成确认偏误的回音壁——让它专门挑刺。</li>
+<li><strong>用模拟 + 回测压缩试错。</strong> 真金白银的每一课都很贵。把假设先在回测里跑掉（第20章），用 AI 帮你快速搭建、批量扫参、生成压力场景，把"需要半年实盘才撞到的坑"在几天内撞完。但牢记：回测告诉你策略有没有优势，告诉不了你在亏损时手会不会抖。</li>
+<li><strong>用嵌入检索加速模式识别。</strong> 把历史行情切片编码成向量，检索与当前盘面最相似的若干历史片段，看它们后续如何演化——这是给你的模式识别（pattern recognition）装一个外部记忆。它能加速"似曾相识"的形成，但相似不等于同分布，市场 regime 一变，最近邻就会骗你。</li>
+</ul>
+<p>诚实的边界：以上都在加速"知道"和"做到"，但<strong>真金白银的盘感与心理训练无法被外包</strong>。模型不会在你浮亏 3% 时心跳加速，不会在连亏五笔后想报复性加仓——而这正是交易最难的部分。AI 把你送到考场门口，但考试还得你自己进去考。</p>
+<div class="researcher-note">
+<p><strong>把成长路线当成你给自己设计的 lr 调度，而不是一次性灌满。</strong> 你训模型时不会一上来就把学习率拉满——会 warmup、会先粗后细、会按一个 schedule 退火。给自己设计成长曲线是同一件事：先单策略再多策略、先 micro 再放大、先把一个品种的 <code>μ</code> 和 <code>σ</code> 摸熟再加第二个。这其实就是课程学习（curriculum learning）——按难度排序喂样本，远比一次性把全部复杂度砸给一个没收敛的系统有效。刻意练习的本质也是这个：在略高于当前能力的边界上反复采样，让梯度信号最大。</p>
+<p>而 early stopping 在这里有一个反直觉的映射：<strong>别在亏损的连败段里硬训。</strong> 模型在验证损失开始反弹时该停，你在情绪被亏损污染、每一笔决策的"标签"都被恐惧扭曲时，也该停——这时继续交易不是在学习，是在用被污染的梯度更新参数（我做过 label contamination 下的鲁棒学习，污染样本喂进去只会让你离最优更远）。停下来、空仓、复盘，等分布干净了再继续。学习率最大化不等于一直全速跑，它等于在对的时刻用对的步长。</p>
+</div>
 <h2 id="_6">避开这些"死法"</h2>
 <p>把全书的教训浓缩成一张"别这么做"清单：</p>
 <pre><code>✗ 满杠杆、满仓——一次反向波动就出局（第5/17章）
@@ -139,10 +155,11 @@
 <li>现实是大多数人长期亏损，原因是杠杆+不自律+低估心理——<strong>校准期望，当手艺打磨</strong>。</li>
 <li>五阶段路线：学习 → 模拟建系统 → micro 实盘 → 稳定放大 → 进阶；晋级看<strong>纪律与可持续性</strong>。</li>
 <li>精通者靠纪律、敬畏风险、过程导向、持续复盘、情绪稳定、诚实——交易精通即<strong>自我管理精通</strong>。</li>
+<li>用 AI 抬高学习率：LLM 复盘、模拟回测压缩试错、嵌入检索加速模式识别——但<strong>盘感与心理无法外包</strong>。</li>
 <li>牢记"死法清单"，避开它们你就跑赢了多数人。</li>
 <li>没有捷径：知道 → 做到 → 稳定做到 → 自动做到。<strong>先活下来，再谈精通。</strong></li>
 </ul>
-  <nav class="pager"><a class="pn pn-prev" href="/future-trading/23-algo-automation.html"><span class="pn-dir">← 上一章</span><span class="pn-title">23 算法与自动化</span></a><span></span></nav>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/25-ai-trading-workflow.html"><span class="pn-dir">← 上一章</span><span class="pn-title">25 用 AI 武装交易：研究·回测·执行·复盘</span></a><span></span></nav>
   </article>
 </main>
 <script src="/future-trading/app.js"></script>

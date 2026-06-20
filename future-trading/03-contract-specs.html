@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -90,8 +91,9 @@ RTY： $50  × 指数点
 M2K： $5   × 指数点   （Micro，1/10）
 </code></pre>
 <p>名义价值（notional value）= 指数点位 × 乘数。</p>
-<p>例：ES 在 5000 点 → 名义价值 = 5000 × $50 = <strong>$250,000</strong>。
-而 MES 在 5000 点 → 名义价值 = 5000 × $5 = <strong>$25,000</strong>。</p>
+<p>例：ES 在 6500 点（约，以交易所实时数据为准）→ 名义价值 = 6500 × $50 = <strong>$325,000</strong>。
+而 MES 在 6500 点 → 名义价值 = 6500 × $5 = <strong>$32,500</strong>。</p>
+<p>换句话说，2026 年中 S&amp;P 500 在 6500 一线，一手 ES 背后压着约 32 万美元的名义敞口，一手 MES 约 3.2 万。下单前用当前点位重算一遍，别用书里的示例点位——指数会涨，量纲不会变，但你押的钱变了。</p>
 <blockquote>
 <p>注意 NQ 的乘数是 $20（不是 $50），这是新手常错的点。务必以交易所官方规格为准，不要套用 ES 的数字。</p>
 </blockquote>
@@ -168,12 +170,16 @@ M2K： $5   × 指数点   （Micro，1/10）
 <p>不同平台写法略有差异（有的写 ESM26、ES6M），但逻辑一致：品种 + 月份 + 年份。</p>
 </blockquote>
 <p>任意时刻，市场上会同时存在多个月份的合约，但<strong>绝大部分成交量集中在最近的活跃月份</strong>，称为<strong>前月合约 / 主力合约（front month）</strong>。你几乎总是交易主力合约。</p>
+<p>CME Globex 的实时行情代码就是这套拼法。比如 Russell 2000 的 E-mini（RTY）当前主力可能显示成 <code>RTYU6</code>——RTY + U（9 月）+ 6（2026）。在平台里看到一串陌生代码，按"品种 + 月份字母 + 年份"拆开，就知道自己点的是哪张合约、哪个到期月。</p>
 <h2 id="price-limits">涨跌停与限制（Price Limits）</h2>
 <p>为防止极端行情，CME 对股指期货设有<strong>价格限制（price limits）</strong>和<strong>熔断（circuit breakers）</strong>：</p>
-<ul>
-<li>盘中下跌 7%、13% 触发不同级别限制，配合现货市场熔断机制。</li>
-<li>夜盘（overnight）有 ±7% 的涨跌幅限制带（limit up / limit down）。</li>
-</ul>
+<p><strong>常规时段（regular trading hours）三级熔断</strong>，对标现货市场的 circuit breakers：</p>
+<pre><code>Level 1： 下跌 7%  → 全市场暂停 15 分钟
+Level 2： 下跌 13% → 全市场暂停 15 分钟
+Level 3： 下跌 20% → 当日剩余时间停止交易
+</code></pre>
+<p>7% 和 13% 各触发一次 15 分钟熔断；跌到 20%（Level 3）则当天直接收摊。注意这是<strong>下跌</strong>方向的三级机制；旧资料常只写到 13%，漏掉 20% 这一级。</p>
+<p><strong>夜盘（overnight / 非常规时段）</strong> 则是 ±7% 的硬性涨跌幅限制带（limit up / limit down）：价格不会熔断停盘，而是被"焊"在 ±7% 的限制位上，只能在该价位内成交，不能突破。</p>
 <p>这些机制平时用不到，但你必须知道它们存在——剧烈行情时，价格可能"卡"在限制位无法成交。</p>
 <h2 id="_2">在哪查官方规格</h2>
 <p><strong>铁律：合约规格以交易所官方为准。</strong> 任何二手资料（包括本书）都可能过时。查询路径：</p>
@@ -182,6 +188,10 @@ M2K： $5   × 指数点   （Micro，1/10）
 <li>你的交易平台里，合约详情通常直接显示乘数、tick、保证金。</li>
 </ul>
 <p>每次交易一个新品种前，<strong>先查官方规格</strong>，确认乘数和 tick value，再下单。</p>
+<div class="researcher-note">
+<p><strong>读一份合约规格，就是读一张 model card / config。</strong> 乘数、tick size、tick value、结算方式、交易时段——每个字段都是一个超参数，含义、量纲、默认值都写死在文档里，而不是你能拍脑袋假设的。<code>tick value = tick size × multiplier</code>，本质是一次量纲分析（dimensional analysis）：<code>点 × ($/点) = $</code>。任何一个字段记错——把 NQ 的 <code>$20</code> 当成 ES 的 <code>$50</code>，把 RTY 的 <code>0.10</code> 当成 <code>0.25</code>——整条盈亏链路就像把 <code>hidden_dim</code> 填错一样，后面全盘皆错，而且往往不会报错，只会悄悄给你一个量级离谱的数。</p>
+<p>和 config 一样，规格也会随版本漂移。你心里那张"ES <code>$50</code>、MES <code>$5</code>、NQ <code>$20</code>、MNQ <code>$2</code>"的缓存表，每隔一段时间要拿交易所官方页面去核对一次是否仍然成立——别信缓存，信 source of truth。<code>assumptions are the enemy</code>：不确定就去查、去量，不要估。</p>
+</div>
 <h2 id="_3">本章要点</h2>
 <ul>
 <li>合约规格三要素：乘数（multiplier）、最小跳动（tick size）、合约月份。</li>

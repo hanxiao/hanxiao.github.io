@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li class="active"><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -76,6 +77,12 @@
 </blockquote>
 <p><strong>Z-score（标准分）</strong>
 价格偏离均值多少个标准差，是量化均值回归最严谨的度量。|Z| &gt; 2 通常视为显著偏离。</p>
+<div class="researcher-note">
+<p><strong>均值回归就是离散时间的 OU 过程，你已经熟得不能再熟了。</strong> 把价格（或对数价、价差）的去均值序列写成 <code>xₜ = φ·xₜ₋₁ + εₜ</code>，就是 AR(1)；取连续极限就是 Ornstein-Uhlenbeck，等价于指数核高斯过程（GP）的"另一端"——同一个 <code>exp(-Δt/τ)</code> 衰减，一端看协方差，一端看回归。<code>0&lt;φ&lt;1</code> 时序列回归均值，<code>φ</code> 越小回归越快、ACF 衰减越陡；<code>φ&lt;0</code> 是过冲式振荡；<code>φ≥1</code> 退化成随机游走/趋势，正是本章"趋势碾压"在参数上的临界。这给了你两个可直接交易的量：z-score 就是把 <code>xₜ</code> 标准化成 <code>xₜ/σ</code> 的标准化偏离，和你在 embedding 里做白化、算 effective rank 前的那步标准化是同一个动作；半衰期 <code>t½ = ln½ / lnφ</code> 直接告诉你这笔仓位平均要拿多久——它定持仓时长，不是凭感觉设止盈。布林带不过是 <code>μ ± kσ</code> 的置信带，<code>k</code> 选 2 就是约 95% 的两倍标准差边界。真正该 benchmark 的是：<code>φ</code> 和 <code>σ</code> 是否平稳？你拿历史窗口估出的半衰期，在样本外还成立吗？这正是均值回归策略最容易过拟合（参见第13章的 overfit 警惕）的地方——回归速度一旦漂移，止盈逻辑就失效。</p>
+</div>
+<p>下面这个组件就是 OU/AR(1)。把 <code>φ</code> 拖到 0.3-0.5 看快速回归，再拖到接近 1 看它如何退化成趋势；同时盯住 ACF 衰减曲线和半衰期读数——那个半衰期就是你这类仓位的"自然持仓周期"。</p>
+<figure class="widget" data-widget="ar1" data-phi="0.4"><figcaption>玩一玩：均值回归速度与半衰期 (OU / AR(1))</figcaption></figure>
+
 <h2 id="_5">一个区间交易框架</h2>
 <pre><code>1. 确认环境：ADX 低 + 清晰的水平支撑/阻力
 2. 入场：价格触及区间下沿 + RSI 超卖 → 做多

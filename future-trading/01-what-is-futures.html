@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -64,12 +65,20 @@
 相对保证金回报 = $2,500 / $13,000 ≈ +19%
 </code></pre>
 <p>同样，下跌 1% 你就亏掉约 19% 的保证金。<strong>1% 的市场波动，对应你账户约 19% 的盈亏</strong>——这就是杠杆的双刃剑。</p>
+<div class="researcher-note">
+<p><strong>期货是标的的一阶导数：盈亏对价格线性，delta 恒为常数。</strong></p>
+<p>一份期货的盈亏函数是 <code>PnL = N × m × (Pₜ − P₀)</code>，其中 <code>N</code> 是手数、<code>m</code> 是每点价值、<code>P₀</code> 是开仓价。对价格 <code>Pₜ</code> 求导，斜率（delta，即梯度 ∂PnL/∂P）恒等于 <code>±N × m</code>——做多为正、做空为负，与价格高低无关。换句话说，你交易的是标的的<strong>一阶导数</strong>，一个常数敏感度的线性合约（本质上就是远期 forward）。期权才引入二阶项（gamma）、是凸的（convex）；期货没有曲率，画出来永远是一条直线。</p>
+<p>两个常被混淆的点也顺带厘清。其一，这是严格的<strong>零和（zero-sum）</strong>：多空盈亏精确抵消，和对抗鲁棒学习里 min-max 博弈中"一方的损失即另一方的收益"是同一种结构。其二，保证金（margin）不是借款、不付利息，它是<strong>履约押金（performance bond）</strong>——和券商借钱买股票的 margin loan 完全是两回事：前者是抵押，后者才有融资成本。</p>
+</div>
 <h2 id="_3">多头与空头</h2>
 <ul>
 <li><strong>做多（go long）</strong>：买入开仓，预期价格上涨获利。</li>
 <li><strong>做空（go short）</strong>：卖出开仓，预期价格下跌获利。</li>
 </ul>
 <p>期货的一大优势是<strong>做空和做多一样简单</strong>。你不需要像股票那样"借券"（borrow shares），可以直接卖出开仓。这让期货成为对冲（hedging）和双向投机（speculation）的理想工具。</p>
+<p>拖动下面的价格，看多头和空头的盈亏各是一条斜率相反的直线：注意斜率（每点价值×手数）恒定不变，不随价格弯曲——这正是期货（线性）与期权（凸）的分界。</p>
+<figure class="widget" data-widget="payoff"><figcaption>玩一玩：多空期货的线性盈亏</figcaption></figure>
+
 <h2 id="vs_1">现金结算 vs 实物交割</h2>
 <p>到期时合约如何了结，分两类：</p>
 <ul>

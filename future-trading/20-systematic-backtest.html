@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li class="active"><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -122,7 +123,22 @@
 不扣佣金、交易所费、滑点的回测毫无意义。<strong>频率越高，成本影响越大</strong>，必须真实计入（第 4、7 章）。</p>
 <p><strong>连续合约拼接问题</strong>
 期货回测要处理移仓（第 6 章），不同拼接方式（不调整/比例/差值）会改变历史价格和盈亏，必须明确。</p>
-<h2 id="_5">样本外验证</h2>
+<h2 id="_5">通缩夏普比率：给最优夏普打个运气折扣</h2>
+<p>过度拟合还有一个被忽视的隐形版本：<strong>多重测试（multiple testing）</strong>。你在策略空间里试了 N 套参数，再挑夏普最高的那一套报告——这个"最优样本内夏普"是 N 个带噪估计取最大值，会被随机性系统性地抬高。即使每套策略真实优势都为零，N 个噪声里的最大值期望也会随 √(2·lnN) 增长；样本越短（T 越小），单个夏普估计越不稳，这个虚高越严重。换句话说，<strong>试得越多，裸夏普越骗人</strong>。</p>
+<p><strong>通缩夏普比率（Deflated Sharpe Ratio, DSR）</strong>（Bailey 与 López de Prado, 2014）就是给这个数打折的统计闸门：它同时校正两件事——多重检验下的选择偏差（用试验次数 N 与各试验夏普的方差），以及收益的偏度/峰度（真实收益往往非正态，胖尾会让夏普显著性被高估）。DSR 给出的是"这个夏普扣掉运气之后还显著吗"的概率。</p>
+<pre><code>实务结论：
+  报告策略时，不能只报裸夏普（naked Sharpe）。
+  必须披露：一共试了多少组参数 N，并据此打折。
+  这与&quot;参数越精确 = 记住噪音、规则尽量少&quot;的直觉一致，
+  只是把它变成了可计算的统计量。
+</code></pre>
+<p>下面这个组件就是在演示这件事：把 N（尝试的策略数）拖大，看样本内最高夏普如何被纯随机性抬高，而样本外夏普 ≈ 0。这正是过度拟合的统计本质——你挑的不是优势，是最大的那个噪声。</p>
+<figure class="widget" data-widget="overfit"><figcaption>玩一玩：尝试 N 个策略后的样本内最高夏普 (通缩夏普)</figcaption></figure>
+
+<p>那么一个夏普要多大、样本要多长才算真有优势？拖动样本长度看显著性：夏普 1 的策略大约需要约 2.7 年的日数据样本才能在统计上把"有优势"和"运气好"区分开——交易次数太少的高夏普，先别信。</p>
+<figure class="widget" data-widget="sharpe-significance"><figcaption>玩一玩：多久的样本才能相信一个优势</figcaption></figure>
+
+<h2 id="_6">样本外验证</h2>
 <p>防止过度拟合的核心方法：<strong>别用全部数据调参数</strong>。</p>
 <pre><code>全部历史数据
 ├── 样本内（in-sample，如 70%）：用来开发和优化系统
@@ -131,7 +147,19 @@
     系统在从未见过的数据上仍有效 → 才可信
 </code></pre>
 <p>进阶方法有<strong>前进分析（walk-forward analysis）</strong>：滚动地用一段优化、下一段验证，更接近实盘的动态适应。</p>
-<h2 id="_6">从回测到实盘的桥梁</h2>
+<p>但要注意：单次 70/30 切分和一次 walk-forward 都只给你<strong>一条样本外路径、一个夏普数字</strong>，对"恰好这段历史走运"仍然敏感；而且时间序列里训练段与测试段相邻，标签会跨边界泄漏。更稳健的做法（López de Prado）：<strong>净化 K 折交叉验证（purged K-fold CV）</strong>在训练段与测试段之间剔除（purge）重叠样本并加一段禁运期（embargo），消除前视/标签泄漏；<strong>组合净化交叉验证（combinatorial purged CV, CPCV）</strong>进一步用组合方式生成多条样本外路径，得到夏普的<strong>分布</strong>而非单点，从而直接估计回测过拟合概率（probability of backtest overfitting, PBO）。2024 年 <em>Knowledge-Based Systems</em> 一项合成加真实数据的对照研究发现，CPCV 在抑制回测过拟合上优于 k 折、净化 k 折与 walk-forward。本书读者把这两个名字记下作为进阶指引即可，不必展开公式。</p>
+<div class="researcher-note">
+<p><strong>这一章是你的博士主场，只是换了行话。</strong> 回测就是训练集，实盘就是测试集，两者之差就是泛化间隙（generalization gap）；调参数直到曲线完美，就是在记住噪声——和你在标签污染（label contamination）下做鲁棒学习时见过的过拟合是同一只野兽。</p>
+<p>几个一一对应的映射，写出来你会会心一笑：</p>
+<ul>
+<li><strong>在策略空间里搜索 = 多重假设检验。</strong> N 套参数取夏普最大值，就是 N 个噪声估计取 max，期望 ≈ <code>√(2·lnN)</code>，再除以 <code>√T</code> 量级的估计标准差。要扣成通缩夏普（deflated Sharpe, Bailey &amp; López de Prado），本质就是对 sup over N 个统计量做校正——和你给 Fashion-MNIST 上"试了一堆超参再报最好那个"打折是同一个偏差。</li>
+<li><strong>前视偏差 = 标签泄漏（label leakage）。</strong> 用了 <code>t</code> 时刻不该知道的 <code>t+1</code> 信息。</li>
+<li><strong>数据窥探（data snooping）= 在同一测试集上反复评估带来的乐观偏差（test-set overfitting / validation-set leakage）。</strong> 反复用同一份测试集调参，测试集就被你"看穿"、失去了留出价值——就像你反复在同一验证集上挑模型时见过的高估。</li>
+<li><strong>样本外 / walk-forward = 时序交叉验证。</strong> 朴素 CV 在时间序列上会因重叠样本泄漏，升级法正是 purged k-fold 与 CPCV：purge+embargo 去掉边界泄漏，组合路径把单点夏普变成一个分布——你要的从来不是点估计，而是 σ 和置信区间。</li>
+</ul>
+<p>直觉一句话：<strong>样本内夏普是 <code>μ̂</code> 的乐观上界，样本外才是无偏估计；T 太小、N 太大时 <code>μ̂</code> 几乎全是方差。</strong> 这和有效秩（effective rank）/参与比（participation ratio）告诉你"协方差谱里有多少维真的在承载信号"是同一种克制——别把噪声维度当成自由度去拟合。</p>
+</div>
+<h2 id="_7">从回测到实盘的桥梁</h2>
 <p>回测通过了，别急着上真金白银。三步过渡：</p>
 <pre><code>① 回测（backtest）→ 验证历史有优势
 ② 模拟/前向测试（paper / forward test）→ 实时数据、虚拟资金跑数周到数月
@@ -141,7 +169,7 @@
 <blockquote>
 <p>现实差距：回测假设完美执行，实盘有滑点、延迟、断网、以及第 19 章的心理崩溃。<strong>回测绩效是上限，实盘永远更差</strong>。预留这个折扣。</p>
 </blockquote>
-<h2 id="_7">持续迭代</h2>
+<h2 id="_8">持续迭代</h2>
 <p>系统不是一劳永逸的。市场会变（regime change），系统会衰减（alpha decay）。需要：</p>
 <ul>
 <li>持续记录实盘结果，与回测预期对比。</li>
@@ -149,13 +177,14 @@
 <li><strong>不要因为几笔亏损就推翻系统</strong>（连亏是正常的，第 19 章），但要警惕系统性失效。</li>
 <li>改动要有依据、要重新验证，不能凭情绪即兴改参数。</li>
 </ul>
-<h2 id="_8">本章要点</h2>
+<h2 id="_9">本章要点</h2>
 <ul>
 <li>交易系统 = 覆盖过滤/入场/止损/止盈/仓位/风控的<strong>明确可重复规则</strong>。</li>
 <li>新手从<strong>机械系统</strong>起步，逼自己把直觉写成可检验的规则。</li>
 <li>回测检验"历史是否有统计优势"；<strong>最大回撤和样本量比总收益更重要</strong>。</li>
 <li>避开致命陷阱：过度拟合、前视偏差、幸存者偏差、忽略成本、合约拼接错误。</li>
 <li>用<strong>样本外验证 / 前进分析</strong>防过度拟合；参数要稳健、规则要少。</li>
+<li>报告夏普必须披露<strong>试了多少组参数 N</strong> 并打折（<strong>通缩夏普 DSR</strong>）；进阶用 <strong>purged k-fold / CPCV</strong> 得到夏普的分布而非单点。</li>
 <li>过渡四步：回测 → 前向测试 → micro 实盘 → 逐步放大；实盘绩效永远低于回测。</li>
 <li>系统会衰减，持续迭代但不凭情绪乱改。</li>
 </ul>

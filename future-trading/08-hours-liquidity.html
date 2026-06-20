@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -56,6 +57,7 @@ ETH（盘后/隔夜，Electronic/overnight）：其余时间
 <li><strong>11:30 – 13:30 午盘（lunch / midday）</strong>：流动性下降，常陷入窄幅震荡（chop），假突破多。</li>
 <li><strong>15:00 – 16:00 收盘（the close）</strong>：机构调仓，成交量再次放大，趋势常在此延续或反转。</li>
 </ul>
+<p>收盘段的波动近年还被一股新力量放大：<strong>当日到期期权（0DTE，zero days to expiration）</strong>。同日到期的 SPX 期权如今已占 SPX 期权成交的相当大一部分（具体占比以交易所实时数据为准），做市商对这些临近到期合约的对冲（gamma 对冲）会随标的逼近行权价而急剧放大，在尾盘集中释放，进一步抬高收盘段的波动峰值。换句话说，"收盘是第二个波动高峰"这个老结论，被 0DTE 强化了，而不是削弱了。</p>
 <h2 id="et">关键时间锚点（美东时间 ET）</h2>
 <table>
 <thead>
@@ -126,6 +128,12 @@ ETH（盘后/隔夜，Electronic/overnight）：其余时间
 <li><strong>美国时段（08:30 – 16:00 ET）</strong>：主战场，绝大多数日内策略在此运行。</li>
 <li><strong>收盘后（16:00 ET 后）</strong>：财报季波动剧烈，但流动性回落，谨慎。</li>
 </ul>
+<div class="researcher-note">
+<p><strong>时段就是一个 deterministic 的日内季节性项，把它从噪声里减掉，信噪比会立刻变好。</strong> 这张流动性曲线本质是在说：收益序列<strong>非平稳（non-stationary）</strong>，方差有强烈的日内季节性（intraday seasonality / heteroskedasticity）。同一根 K 线，开盘段和午盘段的 σ 可能差好几倍——这不是随机，而是结构性的、可预测的成分。</p>
+<p>你做 Fashion-MNIST 时最警惕"在同一个分布上报告指标"；这里的陷阱是镜像的：日内不同时段根本就不是同一个分布。如果用全天合并的样本去估 <code>σ</code>、去标定止损或仓位，相当于把一个混合分布（mixture）当成单峰来拟合——午盘的窄幅会被开盘的尾巴污染，估计量两头都不准。更干净的做法是把时段当成已知的条件变量：先估出每个时段的基线 <code>σₜ</code>，把收益按 <code>r̃ₜ = rₜ / σₜ</code> 标准化（de-seasonalize），剩下的残差才接近平稳，信号才浮得出来。</p>
+<p>夜盘和午盘还有第二层问题：<strong>低样本 + 高方差 + 点差变宽</strong>。薄市场里每个估计量的有效样本量小，置信区间宽，假突破多——这就是低信噪比时段，贝叶斯地说，你的后验几乎没离开先验，理性的动作是<strong>不动手</strong>（观望 = 不在低信息区间下注）。</p>
+<p>最后埋个伏笔：把"高波动时段后面更可能接着高波动"这件事拆开看，就是<strong>波动聚集（volatility clustering）</strong>——<code>σₜ</code> 自身存在自相关。日内季节性是其中<strong>确定性</strong>的那一半，第18章的 GARCH 处理的是<strong>随机</strong>的那一半。先把季节性减干净，GARCH 才不会把"现在是开盘"误读成"市场突然变激烈了"。</p>
+</div>
 <h2 id="_5">给新手的时段建议</h2>
 <ol>
 <li><strong>优先交易美股开盘后第一两个小时（09:30 – 11:30 ET）</strong>，流动性最好、机会最多。</li>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24 LLM 与 Agent 时代：什么变了，什么没变 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li class="active"><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="24-llm-agent">24 · LLM 与 Agent 时代</h1>
+<p>2023 年以来，大语言模型（large language model, LLM）和能自主调用工具的智能体（agent）涌入交易圈，伴随的是铺天盖地的"AI 帮你躺赚"叙事。这一章不卖梦。我们把 LLM 在交易里<strong>真正能做、真正不能做</strong>的边界划清楚，顺带看 2026 年两件让散户处境实质变化的事：数据成本的崩塌，和自营（prop）账户的真相。</p>
+<h2 id="llm">LLM 真正能帮上的：更快地阅读，不是更准地预测</h2>
+<p>LLM 的核心价值，是把<strong>非结构化信息变成可用的结构化输入</strong>。这件事它确实做得好：</p>
+<pre><code>✓ 解析财报、纪要、新闻稿 → 抽取数字、事件、口径变化
+✓ 把一段央行声明压成&quot;鹰派/鸽派 + 关键变量&quot;
+✓ 跨语言、跨来源聚合（路透 + 交易所公告 + 期货持仓报告）
+✓ 给自然语言策略描述生成代码骨架（仍需你逐行验证）
+✓ 检索增强（RAG）：把你多年的交易日志变成可问答的知识库
+</code></pre>
+<p>注意这些全部是<strong>输入端</strong>的工作——读得更快、读得更全、读得更省力。检索（retrieval）和嵌入（embedding）能把你一周才看得完的材料压到一小时，但它们给你的是<strong>更快的阅读，不是水晶球</strong>。信息消化效率的提升，和"预测下一根 K 线"之间，没有直接的桥。</p>
+<blockquote>
+<p>第一性原则：LLM 降低的是<strong>信息获取与处理的成本</strong>，不是降低市场的不可预测性。前者真实且可观，后者一厢情愿。</p>
+</blockquote>
+<h2 id="llm_1">LLM 真正帮不上的：幻觉回测与过拟合放大器</h2>
+<p>LLM 在交易里最危险的两个失效模式，恰恰来自它最讨喜的能力——"流畅地编"。</p>
+<p><strong>幻觉回测（hallucinated backtest）</strong>。你让模型"回测一下这个策略"，它会给你一段语气笃定、数字漂亮、夏普 2.3 的报告——而它根本没碰过任何历史数据，整段都是续写出来的合理猜测。任何不是从你自己的数据管线跑出来的绩效数字，默认为零可信度。</p>
+<p><strong>过拟合放大器（overfitting amplifier）</strong>。LLM 让"生成一个策略"的边际成本趋近于零。一晚上让 agent 自动生成、回测、筛选上千套策略，再报告夏普最高那一套——这正是第 20 章讲的<strong>多重检验（multiple testing）</strong>问题被踩到油门。试验次数 N 从几十涨到上万，样本内最高夏普被纯随机性抬高的幅度按 √(2·lnN) 增长，通缩夏普（deflated Sharpe）的折扣只会越来越狠。<strong>自动化生成策略不创造优势，只制造更多噪声的最大值。</strong></p>
+<pre><code>传统人工调参：     试 N≈50 套      → 已要打折
+LLM/agent 自动搜： 试 N≈10000 套   → 折扣陡增，裸夏普几乎全是运气
+
+工具越省力，越要把 N 如实记下来并扣回去。
+</code></pre>
+<h2 id="0dte-2026">0DTE 与数据民主化：2026 的两个真实变化</h2>
+<p><strong>0DTE（zero days to expiration，当日到期期权）的爆发是真的。</strong> CME E-mini 标普 0 到 5 DTE 期权的日均成交量（ADV）在 2025 年从约 35 万张涨到约 77 万张（约 +120%），其中纯 0DTE 部分约从 10 万张到 37 万张（数据约值，以交易所发布为准）。这意味着围绕指数期货的短期期权流显著变厚。</p>
+<p>但"0DTE 对冲流通过 gamma 反馈推动指数期货"这个说法，<strong>目前是有争议的，不是定论</strong>：</p>
+<pre><code>两种对立的实证口径：
+  Cboe（《SPX 0DTE 期权市场影响》）：
+    做市商净 gamma 仅约占标普期货日内流动性的 0.04% 到 0.17%，
+    未观察到可辨识的价格影响。
+  SpotGamma 等：
+    对冲行为确实在日内推动指数。
+
+→ 别把&quot;0DTE 造成尾盘剧烈波动&quot;当成已证实的机制去交易。
+  这是个开放问题，下注前先看你自己能复现的数据。
+</code></pre>
+<p><strong>数据成本的崩塌是更确定、更重要的变化。</strong> 曾经只有机构付得起的期货行情数据，现在是几十到几百美元/月的事：Databento CME MDP 3.0 标准档约 199 美元/月（自 2026-06-22 起，约值以官网为准），Polygon 期货数据约 29 到 199 美元/月。<strong>过去要数万美元的东西，如今是低三位数美元。</strong> 数据这道墙基本塌了——这对散户是实打实的利好，也意味着"没有好数据"不再是借口。</p>
+<h2 id="_1">工具链与"验证一切"</h2>
+<p>成熟的开源回测引擎已经很多：<strong>NautilusTrader、VectorBT（及 PRO）、Zipline-Reloaded、Lean</strong> 等。但工具成熟 ≠ 工具无 bug。2026 年一篇 arXiv 论文（2603.20319v1）就报告了 NautilusTrader 的<strong>持仓模式（position-mode）不匹配</strong>和<strong>回测被静默截断（silent truncation）</strong>——也就是说引擎在你不知情的情况下少跑了一段数据。</p>
+<pre><code>铁律：任何回测引擎的输出，都要用一个你手算得清的极简案例去对账。
+  - 单笔进出，手算盈亏，看引擎是否一致
+  - 检查它跑的数据区间是否就是你以为的区间
+  - 持仓方向/数量的语义，逐一确认
+工具会骗你，不是因为恶意，是因为默认配置和你的假设不一致。
+</code></pre>
+<p>这与第 20 章一脉相承：报告夏普必须披露试验次数 N 并打折（<strong>通缩夏普 DSR</strong>，Bailey 与 López de Prado, 2014）。LLM 时代 N 爆炸，这条纪律比以往任何时候都重要。</p>
+<h2 id="_2">自营与"出资"账户：你买的是评估，不是资本</h2>
+<p>近年很火的 prop firm / funded account（自营公司 / 出资账户）——Topstep、Apex、FundedNext 等——值得说句大白话：</p>
+<pre><code>它们的商业模式本质：
+  你付&quot;评估费&quot;（evaluation fee）参加考核（combine），
+  通过后操作的是【模拟资金】，不是交易所里的真实资本。
+  公司主要收入来自【报名费】，不是分你交易的利润。
+</code></pre>
+<p>这不是骗局，但要看清楚：这是个<strong>卖评估、给模拟盘</strong>的生意，不是有人真把交易所账户的钱交给你。配套的规则（如 Apex 的 30% 一致性规则——单日盈利不得超过总盈利的 30%）本身就是为压低通过率设计的。行业统计（QuantVPS, 2026）显示<strong>绝大多数参与者通不过考核</strong>。</p>
+<p>值得注意的演化：Topstep 在 2026-01-27 推出了 Topstep Brokerage，FundedNext 也在进入期货——也就是说部分公司开始往<strong>真实经纪业务</strong>靠拢，模糊了"模拟考核"和"真实交易"的边界。但在你交易的那一刻，先问清楚：<strong>我赚的钱，是市场里的真钱，还是后台数据库里的数字？</strong></p>
+<div class="researcher-note">
+<p><strong>这一章几乎是你的职业说明书——但正因为是你建的，你最该诚实。</strong> 你做了五年嵌入、重排器、ReaderLM、late chunking 和 RAG，没有人比你更清楚这套管线<strong>能</strong>和<strong>不能</strong>做什么。它能做的是把"读"做到极致：把财报、纪要、跨语言新闻压成结构化输入，把延迟从一周降到一小时。这是输入端的真实增益，别低估。</p>
+<p>但要把两件事钉死在墙上：</p>
+<ul>
+<li><strong>检索/嵌入 ≈ 更快的阅读，不是预测器。</strong> 你的 retriever 优化的是"在已有语料里找到相关段落"的召回，它从不承诺"下一时刻价格"。把召回率（recall）误读成预测力（predictive power），是把 IR 指标硬塞进一个 EMH-adjacent 的世界——公开信息在你读到时多半已被定价，剩下的边际信息量逼近噪声。这不是模型不够好，是信息论的地板。</li>
+<li><strong>LLM 是过拟合放大器，不是过拟合解药。</strong> 自动生成 + 自动回测把试验次数 N 从几十推到上万，样本内最高夏普按 <code>√(2·lnN)</code> 被抬高，而样本外 ≈ 0——和你在 Fashion-MNIST 上"扫一堆超参再报最好那个"是同一只野兽，只是 N 大了两个数量级。通缩夏普的折扣项里那个 N，现在是你 agent 一晚上的吞吐量。</li>
+<li><strong>幻觉回测 = 续写，不是测量。</strong> LLM 给你的"夏普 2.3"，在没接你数据管线时，信息增益（information gain）为零——整段都是先验语言模型的流形采样，没有一个比特来自市场。把它当措辞流畅的随机数。</li>
+</ul>
+<p>一句话的直觉，用你的话说：<strong>你的工具把 <code>μ̂</code> 的估计成本压到了零，但没有改变 <code>μ</code> 本身有多小、<code>σ</code> 有多大。</strong> T 太小、N 太大时，<code>μ̂</code> 几乎全是方差——你比谁都懂，别因为是自己造的锤子就忘了这件事。</p>
+</div>
+<h2 id="_3">本章要点</h2>
+<ul>
+<li>LLM 的真实价值在<strong>输入端</strong>：更快、更全、更省力地阅读与结构化信息；这是真增益，但和"预测价格"之间没有桥。</li>
+<li>两个致命失效：<strong>幻觉回测</strong>（没碰数据就编出绩效）与<strong>过拟合放大器</strong>（自动生成把试验次数 N 推到上万，夏普虚高更狠）。</li>
+<li>0DTE 成交量爆发是真的（CME 0-5DTE ADV 约 +120%），但"gamma 反馈推动指数期货"<strong>仍有争议</strong>：Cboe 测得影响微乎其微，SpotGamma 称有日内推动——别当定论交易。</li>
+<li>数据成本崩塌是更确定的利好：机构级期货数据从数万美元降到约 29 到 199 美元/月（Databento、Polygon，约值以官网为准）。</li>
+<li>开源回测引擎成熟但有 bug（NautilusTrader 持仓模式 / 静默截断），<strong>一切输出都要用手算极简案例对账</strong>；报告夏普必须披露 N 并打折（DSR）。</li>
+<li>Prop / funded 账户本质是<strong>卖评估、给模拟盘</strong>的生意，收入主要来自报名费，多数人通不过考核；Topstep 已于 2026-01-27 推出真实经纪业务（Topstep Brokerage），边界在变。</li>
+</ul>
+<p>下一章：把 LLM、检索、回测和风控拼成一条可落地的个人 AI 交易工作流。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/23-algo-automation.html"><span class="pn-dir">← 上一章</span><span class="pn-title">23 算法与自动化</span></a><a class="pn pn-next" href="/future-trading/25-ai-trading-workflow.html"><span class="pn-dir">下一章 →</span><span class="pn-title">25 用 AI 武装交易：研究·回测·执行·复盘</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

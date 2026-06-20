@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -51,11 +52,13 @@
 <p>面向散户的常见选择（务必自行核实最新政策，本书不做推荐）：</p>
 <ul>
 <li><strong>Interactive Brokers（盈透，IBKR）</strong>：全球品种最全、费用低，适合有一定经验的人。平台偏专业。</li>
-<li><strong>NinjaTrader</strong>：专注期货，图表和下单工具强，社区活跃，micro 合约友好。</li>
+<li><strong>NinjaTrader</strong>：专注期货，图表和下单工具强，社区活跃，micro 合约友好。注意 2025 年 Kraken（加密交易所）以约 15 亿美元收购了 NinjaTrader（Reuters, 2025-03-20，约 5 月完成交割）——东家变了，但作为期货平台的产品形态目前未变，值得持续关注其方向。</li>
 <li><strong>Tradovate</strong>：纯云端、按月订阅可降低单笔佣金，界面现代。</li>
+<li><strong>Sierra Chart</strong>：偏专业的图表与下单终端，延迟可控、可深度定制，常作为前端接到上游 FCM。</li>
 <li><strong>TradeStation / AMP / Optimus Futures</strong> 等：各有侧重。</li>
 </ul>
 <p>平台（platform）和券商（broker）有时是分开的——很多券商支持你用第三方平台（如 NinjaTrader、Sierra Chart）接入。</p>
+<p>数据源也是基础设施的一环。除了券商自带行情，专业一点的玩家会单独接一个<strong>数据 API（market data API）</strong>，例如 <strong>Databento</strong>：它持有 CME GLBX.MDP3 的实时与历史授权，提供逐笔（tick-level）和盘口（order book）数据，按用量计费（注意 CME 实时数据的按量计费定价已于 2025-04-16 调整，以官网为准）。回测和实盘想用同一套数据契约时，这类 API 比券商导出的零散行情更可靠。</p>
 <h2 id="_3">选券商看什么</h2>
 <p>按重要性排序：</p>
 <ol>
@@ -66,6 +69,18 @@
 <li><strong>平台稳定性与下单速度</strong>：关键时刻不能卡。</li>
 <li><strong>出入金</strong>：对非美国居民，确认是否接受、电汇成本如何。</li>
 </ol>
+<div class="researcher-note">
+<p><strong>券商 + 平台 + 数据源，就是你这套交易系统的推理基础设施栈（inference stack）。</strong></p>
+<p>选型逻辑和你给一个模型选推理服务时几乎一样：决定因素是吞吐稳定性、尾延迟（tail latency）和撮合可靠性，而不是花哨功能。一个 p50 漂亮、p99 偶尔卡死的下单通道，等价于一个平均延迟很低、但偶发超时的 serving endpoint——在大多数时候无所谓，恰恰在你最需要它（剧烈波动、要紧急平仓）的那一刻掉链子。</p>
+<p>把这条栈拆成可独立替换的层来看，会更清楚每一层在保证什么：</p>
+<pre><code>数据源（Databento / 交易所行情） ── 你的输入特征，要求：完整、低延迟、回测与实盘同一份数据契约
+       │
+平台（Sierra Chart / NinjaTrader） ── 你的客户端，要求：下单/改单/止损的尾延迟可控、可观测
+       │
+券商 / FCM（IBKR 等）           ── 你的执行后端，要求：撮合与清算可靠、合规、风控规则透明
+</code></pre>
+<p>两个具体落点。其一，回测用一份数据、实盘用另一份，相当于训练分布和服务分布不一致（train/serve skew）——<code>第20章</code> 谈回测时会再碰到，源头往往就在这里。其二，funded/prop 评测账户值得用你做基准测试的眼光审视一遍：它本质是 sim 环境，"通过评测"是在一个代理指标（proxy metric）上达标，并不等于在真实撮合这个目标分布上能盈利。这正是你熟悉的 overfitting-to-the-benchmark：刷高了考试分数，未必迁移到线上。</p>
+</div>
 <h2 id="_4">费用结构全解</h2>
 <p>一笔期货交易的总成本：</p>
 <pre><code>总成本 = 佣金（commission）
@@ -76,7 +91,7 @@
 </code></pre>
 <p>举例：交易一手 ES，往返（round turn，开+平）大致：</p>
 <pre><code>佣金     ≈ $2.5（双边合计，因券商而异）
-交易所费 ≈ $2.4（CME 对 ES 收取，约 $1.18/边）
+交易所费 ≈ $2.76（CME 对 ES 收取，约 $1.38/边；示例，以交易所实时数据为准）
 NFA 费   ≈ $0.04
 ─────────────────────────
 往返显性成本 ≈ $5 左右
@@ -85,11 +100,11 @@ NFA 费   ≈ $0.04
 <h2 id="vs">日内保证金 vs 隔夜保证金</h2>
 <p>这是期货新手最容易忽略、也最容易爆仓的点：</p>
 <ul>
-<li><strong>交易所初始保证金（initial margin）</strong>：持仓（尤其隔夜，overnight）必须满足的标准，ES 约 $13,000 上下（会随波动率调整）。</li>
+<li><strong>交易所初始保证金（initial margin）</strong>：持仓（尤其隔夜，overnight）必须满足的标准，ES 约 $25,000 上下（示例，以交易所实时数据为准；会随波动率调整，2026 年中已较几年前显著抬升）。</li>
 <li><strong>日内保证金（day-trade / intraday margin）</strong>：很多券商允许日内只用极低保证金（如 ES 仅几百到一两千美元）持仓，但<strong>必须在收盘前平仓</strong>。</li>
 </ul>
 <blockquote>
-<p>⚠️ 日内保证金极低 = 杠杆极高。用 $500 控制 $250,000 名义价值，杠杆高达 500 倍。一次反向波动就可能击穿账户。<strong>低保证金不代表低风险，恰恰相反。</strong></p>
+<p>日内保证金极低 = 杠杆极高。S&amp;P 约 6,500 点时，一手 ES 的名义价值 ≈ $50 × 6,500 ≈ $325,000（示例，以交易所实时数据为准）。若券商允许你用 $500 日内保证金持有这一手，杠杆高达约 650 倍。一次反向波动就可能击穿账户。<strong>低保证金不代表低风险，恰恰相反。</strong></p>
 </blockquote>
 <h2 id="_5">模拟交易：绝不能跳过</h2>
 <p>在投入真金白银前，<strong>至少用模拟账户（paper trading / sim account）练习 1–3 个月</strong>。几乎所有平台都提供免费模拟环境，用虚拟资金、真实行情下单。</p>
@@ -103,6 +118,15 @@ NFA 费   ≈ $0.04
 <blockquote>
 <p>现实提醒：模拟交易和实盘最大的差别是<strong>心理</strong>。模拟时你下得了重手、扛得住浮亏；实盘一旦真金白银，恐惧和贪婪会完全改变你的行为。所以模拟过关只是"必要条件"，不是"充分条件"。第 19 章会专门讲心理。</p>
 </blockquote>
+<h2 id="funded-prop">funded / prop 评测账户：一个要看清的散户陷阱</h2>
+<p>2026 年最常见的散户入场方式之一，是去 <strong>Topstep、Apex</strong> 这类"考试型"自营（prop / funded）平台：先付一笔订阅费，在模拟环境里跑一套评测（evaluation），达到盈利目标且不违反回撤规则，就发给你一个"资金账户（funded account）"。</p>
+<p>把它看清楚：</p>
+<ul>
+<li>所谓"资金账户"用的是<strong>自营公司自有流动性下的模拟环境</strong>，不是清算到 FCM 的真实账户。你下的不是市场里的真单，盈亏由公司按规则结算给你。</li>
+<li>通过率与"考试通过后还能稳定盈利并真正拿到钱"的比例都很低——Topstep 公布的实盘转化率约 0.71%（示例口径，以平台披露为准）。</li>
+<li>商业模式的现金流很大一部分来自报名费与重置费，而非市场盈利。这本身不等于骗局，但你要知道自己在为什么付费。</li>
+</ul>
+<p><strong>合理的定位</strong>：把它当作一个有外部纪律约束的练习场——强制你遵守回撤和单量规则，逼出风控习惯。这是它的真实价值。但别把"通过评测"误当成"已经是一个能在真实 FCM 账户上盈利的交易者"。两者之间隔着本章反复强调的那道坎：心理，以及真实撮合下的滑点与延迟。</p>
 <h2 id="_6">给非美国居民的提示</h2>
 <ul>
 <li>多数大型期货券商接受国际客户，但需完成 W-8BEN 等税务表格。</li>
@@ -114,7 +138,8 @@ NFA 费   ≈ $0.04
 <li>期货要开<strong>专门的期货账户</strong>，链条为：你 → FCM → 清算所 → 交易所。</li>
 <li>选券商：合规第一，再看佣金、保证金、数据费、平台稳定性。</li>
 <li>每笔交易的显性成本（佣金+交易所费）约 $5/手往返（ES），加滑点更高。</li>
-<li><strong>日内低保证金 = 超高杠杆</strong>，是新手爆仓主因，别被"门槛低"迷惑。</li>
+<li><strong>日内低保证金 = 超高杠杆</strong>（一手 ES 名义价值约 $325k），是新手爆仓主因，别被"门槛低"迷惑。</li>
+<li><strong>funded / prop 评测账户</strong>（Topstep、Apex 等）本质是 sim 环境，定位为纪律练习场，不是真实 FCM 账户，通过率与提现率都很低。</li>
 <li>实盘前必须用<strong>模拟账户</strong>练 1–3 个月，但要知道实盘的真正考验是心理。</li>
 </ul>
 <p>第一部分结束。接下来进入第二部分——市场机制，第一站：保证金与杠杆。</p>

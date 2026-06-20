@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li class="active"><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li class="active"><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -70,9 +71,9 @@
 <p>实现自动化的常见路径，从易到难：</p>
 <p><strong>平台内置脚本语言</strong>
 - <strong>NinjaTrader（NinjaScript / C#）</strong>、<strong>TradeStation（EasyLanguage）</strong>、<strong>Sierra Chart（ACSIL/C++）</strong> 等都内置策略编程，可回测+自动执行，门槛相对低，适合起步。
-- <strong>TradingView（Pine Script）</strong>：易学，适合策略原型和告警，但自动下单需配合中转（webhook → 券商 API）。</p>
+- <strong>TradingView（Pine Script v6）</strong>：易学，适合策略原型和告警，但自动下单需配合中转（webhook → 券商 API）。</p>
 <p><strong>券商 API（编程接口）</strong>
-- <strong>Interactive Brokers API（TWS API / IB Gateway）</strong>：功能强大，支持 Python、Java、C++ 等，适合自建系统。
+- <strong>Interactive Brokers API</strong>：除经典的 TWS API / IB Gateway（支持 Python、Java、C++）外，现已提供 <strong>Web API（REST/WebSocket）</strong>，无需常驻网关进程，自建系统接入更轻。
 - <strong>Tradovate API</strong>、<strong>CQG API</strong>、<strong>Rithmic API</strong> 等专业期货数据/交易接口。</p>
 <p><strong>自建系统（Python 生态）</strong></p>
 <pre><code>数据（market data API）
@@ -83,7 +84,7 @@
    ↓
 风控 + 监控 + 日志
 </code></pre>
-<p>灵活性最高，但要自己处理数据、延迟、断线重连、错误处理等工程问题。</p>
+<p>回测/执行框架可选 <strong>nautilus_trader</strong>（事件驱动、live 与回测同一套代码）、<strong>vectorbt</strong>（向量化、参数扫描快）、<strong>backtrader</strong>（成熟、生态广）。灵活性最高，但要自己处理数据、延迟、断线重连、错误处理等工程问题。</p>
 <h2 id="_5">一个自动化系统的组成</h2>
 <pre><code>┌─────────────────────────────────────┐
 │  数据源（real-time market data）      │
@@ -106,6 +107,10 @@
 └─────────────────────────────────────┘
 </code></pre>
 <p><strong>风控层和监控层不是可选项</strong>——它们是自动化系统的安全带。</p>
+<div class="researcher-note">
+<p><strong>一个自动化交易系统就是一条推理流水线（inference pipeline）——和你每天在 Elastic 部署的那种同构。</strong>
+数据→信号→风控→执行→监控，对应到 数据→<code>embedding</code>→<code>rerank</code>→后处理→监控:每一级都有自己的延迟预算（latency budget)，整条链路的端到端延迟决定你能不能成交在信号价附近，而不是滑出去的价。最值得迁移过来的一个工程直觉是:<code>风控层</code>是这条链路里独立于模型的<code>断路器（circuit breaker）</code>——和你给下游依赖加的熔断一样，它不关心上游为什么疯，只在 <code>当日亏损 ≥ 阈值</code> 或 <code>单位时间下单次数 ≥ N</code> 时无条件跳闸，把策略与账户隔离开。还有一条更该内化:自动化和模型服务化一样，只放大底层质量，不创造质量。一个 <code>recall@10</code> 不达标的检索系统，把 QPS 拉满只会更快地把烂结果推给更多用户;一个期望为负的策略，自动化只会让它更快、更一致地亏。先有离线验证过的 edge，再上线放大——和"先有过得了 held-out 的指标，再扩流量"是同一条纪律。</p>
+</div>
 <h2 id="_6">自动化的独特风险</h2>
 <p>机器没有常识，会忠实地执行错误，所以有手动交易没有的风险：</p>
 <ul>
@@ -130,12 +135,29 @@
 ⑥ 确认稳定后逐步放大，但风控熔断始终在线
 </code></pre>
 <p>不要跳步。<strong>先有验证过的优势，再自动化执行，永远保留人工急停。</strong></p>
-<h2 id="_8">关于机器学习与高频</h2>
+<h2 id="llm-agent-2026">机器学习、LLM agent 与高频（2026 视角）</h2>
 <ul>
 <li><strong>高频交易（HFT）</strong>：依赖极低延迟、与交易所共置（co-location）的硬件军备竞赛，散户<strong>完全没有竞争空间</strong>，不要幻想。</li>
 <li><strong>机器学习（ML）</strong>：可用于信号研究，但极易过度拟合，且金融数据信噪比极低、非平稳（市场会变）。在你没有扎实的传统系统和回测纪律前，ML 多半是给自己挖坑。<strong>先把简单系统做扎实，再谈 ML。</strong></li>
 </ul>
-<h2 id="_9">本章要点</h2>
+<p><strong>LLM agent 写代码与回测脚手架（2026）</strong></p>
+<p>到 2026 年，最大的变化不在策略本身，而在<strong>生产工具</strong>：让 LLM/agent 把一句话的策略想法翻译成回测脚本、把 NinjaScript/Pine/Python 在工具链之间互转、生成数据加载和参数扫描的脚手架——这一段已经又快又好，能把"从想法到一张回测曲线"的周期压到几分钟。</p>
+<p>但它<strong>不改变任何纪律</strong>，反而新增了两类必须人工审计的高危 bug：</p>
+<pre><code>① 幻觉（hallucination）：
+   agent 会自信地编出不存在的 API、错误的合约乘数、
+   想当然的撮合假设——回测能跑通，不代表逻辑对。
+
+② 未来信息泄漏（lookahead / data leakage）：
+   用了当根 K 线的收盘价做当根入场决策、
+   用全样本统计量做标准化、按未来才知道的事件对齐——
+   回测曲线漂亮得不真实，实盘立刻打回原形。
+   这是 agent 生成回测里最常见、最致命的一类错误。
+</code></pre>
+<ul>
+<li><strong>正确用法</strong>：agent 是把验证过的 edge 工程化的加速器，不是 edge 的来源。<strong>先有人工或离线验证过的优势，再让 agent 写实现；生成的每一行回测和下单代码都要人审，尤其盯死时间对齐与样本边界。</strong> 一条好用的检验：把同一回测做严格的<strong>样本外（out-of-sample）/前向（walk-forward）</strong>切分，曲线在切分点崩掉，多半就是泄漏。</li>
+<li>一句话：LLM 把"实现"变便宜了，<strong>没有把"找到真实 edge"变便宜</strong>。便宜的实现配上没验证的策略，只是更快地自动化亏钱。</li>
+</ul>
+<h2 id="_8">本章要点</h2>
 <ul>
 <li>自动化的价值是<strong>完美执行 + 消除情绪 + 规模化</strong>，不是"更聪明"。</li>
 <li>自动化<strong>不创造优势</strong>，只放大系统真实质量——先有验证过的 edge 再自动化。</li>
@@ -144,9 +166,10 @@
 <li>系统必含<strong>风控层 + 监控告警层</strong>，它们是安全带，不可省。</li>
 <li>独特风险：bug、失控循环、技术故障、延迟滑点、过度优化——必须有<strong>硬性熔断 + 冗余 + 人工急停</strong>。</li>
 <li>HFT 散户无空间；ML 信噪比低易过拟合，先把简单系统做扎实。</li>
+<li>LLM/agent 让"写回测和实现"变便宜，但会幻觉、会泄漏未来信息——<strong>先有验证过的 edge，代码人工审计，时间对齐与样本边界盯死</strong>。</li>
 </ul>
-<p>最后一章：把全书串起来，规划你从入门到精通的路线图。</p>
-  <nav class="pager"><a class="pn pn-prev" href="/future-trading/22-tax-regulation.html"><span class="pn-dir">← 上一章</span><span class="pn-title">22 税务与监管</span></a><a class="pn pn-next" href="/future-trading/24-roadmap-mastery.html"><span class="pn-dir">下一章 →</span><span class="pn-title">24 通往精通之路</span></a></nav>
+<p>下一章：进入第七部分。第 24 章谈 LLM 与 agent 时代下，交易者的研究与执行流程会如何被重塑——以及哪些纪律永远不变。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/22-tax-regulation.html"><span class="pn-dir">← 上一章</span><span class="pn-title">22 税务与监管</span></a><a class="pn pn-next" href="/future-trading/24-llm-agent-era.html"><span class="pn-dir">下一章 →</span><span class="pn-title">24 LLM 与 Agent 时代：什么变了，什么没变</span></a></nav>
   </article>
 </main>
 <script src="/future-trading/app.js"></script>

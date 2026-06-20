@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li class="active"><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -80,6 +81,10 @@
        ╱     ╲
 -2σ ─●────────  ← 做多价差
 </code></pre>
+<div class="researcher-note">
+<p><strong>配对交易就是协整（cointegration）的手工版，你已经掌握了全部数学。</strong> 两个品种各自非平稳（随机游走），但存在一个线性组合 <code>ES − β·NQ</code> 是平稳的——这就是协整。<code>β</code> 不是别的，正是把 NQ 回归到 ES 上的回归系数，也就是对冲比（hedge ratio）；剩下的残差 <code>εₜ</code> 才是你真正交易的对象。对 <code>εₜ</code> 做标准化得到 z-score，再对它做均值回归（第 14 章）——和你给单一价格做 OU/AR(1) 是同一套机器，只是先做了一次降维投影把共同的市场方向消掉。</p>
+<p>真正值得停下来想的是另一半：相关性 ρ 决定分散的<strong>真实</strong>价值。n 个名义赌注、两两相关系数 ρ，有效独立赌注数是 <code>Nₑ = n / (1 + (n−1)ρ)</code>。这个量你天天在算——它和协方差谱的参与率（participation ratio）<code>(Σλ)² / Σλ²</code>、嵌入矩阵的有效秩是一族姊妹度量：都在 ρ→0 时趋近 n、在 ρ→1 时塌到 1，本质都在量"有效维度"，只是 Nₑ 走方差口径、参与率走特征值口径，一般情形下数值相近而非严格相等。ρ→1 时 Nₑ→1：做多 ES+NQ+RTY 看似 3 注，实际可能不到 1.5 注的独立性。价差交易的全部价值，等价于把这条腿之间的 ρ 推到 0 甚至为负，从而把 Nₑ 顶上去。下面这个组件就是这条公式的可视化。</p>
+</div>
 <h2 id="_4">风险与陷阱</h2>
 <p>价差交易并非"稳赚"，有它独特的风险：</p>
 <ul>
@@ -88,6 +93,9 @@
 <li><strong>双倍成本</strong>：两条腿 = 两份佣金和交易所费，频繁交易成本不低。</li>
 <li><strong>看似低波动 = 容易上重仓</strong>：因为价差波动小，人容易加大杠杆，一旦相关性破裂，放大的仓位会造成大亏。</li>
 </ul>
+<p>把上面的"名义注数 ≠ 有效注数"亲手验证一遍：拖动相关性 ρ 和赌注个数 n，看有效独立赌注 Nₑ 怎么塌缩。把 ES/NQ/RTY 想成三注 ρ≈0.9 的高相关持仓，注意 Nₑ 离 3 有多远——这正是"看似分散、其实只下了一个方向赌"的量化提醒。</p>
+<figure class="widget" data-widget="diversification"><figcaption>玩一玩：相关性与有效独立赌注 Nₑ</figcaption></figure>
+
 <h2 id="_5">给新手的定位</h2>
 <ol>
 <li>价差/套利是<strong>进阶内容</strong>，建立在你对单一品种交易、风控已经熟练的基础上。</li>

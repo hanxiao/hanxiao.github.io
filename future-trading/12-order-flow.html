@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li class="active"><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -98,13 +99,38 @@
 5000    85 × 22    ← 此处卖方占优
 Delta = (145+98+22) − (12+30+85) = +138（买方主导）
 </code></pre>
+<div class="researcher-note">
+<p><strong>订单簿是一套排队系统，成交到达是一个自激点过程——这套点过程（point process）的数学，和你做对抗鲁棒、防过拟合时的最坏情形直觉是同一套。</strong></p>
+<p>把每个价位的挂单想成一条队列（queue）：限价单入队、撤单离队、市价单从队首消耗。整个订单簿就是一组耦合队列，bid/ask 的队列长度与失衡（queue imbalance）共同决定短期价格漂移的方向，比"看 K 线"早一拍。</p>
+<p>成交的到达不是泊松（Poisson）那样独立无记忆的，它会自激（self-exciting）：一笔主动买之后的短时间内更容易再来一笔主动买。这正是 Hawkes 过程（Hawkes process）的定义，强度 <code>λₜ = μ + Σ φ(t − tᵢ)</code>，每个历史事件以核 <code>φ</code> 抬高未来强度。你在 tape 上看到的"买方连续吃单、价格连跳"，本质就是分支比逼近 1 时的 Hawkes 级联。</p>
+<p>做市的核心风险是逆向选择（adverse selection）：来吃你被动挂单的对手，往往掌握你不知道的短期信息——这更接近你做对抗鲁棒学习时的 evasion / 对抗样本（而非训练期的 label-flip）：被动方就是被"对抗样本"挑着打的那一方。做市商靠价差为这部分期望损失定价，价差的宽窄≈对逆向选择强度的一个后验估计。</p>
+<p>而 Delta（净主动量 = 主动买 − 主动卖）就是这个点过程的一阶符号统计量：它是带噪的主动流强度估计，背离（divergence）则是"强度"与"价格漂移"脱钩的信号。把它当作一个低信噪比的 <code>sign(Σ marks)</code>，而不是确定性指标——你做 Fashion-MNIST 时对"别过拟合单一指标"的直觉，在这里同样适用。</p>
+</div>
 <h2 id="_2">大单与"冰山"</h2>
 <p>订单流能帮你识别机构行为：</p>
 <ul>
 <li><strong>大单（large orders / blocks）</strong>：突然出现的巨量挂单或成交，可能是机构进出。</li>
 <li><strong>冰山订单（iceberg order）</strong>：只显示一小部分、成交后自动补充的隐藏大单。当某价位反复被吃却"吃不完"，背后可能藏着冰山。</li>
-<li><strong>挂单诱骗（spoofing）</strong>：挂出大单制造假象再撤销（这是违法操纵，但市场上仍有类似博弈痕迹）。</li>
+<li><strong>挂单诱骗（spoofing）</strong>：挂出大单制造假象再撤销。这是违法的市场操纵，而且至今仍是高压执法的活靶子，不是历史旧账——CFTC 在 FY2024 录得创纪录的约 171 亿美元罚没（示例，以官方公布为准），CME 也持续对 spoofing / layering 开出和解处罚。盘口上确实仍能看到类似博弈痕迹，但你看得到不等于你能下场：参与即违法。</li>
 </ul>
+<h2 id="2026-gamma">2026 的订单流现实：算法做市、真实数据与 gamma 反馈</h2>
+<p>上面讲的机制都对，但有一层 2026 年的现实必须叠加上去：盘口里"那个大玩家"越来越多是算法，而推动主动流的"为什么"，答案常常在期权对冲里。</p>
+<h3 id="mbo-level-3">电子做市与算法流主导：你实际能看到什么（MBO / Level 3）</h3>
+<p>今天 DOM 和 tape 的绝大部分挂单与撤单，来自自动化做市（automated / algorithmic market making）。你眼里"一笔机构大单"，很可能只是某个算法在分拆、补挂、撤回。好消息是散户能拿到的数据这几年变好了：</p>
+<ul>
+<li><strong>CME Market by Order（MBO，Level-3 逐单数据）</strong>：不再只给你某价位的汇总挂单量，而是逐个订单、含队列位置（queue position）、全深度（full depth of book）。它过去是机构特权，现在通过 Bookmap 等平台已对散户开放。</li>
+<li><strong>免费 Level-2 全深度</strong>：部分经纪商（如 Ironbeam）已把全市场深度免费提供给所有用户。</li>
+</ul>
+<p>这把前面"冰山/大单"的讨论精细化了：有了 MBO，你有时能看到单个订单的补挂行为、甚至推测冰山的补单节奏。但要泼一盆冷水——冰山、隐藏单（hidden / managed order）依然遮蔽真实意图，盘口深度可以是转瞬即逝且高度算法化的。<strong>DOM 阅读的信噪比，比新手想象的低得多</strong>：你看到的不是市场的全貌，而是一个被算法不断重写的、带噪的快照。</p>
+<h3 id="0dte-gamma-esnq">0DTE 期权的 gamma 反馈环对 ES/NQ 盘中订单流的影响</h3>
+<p>到 2026 年，<strong>当日到期（0DTE）的 SPX 期权已占 SPX 期权成交量的约 59%（示例，以交易所实时数据为准）</strong>。交易商（dealer）对这部分海量期权流做的 delta 对冲，如今实质性地塑造了 ES / NQ 的盘中订单流——也就是说，前面所讲"那股凶猛的主动市价单"，很多时候根源在期权对冲，而非方向性投机。</p>
+<pre><code>dealer 净空 gamma（short gamma）：对冲是顺周期的
+  价格涨 → 买，价格跌 → 卖  →  放大盘中波动、助攻突破
+
+dealer 净多 gamma（long gamma）：对冲是逆周期的
+  价格涨 → 卖，价格跌 → 买  →  把价格&quot;钉&quot;在大额行权价附近（gamma pinning）
+</code></pre>
+<p>因此订单流交易者越来越把交易商的 gamma 暴露（dealer gamma exposure, GEX）当作背景条件来读：同样一根放量阳线，在 short-gamma 环境里更可能续涨，在 long-gamma 环境里更可能被钉回。一句话——<strong>2026 年"谁是主动方、为什么"，答案常常是一个期权对冲的答案。</strong></p>
 <h2 id="vs">订单流 vs 技术分析</h2>
 <p>两者不是对立，而是互补：</p>
 <pre><code>技术分析 → 给你&quot;在哪里&quot;交易（支撑/阻力/趋势）
@@ -126,6 +152,7 @@ Delta = (145+98+22) − (12+30+85) = +138（买方主导）
 <li>成交量分布的 <strong>POC、价值区</strong>是高信息量的支撑阻力依据。</li>
 <li>Footprint / Delta 揭示 K 线内部买卖结构，背离预示反转。</li>
 <li>订单流给"何时扣扳机"，技术分析给"在哪交易"，两者互补。</li>
+<li>2026 现实：盘口由算法做市主导，MBO（Level-3 逐单数据）已对散户开放，但深度高度算法化、信噪比低；0DTE 期权的 dealer gamma 对冲（GEX）已是 ES/NQ 盘中主动流的重要来源。</li>
 <li>新手先练基础，订单流作为进阶；volume profile 性价比最高。</li>
 </ul>
 <p>第三部分结束。下一章进入第四部分——交易策略，从最经典的趋势跟踪开始。</p>

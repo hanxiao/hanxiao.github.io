@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25 用 AI 武装交易：研究·回测·执行·复盘 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li class="active"><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="25-ai">25 · 用 AI 武装交易：研究·回测·执行·复盘</h1>
+<p>第 24 章划清了 LLM 和 agent 在交易里能做与不能做的边界。这一章不再谈边界，谈<strong>装配</strong>：把检索（retrieval）、回测（backtesting）、执行（execution）和复盘（review）拼成一条你一个人就能跑起来的闭环工作流。重点不是"用上多少 AI"，而是<strong>在每个被 AI 加速的环节，把对应的纪律也加上</strong>——因为同一个工具，既能把你的研究效率抬高一个数量级，也能把你的自欺效率抬高一个数量级。</p>
+<h2 id="_1">工作流全景：一条带闸门的闭环</h2>
+<p>把整个流程画成四段，每一段都配一道<strong>闸门（gate）</strong>——闸门不放行，下一段就不该开始：</p>
+<pre><code>            ┌──────────────────────────────────────────────┐
+            ↓                                                │
+  ① 研究 RESEARCH ── 闸门：信息是结构化输入，不是预测 ──┐    │
+     LLM/RAG 压缩材料，生成假设                          │    │
+            ↓                                            │    │
+  ② 回测 BACKTEST ── 闸门：披露 N，打折，CPCV 看分布 ──┤    │
+     在你自己的数据管线上跑，扣成本                       │    │
+            ↓                                            │    │
+  ③ 执行 EXECUTE ── 闸门：小仓位、手算对账、断网预案 ──┤    │
+     先 paper 后 micro，再逐步放大                        │    │
+            ↓                                            │    │
+  ④ 复盘 REVIEW ── 闸门：实盘 vs 回测的偏离要能解释 ────┘    │
+     归因、记录、检测 alpha 衰减 ──────────────────────────┘
+</code></pre>
+<p>每道闸门都是为了拦住一种<strong>用 AI 更快制造出来的假象</strong>。下面逐段拆。</p>
+<h2 id="1-ai">① 研究：把 AI 当压缩器，不当预言机</h2>
+<p>研究阶段是 LLM 真正发力的地方，但只在<strong>输入端</strong>。你每天做嵌入、重排器、ReaderLM、late chunking，这套管线干的就是这件事：把非结构化材料压成可用结构。</p>
+<pre><code>研究阶段 AI 能稳定交付的：
+  ✓ 财报/纪要/央行声明 → 结构化口径变化 + 关键变量
+  ✓ 跨语言、跨来源聚合（交易所公告 + 持仓报告 + 新闻）
+  ✓ 把你多年交易日志做成可问答的 RAG 知识库
+  ✓ 把&quot;自然语言策略描述&quot;翻成代码骨架（仍需逐行验证）
+
+研究阶段 AI 不交付的：
+  ✗ &quot;下一根 K 线&quot; —— 召回率不是预测力
+  ✗ 任何没碰过你数据的&quot;绩效数字&quot; —— 那是续写，不是测量
+</code></pre>
+<p>闸门很简单：<strong>研究阶段的产物是假设（hypothesis），不是结论。</strong> AI 帮你把一周的阅读压到一小时，省下的时间应该投到第二段的验证里，而不是拿来多生成几百个未经检验的"信号"。</p>
+<h2 id="2-ai-n">② 回测：被 AI 放大的那个 N，必须如实记账</h2>
+<p>这是整条工作流里最容易被 AI 毁掉的一段。原因在第 20、24 章已经点透：自动生成 + 自动回测，把试验次数 N 从人工的几十推到上万，而<strong>样本内最高夏普（Sharpe）被纯随机性抬高的幅度按 <code>√(2·lnN)</code> 增长</strong>。AI 不创造优势，它只是制造更多噪声的最大值，然后把那个最大值递给你。</p>
+<p>所以回测段的纪律，必须随 N 一起升级。三个名字按严格程度排列：</p>
+<pre><code>通缩夏普 DSR（Deflated Sharpe Ratio, Bailey &amp; López de Prado 2014）
+  对裸夏普做&quot;运气折扣&quot;，校正项里直接含试验次数 N 和各试验夏普方差，
+  并校正收益的偏度/峰度（胖尾会让显著性虚高）。N 越大，折扣越狠。
+
+回测过拟合概率 PBO（Probability of Backtest Overfitting, Bailey 2014）
+  不问&quot;这个夏普显不显著&quot;，问&quot;样本内最优的那套，到样本外掉到中位数
+  以下的概率有多大&quot;。本质是给&quot;挑了最好那个&quot;这件事估一个翻车率。
+
+组合净化交叉验证 CPCV（López de Prado 2018，《金融机器学习进展》）
+  在 purged k-fold（训练/测试段之间 purge 重叠样本 + embargo 禁运期，
+  消除前视/标签泄漏）之上，用组合方式生成【多条】样本外路径，
+  得到夏普的【分布】而非单点 —— 你要的从来不是点估计，是 σ。
+</code></pre>
+<p>记住一条因果链：<strong>DSR、PBO、CPCV 这三件工具的折扣力度，全都随 N 单调变大。</strong> 这不是巧合——它们就是为"试得越多越要扣回去"而设计的统计闸门。AI 时代 N 爆炸，等于把这三道闸门的重要性同时拉满。</p>
+<p>铁律照搬第 24 章：<strong>任何回测引擎的输出，都要用一个你手算得清的极简案例去对账。</strong> 工具会骗你不是因为恶意，是因为它的默认配置和你的假设不一致（持仓模式、静默截断、连续合约拼接）。AI 生成的回测代码尤其要逐行验证——它写得越流畅，你越容易跳过审查。</p>
+<h2 id="3">③ 执行：自动化省的是手速，不是判断</h2>
+<p>研究和回测都通过闸门后才进执行。这一段 AI 能做的是<strong>降低操作摩擦</strong>——挂单、监控、风控触发、移仓提醒都可以自动化（第 23 章），但它<strong>不替你承担方向判断和尾部风险</strong>。</p>
+<pre><code>执行段不可省的预案：
+  - 断网/断电/API 限流时，仓位怎么办？（要有 server-side 止损兜底）
+  - 滑点和延迟比回测差多少？先用 micro 合约量出来，别假设
+  - agent 自动下单，必须有硬性的单日亏损上限和最大手数闸门
+  - 任何&quot;自动调参/自动换策略&quot;的逻辑，等于在实盘里继续放大 N —— 禁止
+</code></pre>
+<p>过渡仍是第 20 章那四步：<strong>回测 → paper/前向测试 → micro 实盘 → 逐步放大</strong>。AI 没有缩短这条路，它只是让你更想跳过它。回测绩效是上限，实盘永远更差，预留这个折扣。</p>
+<h2 id="4">④ 复盘：让实盘去证伪回测</h2>
+<p>闭环的最后一段，也是 RAG 知识库真正长期复利的地方。把每一笔实盘记录回写进库，和回测预期逐笔对账：</p>
+<pre><code>复盘要回答的三个问题：
+  1. 实盘绩效偏离回测了吗？偏多少？（分布层面，不是单笔）
+  2. 偏离是【执行问题】（滑点/延迟/心理）还是【市场变了】（regime change / alpha 衰减）？
+  3. 这个偏离，在我回测时的样本外路径分布里，属于正常波动还是异常？
+</code></pre>
+<p>注意第 3 问——这正是 CPCV 给你夏普分布的价值：有了样本外路径的 σ，你才能判断实盘的一段回撤是"还在预期内"还是"系统已经失效"。只有点估计的人，连这个问题都没法问。复盘的产物再喂回研究段，闭环才转起来。</p>
+<h2 id="eval-pipeline">把整条工作流当成一个 eval pipeline</h2>
+<p>退一步看：研究·回测·执行·复盘，结构上就是一个<strong>机器学习评估管线</strong>——数据进来、特征/假设、留出验证、上线、监控漂移。你每天为模型搭的那套 eval 纪律，几乎可以一比一搬到自己的交易上。</p>
+<div class="researcher-note">
+<p><strong>让一个好回测成立的纪律，和让一个好 ML eval 成立的纪律，是同一套——你已经精通它了，只是没把自己当成被评估的模型。</strong></p>
+<p>你给 RAG / agent 系统做评估时绝不会犯的错，在交易里都有精确的对应物：</p>
+<ul>
+<li><strong>不在测试集上调参 = 样本外只用一次。</strong> 你知道反复看 held-out 集再改模型，held-out 就被污染成训练集了（你博士做对抗标签翻转，正是这件事的"攻击方"视角）。交易里这叫数据窥探（data snooping），解药就是 purged k-fold 与 CPCV——<code>purge + embargo</code> 去掉时序边界泄漏，组合路径把单点夏普变成一个 σ 有意义的分布。</li>
+<li><strong>报告 best-of-N 必须暴露 N。</strong> 你扫超参再报最好那个，从不会假装只试了一次。交易里同一只野兽叫多重检验（multiple testing），折扣工具就是 DSR / PBO，校正项随 <code>√(2·lnN)</code> 增长。</li>
+<li><strong>幻觉回测 = 没接数据管线的 eval 数字。</strong> 信息增益（information gain）为零的"夏普 2.3"，和一个没真正跑过测试集就报出来的 accuracy 是同构的——措辞流畅的随机数。</li>
+</ul>
+<p>关键的不对称在这里：<strong>AI 把组件 overfit 放大了。</strong> 它把生成假设的边际成本压到零，于是 N 从几十涨到上万，样本内最高夏普虚高得更夸张，而样本外期望仍 ≈ 0。你的工具把 <code>μ̂</code> 的估计成本压到了零，但没有改变 <code>μ</code> 本身有多小、<code>σ</code> 有多大——<code>T</code> 太小、<code>N</code> 太大时，<code>μ̂</code> 几乎全是方差。你比谁都清楚这件事，别因为锤子是自己造的就忘了。把对待模型的评估纪律，原封不动地用在对待自己的回测上。</p>
+</div>
+<p>下面这个组件把上面那条不对称演示成可拖动的：把 N（一天试的策略数）从几十拖到上千——这正是 agent 自动搜策略的吞吐量——看样本内最高夏普如何被纯随机性抬起来，再看通缩夏普如何把它吞回去。注意样本外那条线始终贴着零。</p>
+<figure class="widget" data-widget="overfit"><figcaption>玩一玩：AI 让你一天试一千个策略——通缩夏普如何吞掉虚高</figcaption></figure>
+
+<h2 id="_2">本章要点</h2>
+<ul>
+<li>AI 交易工作流是一条<strong>带闸门的闭环</strong>：研究 → 回测 → 执行 → 复盘，每道闸门拦住一种被 AI 更快制造出来的假象。</li>
+<li><strong>研究段</strong>：AI 是输入端压缩器，产物是假设不是结论；召回率不等于预测力。</li>
+<li><strong>回测段</strong>：N 被 AI 放大到上万，纪律必须同步升级——<strong>DSR</strong> 给裸夏普打运气折扣、<strong>PBO</strong> 估翻车率、<strong>CPCV</strong>（López de Prado 2018）给夏普一个分布；三者的折扣力度都随 N 单调变大（Bailey &amp; López de Prado 2014）。一切引擎输出用手算极简案例对账。</li>
+<li><strong>执行段</strong>：自动化降的是操作摩擦，不替你扛方向和尾部风险；断网/止损兜底要硬，禁止在实盘里自动换策略（那是继续放大 N）。</li>
+<li><strong>复盘段</strong>：用实盘去证伪回测；有了 CPCV 的样本外路径分布，才能判断一段回撤是"预期内"还是"系统失效"。</li>
+<li>一句话：<strong>让一个好回测成立的纪律，就是让一个好 ML eval 成立的纪律。</strong> AI 放大的是组件 overfit，不是优势。</li>
+</ul>
+<p>下一章：从这条工作流退到全局，画一张通往长期精通的路线图。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/24-llm-agent-era.html"><span class="pn-dir">← 上一章</span><span class="pn-title">24 LLM 与 Agent 时代：什么变了，什么没变</span></a><a class="pn pn-next" href="/future-trading/26-roadmap-mastery.html"><span class="pn-dir">下一章 →</span><span class="pn-title">26 通往精通之路</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js"></script>
+</body>
+</html>

@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li class="active"><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -82,6 +83,12 @@
 <blockquote>
 <p>重点不是记"赚了还是亏了"，而是记<strong>"有没有遵守纪律"</strong>。一笔遵守计划但亏损的交易，是好交易；一笔违反计划但侥幸盈利的交易，是坏交易——因为它在奖励坏习惯。<strong>评价过程，而非单次结果。</strong></p>
 </blockquote>
+<div class="researcher-note">
+<p><strong>这一整章是在调试你自己的奖励函数（reward function）。</strong></p>
+<p>把你这个交易员看成一个 RL agent，问题就清楚了：你的策略 <code>π</code> 给得没错（合约、杠杆、风控你都学过了），坏的是 reward signal。如果你用单笔交易的已实现盈亏 <code>r_t</code> 去做信用分配（credit assignment），就是在拿一个方差极高、单样本噪声主导的标量去更新策略——侥幸盈利的违纪交易反而被强化，遵守纪律的亏损交易反而被惩罚。"评价过程而非单次结果"在形式上就是：用 <code>E[r | 决策]</code> 而不是 <code>r_t</code> 的实现值来更新 <code>π</code>。交易日志就是你的离线 replay buffer，记录"是否守纪律"就是把奖励重新归因到可控的动作上、而不是不可控的环境抽样上。</p>
+<p>更值得注意的是：本章列的认知偏差不是随机噪声，而是<strong>系统性估计偏差（systematic bias）</strong>。损失厌恶给亏损区间的效用一个稳定的约 2× 放大，确认偏误是对似然 <code>p(证据 | 我对)</code> 的单边截断——这些都是有符号、可预测的偏移项，和你在标注污染（label contamination）里对抗的那种结构化攻击同源，而不是 i.i.d. 的 ε。能建模就能纠偏：知道 bias 的方向，就能在规则里预先减去它（提前写下"什么情况证明我错了"，正是给确认偏误打的去偏补丁）。</p>
+<p>而报复性交易/上头（tilt）属于另一类故障——<strong>分布漂移（distribution shift）</strong>：一次大亏触发情绪状态切换，你的决策策略从盘前校准好的那个 <code>π</code> 悄悄漂到了一个完全不同的、高方差高杠杆的 <code>π'</code>，而你自己浑然不觉。每日止损（第 18 章）就是检测到漂移后的硬性熔断：不修策略，直接把 agent 下线。把这些显式化、定期复盘的工程化做法，可以前向到 第25章——用 LLM 做有纪律的交易复盘，把偏差从"我感觉"变成可审计的统计量。</p>
+</div>
 <h2 id="_5">接受不确定性</h2>
 <p>交易的本质是<strong>在不确定中做概率决策</strong>。这要求你接受几个反直觉的真相：</p>
 <ol>

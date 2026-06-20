@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -40,12 +41,13 @@
 <h2 id="_2">现金结算的细节</h2>
 <p>股指期货是<strong>现金结算（cash settlement）</strong>。到期时不交割股票，而是按一个特殊的<strong>结算价</strong>计算最终盈亏。</p>
 <p>S&amp;P 500 等指数期货的最终结算价，由到期日<strong>当天现货指数开盘的特殊报价（Special Opening Quotation, SOQ）</strong>决定，而不是期货自己的收盘价。</p>
+<p>更精确地说：ES 在到期日（第三个周五）<strong>美东时间 9:30 a.m.（芝加哥时间 8:30 a.m.）停止交易</strong>，最终结算价是当天早晨<strong>全部 500 只成分股各自开盘价</strong>算出的 SOQ，而不是某一笔单一成交价（single print）。换句话说，结算价是当天开盘那一刻全市场的一张快照，谁也无法在收盘前精确锁定它。</p>
 <pre><code>到期日早晨：
   各成分股开盘价 → 计算 S&amp;P 500 SOQ
   → 这就是 ES 当季合约的最终结算价
   → 你的浮动盈亏按此价格现金清算
 </code></pre>
-<p>这个特殊结算时刻（每季的三、六、九、十二月第三个周五）叫做<strong>四巫日（Quadruple Witching）</strong>——股指期货、股指期权、个股期货、个股期权四类衍生品同时到期，成交量和波动常常放大。</p>
+<p>这个特殊结算时刻（每季的三、六、九、十二月第三个周五）叫做<strong>三巫日（Triple Witching）</strong>——<strong>股指期货、股指期权、个股期权</strong>三类衍生品同时到期，成交量和波动常常放大。历史上它曾被称作<strong>四巫日（Quadruple Witching）</strong>，因为还有第四类同时到期的产品——个股期货（single-stock futures）；但美国唯一的个股期货交易所 OneChicago 已于 2020 年 9 月关闭退市，此后美国市场只剩三类，"四巫"之名仅是沿用旧习的口头叫法。</p>
 <h2 id="_3">为什么你几乎不该持有到到期</h2>
 <p>除非你刻意要参与结算，否则<strong>应该在到期前主动平仓或移仓</strong>。原因：</p>
 <ol>
@@ -78,24 +80,47 @@
         ▼
   交叉点附近（通常到期前约一周）= 移仓窗口
 </code></pre>
-<p>惯例上，股指期货的移仓集中在<strong>到期前约 8 天</strong>（即到期周之前的那个周四附近），但你应以实际成交量/持仓量数据为准。</p>
+<p>这里要分清<strong>两种"移仓"概念</strong>，它们日期不同，别混为一谈：</p>
+<ul>
+<li><strong>交易所定义的官方移仓日（customary roll date）</strong>：CME 规定为<strong>到期月第三个周五之前的那个周一</strong>。过了这一天，CME 正式把"主力月（lead month）"重新指定为下一季合约，到期合约不再是 Globex 上显示的前月（front month）。这是一条规则，不是观察。</li>
+<li><strong>市场实际的流动性转移窗口</strong>：从成交量/持仓量数据看，成交峰值往往更早，集中在<strong>到期前约 8 天（到期周前那个周四附近）</strong>就开始向远月倾斜。这是一个经验观察，不是规则。</li>
+</ul>
+<p>具体到 2026 年的几个季月锚点（示例，以交易所实时数据为准）：</p>
+<pre><code>季月   到期日(第三周五)   CME 官方移仓日(前一周一)
+6 月       6/19                6/15
+9 月       9/18                9/14
+12 月      12/18               12/14
+</code></pre>
+<p>实务上：跟着流动性走（你的成交质量由它决定），但知道官方移仓日在哪——因为那之后交易所默认的前月、报价链、连续合约的拼接点都会切换。</p>
 <h2 id="_5">移仓成本与基差</h2>
 <p>移仓不是零成本。两个合约之间存在<strong>价差</strong>，来源于<strong>基差（basis）</strong>——期货价格与现货之间、以及不同到期月份之间的差异（详见第 10 章）。</p>
-<pre><code>ESM6 报价 5000
-ESU6 报价 5015   ← 远月更高（受利率、分红影响）
+<pre><code>ESM6 报价 7514   ← 示例，以交易所实时数据为准
+ESU6 报价 7529   ← 远月更高（受利率、分红影响）
 
-移仓做多：卖出 5000，买入 5015
+移仓做多：卖出 7514，买入 7529
 → 多付了 15 点的价差成本
 </code></pre>
 <p>对长期持有者，移仓成本会累积，是一笔不可忽视的"持仓费"。这也是为什么用期货长期复制指数，与直接持有 ETF 的成本结构不同。</p>
 <h2 id="_6">连续合约：图表上的陷阱</h2>
 <p>你在软件里看到的"连续合约（continuous contract）"图表，是把多个月份的合约<strong>拼接</strong>而成的。拼接时如何处理移仓价差（不调整 / 比例调整 / 差值调整）会影响历史价格，做回测（backtest，见第 20 章）时务必弄清楚你的数据用的是哪种拼接方式，否则历史盈亏会失真。</p>
+<div class="researcher-note">
+<p><strong>连续合约的三种拼接，就是你选 normalization 的那一步——它改写的是标签，不是特征。</strong></p>
+<p>把移仓看成离散时间上的一次<strong>坐标变换</strong>：到期那一刻，敞口从一个合约的价格坐标系跳到下一个，价格本身有跳变（基差），但你的真实经济持仓连续不变。连续合约要做的，是把这串带跳点的序列缝成一条曲线，而缝法不止一种：</p>
+<ul>
+<li><strong>不调整（unadjusted）</strong>：直接首尾相接，拼接点留下基差缺口。原始价对，但跨缝的收益率是假的。</li>
+<li><strong>差值调整（difference / panama）</strong>：把缺口整段平移消掉。收益率（PnL）对了，但历史绝对价被改写，早年甚至可能变负。</li>
+<li><strong>比例调整（ratio）</strong>：按比例缩放消缝。保留对数收益，但历史水平被乘了个因子。</li>
+</ul>
+<p>关键在于：这三种选择<strong>改的不是输入特征，而是"标签"本身</strong>——历史价位和逐笔盈亏。这跟你在 embedding 里选 L2 normalize 还是不归一化、用绝对值还是 z-score 一样：换一种 normalization，下游指标（夏普、最大回撤、effective rank）就换一套数，而且没有哪个是"原始真值"。回测前先把拼接方式钉死，否则你优化的是预处理伪影，不是策略。</p>
+<p>还有一层不能忽略：在 contango（远月更贵）结构里，每次移仓做多都是高买低卖，roll yield 是一个<strong>确定性的负偏置（deterministic negative drift）</strong>，类似一个一直往下拖的常数项 <code>-c·t</code>。它不是噪声、不会被平均掉，长期持有期货复制指数时它系统性地侵蚀收益——和 ETF 的成本结构本质不同。</p>
+</div>
 <h2 id="_7">本章要点</h2>
 <ul>
 <li>股指期货<strong>现金结算</strong>，到期日通常是合约月第三个周五。</li>
 <li>最终结算价由当天现货的<strong>特殊开盘报价（SOQ）</strong>决定，不是期货收盘价。</li>
-<li>季度到期日 = 四巫日，波动和成交量放大。</li>
+<li>季度到期日 = 三巫日（个股期货 2020 退市后不再是"四巫"），波动和成交量放大。</li>
 <li>几乎永远<strong>在到期前平仓或移仓</strong>，不要被动接受结算。</li>
+<li>移仓有两种概念：CME 官方主力月切换在<strong>第三周五前的周一</strong>，而实际流动性转移更早（约到期前 8 天）。</li>
 <li>移仓 = 平当前月 + 开下一月，跟着<strong>成交量/持仓量</strong>转移的窗口走。</li>
 <li>移仓有<strong>基差成本</strong>，长期持有会累积；连续合约图表的拼接方式影响回测。</li>
 </ul>

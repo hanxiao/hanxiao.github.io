@@ -21,7 +21,8 @@
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li class="active"><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li><li><a href="/future-trading/24-roadmap-mastery.html">24 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -73,6 +74,9 @@
  └──────────▶ 到期         └──────────▶ 到期
 </code></pre>
 <p>股指期货因持有成本结构，<strong>通常处于轻微 contango</strong>。商品期货则常因供需、仓储成本在两种状态间切换。</p>
+<p>下面这个组件把利率 r 和分红率 q 拆成两个滑块。拖动它们，看期限结构（term structure）如何在升水和贴水之间整条翻转：当 r 压过 q，曲线向上是 contango；当 q 反超 r，曲线向下是 backwardation。注意翻转不是某个点变号，而是整条曲线的斜率换向。</p>
+<figure class="widget" data-widget="cost-of-carry"><figcaption>玩一玩：持有成本与期限结构 (contango / backwardation)</figcaption></figure>
+
 <h2 id="convergence">基差收敛（Convergence）</h2>
 <p>最重要的规律：<strong>到期时，期货价格必然收敛到现货价格</strong>。</p>
 <pre><code>基差
@@ -85,6 +89,10 @@
  └──────────────────────────▶ 时间
 </code></pre>
 <p>因为到期时期货按现货结算，两者必然相等。这个<strong>收敛（convergence）</strong>是套利者（arbitrageurs）保证的：一旦基差偏离理论值太多，套利交易会把它拉回。</p>
+<div class="researcher-note">
+<p><strong>无套利定价不是"预测"，而是一条强加的一致性约束——它和你训练里那条 consistency loss 是同一种东西。</strong> 风险中性测度（risk-neutral measure）下，贴现后的价格是鞅（martingale），期货价就是标的在该测度下的条件期望。连续复利写法 <code>F = S·e^(r−q)T</code> 比书里那条 <code>S·(1+r×T)−分红</code> 更干净：它不是市场对未来现货的"预期均值"（真实测度下未必成立），而是一条由 r 与 q 唯一钉死的确定性关系。任何偏离都被套利者瞬间收掉——这正是给两条价格序列加了一个软约束 <code>loss = (F − S·e^(r−q)T)²</code>，权重大到约等于硬约束，模型（市场）被逼着把它压到 0。</p>
+<p>到期那一刻 <code>T = 0</code>，约束退化成边界条件 <code>F(T) = S(T)</code>，所以基差收敛不是经验规律，而是 <code>e^(r−q)·0 = 1</code> 的代数必然——和你解 PDE 时边界把整条解钉住、或 GP 在观测点处后验方差归零是同一回事：约束在端点处把不确定性强行清零。值得留意的是 <code>q</code>（分红率/便利收益 convenience yield）才是真实测度的残余：股指里它是确定的股息，商品里它是难以观测的持有便利，这一项的不可观测性正是 backwardation 之谜的栖身处。</p>
+</div>
 <h2 id="_3">基差对交易者的实际意义</h2>
 <p><strong>1. 移仓成本</strong>
 第 6 章讲过，移仓要承担两个月份的价差。在 contango 市场做多，每次移仓都要"高买"远月，产生持续成本。理解基差，就理解了为什么长期持有期货多头有"负 carry"。</p>
