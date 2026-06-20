@@ -19,10 +19,10 @@
   <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li class="active"><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -133,7 +133,7 @@
   → 8 点止损只能做 0.5 手 → 不可行（ES 最小 1 手）
   → 改用 MES：8 点 × $5 = $40/手 → 可做 5 手内灵活控制
 </code></pre>
-<p>这就是为什么小账户必须用 micro 合约——它让你能精确地把风险控制在预算内（第 17 章详述仓位计算）。</p>
+<p>这就是为什么小账户必须用 micro 合约——它让你能精确地把风险控制在预算内（第 20 章详述仓位计算）。</p>
 <p>把上面的逻辑反过来读，就是真正的下单流程：不是先定手数再看会亏多少，而是先定能亏多少、再反算手数。下面这个组件就是这条反算链——改账户、改风险百分比、改止损点数，看手数和杠杆怎样即时变化；目标是让自己习惯"止损先于手数"。</p>
 <figure class="widget" data-widget="position-sizer"><figcaption>玩一玩：按风险预算反算手数</figcaption></figure>
 

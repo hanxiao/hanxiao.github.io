@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>15 期权基础 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css?v=4a0102a2">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li class="active"><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="15">15 · 期权基础</h1>
+<p>期货是线性工具——盈亏随价格线性变化，斜率（delta）恒定。期权（options）是<strong>非线性</strong>工具，它在合约里塞进了一个"选择权"，于是盈亏变成了曲线。理解期权，等于给你的工具箱加上一整个新维度：你不再只能赌方向，还能赌<strong>波动率、时间、概率</strong>。本章打地基。</p>
+<h2 id="_1">一句话定义</h2>
+<p>期权是一份合约，赋予买方在未来<strong>有权利、但无义务</strong>，以约定价格（行权价 strike）买入或卖出标的资产。关键就在"权利 vs 义务"——这是期权和期货最根本的区别。</p>
+<pre><code>期货：双方都有义务，到期必须履约 → 盈亏线性、对称
+期权：买方有权利无义务，卖方有义务无权利 → 盈亏非线性、不对称
+</code></pre>
+<h2 id="_2">两种期权，四个角色</h2>
+<pre><code>看涨期权（Call）：买方有权&quot;买入&quot;标的
+看跌期权（Put）： 买方有权&quot;卖出&quot;标的
+
+         买方（Long, 付权利金）      卖方（Short, 收权利金）
+Call     赌涨，损失有限收益无限       赌不涨，收益有限损失&quot;无限&quot;
+Put      赌跌，损失有限收益很大       赌不跌，收益有限损失很大
+</code></pre>
+<ul>
+<li><strong>买方（buyer / holder / long）</strong>：支付<strong>权利金（premium）</strong>，获得权利。最大损失 = 权利金，损失有限。</li>
+<li><strong>卖方（seller / writer / short）</strong>：收取权利金，承担义务。收益封顶 = 权利金，损失可能很大。</li>
+</ul>
+<blockquote>
+<p>这是期权的灵魂：<strong>买方用确定的小成本（权利金），换取不确定的大收益；卖方收确定的小收益，承担不确定的大风险。</strong> 谁都不是免费的。</p>
+</blockquote>
+<h2 id="_3">核心术语</h2>
+<pre><code>行权价（strike, K）：约定的买/卖价格
+到期日（expiration）：权利的截止时间
+权利金（premium）：期权的价格，买方付、卖方收
+标的（underlying）：期权对应的资产（股票/ETF/指数/期货）
+合约乘数（multiplier）：美股股票期权通常 1 张 = 100 股
+</code></pre>
+<p>美股个股/ETF 期权一张（contract）对应 <strong>100 股</strong>标的。报价 $2.50 的期权，买一张实际花 <code>$2.50 × 100 = $250</code>。</p>
+<h2 id="_4">内在价值与时间价值</h2>
+<p>期权的权利金由两部分构成：</p>
+<pre><code>权利金 = 内在价值（intrinsic value） + 时间价值（time value / extrinsic value）
+</code></pre>
+<ul>
+<li><strong>内在价值</strong>：立即行权能拿到的钱。Call = max(标的价 − K, 0)；Put = max(K − 标的价, 0)。</li>
+<li><strong>时间价值</strong>：超出内在价值的部分，反映"未来还可能变得更值钱"的可能性。到期时归零。</li>
+</ul>
+<pre><code>价内（ITM, in-the-money）：有内在价值
+  Call: 标的 &gt; K    Put: 标的 &lt; K
+平值（ATM, at-the-money）：标的 ≈ K
+价外（OTM, out-of-the-money）：无内在价值，全是时间价值
+  Call: 标的 &lt; K    Put: 标的 &gt; K
+</code></pre>
+<h2 id="_5">盈亏图：期权的灵魂</h2>
+<p>期权的非线性，一张盈亏图（payoff diagram）就看懂。以买入 Call（long call，K=5000，权利金 50 点）为例：</p>
+<pre><code>盈亏
+ │                          ╱  ← 标的越涨赚越多（收益无限）
+ │                        ╱
+ │                      ╱
+ 0 ─────────────●━━━━╱──────────── 标的价
+ │             ╱ 盈亏平衡=5050
+ │  ━━━━━━━━━╱  ← 标的 ≤ 5000，亏损封顶 = −50（权利金）
+ │  最大亏损 −50
+      4900  5000  5050  5100
+</code></pre>
+<p>特征一目了然：<strong>下方损失被削平（封顶 = 权利金），上方收益不封顶</strong>——这就是凸性（convexity）。这条折线就是期权区别于期货那条直线的全部秘密。</p>
+<figure class="widget" data-widget="payoff"><figcaption>对照：期货的线性盈亏（直线，斜率恒定）</figcaption></figure>
+
+<blockquote>
+<p>上面这个组件是<strong>期货</strong>的线性盈亏——一条直线，斜率（delta）恒为常数。期权的盈亏是<strong>折线/曲线</strong>，斜率会随标的价变化。把两者放在一起看，你就懂了"线性 vs 非线性"这句话的全部分量。第 16 章会专门量化这种变化的斜率（希腊字母）。</p>
+</blockquote>
+<h2 id="_6">四种基本头寸的盈亏</h2>
+<pre><code>Long Call（买涨）：    亏损封顶(权利金)，盈利随涨无限    → 看大涨
+Long Put（买跌）：     亏损封顶(权利金)，盈利随跌很大    → 看大跌/买保险
+Short Call（卖涨）：   盈利封顶(权利金)，亏损随涨&quot;无限&quot;  → 看不涨，收租
+Short Put（卖跌）：    盈利封顶(权利金)，亏损随跌很大    → 看不跌，收租/接货
+</code></pre>
+<p>记忆要点：<strong>买方（long）盈亏图是"对勾"——亏损平、盈利翘；卖方（short）是买方的镜像翻转——盈利平、亏损翘。</strong> 卖方赚的是"大概率不发生"的钱，但小概率发生时会很痛。</p>
+<h2 id="_7">为什么交易期权</h2>
+<p>相比直接买卖标的，期权给了你三件期货/股票给不了的东西：</p>
+<ol>
+<li><strong>有限风险的方向押注</strong>：买 Call/Put，最大亏损就是权利金，天然自带止损，不会爆仓式穿仓。</li>
+<li><strong>杠杆与资金效率</strong>：用小额权利金控制 100 股的敞口，回报率可以很高（风险也是）。</li>
+<li><strong>交易"方向"之外的维度</strong>：你可以赌<strong>波动率</strong>（会不会大动，不管方向）、赌<strong>时间</strong>（卖时间价值收租）、赌<strong>概率分布</strong>。这是期货完全做不到的。</li>
+</ol>
+<pre><code>期货能赌：涨 / 跌
+期权能赌：涨 / 跌 / 波动大 / 波动小 / 横盘 / 时间流逝 …
+</code></pre>
+<div class="researcher-note">
+<p><strong>期权买方在做的事，本质是买一份概率分布的"凸性"——你对 Jensen 不等式的直觉可以直接搬过来。</strong></p>
+<p>期权到期盈亏是标的价格的凸函数（convex payoff），比如 long call 的 <code>max(S−K, 0)</code>。对凸函数，Jensen 不等式给出 <code>E[f(S)] ≥ f(E[S])</code>——也就是说，<strong>在期望值之上，分布的离散度（方差/不确定性）本身就有正价值</strong>。这正是期权时间价值的来源：标的越可能大幅波动，那条折线被"撑"得越高。买期权 = 做多方差，卖期权 = 做空方差。</p>
+<p>换个你更熟的视角：期货的 payoff 是线性的，<code>f(S)=aS+b</code>，此时 Jensen 取等号——线性函数下分布形状不重要，只有均值（一阶矩）进入定价，所以期货只让你赌方向（一阶）。期权把 payoff 弯成非线性，于是<strong>二阶矩（方差）开始进入定价</strong>——这就是为什么期权能交易波动率，而期货不能。delta 是一阶梯度、gamma 是二阶曲率（下一章），整套希腊字母不过是这个 payoff 函数对标的与时间的泰勒展开（Taylor expansion）各阶项。你给损失函数做二阶近似、看 Hessian 的那套直觉，原封不动适用。</p>
+</div>
+<h2 id="_8">风险警告</h2>
+<ul>
+<li><strong>期权会归零（也会到期作废）</strong>：买价外期权，若到期未到价，权利金 100% 损失。这不是"套牢等回本"，是直接清零。</li>
+<li><strong>时间是买方的敌人</strong>：每过一天，时间价值流失（theta，下一章），标的不动你也在亏。</li>
+<li><strong>卖方风险不对称</strong>："收租"看似稳定，但裸卖（naked）期权的尾部风险（tail risk）极大，一次黑天鹅能吞掉几个月的权利金收入。新手<strong>绝不裸卖期权</strong>。</li>
+<li><strong>复杂度更高</strong>：期权有行权价、到期日、隐含波动率多个维度，比期货难掌握。先把方向性买方玩明白，再碰卖方和组合策略。</li>
+</ul>
+<h2 id="_9">本章要点</h2>
+<ul>
+<li>期权 = "权利 vs 义务"：买方有权无义务（损失有限），卖方有义务无权利（风险大）。</li>
+<li>两种（Call/Put）× 两方向（买/卖）= 四个基本头寸；美股股票期权 1 张 = 100 股。</li>
+<li>权利金 = 内在价值 + 时间价值；ITM/ATM/OTM 描述价内价外；时间价值到期归零。</li>
+<li>灵魂是<strong>非线性盈亏</strong>：买方对勾形（亏损封顶、盈利翘），卖方是其镜像。</li>
+<li>期权独有的能力：有限风险方向押注 + 资金效率 + 赌波动率/时间/分布（期货做不到）。</li>
+<li>风险：会归零、时间侵蚀、卖方尾部风险——新手只做买方，绝不裸卖。</li>
+</ul>
+<p>下一章：把那条会变的斜率量化出来——希腊字母与波动率。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/14-spreads-hedging.html"><span class="pn-dir">← 上一章</span><span class="pn-title">14 价差、套利与对冲</span></a><a class="pn pn-next" href="/future-trading/16-greeks-volatility.html"><span class="pn-dir">下一章 →</span><span class="pn-title">16 希腊字母与波动率</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js?v=4a0102a2"></script>
+</body>
+</html>

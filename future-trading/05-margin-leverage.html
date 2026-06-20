@@ -19,10 +19,10 @@
   <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li class="active"><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
 <div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-following.html">13 趋势跟踪</a></li><li><a href="/future-trading/14-mean-reversion.html">14 均值回归与区间</a></li><li><a href="/future-trading/15-spreads-arbitrage.html">15 价差与套利</a></li><li><a href="/future-trading/16-hedging.html">16 对冲应用</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第五部分 · 风险与执行</div><ul><li><a href="/future-trading/17-position-sizing.html">17 仓位管理</a></li><li><a href="/future-trading/18-risk-management.html">18 风险控制与止损</a></li><li><a href="/future-trading/19-psychology.html">19 交易心理</a></li><li><a href="/future-trading/20-systematic-backtest.html">20 交易系统与回测</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第六部分 · 进阶精通</div><ul><li><a href="/future-trading/21-micro-emini.html">21 微型与迷你合约</a></li><li><a href="/future-trading/22-tax-regulation.html">22 税务与监管</a></li><li><a href="/future-trading/23-algo-automation.html">23 算法与自动化</a></li></ul></div>
-<div class="nav-part"><div class="nav-part-title">第七部分 · AI 与 Agent 时代 (2026)</div><ul><li><a href="/future-trading/24-llm-agent-era.html">24 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/25-ai-trading-workflow.html">25 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/26-roadmap-mastery.html">26 通往精通之路</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
   </nav>
   <div class="nav-footer">by Han Xiao · hanxiao.io</div>
 </aside>
@@ -90,7 +90,7 @@
 <div class="researcher-note">
 <p><strong>杠杆就是学习率（learning rate）——你早在训练发散里见过爆仓。</strong></p>
 <p>把单期对数权益增量写成 <code>Δlog W ≈ L·r</code>，其中 <code>r</code> 是标的收益、<code>L</code> 是杠杆。对它取期望并做二阶展开，长期对数增长率是 <code>g(L) ≈ L·μ − L²σ²/2</code>。第二项 <code>−L²σ²/2</code> 就是方差拖累（variance drag），和你把学习率调太大时损失曲线发散是同一回事：步长（step size）小的时候每步都在下坡，步长一过头，二阶项主导，更新在最小值两侧来回弹射直到溢出。这里的"溢出"有个更硬的名字——破产是吸收壁（absorbing barrier），一旦权益触零，过程终止，没有梯度让你回到正轨。</p>
-<p>对 <code>g(L)</code> 求导置零，得到 <code>L* ≈ μ/σ²</code>——这正是凯利杠杆（Kelly leverage，详见 第17章）的连续时间形式，结构上和岭回归（ridge）里 <code>signal/variance</code> 的最优收缩一模一样：分子是漂移信号，分母是你对二阶矩的不确定度。超过 <code>L*</code>，<code>g(L)</code> 转负，期望复合增长由正转亏，哪怕每一笔的期望收益仍是正的。组件里那条"过临界点破产率突然失控"的曲线，就是 <code>g(L)</code> 越过零点后的样子。</p>
+<p>对 <code>g(L)</code> 求导置零，得到 <code>L* ≈ μ/σ²</code>——这正是凯利杠杆（Kelly leverage，详见 第 20 章）的连续时间形式，结构上和岭回归（ridge）里 <code>signal/variance</code> 的最优收缩一模一样：分子是漂移信号，分母是你对二阶矩的不确定度。超过 <code>L*</code>，<code>g(L)</code> 转负，期望复合增长由正转亏，哪怕每一笔的期望收益仍是正的。组件里那条"过临界点破产率突然失控"的曲线，就是 <code>g(L)</code> 越过零点后的样子。</p>
 <p>还有一层你会一眼认出：SPAN / SPAN 2 不是按持仓数量线性收保证金，而是在一组情景下取组合的最坏情形损失——这就是对抗式（adversarial）保证金，和你做的 label-flip / evasion 下的鲁棒学习同构。交易所不信你的平均场景，它对你的组合施加最坏扰动再定押金。唯一的提醒：上面 <code>μ</code>、<code>σ²</code> 都是估计量，<code>L*</code> 对它们极其敏感；用样本 <code>μ</code> 直接代入往往严重高估最优杠杆，务必先做收缩 / 半凯利。数字（如"约 $25k ES 保证金"）易变，以交易所实时数据为准。</p>
 </div>
 <h2 id="span">SPAN 保证金模型</h2>
@@ -104,7 +104,7 @@
 </ul>
 <h2 id="_6">实战准则</h2>
 <ol>
-<li><strong>永远不要满保证金交易。</strong> 留足缓冲，理想情况是单笔风险占账户的 1%–2%（详见第 17 章）。</li>
+<li><strong>永远不要满保证金交易。</strong> 留足缓冲，理想情况是单笔风险占账户的 1%–2%（详见第 20 章）。</li>
 <li><strong>隔夜持仓用交易所标准保证金衡量风险</strong>，别用日内低保证金麻痹自己。</li>
 <li><strong>波动率飙升时主动减仓</strong>，别等交易所调高保证金把你逼到墙角。</li>
 <li><strong>把"账户能承受几次连续止损"算清楚</strong>，而不是"能开几手"。</li>
