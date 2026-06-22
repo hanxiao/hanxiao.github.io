@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>目录 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css?v=4a0102a2">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <div class="book-hero">
+<pre class="ascii">
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║   美 股 期 货 交 易                                ║
+║   FROM ZERO TO MASTERY                            ║
+║                                                   ║
+║   ┌─────────┐   ┌─────────┐   ┌─────────┐        ║
+║   │  入门   │──▶│  机制   │──▶│  精通   │        ║
+║   └─────────┘   └─────────┘   └─────────┘        ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝
+</pre>
+</div>
+
+<h1 id="_1">美股期货交易：从入门到精通</h1>
+<p>一本面向中文读者的美股衍生品（derivatives）系统教程。从最基础的"什么是期货"，一步步走到期权、希腊字母、资产对比、仓位管理、自动化与 AI 时代的交易工作流。专业术语（terminology）一律给出中英对照，方便你对接英文资料与交易平台。</p>
+<p>本书共 <strong>7 部分、28 章</strong>。建议按顺序阅读；已有基础的读者可直接跳到对应章节。</p>
+<div class="researcher-note">
+<p><strong>这本书为你（Han）做了加料。</strong> 正文对任何读者都通用；此外每章配了「研究者视角」批注，把交易概念翻译成你熟悉的语言——高斯过程、贝叶斯、泰勒展开与 Hessian、回归投影、嵌入与有效秩——并嵌入可交互组件（拖动滑块看凯利曲线、杠杆破产、过拟合的通缩夏普、OU/AR(1) 趋势与回归、期货的线性盈亏）。目标只有一个：用你已有的直觉，把学习曲线压到最短，让你最终能独立、专业地交易。</p>
+</div>
+<blockquote>
+<p><strong>免责声明（Disclaimer）</strong>：本书仅为教育与信息分享，不构成任何投资建议（investment advice）。期货与期权交易具有高杠杆（leverage）特性，风险极高，可能导致超过本金的亏损。请在充分理解风险并独立做出决策。</p>
+</blockquote>
+<div class="toc-grid">
+
+<div class="toc-part">
+<div class="toc-part-h">第一部分 · 入门基础</div>
+<ol>
+<li><a href="/future-trading/01-what-is-futures.html"><span class="toc-num">01</span><span class="toc-title">什么是期货</span></a></li>
+<li><a href="/future-trading/02-us-futures-landscape.html"><span class="toc-num">02</span><span class="toc-title">美股期货全景</span></a></li>
+<li><a href="/future-trading/03-contract-specs.html"><span class="toc-num">03</span><span class="toc-title">合约规格解读</span></a></li>
+<li><a href="/future-trading/04-broker-platform.html"><span class="toc-num">04</span><span class="toc-title">开户与交易平台</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第二部分 · 市场机制</div>
+<ol>
+<li><a href="/future-trading/05-margin-leverage.html"><span class="toc-num">05</span><span class="toc-title">保证金与杠杆</span></a></li>
+<li><a href="/future-trading/06-settlement-rollover.html"><span class="toc-num">06</span><span class="toc-title">结算、到期与移仓</span></a></li>
+<li><a href="/future-trading/07-tick-pnl.html"><span class="toc-num">07</span><span class="toc-title">点值与盈亏计算</span></a></li>
+<li><a href="/future-trading/08-hours-liquidity.html"><span class="toc-num">08</span><span class="toc-title">交易时段与流动性</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第三部分 · 价格与分析</div>
+<ol>
+<li><a href="/future-trading/09-macro-drivers.html"><span class="toc-num">09</span><span class="toc-title">价格驱动因素</span></a></li>
+<li><a href="/future-trading/10-pricing-basis.html"><span class="toc-num">10</span><span class="toc-title">期货定价与基差</span></a></li>
+<li><a href="/future-trading/11-technical-analysis.html"><span class="toc-num">11</span><span class="toc-title">技术分析基础</span></a></li>
+<li><a href="/future-trading/12-order-flow.html"><span class="toc-num">12</span><span class="toc-title">订单流与市场微观结构</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第四部分 · 交易策略</div>
+<ol>
+<li><a href="/future-trading/13-trend-meanrev.html"><span class="toc-num">13</span><span class="toc-title">趋势与均值回归</span></a></li>
+<li><a href="/future-trading/14-spreads-hedging.html"><span class="toc-num">14</span><span class="toc-title">价差、套利与对冲</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第五部分 · 期权与资产对比</div>
+<ol>
+<li><a href="/future-trading/15-options-basics.html"><span class="toc-num">15</span><span class="toc-title">期权基础</span></a></li>
+<li><a href="/future-trading/16-greeks-volatility.html"><span class="toc-num">16</span><span class="toc-title">希腊字母与波动率</span></a></li>
+<li><a href="/future-trading/17-options-strategies.html"><span class="toc-num">17</span><span class="toc-title">期权策略实战</span></a></li>
+<li><a href="/future-trading/18-options-on-futures.html"><span class="toc-num">18</span><span class="toc-title">期货期权</span></a></li>
+<li><a href="/future-trading/19-asset-comparison.html"><span class="toc-num">19</span><span class="toc-title">资产对比：期货·期权·股票·ETF 怎么选</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第六部分 · 风险与执行</div>
+<ol>
+<li><a href="/future-trading/20-position-sizing.html"><span class="toc-num">20</span><span class="toc-title">仓位管理</span></a></li>
+<li><a href="/future-trading/21-risk-management.html"><span class="toc-num">21</span><span class="toc-title">风险控制与止损</span></a></li>
+<li><a href="/future-trading/22-psychology.html"><span class="toc-num">22</span><span class="toc-title">交易心理</span></a></li>
+<li><a href="/future-trading/23-systematic-backtest.html"><span class="toc-num">23</span><span class="toc-title">交易系统与回测</span></a></li>
+</ol>
+</div>
+
+<div class="toc-part">
+<div class="toc-part-h">第七部分 · 进阶与 AI 时代</div>
+<ol>
+<li><a href="/future-trading/24-micro-emini.html"><span class="toc-num">24</span><span class="toc-title">微型与迷你合约</span></a></li>
+<li><a href="/future-trading/25-algo-automation.html"><span class="toc-num">25</span><span class="toc-title">算法与自动化</span></a></li>
+<li><a href="/future-trading/26-llm-agent-era.html"><span class="toc-num">26</span><span class="toc-title">LLM 与 Agent 时代：什么变了，什么没变</span></a></li>
+<li><a href="/future-trading/27-ai-trading-workflow.html"><span class="toc-num">27</span><span class="toc-title">用 AI 武装交易：研究·回测·执行·复盘</span></a></li>
+<li><a href="/future-trading/28-roadmap-mastery.html"><span class="toc-num">28</span><span class="toc-title">通往精通之路</span></a></li>
+</ol>
+</div>
+
+</div>
+  
+  </article>
+</main>
+<script src="/future-trading/app.js?v=4a0102a2"></script>
+</body>
+</html>

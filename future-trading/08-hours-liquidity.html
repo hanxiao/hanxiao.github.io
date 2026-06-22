@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8 交易时段与流动性 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css?v=4a0102a2">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li class="active"><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="8">8 · 交易时段与流动性</h1>
+<p>期货几乎 24 小时交易，但<strong>不是每个小时都值得交易</strong>。流动性（liquidity）在一天中起伏巨大，选错时段，再好的策略也会被滑点和假突破吞掉。本章帮你画出"什么时候该交易、什么时候该睡觉"的时钟。</p>
+<h2 id="_1">全天候，但有节奏</h2>
+<p>以 ES 为例，CME Globex 电子盘交易时间（美东时间 ET）：</p>
+<pre><code>周日 18:00 ── 开盘
+   每日 17:00–18:00 ET 维护暂停（约 1 小时）
+周五 17:00 ── 收盘
+</code></pre>
+<p>虽然几乎全天可交易，但成交量高度集中在<strong>美国常规交易时段（Regular Trading Hours, RTH）</strong>：</p>
+<pre><code>RTH（现货股市开盘）：09:30 – 16:00 ET
+ETH（盘后/隔夜，Electronic/overnight）：其余时间
+</code></pre>
+<h2 id="_2">一天中的流动性曲线</h2>
+<pre><code>成交量
+  │              ╱╲
+  │             ╱  ╲        ╱╲
+  │   ╱╲      ╱     ╲___   ╱  ╲
+  │__╱  ╲____╱          ╲_╱    ╲___
+  └──────────────────────────────────▶ 时间(ET)
+   亚洲盘  欧洲开  美股开盘  午盘  收盘
+   (清淡)  (回升)  (09:30↑)  (↓)  (15:00↑)
+</code></pre>
+<p>关键时段（美东时间）：</p>
+<ul>
+<li><strong>09:30 开盘（the open）</strong>：一天中流动性和波动最高的时刻之一。机会多，但也最容易被剧烈波动甩出。</li>
+<li><strong>10:00 左右</strong>：常有重要经济数据发布，波动放大。</li>
+<li><strong>11:30 – 13:30 午盘（lunch / midday）</strong>：流动性下降，常陷入窄幅震荡（chop），假突破多。</li>
+<li><strong>15:00 – 16:00 收盘（the close）</strong>：机构调仓，成交量再次放大，趋势常在此延续或反转。</li>
+</ul>
+<p>收盘段的波动近年还被一股新力量放大：<strong>当日到期期权（0DTE，zero days to expiration）</strong>。同日到期的 SPX 期权如今已占 SPX 期权成交的相当大一部分（具体占比以交易所实时数据为准），做市商对这些临近到期合约的对冲（gamma 对冲）会随标的逼近行权价而急剧放大，在尾盘集中释放，进一步抬高收盘段的波动峰值。换句话说，"收盘是第二个波动高峰"这个老结论，被 0DTE 强化了，而不是削弱了。</p>
+<h2 id="et">关键时间锚点（美东时间 ET）</h2>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>08:30</td>
+<td>多数美国宏观数据（CPI、非农、PPI 等）</td>
+<td>瞬间剧烈波动</td>
+</tr>
+<tr>
+<td>09:30</td>
+<td>美股现货开盘</td>
+<td>流动性/波动高峰</td>
+</tr>
+<tr>
+<td>10:00</td>
+<td>部分数据（ISM、消费者信心等）</td>
+<td>二次波动</td>
+</tr>
+<tr>
+<td>14:00</td>
+<td>FOMC 利率决议（议息日）</td>
+<td>全市场地震</td>
+</tr>
+<tr>
+<td>14:30</td>
+<td>FOMC 新闻发布会</td>
+<td>持续剧烈波动</td>
+</tr>
+<tr>
+<td>16:00</td>
+<td>现货收盘</td>
+<td>成交量高峰</td>
+</tr>
+<tr>
+<td>16:00后</td>
+<td>财报（earnings）密集发布</td>
+<td>NQ 尤其敏感</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>这些时间点是双刃剑：波动大 = 机会大，也 = 风险大。新手在数据公布前后应<strong>减仓或观望</strong>，别去赌方向。</p>
+</blockquote>
+<h2 id="_3">流动性为什么重要</h2>
+<p>流动性差时，三件坏事会发生：</p>
+<ol>
+<li><strong>买卖价差（bid-ask spread）变宽</strong>：进出场都更贵。</li>
+<li><strong>滑点（slippage）增加</strong>：你下市价单（market order）成交价远离预期。</li>
+<li><strong>假突破（false breakout）增多</strong>：薄市场容易被少量订单推动，制造误导性走势。</li>
+</ol>
+<pre><code>高流动性（RTH）：
+  ES 价差 = 1 跳（0.25 点），市价单几乎无滑点
+
+低流动性（凌晨亚洲盘）：
+  价差可能 2–4 跳，止损容易被&quot;扫&quot;（stop hunt）
+</code></pre>
+<h2 id="_4">不同时段的"性格"</h2>
+<ul>
+<li><strong>亚洲时段（约 20:00 – 02:00 ET）</strong>：通常清淡，适合区间策略，但要警惕日本/中国数据带来的突发波动。</li>
+<li><strong>欧洲时段（约 02:00 – 08:00 ET）</strong>：流动性回升，欧洲开盘（伦敦 03:00 ET 前后）带来方向性。</li>
+<li><strong>美国时段（08:30 – 16:00 ET）</strong>：主战场，绝大多数日内策略在此运行。</li>
+<li><strong>收盘后（16:00 ET 后）</strong>：财报季波动剧烈，但流动性回落，谨慎。</li>
+</ul>
+<div class="researcher-note">
+<p><strong>时段就是一个 deterministic 的日内季节性项，把它从噪声里减掉，信噪比会立刻变好。</strong> 这张流动性曲线本质是在说：收益序列<strong>非平稳（non-stationary）</strong>，方差有强烈的日内季节性（intraday seasonality / heteroskedasticity）。同一根 K 线，开盘段和午盘段的 σ 可能差好几倍——这不是随机，而是结构性的、可预测的成分。</p>
+<p>你做 Fashion-MNIST 时最警惕"在同一个分布上报告指标"；这里的陷阱是镜像的：日内不同时段根本就不是同一个分布。如果用全天合并的样本去估 <code>σ</code>、去标定止损或仓位，相当于把一个混合分布（mixture）当成单峰来拟合——午盘的窄幅会被开盘的尾巴污染，估计量两头都不准。更干净的做法是把时段当成已知的条件变量：先估出每个时段的基线 <code>σₜ</code>，把收益按 <code>r̃ₜ = rₜ / σₜ</code> 标准化（de-seasonalize），剩下的残差才接近平稳，信号才浮得出来。</p>
+<p>夜盘和午盘还有第二层问题：<strong>低样本 + 高方差 + 点差变宽</strong>。薄市场里每个估计量的有效样本量小，置信区间宽，假突破多——这就是低信噪比时段，贝叶斯地说，你的后验几乎没离开先验，理性的动作是<strong>不动手</strong>（观望 = 不在低信息区间下注）。</p>
+<p>最后埋个伏笔：把"高波动时段后面更可能接着高波动"这件事拆开看，就是<strong>波动聚集（volatility clustering）</strong>——<code>σₜ</code> 自身存在自相关。日内季节性是其中<strong>确定性</strong>的那一半，第 21 章的 GARCH 处理的是<strong>随机</strong>的那一半。先把季节性减干净，GARCH 才不会把"现在是开盘"误读成"市场突然变激烈了"。</p>
+</div>
+<h2 id="_5">给新手的时段建议</h2>
+<ol>
+<li><strong>优先交易美股开盘后第一两个小时（09:30 – 11:30 ET）</strong>，流动性最好、机会最多。</li>
+<li><strong>避开午盘的低流动性震荡</strong>，那是亏小钱、磨心态的时段。</li>
+<li><strong>数据/议息时间前后，减仓或空仓观望</strong>，别在剧烈波动里赌方向。</li>
+<li><strong>不在你清醒不足的时段交易</strong>——如果你在亚洲，半夜盯美股盘前先想清楚是否值得。</li>
+</ol>
+<h2 id="_6">时区换算提醒</h2>
+<p>本书时间均以<strong>美东时间（ET）</strong>为准（夏令时 EDT / 冬令时 EST 会差 1 小时）。如果你在其他时区，务必换算清楚：</p>
+<pre><code>美东 09:30（美股开盘）对应：
+  北京时间 21:30（夏令时）/ 22:30（冬令时）
+  柏林时间 15:30（夏令时）/ 15:30（冬令时，需各自核对）
+</code></pre>
+<blockquote>
+<p>夏令时切换日（美国、欧洲、各自时间不同）容易算错，交易日历上标注好。</p>
+</blockquote>
+<h2 id="_7">本章要点</h2>
+<ul>
+<li>期货几乎 24 小时，但流动性高度集中在<strong>美股常规时段 09:30–16:00 ET</strong>。</li>
+<li>开盘和收盘是流动性/波动双高峰；午盘清淡多假突破。</li>
+<li>记牢宏观数据锚点：08:30 数据、14:00 FOMC——前后减仓观望。</li>
+<li>低流动性 = 宽价差 + 滑点 + 假突破，凌晨薄市场尤其危险。</li>
+<li>新手优先做开盘后 1–2 小时，避开午盘和数据时点。</li>
+<li>所有时间以<strong>美东时间</strong>为准，注意夏令时换算。</li>
+</ul>
+<p>第二部分结束。下一章进入第三部分——价格与分析，先看是什么在驱动价格。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/07-tick-pnl.html"><span class="pn-dir">← 上一章</span><span class="pn-title">7 点值与盈亏计算</span></a><a class="pn pn-next" href="/future-trading/09-macro-drivers.html"><span class="pn-dir">下一章 →</span><span class="pn-title">9 价格驱动因素</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js?v=4a0102a2"></script>
+</body>
+</html>

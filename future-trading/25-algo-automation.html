@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25 算法与自动化 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css?v=4a0102a2">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li class="active"><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="25">25 · 算法与自动化</h1>
+<p>人会疲惫、会恐惧、会违背纪律。机器不会。算法交易（algorithmic trading）把第 23 章的系统规则交给计算机自动执行，是从"手动交易者"迈向"系统化交易者"的进阶之路。本章讲清楚它的原理、工具链和现实门槛。</p>
+<h2 id="_1">为什么自动化</h2>
+<pre><code>手动交易的瓶颈：
+  情绪（第 22 章）+ 反应速度 + 同时盯多个市场的能力 + 一致性
+
+自动化解决：
+  ✓ 零情绪，严格执行规则
+  ✓ 毫秒级反应，不错过信号
+  ✓ 同时监控/交易多个品种、多个策略
+  ✓ 100% 一致，今天和明天执行得一模一样
+  ✓ 可 7×24 运行（期货几乎全天候，第 8 章）
+</code></pre>
+<blockquote>
+<p>第一性原则：自动化的价值不是"更聪明"，而是<strong>完美执行 + 消除人性弱点 + 规模化</strong>。一个简单但被严格执行的系统，往往胜过复杂但执行走样的手动操作。</p>
+</blockquote>
+<h2 id="_2">自动化 ≠ 印钞机</h2>
+<p>先泼盆冷水。常见误解：</p>
+<pre><code>误解：写个机器人就能躺着赚钱
+现实：自动化只是&quot;执行&quot;工具，不创造优势（edge）
+
+没有经过验证的有效策略（第 23 章），
+自动化只会让你&quot;更快、更一致地亏钱&quot;。
+</code></pre>
+<p>自动化放大的是你系统的<strong>真实质量</strong>——好系统被放大成稳定盈利，坏系统被放大成快速爆仓。<strong>先有经过回测和前向验证的优势，再谈自动化。</strong></p>
+<h2 id="_3">自动化的层次</h2>
+<pre><code>① 半自动（semi-auto）：
+   人工决策入场，自动管理止损/止盈/移仓
+   → 门槛低，先消除&quot;离场纪律&quot;问题
+
+② 信号自动 + 人工确认：
+   程序生成信号，人按一下确认下单
+   → 保留人的否决权
+
+③ 全自动（fully automated）：
+   从信号到下单到风控全自动，人只监控
+   → 终极形态，门槛最高，风险也最需防范
+</code></pre>
+<p>新手建议从<strong>半自动</strong>起步——先把最易受情绪干扰的"离场"交给机器。</p>
+<h2 id="_4">工具链概览</h2>
+<p>实现自动化的常见路径，从易到难：</p>
+<p><strong>平台内置脚本语言</strong>
+- <strong>NinjaTrader（NinjaScript / C#）</strong>、<strong>TradeStation（EasyLanguage）</strong>、<strong>Sierra Chart（ACSIL/C++）</strong> 等都内置策略编程，可回测+自动执行，门槛相对低，适合起步。
+- <strong>TradingView（Pine Script v6）</strong>：易学，适合策略原型和告警，但自动下单需配合中转（webhook → 券商 API）。</p>
+<p><strong>券商 API（编程接口）</strong>
+- <strong>Interactive Brokers API</strong>：除经典的 TWS API / IB Gateway（支持 Python、Java、C++）外，现已提供 <strong>Web API（REST/WebSocket）</strong>，无需常驻网关进程，自建系统接入更轻。
+- <strong>Tradovate API</strong>、<strong>CQG API</strong>、<strong>Rithmic API</strong> 等专业期货数据/交易接口。</p>
+<p><strong>自建系统（Python 生态）</strong></p>
+<pre><code>数据（market data API）
+   ↓
+策略逻辑（Python：pandas / numpy / 回测框架）
+   ↓
+执行引擎（券商 API 下单）
+   ↓
+风控 + 监控 + 日志
+</code></pre>
+<p>回测/执行框架可选 <strong>nautilus_trader</strong>（事件驱动、live 与回测同一套代码）、<strong>vectorbt</strong>（向量化、参数扫描快）、<strong>backtrader</strong>（成熟、生态广）。灵活性最高，但要自己处理数据、延迟、断线重连、错误处理等工程问题。</p>
+<h2 id="_5">一个自动化系统的组成</h2>
+<pre><code>┌─────────────────────────────────────┐
+│  数据源（real-time market data）      │
+└──────────────┬──────────────────────┘
+               ▼
+┌─────────────────────────────────────┐
+│  策略引擎（signal generation）         │ ← 你的系统规则（第 23 章）
+└──────────────┬──────────────────────┘
+               ▼
+┌─────────────────────────────────────┐
+│  风控层（risk layer）                  │ ← 仓位、每日止损、最大回撤（第17/18章）
+└──────────────┬──────────────────────┘
+               ▼
+┌─────────────────────────────────────┐
+│  执行层（order execution via API）     │
+└──────────────┬──────────────────────┘
+               ▼
+┌─────────────────────────────────────┐
+│  监控 + 日志 + 告警（monitoring）       │ ← 出问题立即通知
+└─────────────────────────────────────┘
+</code></pre>
+<p><strong>风控层和监控层不是可选项</strong>——它们是自动化系统的安全带。</p>
+<div class="researcher-note">
+<p><strong>一个自动化交易系统就是一条推理流水线（inference pipeline）——和你每天在 Elastic 部署的那种同构。</strong>
+数据→信号→风控→执行→监控，对应到 数据→<code>embedding</code>→<code>rerank</code>→后处理→监控:每一级都有自己的延迟预算（latency budget)，整条链路的端到端延迟决定你能不能成交在信号价附近，而不是滑出去的价。最值得迁移过来的一个工程直觉是:<code>风控层</code>是这条链路里独立于模型的<code>断路器（circuit breaker）</code>——和你给下游依赖加的熔断一样，它不关心上游为什么疯，只在 <code>当日亏损 ≥ 阈值</code> 或 <code>单位时间下单次数 ≥ N</code> 时无条件跳闸，把策略与账户隔离开。还有一条更该内化:自动化和模型服务化一样，只放大底层质量，不创造质量。一个 <code>recall@10</code> 不达标的检索系统，把 QPS 拉满只会更快地把烂结果推给更多用户;一个期望为负的策略，自动化只会让它更快、更一致地亏。先有离线验证过的 edge，再上线放大——和"先有过得了 held-out 的指标，再扩流量"是同一条纪律。</p>
+</div>
+<h2 id="_6">自动化的独特风险</h2>
+<p>机器没有常识，会忠实地执行错误，所以有手动交易没有的风险：</p>
+<ul>
+<li><strong>程序错误（bugs）</strong>：一个符号写错、一个边界没处理，可能在几秒内连续下单造成巨亏。<strong>上线前必须充分测试，先在模拟环境跑足够久。</strong></li>
+<li><strong>失控循环（runaway algo）</strong>：逻辑缺陷导致疯狂下单。必须有<strong>硬性熔断</strong>（每日最大亏损、最大下单次数、单位时间下单限制）。</li>
+<li><strong>技术故障</strong>：断网、断电、API 中断、券商服务器故障。需要<strong>冗余和故障保护</strong>：网络中断时自动撤单/平仓的逻辑，可靠的服务器（很多人用云服务器 VPS 保证不断线）。</li>
+<li><strong>延迟与滑点</strong>：实盘的网络延迟、撮合延迟会让成交偏离信号价，回测必须预留这个折扣（第 23 章）。</li>
+<li><strong>过度优化</strong>：自动化让人忍不住堆参数追求完美回测曲线，过度拟合风险更大。</li>
+</ul>
+<pre><code>铁律：
+① 永远先在模拟/小 micro 上跑足够久
+② 永远有独立于策略的硬性风控熔断
+③ 永远有监控告警，能在异常时人工介入/急停
+④ 永远假设它会出 bug，设计&quot;出错也死不了&quot;的保护
+</code></pre>
+<h2 id="_7">从手动到自动的路径</h2>
+<pre><code>① 手动跑通一个有优势的系统（第 23 章）
+② 回测 + 前向测试，确认优势真实
+③ 半自动：先自动化离场和风控
+④ 模拟环境全自动跑数周到数月，盯 bug 和异常
+⑤ micro 合约小资金实盘，人工监控
+⑥ 确认稳定后逐步放大，但风控熔断始终在线
+</code></pre>
+<p>不要跳步。<strong>先有验证过的优势，再自动化执行，永远保留人工急停。</strong></p>
+<h2 id="llm-agent-2026">机器学习、LLM agent 与高频（2026 视角）</h2>
+<ul>
+<li><strong>高频交易（HFT）</strong>：依赖极低延迟、与交易所共置（co-location）的硬件军备竞赛，散户<strong>完全没有竞争空间</strong>，不要幻想。</li>
+<li><strong>机器学习（ML）</strong>：可用于信号研究，但极易过度拟合，且金融数据信噪比极低、非平稳（市场会变）。在你没有扎实的传统系统和回测纪律前，ML 多半是给自己挖坑。<strong>先把简单系统做扎实，再谈 ML。</strong></li>
+</ul>
+<p><strong>LLM agent 写代码与回测脚手架（2026）</strong></p>
+<p>到 2026 年，最大的变化不在策略本身，而在<strong>生产工具</strong>：让 LLM/agent 把一句话的策略想法翻译成回测脚本、把 NinjaScript/Pine/Python 在工具链之间互转、生成数据加载和参数扫描的脚手架——这一段已经又快又好，能把"从想法到一张回测曲线"的周期压到几分钟。</p>
+<p>但它<strong>不改变任何纪律</strong>，反而新增了两类必须人工审计的高危 bug：</p>
+<pre><code>① 幻觉（hallucination）：
+   agent 会自信地编出不存在的 API、错误的合约乘数、
+   想当然的撮合假设——回测能跑通，不代表逻辑对。
+
+② 未来信息泄漏（lookahead / data leakage）：
+   用了当根 K 线的收盘价做当根入场决策、
+   用全样本统计量做标准化、按未来才知道的事件对齐——
+   回测曲线漂亮得不真实，实盘立刻打回原形。
+   这是 agent 生成回测里最常见、最致命的一类错误。
+</code></pre>
+<ul>
+<li><strong>正确用法</strong>：agent 是把验证过的 edge 工程化的加速器，不是 edge 的来源。<strong>先有人工或离线验证过的优势，再让 agent 写实现；生成的每一行回测和下单代码都要人审，尤其盯死时间对齐与样本边界。</strong> 一条好用的检验：把同一回测做严格的<strong>样本外（out-of-sample）/前向（walk-forward）</strong>切分，曲线在切分点崩掉，多半就是泄漏。</li>
+<li>一句话：LLM 把"实现"变便宜了，<strong>没有把"找到真实 edge"变便宜</strong>。便宜的实现配上没验证的策略，只是更快地自动化亏钱。</li>
+</ul>
+<h2 id="_8">本章要点</h2>
+<ul>
+<li>自动化的价值是<strong>完美执行 + 消除情绪 + 规模化</strong>，不是"更聪明"。</li>
+<li>自动化<strong>不创造优势</strong>，只放大系统真实质量——先有验证过的 edge 再自动化。</li>
+<li>层次：半自动 → 信号+确认 → 全自动；新手从<strong>半自动（先自动化离场/风控）</strong>起步。</li>
+<li>工具链：平台脚本（NinjaScript/EasyLanguage/Pine）→ 券商 API（IBKR 等）→ Python 自建。</li>
+<li>系统必含<strong>风控层 + 监控告警层</strong>，它们是安全带，不可省。</li>
+<li>独特风险：bug、失控循环、技术故障、延迟滑点、过度优化——必须有<strong>硬性熔断 + 冗余 + 人工急停</strong>。</li>
+<li>HFT 散户无空间；ML 信噪比低易过拟合，先把简单系统做扎实。</li>
+<li>LLM/agent 让"写回测和实现"变便宜，但会幻觉、会泄漏未来信息——<strong>先有验证过的 edge，代码人工审计，时间对齐与样本边界盯死</strong>。</li>
+</ul>
+<p>下一章：第 26 章谈 LLM 与 agent 时代下，交易者的研究与执行流程会如何被重塑——以及哪些纪律永远不变。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/24-micro-emini.html"><span class="pn-dir">← 上一章</span><span class="pn-title">24 微型与迷你合约</span></a><a class="pn pn-next" href="/future-trading/26-llm-agent-era.html"><span class="pn-dir">下一章 →</span><span class="pn-title">26 LLM 与 Agent 时代：什么变了，什么没变</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js?v=4a0102a2"></script>
+</body>
+</html>

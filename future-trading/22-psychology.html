@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>22 交易心理 · 美股期货交易</title>
+<meta name="description" content="美股期货交易从入门到精通 · 中文网页书">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/future-trading/style.css?v=4a0102a2">
+</head>
+<body>
+<button id="menu-toggle" aria-label="menu">≡</button>
+<aside id="sidebar">
+  <a class="brand" href="/future-trading/index.html">
+    <div class="brand-title">美股期货交易</div>
+    <div class="brand-sub">FROM ZERO TO MASTERY</div>
+  </a>
+  <nav class="toc">
+  <div class="nav-part"><div class="nav-part-title">第一部分 · 入门基础</div><ul><li><a href="/future-trading/01-what-is-futures.html">1 什么是期货</a></li><li><a href="/future-trading/02-us-futures-landscape.html">2 美股期货全景</a></li><li><a href="/future-trading/03-contract-specs.html">3 合约规格解读</a></li><li><a href="/future-trading/04-broker-platform.html">4 开户与交易平台</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第二部分 · 市场机制</div><ul><li><a href="/future-trading/05-margin-leverage.html">5 保证金与杠杆</a></li><li><a href="/future-trading/06-settlement-rollover.html">6 结算、到期与移仓</a></li><li><a href="/future-trading/07-tick-pnl.html">7 点值与盈亏计算</a></li><li><a href="/future-trading/08-hours-liquidity.html">8 交易时段与流动性</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第三部分 · 价格与分析</div><ul><li><a href="/future-trading/09-macro-drivers.html">9 价格驱动因素</a></li><li><a href="/future-trading/10-pricing-basis.html">10 期货定价与基差</a></li><li><a href="/future-trading/11-technical-analysis.html">11 技术分析基础</a></li><li><a href="/future-trading/12-order-flow.html">12 订单流与市场微观结构</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第四部分 · 交易策略</div><ul><li><a href="/future-trading/13-trend-meanrev.html">13 趋势与均值回归</a></li><li><a href="/future-trading/14-spreads-hedging.html">14 价差、套利与对冲</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第五部分 · 期权与资产对比</div><ul><li><a href="/future-trading/15-options-basics.html">15 期权基础</a></li><li><a href="/future-trading/16-greeks-volatility.html">16 希腊字母与波动率</a></li><li><a href="/future-trading/17-options-strategies.html">17 期权策略实战</a></li><li><a href="/future-trading/18-options-on-futures.html">18 期货期权</a></li><li><a href="/future-trading/19-asset-comparison.html">19 资产对比：期货·期权·股票·ETF 怎么选</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第六部分 · 风险与执行</div><ul><li><a href="/future-trading/20-position-sizing.html">20 仓位管理</a></li><li><a href="/future-trading/21-risk-management.html">21 风险控制与止损</a></li><li class="active"><a href="/future-trading/22-psychology.html">22 交易心理</a></li><li><a href="/future-trading/23-systematic-backtest.html">23 交易系统与回测</a></li></ul></div>
+<div class="nav-part"><div class="nav-part-title">第七部分 · 进阶与 AI 时代</div><ul><li><a href="/future-trading/24-micro-emini.html">24 微型与迷你合约</a></li><li><a href="/future-trading/25-algo-automation.html">25 算法与自动化</a></li><li><a href="/future-trading/26-llm-agent-era.html">26 LLM 与 Agent 时代：什么变了，什么没变</a></li><li><a href="/future-trading/27-ai-trading-workflow.html">27 用 AI 武装交易：研究·回测·执行·复盘</a></li><li><a href="/future-trading/28-roadmap-mastery.html">28 通往精通之路</a></li></ul></div>
+  </nav>
+  <div class="nav-footer">by Han Xiao · hanxiao.io</div>
+</aside>
+<main>
+  <article class="content">
+  <h1 id="22">22 · 交易心理</h1>
+<p>你已经学了合约、杠杆、策略、风控。但有个残酷的事实：<strong>绝大多数交易者亏钱，不是因为不懂方法，而是因为做不到</strong>。知道止损和真在亏损时按下平仓键，是两件完全不同的事。交易心理（trading psychology）是入门到精通之间最难跨越的鸿沟。</p>
+<h2 id="_1">两个原始本能在作祟</h2>
+<p>人类大脑不是为交易设计的。两种远古本能在市场里恰好是错的：</p>
+<pre><code>恐惧（fear）：
+  浮盈时怕回吐 → 过早止盈，砍断利润
+  入场前怕亏 → 不敢扣扳机，错过机会
+
+贪婪（greed）：
+  浮亏时不甘心 → 拒绝止损，扛单成大亏
+  盈利时想更多 → 过度加仓，把赢的吐回去
+</code></pre>
+<p>结果是经典的<strong>"砍断盈利、放任亏损（cut winners, let losers run）"</strong>——恰好和盈利法则（截断亏损、让利润奔跑）完全相反。心理战的核心，就是逆转这个本能。</p>
+<h2 id="loss-aversion">损失厌恶（Loss Aversion）</h2>
+<p>行为金融学发现：<strong>亏 $100 的痛苦，约是赚 $100 快乐的两倍</strong>。这就是<strong>损失厌恶（loss aversion）</strong>。</p>
+<p>它直接导致：</p>
+<ul>
+<li>死扛亏损单，因为"只要不平仓就还没真亏"（账面亏损 vs 已实现亏损的自欺）。</li>
+<li>过早平掉盈利单，急于把"快乐"锁定，怕它变回痛苦。</li>
+</ul>
+<blockquote>
+<p>破解之道：把每笔交易当成一次<strong>概率事件</strong>，而不是一次"对错的审判"。亏损是做生意的成本，就像店铺的房租。接受它，止损就不再那么痛。</p>
+</blockquote>
+<h2 id="_2">几个最危险的心理陷阱</h2>
+<p><strong>报复性交易（revenge trading）</strong>
+亏钱后情绪上头，立刻加仓想扳回来，结果越陷越深。这是账户爆掉最常见的剧本。解药：第 21 章的<strong>每日止损</strong>——亏够了就强制离场。</p>
+<p><strong>FOMO（错失恐惧，Fear of Missing Out）</strong>
+看到价格暴涨，怕错过，追高入场，正好接在顶部。解药：相信"机会永远有，本金没了就没了"，永不追单。</p>
+<p><strong>过度自信（overconfidence）</strong>
+连赢几把后觉得自己无敌，放大仓位、放松风控，一把亏光。<strong>连胜比连败更危险</strong>，因为它让你忘记敬畏。</p>
+<p><strong>确认偏误（confirmation bias）</strong>
+持仓后只看支持自己的信息，无视反向证据，错过止损时机。解药：入场前就写下"什么情况证明我错了"。</p>
+<p><strong>沉没成本谬误（sunk cost fallacy）</strong>
+"我已经亏这么多了，不能现在出"——已亏的钱和未来决策无关，该止损就止损。</p>
+<h2 id="_3">纪律：把决策从情绪中剥离</h2>
+<p>对抗心理弱点的核心武器是<strong>纪律（discipline）和系统化（systematization）</strong>——在情绪平静时定好规则，在情绪激动时只执行规则。</p>
+<pre><code>情绪平静时（盘前/盘后）：制定规则
+  → 入场条件、止损、止盈、仓位、每日止损
+
+情绪激动时（盘中）：只执行，不决策
+  → 不临时改规则，不即兴发挥
+</code></pre>
+<p><strong>硬止损单</strong>（第 21 章）就是把"该不该认亏"这个最痛苦的决策，从情绪化的当下移走，交给提前设好的机器。这是用机制对抗人性。</p>
+<h2 id="_4">交易日志：照镜子</h2>
+<p><strong>交易日志（trading journal）</strong>是提升心理素质最有效的工具。每笔交易记录：</p>
+<pre><code>- 入场理由（依据什么信号/逻辑）
+- 入场/止损/目标价
+- 实际结果
+- 当时的情绪状态（冷静？FOMO？报复？）
+- 是否遵守了计划（关键！）
+- 复盘：做对什么、做错什么
+</code></pre>
+<blockquote>
+<p>重点不是记"赚了还是亏了"，而是记<strong>"有没有遵守纪律"</strong>。一笔遵守计划但亏损的交易，是好交易；一笔违反计划但侥幸盈利的交易，是坏交易——因为它在奖励坏习惯。<strong>评价过程，而非单次结果。</strong></p>
+</blockquote>
+<div class="researcher-note">
+<p><strong>这一整章是在调试你自己的奖励函数（reward function）。</strong></p>
+<p>把你这个交易员看成一个 RL agent，问题就清楚了：你的策略 <code>π</code> 给得没错（合约、杠杆、风控你都学过了），坏的是 reward signal。如果你用单笔交易的已实现盈亏 <code>r_t</code> 去做信用分配（credit assignment），就是在拿一个方差极高、单样本噪声主导的标量去更新策略——侥幸盈利的违纪交易反而被强化，遵守纪律的亏损交易反而被惩罚。"评价过程而非单次结果"在形式上就是：用 <code>E[r | 决策]</code> 而不是 <code>r_t</code> 的实现值来更新 <code>π</code>。交易日志就是你的离线 replay buffer，记录"是否守纪律"就是把奖励重新归因到可控的动作上、而不是不可控的环境抽样上。</p>
+<p>更值得注意的是：本章列的认知偏差不是随机噪声，而是<strong>系统性估计偏差（systematic bias）</strong>。损失厌恶给亏损区间的效用一个稳定的约 2× 放大，确认偏误是对似然 <code>p(证据 | 我对)</code> 的单边截断——这些都是有符号、可预测的偏移项，和你在标注污染（label contamination）里对抗的那种结构化攻击同源，而不是 i.i.d. 的 ε。能建模就能纠偏：知道 bias 的方向，就能在规则里预先减去它（提前写下"什么情况证明我错了"，正是给确认偏误打的去偏补丁）。</p>
+<p>而报复性交易/上头（tilt）属于另一类故障——<strong>分布漂移（distribution shift）</strong>：一次大亏触发情绪状态切换，你的决策策略从盘前校准好的那个 <code>π</code> 悄悄漂到了一个完全不同的、高方差高杠杆的 <code>π'</code>，而你自己浑然不觉。每日止损（第 21 章）就是检测到漂移后的硬性熔断：不修策略，直接把 agent 下线。把这些显式化、定期复盘的工程化做法，可以前向到 第 27 章——用 LLM 做有纪律的交易复盘，把偏差从"我感觉"变成可审计的统计量。</p>
+</div>
+<h2 id="_5">接受不确定性</h2>
+<p>交易的本质是<strong>在不确定中做概率决策</strong>。这要求你接受几个反直觉的真相：</p>
+<ol>
+<li><strong>单笔结果是随机的</strong>。再好的交易也可能亏，再差的也可能赚。优势体现在<strong>大量交易的统计上</strong>，不是任何一笔。</li>
+<li><strong>连续亏损是正常的</strong>。即使胜率 60% 的系统，连亏 5-6 次在概率上完全正常。别因连亏就推翻系统。</li>
+<li><strong>你不需要预测对</strong>。你只需要在对的时候赚得多、错的时候亏得少（盈亏比 + 风控），就能盈利。</li>
+</ol>
+<h2 id="_6">状态管理</h2>
+<p>交易表现和身心状态直接相关：</p>
+<ul>
+<li><strong>疲惫、情绪化、压力大时不交易</strong>。状态差时的决策质量断崖下跌。</li>
+<li><strong>不靠交易的盈亏定义自我价值</strong>。把交易当事业经营，不当赌博或自尊战场。</li>
+<li><strong>用能输得起的钱交易</strong>。交易"救命钱"会让恐惧扭曲每个决策，必败。</li>
+<li><strong>生活平衡</strong>。长期盯盘、孤独、高压会摧毁判断力，规律作息和适度抽离反而提升表现。</li>
+</ul>
+<h2 id="_7">给新手的心理路线图</h2>
+<ol>
+<li><strong>先用模拟和小仓位（micro）建立纪律</strong>，在低压力下把"按计划执行"练成习惯。</li>
+<li><strong>从第一天就记交易日志</strong>，按"是否守纪律"打分。</li>
+<li><strong>设硬性每日止损</strong>，给情绪一个熔断阀。</li>
+<li><strong>接受亏损是成本</strong>，目标是长期为正，不是每笔都赢。</li>
+<li><strong>慢慢加仓</strong>，每次加仓前确认你能在新的金额下保持冷静——这才是真正的瓶颈。</li>
+</ol>
+<h2 id="_8">本章要点</h2>
+<ul>
+<li>多数人亏钱是<strong>做不到</strong>而非不懂；知道止损和真按下平仓键是两回事。</li>
+<li>恐惧+贪婪导致"砍盈利、扛亏损"，正好与盈利法则相反，心理战就是逆转它。</li>
+<li><strong>损失厌恶</strong>让人死扛亏损、过早止盈；把交易当概率事件而非对错审判。</li>
+<li>最危险陷阱：报复性交易、FOMO、过度自信（连胜更危险）、确认偏误、沉没成本。</li>
+<li>用<strong>纪律 + 系统 + 硬止损</strong>把决策从情绪中剥离；平静时定规则，激动时只执行。</li>
+<li><strong>交易日志</strong>评价"是否守纪律"而非单次盈亏；接受不确定性和连亏的正常性。</li>
+<li>状态差不交易，用输得起的钱，慢慢加仓——加仓的瓶颈是心理承受力。</li>
+</ul>
+<p>下一章：把纪律和策略变成可量化、可验证的东西——交易系统与回测。</p>
+  <nav class="pager"><a class="pn pn-prev" href="/future-trading/21-risk-management.html"><span class="pn-dir">← 上一章</span><span class="pn-title">21 风险控制与止损</span></a><a class="pn pn-next" href="/future-trading/23-systematic-backtest.html"><span class="pn-dir">下一章 →</span><span class="pn-title">23 交易系统与回测</span></a></nav>
+  </article>
+</main>
+<script src="/future-trading/app.js?v=4a0102a2"></script>
+</body>
+</html>
