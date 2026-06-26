@@ -714,23 +714,24 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 6 TWO AXES ============ -->
 <section class="slide">
   <div class="kicker">The distinction</div>
-  <h2 class="h-slide">Two things a program can spend: compute, or structure.</h2>
-  <div class="body" style="justify-content:center">
-    <div class="cards">
+  <h2 class="h-slide sm">Cost is one number: how many extra times a program calls the encoder.</h2>
+  <div class="body" style="justify-content:center;gap:6px">
+    <div style="text-align:center;font-size:19px">\( c \;=\; 1 \,+\, \dfrac{\text{extra encoder calls}}{\text{baseline calls}} \)</div>
+    <div class="cards" style="margin-top:16px">
       <div class="card">
-        <div class="ttl">Test-time compute</div>
-        <div class="desc">The extra forward passes the program runs through the encoder.</div>
-        <div class="eq">\( c = \dfrac{T_{\text{base}} + T_{\text{prog}}}{T_{\text{base}}} \)</div>
-        <div class="foot">Spend more inference.</div>
+        <div class="ttl" style="color:var(--accent)">Test-time structure &nbsp;&middot;&nbsp; c = 1</div>
+        <div class="desc"><strong>SoftCentroid:</strong> average the top-k document vectors you <em>already</em> computed, mix into the query, re-score.</div>
+        <div class="eq">q&prime; = q + mean(d_emb[top-k])</div>
+        <div class="foot" style="color:var(--accent)">Zero extra encoder calls &mdash; only algebra on vectors you already have.</div>
       </div>
       <div class="card">
-        <div class="ttl">Test-time structure</div>
-        <div class="desc">A fixed recombination of the frozen geometry: chunking, z-scoring, channel fusion, centroid feedback.</div>
-        <div class="eq">deep structure at \( c \approx 1 \)</div>
-        <div class="foot">Almost no extra compute.</div>
+        <div class="ttl" style="color:var(--foil-ink)">Test-time compute &nbsp;&middot;&nbsp; c &gt; 1</div>
+        <div class="desc"><strong>FirstSent:</strong> take the top doc, <em>re-encode</em> its first sentence, mix into the query, re-score.</div>
+        <div class="eq">q&prime; = q + <span style="color:var(--foil-ink);font-weight:700">encode_fn</span>(first sentence)</div>
+        <div class="foot" style="color:var(--foil-ink)">One extra encoder call per query &mdash; new text through the model.</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:26px;font-weight:600">The two axes are independent. The whole question: <span class="accent">which one converts into quality that transfers?</span></p>
+    <p class="lead" style="margin-top:22px;font-weight:600">Same move &mdash; enrich the query with document context. The only difference is the encoder call. <span class="accent">Which one converts into quality that transfers?</span></p>
   </div>
 </section>
 
@@ -840,7 +841,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
 <section class="slide">
   <div class="kicker">The structure that survives</div>
-  <h2 class="h-slide sm">Transferable programs cost at most 1.5×. The best costs nothing.</h2>
+  <h2 class="h-slide sm">Transferable programs cost at most 1.5×. The best adds zero encoder calls.</h2>
   <div class="body" style="gap:18px;justify-content:center">
     <table class="bt" id="t-transfer">
       <thead><tr><th>Program</th><th>\(c\)</th><th>Median</th><th>Win-rate</th><th>Mean</th><th>Worst cell</th></tr></thead>
