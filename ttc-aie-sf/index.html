@@ -70,7 +70,7 @@ strong,b{font-weight:700}
 .title .meta{font-family:var(--mono);font-size:14px;margin-top:18px;letter-spacing:.03em}
 
 /* ---- generic helpers ---- */
-.body{flex:1;display:flex;flex-direction:column;min-height:0}
+.body{flex:1;display:flex;flex-direction:column;min-height:0;justify-content:center}
 .row{display:flex;flex-direction:row;gap:34px;align-items:stretch}
 .fill{flex:1;min-height:0}
 .cap{font-size:16px;line-height:1.42;font-weight:440;max-width:88ch}
@@ -260,9 +260,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .hmlabel .tag.uns{color:var(--foil)}
 .hmlabel .tag.disc{color:var(--accent)}
 .hmgrid{display:grid;gap:1.5px}
-.hmcell{width:11px;height:11px;border-radius:1.5px;opacity:0;transform:scale(.2);animation:hmin .42s ease forwards}
-@keyframes hmin{to{opacity:1;transform:scale(1)}}
-@media print{.hmcell{opacity:1;transform:scale(1);animation:none}}
+/* cells are visible at rest (data always readable); the interleaved flash is pure decoration:
+   staggered delays wash a teal wave then a pink wave across on load, then keep shimmering */
+.hmcell{width:11px;height:11px;border-radius:1.5px;animation:hmflash 3s ease-in-out infinite}
+.hmcell.z{animation:none}
+@keyframes hmflash{0%,100%{filter:brightness(1) saturate(1);transform:scale(1)}
+  50%{filter:brightness(1.16) saturate(1.55);transform:scale(1.18)}}
+@media print{.hmcell{transform:none;filter:none;animation:none}}
 .hmleg{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;font-weight:600}
 .hmleg .bar{width:120px;height:13px;border-radius:2px;background:linear-gradient(90deg,var(--foil),#fff 50%,var(--teal))}
 
@@ -334,7 +338,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The reframe</div>
   <h2 class="h-slide">Search is test-time compute.</h2>
-  <div class="body" style="justify-content:flex-start;gap:26px">
+  <div class="body" style="justify-content:center;gap:26px">
     <p class="lead" style="font-size:22px;max-width:66ch">You wire trained embeddings, rerankers, multi-vector retrievers, and query expanders into a <strong>pipeline at inference</strong> to squeeze out relevance. You do not need a bigger model. You assemble more search at test time.</p>
     <div class="cards">
       <div class="card"><div class="ttl">Don't scale it</div><div class="desc">one keyword match. Cheap, and probably not good enough.</div></div>
@@ -348,7 +352,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Two interpretations</div>
   <h2 class="h-slide sm">Two ways to manufacture that pipeline at test time.</h2>
-  <div class="body" style="justify-content:flex-start">
+  <div class="body" style="justify-content:center">
     <div class="cards">
       <div class="card hero">
         <div class="ttl accent">A &nbsp; Recombine the geometry</div>
@@ -390,7 +394,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The intuition</div>
   <h2 class="h-slide sm">Scoring runs from one cosine to late interaction.</h2>
-  <div class="body" style="justify-content:flex-start;gap:22px">
+  <div class="body" style="justify-content:center;gap:22px">
     <div class="vsrow">
 
       <div class="vspanel">
@@ -496,7 +500,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method</div>
   <h2 class="h-slide sm">An LLM agent writes programs over the frozen encoder, and a harness scores them.</h2>
-  <div class="body" style="justify-content:flex-start;gap:10px">
+  <div class="body" style="justify-content:center;gap:10px">
     <div class="flowwrap">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -552,7 +556,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Setup</div>
   <h2 class="h-slide sm">What we search on, and what we test on.</h2>
-  <div class="body" style="justify-content:flex-start;gap:18px">
+  <div class="body" style="justify-content:center;gap:18px">
     <div class="encrow">
       <div class="enc seen"><div class="en">j-v5-nano</div><div class="ep">239M &middot; Jina</div><div class="et disc">discovery model</div></div>
       <div class="enc"><div class="en">j-v5-small</div><div class="ep">568M &middot; Jina, multi-LoRA</div><div class="et">held-out</div></div>
@@ -577,7 +581,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The distinction</div>
   <h2 class="h-slide">Two things a program can spend: compute, or structure.</h2>
-  <div class="body" style="justify-content:flex-start">
+  <div class="body" style="justify-content:center">
     <div class="cards">
       <div class="card">
         <div class="ttl">Test-time compute</div>
@@ -600,7 +604,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Two searches, same loop</div>
   <h2 class="h-slide">We run the search under two admission rules.</h2>
-  <div class="body" style="justify-content:flex-start">
+  <div class="body" style="justify-content:center">
     <div class="cards">
       <div class="card">
         <div class="ttl">Compute-spending</div>
@@ -636,7 +640,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">What the search wrote</div>
   <h2 class="h-slide sm">Twelve programs on the frontier, one frozen encoder.</h2>
-  <div class="body" style="justify-content:flex-start;gap:14px">
+  <div class="body" style="justify-content:center;gap:14px">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="30"/><line class="vconn" x1="40" y1="60" x2="150" y2="90"/><line class="vwin" x1="40" y1="60" x2="164" y2="60"/><circle class="vd" cx="150" cy="30" r="4"/><circle class="vd" cx="164" cy="60" r="6"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="81" text-anchor="middle">q</text></svg><div class="pname">SentMaxSim <span class="pcost">c=2.2</span></div></div>
@@ -680,7 +684,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The compute frontier, cell by cell</div>
   <h2 class="h-slide sm">Compute helps about half the cells, and collapses the rest.</h2>
-  <div class="body" style="justify-content:flex-start;gap:16px">
+  <div class="body" style="justify-content:center;gap:16px">
     <div class="hmwrap" id="c-heatmap"></div>
     <div class="row" style="align-items:center;gap:30px;margin-top:6px">
       <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
@@ -751,7 +755,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">What the search found</div>
   <h2 class="h-slide sm">The transferable programs are classical IR, re-derived in embedding space.</h2>
-  <div class="body" style="justify-content:flex-start;gap:18px">
+  <div class="body" style="justify-content:center;gap:18px">
     <div class="rgrid">
       <div class="rcell"><div class="rn">Reciprocal Rank Fusion</div><div class="rk">rediscovered, not seeded</div></div>
       <div class="rcell"><div class="rn">Fisher Linear Discriminant</div><div class="rk">rediscovered, not seeded</div></div>
@@ -766,7 +770,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Running the loop</div>
   <h2 class="h-slide sm">The catch: the loop optimizes exactly what you tell it.</h2>
-  <div class="body" style="justify-content:flex-start;gap:18px">
+  <div class="body" style="justify-content:center;gap:18px">
     <div class="row" style="gap:40px">
       <div style="flex:1">
         <div class="mlabel" style="color:var(--foil);margin-bottom:12px">v2 optimized what we told it</div>
@@ -835,7 +839,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Connecting the dots</div>
   <h2 class="h-slide sm">Both manufacture a search pipeline at test time. Neither grows the model.</h2>
-  <div class="body" style="justify-content:flex-start;gap:22px">
+  <div class="body" style="justify-content:center;gap:22px">
     <table class="bt syn">
       <thead><tr><th></th><th>A &nbsp; embedding programs</th><th>B &nbsp; searchbox</th></tr></thead>
       <tbody>
@@ -853,7 +857,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The takeaway</div>
   <h2 class="h-slide sm">For frozen retrieval, test-time structure substitutes for model size. Test-time compute does not.</h2>
-  <div class="body" style="justify-content:flex-start;gap:20px">
+  <div class="body" style="justify-content:center;gap:20px">
     <div class="nlist">
       <div class="nitem"><div class="n">01</div><div class="t">Small distilled models have real, transferable test-time potential, realized as structure, not raw compute.</div></div>
       <div class="nitem"><div class="n">02</div><div class="t">Two ways to spend it: recombine the encoder's geometry, or let an agent compose the tools. Both assemble a pipeline at inference.</div></div>
@@ -1097,10 +1101,17 @@ function drawHeatmap(){
     grid.style.gridTemplateColumns='repeat('+nT+',11px)';
     const G=H.grid[m.key];
     for(let p=0;p<nP;p++) for(let t=0;t<nT;t++){
+      const v=G[p][t];
       const cell=document.createElement('div'); cell.className='hmcell';
-      cell.style.background=col(G[p][t]);
-      cell.style.animationDelay=((mi*nT+t)*8+p*3)+'ms';
-      const v=G[p][t]; if(v!=null) cell.title=H.progs[p]+' · '+H.tasks[t]+': '+(v>0?'+':'')+v.toFixed(3);
+      cell.style.background=col(v);
+      if(v==null){ cell.classList.add('z'); }
+      else{
+        // teal cells flash on one phase, pink cells half a cycle (1.5s) later, and each sign
+        // travels as a diagonal wave across the panel -> interleaved green/red shimmer
+        const signOff=v>=0?0:1500;
+        cell.style.animationDelay=(signOff + t*60 + p*40 + mi*150)+'ms';
+        cell.title=H.progs[p]+' · '+H.tasks[t]+': '+(v>0?'+':'')+v.toFixed(3);
+      }
       grid.appendChild(cell);
     }
     panel.appendChild(grid);
