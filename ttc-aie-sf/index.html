@@ -90,6 +90,17 @@ strong,b{font-weight:700}
 .defrow .tag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink);min-width:210px;border-left:3px solid var(--accent);padding-left:12px}
 .defrow .dsc{font-size:18px;font-weight:450;line-height:1.35}
+.defrow .tag.sm{min-width:150px}
+
+/* pull-quote (soundbites) */
+.pull{font-size:23px;line-height:1.34;font-weight:600;border-left:4px solid var(--accent);padding-left:24px;color:var(--ink)}
+.pull strong{font-weight:800;color:var(--accent)}
+.pull cite{display:block;margin-top:18px;font-family:var(--mono);font-size:14px;font-weight:600;font-style:normal;color:var(--accent);letter-spacing:.01em}
+/* autoresearch loop chips */
+.autoloop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;font-weight:600}
+.autoloop .step{border:1.2px solid var(--ink);border-radius:5px;padding:8px 13px;background:#fff}
+.autoloop .ar{color:var(--accent);font-size:17px;font-weight:800}
+.autoloop .rep{color:var(--accent);font-size:18px;font-weight:800;margin-left:2px}
 
 /* two cards */
 .cards{display:flex;gap:26px;margin-top:8px}
@@ -273,17 +284,22 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   </div>
 </section>
 
-<!-- ============ 2 THE BELIEF ============ -->
+<!-- ============ 2 TEST-TIME COMPUTE, DEFINED ============ -->
 <section class="slide">
-  <div class="kicker">The belief</div>
-  <h2 class="h-slide">Test-time compute is for large reasoning models. Small models, the story goes, have nothing to gain.</h2>
-  <div class="body" style="justify-content:flex-start;gap:30px">
-    <div class="deflist">
-      <div class="defrow"><div class="tag">Best-of-N</div><div class="dsc">Sample many candidates, keep the best.</div></div>
-      <div class="defrow"><div class="tag">Self-consistency</div><div class="dsc">Majority-vote over sampled chains of thought.</div></div>
-      <div class="defrow"><div class="tag">Verifier search</div><div class="dsc">Spend inference FLOPs, climb a smooth Pareto curve.</div></div>
+  <div class="kicker">Test-time compute</div>
+  <h2 class="h-slide sm">Spend more compute at inference, get a better answer.</h2>
+  <div class="body row" style="gap:46px;align-items:center">
+    <div style="flex:1">
+      <p class="cap" style="font-size:17.5px">Trade inference compute for quality: rather than a bigger model, the model does more work per query, along a smooth cost-versus-quality curve.</p>
+      <div class="deflist" style="margin-top:18px">
+        <div class="defrow"><div class="tag sm">Best-of-N</div><div class="dsc">sample many candidates, keep the best.</div></div>
+        <div class="defrow"><div class="tag sm">Self-consistency</div><div class="dsc">majority-vote over sampled chains of thought.</div></div>
+        <div class="defrow"><div class="tag sm">Verifier search</div><div class="dsc">spend inference FLOPs, climb a Pareto curve.</div></div>
+      </div>
     </div>
-    <p class="lead">A smaller model spends inference to match a bigger one. To our knowledge, dense retrieval, dominated by small embedding models, has not been studied through this lens.</p>
+    <div style="flex:1.05">
+      <blockquote class="pull">Having a bot think for just <strong>20 seconds</strong> in a hand of poker got the same boosting performance as scaling up the model by <strong>100,000&times;</strong> and training it for 100,000 times longer.<cite>Noam Brown, OpenAI &nbsp;·&nbsp; TED AI, San Francisco</cite></blockquote>
+    </div>
   </div>
 </section>
 
@@ -292,7 +308,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="kicker">The reframe</div>
   <h2 class="h-slide">Search is test-time compute.</h2>
   <div class="body" style="justify-content:flex-start;gap:26px">
-    <p class="lead" style="font-size:22px;max-width:66ch">You wire trained embeddings, rerankers, multi-vector retrievers, and query expanders into a <strong>pipeline at inference</strong> to squeeze out relevance. A small model does not have to get bigger. It has to assemble more search at test time.</p>
+    <p class="lead" style="font-size:22px;max-width:66ch">You wire trained embeddings, rerankers, multi-vector retrievers, and query expanders into a <strong>pipeline at inference</strong> to squeeze out relevance. You do not need a bigger model. You assemble more search at test time.</p>
     <div class="cards">
       <div class="card"><div class="ttl">Don't scale it</div><div class="desc">one keyword match. Cheap, and probably not good enough.</div></div>
       <div class="card hero"><div class="ttl accent">Scale it</div><div class="desc">embed, retrieve, rerank, expand, fuse. More inference can buy more relevance.</div></div>
@@ -325,8 +341,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 3 THE OPENING (lineage) ============ -->
 <section class="slide">
   <div class="kicker">Interpretation A</div>
-  <h2 class="h-slide sm">But today's small embedders are distilled or adapted from LLM backbones.</h2>
-  <div class="body" style="gap:18px;justify-content:center">
+  <h2 class="h-slide sm">"Small models gain nothing." But they are distilled from LLMs.</h2>
+  <div class="body" style="gap:16px;justify-content:center">
+    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's small embedders are distilled or adapted from LLM backbones:</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
         <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
@@ -426,6 +443,25 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
     </div>
     <p class="lead" style="font-weight:600">We forbid all three, and ask whether the gain scales with the compute spent.</p>
+  </div>
+</section>
+
+<!-- ============ AUTORESEARCH ============ -->
+<section class="slide">
+  <div class="kicker">Autoresearch</div>
+  <h2 class="h-slide sm">Autoresearch: let the agent climb the hill.</h2>
+  <div class="body row" style="gap:46px;align-items:center">
+    <div style="flex:1">
+      <p class="cap" style="font-size:17.5px">An agent runs the research loop itself: change one file, run a short fixed-budget experiment, keep the change if the metric improved, otherwise revert. Repeat, overnight. It is hill-climbing, with an LLM as the mutation function.</p>
+      <div class="autoloop" style="margin-top:18px">
+        <span class="step">change a file</span><span class="ar">&rarr;</span>
+        <span class="step">run a short experiment</span><span class="ar">&rarr;</span>
+        <span class="step">keep if better, else revert</span><span class="rep">&#8635;</span>
+      </div>
+    </div>
+    <div style="flex:1.05">
+      <blockquote class="pull">You're not touching any of the Python files like you normally would as a researcher. Instead, you are programming the <span class="mono" style="font-weight:700">program.md</span> files that set up your autonomous research org.<cite>Andrej Karpathy &nbsp;·&nbsp; AutoResearch, 2026</cite></blockquote>
+    </div>
   </div>
 </section>
 
@@ -785,7 +821,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <div id="chrome">
   <div class="l">Test-Time Compute for Information Retrieval</div>
-  <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 24</span></div>
+  <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 25</span></div>
 </div>
 
 </div>
