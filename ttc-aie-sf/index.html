@@ -19,6 +19,7 @@ window.MathJax = {
   --ink2:#1C1E23;         /* secondary = same ink, differ by size/weight (no grey) */
   --accent:#0B64DD;       /* Elastic blue (primary brand + structure/hero) */
   --foil:#F04E98;         /* Elastic pink (compute, the foil that fails) */
+  --foil-ink:#C2186A;     /* deepened pink for small text (contrast on near-white) */
   --teal:#00BFB3;         /* Elastic teal (secondary positive) */
   --teal-ink:#0A7B74;     /* deepened teal for small text */
   --accent-soft:#E7EEFC;  /* faint blue wash for highlight rows */
@@ -521,8 +522,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method</div>
   <h2 class="h-slide sm">An LLM agent writes programs over the frozen encoder, and a harness scores them.</h2>
-  <div class="body" style="justify-content:center;gap:10px">
-    <div class="flowwrap">
+  <div class="body" style="justify-content:flex-start;gap:10px;padding-top:58px">
+    <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">→</div>
@@ -530,15 +531,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">→</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">→</div>
-        <div class="fbox"><div class="fn">Frontier</div><div class="fd">cost vs quality</div></div>
-        <div class="farr">→</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">→</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
       <svg class="loopsvg" viewBox="0 0 1128 58" preserveAspectRatio="none" aria-hidden="true">
-        <path class="looppath" d="M 892 6 L 892 38 L 86 38 L 86 13"></path>
-        <polygon class="looparrow" points="86,1 79,15 93,15"></polygon>
+        <path class="looppath" d="M 798 6 L 798 38 L 97 38 L 97 13"></path>
+        <polygon class="looparrow" points="97,1 90,15 104,15"></polygon>
       </svg>
       <div class="looplabel">the loop: memory conditions the next program</div>
     </div>
@@ -550,8 +549,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 1 &nbsp;Proposer</div>
   <h2 class="h-slide sm">The proposer is an LLM, used as the mutation function.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="flowwrap" style="padding-bottom:42px;margin-top:0">
+  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+    <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
@@ -559,15 +558,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Frontier</div><div class="fd">cost vs quality</div></div>
-        <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
+        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
-      <svg class="loopsvg" viewBox="0 0 1128 42" preserveAspectRatio="none" aria-hidden="true">
-        <path class="looppath" d="M 892 6 L 892 26 L 86 26 L 86 13"></path>
-        <polygon class="looparrow" points="86,1 79,15 93,15"></polygon>
+      <svg class="loopsvg" viewBox="0 0 1128 58" preserveAspectRatio="none" aria-hidden="true">
+        <path class="looppath" d="M 798 6 L 798 38 L 97 38 L 97 13"></path>
+        <polygon class="looparrow" points="97,1 90,15 104,15"></polygon>
       </svg>
     </div>
     <div class="spdetail">
@@ -576,7 +573,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <p class="cap">Opus 4.6 reads the current frontier source and the memory ledger, edits <strong>one</strong> Python program, and proposes the next. Keep it if the metric improves, else revert: hill-climbing, with the LLM as the mutation function. No human in the inner loop.</p>
       </div>
       <div class="spcaveat">
-        <div class="mlabel" style="color:var(--foil)">Caveat</div>
+        <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
         <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it. Tell it to raise the in-domain mean and spend compute, and it will manufacture a 14.7&times; frontier that does not transfer. The objective is the steering wheel.</p>
       </div>
     </div>
@@ -587,8 +584,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 2 &nbsp;Program</div>
   <h2 class="h-slide sm">The program is arbitrary Python over the frozen encoder.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="flowwrap" style="padding-bottom:42px;margin-top:0">
+  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+    <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
@@ -596,15 +593,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Frontier</div><div class="fd">cost vs quality</div></div>
-        <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
+        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
-      <svg class="loopsvg" viewBox="0 0 1128 42" preserveAspectRatio="none" aria-hidden="true">
-        <path class="looppath" d="M 892 6 L 892 26 L 86 26 L 86 13"></path>
-        <polygon class="looparrow" points="86,1 79,15 93,15"></polygon>
+      <svg class="loopsvg" viewBox="0 0 1128 58" preserveAspectRatio="none" aria-hidden="true">
+        <path class="looppath" d="M 798 6 L 798 38 L 97 38 L 97 13"></path>
+        <polygon class="looparrow" points="97,1 90,15 104,15"></polygon>
       </svg>
     </div>
     <div class="spdetail">
@@ -614,7 +609,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <p class="cap"><strong>encode_fn is the test-time-compute budget.</strong> It re-encodes any text, switches the LoRA adapter (retrieval / passage / classification / matching), picks a Matryoshka dimension, or caps length. One call is one unit of compute.</p>
       </div>
       <div class="spcaveat">
-        <div class="mlabel" style="color:var(--foil)">Caveat &middot; six taboos</div>
+        <div class="mlabel" style="color:var(--foil-ink)">Caveat &middot; six taboos</div>
         <p class="cap">Auto-rejected: hyperparameters, stochastic ops, task-specific routing, external models, learned parameters, trivial constant-only variants. The taboos force <strong>universal structure</strong>, not a per-task tuned config.</p>
       </div>
     </div>
@@ -625,8 +620,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 3 &nbsp;Evaluator</div>
   <h2 class="h-slide sm">The harness scores every program on the same 14 tasks.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="flowwrap" style="padding-bottom:42px;margin-top:0">
+  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+    <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
@@ -634,15 +629,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Frontier</div><div class="fd">cost vs quality</div></div>
-        <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
+        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
-      <svg class="loopsvg" viewBox="0 0 1128 42" preserveAspectRatio="none" aria-hidden="true">
-        <path class="looppath" d="M 892 6 L 892 26 L 86 26 L 86 13"></path>
-        <polygon class="looparrow" points="86,1 79,15 93,15"></polygon>
+      <svg class="loopsvg" viewBox="0 0 1128 58" preserveAspectRatio="none" aria-hidden="true">
+        <path class="looppath" d="M 798 6 L 798 38 L 97 38 L 97 13"></path>
+        <polygon class="looparrow" points="97,1 90,15 104,15"></polygon>
       </svg>
     </div>
     <div class="spdetail">
@@ -651,7 +644,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <p class="cap">Every program runs on the same <strong>14 MMTEB Tier-1 discovery tasks</strong> (legal, financial, long-document, general). The harness scores <span class="mono">&Delta;nDCG@10</span> against the cosine baseline, plus a cost ratio (<span class="mono">encode_fn</span> calls per query). The same fixed budget every generation.</p>
       </div>
       <div class="spcaveat">
-        <div class="mlabel" style="color:var(--foil)">Caveat</div>
+        <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
         <p class="cap">The loop only ever sees these 14 tasks. The <strong>19 held-out tasks never enter the loop</strong>, so a program can win in-domain and still collapse out of domain. That gap is the entire experiment.</p>
       </div>
     </div>
@@ -662,8 +655,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 4 &nbsp;Memory</div>
   <h2 class="h-slide sm">Every program is logged, and the log conditions the next one.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="flowwrap" style="padding-bottom:42px;margin-top:0">
+  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+    <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
@@ -671,15 +664,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Frontier</div><div class="fd">cost vs quality</div></div>
-        <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
+        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
-      <svg class="loopsvg" viewBox="0 0 1128 42" preserveAspectRatio="none" aria-hidden="true">
-        <path class="looppath" d="M 892 6 L 892 26 L 86 26 L 86 13"></path>
-        <polygon class="looparrow" points="86,1 79,15 93,15"></polygon>
+      <svg class="loopsvg" viewBox="0 0 1128 58" preserveAspectRatio="none" aria-hidden="true">
+        <path class="looppath" d="M 798 6 L 798 38 L 97 38 L 97 13"></path>
+        <polygon class="looparrow" points="97,1 90,15 104,15"></polygon>
       </svg>
     </div>
     <div class="spdetail">
@@ -688,7 +679,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <p class="cap">A JSONL ledger, one row per program: per-task <span class="mono">&Delta;nDCG@10</span>, win/tie/loss, cost ratio, parent, a novelty claim, and a post-hoc lesson. The proposer reads the frontier source plus this history, so each round builds on the last.</p>
       </div>
       <div class="spcaveat">
-        <div class="mlabel" style="color:var(--foil)">Caveat</div>
+        <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
         <p class="cap">Compounding cuts both ways: memory builds on real wins, but it also compounds whatever bias the objective has. A biased metric does not just mislead one program, it steers the whole lineage.</p>
       </div>
     </div>
