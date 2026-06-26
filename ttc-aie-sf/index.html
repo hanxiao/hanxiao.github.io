@@ -253,13 +253,21 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .setcol .sh{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 
 /* cross-model heatmap */
-.hmwrap{display:flex;gap:24px;width:100%;justify-content:center}
+.hmwrap{display:flex;gap:24px;justify-content:center}
 .hmpanel{display:flex;flex-direction:column;align-items:center;gap:7px}
 .hmlabel{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink)}
 .hmlabel .tag{display:block;font-size:11.5px;font-weight:600;margin-top:1px}
 .hmlabel .tag.uns{color:var(--foil)}
 .hmlabel .tag.disc{color:var(--accent)}
 .hmgrid{display:grid;gap:1.5px}
+/* heatmap axis labels: rows = programs by compute cost (cheap top -> costly bottom), cols = held-out tasks */
+.hmframe{display:flex;align-items:stretch;justify-content:center;gap:13px}
+.hmyax{display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:36px 0 5px;font-family:var(--mono)}
+.hmyanchor{font-size:11.5px;font-weight:700;line-height:1.1;text-align:center;letter-spacing:.01em}
+.hmyanchor .d{display:block;font-weight:500;font-size:10.5px}
+.hmytitle{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:8px 0}
+.hmcolwrap{display:flex;flex-direction:column;gap:9px}
+.hmxax{text-align:center;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
 /* cells are visible at rest (data always readable); the interleaved flash is pure decoration:
    staggered delays wash a teal wave then a pink wave across on load, then keep shimmering */
 .hmcell{width:11px;height:11px;border-radius:1.5px;animation:hmflash 3s ease-in-out infinite}
@@ -684,11 +692,21 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The compute frontier, cell by cell</div>
   <h2 class="h-slide sm">Compute helps about half the cells, and collapses the rest.</h2>
-  <div class="body" style="justify-content:center;gap:16px">
-    <div class="hmwrap" id="c-heatmap"></div>
-    <div class="row" style="align-items:center;gap:30px;margin-top:6px">
+  <div class="body" style="justify-content:center;gap:14px">
+    <div class="hmframe">
+      <div class="hmyax">
+        <div class="hmyanchor">1.2&times;<span class="d">cheap</span></div>
+        <div class="hmytitle">Compute cost</div>
+        <div class="hmyanchor">14.7&times;<span class="d">costly</span></div>
+      </div>
+      <div class="hmcolwrap">
+        <div class="hmwrap" id="c-heatmap"></div>
+        <div class="hmxax">19 held-out tasks &rarr;</div>
+      </div>
+    </div>
+    <div class="row" style="align-items:center;gap:30px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="flex:1">All twelve compute-spending programs (rows, by cost) across nineteen held-out tasks (columns) and four encoders. 52 of 76 model-task pairs admit some improvement, yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. 52 of 76 model-task pairs admit some improvement, yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
 </section>
