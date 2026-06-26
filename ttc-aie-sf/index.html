@@ -239,6 +239,33 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .pname{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);text-align:center}
 .pname .pcost{color:var(--accent);font-weight:600;margin-left:4px}
 
+/* setup: encoder cards + task sets */
+.encrow{display:flex;gap:14px;width:100%}
+.enc{flex:1;border:1.2px solid var(--hair2);border-radius:7px;padding:13px 15px;background:#fff;display:flex;flex-direction:column;gap:3px}
+.enc.seen{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.enc .en{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink)}
+.enc .ep{font-size:13.5px;font-weight:450;line-height:1.3}
+.enc .et{font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.enc .et.disc{color:var(--accent)}
+.enc .et.uns{color:var(--foil)}
+.setrow{display:flex;gap:30px;width:100%}
+.setcol{flex:1}
+.setcol .sh{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+
+/* cross-model heatmap */
+.hmwrap{display:flex;gap:24px;width:100%;justify-content:center}
+.hmpanel{display:flex;flex-direction:column;align-items:center;gap:7px}
+.hmlabel{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink)}
+.hmlabel .tag{display:block;font-size:11.5px;font-weight:600;margin-top:1px}
+.hmlabel .tag.uns{color:var(--foil)}
+.hmlabel .tag.disc{color:var(--accent)}
+.hmgrid{display:grid;gap:1.5px}
+.hmcell{width:11px;height:11px;border-radius:1.5px;opacity:0;transform:scale(.2);animation:hmin .42s ease forwards}
+@keyframes hmin{to{opacity:1;transform:scale(1)}}
+@media print{.hmcell{opacity:1;transform:scale(1);animation:none}}
+.hmleg{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;font-weight:600}
+.hmleg .bar{width:120px;height:13px;border-radius:2px;background:linear-gradient(90deg,var(--foil),#fff 50%,var(--teal))}
+
 /* closing */
 .closing{justify-content:center}
 .closing h1{font-size:64px}
@@ -521,6 +548,31 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   </div>
 </section>
 
+<!-- ============ SETUP ============ -->
+<section class="slide">
+  <div class="kicker">Setup</div>
+  <h2 class="h-slide sm">What we search on, and what we test on.</h2>
+  <div class="body" style="justify-content:flex-start;gap:18px">
+    <div class="encrow">
+      <div class="enc seen"><div class="en">j-v5-nano</div><div class="ep">239M &middot; Jina</div><div class="et disc">discovery model</div></div>
+      <div class="enc"><div class="en">j-v5-small</div><div class="ep">568M &middot; Jina, multi-LoRA</div><div class="et">held-out</div></div>
+      <div class="enc"><div class="en">gemma-300m</div><div class="ep">303M &middot; Gemma 3, no adapters</div><div class="et uns">unseen family</div></div>
+      <div class="enc"><div class="en">qwen3-0.6b</div><div class="ep">600M &middot; Qwen3, no adapters</div><div class="et uns">unseen family</div></div>
+    </div>
+    <div class="setrow">
+      <div class="setcol">
+        <div class="sh">Discovery</div>
+        <p class="cap">The loop runs on <span class="mono">j-v5-nano</span> over <strong>14 MMTEB Tier-1 tasks</strong> (legal, financial, long-document, general), corpora of 46 to 438 documents.</p>
+      </div>
+      <div class="setcol">
+        <div class="sh">Held-out</div>
+        <p class="cap"><strong>19 MMTEB Tier-2/3 tasks</strong>, none in discovery, corpora up to ~12,500 docs: summarization, legal and medical QA, fact verification, argument retrieval, temporal and commonsense reasoning. Touched once.</p>
+      </div>
+    </div>
+    <p class="note">We score every (encoder, task) cell by <span class="mono">&Delta;nDCG@10</span>, the program's nDCG@10 minus the cosine baseline. Gemma and Qwen share no training data, tokenizer, or adapter design with the discovery model.</p>
+  </div>
+</section>
+
 <!-- ============ 6 TWO AXES ============ -->
 <section class="slide">
   <div class="kicker">The distinction</div>
@@ -622,6 +674,19 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
   </div>
   <p class="cap" style="margin-top:6px">The transfer-selecting program at <strong>\(c = 1.0\)</strong>, zero extra forward passes, already beats the most expensive compute program at <strong>\(c = 14.7\)</strong>. Median is plotted, robust to the \(-0.98\) tail; the pooled mean is negative too.</p>
+</section>
+
+<!-- ============ HEATMAP ============ -->
+<section class="slide">
+  <div class="kicker">The compute frontier, cell by cell</div>
+  <h2 class="h-slide sm">Compute helps about half the cells, and collapses the rest.</h2>
+  <div class="body" style="justify-content:flex-start;gap:16px">
+    <div class="hmwrap" id="c-heatmap"></div>
+    <div class="row" style="align-items:center;gap:30px;margin-top:6px">
+      <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
+      <p class="cap" style="flex:1">All twelve compute-spending programs (rows, by cost) across nineteen held-out tasks (columns) and four encoders. 52 of 76 model-task pairs admit some improvement, yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+    </div>
+  </div>
 </section>
 
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
@@ -821,7 +886,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <div id="chrome">
   <div class="l">Test-Time Compute for Information Retrieval</div>
-  <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 25</span></div>
+  <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 27</span></div>
 </div>
 
 </div>
@@ -1012,7 +1077,38 @@ function fillTransfer(){
   });
 }
 
-function renderAll(){drawPareto();drawMoney();drawPermodel();drawHead();fillTransfer();}
+/* ---- cross-model heatmap (compute-spending frontier) ---- */
+function drawHeatmap(){
+  const c=document.getElementById('c-heatmap'); if(!c||!DATA.heatmap) return;
+  c.innerHTML='';
+  const H=DATA.heatmap, nT=H.tasks.length, nP=H.progs.length, CAP=0.12;
+  const col=d=>{
+    if(d==null) return '#eeeef0';
+    const t=Math.min(Math.abs(d)/CAP,1);
+    const mix=(to)=>'rgb('+to.map(v=>Math.round(255-(255-v)*t)).join(',')+')';
+    return d>=0 ? mix([0,191,179]) : mix([240,78,152]);
+  };
+  H.models.forEach((m,mi)=>{
+    const panel=document.createElement('div'); panel.className='hmpanel';
+    const lab=document.createElement('div'); lab.className='hmlabel';
+    lab.innerHTML=m.label+'<span class="tag '+(m.seen==='unseen'?'uns':(m.seen==='discovery'?'disc':''))+'">'+(m.seen||'held-out')+'</span>';
+    panel.appendChild(lab);
+    const grid=document.createElement('div'); grid.className='hmgrid';
+    grid.style.gridTemplateColumns='repeat('+nT+',11px)';
+    const G=H.grid[m.key];
+    for(let p=0;p<nP;p++) for(let t=0;t<nT;t++){
+      const cell=document.createElement('div'); cell.className='hmcell';
+      cell.style.background=col(G[p][t]);
+      cell.style.animationDelay=((mi*nT+t)*8+p*3)+'ms';
+      const v=G[p][t]; if(v!=null) cell.title=H.progs[p]+' · '+H.tasks[t]+': '+(v>0?'+':'')+v.toFixed(3);
+      grid.appendChild(cell);
+    }
+    panel.appendChild(grid);
+    c.appendChild(panel);
+  });
+}
+
+function renderAll(){drawPareto();drawMoney();drawPermodel();drawHead();drawHeatmap();fillTransfer();}
 
 /* init */
 function init(){
