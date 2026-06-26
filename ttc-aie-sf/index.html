@@ -292,6 +292,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .qr .qrtop{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .qr .qrlabel{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
 .qr-abs{position:absolute;right:104px;top:50%;transform:translateY(-50%)}
+/* AI Engineer World's Fair event badge (title + close) */
+.aie-badge{position:absolute;left:76px;top:48px}
+.aie-badge img{height:42px;display:block}
 
 /* ---- print / PDF export: one slide per landscape page ---- */
 @media print{
@@ -309,6 +312,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 1 TITLE ============ -->
 <section class="slide title">
+  <div class="aie-badge"><img src="img/aie-worldsfair.svg" alt="AI Engineer World's Fair"></div>
   <div class="kicker">Frozen Encoders · Program Search · Inference</div>
   <h1><span class="accent">Autoresearch</span><br>Test-Time Compute for<br>Information Retrieval</h1>
   <div class="auth">
@@ -890,6 +894,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 16 CLOSING ============ -->
 <section class="slide closing">
+  <div class="aie-badge"><img src="img/aie-worldsfair.svg" alt="AI Engineer World's Fair"></div>
   <div class="kicker">Thank you</div>
   <h1>Spend structure,<br>not compute.</h1>
   <p class="lead" style="margin-top:22px;font-weight:600">Zero training. Across frozen encoders. About 1× serving cost.</p>
