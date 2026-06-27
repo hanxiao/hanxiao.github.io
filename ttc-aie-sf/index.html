@@ -351,7 +351,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
     </div>
     <div style="flex:1.05">
-      <blockquote class="pull">Having a bot think for just <strong>20 seconds</strong> in a hand of poker got the same boosting performance as scaling up the model by <strong>100,000&times;</strong> and training it for 100,000 times longer.<cite>Noam Brown, OpenAI &nbsp;·&nbsp; TED AI, San Francisco</cite></blockquote>
+      <blockquote class="pull">Having a bot think for just <strong>20 seconds</strong> in a hand of poker got the same performance boost as scaling up the model by <strong>100,000&times;</strong> and training it for 100,000 times longer.<cite>Noam Brown, OpenAI &nbsp;·&nbsp; TED AI, San Francisco</cite></blockquote>
     </div>
   </div>
 </section>
@@ -396,7 +396,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="kicker">Interpretation A</div>
   <h2 class="h-slide sm">"Small models gain nothing." But they are distilled from LLMs.</h2>
   <div class="body" style="gap:16px;justify-content:center">
-    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's small embedders are distilled or adapted from LLM backbones:</p>
+    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's embedders &mdash; including the small deployable ones &mdash; are distilled or adapted from LLM backbones:</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
         <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
@@ -488,7 +488,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <span class="chip on">No retraining</span><span class="chip on">No auxiliary model</span><span class="chip on">No learned parameters</span><span class="chip on">One frozen encoder API</span>
     </div>
     <div>
-      <p class="note" style="margin-bottom:12px">Prior test-time methods for retrieval each break at least one rule:</p>
+      <p class="note" style="margin-bottom:12px">The prominent recent test-time methods for retrieval each break at least one rule:</p>
       <div class="deflist">
         <div class="defrow"><div class="tag">HyDE / Query2Doc</div><div class="dsc">an external LLM in the query path.</div></div>
         <div class="defrow"><div class="tag">GQR</div><div class="dsc">a second, supervisory retriever.</div></div>
@@ -570,11 +570,11 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="spdetail">
       <div class="spdesign">
         <div class="mlabel accent">Design</div>
-        <p class="cap">Opus 4.6 reads the current frontier source and the memory ledger, edits <strong>one</strong> Python program, and proposes the next. Keep it if the metric improves, else revert: hill-climbing, with the LLM as the mutation function. No human in the inner loop.</p>
+        <p class="cap">Opus 4.6 reads the current frontier source and the memory ledger, edits <strong>one</strong> Python program, and proposes the next. Keep it if the metric improves, else revert. No human in the inner loop.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
-        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it. Tell it to raise the in-domain mean and spend compute, and it will manufacture a 14.7&times; frontier that does not transfer. The objective is the steering wheel.</p>
+        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it &mdash; not the one you mean. Reward the in-domain mean and reward spending compute, and that is what it will chase. Whether the gain survives out of domain is a separate question. The objective is the steering wheel.</p>
       </div>
     </div>
   </div>
@@ -610,7 +610,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat &middot; six taboos</div>
-        <p class="cap">Auto-rejected: hyperparameters, stochastic ops, task-specific routing, external models, learned parameters, trivial constant-only variants. The taboos force <strong>universal structure</strong>, not a per-task tuned config.</p>
+        <p class="cap">Auto-rejected: hyperparameters, stochastic ops, task-specific routing, external models, learned parameters, trivial constant-only variants. The taboos force <strong>task-agnostic structure</strong>, not a per-task tuned config.</p>
       </div>
     </div>
   </div>
@@ -645,7 +645,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
-        <p class="cap">The loop only ever sees these 14 tasks. The <strong>19 held-out tasks never enter the loop</strong>, so a program can win in-domain and still collapse out of domain. That gap is the entire experiment.</p>
+        <p class="cap">The loop only ever sees these 14 tasks. The <strong>19 held-out tasks never enter the loop</strong>, so a program can win in-domain and still fail out of domain. That gap is the entire experiment.</p>
       </div>
     </div>
   </div>
@@ -744,12 +744,12 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="card">
         <div class="ttl">Compute-spending</div>
         <div class="desc">Admit a program if its in-domain mean ΔnDCG@10 beats every prior one. The proposer is encouraged to spend more inference.</div>
-        <div class="foot">→ a frontier from \(c = 1.2\) to \(14.7\)</div>
+        <div class="foot">→ how high can the in-domain frontier climb?</div>
       </div>
       <div class="card hero">
         <div class="ttl">Transfer-selecting</div>
         <div class="desc">Admit only if a held-out validation split improves with no task regressing past 0.05. No reward for spending compute.</div>
-        <div class="foot accent">→ converges near \(c = 1\)</div>
+        <div class="foot accent">→ what holds up out of domain?</div>
       </div>
     </div>
     <p class="note" style="margin-top:26px">Neither search ever sees the 19 held-out evaluation tasks or the unseen encoder families.</p>
@@ -833,7 +833,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="row" style="align-items:center;gap:30px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. 52 of 76 model-task pairs admit some improvement, yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program &mdash; yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
 </section>
@@ -849,7 +849,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </table>
     <div class="row" style="gap:40px;align-items:center;margin-top:4px">
       <div class="stat statbig"><div class="v o">0</div><div class="l">losing cells: Transpose-Consensus, at an 83% held-out win-rate</div></div>
-      <p class="cap" style="flex:1">Held-out quality is negatively correlated with cost (\(r = -0.37\)). The worst cell over the whole table is −0.107: nine times smaller than the compute frontier's −0.98 collapse. The transfer frontier turns the held-out mean positive by removing the catastrophic tail, not by relying on a higher win-rate.</p>
+      <p class="cap" style="flex:1">Across the surviving programs, higher cost trends with lower held-out quality. The worst cell over the whole table is −0.107: nine times smaller than the compute frontier's −0.98 collapse. The transfer frontier turns the held-out mean positive mainly by bounding the worst cell, not merely by a higher win-rate.</p>
     </div>
   </div>
 </section>
@@ -867,7 +867,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="chart" id="c-permodel" style="height:calc(100% - 22px)"></div>
     </div>
     <div style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:22px">
-      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four families, and largest on the two never seen during discovery. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
+      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four families and largest on the two never seen during discovery; the medians sit near zero on the discovery families, so the gain is concentrated in a positive tail, not broad. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
       <div style="border-left:3px solid var(--accent);padding-left:16px">
         <div class="mlabel accent" style="margin-bottom:6px">Across languages, too</div>
         <p class="lead" style="font-size:17px">Applied unmodified to French and Greek: median <strong>+0.016</strong>, an <strong>86%</strong> win-rate, and every held-out cell positive on <span class="mono">gemma-300m</span>.</p>
@@ -920,7 +920,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div style="flex:1">
         <div class="mlabel" style="color:var(--foil);margin-bottom:12px">v2 optimized what we told it</div>
         <div class="lessons">
-          <div class="lrow"><div class="bad">fake</div><div class="lx">in-domain mean, plus "spend more compute", gave a fake scaling frontier to <b>\(c = 14.7\)</b> that already saturated by \(4\times\)</div></div>
+          <div class="lrow"><div class="bad">in&#8209;sample</div><div class="lx">in-domain mean, plus "spend more compute", gave an <b>in-sample</b> scaling frontier to <b>\(c = 14.7\)</b> that already saturated by \(4\times\)</div></div>
           <div class="lrow"><div class="bad">−0.98</div><div class="lx">a <b>tail-blind</b> objective, so held-out cells collapse (gemma 0.99 to 0.01)</div></div>
           <div class="lrow"><div class="bad">all&nbsp;12</div><div class="lx">held-out mean negative for <b>every</b> program: transfer was never in the loss</div></div>
         </div>
@@ -990,7 +990,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <tbody>
         <tr><td>who assembles it</td><td>an agentic search loop, offline</td><td>a small agent LLM, at query time</td></tr>
         <tr><td>the pipeline is</td><td>multi-pass embedding algebra</td><td>a chain of retrieval tools</td></tr>
-        <tr><td>the small model</td><td>frozen encoder, 239M</td><td>Qwen3.6, ~3B active</td></tr>
+        <tr><td>the model</td><td>frozen encoder, 239M</td><td>Qwen3.6-35B, ~3B active</td></tr>
         <tr><td>what scales</td><td>structure, not forward passes</td><td>tool composition, not parameters</td></tr>
       </tbody>
     </table>
@@ -1041,7 +1041,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 </div>
 
-<script src="data.js?v=heatmap"></script>
+<script src="data.js?v=heatmap2"></script>
 <script>
 /* ---------------- navigation + fit ---------------- */
 const stage=document.getElementById('stage');
