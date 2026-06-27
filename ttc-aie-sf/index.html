@@ -736,24 +736,25 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 6 TWO AXES ============ -->
 <section class="slide">
   <div class="kicker">The distinction</div>
-  <h2 class="h-slide sm">Cost is one number: how many extra times a program calls the encoder.</h2>
+  <h2 class="h-slide sm">Cost is one number: extra forward passes through the encoder.</h2>
   <div class="body" style="justify-content:center;gap:6px">
-    <div style="text-align:center;font-size:19px">\( c \;=\; 1 \,+\, \dfrac{\text{extra encoder calls}}{\text{baseline calls}} \)</div>
+    <div style="text-align:center;font-size:19px">\( c \;=\; 1 \,+\, \dfrac{\text{extra forward passes}}{\text{baseline passes}} \)</div>
     <div class="cards" style="margin-top:16px">
       <div class="card">
         <div class="ttl" style="color:var(--accent)">Test-time structure &nbsp;&middot;&nbsp; c = 1</div>
         <div class="desc"><strong>SoftCentroid:</strong> average the top-k document vectors you <em>already</em> computed, mix into the query, re-score.</div>
         <div class="eq">q&prime; = q + mean(d_emb[top-k])</div>
-        <div class="foot" style="color:var(--accent)">Zero extra encoder calls - only algebra on vectors you already have.</div>
+        <div class="foot" style="color:var(--accent)">Zero extra forward passes - only algebra on vectors you already have.</div>
       </div>
       <div class="card">
         <div class="ttl" style="color:var(--foil-ink)">Test-time compute &nbsp;&middot;&nbsp; c &gt; 1</div>
         <div class="desc"><strong>FirstSent:</strong> take the top doc, <em>re-embed</em> its first sentence, mix into the query, re-score.</div>
         <div class="eq">q&prime; = q + <span style="color:var(--foil-ink);font-weight:700">embed_fn</span>(first sentence)</div>
-        <div class="foot" style="color:var(--foil-ink)">One extra encoder call per query - new text through the model.</div>
+        <div class="foot" style="color:var(--foil-ink)">One extra forward pass per query - new text through the encoder.</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:22px;font-weight:600">Same move - enrich the query with document context. The only difference is the encoder call. <span class="accent">Which one converts into quality that transfers?</span></p>
+    <p class="lead" style="margin-top:20px;font-weight:600">Same move - enrich the query with document context. The only difference is the forward pass. <span class="accent">Which one converts into quality that transfers?</span></p>
+    <p class="note" style="margin-top:12px;text-align:center">c counts forward passes, the term that dominates serving cost; the structural algebra is O(n&middot;d), a fraction of a percent of latency - so a pure-structure program sits at c = 1 exactly.</p>
   </div>
 </section>
 
@@ -863,7 +864,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
 <section class="slide">
   <div class="kicker">The structure that survives</div>
-  <h2 class="h-slide sm">Transferable programs cost at most 1.5×. The best adds zero encoder calls.</h2>
+  <h2 class="h-slide sm">Transferable programs cost at most 1.5×. The best adds zero forward passes.</h2>
   <div class="body" style="gap:18px;justify-content:center">
     <table class="bt" id="t-transfer">
       <thead><tr><th>Program</th><th>\(c\)</th><th>Median</th><th>Win-rate</th><th>Mean</th><th>Worst cell</th></tr></thead>
