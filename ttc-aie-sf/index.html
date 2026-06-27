@@ -396,7 +396,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="kicker">Interpretation A</div>
   <h2 class="h-slide sm">"Small models gain nothing." But they are distilled from LLMs.</h2>
   <div class="body" style="gap:16px;justify-content:center">
-    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's embedders &mdash; including the small deployable ones &mdash; are distilled or adapted from LLM backbones:</p>
+    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's embedders - including the small deployable ones - are distilled or adapted from LLM backbones:</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
         <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
@@ -574,7 +574,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
-        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it &mdash; not the one you mean. Reward the in-domain mean and reward spending compute, and that is what it will chase. Whether the gain survives out of domain is a separate question. The objective is the steering wheel.</p>
+        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it - not the one you mean. Reward the in-domain mean and reward spending compute, and that is what it will chase. Whether the gain survives out of domain is a separate question. The objective is the steering wheel.</p>
       </div>
     </div>
   </div>
@@ -722,16 +722,16 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="ttl" style="color:var(--accent)">Test-time structure &nbsp;&middot;&nbsp; c = 1</div>
         <div class="desc"><strong>SoftCentroid:</strong> average the top-k document vectors you <em>already</em> computed, mix into the query, re-score.</div>
         <div class="eq">q&prime; = q + mean(d_emb[top-k])</div>
-        <div class="foot" style="color:var(--accent)">Zero extra encoder calls &mdash; only algebra on vectors you already have.</div>
+        <div class="foot" style="color:var(--accent)">Zero extra encoder calls - only algebra on vectors you already have.</div>
       </div>
       <div class="card">
         <div class="ttl" style="color:var(--foil-ink)">Test-time compute &nbsp;&middot;&nbsp; c &gt; 1</div>
         <div class="desc"><strong>FirstSent:</strong> take the top doc, <em>re-encode</em> its first sentence, mix into the query, re-score.</div>
         <div class="eq">q&prime; = q + <span style="color:var(--foil-ink);font-weight:700">encode_fn</span>(first sentence)</div>
-        <div class="foot" style="color:var(--foil-ink)">One extra encoder call per query &mdash; new text through the model.</div>
+        <div class="foot" style="color:var(--foil-ink)">One extra encoder call per query - new text through the model.</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:22px;font-weight:600">Same move &mdash; enrich the query with document context. The only difference is the encoder call. <span class="accent">Which one converts into quality that transfers?</span></p>
+    <p class="lead" style="margin-top:22px;font-weight:600">Same move - enrich the query with document context. The only difference is the encoder call. <span class="accent">Which one converts into quality that transfers?</span></p>
   </div>
 </section>
 
@@ -833,7 +833,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="row" style="align-items:center;gap:30px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program &mdash; yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
 </section>
