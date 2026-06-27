@@ -152,6 +152,11 @@ strong,b{font-weight:700}
 .spdetail .mlabel{margin-bottom:9px;display:block}
 .spdetail .cap{font-size:17px}
 .spdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 7px 2px 0}
+/* method bird-view: per-stage annotation band aligned under the workflow boxes */
+.fanno{display:flex;align-items:flex-start;justify-content:space-between;gap:0;margin-top:22px;border-top:1px solid var(--hair);padding-top:16px}
+.fanno .farr{visibility:hidden}
+.fxc{flex:1;text-align:center;font-family:var(--mono);font-size:12px;line-height:1.34;color:var(--ink);padding:0 6px}
+.fxk{display:block;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
 
 /* stat callouts (ai.engineer energy) */
 .stats{display:flex;gap:30px;margin-top:4px}
@@ -541,7 +546,17 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </svg>
       <div class="looplabel">the loop: memory conditions the next program</div>
     </div>
-    <p class="cap" style="margin-top:16px">\( P : (\mathbf{Q}, \mathbf{D}, \mathbf{S}, \texttt{ctx}) \to \mathbf{S}' \) &nbsp; an arbitrary deterministic Python function over the baseline cosine similarity. Each <span class="mono">encode_fn</span> call is one unit of test-time compute.</p>
+    <div class="fanno">
+      <div class="fxc"><span class="fxk">writes</span>1 program<br>per generation</div>
+      <div class="farr">→</div>
+      <div class="fxc"><span class="fxk">over encoder</span>j-v5-nano<br>239M, frozen</div>
+      <div class="farr">→</div>
+      <div class="fxc"><span class="fxk">scores on</span>14 MMTEB tasks<br>&Delta;nDCG@10 vs cosine</div>
+      <div class="farr">→</div>
+      <div class="fxc"><span class="fxk">logs</span>&Delta;, cost, parent,<br>lesson per program</div>
+      <div class="farr">→</div>
+      <div class="fxc"><span class="fxk">after G = 144</span>144 programs<br>scored</div>
+    </div>
   </div>
 </section>
 
@@ -707,7 +722,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <p class="cap"><strong>19 MMTEB Tier-2/3 tasks</strong>, none in discovery, corpora up to ~12,500 docs: summarization, legal and medical QA, fact verification, argument retrieval, temporal and commonsense reasoning. Touched once.</p>
       </div>
     </div>
-    <p class="note">We score every (encoder, task) cell by <span class="mono">&Delta;nDCG@10</span>, the program's nDCG@10 minus the cosine baseline. Gemma and Qwen share no training data, tokenizer, or adapter design with the discovery model.</p>
+    <p class="note">We score every (encoder, task) cell by <span class="mono">&Delta;nDCG@10</span>, the program's nDCG@10 minus the cosine baseline. Gemma and Qwen share no training data, tokenizer, or adapter design with the discovery model; qwen3-0.6b is run under a token-length cap (no native adapter).</p>
   </div>
 </section>
 
@@ -1041,7 +1056,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 </div>
 
-<script src="data.js?v=heatmap3"></script>
+<script src="data.js?v=heatmap4"></script>
 <script>
 /* ---------------- navigation + fit ---------------- */
 const stage=document.getElementById('stage');

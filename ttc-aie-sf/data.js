@@ -748,7 +748,7 @@ window.DATA={
 },
 {
 "model": "qwen3-0.6b",
-"tag": "unseen",
+"tag": "unseen, capped",
 "median": 0.0021,
 "mean": 0.0089
 }
