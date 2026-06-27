@@ -192,10 +192,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .legend .sw{width:16px;height:11px;border-radius:2px;display:inline-block}
 
 /* grid of rediscoveries */
-.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
-.rcell{border:1.2px solid var(--hair2);border-radius:6px;padding:18px 20px;background:#fff}
-.rcell .rn{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.02em}
-.rcell .rk{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-top:7px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+.rcell{border:1.2px solid var(--hair2);border-radius:6px;padding:12px 16px 12px 12px;background:#fff;display:flex;align-items:center;gap:15px}
+.rsvg{width:150px;height:92px;flex:0 0 auto;border:1px solid var(--hair);border-radius:5px;background:#fff}
+.rtext{flex:1;min-width:0}
+.rcell .rn{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;line-height:1.15}
+.rcell .rk{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+.rcell .rh{font-size:13px;font-weight:450;color:var(--ink);margin-top:8px;line-height:1.32}
 
 /* code box + taboo list (loop detail) */
 .codebox{font-family:var(--mono);font-size:14px;background:#fff;border:1.2px solid var(--hair2);
@@ -239,7 +242,11 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .vspanel.hero .vstag{color:var(--accent)}
 .vq{fill:var(--accent)}
 .vd{fill:var(--ink)}
+.vd.pos{fill:var(--accent)}
+.vd.neg{fill:var(--foil)}
 .vlbl{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
+.vlbl.pos{fill:var(--accent)}
+.vlbl.neg{fill:var(--foil)}
 .vconn{fill:none;stroke:var(--ink);stroke-width:1.8}
 .vwin{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-dasharray:5 4;animation:march 1s linear infinite}
 .vsingle{fill:none;stroke:var(--accent);stroke-width:2.8}
@@ -532,7 +539,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">→</div>
-        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over encode_fn</div></div>
+        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over embed_fn</div></div>
         <div class="farr">→</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">→</div>
@@ -569,7 +576,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="flow">
         <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over encode_fn</div></div>
+        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over embed_fn</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
@@ -604,7 +611,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox lit"><div class="fn">Program P</div><div class="fd">Python over encode_fn</div></div>
+        <div class="fbox lit"><div class="fn">Program P</div><div class="fd">Python over embed_fn</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
@@ -619,9 +626,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="spdetail">
       <div class="spdesign">
-        <div class="mlabel accent">Design &middot; the interface</div>
-        <div class="codebox" style="margin:2px 0 12px">rerank(q_emb, d_emb, sim, *,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;encode_fn, q_texts, d_texts) -&gt; scores</div>
-        <p class="cap"><strong>encode_fn is the test-time-compute budget.</strong> It re-encodes any text, switches the LoRA adapter (retrieval / passage / classification / matching), picks a Matryoshka dimension, or caps length. One call is one unit of compute.</p>
+        <div class="mlabel accent">Design &middot; the program</div>
+        <div class="codebox" style="margin:2px 0 12px">rerank(q_emb, d_emb, sim, *,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;embed_fn, q_texts, d_texts) -&gt; scores</div>
+        <p class="cap"><strong>embed_fn is the test-time-compute budget.</strong> It re-embeds any text, switches the LoRA adapter (retrieval / passage / classification / matching), picks a Matryoshka dimension, or caps length. One call is one unit of compute.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat &middot; six taboos</div>
@@ -640,7 +647,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over encode_fn</div></div>
+        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over embed_fn</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
@@ -656,7 +663,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="spdetail">
       <div class="spdesign">
         <div class="mlabel accent">Design</div>
-        <p class="cap">Every program runs on the same <strong>14 MMTEB Tier-1 discovery tasks</strong> (legal, financial, long-document, general). The harness scores <span class="mono">&Delta;nDCG@10</span> against the cosine baseline, plus a cost ratio (<span class="mono">encode_fn</span> calls per query). The same fixed budget every generation.</p>
+        <p class="cap">Every program runs on the same <strong>14 MMTEB Tier-1 discovery tasks</strong> (legal, financial, long-document, general). The harness scores <span class="mono">&Delta;nDCG@10</span> against the cosine baseline, plus a cost ratio (<span class="mono">embed_fn</span> calls per query). The same fixed budget every generation.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
@@ -675,7 +682,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over encode_fn</div></div>
+        <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over embed_fn</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
@@ -741,8 +748,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="card">
         <div class="ttl" style="color:var(--foil-ink)">Test-time compute &nbsp;&middot;&nbsp; c &gt; 1</div>
-        <div class="desc"><strong>FirstSent:</strong> take the top doc, <em>re-encode</em> its first sentence, mix into the query, re-score.</div>
-        <div class="eq">q&prime; = q + <span style="color:var(--foil-ink);font-weight:700">encode_fn</span>(first sentence)</div>
+        <div class="desc"><strong>FirstSent:</strong> take the top doc, <em>re-embed</em> its first sentence, mix into the query, re-score.</div>
+        <div class="eq">q&prime; = q + <span style="color:var(--foil-ink);font-weight:700">embed_fn</span>(first sentence)</div>
         <div class="foot" style="color:var(--foil-ink)">One extra encoder call per query - new text through the model.</div>
       </div>
     </div>
@@ -917,10 +924,52 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <h2 class="h-slide sm">The transferable programs are classical IR, re-derived in embedding space.</h2>
   <div class="body" style="justify-content:center;gap:18px">
     <div class="rgrid">
-      <div class="rcell"><div class="rn">Reciprocal Rank Fusion</div><div class="rk">rediscovered, not seeded</div></div>
-      <div class="rcell"><div class="rn">Fisher Linear Discriminant</div><div class="rk">rediscovered, not seeded</div></div>
-      <div class="rcell"><div class="rn">Rocchio Pseudo-Relevance Feedback</div><div class="rk">operationalized from a seeded idea</div></div>
-      <div class="rcell"><div class="rn">Sentence-level MaxSim</div><div class="rk">operationalized from a seeded idea</div></div>
+      <div class="rcell">
+        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
+          <line class="vconn" x1="36" y1="60" x2="100" y2="36"/><line class="vconn" x1="36" y1="60" x2="100" y2="84"/>
+          <circle class="vd" cx="100" cy="30" r="4"/><circle class="vd" cx="100" cy="46" r="4"/>
+          <circle class="vd" cx="100" cy="74" r="4"/><circle class="vd" cx="100" cy="90" r="4"/>
+          <line class="vwin" x1="112" y1="38" x2="178" y2="60"/><line class="vwin" x1="112" y1="82" x2="178" y2="60"/>
+          <circle class="vd vpulse pos" cx="182" cy="60" r="6.5"/>
+          <circle class="vq" cx="36" cy="60" r="6.5"/>
+          <text class="vlbl" x="36" y="80" text-anchor="middle">q</text>
+          <text class="vlbl" x="92" y="22" text-anchor="middle">A</text><text class="vlbl" x="92" y="106" text-anchor="middle">B</text>
+        </svg>
+        <div class="rtext"><div class="rn">Reciprocal Rank Fusion</div><div class="rk">rediscovered, not seeded</div><div class="rh">fuse two rankings into one consensus</div></div>
+      </div>
+      <div class="rcell">
+        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
+          <circle class="vd pos" cx="150" cy="30" r="5"/><circle class="vd pos" cx="170" cy="26" r="4"/><circle class="vd pos" cx="162" cy="42" r="4"/>
+          <circle class="vd neg" cx="150" cy="92" r="5"/><circle class="vd neg" cx="170" cy="96" r="4"/><circle class="vd neg" cx="162" cy="80" r="4"/>
+          <line class="vsingle" x1="104" y1="92" x2="104" y2="36"/><polygon points="104,28 99,40 109,40" fill="#0B64DD"/>
+          <line class="vwin" x1="124" y1="61" x2="196" y2="61"/>
+          <circle class="vq vpulse" cx="40" cy="60" r="6.5"/>
+          <text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="104" y="108" text-anchor="middle">w</text>
+          <text class="vlbl pos" x="188" y="32" text-anchor="middle">+</text><text class="vlbl neg" x="188" y="104" text-anchor="middle">&minus;</text>
+        </svg>
+        <div class="rtext"><div class="rn">Fisher Linear Discriminant</div><div class="rk">rediscovered, not seeded</div><div class="rh">the axis that best separates relevant from not</div></div>
+      </div>
+      <div class="rcell">
+        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
+          <circle class="vd" cx="158" cy="32" r="4.5"/><circle class="vd" cx="174" cy="48" r="4.5"/><circle class="vd" cx="156" cy="64" r="4.5"/>
+          <line class="vconn" x1="150" y1="48" x2="158" y2="32"/><line class="vconn" x1="150" y1="48" x2="174" y2="48"/><line class="vconn" x1="150" y1="48" x2="156" y2="64"/>
+          <circle class="vd vpulse pos" cx="150" cy="48" r="5.5"/>
+          <line class="vwin" x1="40" y1="74" x2="136" y2="54"/><polygon points="143,52 131,50 134,60" fill="#0B64DD"/>
+          <circle class="vq" cx="40" cy="74" r="6.5"/>
+          <text class="vlbl" x="40" y="94" text-anchor="middle">q</text><text class="vlbl pos" x="150" y="32" text-anchor="middle">c</text>
+        </svg>
+        <div class="rtext"><div class="rn">Rocchio Pseudo-Relevance Feedback</div><div class="rk">operationalized from a seeded idea</div><div class="rh">pull the query toward the relevant centroid</div></div>
+      </div>
+      <div class="rcell">
+        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
+          <line class="vconn" x1="40" y1="60" x2="146" y2="32"/><line class="vwin" x1="40" y1="60" x2="154" y2="60"/><line class="vconn" x1="40" y1="60" x2="146" y2="88"/>
+          <circle class="vd" cx="146" cy="32" r="4.5"/><circle class="vd vpulse pos" cx="156" cy="60" r="6.5"/><circle class="vd" cx="146" cy="88" r="4.5"/>
+          <line class="vconn" x1="174" y1="26" x2="180" y2="26"/><line class="vconn" x1="180" y1="26" x2="180" y2="94"/><line class="vconn" x1="174" y1="94" x2="180" y2="94"/>
+          <circle class="vq" cx="40" cy="60" r="6.5"/>
+          <text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="192" y="64" text-anchor="middle">d</text><text class="vlbl pos" x="150" y="50" text-anchor="middle">max</text>
+        </svg>
+        <div class="rtext"><div class="rn">Sentence-level MaxSim</div><div class="rk">operationalized from a seeded idea</div><div class="rh">score the best sentence, not the mean</div></div>
+      </div>
     </div>
     <p class="cap">The reusable structure is geometric and old: z-scoring, sub-document granularity, centroid feedback. It depends on cosine geometry, not on model-specific training, which is why it carries to encoder families never seen during discovery.</p>
   </div>
