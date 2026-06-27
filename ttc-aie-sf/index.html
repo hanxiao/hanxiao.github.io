@@ -558,7 +558,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="farr">→</div>
       <div class="fxc"><span class="fxk">over encoder</span>j-v5-nano<br>239M, frozen</div>
       <div class="farr">→</div>
-      <div class="fxc"><span class="fxk">scores on</span>14 MMTEB tasks<br>&Delta;nDCG@10 vs cosine</div>
+      <div class="fxc"><span class="fxk">scores on</span>14 MMTEB tasks<br>&Delta;nDCG@10</div>
       <div class="farr">→</div>
       <div class="fxc"><span class="fxk">logs</span>&Delta;, cost, parent,<br>lesson per program</div>
       <div class="farr">→</div>
@@ -626,12 +626,12 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="spdetail">
       <div class="spdesign">
-        <div class="mlabel accent">Design &middot; the program</div>
+        <div class="mlabel accent">Design</div>
         <div class="codebox" style="margin:2px 0 12px">rerank(q_emb, d_emb, sim, *,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;embed_fn, q_texts, d_texts) -&gt; scores</div>
         <p class="cap"><strong>embed_fn is the test-time-compute budget.</strong> It re-embeds any text, switches the LoRA adapter (retrieval / passage / classification / matching), picks a Matryoshka dimension, or caps length. One call is one unit of compute.</p>
       </div>
       <div class="spcaveat">
-        <div class="mlabel" style="color:var(--foil-ink)">Caveat &middot; six taboos</div>
+        <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
         <p class="cap">Auto-rejected: hyperparameters, stochastic ops, task-specific routing, external models, learned parameters, trivial constant-only variants. The taboos force <strong>task-agnostic structure</strong>, not a per-task tuned config.</p>
       </div>
     </div>
@@ -753,7 +753,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="foot" style="color:var(--foil-ink)">One extra forward pass per query - new text through the encoder.</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:20px;font-weight:600">Same move - enrich the query with document context. The only difference is the forward pass. <span class="accent">Which one converts into quality that transfers?</span></p>
+    <p class="lead" style="margin-top:20px;font-weight:600">One reuses the geometry you already have; the other spends a forward pass on new text. <span class="accent">Which converts into quality that transfers?</span></p>
     <p class="note" style="margin-top:12px;text-align:center">c counts forward passes, the term that dominates serving cost; the structural algebra is O(n&middot;d), a fraction of a percent of latency - so a pure-structure program sits at c = 1 exactly.</p>
   </div>
 </section>
