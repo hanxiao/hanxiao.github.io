@@ -262,7 +262,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 /* program gallery (the twelve discovered programs) */
 .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px 22px;width:100%}
 .pcell{display:flex;flex-direction:column;align-items:center;gap:4px}
-.pcell svg{width:100%;height:108px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
+.pcell svg{width:100%;height:96px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
 .pname{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);text-align:center}
 .pname .pcost{color:var(--accent);font-weight:600;margin-left:4px}
 
@@ -427,7 +427,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="card"><div class="ttl">Don't scale it</div><div class="desc">one keyword match. Cheap, and probably not good enough.</div></div>
       <div class="card hero"><div class="ttl accent">Scale it</div><div class="desc">embed, retrieve, rerank, expand, fuse. More inference can buy more relevance.</div></div>
     </div>
-    <p class="note">The question is not whether the model is big enough. It is how much search pipeline you assemble at test time, and whether it pays off.</p>
+    <p class="cap">The question is not whether the model is big enough. It is how much search pipeline you assemble at test time, and whether it pays off.</p>
   </div>
 </section>
 
@@ -547,7 +547,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <span class="chip on">No retraining</span><span class="chip on">No auxiliary model</span><span class="chip on">No learned parameters</span><span class="chip on">One frozen encoder API</span>
     </div>
     <div>
-      <p class="note" style="margin-bottom:12px">The prominent recent test-time methods for retrieval each break at least one rule:</p>
+      <p class="cap" style="margin-bottom:12px">The prominent recent test-time methods for retrieval each break at least one rule:</p>
       <div class="deflist">
         <div class="defrow"><div class="tag">HyDE / Query2Doc</div><div class="dsc">an external LLM in the query path.</div></div>
         <div class="defrow"><div class="tag">GQR</div><div class="dsc">a second, supervisory retriever.</div></div>
@@ -782,7 +782,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="settasks"><span class="stk">tested on</span><strong>19 MMTEB Tier-2/3 tasks</strong> &middot; none in discovery (summarization, QA, fact-check, ...)</div>
       </div>
     </div>
-    <p class="note" style="margin-top:18px">Metric: <span class="mono">&Delta;nDCG@10</span>, the program's nDCG@10 minus the cosine baseline. Gemma and Qwen share no training data, tokenizer, or adapter with the discovery model; qwen3-0.6b runs under a token-length cap.</p>
+    <p class="cap" style="margin-top:18px">Metric: <span class="mono">&Delta;nDCG@10</span>, the program's nDCG@10 minus the cosine baseline. Gemma and Qwen share no training data, tokenizer, or adapter with the discovery model; qwen3-0.6b runs under a token-length cap.</p>
   </div>
 </section>
 
@@ -827,7 +827,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="foot accent">→ what holds up out of domain?</div>
       </div>
     </div>
-    <p class="note" style="margin-top:26px">Neither search ever sees the 19 held-out evaluation tasks or the unseen encoder families.</p>
+    <p class="cap" style="margin-top:26px">Neither search ever sees the 19 held-out evaluation tasks or the unseen encoder families.</p>
   </div>
 </section>
 
@@ -841,7 +841,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="stat"><div class="v">144</div><div class="l">programs searched over 144 generations</div></div>
       <div class="stat"><div class="v o">12</div><div class="l">Pareto-optimal, from \(c = 1.2\) to \(14.7\)</div></div>
       <p class="cap">In-search mean ΔnDCG@10 climbs from +0.07 to +0.24. This looks exactly like test-time-compute scaling.</p>
-      <p class="note" style="font-weight:700;font-size:14.5px">In-search only. <span class="accent">The held-out test comes next.</span></p>
+      <p class="cap" style="font-weight:700">In-search only. <span class="accent">The held-out test comes next.</span></p>
     </div>
   </div>
 </section>
@@ -865,7 +865,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="note" style="text-align:center">Every one is a training-free recombination of the same frozen vectors: chunking, z-scoring, feedback, fusion. Cost climbs left to right; the gains, as the next slide shows, do not.</p>
+    <p class="cap" style="text-align:center">Every one is a training-free recombination of the same frozen vectors. Cost climbs left to right; the gains, as the next slide shows, do not.</p>
   </div>
 </section>
 
@@ -1053,7 +1053,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="tio2">phase 1 research &middot; <span class="accent">Web IO</span> &nbsp;&rarr;&nbsp; build the corpus &middot; phase 2 runs offline &middot; <span style="color:var(--foil-ink)">NO Web IO</span></div>
     </div>
-    <p class="note" style="text-align:center;text-wrap:balance;max-width:98ch;margin:0 auto">Research and execution want different tokens: build the <strong>dataroom</strong> with cheap local ones, and save the costly frontier budget for the execution that actually needs it. That two-tier split is dataroom, then <strong>searchbox</strong>, next.</p>
+    <p class="cap" style="text-align:center;text-wrap:balance;max-width:98ch;margin:0 auto">Research and execution want different tokens: build the <strong>dataroom</strong> with cheap local ones, and save the costly frontier budget for the execution that actually needs it. That two-tier split is dataroom, then <strong>searchbox</strong>, next.</p>
   </div>
 </section>
 
@@ -1073,7 +1073,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farrv">↓</div>
         <div class="fbox dark compact"><div class="fn">searchbox</div><div class="fd">answer from the .zip</div></div>
       </div>
-      <p class="note">Stage one of two: the grounded <span class="mono">.zip</span> then goes to searchbox (next) or a frontier model for the expensive second stage.</p>
+      <p class="cap">Stage one of two: the grounded <span class="mono">.zip</span> then goes to searchbox (next) or a frontier model for the expensive second stage.</p>
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/dr-hero.png" alt="dataroom job dashboard"></div>
