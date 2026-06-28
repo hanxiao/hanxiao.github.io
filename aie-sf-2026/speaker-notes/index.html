@@ -44,7 +44,10 @@ main{flex:1;min-height:0;display:flex;gap:0}
 .nmeta .ttl{font-size:20px;font-weight:750;letter-spacing:-.01em}
 .nmeta .budget{margin-left:auto;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);opacity:.75;white-space:nowrap}
 .nmeta .budget b{color:var(--accent)}
-#note{flex:1;min-height:0;overflow:auto;font-size:26px;line-height:1.5;font-weight:430;padding:18px 4px 18px 0;letter-spacing:-.003em}
+#note{flex:1;min-height:0;overflow:auto;font-size:24px;line-height:1.36;font-weight:430;padding:16px 4px 16px 0;letter-spacing:-.003em}
+#note .ph{margin-bottom:.34em}
+#note b{font-weight:750;color:var(--accent)}
+#note .pz{color:var(--accent);font-weight:800;font-size:.82em;opacity:.6;padding:0 1px}
 #note::-webkit-scrollbar{width:8px}#note::-webkit-scrollbar-thumb{background:var(--hair2);border-radius:4px}
 .nfoot{flex:0 0 auto;display:flex;align-items:center;gap:14px;border-top:1px solid var(--hair);padding-top:12px}
 .slidetimer{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600}
@@ -82,16 +85,23 @@ main{flex:1;min-height:0;display:flex;gap:0}
     <div class="nfoot">
       <span class="slidetimer" id="slidetimer">0s / 0s</span>
       <div class="fontbtns"><button id="fdown">A−</button><button id="fup">A+</button></div>
-      <span class="hint">← → or space navigate · S start/stop · R reset · F fullscreen</span>
+      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause &nbsp;|&nbsp; ←→ nav · S start · R reset · F full</span>
     </div>
   </section>
 </main>
-<script src="notes.js?v=3"></script>
+<script src="notes.js?v=4"></script>
 <script>
 const N = window.NOTES || [];
 const deck = document.getElementById('deck');
 const $ = id => document.getElementById(id);
-let cur = 0, fontPx = 26;
+let cur = 0, fontPx = 24;
+// render delivery annotations: *stress* -> bold, // -> pause beat, line -> thought group
+function fmt(t){
+  t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t = t.replace(/\*([^*\n]+)\*/g,'<b>$1</b>');
+  t = t.replace(/\/\//g,'<span class="pz">//</span>');
+  return t.split('\n').map(l=> l.trim() ? '<div class="ph">'+l+'</div>' : '').join('');
+}
 
 // cumulative budgets
 const cumEnd = [], cumStart = [];
@@ -114,7 +124,7 @@ function render(){
   const s = N[cur];
   $('ntitle').textContent = (cur+1)+'. '+s.title;
   $('nbudget').innerHTML = 'budget <b>'+s.sec+'s</b> &middot; by end ' + mmss(cumEnd[cur]);
-  const note = $('note'); note.textContent = s.note; note.scrollTop = 0; note.style.fontSize = fontPx+'px';
+  const note = $('note'); note.innerHTML = fmt(s.note); note.scrollTop = 0; note.style.fontSize = fontPx+'px';
   $('pos').textContent = (cur+1)+' / '+N.length;
   slideEnterElapsed = nowElapsed();
   navDeck(cur);
