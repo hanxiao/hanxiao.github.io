@@ -219,8 +219,8 @@ note:`Let's start with the compute search.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
 The x-axis is the compute you spend, on a log scale; the y-axis is the score.
 There are 144 programs, and twelve of them sit on the Pareto front,
-with cost running from 1.2 all the way up to *14.7 times*.
-And the in-search score climbs nicely, from plus 0.07 up to plus 0.24.
+with cost running from just over 1x all the way up to *almost fifteen times*.
+And the in-search score climbs nicely, it more than *triples* across that front.
 This looks *exactly* like test-time-compute scaling. More compute, more quality.
 If I stopped here, you would be sold. //
 But this is all still *in-search*. We haven't tested it yet.
@@ -238,35 +238,38 @@ It does look like a clean scaling story. //
 But the gains, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"The money chart (held-out)",
-note:`This is the *money chart*, the spine of the talk.
-Same axes as before. The x-axis is the compute you spend, from 1 up to 14.7 times. The y-axis is the held-out score, and that dashed line across the middle is the zero baseline.
-We take all twelve compute programs,
-and we run them on the held-out evaluation,
-including encoders the search never optimized for.
-The pink line is that compute frontier. Just look at it. //
-It is completely *flat*.
-Its pooled mean is *negative*, at minus 0.016.
-And its worst per-query case collapses all the way down to *minus 0.98*.
-So all that compute, up to 14.7 times, buys you *nothing* out of domain.
-And sometimes it does real harm.
-Now look at that single blue dot, way over on the left.
-That's the transfer search, sitting at *c equals one*, with zero extra forward passes.
-And it already *beats* the most expensive 14.7-times program. //
-So more compute did not transfer.
-*Cheap structure did.*
-That's the result. Everything after this just explains it.`},
+note:`This one is the *money chart*. If you take one slide away, take this one.
+The setup is the same as before.
+Left to right is how much compute you spend, out to almost fifteen times.
+Up and down is the held-out score, and that dashed line across the middle is the baseline.
+Above the line is a gain, below it is a loss.
+The pink line is the compute search, all twelve programs, now run on encoders the search never optimized for.
+Just look at the shape of it. //
+It is basically *flat*. It hugs the zero line the whole way out.
+So even at almost fifteen times the compute, the typical gain is essentially *nothing*.
+And when you average everything in, it actually turns *negative*,
+because a handful of cases collapse all the way down to nearly *minus one*.
+So all that compute buys you *nothing* out of domain, and sometimes it does real harm.
+Now look at the blue dots.
+Those are the transfer-search programs, and they all bunch up on the *left*, because they're all *cheap*.
+Every one of them sits *above* the pink line.
+And the leftmost one, at *c equals one*, with zero extra forward passes,
+already *beats* the most expensive program on the far right. //
+So more compute did *not* transfer.
+The cheap structure did.
+That's the result. Everything after this is just *why*.`},
 
 {n:20, sec:42, title:"Heatmap",
 note:`So why exactly is that mean flat?
 This heatmap shows what's hiding behind that one number, every single cell of it.
 Each of the four blocks is one encoder, and three of them were never seen during the search.
-Inside a block, every row is a program, the cheap ones up top and the 14.7-times ones at the bottom.
+Inside a block, every row is a program, the cheap ones up top and the priciest ones at the bottom.
 Every column is one of the nineteen held-out tasks.
 And the color is the key: green means it helped, deep pink means it collapsed.
 Now, it's not that compute does nothing.
-About *half* the cells are green, that's 485 out of 912.
+About *half* the cells are green, almost five hundred of them.
 Most task-encoder pairs do improve under some program.
-But then look at the deep-pink cells. They fall all the way to minus 0.98.
+But then look at the deep-pink cells. They fall all the way down to nearly *minus one*.
 And those collapses drag the whole mean negative.
 So flat-on-average is *not* the same as harmless.
 It's real wins, getting *wiped out* by catastrophic failures.
@@ -275,12 +278,12 @@ And you can't tell in advance which task will collapse.`},
 {n:21, sec:40, title:"Transfer search",
 note:`Now let's look at the other objective, the transfer search.
 It picks a *completely different six* programs.
-Not the twelve compute ones, and all of them cost *at most 1.5 times*.
+Not the twelve compute ones, and all of them cost *at most one and a half times*.
 The best one wins on 83 percent of the held-out set.
 But here's the part that matters. //
 It never loses on a single task.
-And even its worst individual query only dips to about minus 0.1.
-Compare that to the compute side, which collapsed to minus 0.98.
+And even its worst single query only dips to about *minus a tenth*.
+Compare that to the compute side, which collapsed to nearly *minus one*.
 That's almost ten times tighter.
 So transfer isn't about winning more often.
 It's about *never failing badly*.`},
@@ -295,17 +298,17 @@ On the jina encoders on the left, the median sits near zero,
 so this is a positive *tail*, not a broad lift across the board.
 But it follows *general embedding geometry*, not some quirk of the discovery model.
 It even survives a language switch it never searched on.
-Applied as-is to French and Greek, it gets a median of plus 0.016,
+Applied as-is to French and Greek, it gets a small positive median, around plus 0.02,
 an 86 percent win-rate, and every single held-out cell positive on Gemma.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
 So we tried exactly that.
 The same budget, the same fourteen tasks, with a linear, low-rank, or MLP (say: M-L-P) head.
-And in-domain, it looks *fantastic*. That's the dashed band up top, plus 0.20 to 0.25.
+And in-domain, it looks *fantastic*. That's the dashed band up top, a jump of about *plus 0.2*.
 But now drop your eyes below the baseline.
 Those pink bars are the *same head* on the held-out encoders, and every one of them is negative.
-The thin blue line just above zero is what structure does instead, plus 0.018 on Gemma.
+The thin blue line just above zero is what structure does instead, a small but real gain on Gemma.
 So adding parameters at the same budget just *memorizes*.
 But recombining the frozen geometry *generalizes*.`},
 
