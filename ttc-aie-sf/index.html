@@ -298,11 +298,20 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .ta{color:var(--accent);font-weight:800;font-size:14px;padding:0 6px;flex:0 0 auto}
 .tloop{border:1.4px dashed var(--hair2);border-radius:8px;padding:8px 11px 17px;position:relative;display:flex;align-items:center;gap:0}
 .tloop .tll{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 6px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
-.tloopsvg{position:absolute;left:0;right:0;bottom:4px;height:11px;overflow:visible;pointer-events:none}
+.tloopsvg{position:absolute;left:0;width:100%;bottom:4px;height:11px;overflow:visible;pointer-events:none}
 .tlooppath{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:6 5;animation:march .9s linear infinite}
 .tlooparr{fill:none;stroke:var(--accent);stroke-width:1.6}
 @media print{.tlooppath{animation:none}}
 .tio2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+/* synthesis: two panels (A / B) with animated illustrations */
+.syn2{display:flex;gap:28px;width:100%}
+.synp{flex:1;border:1.2px solid var(--hair2);border-radius:9px;padding:14px 20px 16px;display:flex;flex-direction:column;gap:9px}
+.synp svg{width:100%;height:90px;display:block}
+.synh{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;border-top:1px solid var(--hair);padding-top:10px}
+.synh .tag{color:var(--accent);font-weight:800;margin-right:6px}
+.synrow{font-size:14.5px;line-height:1.32}
+.synrow b{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);display:inline-block;min-width:104px}
+.vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink)}
 
 /* cross-model heatmap */
 .hmwrap{display:flex;gap:24px;justify-content:center}
@@ -1015,7 +1024,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ THE TREND (2025 -> 2026) ============ -->
 <section class="slide">
   <div class="kicker">The trend</div>
-  <h2 class="h-slide sm">Test-time compute is the de-facto pattern for search and long-horizon tasks.</h2>
+  <h2 class="h-slide sm">Test-time compute is the pattern for deep research and long-horizon tasks.</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="trendrow">
       <div class="trendh"><span class="yr">2025</span> &middot; Deep Research</div>
@@ -1037,7 +1046,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="tio2">phase 1 research &middot; <span class="accent">Web IO</span> &nbsp;&rarr;&nbsp; build the corpus &middot; phase 2 runs offline &middot; <span style="color:var(--foil-ink)">NO Web IO</span></div>
     </div>
-    <p class="note" style="text-align:center;text-wrap:balance;max-width:96ch;margin:0 auto">The 2026 shape - research into a local corpus, then an offline agent loop - is exactly <strong>dataroom</strong> building the <span class="mono">.zip</span> and <strong>searchbox</strong> running on it, next.</p>
+    <p class="note" style="text-align:center;text-wrap:balance;max-width:98ch;margin:0 auto">Research and execution want different tokens: build the <strong>dataroom</strong> with cheap local ones, and save the costly frontier budget for the execution that actually needs it. That two-tier split is dataroom, then <strong>searchbox</strong>, next.</p>
   </div>
 </section>
 
@@ -1087,35 +1096,40 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Connecting the dots</div>
   <h2 class="h-slide sm">Both manufacture a search pipeline at test time. Neither grows the model.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <table class="bt syn">
-      <thead><tr><th></th><th>A &nbsp; embedding programs</th><th>B &nbsp; searchbox</th></tr></thead>
-      <tbody>
-        <tr><td>the pipeline is</td><td>multi-pass embedding algebra</td><td>a chain of retrieval tools</td></tr>
-        <tr><td>what scales</td><td>structure, not forward passes</td><td>tool composition, not parameters</td></tr>
-      </tbody>
-    </table>
-    <p class="lead" style="font-weight:700;text-align:center;font-size:22px">Test-time compute for small models is <span class="accent">pipeline assembly</span>, not raw compute.</p>
+  <div class="body" style="justify-content:center;gap:24px">
+    <div class="syn2">
+      <div class="synp">
+        <svg viewBox="0 0 240 80" aria-hidden="true">
+          <line class="vconn" x1="30" y1="40" x2="118" y2="20"/><line class="vconn" x1="30" y1="40" x2="118" y2="40"/><line class="vconn" x1="30" y1="40" x2="118" y2="60"/>
+          <line class="vwin" x1="118" y1="20" x2="204" y2="40"/><line class="vwin" x1="118" y1="40" x2="204" y2="40"/><line class="vwin" x1="118" y1="60" x2="204" y2="40"/>
+          <circle class="vd" cx="118" cy="20" r="5"/><circle class="vd" cx="118" cy="40" r="5"/><circle class="vd" cx="118" cy="60" r="5"/>
+          <circle class="vd vpulse pos" cx="206" cy="40" r="7"/>
+          <circle class="vq" cx="30" cy="40" r="7"/>
+          <text class="vlbl" x="30" y="64" text-anchor="middle">q</text><text class="vlbl" x="118" y="13" text-anchor="middle">d</text>
+        </svg>
+        <div class="synh"><span class="tag">A</span>Autoresearch Programs</div>
+        <div class="synrow"><b>pipeline</b>multi-pass embedding algebra</div>
+        <div class="synrow"><b>what scales</b>structure, not forward passes</div>
+      </div>
+      <div class="synp">
+        <svg viewBox="0 0 240 80" aria-hidden="true">
+          <line class="vwin" x1="46" y1="40" x2="134" y2="18"/><line class="vwin" x1="46" y1="40" x2="134" y2="40"/><line class="vwin" x1="46" y1="40" x2="134" y2="62"/>
+          <rect x="135" y="9" width="66" height="18" rx="4" fill="#fff" stroke="#1C1E23" stroke-width="1.1"/><text class="vtool" x="168" y="22" text-anchor="middle">grep</text>
+          <rect x="135" y="31" width="66" height="18" rx="4" fill="#fff" stroke="#1C1E23" stroke-width="1.1"/><text class="vtool" x="168" y="44" text-anchor="middle">embed</text>
+          <rect x="135" y="53" width="66" height="18" rx="4" fill="#fff" stroke="#1C1E23" stroke-width="1.1"/><text class="vtool" x="168" y="66" text-anchor="middle">rerank</text>
+          <circle class="vq vpulse" cx="34" cy="40" r="8"/>
+          <text class="vlbl" x="34" y="66" text-anchor="middle">agent</text>
+        </svg>
+        <div class="synh"><span class="tag">B</span>Searchbox / agentic search</div>
+        <div class="synrow"><b>pipeline</b>a chain of retrieval tools</div>
+        <div class="synrow"><b>what scales</b>tool composition, not parameters</div>
+      </div>
+    </div>
+    <p class="lead" style="font-weight:700;text-align:center;font-size:22px">Test-time compute is <span class="accent">pipeline assembly</span>, not raw compute.</p>
   </div>
 </section>
 
-<!-- ============ 14 TAKEAWAYS ============ -->
-<section class="slide">
-  <div class="kicker">The takeaway</div>
-  <h2 class="h-slide sm">On a frozen encoder, cheap structure is the test-time win.</h2>
-  <div class="body" style="justify-content:center;gap:20px">
-    <div class="nlist">
-      <div class="nitem"><div class="n">01</div><div class="t">Small distilled models have real, transferable test-time potential, realized as structure, not raw compute.</div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">Two ways to spend it: recombine the encoder's geometry, or let an agent compose the tools. Both assemble a pipeline at inference.</div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">Chosen for transfer, not in-domain fit: a held-out gate the loop never sees is what makes it generalize.</div></div>
-    </div>
-    <div class="row" style="align-items:center;gap:26px;border-top:1px solid var(--hair);padding-top:16px">
-      <div class="stat"><div class="v o">~1×</div><div class="l" style="max-width:64ch">query-time cost. 0.011 s of algebra against 40 s of encoding: the axis that transfers is also the cheapest to serve.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 16 CLOSING ============ -->
+<!-- ============ CLOSING ============ -->
 <section class="slide closing">
   <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
   <div class="kicker">Thank you</div>
