@@ -258,7 +258,7 @@ That's the result. Everything after this just explains it.`},
 
 {n:20, sec:42, title:"Heatmap",
 note:`So why exactly is that mean flat?
-Here's the texture behind it, every single cell.
+This heatmap shows what's hiding behind that one number, every single cell of it.
 Each of the four blocks is one encoder, and three of them were never seen during the search.
 Inside a block, every row is a program, the cheap ones up top and the 14.7-times ones at the bottom.
 Every column is one of the nineteen held-out tasks.
