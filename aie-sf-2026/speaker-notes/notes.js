@@ -4,8 +4,11 @@
    Annotations:  line break = breathe / pause   *word* = stress it   // = a longer beat
    No dashes. This is a talk, not a paper. Keep 1:1 with index.html. */
 window.NOTES = [
-{n:1, sec:35, title:"Title",
-note:`Hi everyone. I'm Han Xiao, VP of AI at Elastic.
+{n:1, sec:42, title:"Title",
+note:`Hi everyone, I'm Han Xiao.
+I founded and ran *Jina AI*,
+and last October, we were acquired by Elastic.
+So I'm now VP of AI there.
 Here's the question I want to answer today.
 Big models get better by *thinking longer* at inference.
 We call that test-time compute.
@@ -71,7 +74,7 @@ note:`Here's the intuition for how a frozen model could gain.
 Scoring runs along a spectrum.
 On the left, you have a single cosine, one vector per document.
 That's our *frozen baseline*.
-On the right, you have ColBERT-style late interaction,
+On the right, you have ColBERT-style (say: Col-BERT) late interaction,
 where every query token is matched against every document token.
 But that needs a multi-vector model, which we don't have.
 The interesting part is the *middle*.
@@ -87,8 +90,8 @@ And I do mean strict.
 No retraining, no second model, and no learned parameters.
 Just one frozen encoder, behind an API.
 The popular methods all break one of these rules.
-HyDE puts an LLM in the query path.
-GQR adds a second retriever.
+HyDE (say: hide) puts an LLM in the query path.
+GQR (say: G-Q-R) adds a second retriever.
 And MetaEmbed trains new parameters.
 So we forbid all three,
 and we ask whether the gain scales with the compute you spend.`},
@@ -146,7 +149,7 @@ instead of a config that's secretly tuned for each task.`},
 note:`Third, the evaluator.
 Every program runs on the same *fourteen* discovery tasks,
 spanning legal, financial, long-document, and general retrieval.
-We score it with delta-nDCG against the cosine baseline,
+We score it with delta-nDCG (say: delta n-D-C-G) against the cosine baseline,
 plus a cost ratio, and I'll define cost in just a minute.
 It's the same fixed budget every generation.
 Now here's the design choice that matters most. //
@@ -179,7 +182,7 @@ They share no training data and no tokenizer with the discovery model.
 Plus the nineteen evaluation tasks the loop never sees.
 So one program gets discovered here,
 and it has to *generalize to all of it*.
-The metric, again, is delta-nDCG at ten, versus cosine.`},
+The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
 
 {n:15, sec:50, title:"The distinction: cost = extra forward passes",
 note:`Now, before any results, the single most important idea in the talk.
@@ -292,7 +295,7 @@ an 86 percent win-rate, and every single held-out cell positive on Gemma.`},
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
 So we tried exactly that.
-The same budget, the same fourteen tasks, with a linear, low-rank, or MLP head.
+The same budget, the same fourteen tasks, with a linear, low-rank, or MLP (say: M-L-P) head.
 And in-domain, it looks *fantastic*, plus 0.20 to 0.25.
 But on *every single* held-out encoder, it falls below baseline.
 That's the in-domain win that looks amazing and *does not carry over*.
@@ -304,7 +307,7 @@ But recombining the frozen geometry *generalizes*.`},
 note:`So what is this structure that keeps transferring?
 when you read the winning programs, they are *not new*.
 The search keeps re-deriving classical IR, right in embedding space.
-Things like Reciprocal Rank Fusion, Fisher's discriminant, Rocchio feedback, and sentence-level MaxSim.
+Things like Reciprocal Rank Fusion, Fisher's discriminant, Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
 Two of those it rediscovered cold, and two it built up from a seed.
 And that is exactly *why* they transfer.
 They're *geometric*, things like z-scoring, sub-document granularity, and centroid feedback.

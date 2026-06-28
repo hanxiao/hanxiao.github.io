@@ -48,6 +48,7 @@ main{flex:1;min-height:0;display:flex;gap:0}
 #note .ph{margin-bottom:.34em}
 #note b{font-weight:750;color:var(--accent)}
 #note .pz{color:var(--accent);font-weight:800;font-size:.82em;opacity:.6;padding:0 1px}
+#note .pron{font-size:.62em;font-weight:600;color:var(--teal);opacity:.85;letter-spacing:0;font-variant-numeric:normal}
 #note::-webkit-scrollbar{width:8px}#note::-webkit-scrollbar-thumb{background:var(--hair2);border-radius:4px}
 .nfoot{flex:0 0 auto;display:flex;align-items:center;gap:14px;border-top:1px solid var(--hair);padding-top:12px}
 .slidetimer{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600}
@@ -85,11 +86,11 @@ main{flex:1;min-height:0;display:flex;gap:0}
     <div class="nfoot">
       <span class="slidetimer" id="slidetimer">0s / 0s</span>
       <div class="fontbtns"><button id="fdown">A−</button><button id="fup">A+</button></div>
-      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause &nbsp;|&nbsp; ←→ nav · S start · R reset · F full</span>
+      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause · <span style="color:var(--teal)">(say:…)</span> = how to pronounce &nbsp;|&nbsp; ←→ nav · S · R · F</span>
     </div>
   </section>
 </main>
-<script src="notes.js?v=6"></script>
+<script src="notes.js?v=7"></script>
 <script>
 const N = window.NOTES || [];
 const deck = document.getElementById('deck');
@@ -98,6 +99,7 @@ let cur = 0, fontPx = 24;
 // render delivery annotations: *stress* -> bold, // -> pause beat, line -> thought group
 function fmt(t){
   t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t = t.replace(/\(say:([^)]*)\)/g,'<span class="pron">(say:$1)</span>');
   t = t.replace(/\*([^*\n]+)\*/g,'<b>$1</b>');
   t = t.replace(/\/\//g,'<span class="pz">//</span>');
   return t.split('\n').map(l=> l.trim() ? '<div class="ph">'+l+'</div>' : '').join('');
