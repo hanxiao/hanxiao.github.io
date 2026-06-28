@@ -128,7 +128,7 @@ and then it edits one Python file and proposes the next one.
 There is no human in the inner loop.
 Now, here's the catch. //
 It optimizes *exactly the metric you give it*, not the metric you meant.
-So if you reward the in-domain mean, and you reward spending compute,
+So if you reward in-domain performance, and you reward spending compute,
 then that is exactly what it will chase.
 Whether those gains hold up *anywhere else* is a separate question.
 So hold on to that thought.`},
@@ -204,7 +204,7 @@ Which one pays off when you switch to a different encoder?`},
 {n:16, sec:35, title:"Two admission rules",
 note:`We run that exact same loop under *two different rules*.
 The first rule is the *compute search*.
-It admits a program only if its in-domain mean beats every program before it,
+It admits a program only if its in-domain performance beats every program before it,
 so it is actively pushed to spend more inference.
 The second rule is the *transfer search*.
 It admits a program only if a held-out validation split improves, with nothing getting worse,
