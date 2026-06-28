@@ -908,7 +908,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="row" style="align-items:center;gap:30px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--foil-ink)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders, three never seen during the search. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
 </section>
@@ -923,8 +923,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <tbody></tbody>
     </table>
     <div class="row" style="gap:40px;align-items:center;margin-top:4px">
-      <div class="stat statbig"><div class="v o">0</div><div class="l">losing cells: Transpose-Consensus, at an 83% held-out win-rate</div></div>
-      <p class="cap" style="flex:1">The transfer-selecting rule (the other admission objective) admits a different six - not the twelve compute programs, and all at most 1.5&times;. Higher cost still trends with lower held-out quality; the worst cell here is &minus;0.107, nine times smaller than the compute frontier's &minus;0.98 collapse. The transfer frontier turns the held-out mean positive by bounding the worst cell, not by a higher win-rate.</p>
+      <div class="stat statbig"><div class="v o">0</div><div class="l">losing task-cells: Transpose-Consensus, at an 83% held-out win-rate</div></div>
+      <p class="cap" style="flex:1">The transfer-selecting rule (the other admission objective) admits a different six - not the twelve compute programs, and all at most 1.5&times;. Higher cost still trends with lower held-out quality. At an 83% win-rate the best transfer program never loses a single task, and its worst per-query cell is only &minus;0.107, almost an order of magnitude above the compute frontier's &minus;0.98 collapse. It turns the held-out mean positive by bounding the worst case.</p>
     </div>
   </div>
 </section>
@@ -942,7 +942,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="chart" id="c-permodel" style="height:calc(100% - 22px)"></div>
     </div>
     <div style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:22px">
-      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four families and largest on the two never seen during discovery; the medians sit near zero on the discovery families, so the gain is concentrated in a positive tail, not broad. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
+      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four encoders and largest on the two families never seen during discovery; the medians sit near zero on the jina-family encoders, so the gain is concentrated in a positive tail, not broad. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
       <div style="border-left:3px solid var(--accent);padding-left:16px">
         <div class="mlabel accent" style="margin-bottom:6px">Across languages, too</div>
         <p class="lead">Applied unmodified to French and Greek: median <strong>+0.016</strong>, an <strong>86%</strong> win-rate, and every held-out cell positive on <span class="mono">gemma-300m</span>.</p>
@@ -960,7 +960,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="legend">
         <div class="it"><span class="sw" style="background:#fff;border:1.2px dashed var(--ink)"></span>in-domain</div>
         <div class="it"><span class="sw" style="background:var(--foil)"></span>held-out</div>
-        <div class="it"><span class="sw" style="background:var(--teal)"></span>structure (ref)</div>
+        <div class="it"><span class="sw" style="background:var(--accent)"></span>structure (ref)</div>
       </div>
       <div class="chart" id="c-head" style="height:calc(100% - 22px)"></div>
     </div>
@@ -1348,8 +1348,8 @@ function drawHead(){
   svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:INK,'stroke-width':2}));
   svg.appendChild(txt(L+12,Y(0)-8,'baseline',{fs:13,mono:1}));
   // TEAL reference: what real transfer looks like (structure on gemma, +0.018 from the per-model slide)
-  svg.appendChild(el('line',{x1:L,y1:Y(0.018),x2:W-R,y2:Y(0.018),stroke:TEAL,'stroke-width':2.4,'stroke-dasharray':'2 3'}));
-  svg.appendChild(txt(W-R,Y(0.018)-7,'structure transfers: +0.018 on gemma',{fs:13,fw:700,fill:'#0A7B74',anchor:'end'}));
+  svg.appendChild(el('line',{x1:L,y1:Y(0.018),x2:W-R,y2:Y(0.018),stroke:ACC,'stroke-width':2.4,'stroke-dasharray':'2 3'}));
+  svg.appendChild(txt(W-R,Y(0.018)-7,'structure transfers: +0.018 on gemma',{fs:13,fw:700,fill:ACC,anchor:'end'}));
   // annotation in the void
   svg.appendChild(txt((L+W-R)/2,Y(0.115)-4,'the in-domain win',{fs:15,fw:700,anchor:'middle'}));
   svg.appendChild(txt((L+W-R)/2,Y(0.115)+15,'does not transfer',{fs:15,fw:700,anchor:'middle',fill:FOIL}));
