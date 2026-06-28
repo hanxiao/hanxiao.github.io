@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Autoresearch · Test-Time Compute for Information Retrieval · Han Xiao</title>
+<title>Autoresearch & Test-Time Compute for Information Retrieval · Han Xiao</title>
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -287,20 +287,22 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .settasks{font-size:13.5px;line-height:1.36;margin-top:auto}
 .settasks .stk{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);display:block;margin-bottom:3px}
 .enc .et.same{color:var(--teal-ink)}
-/* trend slide: 2025 vs 2026 patterns, side by side */
-.trendwrap{display:flex;gap:32px;align-items:stretch;width:100%}
-.trendcol{flex:1;display:flex;flex-direction:column;gap:16px;border:1.2px solid var(--hair2);border-radius:9px;padding:18px 18px 16px}
-.trendcol.y26{flex:1.58}
-.trendh{font-family:var(--sans);font-size:19px;font-weight:750;letter-spacing:-.01em}
+/* trend slide: 2025 vs 2026 patterns, stacked top/bottom, animated loops */
+.trendrow{border:1.2px solid var(--hair2);border-radius:9px;padding:13px 18px 15px;display:flex;flex-direction:column;gap:11px;align-items:center;width:100%}
+.trendh{font-family:var(--sans);font-size:18px;font-weight:750;letter-spacing:-.01em;align-self:flex-start}
 .trendh .yr{color:var(--accent);font-weight:800}
-.tflow{display:flex;align-items:center;gap:0;justify-content:center}
-.tb{border:1.2px solid var(--ink);border-radius:5px;background:#fff;padding:7px 8px;font-size:11.5px;font-weight:600;white-space:nowrap;text-align:center;line-height:1.05}
+.tflow{display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:nowrap}
+.tb{border:1.2px solid var(--ink);border-radius:5px;background:#fff;padding:7px 9px;font-size:12px;font-weight:600;white-space:nowrap;text-align:center;line-height:1.05}
 .tb.pill{border-radius:999px;background:#eef0f2;border-color:var(--hair2)}
 .tb.hl{background:var(--teal);border-color:var(--teal);color:var(--ink);font-weight:700}
-.ta{color:var(--accent);font-weight:800;font-size:13px;padding:0 4px;flex:0 0 auto}
-.tloop{border:1.4px dashed var(--ink);border-radius:7px;padding:10px 9px 8px;position:relative;display:flex;align-items:center;gap:0;margin-top:6px}
+.ta{color:var(--accent);font-weight:800;font-size:14px;padding:0 6px;flex:0 0 auto}
+.tloop{border:1.4px dashed var(--hair2);border-radius:8px;padding:8px 11px 17px;position:relative;display:flex;align-items:center;gap:0}
 .tloop .tll{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 6px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
-.tio{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.tloopsvg{position:absolute;left:0;right:0;bottom:4px;height:11px;overflow:visible;pointer-events:none}
+.tlooppath{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:6 5;animation:march .9s linear infinite}
+.tlooparr{fill:none;stroke:var(--accent);stroke-width:1.6}
+@media print{.tlooppath{animation:none}}
+.tio2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
 
 /* cross-model heatmap */
 .hmwrap{display:flex;gap:24px;justify-content:center}
@@ -831,7 +833,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ PROGRAM GALLERY ============ -->
 <section class="slide">
   <div class="kicker">What the search wrote</div>
-  <h2 class="h-slide sm">Twelve programs on the frontier, one frozen encoder.</h2>
+  <h2 class="h-slide sm">Twelve programs on the compute-spending frontier.</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -897,8 +899,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
 <section class="slide">
-  <div class="kicker">The structure that survives</div>
-  <h2 class="h-slide sm">Transferable programs cost at most 1.5×. The best adds zero forward passes.</h2>
+  <div class="kicker">The transfer-selecting frontier</div>
+  <h2 class="h-slide sm">A different search finds six cheap programs that transfer.</h2>
   <div class="body" style="gap:18px;justify-content:center">
     <table class="bt" id="t-transfer">
       <thead><tr><th>Program</th><th>\(c\)</th><th>Median</th><th>Win-rate</th><th>Mean</th><th>Worst cell</th></tr></thead>
@@ -906,7 +908,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </table>
     <div class="row" style="gap:40px;align-items:center;margin-top:4px">
       <div class="stat statbig"><div class="v o">0</div><div class="l">losing cells: Transpose-Consensus, at an 83% held-out win-rate</div></div>
-      <p class="cap" style="flex:1">Across the surviving programs, higher cost trends with lower held-out quality. The worst cell over the whole table is −0.107: nine times smaller than the compute frontier's −0.98 collapse. The transfer frontier turns the held-out mean positive mainly by bounding the worst cell, not merely by a higher win-rate.</p>
+      <p class="cap" style="flex:1">The transfer-selecting rule (the other admission objective) admits a different six - not the twelve compute programs, and all at most 1.5&times;. Higher cost still trends with lower held-out quality; the worst cell here is &minus;0.107, nine times smaller than the compute frontier's &minus;0.98 collapse. The transfer frontier turns the held-out mean positive by bounding the worst cell, not by a higher win-rate.</p>
     </div>
   </div>
 </section>
@@ -956,7 +958,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 13 REDISCOVERIES ============ -->
 <section class="slide">
   <div class="kicker">What the search found</div>
-  <h2 class="h-slide sm">The transferable programs are classical IR, re-derived in embedding space.</h2>
+  <h2 class="h-slide sm">The recurring structure is classical IR, re-derived in embedding space.</h2>
   <div class="body" style="justify-content:center;gap:18px">
     <div class="rgrid">
       <div class="rcell">
@@ -1006,36 +1008,34 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="rtext"><div class="rn">Sentence-level MaxSim</div><div class="rk">operationalized from a seeded idea</div><div class="rh">score the best sentence, not the mean</div></div>
       </div>
     </div>
-    <p class="cap">The reusable structure is geometric and old: z-scoring, sub-document granularity, centroid feedback. It depends on cosine geometry, not on model-specific training, which is why it carries to encoder families never seen during discovery.</p>
+    <p class="cap">Not new programs - four classical methods the search keeps re-deriving across both frontiers: two rediscovered (RRF, Fisher), two operationalized from seeds (Rocchio, MaxSim). The structure is geometric (z-scoring, sub-document granularity, centroid feedback) and depends on cosine geometry, not model-specific training, so the cheap forms carry to encoder families never seen during discovery.</p>
   </div>
 </section>
 
 <!-- ============ THE TREND (2025 -> 2026) ============ -->
 <section class="slide">
   <div class="kicker">The trend</div>
-  <h2 class="h-slide sm">Test-time compute is moving off the web and onto local files.</h2>
-  <div class="body" style="justify-content:center;gap:18px">
-    <div class="trendwrap">
-      <div class="trendcol">
-        <div class="trendh"><span class="yr">2025</span> &middot; Deep Research</div>
-        <div class="tflow">
-          <span class="tb pill">Query</span><span class="ta">&rarr;</span>
-          <div class="tloop"><div class="tll">loop until budget &#8635;</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span></div>
-          <span class="ta">&rarr;</span><span class="tb pill">Answer</span>
-        </div>
-        <div class="tio" style="text-align:center;margin-top:auto">one web-bound loop</div>
+  <h2 class="h-slide sm">Test-time compute is the de-facto pattern for search and long-horizon tasks.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <div class="trendrow">
+      <div class="trendh"><span class="yr">2025</span> &middot; Deep Research</div>
+      <div class="tflow">
+        <span class="tb pill">Query</span><span class="ta">&rarr;</span>
+        <div class="tloop"><div class="tll">loop until budget</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span><svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">&rarr;</span><span class="tb pill">Answer</span>
       </div>
-      <div class="trendcol y26">
-        <div class="trendh"><span class="yr">2026</span> &middot; Long-Horizon Tasks</div>
-        <div class="tflow">
-          <span class="tb pill">Query</span><span class="ta">&rarr;</span>
-          <div class="tloop"><div class="tll">research &#8635;</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span></div>
-          <span class="ta">&rarr;</span><span class="tb hl">Local<br>Files</span><span class="ta">&rarr;</span>
-          <div class="tloop"><div class="tll">agent loop &#8635;</div><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Run</span><span class="ta">&rarr;</span><span class="tb">Write</span></div>
-          <span class="ta">&rarr;</span><span class="tb pill">Output</span>
-        </div>
-        <div class="tflow" style="justify-content:space-between;margin-top:auto"><span class="tio accent">Phase 1 &middot; Web IO</span><span class="tio" style="color:var(--foil-ink)">Phase 2 &middot; NO Web IO</span></div>
+      <div class="tio2">one web-bound loop &middot; all <span class="accent">Web IO</span></div>
+    </div>
+    <div class="trendrow">
+      <div class="trendh"><span class="yr">2026</span> &middot; Long-Horizon Tasks</div>
+      <div class="tflow">
+        <span class="tb pill">Query</span><span class="ta">&rarr;</span>
+        <div class="tloop"><div class="tll">research</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span><svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">&rarr;</span><span class="tb hl">dataroom</span><span class="ta">&rarr;</span>
+        <div class="tloop"><div class="tll">agent loop</div><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Run</span><span class="ta">&rarr;</span><span class="tb">Write</span><svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">&rarr;</span><span class="tb pill">Output</span>
       </div>
+      <div class="tio2">phase 1 research &middot; <span class="accent">Web IO</span> &nbsp;&rarr;&nbsp; build the corpus &middot; phase 2 runs offline &middot; <span style="color:var(--foil-ink)">NO Web IO</span></div>
     </div>
     <p class="note" style="text-align:center;text-wrap:balance;max-width:96ch;margin:0 auto">The 2026 shape - research into a local corpus, then an offline agent loop - is exactly <strong>dataroom</strong> building the <span class="mono">.zip</span> and <strong>searchbox</strong> running on it, next.</p>
   </div>
@@ -1044,14 +1044,14 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ DATAROOM (stage 1, before searchbox) ============ -->
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the corpus stage</div>
-  <h2 class="h-slide sm">dataroom: a small model builds the corpus first.</h2>
+  <h2 class="h-slide sm">dataroom: a loop for knowledge dump.</h2>
   <div class="body row" style="gap:34px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">A local model loops <strong>search-read-write</strong> into a fully cited <span class="mono">.zip</span> corpus, built for a machine to consume rather than a human to skim. Research is mechanical, so it runs on your own GPU at near-zero token cost until the dataroom is comprehensive.</p>
+      <p class="cap">Given a token budget, spend it on <strong>local small models</strong> instead of a frontier model: run <strong>search &rarr; read &rarr; write</strong>, repeat, until the knowledge is dumped into one cited <span class="mono">.zip</span>. That dump is the dataroom - the open web <strong>distilled</strong> down to a small, local corpus a machine can consume.</p>
       <div class="flowv">
         <div class="fbox" style="min-height:0;padding:11px"><div class="fn">dataroom</div><div class="fd">build the corpus (.zip)</div></div>
         <div class="farrv">↓</div>
-        <div class="fbox dark" style="min-height:0;padding:11px"><div class="fn">searchbox, or a frontier model</div><div class="fd">answer from the .zip</div></div>
+        <div class="fbox dark" style="min-height:0;padding:11px"><div class="fn">searchbox</div><div class="fd">answer from the .zip</div></div>
       </div>
       <p class="note">Stage one of two: the grounded <span class="mono">.zip</span> then goes to searchbox (next) or a frontier model for the expensive second stage.</p>
     </div>
@@ -1065,10 +1065,10 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ SEARCHBOX (stage 2) ============ -->
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the search stage</div>
-  <h2 class="h-slide sm">searchbox: a small agent wires the pipeline itself.</h2>
+  <h2 class="h-slide sm">searchbox: a testbed for studying agentic search loops.</h2>
   <div class="body row" style="gap:36px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">A self-hosted <span class="mono">Qwen3.6-35B-A3B</span> (~3B active) in an <strong>airgapped</strong> harness explores the <span class="mono">.zip</span> dataroom under a budget, composing its own pipeline from local tools: grep, embed, rerank, similarity, cluster, select_diverse. No network, near-zero token cost. &nbsp;<span class="tag-exp">experimental</span></p>
+      <p class="cap">A self-hosted <span class="mono">Qwen3.6-35B-A3B</span> (~3B active) in an <strong>airgapped</strong> harness explores the <span class="mono">.zip</span> dataroom under a budget, composing its own pipeline from local tools: grep, embed, rerank, similarity, cluster, select_diverse. No network, near-zero token cost.</p>
       <div class="mlabel accent">Open research questions</div>
       <div class="qlist" style="font-size:15.5px">
         <p>Which tool does the agent reach for first?</p>
@@ -1104,7 +1104,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 14 TAKEAWAYS ============ -->
 <section class="slide">
   <div class="kicker">The takeaway</div>
-  <h2 class="h-slide sm">For frozen retrieval, test-time structure substitutes for model size. Test-time compute does not.</h2>
+  <h2 class="h-slide sm">On a frozen encoder, cheap structure is the test-time win.</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <div class="nlist">
       <div class="nitem"><div class="n">01</div><div class="t">Small distilled models have real, transferable test-time potential, realized as structure, not raw compute.</div></div>
@@ -1122,9 +1122,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide closing">
   <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
   <div class="kicker">Thank you</div>
-  <h1>Spend structure,<br>not compute.</h1>
-  <p class="lead" style="margin-top:22px;font-weight:600">Zero training. Across frozen encoders. About 1× serving cost.</p>
-  <div class="contact">
+  <h1>Information Retrieval<br>is test-time compute.</h1>
+  <div class="contact" style="margin-top:40px">
     <div class="nm">Han Xiao &nbsp;·&nbsp; VP of AI, Elastic</div>
     <span class="lk">github.com/hanxiao</span> &nbsp;/&nbsp; embedding-ttc &nbsp;·&nbsp; searchbox &nbsp;·&nbsp; dataroom<br>
     <span class="lk">arXiv:2605.11374</span><br>
@@ -1138,7 +1137,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 </section>
 
 <div id="chrome">
-  <div class="l">Autoresearch &middot; Test-Time Compute for Information Retrieval</div>
+  <div class="l">Autoresearch &amp; Test-Time Compute for Information Retrieval</div>
   <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 27</span></div>
 </div>
 
