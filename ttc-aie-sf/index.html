@@ -26,6 +26,8 @@ window.MathJax = {
   --hair:rgba(28,30,35,.18);
   --hair2:rgba(28,30,35,.30);
   --rule:#1C1E23;
+  --r-card:8px;           /* hairline content panels */
+  --r-box:5px;            /* ink-outlined flow nodes, chips, nested frames */
   --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Inter",system-ui,Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,"Roboto Mono",monospace;
 }
@@ -76,6 +78,8 @@ strong,b{font-weight:700}
 .fill{flex:1;min-height:0}
 .cap{font-size:16px;line-height:1.42;font-weight:440;max-width:88ch}
 .cap .mono{font-size:14px}
+/* the single emphatic synthesizing one/two-liner (canonical centered takeaway) */
+.takeaway{font-size:21px;line-height:1.4;font-weight:600;text-align:center;text-wrap:balance;max-width:64ch;margin-left:auto;margin-right:auto}
 .note{font-family:var(--mono);font-size:13px;line-height:1.5;letter-spacing:.01em}
 
 /* numbered list (overview / takeaways) */
@@ -99,13 +103,13 @@ strong,b{font-weight:700}
 .pull cite{display:block;margin-top:18px;font-family:var(--mono);font-size:14px;font-weight:600;font-style:normal;color:var(--accent);letter-spacing:.01em}
 /* autoresearch loop chips */
 .autoloop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;font-weight:600}
-.autoloop .step{border:1.2px solid var(--ink);border-radius:5px;padding:8px 13px;background:#fff}
+.autoloop .step{border:1.2px solid var(--ink);border-radius:var(--r-box);padding:8px 13px;background:#fff}
 .autoloop .ar{color:var(--accent);font-size:17px;font-weight:800}
 .autoloop .rep{color:var(--accent);font-size:18px;font-weight:800;margin-left:2px}
 
 /* two cards */
 .cards{display:flex;gap:26px;margin-top:8px}
-.card{flex:1;border:1.2px solid var(--hair2);border-radius:6px;padding:26px 26px 24px;background:#fff;display:flex;flex-direction:column}
+.card{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:26px 26px 24px;background:#fff;display:flex;flex-direction:column}
 .card .ttl{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px}
 .card.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .card.hero .ttl{color:var(--accent)}
@@ -123,21 +127,22 @@ strong,b{font-weight:700}
 .linrow .arr{color:var(--accent);font-size:20px;font-weight:700}
 .linrow .dst{display:flex;gap:9px;flex-wrap:wrap}
 .pill{font-family:var(--mono);font-size:13.5px;font-weight:500;border:1.2px solid var(--hair2);
-  border-radius:4px;padding:7px 13px;background:#fff;white-space:nowrap}
+  border-radius:var(--r-box);padding:7px 13px;background:#fff;white-space:nowrap}
 
 /* flow diagram */
 .flow{display:flex;align-items:center;gap:0;margin:10px 0 2px;justify-content:space-between}
-.fbox{border:1.2px solid var(--ink);border-radius:4px;background:#fff;padding:14px 12px;text-align:center;
+.fbox{border:1.2px solid var(--ink);border-radius:var(--r-box);background:#fff;padding:14px 12px;text-align:center;
   flex:1;display:flex;flex-direction:column;gap:3px;min-height:84px;justify-content:center}
 .fbox .fn{font-size:15.5px;font-weight:700;line-height:1.12}
 .fbox .fd{font-family:var(--mono);font-size:13px;font-weight:500;line-height:1.25}
 .fbox.dark{background:var(--ink);color:var(--bg)}
+.fbox.compact{min-height:0;padding:11px}
 .farr{color:var(--accent);font-size:22px;font-weight:700;padding:0 10px;flex:0 0 auto}
 .loopnote{font-family:var(--mono);font-size:12.5px;color:var(--accent);text-align:center;margin-top:10px;font-weight:600}
 /* animated feedback loop under the method flow */
 .flowwrap{position:relative;padding-bottom:58px;margin-top:8px}
 .loopsvg{position:absolute;left:0;bottom:0;width:100%;height:58px;overflow:visible;pointer-events:none}
-.looppath{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:8 6;animation:march .9s linear infinite}
+.looppath{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 5;animation:march .9s linear infinite}
 .looparrow{fill:var(--accent)}
 @keyframes march{to{stroke-dashoffset:-28}}
 .looplabel{position:absolute;left:50%;transform:translateX(-50%);bottom:13px;background:var(--bg);
@@ -193,8 +198,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 /* grid of rediscoveries */
 .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
-.rcell{border:1.2px solid var(--hair2);border-radius:6px;padding:12px 16px 12px 12px;background:#fff;display:flex;align-items:center;gap:15px}
-.rsvg{width:150px;height:92px;flex:0 0 auto;border:1px solid var(--hair);border-radius:5px;background:#fff}
+.rcell{border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:12px 16px 12px 12px;background:#fff;display:flex;align-items:center;gap:15px}
+.rsvg{width:150px;height:92px;flex:0 0 auto;border:1.2px solid var(--hair2);border-radius:var(--r-box);background:#fff}
 .rtext{flex:1;min-width:0}
 .rcell .rn{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;line-height:1.15}
 .rcell .rk{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
@@ -202,7 +207,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 /* code box + taboo list (loop detail) */
 .codebox{font-family:var(--mono);font-size:14px;background:#fff;border:1.2px solid var(--hair2);
-  border-radius:5px;padding:12px 14px;line-height:1.4;color:var(--ink)}
+  border-radius:var(--r-card);padding:12px 14px;line-height:1.4;color:var(--ink)}
 .taboo{list-style:none;display:flex;flex-direction:column;gap:9px}
 .taboo li{font-size:15px;line-height:1.3;padding-left:24px;position:relative;font-weight:450}
 .taboo li::before{content:"\00d7";position:absolute;left:2px;top:-1px;color:var(--foil);font-weight:800;font-size:18px}
@@ -211,19 +216,19 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 /* anti-pattern / lesson rows */
 .lessons{display:flex;flex-direction:column;gap:13px}
 .lrow{display:flex;gap:16px;align-items:flex-start}
-.lrow .bad{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--foil);min-width:78px;text-align:right;font-variant-numeric:tabular-nums}
+.lrow .bad{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--foil-ink);min-width:78px;text-align:right;font-variant-numeric:tabular-nums}
 .lrow .good{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--teal-ink);min-width:78px;text-align:right;font-variant-numeric:tabular-nums}
 .lrow .lx{font-size:16px;line-height:1.34;font-weight:450}
 .lrow .lx b{font-weight:700}
 .pillrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:2px}
-.tag-bad{font-family:var(--mono);font-size:13px;font-weight:600;border:1.2px solid var(--foil);color:var(--foil);border-radius:5px;padding:6px 11px}
+.tag-bad{font-family:var(--mono);font-size:13px;font-weight:600;border:1.2px solid var(--foil-ink);color:var(--foil-ink);border-radius:var(--r-box);padding:6px 11px}
 .flowv{display:flex;flex-direction:column;gap:7px;align-items:stretch}
 .farrv{color:var(--accent);font-size:20px;font-weight:800;text-align:center;line-height:1}
 .qlist p{font-size:16px;line-height:1.34;padding-left:24px;position:relative;margin-bottom:9px;font-weight:450}
 .qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--accent);font-weight:800}
 
 /* product screenshots */
-.shot{border:1.2px solid var(--hair2);border-radius:7px;overflow:hidden;background:#fff;box-shadow:0 3px 14px rgba(28,30,35,.09)}
+.shot{border:1.2px solid var(--hair2);border-radius:var(--r-card);overflow:hidden;background:#fff;box-shadow:0 3px 14px rgba(28,30,35,.09)}
 .shot img{display:block;width:100%;height:auto}
 .shot.crop img{height:300px;object-fit:cover;object-position:top center}
 .shotcap{font-family:var(--mono);font-size:12px;color:var(--ink);line-height:1.4}
@@ -234,7 +239,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .vsrow{display:flex;gap:30px;align-items:stretch;width:100%}
 .vspanel{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px}
 .vshd{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
-.vsspace{width:100%;height:166px;border:1.2px solid var(--hair2);border-radius:8px;background:#fff}
+.vsspace{width:100%;height:166px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
 .vsform{font-size:17px;min-height:24px}
 .vssub{font-size:14.5px;line-height:1.32;font-weight:450;max-width:30ch}
 .vstag{font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-top:1px}
@@ -248,7 +253,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .vlbl.pos{fill:var(--accent)}
 .vlbl.neg{fill:var(--foil)}
 .vconn{fill:none;stroke:var(--ink);stroke-width:1.8}
-.vwin{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-dasharray:5 4;animation:march 1s linear infinite}
+.vwin{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 5;animation:march 1s linear infinite}
 .vsingle{fill:none;stroke:var(--accent);stroke-width:2.8}
 .vpulse{transform-box:fill-box;transform-origin:center;animation:vpulse 1.5s ease-in-out infinite}
 @keyframes vpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
@@ -257,13 +262,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 /* program gallery (the twelve discovered programs) */
 .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px 22px;width:100%}
 .pcell{display:flex;flex-direction:column;align-items:center;gap:4px}
-.pcell svg{width:100%;height:108px;border:1.2px solid var(--hair2);border-radius:6px;background:#fff}
+.pcell svg{width:100%;height:108px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
 .pname{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);text-align:center}
 .pname .pcost{color:var(--accent);font-weight:600;margin-left:4px}
 
 /* setup: encoder cards + task sets */
 .encrow{display:flex;gap:14px;width:100%}
-.enc{flex:1;border:1.2px solid var(--hair2);border-radius:7px;padding:13px 15px;background:#fff;display:flex;flex-direction:column;gap:3px}
+.enc{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-box);padding:13px 15px;background:#fff;display:flex;flex-direction:column;gap:3px}
 .enc.seen{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .enc .en{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink)}
 .enc .ep{font-size:13.5px;font-weight:450;line-height:1.3}
@@ -275,7 +280,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .setcol .sh{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 /* setup flow: discovery zone -> held-out zone */
 .setflow{display:flex;align-items:stretch;gap:0;width:100%}
-.setzone{border:1.4px solid var(--hair2);border-radius:9px;padding:15px 17px;display:flex;flex-direction:column;gap:11px}
+.setzone{border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:15px 17px;display:flex;flex-direction:column;gap:11px}
 .setzone.disc{flex:0 0 31%;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
 .setzone.test{flex:1}
 .setzh{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
@@ -288,15 +293,15 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .settasks .stk{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);display:block;margin-bottom:3px}
 .enc .et.same{color:var(--teal-ink)}
 /* trend slide: 2025 vs 2026 patterns, stacked top/bottom, animated loops */
-.trendrow{border:1.2px solid var(--hair2);border-radius:9px;padding:13px 18px 15px;display:flex;flex-direction:column;gap:11px;align-items:center;width:100%}
+.trendrow{border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:13px 18px 15px;display:flex;flex-direction:column;gap:11px;align-items:center;width:100%}
 .trendh{font-family:var(--sans);font-size:18px;font-weight:750;letter-spacing:-.01em;align-self:flex-start}
 .trendh .yr{color:var(--accent);font-weight:800}
 .tflow{display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:nowrap}
-.tb{border:1.2px solid var(--ink);border-radius:5px;background:#fff;padding:7px 9px;font-size:12px;font-weight:600;white-space:nowrap;text-align:center;line-height:1.05}
-.tb.pill{border-radius:999px;background:#eef0f2;border-color:var(--hair2)}
+.tb{border:1.2px solid var(--ink);border-radius:var(--r-box);background:#fff;padding:7px 9px;font-size:12px;font-weight:600;white-space:nowrap;text-align:center;line-height:1.05}
+.tb.pill{border-radius:999px;background:#fff;border-color:var(--hair2)}
 .tb.hl{background:var(--teal);border-color:var(--teal);color:var(--ink);font-weight:700}
 .ta{color:var(--accent);font-weight:800;font-size:14px;padding:0 6px;flex:0 0 auto}
-.tloop{border:1.4px dashed var(--hair2);border-radius:8px;padding:8px 11px 17px;position:relative;display:flex;align-items:center;gap:0}
+.tloop{border:1.2px dashed var(--hair2);border-radius:var(--r-card);padding:8px 11px 17px;position:relative;display:flex;align-items:center;gap:0}
 .tloop .tll{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 6px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
 .tloopsvg{position:absolute;left:0;width:100%;bottom:4px;height:11px;overflow:visible;pointer-events:none}
 .tlooppath{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:6 5;animation:march .9s linear infinite}
@@ -305,7 +310,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .tio2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
 /* synthesis: two panels (A / B) with animated illustrations */
 .syn2{display:flex;gap:28px;width:100%}
-.synp{flex:1;border:1.2px solid var(--hair2);border-radius:9px;padding:14px 20px 16px;display:flex;flex-direction:column;gap:9px}
+.synp{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:14px 20px 16px;display:flex;flex-direction:column;gap:9px}
 .synp svg{width:100%;height:90px;display:block}
 .synh{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.01em;border-top:1px solid var(--hair);padding-top:10px}
 .synh .tag{color:var(--accent);font-weight:800;margin-right:6px}
@@ -318,7 +323,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .hmpanel{display:flex;flex-direction:column;align-items:center;gap:7px}
 .hmlabel{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink)}
 .hmlabel .tag{display:block;font-size:11.5px;font-weight:600;margin-top:1px}
-.hmlabel .tag.uns{color:var(--foil)}
+.hmlabel .tag.uns{color:var(--foil-ink)}
 .hmlabel .tag.disc{color:var(--accent)}
 .hmgrid{display:grid;gap:1.5px}
 /* heatmap axis labels: rows = programs by compute cost (cheap top -> costly bottom), cols = held-out tasks */
@@ -375,7 +380,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide title">
   <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
   <div class="kicker">Frozen Encoders · Program Search · Inference</div>
-  <h1><span class="accent">Autoresearch &amp;</span><br>Test-Time Compute for<br>Information Retrieval</h1>
+  <h1><span class="accent">Autoresearch &amp;</span><br>test-time compute for<br>Information Retrieval</h1>
   <div class="auth">
     <div class="nm">Han Xiao</div>
     <div class="rl">VP of AI, Elastic</div>
@@ -392,7 +397,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Test-time compute</div>
   <h2 class="h-slide sm">Spend more compute at inference, get a better answer.</h2>
-  <div class="body row" style="gap:46px;align-items:center">
+  <div class="body row" style="gap:40px;align-items:flex-start">
     <div style="flex:1">
       <p class="cap" style="font-size:17.5px">Trade inference compute for quality: rather than a bigger model, the model does more work per query, along a smooth cost-versus-quality curve.</p>
       <div class="deflist" style="margin-top:18px">
@@ -410,9 +415,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ THE REFRAME ============ -->
 <section class="slide">
   <div class="kicker">The reframe</div>
-  <h2 class="h-slide">Search is test-time compute.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <p class="lead" style="font-size:22px;max-width:66ch">You wire trained embeddings, rerankers, multi-vector retrievers, and query expanders into a <strong>pipeline at inference</strong> to squeeze out relevance. You do not need a bigger model. You assemble more search at test time.</p>
+  <h2 class="h-slide sm">Search is test-time compute.</h2>
+  <div class="body" style="justify-content:center;gap:24px">
+    <p class="sub" style="max-width:66ch">You wire trained embeddings, rerankers, multi-vector retrievers, and query expanders into a <strong>pipeline at inference</strong> to squeeze out relevance. You do not need a bigger model. You assemble more search at test time.</p>
     <div class="cards">
       <div class="card"><div class="ttl">Don't scale it</div><div class="desc">one keyword match. Cheap, and probably not good enough.</div></div>
       <div class="card hero"><div class="ttl accent">Scale it</div><div class="desc">embed, retrieve, rerank, expand, fuse. More inference can buy more relevance.</div></div>
@@ -438,7 +443,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="foot">searchbox &nbsp;·&nbsp; later</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:26px;font-weight:600;text-align:center;text-wrap:balance;max-width:64ch;margin-left:auto;margin-right:auto">Same move at two altitudes:<br><span class="accent">assemble structure at inference, not a bigger model.</span></p>
+    <p class="takeaway" style="margin-top:26px">Same move at two altitudes:<br><span class="accent">assemble structure at inference, not a bigger model.</span></p>
   </div>
 </section>
 
@@ -446,7 +451,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Interpretation A</div>
   <h2 class="h-slide sm">"Small models gain nothing." But they are distilled from LLMs.</h2>
-  <div class="body" style="gap:16px;justify-content:center">
+  <div class="body" style="gap:18px;justify-content:center">
     <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's embedders - including the small deployable ones - are distilled or adapted from LLM backbones:</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
@@ -467,7 +472,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The intuition</div>
   <h2 class="h-slide sm">Scoring runs from one cosine to late interaction.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
+  <div class="body" style="justify-content:center;gap:24px">
     <div class="vsrow">
 
       <div class="vspanel">
@@ -526,14 +531,14 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
 
     </div>
-    <p class="lead" style="text-align:center;font-weight:600;max-width:92ch;margin:0 auto;text-wrap:balance">Test-time compute adds <span class="accent">structure over the same frozen vectors</span>: chunk, feed back, fuse, and climb toward late interaction with no new model.</p>
+    <p class="takeaway" style="max-width:92ch">Test-time compute adds <span class="accent">structure over the same frozen vectors</span>: chunk, feed back, fuse, and climb toward late interaction with no new model.</p>
   </div>
 </section>
 
 <!-- ============ 4 THE STRICT QUESTION ============ -->
 <section class="slide">
   <div class="kicker">The question</div>
-  <h2 class="h-slide">How much can a frozen single-vector encoder gain at inference alone?</h2>
+  <h2 class="h-slide sm">How much can a frozen single-vector encoder gain at inference alone?</h2>
   <div class="body" style="gap:24px;justify-content:center">
     <div>
       <span class="chip on">No retraining</span><span class="chip on">No auxiliary model</span><span class="chip on">No learned parameters</span><span class="chip on">One frozen encoder API</span>
@@ -554,7 +559,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Autoresearch</div>
   <h2 class="h-slide sm">Autoresearch: let the agent climb the hill.</h2>
-  <div class="body row" style="gap:46px;align-items:center">
+  <div class="body row" style="gap:40px;align-items:flex-start">
     <div style="flex:1">
       <p class="cap" style="font-size:17.5px">An agent runs the research loop itself: change one file, run a short fixed-budget experiment, keep the change if the metric improved, otherwise revert. Repeat, overnight. It is hill-climbing, with an LLM as the mutation function.</p>
       <div class="autoloop" style="margin-top:18px">
@@ -573,7 +578,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method</div>
   <h2 class="h-slide sm">An LLM agent writes programs over the frozen encoder, and a harness scores them.</h2>
-  <div class="body" style="justify-content:flex-start;gap:10px;padding-top:58px">
+  <div class="body" style="justify-content:flex-start;gap:12px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -592,7 +597,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </svg>
       <div class="looplabel">the loop: memory conditions the next program</div>
     </div>
-    <div class="fanno">
+    <div class="fanno" style="margin-top:64px">
       <div class="fxc"><span class="fxk">writes</span>1 program<br>per generation</div>
       <div class="farr">→</div>
       <div class="fxc"><span class="fxk">the encoder</span>239M, frozen<br>small + fast</div>
@@ -610,7 +615,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 1 &nbsp;Proposer</div>
   <h2 class="h-slide sm">The proposer is an LLM, used as the mutation function.</h2>
-  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+  <div class="body" style="justify-content:flex-start;gap:24px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -645,7 +650,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 2 &nbsp;Program</div>
   <h2 class="h-slide sm">The program is arbitrary Python over the frozen encoder.</h2>
-  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+  <div class="body" style="justify-content:flex-start;gap:24px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -681,7 +686,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 3 &nbsp;Evaluator</div>
   <h2 class="h-slide sm">The harness scores every program on the same 14 tasks.</h2>
-  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+  <div class="body" style="justify-content:flex-start;gap:24px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -716,7 +721,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Method &middot; 4 &nbsp;Memory</div>
   <h2 class="h-slide sm">Every program is logged, and the log conditions the next one.</h2>
-  <div class="body" style="justify-content:flex-start;gap:26px;padding-top:58px">
+  <div class="body" style="justify-content:flex-start;gap:24px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
@@ -751,7 +756,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Setup</div>
   <h2 class="h-slide sm">What we search on, and what we test on.</h2>
-  <div class="body" style="justify-content:center;gap:0">
+  <div class="body" style="justify-content:flex-start;gap:18px;padding-top:58px">
     <div class="setflow">
       <div class="setzone disc">
         <div class="setzh">Discovery &middot; the loop searches here</div>
@@ -782,7 +787,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The distinction</div>
   <h2 class="h-slide sm">Cost is one number: extra forward passes through the encoder.</h2>
-  <div class="body" style="justify-content:center;gap:6px">
+  <div class="body" style="justify-content:center;gap:12px">
     <div style="text-align:center;font-size:19px">\( c \;=\; 1 \,+\, \dfrac{\text{extra forward passes}}{\text{baseline passes}} \)</div>
     <div class="cards" style="margin-top:16px">
       <div class="card">
@@ -798,7 +803,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="foot" style="color:var(--foil-ink)">One extra forward pass per query - new text through the encoder.</div>
       </div>
     </div>
-    <p class="lead" style="margin-top:20px;font-weight:600">One reuses the geometry you already have; the other spends a forward pass on new text. <span class="accent">Which converts into quality that transfers?</span></p>
+    <p class="takeaway" style="margin-top:20px">One reuses the geometry you already have; the other spends a forward pass on new text. <span class="accent">Which converts into quality that transfers?</span></p>
     <p class="note" style="margin-top:12px;text-align:center">c counts forward passes, the term that dominates serving cost; the structural algebra is O(n&middot;d), a fraction of a percent of latency - so a pure-structure program sits at c = 1 exactly.</p>
   </div>
 </section>
@@ -806,8 +811,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 7 TWO OBJECTIVES ============ -->
 <section class="slide">
   <div class="kicker">Two searches, same loop</div>
-  <h2 class="h-slide">We run the search under two admission rules.</h2>
-  <div class="body" style="justify-content:center">
+  <h2 class="h-slide sm">We run the search under two admission rules.</h2>
+  <div class="body" style="justify-content:flex-start;padding-top:70px">
     <div class="cards">
       <div class="card">
         <div class="ttl">Compute-spending</div>
@@ -828,7 +833,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">What compute buys, in search</div>
   <h2 class="h-slide sm">Told to spend compute, the search draws a clean Pareto curve.</h2>
-  <div class="body row" style="gap:38px">
+  <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
     <div style="flex:.85;display:flex;flex-direction:column;justify-content:center;gap:26px">
       <div class="stat"><div class="v">144</div><div class="l">programs searched over 144 generations</div></div>
@@ -843,7 +848,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">What the search wrote</div>
   <h2 class="h-slide sm">Twelve programs on the compute-spending frontier.</h2>
-  <div class="body" style="justify-content:center;gap:14px">
+  <div class="body" style="justify-content:center;gap:12px">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="30"/><line class="vconn" x1="40" y1="60" x2="150" y2="90"/><line class="vwin" x1="40" y1="60" x2="164" y2="60"/><circle class="vd" cx="150" cy="30" r="4"/><circle class="vd" cx="164" cy="60" r="6"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="81" text-anchor="middle">q</text></svg><div class="pname">SentMaxSim <span class="pcost">c=2.2</span></div></div>
@@ -866,7 +871,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">What it buys on held-out data</div>
   <h2 class="h-slide sm">On unseen encoders, compute is flat. Cheap structure is not.</h2>
-  <div class="body row" style="gap:34px">
+  <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.45">
       <div class="legend">
         <div class="it"><span class="sw" style="background:var(--foil)"></span>compute-spending</div>
@@ -887,7 +892,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The compute frontier, cell by cell</div>
   <h2 class="h-slide sm">Compute helps about half the cells, and collapses the rest.</h2>
-  <div class="body" style="justify-content:center;gap:14px">
+  <div class="body" style="justify-content:center;gap:12px">
     <div class="hmframe">
       <div class="hmyax">
         <div class="hmyanchor">1.2&times;<span class="d">cheap</span></div>
@@ -900,7 +905,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
     </div>
     <div class="row" style="align-items:center;gap:30px;margin-top:2px">
-      <div class="hmleg"><span style="color:var(--foil)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
+      <div class="hmleg"><span style="color:var(--foil-ink)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
       <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
@@ -926,7 +931,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">It transfers</div>
   <h2 class="h-slide sm">Gains are largest on encoder families never seen in discovery.</h2>
-  <div class="body row" style="gap:38px">
+  <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.4">
       <div class="legend">
         <div class="it"><span class="sw" style="background:var(--accent)"></span>mean</div>
@@ -948,10 +953,10 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Why not just train a head?</div>
   <h2 class="h-slide sm">A matched-budget learned head memorizes. Structure transfers.</h2>
-  <div class="body row" style="gap:38px">
+  <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.3">
       <div class="legend">
-        <div class="it"><span class="sw" style="background:#ECEDEF;border:1.5px dashed var(--ink)"></span>in-domain</div>
+        <div class="it"><span class="sw" style="background:#fff;border:1.2px dashed var(--ink)"></span>in-domain</div>
         <div class="it"><span class="sw" style="background:var(--foil)"></span>held-out</div>
         <div class="it"><span class="sw" style="background:var(--teal)"></span>structure (ref)</div>
       </div>
@@ -1025,9 +1030,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">The trend</div>
   <h2 class="h-slide sm">Test-time compute is the pattern for deep research and long-horizon tasks.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
+  <div class="body" style="justify-content:center;gap:24px">
     <div class="trendrow">
-      <div class="trendh"><span class="yr">2025</span> &middot; Deep Research</div>
+      <div class="trendh"><span class="yr">2025</span> &middot; Deep research</div>
       <div class="tflow">
         <span class="tb pill">Query</span><span class="ta">&rarr;</span>
         <div class="tloop"><div class="tll">loop until budget</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span><svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
@@ -1036,7 +1041,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="tio2">one web-bound loop &middot; all <span class="accent">Web IO</span></div>
     </div>
     <div class="trendrow">
-      <div class="trendh"><span class="yr">2026</span> &middot; Long-Horizon Tasks</div>
+      <div class="trendh"><span class="yr">2026</span> &middot; Long-horizon tasks</div>
       <div class="tflow">
         <span class="tb pill">Query</span><span class="ta">&rarr;</span>
         <div class="tloop"><div class="tll">research</div><span class="tb">Search</span><span class="ta">&rarr;</span><span class="tb">Read</span><span class="ta">&rarr;</span><span class="tb">Reason</span><svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
@@ -1054,13 +1059,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the corpus stage</div>
   <h2 class="h-slide sm">dataroom: a loop for knowledge dump.</h2>
-  <div class="body row" style="gap:34px;align-items:center">
+  <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">Given a token budget, spend it on <strong>local small models</strong> instead of a frontier model: run <strong>search &rarr; read &rarr; write</strong>, repeat, until the knowledge is dumped into one cited <span class="mono">.zip</span>. That dump is the dataroom - the open web <strong>distilled</strong> down to a small, local corpus a machine can consume.</p>
       <div class="flowv">
-        <div class="fbox" style="min-height:0;padding:11px"><div class="fn">dataroom</div><div class="fd">build the corpus (.zip)</div></div>
+        <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">build the corpus (.zip)</div></div>
         <div class="farrv">↓</div>
-        <div class="fbox dark" style="min-height:0;padding:11px"><div class="fn">searchbox</div><div class="fd">answer from the .zip</div></div>
+        <div class="fbox dark compact"><div class="fn">searchbox</div><div class="fd">answer from the .zip</div></div>
       </div>
       <p class="note">Stage one of two: the grounded <span class="mono">.zip</span> then goes to searchbox (next) or a frontier model for the expensive second stage.</p>
     </div>
@@ -1075,7 +1080,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the search stage</div>
   <h2 class="h-slide sm">searchbox: a testbed for studying agentic search loops.</h2>
-  <div class="body row" style="gap:36px;align-items:center">
+  <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">A self-hosted <span class="mono">Qwen3.6-35B-A3B</span> (~3B active) in an <strong>airgapped</strong> harness explores the <span class="mono">.zip</span> dataroom under a budget, composing its own pipeline from local tools: grep, embed, rerank, similarity, cluster, select_diverse. No network, near-zero token cost.</p>
       <div class="mlabel accent">Open research questions</div>
@@ -1107,7 +1112,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
           <circle class="vq" cx="30" cy="40" r="7"/>
           <text class="vlbl" x="30" y="64" text-anchor="middle">q</text><text class="vlbl" x="118" y="13" text-anchor="middle">d</text>
         </svg>
-        <div class="synh"><span class="tag">A</span>Autoresearch Programs</div>
+        <div class="synh"><span class="tag">A</span>Autoresearch programs</div>
         <div class="synrow"><b>pipeline</b>multi-pass embedding algebra</div>
         <div class="synrow"><b>what scales</b>structure, not forward passes</div>
       </div>
@@ -1120,12 +1125,12 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
           <circle class="vq vpulse" cx="34" cy="40" r="8"/>
           <text class="vlbl" x="34" y="66" text-anchor="middle">agent</text>
         </svg>
-        <div class="synh"><span class="tag">B</span>Searchbox / agentic search</div>
+        <div class="synh"><span class="tag">B</span>searchbox / agentic search</div>
         <div class="synrow"><b>pipeline</b>a chain of retrieval tools</div>
         <div class="synrow"><b>what scales</b>tool composition, not parameters</div>
       </div>
     </div>
-    <p class="lead" style="font-weight:700;text-align:center;font-size:22px">Test-time compute is <span class="accent">pipeline assembly</span>, not raw compute.</p>
+    <p class="takeaway">Test-time compute is <span class="accent">pipeline assembly</span>, not raw compute.</p>
   </div>
 </section>
 
@@ -1148,7 +1153,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 </section>
 
 <div id="chrome">
-  <div class="l">Autoresearch &amp; Test-Time Compute for Information Retrieval</div>
+  <div class="l">Autoresearch &amp; test-time compute for Information Retrieval</div>
   <div class="r"><span class="hx">@hxiao</span><span class="hx">in/hxiao87</span><span id="pg">1 / 27</span></div>
 </div>
 
@@ -1299,7 +1304,7 @@ function drawHead(){
   const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B);
   const bw=(W-L-R)/d.length;
   // in-domain band +0.20..+0.25 (NEUTRAL: the seductive in-domain win that does not transfer)
-  svg.appendChild(el('rect',{x:L,y:Y(0.25),width:W-R-L,height:Y(0.20)-Y(0.25),fill:'#ECEDEF'}));
+  svg.appendChild(el('rect',{x:L,y:Y(0.25),width:W-R-L,height:Y(0.20)-Y(0.25),fill:'#fff'}));
   svg.appendChild(el('line',{x1:L,y1:Y(0.25),x2:W-R,y2:Y(0.25),stroke:INK,'stroke-width':2,'stroke-dasharray':'6 4'}));
   svg.appendChild(el('line',{x1:L,y1:Y(0.20),x2:W-R,y2:Y(0.20),stroke:INK,'stroke-width':2,'stroke-dasharray':'6 4'}));
   svg.appendChild(txt(L+12,Y(0.225)+5,'learned head, in-domain: +0.20 to +0.25',{fs:14,fw:700,fill:INK}));
