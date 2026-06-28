@@ -48,7 +48,7 @@ h1{font-size:60px;line-height:1.04;font-weight:800;letter-spacing:-.022em;max-wi
 .h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:32ch;margin-bottom:36px}
 .h-slide.sm{font-size:35px}
 .sub{font-size:21px;line-height:1.42;font-weight:430;max-width:60ch}
-.lead{font-size:17px;line-height:1.45;font-weight:450;max-width:62ch}
+.lead{font-size:18px;line-height:1.45;font-weight:450;max-width:62ch}
 .mono{font-family:var(--mono)}
 .mlabel{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
 .accent{color:var(--accent)}
@@ -76,7 +76,7 @@ strong,b{font-weight:700}
 .body{flex:1;display:flex;flex-direction:column;min-height:0;justify-content:center}
 .row{display:flex;flex-direction:row;gap:34px;align-items:stretch}
 .fill{flex:1;min-height:0}
-.cap{font-size:17px;line-height:1.45;font-weight:440;max-width:88ch}
+.cap{font-size:18px;line-height:1.45;font-weight:440;max-width:88ch}
 .cap .mono{font-size:14px}
 /* the single emphatic synthesizing one/two-liner (canonical centered takeaway) */
 .takeaway{font-size:21px;line-height:1.4;font-weight:600;text-align:center;text-wrap:balance;max-width:64ch;margin-left:auto;margin-right:auto}
@@ -94,7 +94,7 @@ strong,b{font-weight:700}
 .defrow{display:flex;gap:18px;align-items:baseline}
 .defrow .tag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink);min-width:210px;border-left:3px solid var(--accent);padding-left:12px}
-.defrow .dsc{font-size:17px;font-weight:450;line-height:1.35}
+.defrow .dsc{font-size:18px;font-weight:450;line-height:1.35}
 .defrow .tag.sm{min-width:150px}
 
 /* pull-quote (soundbites) */
@@ -113,7 +113,7 @@ strong,b{font-weight:700}
 .card .ttl{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px}
 .card.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .card.hero .ttl{color:var(--accent)}
-.card .desc{font-size:17px;line-height:1.42;font-weight:450}
+.card .desc{font-size:18px;line-height:1.42;font-weight:450}
 .card .eq{font-family:var(--mono);font-size:15px;margin:14px 0;font-weight:500}
 .card .foot{margin-top:auto;font-size:16px;font-weight:600;padding-top:14px}
 .chip{display:inline-block;font-family:var(--mono);font-size:15.5px;font-weight:600;letter-spacing:.04em;
@@ -155,7 +155,7 @@ strong,b{font-weight:700}
 .spdesign{flex:1.55}
 .spcaveat{flex:1;border-left:3px solid var(--foil);padding-left:20px}
 .spdetail .mlabel{margin-bottom:9px;display:block}
-.spdetail .cap{font-size:17px}
+.spdetail .cap{font-size:18px}
 .spdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 7px 2px 0}
 /* method bird-view: per-stage annotation band aligned under the workflow boxes */
 .fanno{display:flex;align-items:flex-start;justify-content:space-between;gap:0;margin-top:22px;border-top:1px solid var(--hair);padding-top:16px}
@@ -224,7 +224,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .tag-bad{font-family:var(--mono);font-size:13px;font-weight:600;border:1.2px solid var(--foil-ink);color:var(--foil-ink);border-radius:var(--r-box);padding:6px 11px}
 .flowv{display:flex;flex-direction:column;gap:7px;align-items:stretch}
 .farrv{color:var(--accent);font-size:20px;font-weight:800;text-align:center;line-height:1}
-.qlist p{font-size:17px;line-height:1.38;padding-left:24px;position:relative;margin-bottom:9px;font-weight:450}
+.qlist p{font-size:18px;line-height:1.38;padding-left:24px;position:relative;margin-bottom:9px;font-weight:450}
 .qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--accent);font-weight:800}
 
 /* product screenshots */
@@ -808,8 +808,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="foot" style="color:var(--foil-ink)">One extra forward pass per query - new text through the encoder.</div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:20px">One reuses the geometry you already have; the other spends a forward pass on new text. <span class="accent">Which converts into quality that transfers?</span></p>
-    <p class="note" style="margin-top:12px;text-align:center">c counts forward passes, the term that dominates serving cost; the structural algebra is O(n&middot;d), a fraction of a percent of latency - so a pure-structure program sits at c = 1 exactly.</p>
+    <p class="takeaway" style="margin-top:24px">One reuses the geometry you already have; the other spends a forward pass on new text. <span class="accent">Which converts into quality that transfers?</span></p>
   </div>
 </section>
 
@@ -1120,39 +1119,13 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <h2 class="h-slide sm">knowledge-graph: hard multi-hop questions for a private verifier.</h2>
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">Every fact in the corpus becomes one graph edge - a <span class="mono">(subject)-[predicate]-&gt;(object)</span> triple. Connect them, walk the graph's <strong>longest paths</strong>, and you get <strong>multi-hop questions</strong> no single passage answers: the agent has to chain facts to reach them.</p>
-      <div class="mlabel accent">The point</div>
-      <p class="cap">A <strong>private, corpus-grounded verifier</strong> for searchbox - hard questions you cannot grep, grown from the same corpus the agent is locked inside.</p>
+      <p class="cap">Trivial questions are useless for agentic search: if one grep finds the answer, every method scores the same. To <strong>evaluate searchbox</strong> you need questions that force the search to actually work.</p>
+      <div class="mlabel accent">How</div>
+      <p class="cap">Turn the corpus into a knowledge graph - each fact a <span class="mono">(subject)-[predicate]-&gt;(object)</span> edge - then walk its <strong>longest paths</strong>. Those chains become <strong>hard multi-hop questions</strong> no single passage answers: a private, corpus-grounded eval, grown from the same corpus searchbox is locked inside.</p>
     </div>
-    <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
-      <div style="border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff;padding:16px 18px">
-        <svg viewBox="0 0 460 270" style="width:100%;height:auto;display:block" aria-hidden="true">
-          <line class="vconn" x1="48" y1="160" x2="118" y2="236"/>
-          <line class="vconn" x1="118" y1="236" x2="266" y2="244"/>
-          <line class="vconn" x1="250" y1="148" x2="266" y2="244"/>
-          <line class="vconn" x1="266" y1="244" x2="382" y2="230"/>
-          <line class="vconn" x1="142" y1="80" x2="348" y2="74"/>
-          <line class="vconn" x1="382" y1="230" x2="414" y2="164"/>
-          <line class="vwin" x1="48" y1="160" x2="142" y2="80"/>
-          <line class="vwin" x1="142" y1="80" x2="250" y2="148"/>
-          <line class="vwin" x1="250" y1="148" x2="348" y2="74"/>
-          <line class="vwin" x1="348" y1="74" x2="414" y2="164"/>
-          <text x="78" y="112" style="font-family:var(--mono);font-size:9.5px;fill:var(--ink)">founded</text>
-          <text x="184" y="104" style="font-family:var(--mono);font-size:9.5px;fill:var(--ink)">acquired</text>
-          <text x="290" y="100" style="font-family:var(--mono);font-size:9.5px;fill:var(--ink)">based in</text>
-          <circle class="vd" cx="118" cy="236" r="5"/>
-          <circle class="vd" cx="266" cy="244" r="5"/>
-          <circle class="vd" cx="382" cy="230" r="5"/>
-          <circle class="vd pos" cx="48" cy="160" r="6.5"/>
-          <circle class="vd pos" cx="142" cy="80" r="6.5"/>
-          <circle class="vd pos" cx="250" cy="148" r="6.5"/>
-          <circle class="vd pos" cx="348" cy="74" r="6.5"/>
-          <circle cx="414" cy="164" r="15" fill="#fff" stroke="var(--accent)" stroke-width="2" class="vpulse"/>
-          <text x="414" y="170" text-anchor="middle" style="font-family:var(--sans);font-size:18px;font-weight:800;fill:var(--accent)">?</text>
-          <text x="48" y="146" text-anchor="middle" style="font-family:var(--mono);font-size:9.5px;fill:var(--ink)">fact</text>
-        </svg>
-      </div>
-      <div class="shotcap" style="font-size:14px">facts become edges; the longest path is the hardest question</div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
+      <div class="shot"><img src="img/kg-hero.png" alt="knowledge-graph UI: corpus facts extracted into a force-directed graph with a longest-path view"></div>
+      <div class="shotcap" style="font-size:14px"><strong>Live graph:</strong> every fact an edge; the longest-path view surfaces the multi-hop questions.</div>
     </div>
   </div>
 </section>
