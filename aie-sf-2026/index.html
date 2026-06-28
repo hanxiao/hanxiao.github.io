@@ -358,6 +358,11 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .qr .qrtop{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .qr .qrlabel{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
 .qr-abs{position:absolute;right:104px;top:50%;transform:translateY(-50%)}
+/* compact top-right corner repo QR (echo of the title-slide QR) */
+.qr-corner{position:absolute;top:46px;right:76px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:6;text-decoration:none}
+.qr-corner .qrtop{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);line-height:1}
+.qr-corner img{width:92px;height:92px;display:block}
+.qr-corner .qrlabel{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
 /* AI Engineer World's Fair event badge (title + close) */
 .aie-badge{position:absolute;left:76px;top:48px}
 .aie-badge img{height:42px;display:block}
@@ -1058,6 +1063,11 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ DATAROOM (stage 1, before searchbox) ============ -->
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the corpus stage</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/dataroom">
+    <span class="qrtop">repo</span>
+    <img src="img/qr-dataroom.png" alt="QR code to github.com/hanxiao/dataroom">
+    <span class="qrlabel">hanxiao/dataroom</span>
+  </a>
   <h2 class="h-slide sm">dataroom: a loop for knowledge dump.</h2>
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
@@ -1079,6 +1089,11 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ SEARCHBOX (stage 2) ============ -->
 <section class="slide">
   <div class="kicker">Interpretation B &middot; the search stage</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/searchbox">
+    <span class="qrtop">repo</span>
+    <img src="img/qr-searchbox.png" alt="QR code to github.com/hanxiao/searchbox">
+    <span class="qrlabel">hanxiao/searchbox</span>
+  </a>
   <h2 class="h-slide sm">searchbox: a testbed for studying agentic search loops.</h2>
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
