@@ -1196,6 +1196,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 </div>
 
 <script src="data.js?v=heatmap4"></script>
+<script src="sync.js?v=1"></script>
 <script>
 /* ---------------- navigation + fit ---------------- */
 const stage=document.getElementById('stage');
@@ -1429,6 +1430,16 @@ function init(){
   renderAll();
 }
 init();
+
+/* ---- remote follow: open /aie-sf-2026/?follow on the projector to track the phone ---- */
+(function(){
+  if(!new URLSearchParams(location.search).has('follow')) return;
+  if(!window.Sync) return;
+  var shown=-1, b=document.createElement('div');
+  b.style.cssText='position:fixed;left:12px;bottom:10px;z-index:99;font:600 12px/1 ui-monospace,monospace;color:#0B64DD;background:#fff;border:1px solid rgba(28,30,35,.18);border-radius:6px;padding:6px 10px';
+  b.textContent='📡 waiting for phone…'; document.body.appendChild(b);
+  Sync.follow(function(n){ if(n!==shown){ shown=n; if(typeof show==='function') show(n-1); } b.style.display='none'; });
+})();
 </script>
 <script src="vendor/tex-svg.js" id="MathJax-script"></script>
 </body>

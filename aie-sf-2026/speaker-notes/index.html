@@ -58,6 +58,23 @@ main{flex:1;min-height:0;display:flex;gap:0}
 .bar{flex:0 0 auto;height:4px;background:var(--hair);border-radius:3px;overflow:hidden;margin-top:8px}
 .bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s linear}
 .bar > i.over{background:var(--foil)}
+/* remote control + phone layout */
+.remote.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#rhint{display:none;flex:0 0 auto;font-family:var(--mono);font-size:12px;color:var(--teal);background:#fff;border-bottom:1px solid var(--hair);padding:6px 14px;text-align:center}
+#rhint b{color:var(--ink)}
+.bignav{display:none;gap:10px;padding:10px 0 2px}
+.bignav button{flex:1;font-family:var(--sans);font-size:22px;font-weight:800;letter-spacing:0;padding:22px 0;border-radius:12px}
+.bignav #nextBig{flex:2;background:var(--accent);border-color:var(--accent);color:#fff}
+@media (max-width:720px){
+  header{flex-wrap:wrap;gap:8px;padding:8px 12px}
+  .clock .big{font-size:24px}
+  #slidepane{display:none}
+  #notepane{padding:12px 16px 16px}
+  #note{font-size:27px;line-height:1.4}
+  #prevBtn,#nextBtn,#fsBtn,.fontbtns{display:none}
+  .hint{display:none}
+  .bignav{display:flex}
+}
 </style>
 </head>
 <body>
@@ -67,6 +84,7 @@ main{flex:1;min-height:0;display:flex;gap:0}
   <span class="pace" id="pace">ready</span>
   <span class="pos" id="pos">1 / 30</span>
   <div class="btns">
+    <button class="remote" id="remoteBtn">📡 Remote</button>
     <button class="pri" id="startBtn">Start ▸</button>
     <button id="resetBtn">Reset</button>
     <button id="prevBtn">◂ Prev</button>
@@ -74,6 +92,7 @@ main{flex:1;min-height:0;display:flex;gap:0}
     <button id="fsBtn">⛶</button>
   </div>
 </header>
+<div id="rhint"></div>
 <main>
   <section id="slidepane"><div class="frame"><iframe id="deck" src="../index.html" title="slide"></iframe></div></section>
   <section id="notepane">
@@ -88,14 +107,18 @@ main{flex:1;min-height:0;display:flex;gap:0}
       <div class="fontbtns"><button id="fdown">A−</button><button id="fup">A+</button></div>
       <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause · <span style="color:var(--teal)">(say:…)</span> = how to pronounce &nbsp;|&nbsp; ←→ nav · S · R · F</span>
     </div>
+    <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
   </section>
 </main>
 <script src="notes.js?v=8"></script>
+<script src="../sync.js?v=1"></script>
 <script>
 const N = window.NOTES || [];
 const deck = document.getElementById('deck');
 const $ = id => document.getElementById(id);
-let cur = 0, fontPx = 24;
+let cur = 0, fontPx = 24, remoteOn = false;
+const isMobile = window.matchMedia('(max-width:720px)').matches;
+function broadcast(){ if(remoteOn && window.Sync){ try{ Sync.publish(cur+1); }catch(_){} } }
 // render delivery annotations: *stress* -> bold, // -> pause beat, line -> thought group
 function fmt(t){
   t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -118,6 +141,7 @@ let running=false, startEpoch=0, elapsedAcc=0, slideEnterElapsed=0;
 function nowElapsed(){ return elapsedAcc + (running ? (Date.now()-startEpoch)/1000 : 0); }
 
 function navDeck(i){
+  if(isMobile) return;   // phone: don't load/drive the deck iframe (the deck is on the projector)
   // try direct call into the deck's global show(); fall back to hash reload
   try { if (deck.contentWindow && typeof deck.contentWindow.show === 'function'){ deck.contentWindow.show(i); return; } } catch(e){}
   deck.src = '../index.html#'+(i+1);
@@ -130,6 +154,7 @@ function render(){
   $('pos').textContent = (cur+1)+' / '+N.length;
   slideEnterElapsed = nowElapsed();
   navDeck(cur);
+  broadcast();
   updatePace();
 }
 function go(d){ cur = Math.max(0, Math.min(N.length-1, cur+d)); render(); }
@@ -176,6 +201,21 @@ document.addEventListener('keydown', e=>{
 
 deck.addEventListener('load', ()=>{ navDeck(cur); });
 setInterval(updatePace, 250);
+
+// ---- remote control: this page (your phone) drives /aie-sf-2026/?follow on the projector ----
+if(isMobile){ try{ deck.src='about:blank'; }catch(_){} }   // phone: don't load the deck here
+(function(){
+  const rb=$('remoteBtn'), rh=$('rhint');
+  function ui(){ rb.className='remote'+(remoteOn?' on':''); rb.textContent=remoteOn?'📡 LIVE':'📡 Remote'; }
+  rb.onclick=()=>{ remoteOn=!remoteOn;
+    if(remoteOn){ if(window.Sync) Sync.ensureMqtt(); rh.style.display='block'; rh.innerHTML='📡 Live · on the projector open <b>hanxiao.io/aie-sf-2026/?follow</b>'; }
+    else { rh.style.display='none'; }
+    ui(); broadcast(); };
+  $('backBig').onclick=()=>go(-1); $('nextBig').onclick=()=>go(1);
+  setInterval(broadcast, 15000);   // heartbeat: re-assert the current slide; self-heals dropped taps + late joiners
+  ui();
+})();
+
 render();
 </script>
 </body>
