@@ -580,7 +580,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 5 METHOD ============ -->
 <section class="slide">
   <div class="kicker">Method</div>
-  <h2 class="h-slide sm">An LLM agent writes programs over the frozen encoder, and a harness scores them.</h2>
+  <h2 class="h-slide sm">An LLM agent writes programs over the frozen encoder, and an evaluator scores them.</h2>
   <div class="body" style="justify-content:flex-start;gap:12px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
@@ -588,7 +588,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">→</div>
         <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">→</div>
-        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
+        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">→</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">→</div>
@@ -625,7 +625,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
+        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
@@ -660,7 +660,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
+        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
@@ -688,7 +688,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ SPOTLIGHT 3: EVALUATOR ============ -->
 <section class="slide">
   <div class="kicker">Method &middot; 3 &nbsp;Evaluator</div>
-  <h2 class="h-slide sm">The harness scores every program on the same 14 tasks.</h2>
+  <h2 class="h-slide sm">The evaluator scores every program on the same 14 tasks.</h2>
   <div class="body" style="justify-content:flex-start;gap:24px;padding-top:58px">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
@@ -696,7 +696,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox lit"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
+        <div class="fbox lit"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>
@@ -710,7 +710,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="spdetail">
       <div class="spdesign">
         <div class="mlabel accent">Design</div>
-        <p class="cap">Every program runs on the same <strong>14 MMTEB Tier-1 discovery tasks</strong> (legal, financial, long-document, general). The harness scores <span class="mono">&Delta;nDCG@10</span> against the cosine baseline, plus a cost ratio (<span class="mono">embed_fn</span> calls per query). The same fixed budget every generation.</p>
+        <p class="cap">Every program runs on the same <strong>14 MMTEB Tier-1 discovery tasks</strong> (legal, financial, long-document, general). The evaluator scores <span class="mono">&Delta;nDCG@10</span> against the cosine baseline, plus a cost ratio (<span class="mono">embed_fn</span> calls per query). The same fixed budget every generation.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
@@ -731,7 +731,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">harness, 14 tasks</div></div>
+        <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
         <div class="farr">&rarr;</div>

@@ -113,7 +113,7 @@ And that loop generated *everything you're about to see*.`},
 {n:9, sec:40, title:"The method loop",
 note:`Here's the whole loop in one picture. Just follow the boxes, left to right.
 A *proposer*, which is an LLM agent, writes a program over the frozen encoder.
-A *harness* then scores that program.
+The *evaluator* then scores that program.
 *Memory* logs the result.
 And the *registry*, the black box on the far right, collects all of them, 144 programs over 144 generations.
 Now see that dashed arrow looping back underneath?
