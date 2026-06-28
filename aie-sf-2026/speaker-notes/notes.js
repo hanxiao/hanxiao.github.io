@@ -24,6 +24,7 @@ The idea is simple.
 Instead of training a bigger model,
 you spend *more compute at inference*.
 And you get a *better answer*.
+It comes in a few forms.
 Best-of-n. Self-consistency. A verifier reranking candidates.
 Noam Brown put a number on it.
 A poker bot that thinks for *twenty seconds*
@@ -44,14 +45,14 @@ So the real question isn't "is my model big enough."
 It's *how much pipeline* you assemble at inference.
 And whether it pays off.`},
 
-{n:4, sec:40, title:"Two interpretations",
+{n:4, sec:40, title:"Two versions",
 note:`There are *two ways* to build that pipeline.
 I'll show you both.
-*Interpretation A* is the one I'll go deep on.
+*Version A* is the one I'll go deep on.
 An agent writes little programs over one *frozen encoder*.
-Chunk the document. Z-score the scores. Fuse channels. Feed results back.
+It might chunk the document, z-score the scores, fuse channels, feed results back.
 It's multi-pass algebra on embeddings.
-*Interpretation B* comes later.
+*Version B* comes later.
 There, a small agent wires up retrieval tools,
 grep, embed, rerank, over a corpus, under a budget.
 *Same move, two altitudes.*
@@ -322,7 +323,7 @@ So the cheap versions carry to encoders we never touched. //
 Fifty years of IR, re-derived by an agent, overnight.`},
 
 {n:25, sec:45, title:"The trend (2025 to 2026)",
-note:`So that's Interpretation A.
+note:`So that's Version A.
 A frozen encoder, where *cheap structure transfers* and raw compute doesn't.
 Now let me zoom out.
 Because the same move, assemble a pipeline at inference, don't grow the model,
@@ -332,7 +333,7 @@ In 2025, it was *one loop* on the open web. Search, read, reason.
 In 2026, it's *splitting in two*.
 A research phase that hits the web and builds a local corpus, a *dataroom*.
 And an execution phase that runs *offline* against it.
-That split, dataroom then searchbox, is *Interpretation B*.
+That split, dataroom then searchbox, is *Version B*.
 It's built from three small tools.`},
 
 {n:26, sec:42, title:"dataroom",
@@ -377,7 +378,7 @@ It's a private verifier, grown from the same corpus searchbox is locked inside.`
 
 {n:29, sec:35, title:"Synthesis",
 note:`So let's connect the dots.
-Both interpretations do the *same thing*.
+Both versions do the *same thing*.
 They build a search pipeline at test time.
 And *neither one grows the model*.
 In A, the pipeline is multi-pass embedding algebra.
