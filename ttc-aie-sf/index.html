@@ -393,7 +393,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
     </div>
     <div style="flex:1.05">
-      <blockquote class="pull">Having a bot think for just <strong>20 seconds</strong> in a hand of poker got the same performance boost as scaling up the model by <strong>100,000&times;</strong> and training it for 100,000 times longer.<cite>Noam Brown, OpenAI &nbsp;·&nbsp; TED AI, San Francisco</cite></blockquote>
+      <blockquote class="pull">Having a bot think for just <strong>20 seconds</strong> in a hand of poker got the same performance boost as scaling up the model by <strong>100,000&times;</strong> and training it for 100,000 times longer.<cite>Noam Brown, OpenAI, 2024</cite></blockquote>
     </div>
   </div>
 </section>
@@ -555,7 +555,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
     </div>
     <div style="flex:1.05">
-      <blockquote class="pull">You're not touching any of the Python files like you normally would as a researcher. Instead, you are programming the <span class="mono" style="font-weight:700">program.md</span> files that set up your autonomous research org.<cite>Andrej Karpathy, Anthropic &nbsp;·&nbsp; AutoResearch, 2026</cite></blockquote>
+      <blockquote class="pull">You're not touching any of the Python files like you normally would as a researcher. Instead, you are programming the <span class="mono" style="font-weight:700">program.md</span> files that set up your autonomous research org.<cite>Andrej Karpathy, Anthropic, 2026</cite></blockquote>
     </div>
   </div>
 </section>
@@ -1091,9 +1091,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <table class="bt syn">
       <thead><tr><th></th><th>A &nbsp; embedding programs</th><th>B &nbsp; searchbox</th></tr></thead>
       <tbody>
-        <tr><td>who assembles it</td><td>an agentic search loop, offline</td><td>a small agent LLM, at query time</td></tr>
         <tr><td>the pipeline is</td><td>multi-pass embedding algebra</td><td>a chain of retrieval tools</td></tr>
-        <tr><td>the model</td><td>frozen encoder, 239M</td><td>Qwen3.6-35B, ~3B active</td></tr>
         <tr><td>what scales</td><td>structure, not forward passes</td><td>tool composition, not parameters</td></tr>
       </tbody>
     </table>
@@ -1109,11 +1107,10 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="nlist">
       <div class="nitem"><div class="n">01</div><div class="t">Small distilled models have real, transferable test-time potential, realized as structure, not raw compute.</div></div>
       <div class="nitem"><div class="n">02</div><div class="t">Two ways to spend it: recombine the encoder's geometry, or let an agent compose the tools. Both assemble a pipeline at inference.</div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">Trust the gain only when the loop optimizes transfer, with a held-out gate it cannot see and a worst-case floor.</div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">Chosen for transfer, not in-domain fit: a held-out gate the loop never sees is what makes it generalize.</div></div>
     </div>
     <div class="row" style="align-items:center;gap:26px;border-top:1px solid var(--hair);padding-top:16px">
-      <div class="stat"><div class="v o">~1×</div><div class="l">query-time cost. 0.011 s of algebra against 40 s of encoding: the axis that transfers is also the cheapest to serve.</div></div>
-      <p class="note" style="flex:1;max-width:54ch">Honest caveat: absolute held-out gains are modest, pooled means of +0.004 to +0.018 ΔnDCG@10. The claim is about the shape of the compute-quality relation and the tail, not magnitude.</p>
+      <div class="stat"><div class="v o">~1×</div><div class="l" style="max-width:64ch">query-time cost. 0.011 s of algebra against 40 s of encoding: the axis that transfers is also the cheapest to serve.</div></div>
     </div>
   </div>
 </section>
