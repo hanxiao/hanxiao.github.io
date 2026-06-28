@@ -26,7 +26,7 @@ Instead of training a bigger model,
 you spend *more compute at inference time*, and you get a *better answer* back.
 It shows up in a few familiar forms,
 like best-of-n, self-consistency, or a verifier that reranks candidates.
-Noam Brown put a number on this.
+Noam Brown, over at OpenAI, put a number on this.
 He found that a poker bot thinking for *twenty seconds*
 got the same boost as scaling the model *a hundred thousand times*.
 That's the promise of test-time compute. //
@@ -77,7 +77,7 @@ That's our *frozen baseline*.
 On the right, you have ColBERT-style (say: Col-BERT) late interaction,
 where every query token is matched against every document token.
 But that needs a multi-vector model, which we don't have.
-The interesting part is the *middle*.
+The interesting part is the *middle* panel, the one I've outlined in blue.
 You take the same frozen encoder, split the document into sentences, and max over them.
 That's what I mean by *test-time structure*.
 You move toward late interaction with *no new model*,
@@ -104,19 +104,19 @@ It changes one file, it runs a short experiment,
 and if the metric improved, it keeps the change, otherwise it reverts.
 It does that over and over, all night.
 It's just *hill-climbing*, with an LLM as the mutation function.
-Karpathy described the same shift recently.
+Andrej Karpathy, who founded Eureka Labs, described the same shift.
 You're not editing Python the way a researcher would.
 You're writing the markdown files that set up an autonomous research org.
 And that loop generated *everything you're about to see*.`},
 
 {n:9, sec:40, title:"The method loop",
-note:`Here's the whole loop in one picture.
+note:`Here's the whole loop in one picture. Just follow the boxes, left to right.
 A *proposer*, which is an LLM agent, writes a program over the frozen encoder.
 A *harness* then scores that program.
-*Memory* logs the result, and that log shapes the next proposal.
-And a *registry* collects all of them, 144 programs over 144 generations.
-The key thing here is the *feedback*.
-Memory conditions the next program, so every round builds on the last one.
+*Memory* logs the result.
+And the *registry*, the black box on the far right, collects all of them, 144 programs over 144 generations.
+Now see that dashed arrow looping back underneath?
+That's the *feedback*. Memory conditions the next program, so every round builds on the last one.
 Let me quickly walk through the four pieces,
 because a couple of them have a *catch* that shows up later.`},
 
@@ -187,13 +187,13 @@ The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
 {n:15, sec:50, title:"The distinction: cost = extra forward passes",
 note:`Now, before any results, the single most important idea in the talk.
 And it comes down to just *one number*.
-We define cost, c, as the number of *extra forward passes* through the encoder.
-Let me make that concrete with two real programs.
+The formula up top says it: cost, c, is just the number of *extra forward passes* through the encoder.
+Let me make it concrete with the two cards on the slide.
 They do the same move. They mix in some neighbor information, then they re-score.
-The first one is called SoftCentroid.
+The card on the left is SoftCentroid.
 It averages document vectors you've *already computed*, so there's no new forward pass.
 That means its cost, c, equals one.
-The second one is called FirstSent.
+The card on the right is FirstSent.
 It re-embeds the first sentence of the top document, which is a brand-new forward pass.
 So there, c is *greater than one*.
 One reuses geometry you already have.
@@ -216,6 +216,7 @@ Let's see what each one comes up with.`},
 {n:17, sec:38, title:"In-search Pareto",
 note:`Let's start with the compute search.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
+The x-axis is the compute you spend, on a log scale; the y-axis is the score.
 There are 144 programs, and twelve of them sit on the Pareto front,
 with cost running from 1.2 all the way up to *14.7 times*.
 And the in-search score climbs nicely, from plus 0.07 up to plus 0.24.
@@ -237,6 +238,7 @@ But the gains, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"The money chart (held-out)",
 note:`This is the *money chart*, the spine of the talk.
+Same axes as before. The x-axis is the compute you spend, from 1 up to 14.7 times. The y-axis is the held-out score, and that dashed line across the middle is the zero baseline.
 We take all twelve compute programs,
 and we run them on the held-out evaluation,
 including encoders the search never optimized for.
@@ -246,8 +248,8 @@ Its pooled mean is *negative*, at minus 0.016.
 And its worst per-query case collapses all the way down to *minus 0.98*.
 So all that compute, up to 14.7 times, buys you *nothing* out of domain.
 And sometimes it does real harm.
-Now look at the transfer search instead.
-Its best program sits at *c equals one*, with zero extra forward passes.
+Now look at that single blue dot, way over on the left.
+That's the transfer search, sitting at *c equals one*, with zero extra forward passes.
 And it already *beats* the most expensive 14.7-times program. //
 So more compute did not transfer.
 *Cheap structure did.*
@@ -256,10 +258,12 @@ That's the result. Everything after this just explains it.`},
 {n:20, sec:42, title:"Heatmap",
 note:`So why exactly is that mean flat?
 Here's the texture behind it, every single cell.
-We have four encoders, three of which were never seen during the search,
-times twelve programs, times nineteen tasks.
-And it's not that compute does nothing.
-About *half* of the cells are green, that's 485 out of 912.
+Each of the four blocks is one encoder, and three of them were never seen during the search.
+Inside a block, every row is a program, the cheap ones up top and the 14.7-times ones at the bottom.
+Every column is one of the nineteen held-out tasks.
+And the color is the key: green means it helped, deep pink means it collapsed.
+Now, it's not that compute does nothing.
+About *half* the cells are green, that's 485 out of 912.
 Most task-encoder pairs do improve under some program.
 But then look at the deep-pink cells. They fall all the way to minus 0.98.
 And those collapses drag the whole mean negative.
@@ -283,9 +287,10 @@ It's about *never failing badly*.`},
 {n:22, sec:40, title:"It transfers across encoders and languages",
 note:`And this genuinely *transfers*.
 Remember, this was discovered only on jina-nano.
-But the mean gains are positive on *all four* encoders.
-And they are largest on the two families it *never saw*, Gemma and Qwen.
-On the jina encoders, the median sits near zero,
+The x-axis is the four encoders, and for each one the blue bar is the mean gain, the teal bar the median.
+The mean is positive on *all four*.
+And the tallest bars are the two on the right, Gemma and Qwen, the families it *never saw*.
+On the jina encoders on the left, the median sits near zero,
 so this is a positive *tail*, not a broad lift across the board.
 But it follows *general embedding geometry*, not some quirk of the discovery model.
 It even survives a language switch it never searched on.
@@ -296,16 +301,16 @@ an 86 percent win-rate, and every single held-out cell positive on Gemma.`},
 note:`Now, the obvious objection. Why not just *train a head*?
 So we tried exactly that.
 The same budget, the same fourteen tasks, with a linear, low-rank, or MLP (say: M-L-P) head.
-And in-domain, it looks *fantastic*, plus 0.20 to 0.25.
-But on *every single* held-out encoder, it falls below baseline.
-That's the in-domain win that looks amazing and *does not carry over*.
-The reference line shows what real transfer looks like, structure, at plus 0.018 on Gemma.
+And in-domain, it looks *fantastic*. That's the dashed band up top, plus 0.20 to 0.25.
+But now drop your eyes below the baseline.
+Those pink bars are the *same head* on the held-out encoders, and every one of them is negative.
+The thin blue line just above zero is what structure does instead, plus 0.018 on Gemma.
 So adding parameters at the same budget just *memorizes*.
 But recombining the frozen geometry *generalizes*.`},
 
 {n:24, sec:40, title:"Rediscoveries: classical IR",
 note:`So what is this structure that keeps transferring?
-when you read the winning programs, they are *not new*.
+When you read the winning programs, they are *not new*.
 The search keeps re-deriving classical IR, right in embedding space.
 Things like Reciprocal Rank Fusion, Fisher's discriminant, Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
 Two of those it rediscovered cold, and two it built up from a seed.
@@ -321,9 +326,9 @@ A frozen encoder, where cheap structure transfers, and raw compute doesn't.
 Now let me zoom out.
 Because that same move, assembling a pipeline at inference instead of growing the model,
 is showing up *one level up*, in deep research and long-horizon agents.
-Back in 2025, it was *one loop* on the open web. You search, you read, you reason.
-In 2026, that's *splitting into two*.
-There's a research phase that hits the web and builds a local corpus, which we call a *dataroom*.
+The top row here is 2025. It was *one loop* on the open web. You search, you read, you reason.
+The bottom row is 2026, and that loop is *splitting into two*.
+First, a research phase that hits the web and builds a local corpus. That's the teal box in the middle, the one we call a *dataroom*.
 And then there's an execution phase that runs *offline* against that corpus.
 That split, dataroom first and then searchbox, is *version B*.
 And it's built out of three small tools.`},
