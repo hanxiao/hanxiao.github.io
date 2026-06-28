@@ -186,7 +186,7 @@ and it has to *generalize to all of it*.
 The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
 
 {n:15, sec:50, title:"The distinction: cost = extra forward passes",
-note:`Now, before any results, the single most important idea in the talk.
+note:`Now, before any results, I want to pin down one idea.
 And it comes down to just *one number*.
 The formula up top says it: cost, c, is just the number of *extra forward passes* through the encoder.
 Let me make it concrete with the two cards on the slide.
@@ -238,7 +238,7 @@ It does look like a clean scaling story. //
 But the gains, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"The money chart (held-out)",
-note:`This one is the *money chart*. If you take one slide away, take this one.
+note:`So here's what happens when we run those twelve programs on the held-out data. //
 The setup is the same as before.
 Left to right is how much compute you spend, out to almost fifteen times.
 Up and down is the held-out score, and that dashed line across the middle is the baseline.
@@ -257,7 +257,7 @@ And the leftmost one, at *c equals one*, with zero extra forward passes,
 already *beats* the most expensive program on the far right. //
 So more compute did *not* transfer.
 The cheap structure did.
-That's the result. Everything after this is just *why*.`},
+So that's the finding. The rest of the talk is *why*.`},
 
 {n:20, sec:42, title:"Heatmap",
 note:`So why exactly is that mean flat?
