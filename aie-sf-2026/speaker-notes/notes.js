@@ -48,7 +48,7 @@ It's *how much pipeline* you assemble at inference, and whether that pays off.`}
 note:`There are *two ways* to build that pipeline, and I'll show you both.
 The first one, *version A*, is the one I'll go deep on.
 Here, an agent writes little programs over a single *frozen encoder*.
-It might chunk the document, z-score the scores, fuse channels, or feed results back.
+It might chunk the document, z-score and fuse the channels, or feed the results back.
 Think of it as multi-pass algebra on embeddings.
 The second one, *version B*, I'll come to later.
 There, a small agent wires up retrieval tools like grep, embed, and rerank,
@@ -71,7 +71,8 @@ That's exactly what I wanted to find out.`},
 
 {n:6, sec:40, title:"The scoring spectrum",
 note:`Here's the intuition for how a frozen model could gain.
-Scoring runs along a spectrum.
+Look at these three panels.
+They go from the simplest way to score a match on the left, to the most detailed on the right.
 On the left, you have a single cosine, one vector per document.
 That's our *frozen baseline*.
 On the right, you have ColBERT-style (say: Col-BERT) late interaction,
@@ -104,7 +105,7 @@ It changes one file, it runs a short experiment,
 and if the metric improved, it keeps the change, otherwise it reverts.
 It does that over and over, all night.
 It's just *hill-climbing*, with an LLM as the mutation function.
-Andrej Karpathy, who founded Eureka Labs, described the same shift.
+Andrej Karpathy, now at Anthropic, described the same shift.
 You're not editing Python the way a researcher would.
 You're writing the markdown files that set up an autonomous research org.
 And that loop generated *everything you're about to see*.`},
