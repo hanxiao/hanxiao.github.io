@@ -1,399 +1,388 @@
 /* Speaker notes for aie-sf-2026. window.NOTES[i] = {n, title, sec, note}
-   v4: delivery-annotated for spoken reading.
-     line break  = a breath / pause (one thought group per line)
-     *word*       = stress this word (rendered bold)
-     //           = a deliberate longer pause / beat
-   No dashes (you can't read tone off a dash). No "paper" framing. This is a talk.
-   sec = per-slide delivery budget (seconds, incl. pauses). Keep 1:1 with index.html. */
+   v6: a teleprompter script. Every line is a COMPLETE, natural sentence you read aloud.
+   No title fragments, no bullet phrasing, no bare letters (say "version A", not "A").
+   Annotations:  line break = breathe / pause   *word* = stress it   // = a longer beat
+   No dashes. This is a talk, not a paper. Keep 1:1 with index.html. */
 window.NOTES = [
 {n:1, sec:35, title:"Title",
 note:`Hi everyone. I'm Han Xiao, VP of AI at Elastic.
-Here's my question for today.
+Here's the question I want to answer today.
 Big models get better by *thinking longer* at inference.
-That's *test-time compute*.
-Can a *small retrieval model* do the same?
+We call that test-time compute.
+Can a *small retrieval model* do the same thing?
 Can it get better just by working harder at inference,
-without growing the model?
-I let an agent run the search overnight to find out. //
-The answer is more interesting than a simple *yes or no*.
-Let me show you.`},
+without making the model any bigger?
+To find out, I let an agent run the search overnight. //
+And the answer turned out to be more interesting than a simple *yes or no*.
+So let me show you what I found.`},
 
 {n:2, sec:40, title:"Test-time compute, defined",
-note:`First, what test-time compute is.
+note:`First, let me say what test-time compute is.
 The idea is simple.
 Instead of training a bigger model,
-you spend *more compute at inference*.
-And you get a *better answer*.
-It comes in a few forms.
-Best-of-n. Self-consistency. A verifier reranking candidates.
-Noam Brown put a number on it.
-A poker bot that thinks for *twenty seconds*
+you spend *more compute at inference time*, and you get a *better answer* back.
+It shows up in a few familiar forms,
+like best-of-n, self-consistency, or a verifier that reranks candidates.
+Noam Brown put a number on this.
+He found that a poker bot thinking for *twenty seconds*
 got the same boost as scaling the model *a hundred thousand times*.
-That's the promise. //
-So the question is: does that promise hold for *search*?`},
+That's the promise of test-time compute. //
+So the real question for us is, does that promise hold for *search*?`},
 
 {n:3, sec:35, title:"The reframe: search is test-time compute",
-note:`Here's the reframe that makes this a retrieval talk.
+note:`Here's the reframe that turns this into a retrieval talk.
 *Search is already test-time compute.*
-Think about what you do.
-You take trained embeddings, a reranker, a multi-vector retriever, query expansion.
-And you wire them into a *pipeline*.
+Think about what you do when you build search.
+You take trained embeddings, a reranker, a multi-vector retriever, a query expander,
+and you wire them together into a *pipeline*.
 You're spending inference to buy relevance.
 You're not reaching for a bigger model.
 You're *assembling more search* at test time.
-So the real question isn't "is my model big enough."
-It's *how much pipeline* you assemble at inference.
-And whether it pays off.`},
+So the real question isn't whether your model is big enough.
+It's *how much pipeline* you assemble at inference, and whether that pays off.`},
 
 {n:4, sec:40, title:"Two versions",
-note:`There are *two ways* to build that pipeline.
-I'll show you both.
-*Version A* is the one I'll go deep on.
-An agent writes little programs over one *frozen encoder*.
-It might chunk the document, z-score the scores, fuse channels, feed results back.
-It's multi-pass algebra on embeddings.
-*Version B* comes later.
-There, a small agent wires up retrieval tools,
-grep, embed, rerank, over a corpus, under a budget.
-*Same move, two altitudes.*
-Let's start with A.`},
+note:`There are *two ways* to build that pipeline, and I'll show you both.
+The first one, *version A*, is the one I'll go deep on.
+Here, an agent writes little programs over a single *frozen encoder*.
+It might chunk the document, z-score the scores, fuse channels, or feed results back.
+Think of it as multi-pass algebra on embeddings.
+The second one, *version B*, I'll come to later.
+There, a small agent wires up retrieval tools like grep, embed, and rerank,
+over a corpus, under a budget.
+It's the *same move at two different altitudes*.
+So let's start with version A.`},
 
 {n:5, sec:38, title:"Small models are distilled from LLMs",
-note:`A runs over a small, *frozen* embedder.
-And the common belief is that small models have *nothing to gain* here.
-That test-time compute belongs to the big reasoning models.
+note:`So, version A runs over a small, *frozen* embedder.
+And there's a common belief that small models have *nothing to gain* here,
+that test-time compute belongs to the big reasoning models.
 But look at where today's embedders come from.
-E5-Mistral. Qwen3-Embed. EmbeddingGemma. Our own jina-v5.
-They're all *distilled from LLM backbones*.
-That's the recipe now.
+Models like E5-Mistral, Qwen3-Embed, EmbeddingGemma, and our own jina-v5.
+They are all *distilled from LLM backbones*.
+That's the dominant recipe now.
 So if test-time compute lives in the LLM's representation space,
-these distilled encoders should *inherit* it. //
+then these distilled encoders should *inherit* it. //
 Do they?
-That's what I wanted to find out.`},
+That's exactly what I wanted to find out.`},
 
 {n:6, sec:40, title:"The scoring spectrum",
 note:`Here's the intuition for how a frozen model could gain.
 Scoring runs along a spectrum.
-On the left, a single cosine. One vector per document.
-That's the *frozen baseline*.
-On the right, ColBERT-style late interaction.
-Every query token against every doc token.
-But that needs a multi-vector model you don't have.
-The *middle* is the interesting part.
-Take the same frozen encoder. Split the document into sentences. Max over them.
-That's *test-time structure*.
-You move toward late interaction, with *no new model*.
-Just more work over the vectors you already have.`},
+On the left, you have a single cosine, one vector per document.
+That's our *frozen baseline*.
+On the right, you have ColBERT-style late interaction,
+where every query token is matched against every document token.
+But that needs a multi-vector model, which we don't have.
+The interesting part is the *middle*.
+You take the same frozen encoder, split the document into sentences, and max over them.
+That's what I mean by *test-time structure*.
+You move toward late interaction with *no new model*,
+just more work over the vectors you already have.`},
 
 {n:7, sec:35, title:"The strict question",
 note:`So let me make the question *strict*.
 How much can a frozen, single-vector encoder gain at inference *alone*?
-And I mean strict.
-No retraining. No second model. No learned parameters.
-One frozen encoder, behind an API.
+And I do mean strict.
+No retraining, no second model, and no learned parameters.
+Just one frozen encoder, behind an API.
 The popular methods all break one of these rules.
 HyDE puts an LLM in the query path.
 GQR adds a second retriever.
-MetaEmbed trains parameters.
-We forbid *all three*.
-And we ask: does the gain scale with the compute you spend?`},
+And MetaEmbed trains new parameters.
+So we forbid all three,
+and we ask whether the gain scales with the compute you spend.`},
 
 {n:8, sec:40, title:"Autoresearch",
-note:`How do you search that space? *Autoresearch.*
-Instead of me hand-designing programs,
-an agent runs the research loop itself.
-Change one file. Run a short experiment.
-Did the metric improve? Keep it. If not, revert.
-Then repeat, overnight.
-It's *hill-climbing*, with an LLM as the mutation function.
-Karpathy described the same shift.
-You're not editing Python like a researcher.
-You're writing the markdown files that run an autonomous research org.
-That loop generated *everything you're about to see*.`},
+note:`So how do you search that huge space? With *autoresearch*.
+Instead of me hand-designing the programs,
+an agent runs the research loop by itself.
+It changes one file, it runs a short experiment,
+and if the metric improved, it keeps the change, otherwise it reverts.
+It does that over and over, all night.
+It's just *hill-climbing*, with an LLM as the mutation function.
+Karpathy described the same shift recently.
+You're not editing Python the way a researcher would.
+You're writing the markdown files that set up an autonomous research org.
+And that loop generated *everything you're about to see*.`},
 
 {n:9, sec:40, title:"The method loop",
-note:`Here's the loop in one picture.
-A *proposer*, an LLM agent, writes a program over the frozen encoder.
-A *harness* scores it.
-*Memory* logs the result. And that log shapes the next proposal.
-The *registry* collects them all.
-144 programs over 144 generations.
-The key thing is the *feedback*.
-Memory conditions the next program.
-So each round builds on the last.
-Let me walk the four pieces quickly.
-A couple of them have a *catch* worth flagging.`},
+note:`Here's the whole loop in one picture.
+A *proposer*, which is an LLM agent, writes a program over the frozen encoder.
+A *harness* then scores that program.
+*Memory* logs the result, and that log shapes the next proposal.
+And a *registry* collects all of them, 144 programs over 144 generations.
+The key thing here is the *feedback*.
+Memory conditions the next program, so every round builds on the last one.
+Let me quickly walk through the four pieces,
+because a couple of them have a *catch* that shows up later.`},
 
 {n:10, sec:35, title:"Proposer",
-note:`One. The proposer.
-It's Opus 4.6, used as a *mutation function*.
-It reads the current best program and the memory ledger.
-Edits one Python file. Proposes the next.
-No human in the inner loop.
-Here's the catch. //
-It optimizes *exactly the metric you give it*.
-Not the one you mean.
-Reward the in-domain mean, reward spending compute,
-and that's what it'll chase.
-Whether those gains hold up *elsewhere* is a separate question.
-Hold that thought.`},
+note:`First, the proposer.
+It's Opus 4.6, used purely as a *mutation function*.
+It reads the current best program and the memory ledger,
+and then it edits one Python file and proposes the next one.
+There is no human in the inner loop.
+Now, here's the catch. //
+It optimizes *exactly the metric you give it*, not the metric you meant.
+So if you reward the in-domain mean, and you reward spending compute,
+then that is exactly what it will chase.
+Whether those gains hold up *anywhere else* is a separate question.
+So hold on to that thought.`},
 
 {n:11, sec:35, title:"Program",
-note:`Two. The program.
-It's arbitrary Python over the encoder.
+note:`Second, the program.
+It's just arbitrary Python over the encoder.
 And the one piece that matters is *embed_fn*.
-That's the *compute budget*.
-Every embed_fn call re-embeds text, or switches an adapter, or picks a smaller dimension.
-One call is one unit of compute.
-And there are *taboos*.
-No hyperparameters. No task routing. No external models. No learned weights.
-Those taboos force *task-agnostic structure*,
-not a per-task tuned config.`},
+That is the *compute budget*.
+Every embed_fn call re-embeds some text, or switches an adapter, or picks a smaller dimension.
+So one call is one unit of compute.
+There are also some *taboos*.
+The program can't use hyperparameters, task routing, external models, or learned weights.
+Those taboos force it toward *task-agnostic structure*,
+instead of a config that's secretly tuned for each task.`},
 
 {n:12, sec:38, title:"Evaluator",
-note:`Three. The evaluator.
-Every program runs on the same *fourteen* discovery tasks.
-Legal, financial, long-document, general.
-We score delta-nDCG against the cosine baseline.
-Plus a cost ratio. I'll define cost in a minute.
-Same budget every generation.
-Here's the design choice that matters most. //
+note:`Third, the evaluator.
+Every program runs on the same *fourteen* discovery tasks,
+spanning legal, financial, long-document, and general retrieval.
+We score it with delta-nDCG against the cosine baseline,
+plus a cost ratio, and I'll define cost in just a minute.
+It's the same fixed budget every generation.
+Now here's the design choice that matters most. //
 The loop only ever sees these fourteen tasks.
-*Nineteen more are held out.* The loop never touches them.
-So later we can ask: does what wins *here* hold up *there*?
-That gap is the whole experiment.`},
+There are *nineteen more* that are held out, and the loop never touches them.
+So later we can ask a clean question. Does what wins *here* also hold up *there*?
+And that gap is the whole experiment.`},
 
 {n:13, sec:30, title:"Memory",
-note:`Four. Memory.
-It's a JSONL ledger. One row per program.
-Scores, cost, parent, a lesson.
-The proposer reads it before each round.
-So the search *compounds*.
+note:`Fourth, memory.
+It's a simple JSONL ledger, with one row per program.
+Each row stores the scores, the cost, the parent, and a short lesson.
+The proposer reads this ledger before every round,
+so the whole search *compounds* over time.
 But compounding cuts both ways.
-It builds on real wins.
-And it compounds whatever *bias* the objective has.
-A biased metric doesn't mislead one program.
-It steers the *whole family tree*.`},
+It builds on real wins, yes,
+but it also compounds whatever *bias* the objective has.
+A biased metric doesn't just mislead one program.
+It steers the *entire family tree*.`},
 
 {n:14, sec:42, title:"Setup",
-note:`Now the rules of the game. They decide everything.
-The discovery tasks are the same fourteen from a moment ago.
-What's new here is the *model axis*.
-We search on *one* encoder: jina-v5-nano.
-Everything else is *held out*.
-A bigger model from the same family.
-And, this is the key part, *two unseen families*: Gemma and Qwen.
-They share no training data, no tokenizer with the discovery model.
-Plus those nineteen evaluation tasks the loop never sees.
-One program is discovered here.
-It has to *generalize to all of it*.
-The metric is delta-nDCG at ten, versus cosine.`},
+note:`Now, the rules of the game, because these decide everything.
+The discovery tasks are the same fourteen I just mentioned.
+What's new on this slide is the *model axis*.
+We run the search on a single encoder, jina-v5-nano.
+And everything else is *held out*.
+We hold out a bigger model from the same family.
+And most importantly, we hold out *two completely unseen families*, Gemma and Qwen.
+They share no training data and no tokenizer with the discovery model.
+Plus the nineteen evaluation tasks the loop never sees.
+So one program gets discovered here,
+and it has to *generalize to all of it*.
+The metric, again, is delta-nDCG at ten, versus cosine.`},
 
 {n:15, sec:50, title:"The distinction: cost = extra forward passes",
-note:`Before any results, the most important idea in the talk.
-And it's just *one number*.
-Cost, c, is the number of *extra forward passes* through the encoder.
-Let me make it concrete with two real programs.
-They do the same move: mix in some neighbor information, then re-score.
-The first one, *SoftCentroid*, averages document vectors you *already computed*.
-No new forward pass. So *c equals one*.
-The second, *FirstSent*, re-embeds the first sentence of the top document.
-That's a new forward pass. So *c is greater than one*.
+note:`Now, before any results, the single most important idea in the talk.
+And it comes down to just *one number*.
+We define cost, c, as the number of *extra forward passes* through the encoder.
+Let me make that concrete with two real programs.
+They do the same move. They mix in some neighbor information, then they re-score.
+The first one is called SoftCentroid.
+It averages document vectors you've *already computed*, so there's no new forward pass.
+That means its cost, c, equals one.
+The second one is called FirstSent.
+It re-embeds the first sentence of the top document, which is a brand-new forward pass.
+So there, c is *greater than one*.
 One reuses geometry you already have.
 The other spends compute on new text. //
-The question for the whole back half:
-which one actually pays off when you change the encoder?`},
+And the question for the back half is this.
+Which one pays off when you switch to a different encoder?`},
 
 {n:16, sec:35, title:"Two admission rules",
-note:`We run that same loop under *two different rules*.
-The first, *compute-spending*.
-It admits a program if its in-domain mean beats every program before it.
-So it's pushed to spend more inference.
-The second, *transfer-selecting*.
-It admits a program only if an internal validation split improves, with nothing getting worse.
-*No reward* for spending compute.
-And to be clear: neither search ever touches the nineteen final tasks, or the unseen encoders.
-Two objectives. Same loop.
-Let's see what each one finds.`},
+note:`We run that exact same loop under *two different rules*.
+The first rule is the *compute search*.
+It admits a program only if its in-domain mean beats every program before it,
+so it is actively pushed to spend more inference.
+The second rule is the *transfer search*.
+It admits a program only if a held-out validation split improves, with nothing getting worse,
+and it gets *no reward at all* for spending compute.
+And to be clear, neither search ever touches the nineteen final tasks, or the unseen encoders.
+So that's two objectives, running on the same loop.
+Let's see what each one comes up with.`},
 
 {n:17, sec:38, title:"In-search Pareto",
-note:`Start with compute-spending.
-Told to spend compute, the search draws a *beautiful, clean curve*.
-144 programs. Twelve sit on the Pareto front.
-Cost runs from 1.2 to *14.7 times*.
-And the in-search score climbs, from plus 0.07 to plus 0.24.
-This looks *exactly* like test-time-compute scaling.
-More compute, more quality.
-Honestly, if I stopped here, you'd be sold. //
-But this is all *in-search*. We haven't tested it yet.
-Quick look at the twelve programs, then we run them on held-out data.
-And *that's where it turns*.`},
+note:`Let's start with the compute search.
+When you tell it to spend compute, it draws this *beautiful, clean curve*.
+There are 144 programs, and twelve of them sit on the Pareto front,
+with cost running from 1.2 all the way up to *14.7 times*.
+And the in-search score climbs nicely, from plus 0.07 up to plus 0.24.
+This looks *exactly* like test-time-compute scaling. More compute, more quality.
+If I stopped here, you would be sold. //
+But this is all still *in-search*. We haven't tested it yet.
+So let's take a quick look at those twelve programs, and then run them on held-out data.
+Because *that's where it turns*.`},
 
 {n:18, sec:25, title:"The twelve programs",
-note:`Here are the twelve, as little diagrams.
-Don't read each one.
-The point is just this.
-They're all *training-free recombinations* of the same frozen vectors.
-Chunking, z-scoring, feedback, fusion.
-Cost climbs left to right.
-It looks like a clean scaling story. //
-The gains, do *not*.`},
+note:`So here are those twelve programs, drawn as little diagrams.
+Don't try to read each one.
+The only thing I want you to take away is this.
+They are all *training-free recombinations* of the same frozen vectors,
+just chunking, z-scoring, feedback, and fusion.
+The cost climbs steadily from left to right.
+It does look like a clean scaling story. //
+But the gains, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"The money chart (held-out)",
-note:`This is the *money chart*. The spine of the talk.
-Take all twelve compute programs.
-Run them on the *held-out* evaluation,
+note:`This is the *money chart*, the spine of the talk.
+We take all twelve compute programs,
+and we run them on the held-out evaluation,
 including encoders the search never optimized for.
-The pink line is that compute frontier. Look at it. //
-It's *flat*.
-The pooled mean is actually *negative*, minus 0.016.
-And the worst per-query case collapses all the way to *minus 0.98*.
-So all that compute, up to 14.7 times, buys *nothing* out of domain.
-Sometimes it does real harm.
-Now look at the transfer-selecting program.
-It sits at *c equals one*. Zero extra forward passes.
+The pink line is that compute frontier. Just look at it. //
+It is completely *flat*.
+Its pooled mean is *negative*, at minus 0.016.
+And its worst per-query case collapses all the way down to *minus 0.98*.
+So all that compute, up to 14.7 times, buys you *nothing* out of domain.
+And sometimes it does real harm.
+Now look at the transfer search instead.
+Its best program sits at *c equals one*, with zero extra forward passes.
 And it already *beats* the most expensive 14.7-times program. //
 So more compute did not transfer.
 *Cheap structure did.*
 That's the result. Everything after this just explains it.`},
 
 {n:20, sec:42, title:"Heatmap",
-note:`Why is that mean flat?
-Here's the texture behind it. Every single cell.
-Four encoders, three of them never seen during the search,
+note:`So why exactly is that mean flat?
+Here's the texture behind it, every single cell.
+We have four encoders, three of which were never seen during the search,
 times twelve programs, times nineteen tasks.
 And it's not that compute does nothing.
-About *half* the cells are green. 485 of 912.
-Most task-encoder pairs improve under some program.
-But look at the *deep-pink* cells. They fall to minus 0.98.
+About *half* of the cells are green, that's 485 out of 912.
+Most task-encoder pairs do improve under some program.
+But then look at the deep-pink cells. They fall all the way to minus 0.98.
 And those collapses drag the whole mean negative.
 So flat-on-average is *not* the same as harmless.
-It's real wins, *wiped out* by catastrophic failures.
+It's real wins, getting *wiped out* by catastrophic failures.
 And you can't tell in advance which task will collapse.`},
 
-{n:21, sec:40, title:"Transfer-selecting frontier",
-note:`Now the other objective.
-The transfer-selecting rule picks a *different six* programs.
-Not the twelve compute ones.
-And all of them cost *at most 1.5 times*.
+{n:21, sec:40, title:"Transfer search",
+note:`Now let's look at the other objective, the transfer search.
+It picks a *completely different six* programs.
+Not the twelve compute ones, and all of them cost *at most 1.5 times*.
 The best one wins on 83 percent of the held-out set.
-But here's the real story. //
-It *never loses a single task*.
+But here's the part that matters. //
+It never loses on a single task.
 And even its worst individual query only dips to about minus 0.1.
-Compare that to compute's *minus 0.98* collapse.
+Compare that to the compute side, which collapsed to minus 0.98.
 That's almost ten times tighter.
-Transfer isn't about winning more.
+So transfer isn't about winning more often.
 It's about *never failing badly*.`},
 
 {n:22, sec:40, title:"It transfers across encoders and languages",
-note:`And it *genuinely transfers*.
+note:`And this genuinely *transfers*.
 Remember, this was discovered only on jina-nano.
-But the gains are positive on *all four* encoders.
-And they're largest on the two families it *never saw*: Gemma and Qwen.
-On the jina encoders, the median sits near zero.
-So this is a positive *tail*, not a broad lift.
-But it follows *general embedding geometry*,
-not quirks of the discovery model.
-It even survives a *language switch* it never searched on.
-Applied as-is to French and Greek:
-median plus 0.016, an 86 percent win-rate, every held-out cell positive on Gemma.`},
+But the mean gains are positive on *all four* encoders.
+And they are largest on the two families it *never saw*, Gemma and Qwen.
+On the jina encoders, the median sits near zero,
+so this is a positive *tail*, not a broad lift across the board.
+But it follows *general embedding geometry*, not some quirk of the discovery model.
+It even survives a language switch it never searched on.
+Applied as-is to French and Greek, it gets a median of plus 0.016,
+an 86 percent win-rate, and every single held-out cell positive on Gemma.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
-note:`The obvious objection: why not just *train a head*?
-So we did.
-Matched budget. Same fourteen tasks. A linear, low-rank, or MLP head.
-In-domain, it looks *great*. Plus 0.20 to 0.25.
-But on *every* held-out encoder, it falls below baseline.
+note:`Now, the obvious objection. Why not just *train a head*?
+So we tried exactly that.
+The same budget, the same fourteen tasks, with a linear, low-rank, or MLP head.
+And in-domain, it looks *fantastic*, plus 0.20 to 0.25.
+But on *every single* held-out encoder, it falls below baseline.
 That's the in-domain win that looks amazing and *does not carry over*.
-The reference line shows what real transfer looks like:
-structure, plus 0.018 on Gemma.
-Adding parameters at the same budget, *memorizes*.
-Recombining the frozen geometry, *generalizes*.`},
+The reference line shows what real transfer looks like, structure, at plus 0.018 on Gemma.
+So adding parameters at the same budget just *memorizes*.
+But recombining the frozen geometry *generalizes*.`},
 
 {n:24, sec:40, title:"Rediscoveries: classical IR",
-note:`So what is this structure that transfers?
-When you read the winning programs, they're *not new*.
-The search keeps re-deriving *classical IR*, in embedding space.
-Reciprocal Rank Fusion. Fisher's discriminant. Rocchio feedback. Sentence-level MaxSim.
-Two it rediscovered cold. Two it built from a seed.
-And that's exactly *why* they transfer.
-They're *geometric*. Z-scoring, sub-document granularity, centroid feedback.
+note:`So what is this structure that keeps transferring?
+when you read the winning programs, they are *not new*.
+The search keeps re-deriving classical IR, right in embedding space.
+Things like Reciprocal Rank Fusion, Fisher's discriminant, Rocchio feedback, and sentence-level MaxSim.
+Two of those it rediscovered cold, and two it built up from a seed.
+And that is exactly *why* they transfer.
+They're *geometric*, things like z-scoring, sub-document granularity, and centroid feedback.
 They depend on cosine geometry, not on any one model's training.
-So the cheap versions carry to encoders we never touched. //
-Fifty years of IR, re-derived by an agent, overnight.`},
+So the cheap versions carry over to encoders we never even touched. //
+It is fifty years of IR, re-derived by an agent overnight.`},
 
 {n:25, sec:45, title:"The trend (2025 to 2026)",
-note:`So that's Version A.
-A frozen encoder, where *cheap structure transfers* and raw compute doesn't.
+note:`So that was version A.
+A frozen encoder, where cheap structure transfers, and raw compute doesn't.
 Now let me zoom out.
-Because the same move, assemble a pipeline at inference, don't grow the model,
-is showing up *one level up*.
-In deep research. In long-horizon agents.
-In 2025, it was *one loop* on the open web. Search, read, reason.
-In 2026, it's *splitting in two*.
-A research phase that hits the web and builds a local corpus, a *dataroom*.
-And an execution phase that runs *offline* against it.
-That split, dataroom then searchbox, is *Version B*.
-It's built from three small tools.`},
+Because that same move, assembling a pipeline at inference instead of growing the model,
+is showing up *one level up*, in deep research and long-horizon agents.
+Back in 2025, it was *one loop* on the open web. You search, you read, you reason.
+In 2026, that's *splitting into two*.
+There's a research phase that hits the web and builds a local corpus, which we call a *dataroom*.
+And then there's an execution phase that runs *offline* against that corpus.
+That split, dataroom first and then searchbox, is *version B*.
+And it's built out of three small tools.`},
 
 {n:26, sec:42, title:"dataroom",
-note:`Stage one. *dataroom.*
-You give it a token budget.
-It spends that budget on *local small models*, not a frontier model.
-Search, read, write. Repeat.
-Until the knowledge is dumped into one cited *zip file*.
-That zip is the open web, distilled down to a small local corpus a machine can consume.
+note:`So, stage one is the *dataroom*.
+You give it a token budget,
+and it spends that budget on *local small models*, instead of an expensive frontier model.
+It searches, it reads, and it writes, over and over,
+until it has dumped all that knowledge into a single, cited *zip file*.
+That zip is the open web, distilled into a small local corpus a machine can consume.
 And notice the *economy* here.
-You build the corpus with *cheap local tokens*.
-And you save the expensive frontier budget for the execution that *actually needs it*.
-It stops on an *outcome*, a coverage floor. Not a fixed token count.
-Then that zip goes to stage two.`},
+You build the corpus using cheap local tokens,
+and you save the expensive frontier budget for the execution that *actually needs it*.
+It stops based on an *outcome*, a coverage floor, not on a fixed token count.
+Then that grounded zip goes to stage two.`},
 
 {n:27, sec:42, title:"searchbox",
-note:`Stage two. *searchbox.*
-This is the testbed for the whole "search is test-time compute" idea.
-And it's *airgapped* on purpose.
-You lock an agent in a box. One zip dataroom. *No web.*
-So it can only answer by composing a pipeline from local tools:
-grep, embed, rerank, cluster, select-diverse.
+note:`So, stage two is *searchbox*.
+This is the testbed for the search-is-test-time-compute idea,
+and it is deliberately *airgapped*.
+You lock an agent inside a box, with one zip dataroom, and *no web access*.
+So the only way it can answer is by composing a pipeline out of local tools,
+things like grep, embed, rerank, cluster, and select-diverse.
 Nothing leaks in.
-Now I can ask the *real questions*.
-Which tool does it reach for first?
-Is grep all you need, or does a dense retriever actually earn its place?
-And does forcing more compute help on the hard ones?
-Those are still *open*. Searchbox is how we find out.`},
+Now I can finally ask the *real questions*.
+Which tool does the agent reach for first?
+Is grep all you need, or does a dense retriever earn its place?
+And does forcing more compute help on the hard questions?
+Those are all still *open*, and searchbox is how we find out.`},
 
 {n:28, sec:40, title:"knowledge-graph",
-note:`And how do you even *evaluate* that?
-You need *hard questions*.
-That's the third tool. *knowledge-graph.*
-Trivial questions teach you nothing.
-If one grep finds the answer, every method scores the same.
-So we turn the corpus into a knowledge graph.
-Every fact becomes an *edge*: subject, predicate, object.
-Then we walk the *longest paths* through it.
-Those chains become *multi-hop questions*, ones no single passage can answer.
-The agent has to actually search, and connect facts, to get there.
-It's a private verifier, grown from the same corpus searchbox is locked inside.`},
+note:`So how do you even *evaluate* a system like that?
+you need *hard questions*.
+And that is the third tool, the *knowledge-graph*.
+Trivial questions teach you nothing,
+because if one grep finds the answer, then every method scores the same.
+So we turn the corpus into a knowledge graph,
+where every fact becomes an *edge*, a subject, a predicate, and an object.
+Then we walk the *longest paths* through that graph.
+Those long chains become *multi-hop questions* that no single passage can answer.
+The agent has to search and connect facts to get there.
+So it's a private verifier, grown from the same corpus searchbox is locked inside.`},
 
 {n:29, sec:35, title:"Synthesis",
 note:`So let's connect the dots.
-Both versions do the *same thing*.
-They build a search pipeline at test time.
-And *neither one grows the model*.
-In A, the pipeline is multi-pass embedding algebra.
-What scales is *structure*, not forward passes.
-In B, the pipeline is a chain of tools.
-You compose tools, instead of adding parameters.
+Both versions are doing the *same thing*.
+They both build a search pipeline at test time,
+and *neither one of them grows the model*.
+In version A, the pipeline is multi-pass embedding algebra,
+and what scales is *structure*, not forward passes.
+In version B, the pipeline is a chain of tools,
+where you compose tools instead of adding parameters.
 And whether spending more compute there pays off,
-that's exactly what searchbox is built to test.
-*Different altitudes. Same move.*`},
+well, that's exactly what searchbox is built to test.
+*Different altitudes, same move.*`},
 
 {n:30, sec:25, title:"Close",
-note:`So here's the one line I'll leave you with. //
+note:`So here's the one line I'd like you to walk away with. //
 *Information retrieval is test-time compute.*
 Don't reach for a bigger model.
-*Assemble more search* at inference.
-The paper, the three tools, and these slides are all behind the codes up here.
-Thank you. I'd love to take your questions.`},
+*Assemble more search* at inference instead.
+The paper, all three tools, and these slides are behind the codes up here.
+Thank you so much, and I'd love to take your questions.`},
 ];

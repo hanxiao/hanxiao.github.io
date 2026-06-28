@@ -817,12 +817,12 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="body" style="justify-content:flex-start;padding-top:70px">
     <div class="cards">
       <div class="card">
-        <div class="ttl">Compute-spending</div>
+        <div class="ttl">Compute search</div>
         <div class="desc">Admit a program if its in-domain mean ΔnDCG@10 beats every prior one. The proposer is encouraged to spend more inference.</div>
         <div class="foot">→ how high can the in-domain frontier climb?</div>
       </div>
       <div class="card hero">
-        <div class="ttl">Transfer-selecting</div>
+        <div class="ttl">Transfer search</div>
         <div class="desc">Admit only if a held-out validation split improves with no task regressing past 0.05. No reward for spending compute.</div>
         <div class="foot accent">→ what holds up out of domain?</div>
       </div>
@@ -849,7 +849,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ PROGRAM GALLERY ============ -->
 <section class="slide">
   <div class="kicker">What the search wrote</div>
-  <h2 class="h-slide sm">Twelve programs on the compute-spending frontier.</h2>
+  <h2 class="h-slide sm">Twelve programs on the compute frontier.</h2>
   <div class="body" style="justify-content:center;gap:12px">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -876,8 +876,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.45">
       <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute-spending</div>
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer-selecting (structure)</div>
+        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute search</div>
+        <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer search (structure)</div>
       </div>
       <div class="chart" id="c-money" style="height:calc(100% - 22px)"></div>
     </div>
@@ -887,7 +887,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="stat"><div class="v foil">−0.98</div><div class="l">its worst per-query cell</div></div>
     </div>
   </div>
-  <p class="cap" style="margin-top:6px">The transfer-selecting program at <strong>\(c = 1.0\)</strong>, zero extra forward passes, already beats the most expensive compute program at <strong>\(c = 14.7\)</strong>. Median is plotted, robust to the \(-0.98\) tail; the pooled mean is negative too.</p>
+  <p class="cap" style="margin-top:6px">The transfer-search program at <strong>\(c = 1.0\)</strong>, zero extra forward passes, already beats the most expensive compute program at <strong>\(c = 14.7\)</strong>. Median is plotted, robust to the \(-0.98\) tail; the pooled mean is negative too.</p>
 </section>
 
 <!-- ============ HEATMAP ============ -->
@@ -915,7 +915,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
 <section class="slide">
-  <div class="kicker">The transfer-selecting frontier</div>
+  <div class="kicker">The transfer search</div>
   <h2 class="h-slide sm">A different search finds six cheap programs that transfer.</h2>
   <div class="body" style="gap:18px;justify-content:center">
     <table class="bt" id="t-transfer">
@@ -924,7 +924,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </table>
     <div class="row" style="gap:40px;align-items:center;margin-top:4px">
       <div class="stat statbig"><div class="v o">0</div><div class="l">losing task-cells: Transpose-Consensus, at an 83% held-out win-rate</div></div>
-      <p class="cap" style="flex:1">The transfer-selecting rule (the other admission objective) admits a different six - not the twelve compute programs, and all at most 1.5&times;. Higher cost still trends with lower held-out quality. At an 83% win-rate the best transfer program never loses a single task, and its worst per-query cell is only &minus;0.107, almost an order of magnitude above the compute frontier's &minus;0.98 collapse. It turns the held-out mean positive by bounding the worst case.</p>
+      <p class="cap" style="flex:1">The transfer search (the other rule) admits a different six - not the twelve compute programs, and all at most 1.5&times;. Higher cost still trends with lower held-out quality. At an 83% win-rate the best transfer program never loses a single task, and its worst per-query cell is only &minus;0.107, almost an order of magnitude above the compute frontier's &minus;0.98 collapse. It turns the held-out mean positive by bounding the worst case.</p>
     </div>
   </div>
 </section>
@@ -1257,7 +1257,7 @@ function drawPareto(){
   all.forEach(p=>{ const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08 && Math.abs(f[1]-p[1])<0.0006);
     if(isFr)return;
     svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:INK,'stroke-width':2}));});
-  // frontier line + points (pink = the compute-spending search)
+  // frontier line + points (pink = the compute search)
   let d='';fr.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
   svg.appendChild(el('path',{d,fill:'none',stroke:FOIL,'stroke-width':2.6,'stroke-linejoin':'round'}));
   fr.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:5.5,fill:FOIL,stroke:'#fff','stroke-width':1.4})));
@@ -1381,7 +1381,7 @@ function fillTransfer(){
   });
 }
 
-/* ---- cross-model heatmap (compute-spending frontier) ---- */
+/* ---- cross-model heatmap (compute frontier) ---- */
 function drawHeatmap(){
   const c=document.getElementById('c-heatmap'); if(!c||!DATA.heatmap) return;
   c.innerHTML='';
