@@ -58,6 +58,14 @@ main{flex:1;min-height:0;display:flex;gap:0}
 .bar{flex:0 0 auto;height:4px;background:var(--hair);border-radius:3px;overflow:hidden;margin-top:8px}
 .bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s linear}
 .bar > i.over{background:var(--foil)}
+/* skipped slides */
+button.skip.on{background:var(--foil);border-color:var(--foil);color:#fff}
+button.skip.on:hover{color:#fff;opacity:.92}
+.nmeta .skipbadge{font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--foil);border-radius:5px;padding:3px 8px}
+#note.skipped{opacity:.4}
+.skiplist{font-family:var(--mono);font-size:12px;color:var(--ink);opacity:.78;letter-spacing:.02em}
+.skiplist .sk{cursor:pointer;border:1.3px solid var(--hair2);border-radius:5px;padding:2px 8px;margin-left:4px;color:var(--foil);font-weight:800}
+.skiplist .sk:hover{border-color:var(--foil)}
 /* remote control + phone layout */
 .remote.on{background:var(--teal);border-color:var(--teal);color:#fff}
 #rhint{display:none;flex:0 0 auto;font-family:var(--mono);font-size:12px;color:var(--teal);background:#fff;border-bottom:1px solid var(--hair);padding:6px 14px;text-align:center}
@@ -89,6 +97,7 @@ main{flex:1;min-height:0;display:flex;gap:0}
     <button id="resetBtn">Reset</button>
     <button id="prevBtn">◂ Prev</button>
     <button id="nextBtn">Next ▸</button>
+    <button class="skip" id="skipBtn">Skip</button>
     <button id="fsBtn">⛶</button>
   </div>
 </header>
@@ -98,14 +107,16 @@ main{flex:1;min-height:0;display:flex;gap:0}
   <section id="notepane">
     <div class="nmeta">
       <span class="ttl" id="ntitle">—</span>
+      <span class="skipbadge" id="skipbadge" style="display:none">skipped</span>
       <span class="budget" id="nbudget"></span>
     </div>
     <div id="note">Loading…</div>
     <div class="bar"><i id="slidebar"></i></div>
     <div class="nfoot">
       <span class="slidetimer" id="slidetimer">0s / 0s</span>
+      <span class="skiplist" id="skiplist"></span>
       <div class="fontbtns"><button id="fdown">A−</button><button id="fup">A+</button></div>
-      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause · <span style="color:var(--teal)">(say:…)</span> = how to pronounce &nbsp;|&nbsp; ←→ nav · S · R · F</span>
+      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause · <span style="color:var(--teal)">(say:…)</span> = how to pronounce &nbsp;|&nbsp; ←→ nav · S · R · F · K skip</span>
     </div>
     <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
   </section>
@@ -118,7 +129,12 @@ const deck = document.getElementById('deck');
 const $ = id => document.getElementById(id);
 let cur = 0, fontPx = 24, remoteOn = false;
 const isMobile = window.matchMedia('(max-width:720px)').matches;
-function broadcast(){ if(remoteOn && window.Sync){ try{ Sync.publish(cur+1); }catch(_){} } }
+// ---- skipped slides: excluded from nav, pace, and the projected deck ----
+const SKIP_KEY = 'aie-sf-2026-skip';
+let SKIP = (()=>{ try{ const s=JSON.parse(localStorage.getItem(SKIP_KEY)); if(Array.isArray(s)) return new Set(s); }catch(_){} return new Set([23,24]); })();
+const isSkipped = i => SKIP.has(i+1);   // i is 0-based; SKIP holds 1-based slide numbers
+function saveSkip(){ try{ localStorage.setItem(SKIP_KEY, JSON.stringify([...SKIP].sort((a,b)=>a-b))); }catch(_){} }
+function broadcast(){ if(remoteOn && window.Sync && !isSkipped(cur)){ try{ Sync.publish(cur+1); }catch(_){} } }
 // render delivery annotations: *stress* -> bold, // -> pause beat, line -> thought group
 function fmt(t){
   t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -128,11 +144,11 @@ function fmt(t){
   return t.split('\n').map(l=> l.trim() ? '<div class="ph">'+l+'</div>' : '').join('');
 }
 
-// cumulative budgets
+// cumulative budgets (skipped slides count toward neither the target nor the pace)
 const cumEnd = [], cumStart = [];
-let acc = 0;
-N.forEach((s,i)=>{ cumStart[i]=acc; acc+=s.sec; cumEnd[i]=acc; });
-const TOTAL = acc;
+let TOTAL = 0;
+function recomputeBudgets(){ let acc=0; N.forEach((s,i)=>{ cumStart[i]=acc; if(!isSkipped(i)) acc+=s.sec; cumEnd[i]=acc; }); TOTAL=acc; }
+recomputeBudgets();
 const mmss = s => { s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
 $('total').textContent = mmss(TOTAL);
 
@@ -148,16 +164,37 @@ function navDeck(i){
 }
 function render(){
   const s = N[cur];
+  const sk = isSkipped(cur);
   $('ntitle').textContent = (cur+1)+'. '+s.title;
-  $('nbudget').innerHTML = 'budget <b>'+s.sec+'s</b> &middot; by end ' + mmss(cumEnd[cur]);
+  $('skipbadge').style.display = sk ? '' : 'none';
+  $('nbudget').innerHTML = sk ? '<span style="color:var(--foil);font-weight:700">skipped &middot; not counted</span>'
+                              : ('budget <b>'+s.sec+'s</b> &middot; by end ' + mmss(cumEnd[cur]));
   const note = $('note'); note.innerHTML = fmt(s.note); note.scrollTop = 0; note.style.fontSize = fontPx+'px';
+  note.classList.toggle('skipped', sk);
   $('pos').textContent = (cur+1)+' / '+N.length;
+  const sb = $('skipBtn'); sb.classList.toggle('on', sk); sb.textContent = sk ? 'Skipped' : 'Skip';
   slideEnterElapsed = nowElapsed();
   navDeck(cur);
   broadcast();
   updatePace();
 }
-function go(d){ cur = Math.max(0, Math.min(N.length-1, cur+d)); render(); }
+function go(d){
+  let i = cur + d;
+  while(i>=0 && i<N.length && isSkipped(i)) i += d;   // hop over skipped slides
+  if(i<0 || i>=N.length) return;                      // nothing visible that way; stay put
+  cur = i; render();
+}
+function jumpTo(i){ cur = Math.max(0, Math.min(N.length-1, i)); render(); }   // ignores skip, for reviewing
+function renderSkipList(){
+  const el=$('skiplist'), arr=[...SKIP].sort((a,b)=>a-b);
+  el.innerHTML = arr.length ? ('skipped: '+arr.map(n=>'<span class="sk" data-n="'+n+'">'+n+'</span>').join('')) : '';
+  el.querySelectorAll('.sk').forEach(c=> c.onclick=()=> jumpTo(parseInt(c.dataset.n,10)-1));
+}
+function toggleSkip(){
+  const n=cur+1;
+  if(SKIP.has(n)) SKIP.delete(n); else SKIP.add(n);
+  saveSkip(); recomputeBudgets(); $('total').textContent=mmss(TOTAL); renderSkipList(); render();
+}
 
 function updatePace(){
   const e = nowElapsed();
@@ -185,6 +222,7 @@ function toggle(){ running=!running; if(running){ startEpoch=Date.now(); } else 
 function reset(){ running=false; elapsedAcc=0; startEpoch=0; slideEnterElapsed=0; $('startBtn').textContent='Start ▸'; $('startBtn').classList.add('pri'); updatePace(); }
 $('startBtn').onclick=toggle; $('resetBtn').onclick=reset;
 $('prevBtn').onclick=()=>go(-1); $('nextBtn').onclick=()=>go(1);
+$('skipBtn').onclick=toggleSkip; renderSkipList();
 $('fup').onclick=()=>{fontPx=Math.min(40,fontPx+2);$('note').style.fontSize=fontPx+'px';};
 $('fdown').onclick=()=>{fontPx=Math.max(16,fontPx-2);$('note').style.fontSize=fontPx+'px';};
 $('fsBtn').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
@@ -195,8 +233,9 @@ document.addEventListener('keydown', e=>{
   else if(e.key==='s'||e.key==='S'){ toggle(); }
   else if(e.key==='r'||e.key==='R'){ reset(); }
   else if(e.key==='f'||e.key==='F'){ $('fsBtn').onclick(); }
-  else if(e.key==='Home'){ cur=0; render(); }
-  else if(e.key==='End'){ cur=N.length-1; render(); }
+  else if(e.key==='k'||e.key==='K'){ toggleSkip(); }
+  else if(e.key==='Home'){ cur=0; if(isSkipped(cur)) go(1); else render(); }
+  else if(e.key==='End'){ cur=N.length-1; if(isSkipped(cur)) go(-1); else render(); }
 });
 
 deck.addEventListener('load', ()=>{ navDeck(cur); });
