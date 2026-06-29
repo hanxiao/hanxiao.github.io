@@ -294,14 +294,10 @@ staying positive when you apply it straight to French and Greek.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
-So we tried exactly that.
-The same budget, the same fourteen tasks, with a linear, low-rank, or MLP (say: M-L-P) head.
-And in-domain, it looks *fantastic*. That's the dashed band up top, a jump of about *plus 0.2*.
-But now drop your eyes below the baseline.
-Those pink bars are the *same head* on the held-out encoders, and every one of them is negative.
-The thin blue line just above zero is what structure does instead, a small but real gain on Gemma.
-So adding parameters at the same budget just *memorizes*.
-But recombining the frozen geometry *generalizes*.`},
+So we tried that, at the same budget.
+In-domain, it looks *fantastic*. //
+But on *every* held-out encoder, it falls below the baseline.
+So a learned head just *memorizes*. Recombining the frozen geometry is what *generalizes*.`},
 
 {n:24, sec:40, title:"Rediscoveries: classical IR",
 note:`So what is this structure that keeps transferring?
