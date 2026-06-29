@@ -275,11 +275,13 @@ The best one wins on 83 percent of the held-out set.
 But here's the part that matters. //
 It never loses on a single task.
 Across all six, the worst single query is only about *minus a tenth*.
-Compare that to the compute side.
-That one dropped to nearly *minus one*.
-So it's almost ten times tighter.
-Transfer isn't about winning more often.
-It's about *never failing badly*.`},
+Now, what do these programs actually do?
+The *Axis* ones, Penta, Deca, and Cross-Axis, all work with *directions*.
+Each one picks a few directions in the embedding space.
+Then it re-scores the documents along them.
+The names just count those directions. Five, ten, twelve.
+The two *Consensus* programs instead average several views into one.
+And none of it is a new model. It's all recombination of the vectors we already have.`},
 
 {n:22, sec:40, title:"It transfers across encoders and languages",
 note:`And this genuinely *transfers*.
