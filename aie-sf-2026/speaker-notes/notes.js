@@ -223,8 +223,7 @@ And the in-domain score climbs nicely, it more than *triples* across that front.
 This looks *exactly* like test-time-compute scaling. More compute, more quality.
 If I stopped here, you would be sold. //
 But this is all still *in-domain*. We haven't run the held-out test yet.
-So let's take a quick look at those twelve programs, and then run them on held-out data.
-Because *that's where it turns*.`},
+So let's take a quick look at those twelve programs, and then run them on held-out data.`},
 
 {n:18, sec:25, title:"The twelve programs",
 note:`So here are those twelve programs, drawn as little diagrams.
