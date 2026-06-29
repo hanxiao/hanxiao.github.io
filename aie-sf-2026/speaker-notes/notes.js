@@ -215,16 +215,16 @@ Neither rule ever touches the nineteen *final* held-out tasks, or the unseen enc
 So that's two objectives, running on the same loop.
 Let's see what each one comes up with.`},
 
-{n:17, sec:38, title:"In-search Pareto",
+{n:17, sec:38, title:"In-domain Pareto",
 note:`Let's start with the compute search.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
 The x-axis is the compute you spend, on a log scale; the y-axis is the score.
 There are 144 programs, and twelve of them sit on the Pareto front,
 with cost running from just over one all the way up to *almost fifteen times*.
-And the in-search score climbs nicely, it more than *triples* across that front.
+And the in-domain score climbs nicely, it more than *triples* across that front.
 This looks *exactly* like test-time-compute scaling. More compute, more quality.
 If I stopped here, you would be sold. //
-But this is all still *in-search*. We haven't tested it yet.
+But this is all still *in-domain*. We haven't run the held-out test yet.
 So let's take a quick look at those twelve programs, and then run them on held-out data.
 Because *that's where it turns*.`},
 
@@ -263,7 +263,7 @@ So that's the finding. The rest of the talk is *why*.`},
 note:`So why does that average come out flat?
 This heatmap breaks it open, cell by cell.
 The four blocks are the four encoders.
-Three of them were never seen in the search.
+Three of them were never seen in discovery.
 In each block, the rows are programs.
 The columns are the nineteen tasks.
 Green means a gain. Pink means a drop.

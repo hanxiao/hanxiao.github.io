@@ -763,7 +763,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="setflow">
       <div class="setzone disc">
         <div class="setzh">Discovery &middot; the loop searches here</div>
-        <div class="encrow"><div class="enc seen"><div class="en">j-v5-nano</div><div class="ep">239M &middot; Jina</div><div class="et disc">the search encoder</div></div></div>
+        <div class="encrow"><div class="enc seen"><div class="en">j-v5-nano</div><div class="ep">239M &middot; Jina</div><div class="et disc">the discovery encoder</div></div></div>
         <div class="setwhy">small + fast &rarr; quick loop cycles</div>
         <div class="settasks"><span class="stk">searched over</span><strong>14 MMTEB Tier-1 tasks</strong> &middot; legal, financial, long-doc, general</div>
       </div>
@@ -831,17 +831,17 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   </div>
 </section>
 
-<!-- ============ 8 COMPUTE FRONTIER (in-search pareto) ============ -->
+<!-- ============ 8 COMPUTE FRONTIER (in-domain pareto) ============ -->
 <section class="slide">
-  <div class="kicker">What compute buys, in search</div>
+  <div class="kicker">What compute buys, in-domain</div>
   <h2 class="h-slide sm">Told to spend compute, the search draws a clean Pareto curve.</h2>
   <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
     <div style="flex:.85;display:flex;flex-direction:column;justify-content:center;gap:26px">
       <div class="stat"><div class="v">144</div><div class="l">programs searched over 144 generations</div></div>
       <div class="stat"><div class="v o">12</div><div class="l">Pareto-optimal, from \(c = 1.2\) to \(14.7\)</div></div>
-      <p class="cap">In-search mean ΔnDCG@10 climbs from +0.07 to +0.24. This looks exactly like test-time-compute scaling.</p>
-      <p class="cap" style="font-weight:700">In-search only. <span class="accent">The held-out test comes next.</span></p>
+      <p class="cap">In-domain mean ΔnDCG@10 climbs from +0.07 to +0.24. This looks exactly like test-time-compute scaling.</p>
+      <p class="cap" style="font-weight:700">In-domain only. <span class="accent">The held-out test comes next.</span></p>
     </div>
   </div>
 </section>
@@ -908,7 +908,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     </div>
     <div class="row" style="align-items:center;gap:30px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--foil-ink)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders, three never seen during the search. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
+      <p class="cap" style="flex:1">Each row is one of twelve programs ordered by compute cost (1.2&times; to 14.7&times;); each column is one of nineteen held-out tasks; four encoders, three never seen in discovery. About half the cells are positive (485 of 912), and 52 of 76 task-encoder pairs improve under at least one program - yet the deep-pink cells fall to &minus;0.98, so the pooled mean stays negative at &minus;0.016.</p>
     </div>
   </div>
 </section>
@@ -1236,7 +1236,7 @@ function txt(x,y,s,o={}){const t=el('text',{x,y,'font-family':o.mono?F_MONO:F_SA
 function mount(id,w,h){const c=document.getElementById(id);if(!c)return null;c.innerHTML='';
   const svg=el('svg',{viewBox:`0 0 ${w} ${h}`,preserveAspectRatio:'xMidYMid meet'});c.appendChild(svg);return svg;}
 
-/* ---- 1. in-search Pareto scatter ---- */
+/* ---- 1. in-domain Pareto scatter ---- */
 function drawPareto(){
   const W=730,H=442,L=72,R=22,T=22,B=60;
   const svg=mount('c-pareto',W,H);if(!svg)return;
@@ -1252,7 +1252,7 @@ function drawPareto(){
   [1,2,4,8,16].forEach(v=>{svg.appendChild(el('line',{x1:X(v),y1:H-B,x2:X(v),y2:H-B+6,stroke:INK,'stroke-width':1.4}));
     svg.appendChild(txt(X(v),H-B+23,v+'×',{fs:15,mono:1,anchor:'middle',fw:500}));});
   svg.appendChild(txt((L+W-R)/2,H-9,'cost ratio  c  (× baseline encoder passes, log)',{fs:16,fw:700,anchor:'middle'}));
-  const yl=txt(20,(T+H-B)/2,'in-search mean ΔnDCG@10',{fs:16,fw:700,anchor:'middle'});
+  const yl=txt(20,(T+H-B)/2,'in-domain mean ΔnDCG@10',{fs:16,fw:700,anchor:'middle'});
   yl.setAttribute('transform',`rotate(-90 20 ${(T+H-B)/2})`);svg.appendChild(yl);
   // dominated points: full-opacity near-black hollow rings (no grey)
   all.forEach(p=>{ const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08 && Math.abs(f[1]-p[1])<0.0006);
