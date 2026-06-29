@@ -119,8 +119,7 @@ The *evaluator* then scores that program.
 And the *registry*, the black box on the far right, collects all of them, 144 programs, one per generation.
 Now see that dashed arrow looping back underneath?
 That's the *feedback*. Memory conditions the next program, so every round builds on the last one.
-Let me quickly walk through the four pieces,
-because a couple of them have a *catch* that shows up later.`},
+Let me quickly walk through the four pieces.`},
 
 {n:10, sec:35, title:"Proposer",
 note:`First up is the proposer.
