@@ -252,8 +252,7 @@ So more compute did *not* transfer.
 The cheap structure did.`},
 
 {n:20, sec:42, title:"Heatmap",
-note:`So why does that average come out flat?
-This heatmap breaks it open, cell by cell.
+note:`If we plot every program against every held-out task, we get this heatmap.
 The four blocks are the four encoders.
 Three of them were never seen in discovery.
 In each block, the rows are programs.
