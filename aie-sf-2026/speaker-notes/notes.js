@@ -123,7 +123,7 @@ Let me quickly walk through the four pieces,
 because a couple of them have a *catch* that shows up later.`},
 
 {n:10, sec:35, title:"Proposer",
-note:`First, the proposer.
+note:`First up is the proposer.
 It's Opus 4.6, used purely as a *mutation function*.
 It reads the current best program and the memory ledger,
 and then it edits one Python file and proposes the next one.
@@ -135,7 +135,7 @@ then that is exactly what it will chase.
 Whether those improvements hold up *anywhere else* is a separate question.`},
 
 {n:11, sec:35, title:"Program",
-note:`Second, the program.
+note:`Next is the program.
 It's just arbitrary Python over the encoder.
 And the one piece that matters is *embed_fn*.
 That is the *compute budget*.
@@ -147,7 +147,7 @@ Those taboos force it toward *task-agnostic structure*,
 instead of a config that's secretly tuned for each task.`},
 
 {n:12, sec:38, title:"Evaluator",
-note:`Third, the evaluator.
+note:`Then comes the evaluator.
 Every program runs on the same *fourteen* discovery tasks,
 spanning legal, financial, long-document, and general retrieval.
 We score it with delta-nDCG (say: delta n-D-C-G) against the cosine baseline,
@@ -160,7 +160,7 @@ So later we can ask a clean question. Does what wins *here* also hold up *there*
 And that gap is the whole experiment.`},
 
 {n:13, sec:30, title:"Memory",
-note:`Fourth, memory.
+note:`And last is the memory.
 It's a simple JSONL ledger, with one row per program.
 Each row stores the scores, the cost, the parent, and a short lesson.
 The proposer reads this ledger before every round,
@@ -172,7 +172,8 @@ A biased metric doesn't just mislead one program.
 It steers the *entire family tree*.`},
 
 {n:14, sec:42, title:"Setup",
-note:`Now, the rules of the game, because these decide everything.
+note:`Now let me set up the rules of the game.
+They decide everything that follows.
 The discovery tasks are the same fourteen I just mentioned.
 What's new on this slide is the *model axis*.
 We run the search on a single encoder, jina-v5-nano.
