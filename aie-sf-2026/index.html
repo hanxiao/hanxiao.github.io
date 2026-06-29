@@ -188,6 +188,11 @@ table.bt.syn thead th:nth-child(2){color:var(--accent)}
 table.bt tr.hero td{background:var(--accent-soft)}
 table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+/* inline animated program figures in the transfer table */
+#t-transfer td:first-child{vertical-align:middle}
+#t-transfer .tcell{display:flex;align-items:center;gap:12px}
+#t-transfer .tfig{flex:0 0 auto;width:74px;height:40px;border:1.2px solid var(--hair2);border-radius:5px;background:#fff}
+#t-transfer tr.hero .tfig{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 
 /* charts */
 .chart{width:100%;height:100%}
@@ -1370,6 +1375,21 @@ function drawHead(){
 }
 
 /* ---- transfer table ---- */
+// one small animated vector diagram per discovered program (same language as the slide-18 gallery)
+const TFIG = {
+  // ZeroCost-Consensus: reuse existing doc vectors, average them into one consensus point (zero new passes)
+  'ZeroCost-Consensus':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vconn" x1="58" y1="28" x2="86" y2="13"/><line class="vconn" x1="58" y1="28" x2="92" y2="28"/><line class="vconn" x1="58" y1="28" x2="86" y2="43"/><circle class="vd" cx="86" cy="13" r="3"/><circle class="vd" cx="92" cy="28" r="3"/><circle class="vd" cx="86" cy="43" r="3"/><line class="vwin" x1="20" y1="28" x2="54" y2="28"/><circle class="vd vpulse" cx="58" cy="28" r="4.5" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>',
+  // Deca-Axis: project onto a forward fan of axes
+  'Deca-Axis':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vwin" x1="20" y1="28" x2="48" y2="28"/><line class="vconn" x1="52" y1="28" x2="86" y2="10"/><line class="vconn" x1="52" y1="28" x2="93" y2="19"/><line class="vconn" x1="52" y1="28" x2="95" y2="28"/><line class="vconn" x1="52" y1="28" x2="93" y2="37"/><line class="vconn" x1="52" y1="28" x2="86" y2="46"/><circle class="vd" cx="86" cy="10" r="2.6"/><circle class="vd" cx="93" cy="19" r="2.6"/><circle class="vd" cx="95" cy="28" r="2.6"/><circle class="vd" cx="93" cy="37" r="2.6"/><circle class="vd" cx="86" cy="46" r="2.6"/><circle class="vd vpulse" cx="52" cy="28" r="4" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>',
+  // Dodeca-v077: a denser, all-directions axis burst
+  'Dodeca-v077':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vwin" x1="20" y1="28" x2="46" y2="28"/><line class="vconn" x1="64" y1="28" x2="64" y2="11"/><line class="vconn" x1="64" y1="28" x2="78" y2="17"/><line class="vconn" x1="64" y1="28" x2="84" y2="28"/><line class="vconn" x1="64" y1="28" x2="78" y2="39"/><line class="vconn" x1="64" y1="28" x2="64" y2="45"/><line class="vconn" x1="64" y1="28" x2="50" y2="39"/><line class="vconn" x1="64" y1="28" x2="50" y2="17"/><circle class="vd" cx="64" cy="11" r="2.4"/><circle class="vd" cx="78" cy="17" r="2.4"/><circle class="vd" cx="84" cy="28" r="2.4"/><circle class="vd" cx="78" cy="39" r="2.4"/><circle class="vd" cx="64" cy="45" r="2.4"/><circle class="vd" cx="50" cy="39" r="2.4"/><circle class="vd" cx="50" cy="17" r="2.4"/><circle class="vd vpulse" cx="64" cy="28" r="4" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>',
+  // Transpose-Consensus (hero): a 2x2 grid, transposed along the off-diagonal, then a consensus point
+  'Transpose-Consensus':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vwin" x1="20" y1="28" x2="48" y2="28"/><line class="vconn" x1="56" y1="28" x2="74" y2="16"/><line class="vconn" x1="56" y1="28" x2="74" y2="40"/><line class="vconn" x1="74" y1="16" x2="92" y2="16"/><line class="vconn" x1="74" y1="40" x2="92" y2="40"/><line class="vwin" x1="92" y1="16" x2="74" y2="40"/><circle class="vd" cx="74" cy="16" r="3"/><circle class="vd" cx="92" cy="16" r="3"/><circle class="vd" cx="74" cy="40" r="3"/><circle class="vd" cx="92" cy="40" r="3"/><circle class="vd vpulse" cx="52" cy="28" r="4.5" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>',
+  // Cross-Axis: two crossing axes, query projected onto the crossing
+  'Cross-Axis':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vwin" x1="20" y1="28" x2="46" y2="28"/><line class="vconn" x1="52" y1="12" x2="88" y2="44"/><line class="vconn" x1="88" y1="12" x2="52" y2="44"/><circle class="vd" cx="52" cy="12" r="2.6"/><circle class="vd" cx="88" cy="12" r="2.6"/><circle class="vd" cx="52" cy="44" r="2.6"/><circle class="vd" cx="88" cy="44" r="2.6"/><circle class="vd vpulse" cx="70" cy="28" r="4.5" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>',
+  // Penta-Axis: a five-spoke star of axes
+  'Penta-Axis':'<svg class="tfig" viewBox="0 0 104 56" aria-hidden="true"><line class="vwin" x1="20" y1="28" x2="44" y2="28"/><line class="vconn" x1="64" y1="28" x2="64" y2="10"/><line class="vconn" x1="64" y1="28" x2="87" y2="21"/><line class="vconn" x1="64" y1="28" x2="79" y2="46"/><line class="vconn" x1="64" y1="28" x2="49" y2="46"/><line class="vconn" x1="64" y1="28" x2="41" y2="21"/><circle class="vd" cx="64" cy="10" r="2.6"/><circle class="vd" cx="87" cy="21" r="2.6"/><circle class="vd" cx="79" cy="46" r="2.6"/><circle class="vd" cx="49" cy="46" r="2.6"/><circle class="vd" cx="41" cy="21" r="2.6"/><circle class="vd vpulse" cx="64" cy="28" r="4" fill="#0B64DD"/><circle class="vq" cx="14" cy="28" r="4.6"/></svg>'
+};
 function fillTransfer(){
   const tb=document.querySelector('#t-transfer tbody');if(!tb)return;
   tb.innerHTML='';
@@ -1377,7 +1397,12 @@ function fillTransfer(){
   DATA.transferTable.forEach(r=>{
     const tr=document.createElement('tr'); if(r[6])tr.className='hero';
     const cells=[r[0],r[1].toFixed(2),fmt(r[2]),(r[3]*100).toFixed(1)+'%',fmt(r[4]),fmt(r[5])];
-    cells.forEach((c,k)=>{const td=document.createElement('td');td.innerHTML=k?'<span class="num">'+c+'</span>':c;tr.appendChild(td);});
+    cells.forEach((c,k)=>{
+      const td=document.createElement('td');
+      td.innerHTML = k ? '<span class="num">'+c+'</span>'
+                       : '<div class="tcell">'+(TFIG[r[0]]||'')+'<span>'+c+'</span></div>';
+      tr.appendChild(td);
+    });
     tb.appendChild(tr);
   });
 }
