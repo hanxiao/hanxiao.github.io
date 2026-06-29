@@ -262,120 +262,155 @@ So that's the finding. The rest of the talk is *why*.`},
 {n:20, sec:42, title:"Heatmap",
 note:`So why does that average come out flat?
 This heatmap breaks it open, cell by cell.
-The four blocks are the four encoders, three of them never seen in the search.
-Inside each, rows are programs and columns are the nineteen tasks. Green is a gain, pink is a drop.
-And the picture is genuinely *mixed*.
-Compute helps in about *half* the cells, almost five hundred of them.
-But the gains are uneven, with a few sharp drops,
-so it all averages out to roughly *flat*.
-So compute does help in places. It just doesn't help *reliably* on encoders it never saw.`},
+The four blocks are the four encoders.
+Three of them were never seen in the search.
+In each block, the rows are programs.
+The columns are the nineteen tasks.
+Green means a gain. Pink means a drop.
+The picture is genuinely *mixed*.
+Compute helps in about *half* the cells.
+But the gains are uneven.
+A few of them even drop sharply.
+So on average, it comes out *flat*.
+Compute does help in places.
+It just doesn't help *reliably* on new encoders.`},
 
 {n:21, sec:40, title:"Transfer search",
-note:`Now let's look at the other objective, the transfer search.
+note:`Now let's look at the other rule, the transfer search.
 It picks six *completely different* programs.
-Not the twelve compute ones, and all of them cost *at most one and a half times*.
+These aren't the twelve compute ones.
+And they're all cheap, at most one and a half times.
 The best one wins on 83 percent of the held-out set.
 But here's the part that matters. //
 It never loses on a single task.
-And the very worst single query across all six only dips to about *minus a tenth*.
-Compare that to the compute side, which collapsed to nearly *minus one*.
-That's almost ten times tighter.
-So transfer isn't about winning more often.
+Across all six, the worst single query is only about *minus a tenth*.
+Compare that to the compute side.
+That one dropped to nearly *minus one*.
+So it's almost ten times tighter.
+Transfer isn't about winning more often.
 It's about *never failing badly*.`},
 
 {n:22, sec:40, title:"It transfers across encoders and languages",
 note:`And this genuinely *transfers*.
 Remember, it was discovered only on jina-nano.
-But the mean gain is positive on *all four* encoders,
-and the *biggest* bars are Gemma and Qwen, the two families it *never saw*.
-So it isn't a quirk of one model. It rides *general embedding geometry*.
-It even survives a language switch it never searched on,
-staying positive when you apply it straight to French and Greek.`},
+But the gain is positive on *all four* encoders.
+And the *biggest* bars are Gemma and Qwen.
+Those are the two families it *never saw*.
+So this isn't a quirk of one model.
+It rides *general embedding geometry*.
+It even survives a language switch.
+We applied it straight to French and Greek.
+And it still came out positive.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
 So we tried that, at the same budget.
 In-domain, it looks *fantastic*. //
-But on *every* held-out encoder, it falls below the baseline.
-So a learned head just *memorizes*. Recombining the frozen geometry is what *generalizes*.`},
+But on *every* held-out encoder, it drops below the baseline.
+So a learned head just *memorizes*.
+The cheap structure *generalizes*.`},
 
 {n:24, sec:40, title:"Rediscoveries: classical IR",
 note:`So what is this structure that keeps transferring?
-When you read the winning programs, they are *not new*.
+Look at the winning programs.
+They are *not new*.
 The search keeps re-deriving classical IR, right in embedding space.
-Things like Reciprocal Rank Fusion and Fisher's discriminant,
-then Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
-It rediscovered two of those cold, and built the other two up from a seed.
-And that is exactly *why* they transfer.
-They're *geometric*, things like z-scoring, splitting a document into smaller pieces, and centroid feedback.
-They depend on cosine geometry, not on any one model's training.
-So the cheap versions carry over to encoders we never even touched. //
-It is fifty years of IR, re-derived by an agent overnight.`},
+Things like Reciprocal Rank Fusion and Fisher's discriminant.
+Then Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
+It rediscovered two of them cold.
+And it built the other two up from a seed.
+And that's exactly *why* they transfer.
+They're all simple *geometric* moves.
+Things like z-scoring, or centroid feedback.
+They lean on cosine geometry.
+Not on any one model's training.
+So the cheap versions carry over.
+Even to encoders we never touched. //
+It's fifty years of IR, re-derived by an agent overnight.`},
 
 {n:25, sec:45, title:"The trend (2025 to 2026)",
 note:`So that was version A.
-A frozen encoder, where cheap structure transfers, and raw compute doesn't.
+A frozen encoder.
+Cheap structure transfers. Raw compute doesn't.
 Now let me zoom out.
-Because that same move, assembling a pipeline at inference instead of growing the model,
-is showing up *one level up*, in deep research and long-horizon agents.
-The top row here is 2025. It was *one loop* on the open web. You search, you read, you reason.
-The bottom row is 2026, and that loop is *splitting into two*.
-First, a research phase that hits the web and builds a local corpus. That's the teal box in the middle, the one we call a *dataroom*.
-And then there's an execution phase that runs *offline* against that corpus.
-That split, dataroom first and then searchbox, is *version B*.
-And it's built out of three small tools.`},
+Because the same move is showing up *one level up*.
+The move is simple: build a pipeline at inference, don't grow the model.
+You see it now in deep research, and in long-horizon agents.
+The top row here is 2025.
+Back then it was *one loop* on the open web.
+You search. You read. You reason.
+The bottom row is 2026.
+Now that loop is *splitting into two*.
+First comes a research phase.
+It hits the web and builds a local corpus.
+That's the teal box in the middle. We call it a *dataroom*.
+Then comes an execution phase.
+It runs *offline*, against that corpus.
+That split is *version B*.
+Dataroom first, then searchbox.
+And it's built from three small tools.`},
 
 {n:26, sec:42, title:"dataroom",
 note:`So, stage one is the *dataroom*.
-You give it a token budget,
-and it spends that budget on *local small models*, instead of an expensive frontier model.
-It searches, it reads, and it writes, over and over,
-until it has dumped all that knowledge into a single, cited *zip file*.
-That zip is the open web, distilled into a small local corpus a machine can consume.
+You give it a token budget.
+It spends that budget on *local small models*.
+Not on an expensive frontier model.
+It searches, it reads, it writes.
+Over and over.
+Until it packs everything into one cited *zip file*.
+That zip is the open web, distilled down.
+A small local corpus a machine can actually use.
 And notice the *economy* here.
-You build the corpus using cheap local tokens,
-and you save the expensive frontier budget for the execution that *actually needs it*.
-It stops based on an *outcome*, a coverage floor, not on a fixed token count.
+You build the corpus with cheap local tokens.
+You save the expensive budget for later, where it *actually matters*.
+And it stops on an *outcome*.
+A coverage floor, not a fixed token count.
 Then that grounded zip goes to stage two.`},
 
 {n:27, sec:42, title:"searchbox",
 note:`So, stage two is *searchbox*.
-This is the testbed for the search-is-test-time-compute idea,
-and it is deliberately *airgapped*.
-You lock an agent inside a box, with one zip dataroom, and *no web access*.
-So the only way it can answer is by composing a pipeline out of local tools,
-things like grep, embed, rerank, cluster, and select-diverse.
+This is the testbed for our main idea.
+And it's deliberately *airgapped*.
+You lock an agent inside a box.
+It gets one zip dataroom, and *no web access*.
+So to answer, it has to build a pipeline.
+A pipeline made of local tools.
+Things like grep, embed, and rerank.
 Nothing leaks in.
 Now I can finally ask the *real questions*.
 Which tool does the agent reach for first?
-Is grep all you need, or does a dense retriever earn its place?
+Is grep all you need?
+Or does a dense retriever earn its place?
 And does forcing more compute help on the hard questions?
-Those are all still *open*, and searchbox is how we find out.`},
+These are all still *open*.
+And searchbox is how we find out.`},
 
 {n:28, sec:40, title:"knowledge-graph",
 note:`So how do you even *evaluate* a system like that?
-you need *hard questions*.
-And that is the third tool, the *knowledge-graph*.
-Trivial questions teach you nothing,
-because if one grep finds the answer, then every method scores the same.
-So we turn the corpus into a knowledge graph,
-where every fact becomes an *edge*, linking a subject to an object through a predicate.
+You need *hard questions*.
+And that's the third tool, the *knowledge-graph*.
+Trivial questions teach you nothing.
+If one grep finds the answer, every method scores the same.
+So we turn the corpus into a knowledge graph.
+Every fact becomes an *edge*, linking a subject to an object.
 Then we walk the *longest paths* through that graph.
-Those long chains become *multi-hop questions* that no single passage can answer.
+Those long chains become *multi-hop questions*.
+No single passage can answer them.
 The agent has to search and connect facts to get there.
-So it's a private verifier, grown from the very same corpus that searchbox is locked inside.`},
+So it's a private verifier.
+It's grown from the very same corpus that searchbox is locked inside.`},
 
 {n:29, sec:35, title:"Synthesis",
 note:`So let's connect the dots.
 Both versions are doing the *same thing*.
-They both build a search pipeline at test time,
-and *neither one of them grows the model*.
-In version A, the pipeline is multi-pass embedding algebra,
-and what scales is *structure*, not forward passes.
-In version B, the pipeline is a chain of tools,
-where you compose tools instead of adding parameters.
-And whether spending more compute there pays off,
-well, that's exactly what searchbox is built to test.
+They both build a search pipeline at test time.
+And *neither one grows the model*.
+In version A, the pipeline is embedding algebra.
+What scales is *structure*, not forward passes.
+In version B, the pipeline is a chain of tools.
+You compose tools, instead of adding parameters.
+And does spending more compute there pay off?
+That's exactly what searchbox is built to test.
 *Different altitudes, same move.*`},
 
 {n:30, sec:25, title:"Close",
@@ -384,6 +419,8 @@ note:`So here's the one line I'd like you to walk away with. //
 Don't reach for a bigger model.
 *Assemble more search* at inference instead.
 You can grab these slides from the QR code up here.
-And the paper and all three tools are on my *GitHub* and on *arXiv*.
-Thank you so much, and I'd love to take your questions.`},
+The paper and the tools are on my *GitHub* and *arXiv*.
+Thank you so much.
+Now go build something. //
+Happy hacking.`},
 ];
