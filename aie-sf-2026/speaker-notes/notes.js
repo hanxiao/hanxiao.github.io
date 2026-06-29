@@ -58,7 +58,7 @@ So let's start with version A.`},
 
 {n:5, sec:38, title:"Small models are distilled from LLMs",
 note:`So, version A runs over a small, *frozen* embedder.
-And there's a common belief that small models have *nothing to gain* here,
+And there's a common belief that small models *can't improve* here,
 that test-time compute belongs to the big reasoning models.
 But look at where today's embedders come from.
 Models like E5-Mistral, Qwen3-Embed, EmbeddingGemma, and our own jina-v5.
@@ -70,7 +70,7 @@ Do they?
 That's exactly what I wanted to find out.`},
 
 {n:6, sec:40, title:"The scoring spectrum",
-note:`Here's the intuition for how a frozen model could gain.
+note:`Here's the intuition for how a frozen model could improve.
 Look at these three panels.
 They go from the simplest way to score a match on the left, to the most detailed on the right.
 On the left, you have a single cosine, one vector per document.
@@ -87,7 +87,7 @@ Just more work on the vectors you already have.`},
 
 {n:7, sec:35, title:"The strict question",
 note:`So let me make the question *strict*.
-How much can a frozen, single-vector encoder gain at inference *alone*?
+How much can a frozen, single-vector encoder improve at inference *alone*?
 And I do mean strict.
 No retraining, no second model, and no learned parameters.
 Just one frozen encoder, behind an API.
@@ -96,7 +96,7 @@ HyDE (say: hide) puts an LLM in the query path.
 GQR (say: G-Q-R) adds a second retriever.
 And MetaEmbed trains new parameters.
 So we forbid all three,
-and we ask whether the gain scales with the compute you spend.`},
+and we ask whether the improvement scales with the compute you spend.`},
 
 {n:8, sec:40, title:"Autoresearch",
 note:`So how do you search that huge space? With *autoresearch*.
@@ -132,8 +132,7 @@ Now, here's the catch. //
 It optimizes *exactly the metric you give it*, not the metric you meant.
 So if you reward in-domain performance, and you reward spending compute,
 then that is exactly what it will chase.
-Whether those gains hold up *anywhere else* is a separate question.
-So hold on to that thought.`},
+Whether those improvements hold up *anywhere else* is a separate question.`},
 
 {n:11, sec:35, title:"Program",
 note:`Second, the program.
@@ -199,9 +198,7 @@ The card on the right is FirstSent.
 It re-embeds the first sentence of the top document, which is a brand-new forward pass.
 So there, c is *greater than one*.
 One reuses geometry you already have.
-The other spends compute on new text. //
-And the question for the back half is this.
-Which one pays off when you switch to a different encoder?`},
+The other spends compute on new text.`},
 
 {n:16, sec:35, title:"Two admission rules",
 note:`We run that exact same loop under *two different rules*.
@@ -237,7 +234,7 @@ They are all *training-free recombinations* of the same frozen vectors,
 just chunking, z-scoring, feedback, and fusion.
 The cost climbs steadily from left to right.
 It does look like a clean scaling story. //
-But the gains, as you'll see, do *not*.`},
+But the improvements, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"Held-out results",
 note:`Now we run those twelve compute programs on the held-out data. //
@@ -262,10 +259,10 @@ The four blocks are the four encoders.
 Three of them were never seen in discovery.
 In each block, the rows are programs.
 The columns are the nineteen tasks.
-Green means a gain. Pink means a drop.
+Green means an improvement. Pink means a drop.
 The picture is genuinely *mixed*.
 Compute helps in about *half* the cells.
-But the gains are uneven.
+But the improvements are uneven.
 A few of them even drop sharply.
 So on average, it comes out *flat*.
 Compute does help in places.
@@ -289,7 +286,7 @@ It's about *never failing badly*.`},
 {n:22, sec:40, title:"It transfers across encoders and languages",
 note:`And this genuinely *transfers*.
 Remember, it was discovered only on jina-nano.
-But the gain is positive on *all four* encoders.
+But the improvement is positive on *all four* encoders.
 And the *biggest* bars are Gemma and Qwen.
 Those are the two families it *never saw*.
 So this isn't a quirk of one model.
