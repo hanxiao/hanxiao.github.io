@@ -247,10 +247,9 @@ Above the line is a gain, below it is a loss.
 The pink line is the compute search, all twelve programs, now run on encoders the search never optimized for.
 Just look at the shape of it. //
 It is basically *flat*. It hugs the zero line the whole way out.
-So even at almost fifteen times the compute, the typical gain is essentially *nothing*.
-And when you average everything in, it actually turns *negative*,
-because a handful of cases collapse all the way down to nearly *minus one*.
-So all that compute buys you *nothing* out of domain, and sometimes it does real harm.
+So even at almost fifteen times the compute, the gain out of domain is essentially *nothing*.
+A few cases even dip into the negative, which is what pulls the average below the line.
+So spending more compute just doesn't pay off once you leave the training domain.
 Now look at the blue dots.
 Those are the transfer-search programs, and they all bunch up on the *left*, because they're all *cheap*.
 Every one of them sits *above* the pink line.
@@ -261,20 +260,15 @@ The cheap structure did.
 So that's the finding. The rest of the talk is *why*.`},
 
 {n:20, sec:42, title:"Heatmap",
-note:`So why exactly is that mean flat?
-This heatmap shows what's hiding behind that one number, every single cell of it.
-Each of the four blocks is one encoder, and three of them were never seen during the search.
-Inside a block, every row is a program, the cheap ones up top and the priciest ones at the bottom.
-Every column is one of the nineteen held-out tasks.
-And the color is the key: green means it helped, deep pink means it collapsed.
-Now, it's not that compute does nothing.
-About *half* the cells are green, almost five hundred of them.
-Most task-encoder pairs do improve under some program.
-But then look at the deep-pink cells. They fall all the way down to nearly *minus one*.
-And those collapses drag the whole mean negative.
-So flat-on-average is *not* the same as harmless.
-It's real wins, getting *wiped out* by catastrophic failures.
-And you can't tell in advance which task will collapse.`},
+note:`So why does that average come out flat?
+This heatmap breaks it open, cell by cell.
+The four blocks are the four encoders, three of them never seen in the search.
+Inside each, rows are programs and columns are the nineteen tasks. Green is a gain, pink is a drop.
+And the picture is genuinely *mixed*.
+Compute helps in about *half* the cells, almost five hundred of them.
+But the gains are uneven, with a few sharp drops,
+so it all averages out to roughly *flat*.
+So compute does help in places. It just doesn't help *reliably* on encoders it never saw.`},
 
 {n:21, sec:40, title:"Transfer search",
 note:`Now let's look at the other objective, the transfer search.
@@ -291,17 +285,12 @@ It's about *never failing badly*.`},
 
 {n:22, sec:40, title:"It transfers across encoders and languages",
 note:`And this genuinely *transfers*.
-Remember, this was discovered only on jina-nano.
-The x-axis is the four encoders, and for each one the blue bar is the mean gain, the teal bar the median.
-The mean is positive on *all four*.
-And the tallest bars are the two on the right, Gemma and Qwen, the families it *never saw*.
-On the jina encoders on the left, the median sits near zero,
-so this is a positive *tail*, not a broad lift across the board.
-But it follows *general embedding geometry*, not some quirk of the discovery model.
-It even survives a language switch it never searched on.
-Applied as-is to French and Greek, it gets a small positive median, around plus 0.02,
-and an 86 percent win-rate.
-On Gemma, every held-out case comes out positive.`},
+Remember, it was discovered only on jina-nano.
+But the mean gain is positive on *all four* encoders,
+and the *biggest* bars are Gemma and Qwen, the two families it *never saw*.
+So it isn't a quirk of one model. It rides *general embedding geometry*.
+It even survives a language switch it never searched on,
+staying positive when you apply it straight to French and Greek.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
