@@ -290,10 +290,7 @@ But the improvement is positive on *all four* encoders.
 And the *biggest* bars are Gemma and Qwen.
 Those are the two families it *never saw*.
 So this isn't a quirk of one model.
-It rides *general embedding geometry*.
-It even survives a language switch.
-We applied it straight to French and Greek.
-And it still came out positive.`},
+It rides *general embedding geometry*.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
