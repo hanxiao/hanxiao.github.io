@@ -81,8 +81,9 @@ But that needs a multi-vector model, which we don't have.
 The interesting part is the *middle* panel, the one I've outlined in blue.
 You take the same frozen encoder, split the document into sentences, and max over them.
 That's what I mean by *test-time structure*.
-You move toward late interaction with *no new model*,
-just more work over the vectors you already have.`},
+You get closer to late interaction.
+With *no new model* at all.
+Just more work on the vectors you already have.`},
 
 {n:7, sec:35, title:"The strict question",
 note:`So let me make the question *strict*.
