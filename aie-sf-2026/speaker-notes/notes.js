@@ -346,9 +346,12 @@ It hits the web and builds a local corpus.
 That's the teal box in the middle. We call it a *dataroom*.
 Then comes an execution phase.
 It runs *offline*, against that corpus.
-That split is *version B*.
-Dataroom first, then searchbox.
-And it's built from three small tools.`},
+That two-stage shape is *version B*.
+Now here's the part I want to flag.
+I actually *built* version B, as three small *open-source* projects.
+Dataroom, searchbox, and a knowledge graph.
+The next three slides walk through each one.
+Think of them as the *hands-on* version of everything we just saw.`},
 
 {n:26, sec:42, title:"dataroom",
 note:`So, stage one is the *dataroom*.
