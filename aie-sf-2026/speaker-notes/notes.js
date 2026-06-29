@@ -48,7 +48,7 @@ It's *how much pipeline* you assemble at inference, and whether that pays off.`}
 note:`There are *two ways* to build that pipeline, and I'll show you both.
 The first one, *version A*, is the one I'll go deep on.
 Here, an agent writes little programs over a single *frozen encoder*.
-It might chunk the document, z-score and fuse the channels, or feed the results back.
+It might chunk the document, z-score and fuse the different scoring signals, or feed the results back.
 Think of it as multi-pass algebra on embeddings.
 The second one, *version B*, I'll come to later.
 There, a small agent wires up retrieval tools like grep, embed, and rerank,
@@ -115,7 +115,7 @@ note:`Here's the whole loop in one picture. Just follow the boxes, left to right
 A *proposer*, which is an LLM agent, writes a program over the frozen encoder.
 The *evaluator* then scores that program.
 *Memory* logs the result.
-And the *registry*, the black box on the far right, collects all of them, 144 programs over 144 generations.
+And the *registry*, the black box on the far right, collects all of them, 144 programs, one per generation.
 Now see that dashed arrow looping back underneath?
 That's the *feedback*. Memory conditions the next program, so every round builds on the last one.
 Let me quickly walk through the four pieces,
@@ -180,7 +180,7 @@ And everything else is *held out*.
 We hold out a bigger model from the same family.
 And most importantly, we hold out *two completely unseen families*, Gemma and Qwen.
 They share no training data and no tokenizer with the discovery model.
-Plus the nineteen evaluation tasks the loop never sees.
+And we also hold out the nineteen evaluation tasks, the ones the loop never sees.
 So one program gets discovered here,
 and it has to *generalize to all of it*.
 The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
@@ -208,9 +208,10 @@ The first rule is the *compute search*.
 It admits a program only if its in-domain performance beats every program before it,
 so it is actively pushed to spend more inference.
 The second rule is the *transfer search*.
-It admits a program only if a held-out validation split improves, with nothing getting worse,
+It keeps a program only if it improves on a *validation split*, with nothing getting worse,
 and it gets *no reward at all* for spending compute.
-And to be clear, neither search ever touches the nineteen final tasks, or the unseen encoders.
+And to be clear, that validation split still comes from what the loop *can* see.
+Neither rule ever touches the nineteen *final* held-out tasks, or the unseen encoders.
 So that's two objectives, running on the same loop.
 Let's see what each one comes up with.`},
 
@@ -219,7 +220,7 @@ note:`Let's start with the compute search.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
 The x-axis is the compute you spend, on a log scale; the y-axis is the score.
 There are 144 programs, and twelve of them sit on the Pareto front,
-with cost running from just over 1x all the way up to *almost fifteen times*.
+with cost running from just over one all the way up to *almost fifteen times*.
 And the in-search score climbs nicely, it more than *triples* across that front.
 This looks *exactly* like test-time-compute scaling. More compute, more quality.
 If I stopped here, you would be sold. //
@@ -237,7 +238,7 @@ The cost climbs steadily from left to right.
 It does look like a clean scaling story. //
 But the gains, as you'll see, do *not*.`},
 
-{n:19, sec:55, title:"The money chart (held-out)",
+{n:19, sec:55, title:"Held-out results",
 note:`So here's what happens when we run those twelve programs on the held-out data. //
 The setup is the same as before.
 Left to right is how much compute you spend, out to almost fifteen times.
@@ -277,12 +278,12 @@ And you can't tell in advance which task will collapse.`},
 
 {n:21, sec:40, title:"Transfer search",
 note:`Now let's look at the other objective, the transfer search.
-It picks a *completely different six* programs.
+It picks six *completely different* programs.
 Not the twelve compute ones, and all of them cost *at most one and a half times*.
 The best one wins on 83 percent of the held-out set.
 But here's the part that matters. //
 It never loses on a single task.
-And even its worst single query only dips to about *minus a tenth*.
+And the very worst single query across all six only dips to about *minus a tenth*.
 Compare that to the compute side, which collapsed to nearly *minus one*.
 That's almost ten times tighter.
 So transfer isn't about winning more often.
@@ -299,7 +300,8 @@ so this is a positive *tail*, not a broad lift across the board.
 But it follows *general embedding geometry*, not some quirk of the discovery model.
 It even survives a language switch it never searched on.
 Applied as-is to French and Greek, it gets a small positive median, around plus 0.02,
-an 86 percent win-rate, and every single held-out cell positive on Gemma.`},
+and an 86 percent win-rate.
+On Gemma, every held-out case comes out positive.`},
 
 {n:23, sec:40, title:"Structure vs a learned head",
 note:`Now, the obvious objection. Why not just *train a head*?
@@ -316,10 +318,11 @@ But recombining the frozen geometry *generalizes*.`},
 note:`So what is this structure that keeps transferring?
 When you read the winning programs, they are *not new*.
 The search keeps re-deriving classical IR, right in embedding space.
-Things like Reciprocal Rank Fusion, Fisher's discriminant, Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
-Two of those it rediscovered cold, and two it built up from a seed.
+Things like Reciprocal Rank Fusion and Fisher's discriminant,
+then Rocchio (say: ROH-kee-oh) feedback, and sentence-level MaxSim.
+It rediscovered two of those cold, and built the other two up from a seed.
 And that is exactly *why* they transfer.
-They're *geometric*, things like z-scoring, sub-document granularity, and centroid feedback.
+They're *geometric*, things like z-scoring, splitting a document into smaller pieces, and centroid feedback.
 They depend on cosine geometry, not on any one model's training.
 So the cheap versions carry over to encoders we never even touched. //
 It is fifty years of IR, re-derived by an agent overnight.`},
@@ -371,11 +374,11 @@ And that is the third tool, the *knowledge-graph*.
 Trivial questions teach you nothing,
 because if one grep finds the answer, then every method scores the same.
 So we turn the corpus into a knowledge graph,
-where every fact becomes an *edge*, a subject, a predicate, and an object.
+where every fact becomes an *edge*, linking a subject to an object through a predicate.
 Then we walk the *longest paths* through that graph.
 Those long chains become *multi-hop questions* that no single passage can answer.
 The agent has to search and connect facts to get there.
-So it's a private verifier, grown from the same corpus searchbox is locked inside.`},
+So it's a private verifier, grown from the very same corpus that searchbox is locked inside.`},
 
 {n:29, sec:35, title:"Synthesis",
 note:`So let's connect the dots.
@@ -395,6 +398,7 @@ note:`So here's the one line I'd like you to walk away with. //
 *Information retrieval is test-time compute.*
 Don't reach for a bigger model.
 *Assemble more search* at inference instead.
-The paper, all three tools, and these slides are behind the codes up here.
+You can grab these slides from the QR code up here.
+And the paper and all three tools are on my *GitHub* and on *arXiv*.
 Thank you so much, and I'd love to take your questions.`},
 ];
