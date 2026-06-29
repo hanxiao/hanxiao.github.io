@@ -239,25 +239,20 @@ It does look like a clean scaling story. //
 But the gains, as you'll see, do *not*.`},
 
 {n:19, sec:55, title:"Held-out results",
-note:`So here's what happens when we run those twelve programs on the held-out data. //
-The setup is the same as before.
-Left to right is how much compute you spend, out to almost fifteen times.
-Up and down is the held-out score, and that dashed line across the middle is the baseline.
-Above the line is a gain, below it is a loss.
-The pink line is the compute search, all twelve programs, now run on encoders the search never optimized for.
-Just look at the shape of it. //
-It is basically *flat*. It hugs the zero line the whole way out.
-So even at almost fifteen times the compute, the gain out of domain is essentially *nothing*.
-A few cases even dip into the negative, which is what pulls the average below the line.
-So spending more compute just doesn't pay off once you leave the training domain.
-Now look at the blue dots.
-Those are the transfer-search programs, and they all bunch up on the *left*, because they're all *cheap*.
-Every one of them sits *above* the pink line.
-And the leftmost one, at *c equals one*, with zero extra forward passes,
-already *beats* the most expensive program on the far right. //
+note:`Now we run those twelve compute programs on the held-out data. //
+Same chart as before.
+Compute runs left to right. The score runs up and down.
+The dashed line across the middle is the baseline.
+Look at the pink line, the compute search.
+It's basically *flat*, hugging zero the whole way out.
+So out of domain, more compute buys you essentially *nothing*.
+Now look at the blue dots, the transfer programs.
+They all sit on the *left*, because they're *cheap*.
+And every one is *above* the pink line.
+The cheapest one adds *zero* extra compute.
+And it still *beats* the most expensive program.
 So more compute did *not* transfer.
-The cheap structure did.
-So that's the finding. The rest of the talk is *why*.`},
+The cheap structure did.`},
 
 {n:20, sec:42, title:"Heatmap",
 note:`So why does that average come out flat?
