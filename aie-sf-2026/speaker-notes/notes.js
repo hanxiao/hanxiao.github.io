@@ -186,8 +186,8 @@ and it has to *generalize to all of it*.
 The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
 
 {n:15, sec:50, title:"The distinction: cost = extra forward passes",
-note:`Now, before any results, I want to pin down one idea.
-And it comes down to just *one number*.
+note:`Now, before any results, let me define the cost of test-time compute.
+It comes down to just *one number*.
 The formula up top says it: cost, c, is just the number of *extra forward passes* through the encoder.
 Let me make it concrete with the two cards on the slide.
 They do the same move. They mix in some neighbor information, then they re-score.
