@@ -57,7 +57,7 @@ It's the *same move at two different altitudes*.
 So let's start with version A.`},
 
 {n:5, sec:38, title:"Small models are distilled from LLMs",
-note:`So, version A runs over a small, *frozen* embedder.
+note:`So, version A runs over a small, *frozen* encoder.
 And there's a common belief that small models *can't improve* here,
 that test-time compute belongs to the big reasoning models.
 But look at where today's embedders come from.
@@ -96,7 +96,8 @@ HyDE (say: hide) puts an LLM in the query path.
 GQR (say: G-Q-R) adds a second retriever.
 And MetaEmbed trains new parameters.
 So we forbid all three,
-and we ask whether the improvement scales with the compute you spend.`},
+and we ask whether the improvement scales with the compute you spend.
+But that leaves a *huge space* of possible programs to try.`},
 
 {n:8, sec:40, title:"Autoresearch",
 note:`So how do you search that huge space? With *autoresearch*.
@@ -201,7 +202,8 @@ One reuses geometry you already have.
 The other spends compute on new text.`},
 
 {n:16, sec:35, title:"Two admission rules",
-note:`We run that exact same loop under *two different rules*.
+note:`Now that we can price compute,
+we run that exact same loop under *two different rules*.
 The first rule is the *compute search*.
 It admits a program only if its in-domain performance beats every program before it,
 so it is actively pushed to spend more inference.
@@ -276,10 +278,11 @@ But here's the part that matters. //
 It never loses on a single task.
 Across all six, the worst single query is only about *minus a tenth*.
 Now, what do these programs actually do?
-The *Axis* ones, Penta, Deca, and Cross-Axis, all work with *directions*.
+The *Axis* ones, Penta, Deca, Dodeca, and Cross-Axis, all work with *directions*.
 Each one picks a few directions in the embedding space.
 Then it re-scores the documents along them.
-The names just count those directions. Five, ten, twelve.
+The first three just count the directions. Five, ten, twelve.
+And Cross-Axis crosses two of them.
 The two *Consensus* programs instead average several views into one.
 And none of it is a new model. It's all recombination of the vectors we already have.`},
 
@@ -395,7 +398,7 @@ note:`Finally, let me leave you with one line. //
 Don't reach for a bigger model.
 *Assemble more search* at inference instead.
 You can grab these slides from the QR code up here.
-The paper and the tools are on my *GitHub* and *arXiv*.
+The paper and the projects are on my *GitHub* and *arXiv*.
 Thank you so much.
 Happy hacking.`},
 ];

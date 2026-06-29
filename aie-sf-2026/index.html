@@ -459,9 +459,9 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 3 THE OPENING (lineage) ============ -->
 <section class="slide">
   <div class="kicker">Version A</div>
-  <h2 class="h-slide sm">"Small models gain nothing." But they are distilled from LLMs.</h2>
+  <h2 class="h-slide sm">"Small models can't improve." But they are distilled from LLMs.</h2>
   <div class="body" style="gap:18px;justify-content:center">
-    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models having nothing to gain. Yet today's embedders - including the small deployable ones - are distilled or adapted from LLM backbones:</p>
+    <p class="cap" style="margin-bottom:2px">Test-time compute is said to belong to large reasoning models, with small models unable to improve. Yet today's embedders - including the small deployable ones - are distilled or adapted from LLM backbones:</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
         <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
@@ -546,7 +546,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 4 THE STRICT QUESTION ============ -->
 <section class="slide">
   <div class="kicker">The question</div>
-  <h2 class="h-slide sm">How much can a frozen single-vector encoder gain at inference alone?</h2>
+  <h2 class="h-slide sm">How much can a frozen single-vector encoder improve at inference alone?</h2>
   <div class="body" style="gap:24px;justify-content:center">
     <div>
       <span class="chip on">No retraining</span><span class="chip on">No auxiliary model</span><span class="chip on">No learned parameters</span><span class="chip on">One frozen encoder API</span>
@@ -559,7 +559,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="defrow"><div class="tag">MetaEmbed</div><div class="dsc">trained extra parameters at deployment.</div></div>
       </div>
     </div>
-    <p class="lead" style="font-weight:600">We forbid all three, and ask whether the gain scales with the compute spent.</p>
+    <p class="lead" style="font-weight:600">We forbid all three, and ask whether the improvement scales with the compute spent.</p>
   </div>
 </section>
 
@@ -648,7 +648,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
-        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it - not the one you mean. Reward in-domain performance and reward spending compute, and that is what it will chase. Whether the gain survives out of domain is a separate question. The objective is the steering wheel.</p>
+        <p class="cap">It optimizes <strong>exactly</strong> the metric you hand it - not the one you mean. Reward in-domain performance and reward spending compute, and that is what it will chase. Whether the improvement survives out of domain is a separate question. The objective is the steering wheel.</p>
       </div>
     </div>
   </div>
@@ -870,7 +870,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="cap" style="text-align:center">Every one is a training-free recombination of the same frozen vectors. Cost climbs left to right; the gains, as the next slide shows, do not.</p>
+    <p class="cap" style="text-align:center">Every one is a training-free recombination of the same frozen vectors. Cost climbs left to right; the improvements, as the next slide shows, do not.</p>
   </div>
 </section>
 
@@ -933,7 +933,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ 11 TRANSFER ACROSS ENCODERS ============ -->
 <section class="slide">
   <div class="kicker">It transfers</div>
-  <h2 class="h-slide sm">Gains are largest on encoder families never seen in discovery.</h2>
+  <h2 class="h-slide sm">Improvements are largest on encoder families never seen in discovery.</h2>
   <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.4">
       <div class="legend">
@@ -943,7 +943,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="chart" id="c-permodel" style="height:calc(100% - 22px)"></div>
     </div>
     <div style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:22px">
-      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four encoders and largest on the two families never seen during discovery; the medians sit near zero on the jina-family encoders, so the gain is concentrated in a positive tail, not broad. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
+      <p class="cap">Discovered on <span class="mono">j-v5-nano</span>. Mean ΔnDCG@10 is positive on all four encoders and largest on the two families never seen during discovery; the medians sit near zero on the jina-family encoders, so the improvement is concentrated in a positive tail, not broad. The transfer follows general embedding geometry, not artifacts of the discovery encoder.</p>
       <div style="border-left:3px solid var(--accent);padding-left:16px">
         <div class="mlabel accent" style="margin-bottom:6px">Across languages, too</div>
         <p class="lead">Applied unmodified to French and Greek: median <strong>+0.016</strong>, an <strong>86%</strong> win-rate, and every held-out cell positive on <span class="mono">gemma-300m</span>.</p>
