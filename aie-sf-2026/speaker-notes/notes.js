@@ -397,6 +397,5 @@ Don't reach for a bigger model.
 You can grab these slides from the QR code up here.
 The paper and the tools are on my *GitHub* and *arXiv*.
 Thank you so much.
-Now go build something. //
 Happy hacking.`},
 ];
