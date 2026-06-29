@@ -320,28 +320,19 @@ It's fifty years of IR, re-derived by an agent overnight.`},
 
 {n:25, sec:45, title:"The trend (2025 to 2026)",
 note:`So that was version A.
-A frozen encoder.
-Cheap structure transfers. Raw compute doesn't.
+A frozen encoder, where cheap structure won and compute didn't.
 Now let me zoom out.
-Because the same move is showing up *one level up*.
-The move is simple: build a pipeline at inference, don't grow the model.
-You see it now in deep research, and in long-horizon agents.
-The top row here is 2025.
-Back then it was *one loop* on the open web.
-You search. You read. You reason.
-The bottom row is 2026.
-Now that loop is *splitting into two*.
-First comes a research phase.
-It hits the web and builds a local corpus.
-That's the teal box in the middle. We call it a *dataroom*.
-Then comes an execution phase.
-It runs *offline*, against that corpus.
+The same move is showing up *one level up*.
+You build a pipeline at inference, not a bigger model.
+You see it now in deep research and long-horizon agents.
+Back in 2025, it was *one loop* on the open web.
+In 2026, that loop is *splitting into two*.
+First, a research phase builds a local corpus, a *dataroom*.
+Then an execution phase runs *offline* against it.
 That two-stage shape is *version B*.
-Now here's the part I want to flag.
-I actually *built* version B, as three small *open-source* projects.
+And I built it as three small *open-source* projects.
 Dataroom, searchbox, and a knowledge graph.
-The next three slides walk through each one.
-Think of them as the *hands-on* version of everything we just saw.`},
+The next three slides walk through each one.`},
 
 {n:26, sec:42, title:"dataroom",
 note:`So, stage one is the *dataroom*.
@@ -355,10 +346,7 @@ That zip is the open web, distilled down.
 A small local corpus a machine can actually use.
 And notice the *economy* here.
 You build the corpus with cheap local tokens.
-You save the expensive budget for later, where it *actually matters*.
-And it stops on an *outcome*.
-A coverage floor, not a fixed token count.
-Then that grounded zip goes to stage two.`},
+You save the expensive budget for later, where it *actually matters*.`},
 
 {n:27, sec:42, title:"searchbox",
 note:`So, stage two is *searchbox*.
@@ -375,14 +363,12 @@ Which tool does the agent reach for first?
 Is grep all you need?
 Or does a dense retriever earn its place?
 And does forcing more compute help on the hard questions?
-These are all still *open*.
-And searchbox is how we find out.`},
+These are all *open research questions*.
+Searchbox is just the testbed to study them.`},
 
 {n:28, sec:40, title:"knowledge-graph",
-note:`So how do you even *evaluate* a system like that?
-You need *hard questions*.
-And that's the third tool, the *knowledge-graph*.
-Trivial questions teach you nothing.
+note:`So how do you *evaluate* a system like that?
+You need *hard questions*. That's the third project, the *knowledge-graph*.
 If one grep finds the answer, every method scores the same.
 So we turn the corpus into a knowledge graph.
 Every fact becomes an *edge*, linking a subject to an object.
@@ -390,8 +376,7 @@ Then we walk the *longest paths* through that graph.
 Those long chains become *multi-hop questions*.
 No single passage can answer them.
 The agent has to search and connect facts to get there.
-So it's a private verifier.
-It's grown from the very same corpus that searchbox is locked inside.`},
+So it's a private verifier.`},
 
 {n:29, sec:35, title:"Synthesis",
 note:`So let's connect the dots.
@@ -402,12 +387,10 @@ In version A, the pipeline is embedding algebra.
 What scales is *structure*, not forward passes.
 In version B, the pipeline is a chain of tools.
 You compose tools, instead of adding parameters.
-And does spending more compute there pay off?
-That's exactly what searchbox is built to test.
 *Different altitudes, same move.*`},
 
 {n:30, sec:25, title:"Close",
-note:`So here's the one line I'd like you to walk away with. //
+note:`Finally, let me leave you with one line. //
 *Information retrieval is test-time compute.*
 Don't reach for a bigger model.
 *Assemble more search* at inference instead.
