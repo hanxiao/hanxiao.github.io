@@ -16,7 +16,7 @@ We call that test-time compute.
 Can a *small retrieval model* do the same thing?
 Can it get better just by working harder at inference,
 without making the model any bigger?
-To find out, I let an agent run *autosearch* overnight. //
+To find out, I let an agent run *autoresearch* overnight. //
 And the answer turned out to be more interesting than a simple *yes or no*.
 So let me show you what I found.`},
 
@@ -28,7 +28,7 @@ Instead of training a bigger model,
 you spend *more compute at inference time*, and you get a *better answer* back.
 It shows up in a few familiar forms,
 like best-of-n, self-consistency, or a verifier that reranks candidates.
-Noam Brown from OpenAI, put a number on this.
+Noam Brown from OpenAI put a number on this.
 He found that a poker bot thinking for *twenty seconds*
 got the same boost as scaling the model *a hundred thousand times*.
 That's the promise of test-time compute. //
@@ -348,87 +348,74 @@ It's fifty years of IR, re-derived by an agent overnight.`},
    {
       n: 25, sec: 45, title: "The trend (2025 to 2026)",
       note: `So that was version A.
-A frozen encoder, where cheap structure won and compute didn't.
-Now let me zoom out.
-The same move is showing up *one level up*.
-You build a pipeline at inference, not a bigger model.
-You see it now in deep research and long-horizon agents.
-Back in 2025, it was *one loop* on the open web.
-In 2026, that loop is *splitting into two*.
-First, a research phase builds a local corpus, a *dataroom*.
-Then an execution phase runs *offline* against it.
-That two-stage shape is *version B*.
-And I built it as three small *open-source* projects.
-Dataroom, searchbox, and a knowledge graph.
-The next three slides walk through each one.`},
+A frozen encoder, where cheap structure won and raw compute didn't.
+And autoresearch is how we found that.
+But let me move *one level up*, from the model to the whole search pipeline.
+Because you can see test-time compute at the pipeline level just as easily.
+In 2025, we had deep research and agentic search, which was *one loop* on the open web.
+In 2026, we have long-horizon tasks, which add implementation, a sandbox, and evals on top of retrieval, running for hours.
+Both patterns need more looping, and more compute at test time.
+So to study agentic search at test time, I built three small open-source projects.
+And all three are just test-time compute in practice.`},
 
    {
       n: 26, sec: 42, title: "dataroom",
-      note: `So, stage one is the *dataroom*.
-You give it a token budget.
-It spends that budget on *local small models*.
-Not on an expensive frontier model.
-It searches, it reads, it writes.
-Over and over.
-Until it packs everything into one cited *zip file*.
-That zip is the open web, distilled down.
-A small local corpus a machine can actually use.
-And notice the *economy* here.
-You build the corpus with cheap local tokens.
-You save the expensive budget for later, where it *actually matters*.`},
+      note: `First is the *dataroom*.
+You give it a token budget. It searches, it reads, it writes.
+Over and over. Until it packs everything into one *zip file*.
+I call it a dataroom, because it kind of reminds me of the data rooms I prepared for investors back when I was a founder.
+That zip is a distilled corpus of the open web, ready for the next agent to consume.
+And notice the *token economy* here.
+You explore the web and build the corpus with cheap tokens from small local models, like Qwen 27b/35b-a3b.
+And you save the expensive budget for later, for exploitation.`},
 
    {
       n: 27, sec: 42, title: "searchbox",
-      note: `So, stage two is *searchbox*.
-This is the testbed for our main idea.
-And it's deliberately *airgapped*.
+      note: `Second is *searchbox*.
+This is the testbed to study agentic search and tool calling.
+And it's designed to be *airgapped*, so the agent has no internet access.
 You lock an agent inside a box.
-It gets one zip dataroom, and *no web access*.
-So to answer, it has to build a pipeline.
+You give it a dataroom, and ask a question.
+So to answer, the agent has to assemble a search pipeline at test time.
 A pipeline made of local tools.
 Things like grep, embed, and rerank.
-Nothing leaks in.
-Now I can finally ask the *real questions*.
+And that lets you ask some interesting questions.
 Which tool does the agent reach for first?
 Is grep all you need?
 Or does a dense retriever earn its place?
-And does forcing more compute help on the hard questions?
-These are all *open research questions*.
-Searchbox is just the testbed to study them.`},
+Does forcing more compute help on the hard questions?
+And will the agent build a pipeline it can reuse later?
+Searchbox is just the testbed to study those questions.`},
 
    {
       n: 28, sec: 40, title: "knowledge-graph",
-      note: `So how do you *evaluate* a system like that?
-You need *hard questions*. That's the third project, the *knowledge-graph*.
-If one grep finds the answer, every method scores the same.
-So we turn the corpus into a knowledge graph.
+      note: `So how do you *evaluate* agentic search like that?
+Well, you need *hard questions*. That's the third project, the *knowledge-graph*.
+It turns the corpus into a knowledge graph.
 Every fact becomes an *edge*, linking a subject to an object.
 Then we walk the *longest paths* through that graph.
-Those long chains become *multi-hop questions*.
-No single passage can answer them.
-The agent has to search and connect facts to get there.
-So it's a private verifier.`},
+Those long chains become *multi-hop questions* that no single passage can answer.
+The agent has to spend real test-time compute, connecting facts to get there.
+So it's a tool for building a private verifier.`},
 
    {
       n: 29, sec: 35, title: "Synthesis",
       note: `So let's connect the dots.
 Both versions are doing the *same thing*.
-They both build a search pipeline at test time.
+They both spend compute at test time.
 And *neither one grows the model*.
-In version A, the pipeline is embedding algebra.
-What scales is *structure*, not forward passes.
-In version B, the pipeline is a chain of tools.
-You compose tools, instead of adding parameters.
-So it's two *levels*, but one bet.
-Spend *test-time compute*, not a bigger model.`},
+In version A, we found a special embedding algebra over a frozen model that improves search relevance.
+In version B, we found a pipeline of tools that improves it too.
+So it's two *levels*, but they share one bet.
+Spend more *test-time compute*, not a bigger model.`},
 
    {
       n: 30, sec: 25, title: "Close",
       note: `Finally, let me leave you with one line. //
 *Information retrieval is test-time compute.*
 Don't reach for a bigger model.
-*Assemble more search* at inference instead.//
-That's the end of my talk
+*Do more search* at inference instead. //
+And that's my talk.
 You can grab these slides from the QR code up here.
 The paper and the projects are on my *GitHub* and *arXiv*.
 Thank you so much.
