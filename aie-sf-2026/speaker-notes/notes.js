@@ -404,7 +404,7 @@ So it's two *levels*, but they share one bet.
 Spend more *test-time compute*, not a bigger model.`},
 
    {
-      n: 30, sec: 36, title: "Close",
+      n: 30, sec: 42, title: "Close",
       note: `Finally, let me leave you with the big picture. //
 *Search is test-time compute.*
 So don't reach for a bigger model.
@@ -415,6 +415,8 @@ That's how we *scale* test-time compute. //
 And that's my talk.
 You can grab these slides from the QR codes here.
 The paper and the projects are on my *GitHub* and *arXiv*.
+And if you are around *this evening*, Elastic is running a hackathon.
+The QR is right here, so come and build something with us.
 Thank you so much.
 Happy engineering.`},
 ];
