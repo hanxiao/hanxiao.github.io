@@ -94,7 +94,7 @@ With *no new model* at all.
 Just more work on the vectors you already have.`},
 
    {
-      n: 7, sec: 38, title: "The strict question",
+      n: 7, sec: 29, title: "The strict question",
       note: `So let me make the question *strict*.
 How much can a frozen, single-vector encoder improve at inference *alone*?
 And I do mean strict.
@@ -104,20 +104,19 @@ The popular methods all break one of these rules.
 HyDE (say: hide) puts an LLM in the query path.
 GQR (say: G-Q-R) adds a second retriever.
 And MetaEmbed trains new parameters.
-So we forbid all three,
-and we ask whether the improvement scales with the compute you spend.
-But that leaves a *huge space* of possible programs to try.`},
+So we forbid all three.`},
 
    {
-      n: 8, sec: 40, title: "Autoresearch",
-      note: `So how do you search that huge space? With *autoresearch*.
-Instead of me hand-designing the programs,
+      n: 8, sec: 43, title: "Autoresearch",
+      note: `Even with the constraints, the search space is huge.
+So how do you search it? With *autoresearch*.
+Instead of me handcrafting the programs,
 an agent runs the research loop by itself.
 It changes one file, it runs a short experiment,
 and if the metric improved, it keeps the change, otherwise it reverts.
 It does that over and over, all night.
 It's just *hill-climbing*, with an LLM as the mutation function.
-Andrej Karpathy, now at Anthropic, described the same shift.
+Andrej Karpathy, from Anthropic, described it like this.
 You're not editing Python the way a researcher would.
 You're writing the markdown files that set up an autonomous research org.
 And that loop generated *everything you're about to see*.`},
@@ -147,26 +146,25 @@ then that is exactly what it will chase.
 Whether those improvements hold up *anywhere else* is a separate question.`},
 
    {
-      n: 11, sec: 32, title: "Program",
+      n: 11, sec: 33, title: "Program",
       note: `Next is the program.
 It's just arbitrary Python over the encoder.
 And the one piece that matters is *embed_fn*.
 That is the *compute budget*.
-Every embed_fn call re-embeds some text, or switches an adapter, or picks a smaller dimension.
+Every function call there re-embeds some text, or switches an adapter, or picks a smaller dimension.
 So one call is one unit of compute.
 There are also some *constraints*.
-The program can't use hyperparameters, task routing, external models, or learned weights.
-Those constraints force it toward *task-agnostic structure*,
+The program can't use hyperparameters, task routing, or external models.
+Those constraints force the agent to find a *task-agnostic program*,
 instead of a config that's secretly tuned for each task.`},
 
    {
-      n: 12, sec: 41, title: "Evaluator",
+      n: 12, sec: 38, title: "Evaluator",
       note: `Then comes the evaluator.
 Every program runs on the same *fourteen* discovery tasks,
 spanning legal, financial, long-document, and general retrieval.
 We score it with delta-nDCG (say: delta n-D-C-G) against the cosine baseline,
 plus a cost ratio, and I'll define cost in just a minute.
-It's the same fixed budget every generation.
 Now here's the design choice that matters most. //
 The loop only ever sees these fourteen tasks.
 There are *nineteen more* that are held out, and the loop never touches them.
@@ -187,11 +185,8 @@ A biased metric doesn't just mislead one program.
 It steers the *entire family tree*.`},
 
    {
-      n: 14, sec: 49, title: "Setup",
-      note: `Now let me set up the rules of the game.
-They decide everything that follows.
-The discovery tasks are the same fourteen I just mentioned.
-What's new on this slide is the *model axis*.
+      n: 14, sec: 35, title: "Setup",
+      note: `Now let me set up the models we used here.
 We run the search on a single encoder, jina-v5-nano.
 And everything else is *held out*.
 We hold out a bigger model from the same family.
@@ -199,15 +194,14 @@ And most importantly, we hold out *two completely unseen families*, Gemma and Qw
 They share no training data and no tokenizer with the discovery model.
 And we also hold out the nineteen evaluation tasks, the ones the loop never sees.
 So one program gets discovered here,
-and it has to *generalize to all of it*.
-The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
+and it has to *generalize to all of it*.`},
 
    {
-      n: 15, sec: 52, title: "The distinction: cost = extra forward passes",
+      n: 15, sec: 49, title: "The distinction: cost = extra forward passes",
       note: `Now, before any results, let me define the cost of test-time compute.
-It comes down to just *one number*.
-The formula up top says it: cost, c, is just the number of *extra forward passes* through the encoder.
-Let me make it concrete with the two cards on the slide.
+It comes down to just *one number*, c.
+That's just the number of *extra forward passes* through the encoder.
+Let me explain it with the two cards on the slide.
 They do the same move. They mix in some neighbor information, then they re-score.
 The card on the left is SoftCentroid.
 It averages document vectors you've *already computed*, so there's no new forward pass.
@@ -221,16 +215,16 @@ The other spends compute on new text.`},
    {
       n: 16, sec: 49, title: "Two admission rules",
       note: `Now that we can price compute,
-we run that exact same loop under *two different rules*.
-The first rule is the *compute search*.
+we run that exact same loop under *two different goals*.
+The first goal is the *compute search*.
 It admits a program only if its in-domain performance beats every program before it,
 so it is actively pushed to spend more inference.
-The second rule is the *transfer search*.
+The second goal is the *transfer search*.
 It keeps a program only if it improves on a *validation split*, with nothing getting worse,
 and it gets *no reward at all* for spending compute.
 And to be clear, that validation split still comes from what the loop *can* see.
-Neither rule ever touches the nineteen *final* held-out tasks, or the unseen encoders.
-So that's two objectives, running on the same loop.
+Neither search ever touches the nineteen *final* held-out tasks, or the unseen encoders.
+So that's two goals, running on the same loop.
 Let's see what each one comes up with.`},
 
    {
@@ -309,8 +303,8 @@ That small bit of structure is enough to pull the *right* documents up.
 And it's all recombination. No new model.`},
 
    {
-      n: 22, sec: 20, title: "It transfers across encoders and languages",
-      note: `And this genuinely *transfers*.
+      n: 22, sec: 21, title: "It transfers across encoders and languages",
+      note: `And this *transfers* across models and languages.
 Remember, it was discovered only on jina-nano.
 But the improvement is positive on *all four* encoders.
 And the *biggest* bars are Gemma and Qwen.
@@ -351,8 +345,8 @@ It's fifty years of IR, re-derived by an agent overnight.`},
       note: `So that was version A.
 A frozen encoder, where cheap structure won and raw compute didn't.
 And autoresearch is how we found that.
-But let me move *one level up*, from the model to the whole search pipeline.
-Because you can see test-time compute at the pipeline level just as easily.
+But let me move *one level up*, from the model layer to the search pipeline.
+And you will also see test-time compute at the pipeline level.
 In 2025, we had deep research and agentic search, which was *one loop* on the open web.
 In 2026, we have long-horizon tasks, which add implementation, a sandbox, and evals on top of retrieval, running for hours.
 Both patterns need more looping, and more compute at test time.
@@ -371,7 +365,7 @@ You explore the web and build the corpus with cheap tokens from small local mode
 And you save the expensive budget for later, for exploitation.`},
 
    {
-      n: 27, sec: 51, title: "searchbox",
+      n: 27, sec: 47, title: "searchbox",
       note: `Second is *searchbox*.
 This is the testbed to study agentic search and tool calling.
 And it's designed to be *airgapped*, so the agent has no internet access.
@@ -383,7 +377,6 @@ Things like grep, embed, and rerank.
 And that lets you ask some interesting questions.
 Which tool does the agent reach for first?
 Is grep all you need?
-Or does a dense retriever earn its place?
 Does forcing more compute help on the hard questions?
 And will the agent build a pipeline it can reuse later?
 Searchbox is just the testbed to study those questions.`},

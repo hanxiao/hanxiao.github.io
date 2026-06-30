@@ -35,7 +35,11 @@ button.pri:hover{color:#fff;opacity:.92}
 
 /* main split */
 main{flex:1;min-height:0;display:flex;gap:0}
-#slidepane{flex:0 0 56%;display:flex;align-items:center;justify-content:center;background:#f0f1f4;padding:18px;border-right:1px solid var(--hair)}
+#slidepane{flex:0 0 56%;display:flex;align-items:center;justify-content:center;background:#f0f1f4;padding:18px}
+#splitter{flex:0 0 10px;cursor:col-resize;position:relative;background:#fff;z-index:6}
+#splitter::before{content:"";position:absolute;left:4px;top:0;bottom:0;width:2px;background:var(--hair);border-radius:2px;transition:background .12s}
+#splitter::after{content:"";position:absolute;left:1px;top:50%;transform:translateY(-50%);width:8px;height:30px;border-radius:4px;background:transparent}
+#splitter:hover::before,#splitter.drag::before{background:var(--accent)}
 .frame{width:100%;aspect-ratio:16/9;max-height:100%;box-shadow:0 6px 28px rgba(28,30,35,.16);border-radius:6px;overflow:hidden;background:#fff}
 .frame iframe{width:100%;height:100%;border:0;display:block}
 
@@ -76,7 +80,7 @@ button.skip.on:hover{color:#fff;opacity:.92}
 @media (max-width:720px){
   header{flex-wrap:wrap;gap:8px;padding:8px 12px}
   .clock .big{font-size:24px}
-  #slidepane{display:none}
+  #slidepane,#splitter{display:none}
   #notepane{padding:12px 16px 16px}
   #note{font-size:27px;line-height:1.4}
   #prevBtn,#nextBtn,#fsBtn,.fontbtns{display:none}
@@ -104,6 +108,7 @@ button.skip.on:hover{color:#fff;opacity:.92}
 <div id="rhint"></div>
 <main>
   <section id="slidepane"><div class="frame"><iframe id="deck" src="../index.html" title="slide"></iframe></div></section>
+  <div id="splitter" title="Drag to resize · double-click to reset"></div>
   <section id="notepane">
     <div class="nmeta">
       <span class="ttl" id="ntitle">—</span>
@@ -121,7 +126,7 @@ button.skip.on:hover{color:#fff;opacity:.92}
     <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
   </section>
 </main>
-<script src="notes.js?v=41"></script>
+<script src="notes.js?v=42"></script>
 <script src="../sync.js?v=1"></script>
 <script>
 const N = window.NOTES || [];
@@ -253,6 +258,29 @@ if(isMobile){ try{ deck.src='about:blank'; }catch(_){} }   // phone: don't load 
   $('backBig').onclick=()=>go(-1); $('nextBig').onclick=()=>go(1);
   setInterval(broadcast, 15000);   // heartbeat: re-assert the current slide; self-heals dropped taps + late joiners
   ui();
+})();
+
+// ---- adjustable split: drag the divider to resize the slide vs notes panes ----
+(function(){
+  const main=document.querySelector('main'), sp=$('slidepane'), sptr=$('splitter');
+  if(!sptr||!sp||isMobile) return;
+  try{ const v=localStorage.getItem('aie-split'); if(v) sp.style.flexBasis=v; }catch(_){}
+  let drag=false;
+  function move(e){
+    if(!drag) return;
+    const r=main.getBoundingClientRect();
+    let pct=((e.clientX-r.left)/r.width)*100;
+    pct=Math.max(26,Math.min(74,pct));        // keep both panes usable
+    sp.style.flexBasis=pct.toFixed(1)+'%';
+  }
+  sptr.addEventListener('mousedown',e=>{ drag=true; sptr.classList.add('drag');
+    deck.style.pointerEvents='none';          // let mouse cross the slide iframe while dragging
+    document.body.style.userSelect='none'; e.preventDefault(); });
+  window.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',()=>{ if(!drag) return; drag=false; sptr.classList.remove('drag');
+    deck.style.pointerEvents=''; document.body.style.userSelect='';
+    try{ localStorage.setItem('aie-split',sp.style.flexBasis||'56%'); }catch(_){} });
+  sptr.addEventListener('dblclick',()=>{ sp.style.flexBasis='56%'; try{ localStorage.removeItem('aie-split'); }catch(_){} });
 })();
 
 render();
