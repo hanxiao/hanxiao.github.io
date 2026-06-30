@@ -5,7 +5,7 @@
    No dashes. This is a talk, not a paper. Keep 1:1 with index.html. */
 window.NOTES = [
    {
-      n: 1, sec: 42, title: "Title",
+      n: 1, sec: 45, title: "Title",
       note: `Hi everyone, I'm Han Xiao.
 I founded and ran *Jina AI* between 2020-2025,
 and last October, we were acquired by Elastic.
@@ -61,7 +61,7 @@ It's the same idea, at two different *levels*.
 So let's start with version A.`},
 
    {
-      n: 5, sec: 38, title: "Small models are distilled from LLMs",
+      n: 5, sec: 35, title: "Small models are distilled from LLMs",
       note: `So, version A runs over a small, *frozen* encoder.
 And there's a common belief that small models *can't improve* here,
 that test-time compute belongs to the big reasoning models.
@@ -75,7 +75,7 @@ Do they?
 That's exactly what I wanted to find out.`},
 
    {
-      n: 6, sec: 40, title: "The scoring spectrum",
+      n: 6, sec: 53, title: "The scoring spectrum",
       note: `Here's the intuition for how a frozen model could improve.
 Look at these three panels.
 They go from the simplest way to score a match on the left, to the most detailed on the right.
@@ -92,7 +92,7 @@ With *no new model* at all.
 Just more work on the vectors you already have.`},
 
    {
-      n: 7, sec: 35, title: "The strict question",
+      n: 7, sec: 38, title: "The strict question",
       note: `So let me make the question *strict*.
 How much can a frozen, single-vector encoder improve at inference *alone*?
 And I do mean strict.
@@ -121,7 +121,7 @@ You're writing the markdown files that set up an autonomous research org.
 And that loop generated *everything you're about to see*.`},
 
    {
-      n: 9, sec: 40, title: "The method loop",
+      n: 9, sec: 35, title: "The method loop",
       note: `Here's the whole loop in one picture. Just follow the boxes, left to right.
 A *proposer*, which is an LLM agent, writes a program over the frozen encoder.
 The *evaluator* then scores that program.
@@ -132,7 +132,7 @@ That's the *feedback*. Memory conditions the next program, so every round builds
 Let me quickly walk through the four pieces.`},
 
    {
-      n: 10, sec: 35, title: "Proposer",
+      n: 10, sec: 37, title: "Proposer",
       note: `First up is the proposer.
 It's Opus 4.6, used purely as a *mutation function*.
 It reads the current best program and the memory ledger,
@@ -145,7 +145,7 @@ then that is exactly what it will chase.
 Whether those improvements hold up *anywhere else* is a separate question.`},
 
    {
-      n: 11, sec: 35, title: "Program",
+      n: 11, sec: 32, title: "Program",
       note: `Next is the program.
 It's just arbitrary Python over the encoder.
 And the one piece that matters is *embed_fn*.
@@ -158,7 +158,7 @@ Those taboos force it toward *task-agnostic structure*,
 instead of a config that's secretly tuned for each task.`},
 
    {
-      n: 12, sec: 38, title: "Evaluator",
+      n: 12, sec: 41, title: "Evaluator",
       note: `Then comes the evaluator.
 Every program runs on the same *fourteen* discovery tasks,
 spanning legal, financial, long-document, and general retrieval.
@@ -172,7 +172,7 @@ So later we can ask a clean question. Does what wins *here* also hold up *there*
 And that gap is the whole experiment.`},
 
    {
-      n: 13, sec: 30, title: "Memory",
+      n: 13, sec: 31, title: "Memory",
       note: `And last is the memory.
 It's a simple JSONL ledger, with one row per program.
 Each row stores the scores, the cost, the parent, and a short lesson.
@@ -185,7 +185,7 @@ A biased metric doesn't just mislead one program.
 It steers the *entire family tree*.`},
 
    {
-      n: 14, sec: 42, title: "Setup",
+      n: 14, sec: 49, title: "Setup",
       note: `Now let me set up the rules of the game.
 They decide everything that follows.
 The discovery tasks are the same fourteen I just mentioned.
@@ -201,7 +201,7 @@ and it has to *generalize to all of it*.
 The metric, again, is delta-nDCG (say: delta n-D-C-G) at ten, versus cosine.`},
 
    {
-      n: 15, sec: 50, title: "The distinction: cost = extra forward passes",
+      n: 15, sec: 52, title: "The distinction: cost = extra forward passes",
       note: `Now, before any results, let me define the cost of test-time compute.
 It comes down to just *one number*.
 The formula up top says it: cost, c, is just the number of *extra forward passes* through the encoder.
@@ -217,7 +217,7 @@ One reuses geometry you already have.
 The other spends compute on new text.`},
 
    {
-      n: 16, sec: 35, title: "Two admission rules",
+      n: 16, sec: 49, title: "Two admission rules",
       note: `Now that we can price compute,
 we run that exact same loop under *two different rules*.
 The first rule is the *compute search*.
@@ -232,7 +232,7 @@ So that's two objectives, running on the same loop.
 Let's see what each one comes up with.`},
 
    {
-      n: 17, sec: 38, title: "In-domain Pareto",
+      n: 17, sec: 49, title: "In-domain Pareto",
       note: `Let's start with the compute search.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
 The x-axis is the compute you spend, on a log scale; the y-axis is the score.
@@ -245,7 +245,7 @@ But this is all still *in-domain*. We haven't run the held-out test yet.
 So let's take a quick look at those twelve programs, and then run them on held-out data.`},
 
    {
-      n: 18, sec: 25, title: "The twelve programs",
+      n: 18, sec: 28, title: "The twelve programs",
       note: `So here are those twelve programs, drawn as little diagrams.
 Don't try to read each one.
 The only thing I want you to take away is this.
@@ -256,7 +256,7 @@ It does look like a clean scaling story. //
 But the improvements, as you'll see, do *not*.`},
 
    {
-      n: 19, sec: 55, title: "Held-out results",
+      n: 19, sec: 46, title: "Held-out results",
       note: `Now we run those twelve compute programs on the held-out data. //
 Same chart as before.
 Compute runs left to right. The score runs up and down.
@@ -273,7 +273,7 @@ So more compute did *not* transfer.
 The cheap structure did.`},
 
    {
-      n: 20, sec: 42, title: "Heatmap",
+      n: 20, sec: 37, title: "Heatmap",
       note: `If we plot every program against every held-out task, we get this heatmap.
 The four blocks are the four encoders.
 Three of them were never seen in discovery.
@@ -289,7 +289,7 @@ Compute does help in places.
 It just doesn't help *reliably* on new encoders.`},
 
    {
-      n: 21, sec: 40, title: "Transfer search",
+      n: 21, sec: 60, title: "Transfer search",
       note: `Now let's look at the other rule, the transfer search.
 It picks six *completely different* programs.
 These aren't the twelve compute ones.
@@ -308,7 +308,7 @@ The two *Consensus* programs instead average several views into one.
 And none of it is a new model. It's all recombination of the vectors we already have.`},
 
    {
-      n: 22, sec: 40, title: "It transfers across encoders and languages",
+      n: 22, sec: 20, title: "It transfers across encoders and languages",
       note: `And this genuinely *transfers*.
 Remember, it was discovered only on jina-nano.
 But the improvement is positive on *all four* encoders.
@@ -318,7 +318,7 @@ So this isn't a quirk of one model.
 It rides *general embedding geometry*.`},
 
    {
-      n: 23, sec: 40, title: "Structure vs a learned head",
+      n: 23, sec: 20, title: "Structure vs a learned head",
       note: `Now, the obvious objection. Why not just *train a head*?
 So we tried that, at the same budget.
 In-domain, it looks *fantastic*. //
@@ -327,7 +327,7 @@ So a learned head just *memorizes*.
 The cheap structure *generalizes*.`},
 
    {
-      n: 24, sec: 40, title: "Rediscoveries: classical IR",
+      n: 24, sec: 45, title: "Rediscoveries: classical IR",
       note: `So what is this structure that keeps transferring?
 Look at the winning programs.
 They are *not new*.
@@ -346,7 +346,7 @@ Even to encoders we never touched. //
 It's fifty years of IR, re-derived by an agent overnight.`},
 
    {
-      n: 25, sec: 45, title: "The trend (2025 to 2026)",
+      n: 25, sec: 47, title: "The trend (2025 to 2026)",
       note: `So that was version A.
 A frozen encoder, where cheap structure won and raw compute didn't.
 And autoresearch is how we found that.
@@ -359,7 +359,7 @@ So to study agentic search at test time, I built three small open-source project
 And all three are just test-time compute in practice.`},
 
    {
-      n: 26, sec: 42, title: "dataroom",
+      n: 26, sec: 40, title: "dataroom",
       note: `First is the *dataroom*.
 You give it a token budget. It searches, it reads, it writes.
 Over and over. Until it packs everything into one *zip file*.
@@ -370,7 +370,7 @@ You explore the web and build the corpus with cheap tokens from small local mode
 And you save the expensive budget for later, for exploitation.`},
 
    {
-      n: 27, sec: 42, title: "searchbox",
+      n: 27, sec: 51, title: "searchbox",
       note: `Second is *searchbox*.
 This is the testbed to study agentic search and tool calling.
 And it's designed to be *airgapped*, so the agent has no internet access.
@@ -388,7 +388,7 @@ And will the agent build a pipeline it can reuse later?
 Searchbox is just the testbed to study those questions.`},
 
    {
-      n: 28, sec: 40, title: "knowledge-graph",
+      n: 28, sec: 32, title: "knowledge-graph",
       note: `So how do you *evaluate* agentic search like that?
 Well, you need *hard questions*. That's the third project, the *knowledge-graph*.
 It turns the corpus into a knowledge graph.
@@ -399,7 +399,7 @@ The agent has to spend real test-time compute, connecting facts to get there.
 So it's a tool for building a private verifier.`},
 
    {
-      n: 29, sec: 35, title: "Synthesis",
+      n: 29, sec: 28, title: "Synthesis",
       note: `So let's connect the dots.
 Both versions are doing the *same thing*.
 They both spend compute at test time.
@@ -410,7 +410,7 @@ So it's two *levels*, but they share one bet.
 Spend more *test-time compute*, not a bigger model.`},
 
    {
-      n: 30, sec: 25, title: "Close",
+      n: 30, sec: 26, title: "Close",
       note: `Finally, let me leave you with one line. //
 *Information retrieval is test-time compute.*
 Don't reach for a bigger model.
