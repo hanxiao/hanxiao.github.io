@@ -324,13 +324,15 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink)}
 
 /* cross-model heatmap */
-.hmwrap{display:flex;gap:24px;justify-content:center}
+.hmwrap{display:flex;gap:18px;justify-content:center}
 .hmpanel{display:flex;flex-direction:column;align-items:center;gap:7px}
 .hmlabel{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink)}
 .hmlabel .tag{display:block;font-size:11.5px;font-weight:600;margin-top:1px}
 .hmlabel .tag.uns{color:var(--foil-ink)}
 .hmlabel .tag.disc{color:var(--accent)}
-.hmgrid{display:grid;gap:1.5px}
+.hmgrid{display:grid;gap:1.5px;padding:6px;border:1.3px solid var(--hair2);border-radius:6px;background:#fff}
+.hmpanel.disc .hmgrid{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
+.hmpanel.disc .hmlabel{color:var(--accent)}
 /* heatmap axis labels: rows = programs by compute cost (cheap top -> costly bottom), cols = held-out tasks */
 .hmframe{display:flex;align-items:stretch;justify-content:center;gap:13px}
 .hmyax{display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:36px 0 5px;font-family:var(--mono)}
@@ -1415,7 +1417,7 @@ function drawHeatmap(){
     return d>=0 ? mix([0,191,179]) : mix([240,78,152]);
   };
   H.models.forEach((m,mi)=>{
-    const panel=document.createElement('div'); panel.className='hmpanel';
+    const panel=document.createElement('div'); panel.className='hmpanel'+(m.seen==='discovery'?' disc':'');
     const lab=document.createElement('div'); lab.className='hmlabel';
     lab.innerHTML=m.label+'<span class="tag '+(m.seen==='unseen'?'uns':(m.seen==='discovery'?'disc':''))+'">'+(m.seen||'held-out')+'</span>';
     panel.appendChild(lab);

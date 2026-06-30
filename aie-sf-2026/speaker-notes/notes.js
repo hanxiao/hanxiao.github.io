@@ -289,7 +289,7 @@ Compute does help in places.
 It just doesn't help *reliably* on new encoders.`},
 
    {
-      n: 21, sec: 60, title: "Transfer search",
+      n: 21, sec: 57, title: "Transfer search",
       note: `Now let's look at the other rule, the transfer search.
 It picks six *completely different* programs.
 These aren't the twelve compute ones.
@@ -299,13 +299,12 @@ But here's the part that matters. //
 It never loses on a single task.
 Across all six, the worst single query is only about *minus a tenth*.
 Now, what do these programs actually do?
-The *Axis* ones, Penta, Deca, Dodeca, and Cross-Axis, all work with *directions*.
-Each one picks a few directions in the embedding space.
-Then it re-scores the documents along them.
-The first three just count the directions. Five, ten, twelve.
-And Cross-Axis crosses two of them.
-The two *Consensus* programs instead average several views into one.
-And none of it is a new model. It's all recombination of the vectors we already have.`},
+They only touch the query and document vectors you already have.
+Then they add a little cheap math on top.
+Some nudge the query toward the documents it already likes.
+Some pick a few useful directions in the space, and re-score along them.
+That small bit of structure is enough to pull the *right* documents up.
+And it's all recombination. No new model.`},
 
    {
       n: 22, sec: 20, title: "It transfers across encoders and languages",
