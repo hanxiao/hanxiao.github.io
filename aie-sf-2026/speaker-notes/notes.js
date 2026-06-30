@@ -152,9 +152,9 @@ And the one piece that matters is *embed_fn*.
 That is the *compute budget*.
 Every embed_fn call re-embeds some text, or switches an adapter, or picks a smaller dimension.
 So one call is one unit of compute.
-There are also some *taboos*.
+There are also some *constraints*.
 The program can't use hyperparameters, task routing, external models, or learned weights.
-Those taboos force it toward *task-agnostic structure*,
+Those constraints force it toward *task-agnostic structure*,
 instead of a config that's secretly tuned for each task.`},
 
    {
