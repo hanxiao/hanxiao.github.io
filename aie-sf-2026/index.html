@@ -819,17 +819,17 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 7 TWO OBJECTIVES ============ -->
 <section class="slide">
-  <div class="kicker">Two searches, same loop</div>
-  <h2 class="h-slide sm">We run the search under two admission rules.</h2>
+  <div class="kicker">Two rubrics, same loop</div>
+  <h2 class="h-slide sm">We run the search under two rubrics.</h2>
   <div class="body" style="justify-content:flex-start;padding-top:70px">
     <div class="cards">
       <div class="card">
-        <div class="ttl">Compute search</div>
+        <div class="ttl">Compute rubric</div>
         <div class="desc">Admit a program if its in-domain performance beats every prior one. The proposer is encouraged to spend more inference.</div>
         <div class="foot">→ how high can the in-domain frontier climb?</div>
       </div>
       <div class="card hero">
-        <div class="ttl">Transfer search</div>
+        <div class="ttl">Transfer rubric</div>
         <div class="desc">Admit only if a validation split improves with no task regressing past 0.05. No reward for spending compute.</div>
         <div class="foot accent">→ what holds up out of domain?</div>
       </div>
@@ -883,8 +883,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="body row" style="gap:32px">
     <div class="fill" style="flex:1.45">
       <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute search</div>
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer search</div>
+        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute rubric</div>
+        <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer rubric</div>
       </div>
       <div class="chart" id="c-money" style="height:calc(100% - 22px)"></div>
     </div>
@@ -922,8 +922,8 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <!-- ============ 10 TRANSFER FRONTIER TABLE ============ -->
 <section class="slide">
-  <div class="kicker">The transfer search</div>
-  <h2 class="h-slide sm">A different search finds six cheap programs that transfer.</h2>
+  <div class="kicker">The transfer rubric</div>
+  <h2 class="h-slide sm">A different rubric finds six cheap programs that transfer.</h2>
   <div class="body" style="gap:18px;justify-content:center">
     <table class="bt" id="t-transfer">
       <thead><tr><th>Program</th><th>\(c\)</th><th>Median</th><th>Win-rate</th><th>Mean</th><th>Worst cell</th></tr></thead>
@@ -1261,7 +1261,7 @@ function drawPareto(){
   all.forEach(p=>{ const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08 && Math.abs(f[1]-p[1])<0.0006);
     if(isFr)return;
     svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:INK,'stroke-width':2}));});
-  // frontier line + points (pink = the compute search)
+  // frontier line + points (pink = the compute rubric)
   let d='';fr.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
   svg.appendChild(el('path',{d,fill:'none',stroke:FOIL,'stroke-width':2.6,'stroke-linejoin':'round'}));
   fr.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:5.5,fill:FOIL,stroke:'#fff','stroke-width':1.4})));

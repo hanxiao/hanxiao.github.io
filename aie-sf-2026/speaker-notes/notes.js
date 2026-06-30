@@ -213,23 +213,23 @@ One reuses geometry you already have.
 The other spends compute on new text.`},
 
    {
-      n: 16, sec: 49, title: "Two admission rules",
+      n: 16, sec: 48, title: "Two rubrics",
       note: `Now that we can price compute,
-we run that exact same loop under *two different goals*.
-The first goal is the *compute search*.
+we run that exact same loop under *two different rubrics*.
+The first is the *compute rubric*.
 It admits a program only if its in-domain performance beats every program before it,
 so it is actively pushed to spend more inference.
-The second goal is the *transfer search*.
+The second is the *transfer rubric*.
 It keeps a program only if it improves on a *validation split*, with nothing getting worse,
 and it gets *no reward at all* for spending compute.
 And to be clear, that validation split still comes from what the loop *can* see.
-Neither search ever touches the nineteen *final* held-out tasks, or the unseen encoders.
-So that's two goals, running on the same loop.
+Neither rubric ever touches the nineteen *final* held-out tasks, or the unseen encoders.
+So that's two rubrics, running on the same loop.
 Let's see what each one comes up with.`},
 
    {
       n: 17, sec: 49, title: "In-domain Pareto",
-      note: `Let's start with the compute search.
+      note: `Let's start with the compute rubric.
 When you tell it to spend compute, it draws this *beautiful, clean curve*.
 The x-axis is the compute you spend, on a log scale; the y-axis is the score.
 There are 144 programs, and twelve of them sit on the Pareto front,
@@ -257,7 +257,7 @@ But the improvements, as you'll see, do *not*.`},
 Same chart as before.
 Compute runs left to right. The score runs up and down.
 The dashed line across the middle is the baseline.
-Look at the pink line, the compute search.
+Look at the pink line, the compute rubric.
 It's basically *flat*, hugging zero the whole way out.
 So out of domain, more compute buys you essentially *nothing*.
 Now look at the blue dots, the transfer programs.
@@ -285,8 +285,8 @@ Compute does help in places.
 It just doesn't help *reliably* on new encoders.`},
 
    {
-      n: 21, sec: 57, title: "Transfer search",
-      note: `Now let's look at the other rule, the transfer search.
+      n: 21, sec: 57, title: "Transfer rubric",
+      note: `Now let's look at the other rubric, the transfer rubric.
 It picks six *completely different* programs.
 These aren't the twelve compute ones.
 And they're all cheap, at most one and a half times.
@@ -413,5 +413,5 @@ And that's my talk.
 You can grab these slides from the QR code up here.
 The paper and the projects are on my *GitHub* and *arXiv*.
 Thank you so much.
-Happy hacking.`},
+Happy engineering.`},
 ];
