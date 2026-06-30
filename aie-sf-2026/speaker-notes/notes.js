@@ -8,7 +8,7 @@ window.NOTES = [
 note:`Hi everyone, I'm Han Xiao.
 I founded and ran *Jina AI*,
 and last October, we were acquired by Elastic.
-So I'm now VP of AI there.
+Now I run model training and inference there.
 Here's the question I want to answer today.
 Big models get better by *thinking longer* at inference.
 We call that test-time compute.
