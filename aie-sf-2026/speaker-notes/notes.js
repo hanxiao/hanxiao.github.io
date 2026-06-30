@@ -28,7 +28,7 @@ Instead of training a bigger model,
 you spend *more compute at inference time*, and you get a *better answer* back.
 It shows up in a few familiar forms,
 like best-of-n, self-consistency, or a verifier that reranks candidates.
-Noam Brown, from OpenAI, put a number on this.
+Noam Brown from OpenAI, put a number on this.
 He found that a poker bot thinking for *twenty seconds*
 got the same boost as scaling the model *a hundred thousand times*.
 That's the promise of test-time compute. //
@@ -86,7 +86,7 @@ where every query token is matched against every document token.
 But that needs a multi-vector model, which we don't have.
 The interesting part is the *middle* panel, the one I've outlined in blue.
 You take the same frozen encoder, split the document into sentences, and max over them.
-That's what I mean by *test-time structure*.
+That's what I mean by *test-time compute*.
 You get closer to late interaction.
 With *no new model* at all.
 Just more work on the vectors you already have.`},

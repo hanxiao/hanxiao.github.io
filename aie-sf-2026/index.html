@@ -513,7 +513,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         </svg>
         <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
         <div class="vssub">same encoder, document split into sentence vectors</div>
-        <div class="vstag">test-time structure</div>
+        <div class="vstag">test-time compute</div>
       </div>
 
       <div class="vspanel">
@@ -799,7 +799,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div style="text-align:center;font-size:19px">\( c \;=\; 1 \,+\, \dfrac{\text{extra forward passes}}{\text{baseline passes}} \)</div>
     <div class="cards" style="margin-top:16px">
       <div class="card">
-        <div class="ttl" style="color:var(--accent)">Test-time structure &nbsp;&middot;&nbsp; c = 1</div>
+        <div class="ttl" style="color:var(--accent)">Test-time compute &nbsp;&middot;&nbsp; c = 1</div>
         <div class="desc"><strong>SoftCentroid:</strong> average the top-k document vectors you <em>already</em> computed, mix into the query, re-score.</div>
         <div class="eq">q&prime; = q + mean(d_emb[top-k])</div>
         <div class="foot" style="color:var(--accent)">Zero extra forward passes - only algebra on vectors you already have.</div>
