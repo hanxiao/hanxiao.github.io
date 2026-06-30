@@ -404,11 +404,14 @@ So it's two *levels*, but they share one bet.
 Spend more *test-time compute*, not a bigger model.`},
 
    {
-      n: 30, sec: 26, title: "Close",
-      note: `Finally, let me leave you with one line. //
+      n: 30, sec: 36, title: "Close",
+      note: `Finally, let me leave you with the big picture. //
 *Information retrieval is test-time compute.*
-Don't reach for a bigger model.
+So don't reach for a bigger model.
 *Do more search* at inference instead. //
+And you don't have to design that search by hand.
+*Autoresearch* discovers it for you, overnight.
+That's how we *scale* test-time compute. //
 And that's my talk.
 You can grab these slides from the QR code up here.
 The paper and the projects are on my *GitHub* and *arXiv*.
