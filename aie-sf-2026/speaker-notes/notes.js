@@ -5,8 +5,10 @@
    No dashes. This is a talk, not a paper. Keep 1:1 with index.html. */
 window.NOTES = [
    {
-      n: 1, sec: 45, title: "Title",
-      note: `Hi everyone, I'm Han Xiao.
+      n: 1, sec: 48, title: "Title",
+      note: `Good morning, everyone.
+Thanks so much for being here.
+I'm Han Xiao.
 I founded and ran *Jina AI* between 2020-2025,
 and last October, we were acquired by Elastic.
 Now I run model training and inference there.
