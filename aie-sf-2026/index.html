@@ -366,6 +366,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 .qr img{width:172px;height:172px;display:block}
 .qr .qrtop{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);max-width:150px;text-align:center;line-height:1.3}
 .qr .qrlabel{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+.qrgrid .qrtop{min-height:2.8em;max-width:174px;display:flex;flex-direction:column;justify-content:flex-end}
 .qr-abs{position:absolute;right:104px;top:50%;transform:translateY(-50%)}
 /* compact top-right corner repo QR (echo of the title-slide QR) */
 .qr-corner{position:absolute;top:46px;right:76px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:6;text-decoration:none}
@@ -1179,7 +1180,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <span class="lk">github.com/hanxiao</span> &nbsp;·&nbsp; <span class="lk">arXiv:2605.11374</span><br>
     <span class="hx">@hxiao</span> &nbsp;·&nbsp; <span class="hx">in/hxiao87</span>
   </div>
-  <div style="position:absolute;right:80px;bottom:54px;display:flex;gap:24px;align-items:flex-end">
+  <div class="qrgrid" style="position:absolute;right:76px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:auto auto;column-gap:46px;row-gap:28px;justify-items:center;align-items:start">
     <div class="qr">
       <div class="qrtop">follow on X</div>
       <img src="img/qr-x.png" alt="QR code to x.com/hxiao" style="width:140px;height:140px">
@@ -1196,7 +1197,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
       <div class="qrlabel">hanxiao.io/aie-sf-2026</div>
     </div>
     <div class="qr">
-      <div class="qrtop">Jul 1 Elastic hackathon</div>
+      <div class="qrtop">Elastic hackathon this evening</div>
       <img src="img/qr-hackathon.png" alt="QR code to luma.com/aws-elastic-hacknight" style="width:140px;height:140px">
       <div class="qrlabel">register on Luma</div>
     </div>

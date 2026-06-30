@@ -413,7 +413,7 @@ And you don't have to design that search by hand.
 *Autoresearch* discovers it for you, overnight.
 That's how we *scale* test-time compute. //
 And that's my talk.
-You can grab these slides from the QR codes down here.
+You can grab these slides from the QR codes here.
 The paper and the projects are on my *GitHub* and *arXiv*.
 Thank you so much.
 Happy engineering.`},
