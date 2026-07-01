@@ -16,7 +16,14 @@
   var MQURL = 'wss://broker.emqx.io:8084/mqtt', MQTOP = 'aie-sf-2026/' + TOPIC;
   var mq = null, mqOnMsg = null;
 
-  function pack(s){ return JSON.stringify({ s:s, t:Date.now() }); }
+  // Each controller session gets a monotonically-increasing epoch. Followers lock onto the
+  // newest epoch and ignore any lingering older controller -- that's what "kicks" a stale remote
+  // (e.g. a leftover phone tab or a desktop with Remote still on) so it can't flash the projector.
+  var EPOCH = 0;
+  function takeover(){ EPOCH = Math.max(Date.now(), EPOCH + 1); }
+  takeover();   // mint a session at load so our messages outrank anything left over
+
+  function pack(s){ return JSON.stringify({ s:s, t:Date.now(), e:EPOCH }); }
   function post(u, b, retries){
     try{
       fetch(u, {method:'POST', body:b, keepalive:true})
@@ -35,10 +42,18 @@
 
   /* ---------- follow: subscribe to every channel; cb(slide) on the freshest ---------- */
   function follow(cb){
-    var lastT = 0;
+    var bestE = -1, lastT = 0, lastRx = 0;
     function onMsg(raw){
-      try{ var o = (typeof raw === 'string') ? JSON.parse(raw) : raw;
-           if(o && o.t > lastT && o.s >= 1){ lastT = o.t; cb(o.s); } }catch(_){}
+      try{
+        var o = (typeof raw === 'string') ? JSON.parse(raw) : raw;
+        if(!o || !(o.s >= 1)) return;
+        var e = +o.e || 0, t = +o.t || 0, now = Date.now();
+        // ignore a stale controller while the current one is still live (it heartbeats every 15s);
+        // but if the current one has gone silent for 20s, let whoever is talking take over (no lockout).
+        if(e < bestE && (now - lastRx) < 20000) return;
+        if(e !== bestE){ bestE = e; lastT = 0; }        // new / fallback controller -> clean slate
+        if(t > lastT){ lastT = t; lastRx = now; cb(o.s); }
+      }catch(_){}
     }
     mqOnMsg = onMsg;
     ntfyFollow(onMsg);
@@ -94,5 +109,5 @@
     }catch(_){}
   }
 
-  window.Sync = { topic:TOPIC, publish:publish, follow:follow, ensureMqtt:ensureMqtt };
+  window.Sync = { topic:TOPIC, publish:publish, follow:follow, ensureMqtt:ensureMqtt, takeover:takeover };
 })();
