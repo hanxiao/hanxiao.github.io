@@ -393,13 +393,17 @@ The agent has to spend real test-time compute, connecting facts to get there.
 So it's a tool for building a private verifier.`},
 
    {
-      n: 29, sec: 28, title: "Synthesis",
+      n: 29, sec: 38, title: "Synthesis",
       note: `So let's connect the dots.
 Both versions are doing the *same thing*.
 They both spend compute at test time.
 And *neither one grows the model*.
 In version A, we found a special embedding algebra over a frozen model that improves search relevance.
-In version B, we found a pipeline of tools that improves it too.
+In version B, we chain three tools together.
+We use the *dataroom* to maximize recall.
+We use *searchbox* to maximize precision.
+And we use the *knowledge graph* for the evaluations.
+Put them together, and you find a pipeline with strong search relevance.
 So it's two *levels*, but they share one bet.
 Spend more *test-time compute*, not a bigger model.`},
 
