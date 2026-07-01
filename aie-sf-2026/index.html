@@ -61,7 +61,7 @@ strong,b{font-weight:700}
   border-top:1px solid var(--hair);padding-top:11px}
 #chrome.hidden{display:none}
 #chrome .r{display:flex;gap:18px;align-items:center}
-#chrome .hx{color:var(--accent);font-weight:600}
+#chrome .hx{color:var(--accent);font-weight:600;text-decoration:none;cursor:pointer}
 
 /* ---- title slide ---- */
 .title{justify-content:center}
@@ -403,7 +403,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   </div>
   <div class="qr qr-abs">
     <div class="qrtop">scan for the slides</div>
-    <img src="img/qr.png" alt="QR code to hanxiao.io/aie-sf-2026">
+    <a href="https://hanxiao.io/aie-sf-2026" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr.png" alt="QR code to hanxiao.io/aie-sf-2026"></a>
     <div class="qrlabel">hanxiao.io/aie-sf-2026</div>
   </div>
 </section>
@@ -1066,7 +1066,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ DATAROOM (stage 1, before searchbox) ============ -->
 <section class="slide">
   <div class="kicker">Version B &middot; the corpus stage</div>
-  <a class="qr-corner" href="https://github.com/hanxiao/dataroom">
+  <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub Repo</span>
     <img src="img/qr-dataroom.png" alt="QR code to github.com/hanxiao/dataroom">
   </a>
@@ -1091,7 +1091,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ SEARCHBOX (stage 2) ============ -->
 <section class="slide">
   <div class="kicker">Version B &middot; the search stage</div>
-  <a class="qr-corner" href="https://github.com/hanxiao/searchbox">
+  <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub Repo</span>
     <img src="img/qr-searchbox.png" alt="QR code to github.com/hanxiao/searchbox">
   </a>
@@ -1116,7 +1116,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 <!-- ============ KNOWLEDGE-GRAPH (stage 3: the verifier) ============ -->
 <section class="slide">
   <div class="kicker">Version B &middot; the verifier</div>
-  <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor">
+  <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub Repo</span>
     <img src="img/qr-knowledge-graph.png" alt="QR code to github.com/hanxiao/knowledge-graph-extractor">
   </a>
@@ -1183,22 +1183,22 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
   <div class="qrgrid" style="position:absolute;right:76px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:auto auto;column-gap:46px;row-gap:28px;justify-items:center;align-items:start">
     <div class="qr">
       <div class="qrtop">follow on X</div>
-      <img src="img/qr-x.png" alt="QR code to x.com/hxiao" style="width:140px;height:140px">
+      <a href="https://x.com/hxiao" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-x.png" alt="QR code to x.com/hxiao" style="width:140px;height:140px"></a>
       <div class="qrlabel">x.com/hxiao</div>
     </div>
     <div class="qr">
       <div class="qrtop">LinkedIn</div>
-      <img src="img/qr-linkedin.png" alt="QR code to linkedin.com/in/hxiao87" style="width:140px;height:140px">
+      <a href="https://www.linkedin.com/in/hxiao87" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-linkedin.png" alt="QR code to linkedin.com/in/hxiao87" style="width:140px;height:140px"></a>
       <div class="qrlabel">in/hxiao87</div>
     </div>
     <div class="qr">
       <div class="qrtop">these slides</div>
-      <img src="img/qr.png" alt="QR code to hanxiao.io/aie-sf-2026" style="width:140px;height:140px">
+      <a href="https://hanxiao.io/aie-sf-2026" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr.png" alt="QR code to hanxiao.io/aie-sf-2026" style="width:140px;height:140px"></a>
       <div class="qrlabel">hanxiao.io/aie-sf-2026</div>
     </div>
     <div class="qr">
       <div class="qrtop">Elastic hackathon this evening</div>
-      <img src="img/qr-hackathon.png" alt="QR code to luma.com/aws-elastic-hacknight" style="width:140px;height:140px">
+      <a href="https://luma.com/aws-elastic-hacknight" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-hackathon.png" alt="QR code to luma.com/aws-elastic-hacknight" style="width:140px;height:140px"></a>
       <div class="qrlabel">register on Luma</div>
     </div>
   </div>
@@ -1206,7 +1206,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
 
 <div id="chrome">
   <div class="l">Autoresearch &amp; test-time compute for information retrieval</div>
-  <div class="r"><span class="hx">X: @hxiao</span><span id="pg">1 / 30</span></div>
+  <div class="r"><a class="hx" href="https://x.com/hxiao" target="_blank" rel="noopener" onclick="event.stopPropagation()">X: @hxiao</a><span id="pg">1 / 30</span></div>
 </div>
 
 </div>
