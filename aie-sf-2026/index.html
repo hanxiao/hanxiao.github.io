@@ -1228,10 +1228,18 @@ function show(n){
   if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
 }
 function fit(){
-  const s=Math.min(window.innerWidth/1280, window.innerHeight/720);
+  // in-app browsers (LinkedIn/Twitter WKWebView) can report a 0-size viewport on first load.
+  // fall back through every source, and never scale to 0 (that collapses the stage to a blank page).
+  const vv = window.visualViewport;
+  const w = (vv && vv.width)  || window.innerWidth  || document.documentElement.clientWidth  || (window.screen && screen.width)  || 1280;
+  const h = (vv && vv.height) || window.innerHeight || document.documentElement.clientHeight || (window.screen && screen.height) || 720;
+  let s = Math.min(w/1280, h/720);
+  if(!(s > 0)) s = 1;
   stage.style.transform=`translate(-50%,-50%) scale(${s})`;
 }
-window.addEventListener('resize',fit);
+// re-fit on anything that can follow a late/again viewport sizing (in-app webviews are unreliable here)
+['resize','orientationchange','load','pageshow'].forEach(ev=>window.addEventListener(ev,fit));
+if(window.visualViewport) window.visualViewport.addEventListener('resize',fit);
 window.addEventListener('keydown',e=>{
   if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){show(i+1);e.preventDefault();}
   else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){show(i-1);e.preventDefault();}
@@ -1461,6 +1469,8 @@ function renderAll(){drawPareto();drawMoney();drawPermodel();drawHead();drawHeat
 /* init */
 function init(){
   fit();
+  requestAnimationFrame(fit);
+  [60,160,320,650,1200].forEach(t=>setTimeout(fit,t));   // catch in-app webviews that size the viewport late
   const h=parseInt((location.hash||'#1').slice(1))||1; show(h-1);
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(renderAll);}
   renderAll();
