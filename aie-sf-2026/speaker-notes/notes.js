@@ -5,13 +5,13 @@
    No dashes. This is a talk, not a paper. Keep 1:1 with index.html. */
 window.NOTES = [
    {
-      n: 1, sec: 48, title: "Title",
+      n: 1, sec: 51, title: "Title",
       note: `Good morning, everyone.
 Thanks so much for being here.
-I'm Han Xiao.
+My name is Han Xiao.
 I founded and ran *Jina AI* between 2020-2025,
 and last October, we were acquired by Elastic.
-Now I run model training and inference there.
+Now I run the model training and inference team there.//
 Here's the question I want to answer today.
 Big models get better by *thinking longer* at inference.
 We call that test-time compute.
@@ -58,7 +58,7 @@ It might chunk the document, z-score and fuse the different scoring signals, or 
 Think of it as multi-pass algebra on embeddings.
 The second one, *version B*, I'll come to later.
 There, a small agent wires up retrieval tools like grep, embed, and rerank,
-over a corpus, under a budget.
+over a corpus, under a token budget.
 It's the same idea, at two different *levels*.
 So let's start with version A.`},
 
@@ -66,7 +66,7 @@ So let's start with version A.`},
       n: 5, sec: 35, title: "Small models are distilled from LLMs",
       note: `So, version A runs over a small, *frozen* encoder.
 And there's a common belief that small models *can't improve* here,
-that test-time compute belongs to the big reasoning models.
+that test-time compute belongs to the big reasoning models.//
 But look at where today's embedders come from.
 Models like E5-Mistral, Qwen3-Embed, EmbeddingGemma, and our own jina-v5.
 They are all *distilled from LLM backbones*.
@@ -77,29 +77,30 @@ Do they?
 That's exactly what I wanted to find out.`},
 
    {
-      n: 6, sec: 53, title: "The scoring spectrum",
+      n: 6, sec: 57, title: "The scoring spectrum",
       note: `Here's the intuition for how a frozen model could improve.
 Look at these three panels.
 They go from the simplest way to score a match on the left, to the most detailed on the right.
-On the left, you have a single cosine, one vector per document.
+On the left, you have a single cosine distance, one vector per document and one per query.
 That's our *frozen baseline*.
 On the right, you have ColBERT-style (say: Col-BERT) late interaction,
 where every query token is matched against every document token.
-But that needs a multi-vector model, which we don't have.
+One can consider it as an extreme case of test-time compute.
 The interesting part is the *middle* panel, the one I've outlined in blue.
 You take the same frozen encoder, split the document into sentences, and max over them.
 That's what I mean by *test-time compute*.
 You get closer to late interaction.
 With *no new model* at all.
-Just more work on the vectors you already have.`},
+Just more work on the embedding model you already have.`},
 
    {
-      n: 7, sec: 29, title: "The strict question",
+      n: 7, sec: 35, title: "The strict question",
       note: `So let me make the question *strict*.
 How much can a frozen, single-vector encoder improve at inference *alone*?
 And I do mean strict.
-No retraining, no second model, and no learned parameters.
-Just one frozen encoder, behind an API.
+Just one frozen encoder, behind an API. 
+You can call it as many times as you want,
+But no retraining, no second model, and no learned parameters. //
 The popular methods all break one of these rules.
 HyDE (say: hide) puts an LLM in the query path.
 GQR (say: G-Q-R) adds a second retriever.
@@ -108,8 +109,9 @@ So we forbid all three.`},
 
    {
       n: 8, sec: 43, title: "Autoresearch",
-      note: `Even with the constraints, the search space is huge.
-So how do you search it? With *autoresearch*.
+      note: `But even with the constraints, the search space is huge.
+So how do you search it? 
+With *autoresearch*.
 Instead of me handcrafting the programs,
 an agent runs the research loop by itself.
 It changes one file, it runs a short experiment,
@@ -185,22 +187,22 @@ A biased metric doesn't just mislead one program.
 It steers the *entire family tree*.`},
 
    {
-      n: 14, sec: 35, title: "Setup",
+      n: 14, sec: 44, title: "Setup",
       note: `Now let me set up the models we used here.
-We run the search on a single encoder, jina-v5-nano.
-And everything else is *held out*.
-We hold out a bigger model from the same family.
-And most importantly, we hold out *two completely unseen families*, Gemma and Qwen.
+We run the search on a single encoder, jina-v5-nano, 
+239M parameters, and state of the art on multilingual retrieval.
+We choose nano as our discovery-phase model, because it is small and reduces the cycle time of each experiment.
+We hold out a bigger model from the same family, plus two unseen families, Gemma and Qwen.
 They share no training data and no tokenizer with the discovery model.
 And we also hold out the nineteen evaluation tasks, the ones the loop never sees.
-So one program gets discovered here,
-and it has to *generalize to all of it*.`},
+So one program gets discovered using jina-v5-nano,
+and it has to *generalize to all the encoders and all the tasks*.`},
 
    {
-      n: 15, sec: 49, title: "The distinction: cost = extra forward passes",
+      n: 15, sec: 52, title: "The distinction: cost = extra forward passes",
       note: `Now, before any results, let me define the cost of test-time compute.
 It comes down to just *one number*, c.
-That's just the number of *extra forward passes* through the encoder.
+That's just the number of *extra forward passes* through the encoder. //
 Let me explain it with the two cards on the slide.
 They do the same move. They mix in some neighbor information, then they re-score.
 The card on the left is SoftCentroid.
@@ -214,7 +216,7 @@ The other spends compute on new text.`},
 
    {
       n: 16, sec: 48, title: "Two rubrics",
-      note: `Now that we can price compute,
+      note: `Now that we can *price* compute,
 we run that exact same loop under *two different rubrics*.
 The first is the *compute rubric*.
 It admits a program only if its in-domain performance beats every program before it,
@@ -285,15 +287,13 @@ Compute does help in places.
 It just doesn't help *reliably* on new encoders.`},
 
    {
-      n: 21, sec: 57, title: "Transfer rubric",
+      n: 21, sec: 49, title: "Transfer rubric",
       note: `Now let's look at the other rubric, the transfer rubric.
 It picks six *completely different* programs.
 These aren't the twelve compute ones.
 And they're all cheap, at most one and a half times.
 The best one wins on 83 percent of the held-out set.
-But here's the part that matters. //
-It never loses on a single task.
-Across all six, the worst single query is only about *minus a tenth*.
+And it never loses on a single task. //
 Now, what do these programs actually do?
 They only touch the query and document vectors you already have.
 Then they add a little cheap math on top.
@@ -341,17 +341,16 @@ Even to encoders we never touched. //
 It's fifty years of IR, re-derived by an agent overnight.`},
 
    {
-      n: 25, sec: 47, title: "The trend (2025 to 2026)",
+      n: 25, sec: 44, title: "The trend (2025 to 2026)",
       note: `So that was version A.
 A frozen encoder, where cheap structure won and raw compute didn't.
 And autoresearch is how we found that.
 But let me move *one level up*, from the model layer to the search pipeline.
-And you will also see test-time compute at the pipeline level.
+And you will see the same test-time compute reflected at the pipeline level.
 In 2025, we had deep research and agentic search, which was *one loop* on the open web.
 In 2026, we have long-horizon tasks, which add implementation, a sandbox, and evals on top of retrieval, running for hours.
 Both patterns need more looping, and more compute at test time.
-So to study agentic search at test time, I built three small open-source projects.
-And all three are just test-time compute in practice.`},
+So to study agentic search at test time, I built three small open-source projects.`},
 
    {
       n: 26, sec: 40, title: "dataroom",
@@ -362,7 +361,7 @@ I call it a dataroom, because it kind of reminds me of the data rooms I prepared
 That zip is a distilled corpus of the open web, ready for the next agent to consume.
 And notice the *token economy* here.
 You explore the web and build the corpus with cheap tokens from small local models, like Qwen 27b/35b-a3b.
-And you save the expensive budget for later, for exploitation.`},
+And you save the expensive frontier tokens for later, for exploitation.`},
 
    {
       n: 27, sec: 47, title: "searchbox",
@@ -393,22 +392,22 @@ The agent has to spend real test-time compute, connecting facts to get there.
 So it's a tool for building a private verifier.`},
 
    {
-      n: 29, sec: 38, title: "Synthesis",
+      n: 29, sec: 43, title: "Synthesis",
       note: `So let's connect the dots.
 Both versions are doing the *same thing*.
 They both spend compute at test time.
 And *neither one grows the model*.
 In version A, we found a special embedding algebra over a frozen model that improves search relevance.
-In version B, we chain three tools together.
+In version B, we build a stack to find the best pipeline.
 We use the *dataroom* to maximize recall.
 We use *searchbox* to maximize precision.
 And we use the *knowledge graph* for the evaluations.
-Put them together, and you find a pipeline with strong search relevance.
+And that finally gives us a pipeline with strong search relevance.
 So it's two *levels*, but they share one bet.
 Spend more *test-time compute*, not a bigger model.`},
 
    {
-      n: 30, sec: 42, title: "Close",
+      n: 30, sec: 46, title: "Close",
       note: `Finally, let me leave you with the big picture. //
 *Search is test-time compute.*
 So don't reach for a bigger model.
