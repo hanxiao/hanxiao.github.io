@@ -600,7 +600,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">→</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">→</div>
-        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
+        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">→</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
@@ -637,7 +637,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
+        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
@@ -649,7 +649,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="spdetail">
       <div class="spdesign">
         <div class="mlabel accent">Design</div>
-        <p class="cap">Opus 4.6 reads the current frontier source and the memory ledger, edits <strong>one</strong> Python program, and proposes the next. Keep it if the metric improves, else revert. No human in the inner loop.</p>
+        <p class="cap">Opus 4.6 reads the current frontier source and the memory file, edits <strong>one</strong> Python program, and proposes the next. Keep it if the metric improves, else revert. No human in the inner loop.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>
@@ -672,7 +672,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
+        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
@@ -708,7 +708,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox lit"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
+        <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
@@ -743,7 +743,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox lit"><div class="fn">Memory</div><div class="fd">JSONL ledger</div></div>
+        <div class="fbox lit"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
       </div>
@@ -755,7 +755,7 @@ table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
     <div class="spdetail">
       <div class="spdesign">
         <div class="mlabel accent">Design</div>
-        <p class="cap">A JSONL ledger, one row per program: per-task <span class="mono">&Delta;nDCG@10</span>, win/tie/loss, cost ratio, parent, a novelty claim, and a post-hoc lesson. The proposer reads the frontier source plus this history, so each round builds on the last.</p>
+        <p class="cap">A JSONL file, one row per program: per-task <span class="mono">&Delta;nDCG@10</span>, win/tie/loss, cost ratio, parent, a novelty claim, and a post-hoc lesson. The proposer reads the frontier source plus this history, so each round builds on the last.</p>
       </div>
       <div class="spcaveat">
         <div class="mlabel" style="color:var(--foil-ink)">Caveat</div>

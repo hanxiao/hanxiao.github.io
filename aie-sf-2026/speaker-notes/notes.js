@@ -138,7 +138,7 @@ Let me quickly walk through the four pieces.`},
       n: 10, sec: 37, title: "Proposer",
       note: `First up is the proposer.
 It's Opus 4.6, used purely as a *mutation function*.
-It reads the current best program and the memory ledger,
+It reads the current best program and the memory file,
 and then it edits one Python file and proposes the next one.
 There is no human in the inner loop.
 Now, here's the catch. //
@@ -176,9 +176,9 @@ And that gap is the whole experiment.`},
    {
       n: 13, sec: 31, title: "Memory",
       note: `And last is the memory.
-It's a simple JSONL ledger, with one row per program.
+It's a simple JSONL file, with one row per program.
 Each row stores the scores, the cost, the parent, and a short lesson.
-The proposer reads this ledger before every round,
+The proposer reads this file before every round,
 so the whole search *compounds* over time.
 But compounding cuts both ways.
 It builds on real wins, yes,
