@@ -20,11 +20,13 @@
 
     function size() {
       var r = img.getBoundingClientRect();
-      W = Math.round(r.width) || img.naturalWidth;
-      Hc = Math.round(W * ROWS / COLS);
+      W = r.width || img.naturalWidth;
+      Hc = r.height || img.naturalHeight;
       var dpr = window.devicePixelRatio || 1;
-      canvas.width = W * dpr; canvas.height = Hc * dpr;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(Hc * dpr);
       canvas.style.width = W + 'px'; canvas.style.height = Hc + 'px';
+      canvas.style.left = img.offsetLeft + 'px';
+      canvas.style.top = img.offsetTop + 'px';
       ctx = canvas.getContext('2d');
       ctx.scale(dpr, dpr);
       ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
@@ -32,12 +34,12 @@
     }
 
     function build() {
+      var p = img.parentNode;
+      if (getComputedStyle(p).position === 'static') p.style.position = 'relative';
       canvas = document.createElement('canvas');
       canvas.style.display = 'none';
-      canvas.style.cursor = 'pointer';
-      canvas.title = 'click';
+      canvas.style.position = 'absolute';
       size();
-      canvas.addEventListener('click', toggle);
       canvas.addEventListener('pointermove', function (e) {
         if (still) return;
         var q = canvas.getBoundingClientRect();
@@ -51,6 +53,9 @@
         if (on) { size(); draw(); }
       });
       img.parentNode.insertBefore(canvas, img.nextSibling);
+      document.addEventListener('click', function (e) {
+        if (on && e.target !== img && e.target !== canvas) toggle();
+      });
     }
 
     function draw() {
@@ -98,12 +103,12 @@
       on = !on;
       if (on) {
         size();
-        img.style.display = 'none';
+        img.style.visibility = 'hidden';
         canvas.style.display = 'block';
         draw();
       } else {
         canvas.style.display = 'none';
-        img.style.display = '';
+        img.style.visibility = '';
         if (raf) { cancelAnimationFrame(raf); raf = 0; }
         for (var k = 0; k < dx.length; k++) { dx[k] = 0; dy[k] = 0; }
       }
