@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TopK x Jina v4 - Multi-Vector Late Interaction Search</title>
+<meta name="description" content="A live demo of multi-vector (late-interaction) retrieval: Jina embeddings v4 token/patch-level vectors stored in TopK and scored with MaxSim. Cross-modal text and image search." />
+<link rel="canonical" href="https://hanxiao.io/topk-jina-v4-multivec/" />
+<meta name="theme-color" content="#ffffff" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="TopK x Jina v4 - Multi-Vector Late Interaction Search" />
+<meta property="og:description" content="Late-interaction retrieval live: Jina v4 multi-vector embeddings + TopK MaxSim. Text and image in one index." />
+<meta property="og:url" content="https://hanxiao.io/topk-jina-v4-multivec/" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>
+:root{
+  --ink:#111;--ink2:#3a3a3a;--mut:#6b6b6b;--faint:#9a9a9a;
+  --line:#e6e6e6;--line2:#111;--bg:#fff;--panel:#fafafa;--accent:#111;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:var(--mono);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line2)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px}
+.kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+h1{font-size:20px;font-weight:600;margin:6px 0 2px;letter-spacing:-.01em;line-height:1.25}
+.sub{color:var(--mut);font-size:12.5px;margin:8px 0 0;line-height:1.6}
+.sub b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--line2);margin:20px 0 18px}
+.rule.soft{background:var(--line)}
+/* controls */
+.searchbar{display:flex;gap:0;border:1px solid var(--line2);background:#fff}
+.searchbar input{flex:1;min-width:0;border:0;outline:0;background:transparent;
+  font-family:var(--mono);font-size:15px;color:var(--ink);padding:13px 12px}
+.searchbar button{border:0;border-left:1px solid var(--line2);background:#111;color:#fff;
+  font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:0 16px;cursor:pointer}
+.searchbar button:active{opacity:.75}
+.searchbar button:disabled{background:#888;cursor:default}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;margin:14px 0 2px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.seg{display:inline-flex;border:1px solid var(--line);}
+.seg button{border:0;background:#fff;color:var(--mut);font-family:var(--mono);
+  font-size:12px;padding:6px 12px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-selected="true"]{background:#111;color:#fff}
+select,.tagsel{font-family:var(--mono);font-size:12px;color:var(--ink);background:#fff;
+  border:1px solid var(--line);padding:6px 8px;outline:0}
+/* examples */
+.ex{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 0}
+.ex .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);width:100%}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink2);font-family:var(--mono);
+  font-size:12px;padding:5px 9px;cursor:pointer}
+.chip:hover{border-color:var(--line2)}
+/* meta line */
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11px;color:var(--mut);margin:16px 0 6px}
+.meta b{color:var(--ink);font-weight:600}
+/* results */
+.res{list-style:none;margin:0;padding:0}
+.row{display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:1px solid var(--line2)}
+.rank{width:20px;flex:0 0 20px;font-size:12px;color:var(--faint);padding-top:2px;text-align:right;font-variant-numeric:tabular-nums}
+.thumb{flex:0 0 66px;width:66px;height:66px;object-fit:cover;border:1px solid var(--line);background:var(--panel)}
+.body{flex:1;min-width:0}
+.rtitle{font-size:14px;font-weight:600;color:var(--ink);margin:0 0 3px;letter-spacing:-.01em}
+.rcontent{font-size:12.5px;color:var(--ink2);margin:0;overflow-wrap:anywhere}
+.rtags{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:10px;letter-spacing:.06em;color:var(--mut);border:1px solid var(--line);padding:2px 6px}
+.badge{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);
+  border:1px solid var(--line);padding:2px 6px}
+.score{flex:0 0 auto;text-align:right;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;padding-top:1px}
+.score .s{font-weight:600}
+.score .cap{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:2px}
+/* states */
+.note{color:var(--mut);font-size:12.5px;padding:24px 0;text-align:center}
+.err{border:1px solid var(--line2);padding:12px;font-size:12.5px;color:var(--ink);margin-top:14px}
+/* explainer */
+.how{margin-top:34px}
+.how h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:0 0 12px}
+.how p{font-size:12.5px;color:var(--ink2);margin:0 0 11px;line-height:1.65}
+.how code{background:var(--panel);border:1px solid var(--line);padding:1px 5px;font-size:11.5px}
+.foot{margin-top:34px;font-size:11px;color:var(--faint);line-height:1.7}
+.spin{display:inline-block;width:11px;height:11px;border:1.5px solid #ccc;border-top-color:#111;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-1px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:520px){
+  .thumb{flex-basis:52px;width:52px;height:52px}
+  .searchbar input{font-size:15px}
+  .score{flex-basis:100%;text-align:left;margin-top:8px}
+  .score .cap{display:inline;margin-left:8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Late Interaction Retrieval Demo</div>
+  <h1>TopK &times; Jina&nbsp;Embeddings&nbsp;v4</h1>
+  <p class="sub">
+    Every document and query is encoded into <b>many token- and patch-level vectors</b>
+    (not one pooled vector) with <b>jina-embeddings-v4</b>, stored in a <b>TopK</b>
+    <code style="font-size:11px">matrix</code> field, and ranked by <b>MaxSim</b> late interaction.
+    Text and images live in <b>one index</b>, so a text query retrieves both.
+  </p>
+
+  <div class="rule"></div>
+
+  <div class="searchbar">
+    <input id="q" type="text" placeholder="Search by meaning..." autocomplete="off" spellcheck="false" />
+    <button id="go">SEARCH</button>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lbl">Modality</span>
+      <div class="seg" id="modseg">
+        <button data-v="all" aria-selected="true">All</button>
+        <button data-v="text">Text</button>
+        <button data-v="image">Image</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lbl">Filter tag</span>
+      <select id="tag" class="tagsel">
+        <option value="">any</option>
+        <option value="animal">animal</option>
+        <option value="food">food</option>
+        <option value="nature">nature</option>
+        <option value="car">car</option>
+        <option value="landmark">landmark</option>
+        <option value="technology">technology</option>
+        <option value="ai">ai</option>
+        <option value="science">science</option>
+      </select>
+    </div>
+    <div class="ctl">
+      <span class="lbl">Top K</span>
+      <select id="topk">
+        <option>5</option><option selected>8</option><option>12</option><option>20</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="ex">
+    <span class="lbl">Try</span>
+    <button class="chip">a cute kitten</button>
+    <button class="chip">famous tower in Paris</button>
+    <button class="chip">something delicious to eat</button>
+    <button class="chip">fast red vehicle</button>
+    <button class="chip">how do plants make energy</button>
+    <button class="chip">token-level search</button>
+  </div>
+
+  <div id="out"></div>
+
+  <div class="how">
+    <h2>How it works</h2>
+    <p>
+      <b>1. Multi-vector embedding.</b> Instead of pooling an input into a single vector,
+      jina-embeddings-v4 emits an <code>N&times;128</code> matrix &mdash; one 128-d vector per
+      text token, or per image patch. A short query is ~5&ndash;10 vectors; an image is a few
+      hundred patch vectors.
+    </p>
+    <p>
+      <b>2. TopK matrix field + MaxSim.</b> Each document's matrix is stored in a TopK
+      <code>multi_vector_index</code> with <code>metric="maxsim"</code>. Scoring sums, over each
+      query vector, its best match against any document vector &mdash; preserving fine-grained
+      signal that single-vector search averages away.
+    </p>
+    <p>
+      <b>3. One cross-modal index.</b> Text and image vectors share the same space, so a text
+      query ranks images and passages together. The <b>modality</b> and <b>tag</b> controls use
+      TopK metadata filtering fused into the same vector query.
+    </p>
+  </div>
+
+  <div class="foot">
+    jina-embeddings-v4 (2048-d model, 128-d multi-vector output) &middot; TopK maxsim, f16 matrix &middot;
+    keys stay server-side &middot; <a href="https://jina.ai/models" target="_blank" rel="noopener">jina.ai/models</a> &middot;
+    <a href="https://docs.topk.io/guides/multi-vector-search" target="_blank" rel="noopener">topk.io</a>
+  </div>
+</div>
+
+<script>
+const API = "https://topk-api.hanxiao.io";
+const IMG = "https://hanxiao.io/topk-jina-v4-multivec/img";
+let modality = "all";
+
+const $ = s => document.querySelector(s);
+const q = $("#q"), out = $("#out"), go = $("#go");
+
+$("#modseg").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  modality = b.dataset.v;
+  [...$("#modseg").children].forEach(x => x.setAttribute("aria-selected", x===b));
+});
+document.querySelectorAll(".chip").forEach(c =>
+  c.addEventListener("click", () => { q.value = c.textContent; search(); }));
+go.addEventListener("click", search);
+q.addEventListener("keydown", e => { if(e.key==="Enter") search(); });
+
+function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+async function search(){
+  const query = q.value.trim();
+  if(!query) return;
+  go.disabled = true;
+  out.innerHTML = '<div class="note"><span class="spin"></span> embedding query &amp; scoring MaxSim...</div>';
+  try{
+    const r = await fetch(API + "/search", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ q: query, modality, topk: parseInt($("#topk").value,10), tag: $("#tag").value })
+    });
+    const d = await r.json();
+    if(!r.ok || d.error) throw new Error(d.error || ("HTTP "+r.status));
+    render(d);
+  }catch(err){
+    out.innerHTML = '<div class="err"><b>Error:</b> '+esc(String(err.message||err))+
+      '<br><span style="color:var(--mut)">The demo backend may be waking up. Try again in a moment.</span></div>';
+  }finally{ go.disabled = false; }
+}
+
+function render(d){
+  const t = d.timings_ms || {};
+  let html = '<div class="meta">'+
+    '<span>query &rarr; <b>'+d.query_vectors+'</b> vectors &times; <b>'+d.dim+'</b>d</span>'+
+    '<span>embed <b>'+t.embed+'</b>ms</span>'+
+    '<span>maxsim <b>'+t.topk+'</b>ms</span>'+
+    '<span><b>'+d.results.length+'</b> hits</span>'+
+    '</div>';
+  if(!d.results.length){ out.innerHTML = html + '<div class="note">No matches for this filter.</div>'; return; }
+  html += '<ul class="res">';
+  d.results.forEach((x,i)=>{
+    const isImg = x.modality === "image";
+    const thumb = isImg ? '<img class="thumb" loading="lazy" src="'+IMG+"/"+esc(x.img)+'" alt="'+esc(x.title)+'">' : "";
+    const tags = (x.tags||"").split(" ").filter(Boolean).map(t=>'<span class="tag">'+esc(t)+'</span>').join("");
+    html += '<li class="row">'+
+      '<div class="rank">'+(i+1)+'</div>'+
+      thumb +
+      '<div class="body">'+
+        '<div class="rtitle">'+esc(x.title)+'</div>'+
+        (x.content ? '<p class="rcontent">'+esc(x.content)+'</p>' : '<p class="rcontent" style="color:var(--faint)">image document</p>')+
+        '<div class="rtags"><span class="badge">'+(isImg?"image":"text")+'</span>'+tags+'</div>'+
+      '</div>'+
+      '<div class="score"><span class="s">'+x.score.toFixed(3)+'</span><span class="cap">maxsim</span></div>'+
+    '</li>';
+  });
+  html += '</ul>';
+  out.innerHTML = html;
+}
+
+// warm the backend on load
+fetch(API + "/health").catch(()=>{});
+</script>
+</body>
+</html>
