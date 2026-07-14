@@ -211,6 +211,7 @@
   display: block !important;
   margin: 2em auto 0.6em !important;
   max-width: 100%;
+  height: auto;
 }
 
 /* === Publication / media lists: two-column rows with dotted leader === */
@@ -350,6 +351,7 @@
 
   .about-page .post-content img {
     max-width: 100%;
+    height: auto;
   }
 
   .about-page .post-content li {
