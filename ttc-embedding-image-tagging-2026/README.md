@@ -1,4 +1,4 @@
-# Test-time compute for image tagging with a frozen jina-embeddings-v5-omni
+# Test-time compute of jina-v5-omni for image tagging
 
 Talk deck by Han Xiao (VP of AI, Elastic). 23 slides, ~15 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast), MathJax math.
