@@ -354,9 +354,9 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       </div>
       <div style="flex:1.08">
         <div class="stats" style="flex-direction:column;gap:24px">
-          <div class="stat"><div class="v o">0.813</div><div class="l" style="max-width:44ch">precision@1 on COCO-150 multi-label, from a 1B embedding model with no tagging head; 14-crop mode, ~1 s/image (fast mode: 0.753 at 75 ms)</div></div>
+          <div class="stat"><div class="v o">0.813</div><div class="l" style="max-width:44ch">precision@1 on COCO-150 multi-label, 14-crop mode (fast mode: 0.753 at 75 ms)</div></div>
           <div class="stat"><div class="v o">128,260</div><div class="l" style="max-width:44ch">tokens in the label vocabulary, self-gated to 25,465 words at scoring time: no curated tag list</div></div>
-          <div class="stat"><div class="v o">0</div><div class="l" style="max-width:44ch">training steps, second models, dictionaries, annotations: every signal is test-time compute over one frozen encoder</div></div>
+          <div class="stat"><div class="v o">0</div><div class="l" style="max-width:44ch">training steps, second models, dictionaries, annotations: everything is test-time compute</div></div>
         </div>
       </div>
     </div>
@@ -369,14 +369,14 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">Research questions</div>
   <h2 class="h-slide sm">Three questions prior work leaves open.</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:80ch">The previous talk established <strong>search</strong> as test-time compute over a frozen encoder. Image tagging has strong prior work, but each approach requires training, a curated label list, or external lexical resources. This talk removes all three:</p>
+    <p class="cap" style="max-width:80ch">Prior tagging work requires training, a curated label list, or external lexical resources. This talk removes all three:</p>
     <div class="nlist" style="gap:22px">
       <div class="nitem"><div class="n" style="min-width:60px">RQ1</div><div class="t">Can the tokenizer vocabulary replace a curated label set?
-        <span>RAM / RAM++ train tagging models over ~6,400 curated tags; TagCLIP (AAAI&rsquo;24) and PIAA (&ldquo;[CLS] is not enough&rdquo;, patch-level inference) assume the class list is given. Here, the label space is the model&rsquo;s own 128,260-token vocabulary.</span></div></div>
+        <span>RAM / RAM++ train over ~6,400 curated tags; TagCLIP (AAAI&rsquo;24) and PIAA (&ldquo;[CLS] is not enough&rdquo;) assume a given class list.</span></div></div>
       <div class="nitem"><div class="n" style="min-width:60px">RQ2</div><div class="t">Can one frozen model supply every signal: features, labels, word filter, dedup?
-        <span>Training-free tagging builds on two-tower CLIP plus external resources: WordNet, dictionaries, POS tags. Here: a single frozen omni encoder, nothing else.</span></div></div>
+        <span>Prior training-free work: two-tower CLIP plus WordNet, dictionaries, POS tags.</span></div></div>
       <div class="nitem"><div class="n" style="min-width:60px">RQ3</div><div class="t">Which test-time compute scales accuracy: re-processing features, or new information?
-        <span>The 2024&ndash;26 literature bets on re-processing: whitening (PIAA), label propagation (ZLaP), optimal transport (OTTER), Bayesian adaptation (BCA). This talk measures each against one alternative: re-encoding new crops.</span></div></div>
+        <span>The literature bets on re-processing: whitening (PIAA), propagation (ZLaP), transport (OTTER), priors (BCA). Measured here against re-encoding new crops.</span></div></div>
     </div>
   </div>
 </section>
@@ -417,12 +417,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div class="deflist" style="max-width:980px">
       <div class="defrow"><div class="tag sm">open-vocabulary</div><div class="dsc">no curated tag list; the label space is the model&rsquo;s own.</div></div>
       <div class="defrow"><div class="tag sm">multi-label</div><div class="dsc">a photo has many objects; recall them all.</div></div>
-      <div class="defrow"><div class="tag sm">single frozen model</div><div class="dsc">every signal from one encoder: adding a tag list or a POS tagger would mean the model is no longer doing the work.</div></div>
+      <div class="defrow"><div class="tag sm">single frozen model</div><div class="dsc">every signal from one encoder, or the model is no longer doing the work.</div></div>
     </div>
     <div>
       <span class="chip on">Zero training</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
     </div>
-    <p class="cap" style="max-width:80ch;font-size:16.5px">The constraint is the experimental control: whatever tagging quality appears is attributable to test-time compute over the frozen geometry, and to nothing else.</p>
   </div>
 </section>
 
@@ -629,7 +628,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <p class="cap">Raw cosine has a base-rate bias: generic words ("bed", "cat") score high on almost any image because they sit near the image modality. Estimate a per-label prior once from neutral background images, then subtract it:
       \[ \tilde s_\ell \;=\; s_\ell-\mu_\ell,\qquad \mu_\ell=\mathbb{E}_{x\,\sim\,\text{background}}\big[s_\ell(x)\big] \]
       </p>
-      <p class="cap" style="font-size:16.5px;margin-top:10px">Pure marginal de-biasing: no calibration set, no labels, one offline pass. A word that scores high on <em>everything</em> gets centered to zero; only image-specific spikes survive. It is the lightest possible correction, and it is enough because the space is already well aligned.</p>
+      <p class="cap" style="font-size:16.5px;margin-top:10px">No calibration set, no labels, one offline pass: only image-specific spikes survive.</p>
     </div>
     <div style="flex:.95">
       <svg viewBox="0 0 320 210" style="width:100%;border:1.2px solid var(--hair2);border-radius:8px;background:#fff">
@@ -683,7 +682,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">CWR multi-crop: the one lever that raises the accuracy ceiling.</h2>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.05">
-      <p class="cap"><strong>Class-Wise Reranking (CWR)</strong>, the crop-and-rescore idea from TagCLIP (AAAI&rsquo;24), extended to a full-coverage <strong>3&times;3 + 2&times;2 + center</strong> grid: 14 crops through the same frozen model, per-label <strong>max</strong> across crops. A small object becomes large in whichever crop contains it, so its signal jumps from weak to strong.</p>
+      <p class="cap"><strong>Class-Wise Reranking (CWR)</strong>, the crop-and-rescore idea from TagCLIP (AAAI&rsquo;24), extended to a full-coverage <strong>3&times;3 + 2&times;2 + center</strong> grid: 14 crops through the same frozen model, per-label <strong>max</strong> across crops. A small object fills whichever crop contains it: weak signal becomes strong.</p>
       <div class="croprow">
         <svg width="96" height="66" viewBox="0 0 96 66"><rect x="1" y="1" width="94" height="64" fill="#fff" stroke="#1C1E23" stroke-width="1.6"/><g stroke="#0B64DD" stroke-width="1.4"><line x1="32.3" y1="1" x2="32.3" y2="65"/><line x1="63.6" y1="1" x2="63.6" y2="65"/><line x1="1" y1="22.3" x2="95" y2="22.3"/><line x1="1" y1="43.6" x2="95" y2="43.6"/></g><rect x="63.6" y="43.6" width="31.4" height="21.4" fill="#E7EEFC"/><circle cx="79" cy="54" r="4.5" fill="#0B64DD"/></svg>
         <svg width="96" height="66" viewBox="0 0 96 66"><rect x="1" y="1" width="94" height="64" fill="#fff" stroke="#1C1E23" stroke-width="1.6"/><g stroke="#0B64DD" stroke-width="1.4" stroke-dasharray="4 3"><line x1="48" y1="1" x2="48" y2="65"/><line x1="1" y1="33" x2="95" y2="33"/></g></svg>
@@ -693,7 +692,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <p class="cap" style="margin-top:12px">
       \[ S_\ell=\tilde s_\ell+1.3\big(\max_{c=1..14} s_{c,\ell}-\mu_\ell\big),\qquad s_{c,\ell}=\max\!\big(\max_{p\in P_c}\langle p,e_\ell\rangle,\;\langle g_c,e_\ell\rangle\big) \]
       </p>
-      <p class="cap" style="font-size:16.5px;margin-top:8px"><span class="abc sm b" style="vertical-align:1px;margin-right:6px">B</span>Test-time augmentation done right: full-coverage grid plus per-label <strong>max</strong>. Blind center-crop averaging <span style="color:var(--foil-ink)">hurt</span>; the outlier crop is not noise, it is the evidence.</p>
+      <p class="cap" style="font-size:16.5px;margin-top:8px"><span class="abc sm b" style="vertical-align:1px;margin-right:6px">B</span>Per-label <strong>max</strong>, not averaging: <span style="color:var(--foil-ink)">averaging hurt</span>. The outlier crop is the evidence.</p>
     </div>
     <div style="flex:.95">
       <div class="shot"><img src="img/zebra.jpg" alt="a bear, small in frame" style="height:300px;object-fit:cover"></div>
@@ -717,7 +716,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="it"><span class="abc sm">A</span><div class="tx"><strong>Global context</strong>: the pooled vector, de-biased by its own background prior. Free.</div></div>
       <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>Multi-crop</strong>: 14 fresh forward passes on new pixels. 14&times; the cost. +0.075 mAP.</div></div>
     </div>
-    <p class="eqpost">then \( \;\ell \in \text{&#288;-gated words} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) and this composition of arithmetic <strong>is</strong> the tagger.</p>
+    <p class="eqpost">then \( \;\ell \in \text{&#288;-gated words} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) </p>
     <p class="takeaway" style="margin-top:10px">No head, no logits, no learned threshold: <span class="accent">three fixed weights, two background priors, and max operations over frozen-model outputs.</span></p>
   </div>
 </section>
@@ -788,7 +787,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers; only re-encoding adds accuracy.</h2>
   <div class="body" style="justify-content:center;gap:8px">
-    <p class="cap" style="max-width:88ch;font-size:16px">RQ3, answered by measurement: each published lever (layer choice from TagCLIP, whitening from PIAA, label propagation from ZLaP, optimal transport from OTTER, Bayesian priors from BCA, transductive EM-Dirichlet, robust crop aggregation) re-implemented and evaluated on COCO-150. Each bar is the change in mAP relative to the pipeline the method was applied to.</p>
+    <p class="cap" style="max-width:88ch;font-size:16.5px">RQ3, answered by measurement: every published lever, re-implemented. Each bar: &Delta; mAP on the pipeline the method modifies.</p>
     <div class="chart" style="height:392px"><div id="c-levers" style="height:100%"></div></div>
   </div>
 </section>
@@ -798,7 +797,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Re-processing well-calibrated features yields nothing; new information does.</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:80ch">Every method that <strong>re-processes</strong> the existing features - new layer, whitening, cross-class softmax, label propagation, optimal transport, Dirichlet, robust trimming - is a no-op or a collapse. They were designed for weakly calibrated single-label CLIP. This encoder's space is already good and already multi-label, so there is nothing left to recover.</p>
+    <p class="cap" style="max-width:80ch">Re-processing methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
     <div class="cards">
       <div class="card foilcard"><div class="ttl">Re-processing features</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
       <div class="card hero"><div class="ttl accent">Feeding new information</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only intervention that improves results.</div></div>
@@ -833,9 +832,9 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div style="flex:1.05">
       <p class="cap">The Python study became a feature of <strong>Omni</strong>, a native on-device semantic-search app (Swift + MLX, same frozen model). The port reuses the architecture directly:</p>
       <div class="deflist" style="margin-top:18px">
-        <div class="defrow"><div class="tag">same forward pass</div><div class="dsc">the patch rows already exist for the file's <em>embedding</em>; tagging adds one matmul against a memory-mapped bf16 label matrix.</div></div>
+        <div class="defrow"><div class="tag">same forward pass</div><div class="dsc">the patch rows already exist for the file's <em>embedding</em>; tagging adds one matmul.</div></div>
         <div class="defrow"><div class="tag">~0.6 ms / image</div><div class="dsc">about 4% overhead on the embed step. Tagging is effectively free at index time.</div></div>
-        <div class="defrow"><div class="tag">tags = snippets</div><div class="dsc">tags land in the search snippet, so photos and videos become findable by <em>keyword</em>, not just by vector.</div></div>
+        <div class="defrow"><div class="tag">tags = snippets</div><div class="dsc">tags land in the search snippet: media becomes <em>keyword</em>-searchable.</div></div>
         <div class="defrow"><div class="tag">self-calibrating</div><div class="dsc">the background prior \(\mu\) is estimated on-device from the first 64 images it sees, then frozen.</div></div>
       </div>
     </div>
@@ -867,19 +866,19 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="mcard hero">
         <svg width="44" height="34" viewBox="0 0 44 34"><rect x="1.5" y="1.5" width="41" height="31" rx="3" fill="none" stroke="#0B64DD" stroke-width="2"/><g stroke="#0B64DD" stroke-width="1.3" stroke-dasharray="3 2.5"><line x1="22" y1="1.5" x2="22" y2="32.5"/><line x1="1.5" y1="17" x2="42.5" y2="17"/></g><rect x="12" y="9" width="20" height="16" fill="none" stroke="#0B64DD" stroke-width="2"/></svg>
         <div class="ttl">HQ image</div>
-        <div class="desc">A background <strong>re-tag pass</strong> adds the production CWR variant: 5 crops (2&times;2 with 15% overlap, plus center), per-label max, weight re-swept to 1.0 for the bf16 port.</div>
-        <div class="foot">P@1 0.773 &rarr; 0.847 (Swift, bf16) &middot; the 14-crop study config adds only ~0.01 mAP for 3&times; compute: not deployed</div>
+        <div class="desc">A background <strong>re-tag pass</strong> adds the production CWR variant: 5 crops, per-label max.</div>
+        <div class="foot">P@1 0.773 &rarr; 0.847 (Swift, bf16) &middot; 14-crop config: not deployed</div>
       </div>
       <div class="mcard">
         <svg width="44" height="34" viewBox="0 0 44 34"><rect x="1.5" y="1.5" width="41" height="31" rx="3" fill="none" stroke="#1C1E23" stroke-width="2"/><g fill="#1C1E23"><rect x="5" y="5" width="4" height="4"/><rect x="5" y="15" width="4" height="4"/><rect x="5" y="25" width="4" height="4"/><rect x="35" y="5" width="4" height="4"/><rect x="35" y="15" width="4" height="4"/><rect x="35" y="25" width="4" height="4"/></g><path d="M19 11 L29 17 L19 23 Z" fill="#0B64DD"/></svg>
         <div class="ttl">Video</div>
-        <div class="desc">Up to 32 frames sampled per <strong>240-second segment</strong> run through the tower as one sequence. The patch-max pools over <strong>space and time</strong>: a bear in one frame of one segment still fires.</div>
+        <div class="desc">32 frames per <strong>240-second segment</strong>, one sequence through the tower: patch-max pools over <strong>space and time</strong>.</div>
         <div class="foot">one tag set per segment</div>
       </div>
       <div class="mcard">
         <svg width="30" height="36" viewBox="0 0 30 36"><path d="M3 1.5 H20 L27 8.5 V34.5 H3 Z" fill="none" stroke="#1C1E23" stroke-width="2"/><path d="M20 1.5 V8.5 H27" fill="none" stroke="#1C1E23" stroke-width="2"/><g stroke="#0B64DD" stroke-width="2"><line x1="7" y1="15" x2="23" y2="15"/><line x1="7" y1="21" x2="23" y2="21"/><line x1="7" y1="27" x2="17" y2="27"/></g></svg>
         <div class="ttl">Scanned PDF</div>
-        <div class="desc">Non-extractable pages render to images and take the same path: <strong>per-page tags</strong> like "invoice, table, signature" become the page's snippet.</div>
+        <div class="desc">Pages render to images, same path: <strong>per-page tags</strong> ("invoice, table, signature") as the snippet.</div>
         <div class="foot">every page, keyword-findable</div>
       </div>
     </div>
@@ -917,7 +916,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 </section>
 
 <div id="chrome">
-  <div class="l">Test-time compute for a frozen embedding model</div>
+  <div class="l">Test-time compute of jina-v5-omni for image tagging</div>
   <div class="r"><a class="hx" href="https://x.com/hxiao" target="_blank" rel="noopener" onclick="event.stopPropagation()">X: @hxiao</a><span id="pg">1 / 20</span></div>
 </div>
 

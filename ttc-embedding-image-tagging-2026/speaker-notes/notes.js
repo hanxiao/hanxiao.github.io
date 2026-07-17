@@ -336,6 +336,7 @@ One label matrix, one scoring rule,
 and it covers *every media shape* in the app.//
 A plain image is tagged at index time, inside the embedding pass.//
 For high quality, a background re-tag pass adds crops.
+Two by two with fifteen percent overlap, plus the center.
 In production we ship *five* crops instead of fourteen,
 because fourteen only adds one point of mAP for triple the cost.
 Precision at one goes from point seven seven to *point eight five*.//
