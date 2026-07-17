@@ -189,10 +189,15 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .vspanel.foil .vsspace{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
 .vspanel.foil .vstag{color:var(--foil-ink)}
 
-/* fast-vs-hq mode rows on the qualitative cards */
-.modrow{font-family:var(--mono);font-size:11px;font-weight:600;line-height:1.55}
-.modrow b{font-weight:800;letter-spacing:.04em;margin-right:6px}
-.modrow.hq{color:var(--accent)}
+/* mode chip rows on the qualitative cards */
+.modeline{display:flex;align-items:flex-start;gap:6px}
+.modeline .mlab{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;flex:0 0 44px;padding-top:5px}
+.modeline .chips{display:flex;flex-wrap:wrap;gap:5px;flex:1;min-width:0}
+.modeline.hq .mlab{color:var(--accent)}
+.modeline.adj .mlab{color:var(--teal-ink)}
+.modeline .tg{font-size:11px;padding:4px 10px;margin:0}
+.modeline.hq .tg{border-color:var(--accent);color:var(--accent)}
+.modeline.adj .tg{border-color:var(--teal-ink);color:var(--teal-ink)}
 
 /* demo tag chips */
 .demorow{display:flex;gap:24px;width:100%;align-items:stretch}
@@ -752,35 +757,35 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
-  <h2 class="h-slide sm">Out-of-distribution photos: one pass versus 14-crop re-encoding.</h2>
+  <h2 class="h-slide sm">Out-of-distribution photos, all three modes.</h2>
   <div class="body" style="justify-content:center">
     <div class="demorow">
       <div class="democard">
         <img src="img/photo1.jpg" alt="conference hall">
         <div class="demobody">
-          <div class="demogt">AI conference hall</div>
-          <div class="modrow"><b>fast</b>onstage &middot; attendees &middot; livest &middot; concert &middot; presenter</div>
-          <div class="modrow hq"><b>--hq</b>onstage &middot; venue &middot; ceiling &middot; projector &middot; theater</div>
+          <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">onstage</span><span class="tg">attendees</span><span class="tg">livest</span></div></div>
+          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">onstage</span><span class="tg">venue</span><span class="tg">ceiling</span></div></div>
+          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">attendees onstage</span><span class="tg">projector attendees</span></div></div>
         </div>
       </div>
       <div class="democard hero">
         <img src="img/photo3.jpg" alt="porsche interior">
         <div class="demobody">
-          <div class="demogt">Porsche 911 interior</div>
-          <div class="modrow"><b>fast</b>driv &middot; rims &middot; ford &middot; traction &middot; sidew</div>
-          <div class="modrow hq"><b>--hq</b>carro &middot; rims &middot; windshield &middot; steering &middot; beach</div>
+          <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">driv</span><span class="tg">rims</span><span class="tg">ford</span></div></div>
+          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">carro</span><span class="tg">rims</span><span class="tg">windshield</span></div></div>
+          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">carro rims</span></div></div>
         </div>
       </div>
       <div class="democard">
         <img src="img/photo2.jpg" alt="expo corridor">
         <div class="demobody">
-          <div class="demogt">expo corridor</div>
-          <div class="modrow"><b>fast</b>attendees &middot; passengers &middot; protestors &middot; migrants &middot; crowded</div>
-          <div class="modrow hq"><b>--hq</b>attendees &middot; commuters &middot; demonstrators &middot; synagogue &middot; crowded</div>
+          <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">attendees</span><span class="tg">passengers</span><span class="tg">protestors</span></div></div>
+          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">attendees</span><span class="tg">commuters</span><span class="tg">demonstrators</span></div></div>
+          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">passengers attendees</span><span class="tg">crowd passengers</span></div></div>
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield). Multilingual variants and the occasional miss remain: the direct cost of a <span class="accent">zero-annotation</span> open vocabulary.</p>
+    <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield); patch-local scoring attaches modifiers. Top-3 per mode, unfiltered.</p>
   </div>
 </section>
 

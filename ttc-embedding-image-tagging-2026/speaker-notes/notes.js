@@ -263,8 +263,9 @@ now with the full ablation behind it.`},
 
   { n:16, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-Each card shows the fast pass against fourteen-crop re-encoding,
-top five tags, unfiltered.//
+Each card shows all three modes.
+The fast pass, fourteen-crop re-encoding, and patch-local adjectives.
+Top three per mode, unfiltered.//
 Look at the Porsche.
 The fast pass returns *fragments*. Driv. Sidew.
 Re-encoding turns them into words.
