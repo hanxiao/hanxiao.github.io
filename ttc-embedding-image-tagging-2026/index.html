@@ -189,6 +189,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .vspanel.foil .vsspace{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
 .vspanel.foil .vstag{color:var(--foil-ink)}
 
+/* fast-vs-hq mode rows on the qualitative cards */
+.modrow{font-family:var(--mono);font-size:11px;font-weight:600;line-height:1.55}
+.modrow b{font-weight:800;letter-spacing:.04em;margin-right:6px}
+.modrow.hq{color:var(--accent)}
+
 /* demo tag chips */
 .demorow{display:flex;gap:24px;width:100%;align-items:stretch}
 .democard{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff;overflow:hidden;display:flex;flex-direction:column}
@@ -747,32 +752,35 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
-  <h2 class="h-slide sm">Open vocabulary, out-of-distribution photos.</h2>
+  <h2 class="h-slide sm">Out-of-distribution photos: one pass versus 14-crop re-encoding.</h2>
   <div class="body" style="justify-content:center">
     <div class="demorow">
       <div class="democard">
         <img src="img/photo1.jpg" alt="conference hall">
         <div class="demobody">
-          <div class="demogt">AI conference hall &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">onstage</span><span class="tg hit">venue</span><span class="tg">ceiling</span><span class="tg">projector</span></div>
+          <div class="demogt">AI conference hall</div>
+          <div class="modrow"><b>fast</b>onstage &middot; attendees &middot; livest &middot; concert &middot; presenter</div>
+          <div class="modrow hq"><b>--hq</b>onstage &middot; venue &middot; ceiling &middot; projector &middot; theater</div>
         </div>
       </div>
       <div class="democard hero">
         <img src="img/photo3.jpg" alt="porsche interior">
         <div class="demobody">
-          <div class="demogt">Porsche 911 interior &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">carro</span><span class="tg hit">steering</span><span class="tg">rims</span><span class="tg">windshield</span></div>
+          <div class="demogt">Porsche 911 interior</div>
+          <div class="modrow"><b>fast</b>driv &middot; rims &middot; ford &middot; traction &middot; sidew</div>
+          <div class="modrow hq"><b>--hq</b>carro &middot; rims &middot; windshield &middot; steering &middot; beach</div>
         </div>
       </div>
       <div class="democard">
-        <img src="img/zebra.jpg" alt="bear on grass">
+        <img src="img/photo2.jpg" alt="expo corridor">
         <div class="demobody">
-          <div class="demogt">bear on grass &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">fur</span><span class="tg hit">bear</span><span class="tg">puppy</span><span class="tg">muzzle</span></div>
+          <div class="demogt">expo corridor</div>
+          <div class="modrow"><b>fast</b>attendees &middot; passengers &middot; protestors &middot; migrants &middot; crowded</div>
+          <div class="modrow hq"><b>--hq</b>attendees &middot; commuters &middot; demonstrators &middot; synagogue &middot; crowded</div>
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:22px">Labels come directly from the tokenizer, so multilingual variants ("carro") and occasional fragments appear. That is the direct cost of a <span class="accent">zero-annotation</span> open vocabulary.</p>
+    <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield). Multilingual variants and the occasional miss remain: the direct cost of a <span class="accent">zero-annotation</span> open vocabulary.</p>
   </div>
 </section>
 

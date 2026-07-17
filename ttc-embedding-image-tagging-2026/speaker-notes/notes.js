@@ -263,13 +263,17 @@ now with the full ablation behind it.`},
 
   { n:16, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-A conference hall, it gets onstage and venue.
-A Porsche interior, it gets carro and steering.
-A bear on grass, it gets fur and bear.//
-Because the labels come straight from the tokenizer,
-you also see multilingual variants, like *carro* for car,
-and the occasional fragment.
-That is the direct cost of a *zero-annotation* open vocabulary.`},
+Each card shows the fast pass against fourteen-crop re-encoding,
+top five tags, unfiltered.//
+Look at the Porsche.
+The fast pass returns *fragments*. Driv. Sidew.
+Re-encoding turns them into words.
+Carro, windshield, steering.//
+The conference hall sharpens from concert to venue and projector.
+The expo corridor stays crowded, but passengers become commuters.
+And one miss survives, synagogue.
+That is the direct cost of a *zero-annotation* open vocabulary,
+and I would rather show it than hide it.`},
 
   { n:17, sec:38, title:"Patch-local adjectives",
     note:`One more mode, because open vocabulary invites a harder question.
