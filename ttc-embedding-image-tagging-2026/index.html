@@ -732,7 +732,17 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 14 RESULTS ============ -->
+<!-- ============ 14 VOCAB HISTOGRAM ============ -->
+<section class="slide">
+  <div class="kicker">The equation, visualized</div>
+  <h2 class="h-slide sm" style="margin-bottom:14px">One score per token: the pipeline sharpens a distribution.</h2>
+  <div class="body" style="justify-content:center;gap:8px">
+    <div class="chart" style="height:400px"><div id="c-vhist" style="height:100%"></div></div>
+    <p class="takeaway" style="font-size:18px">Real data, one image: every token of the vocabulary is scored, centered, gated, deduplicated. <span class="accent">Tagging is distribution sharpening.</span></p>
+  </div>
+</section>
+
+<!-- ============ 15 RESULTS ============ -->
 <section class="slide">
   <div class="kicker">Results</div>
   <h2 class="h-slide sm">COCO-150, 80 categories: the full progression.</h2>
@@ -751,7 +761,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 15 QUALITATIVE ============ -->
+<!-- ============ 16 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Open vocabulary, out-of-distribution photos.</h2>
@@ -783,7 +793,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 16 ADJ MODE ============ -->
+<!-- ============ 17 ADJ MODE ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --adj</div>
   <h2 class="h-slide sm">Patch-local adjectives: modifiers without a POS tagger.</h2>
@@ -804,7 +814,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 17 TEST-TIME SCALING ============ -->
+<!-- ============ 18 TEST-TIME SCALING ============ -->
 <section class="slide">
   <div class="kicker">Test-time scaling</div>
   <h2 class="h-slide sm">Accuracy as a function of test-time compute.</h2>
@@ -814,7 +824,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 18 THE LEVERS ============ -->
+<!-- ============ 19 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers; only re-encoding adds accuracy.</h2>
@@ -824,7 +834,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 META CONCLUSION ============ -->
+<!-- ============ 20 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Re-processing well-calibrated features yields nothing; new information does.</h2>
@@ -838,7 +848,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 PRIOR WORK ============ -->
+<!-- ============ 21 PRIOR WORK ============ -->
 <section class="slide">
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
@@ -856,7 +866,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 21 OMNI ============ -->
+<!-- ============ 22 OMNI ============ -->
 <section class="slide">
   <div class="kicker">Deployment</div>
   <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
@@ -887,7 +897,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 22 MEDIA SHAPES ============ -->
+<!-- ============ 23 MEDIA SHAPES ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
   <h2 class="h-slide sm">One label matrix: images, HQ re-encoding, video, and scanned documents.</h2>
@@ -922,7 +932,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 23 SYNTHESIS ============ -->
+<!-- ============ 24 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
   <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
@@ -936,7 +946,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 24 CLOSE ============ -->
+<!-- ============ 25 CLOSE ============ -->
 <section class="slide closing">
   <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
   <div class="contact">
@@ -958,7 +968,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 </div>
 
-<script src="data.js?v=3"></script>
+<script src="data.js?v=4"></script>
 <script src="sync.js?v=1"></script>
 <script>
 const stage=document.getElementById('stage');
@@ -969,6 +979,7 @@ let i=0;
 function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  if(slides[i].querySelector('#c-vhist')&&window.restartVhist) window.restartVhist();
   pg.textContent=(i+1)+' / '+slides.length;
   footEl.classList.toggle('hidden', i===0 || i===slides.length-1);
   if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
@@ -1110,7 +1121,87 @@ function drawCompute(){
   svg.appendChild(txt(cx+36,Y(0.40)+29,'none improves its own pipeline',{fs:12.5,fill:FOIL,mono:1}));
 }
 
-function renderAll(){fillResults();drawLadder();drawLevers();drawCompute();}
+
+/* animated vocab-wide histogram: raw -> centered -> gated -> NMS/top-k (real cat.jpg data) */
+function drawVocabHist(){
+  const W=1080,H=400,L=64,R=30,T=58,B=88;
+  const svg=mount('c-vhist',W,H); if(!svg)return;
+  const V=DATA.vhist, N=V.bins;
+  const yMaxSqrt=Math.sqrt(Math.max(...V.cen.h));
+  const Y=c=>H-B-(Math.sqrt(c)/yMaxSqrt)*(H-T-B);
+  const bw=(W-L-R)/N;
+  svg.appendChild(el('line',{x1:L,y1:H-B,x2:W-R,y2:H-B,stroke:INK,'stroke-width':1.6}));
+  const stageLbl=txt(L,T-30,'',{fs:15,fw:800,fill:ACC,mono:1});
+  const stageSub=txt(L,T-10,'',{fs:13.5,fw:500,fill:INK});
+  svg.appendChild(stageLbl); svg.appendChild(stageSub);
+  svg.appendChild(txt(L-8,T-30,'',{fs:12,mono:1})); // spacer
+  const yl=txt(18,(T+H-B)/2,'token count (√ scale)',{fs:12,fw:700,anchor:'middle'});
+  yl.setAttribute('transform',`rotate(-90 18 ${(T+H-B)/2})`); svg.appendChild(yl);
+  const loT=txt(L,H-B+20,'',{fs:12,mono:1,anchor:'middle'}), hiT=txt(W-R,H-B+20,'',{fs:12,mono:1,anchor:'middle'});
+  const zeroTick=el('line',{x1:0,y1:H-B,x2:0,y2:H-B+6,stroke:INK,'stroke-width':1.4});
+  const zeroT=txt(0,H-B+20,'0',{fs:12,mono:1,anchor:'middle'});
+  svg.appendChild(zeroTick); svg.appendChild(zeroT); svg.appendChild(loT); svg.appendChild(hiT);
+  const bars=[];
+  for(let i=0;i<N;i++){const r=el('rect',{x:L+i*bw+0.5,y:H-B,width:Math.max(1,bw-1.2),height:0,fill:ACC});svg.appendChild(r);bars.push(r);}
+  const ann=el('g',{}); svg.appendChild(ann);
+  const cap=txt((L+W-R)/2,H-B+48,'',{fs:14,fw:600,anchor:'middle'});
+  const cap2=txt((L+W-R)/2,H-B+70,'',{fs:13.5,mono:1,fw:700,anchor:'middle',fill:ACC});
+  svg.appendChild(cap); svg.appendChild(cap2);
+  const S=[
+   {h:V.raw.h, lo:V.raw.lo, hi:V.raw.hi, lbl:'1 · raw fused score', sub:'all 128,260 tokens · 0.7 patch-max + 0.3 global',
+    cap:'a smooth bell: every token is somewhat close to every image', cap2:''},
+   {h:V.cen.h, lo:V.cen.lo, hi:V.cen.hi, lbl:'2 · subtract the prior', sub:'each token measured against its own \u03bc\u2113',
+    cap:'mass centers at zero; the right tail is the evidence', cap2:''},
+   {h:V.gated.h, lo:V.gated.lo, hi:V.gated.hi, lbl:'3 · word-start gate', sub:'128,260 \u2192 25,465 candidates',
+    cap:'fragments vanish; the shape survives', cap2:''},
+   {h:V.gated.h, lo:V.gated.lo, hi:V.gated.hi, lbl:'4 · the right tail, deduplicated', sub:'embedding-NMS \u2192 top-k',
+    cap:'top-8 before NMS: kitty · cat · kitten · chatte · kitt · cats · kittens · cosy — one concept',
+    cap2:'after NMS \u2192 '+V.final.join(' · ')}
+  ];
+  function setStage(a,b,t){ // interpolate a->b
+    const lo=a.lo+(b.lo-a.lo)*t, hi=a.hi+(b.hi-a.hi)*t;
+    for(let i=0;i<N;i++){const c=a.h[i]+(b.h[i]-a.h[i])*t; const y=Y(c);
+      bars[i].setAttribute('y',y); bars[i].setAttribute('height',Math.max(0,H-B-y));}
+    loT.textContent=lo.toFixed(2); hiT.textContent=hi.toFixed(2);
+    loT.setAttribute('x',L); hiT.setAttribute('x',W-R);
+    const zx=L+(0-lo)/(hi-lo)*(W-L-R);
+    zeroTick.setAttribute('x1',zx);zeroTick.setAttribute('x2',zx);zeroT.setAttribute('x',zx);
+  }
+  function annotate(k){
+    ann.innerHTML='';
+    if(k!==3) return;
+    const st=S[3];
+    DATA.vhist.top.forEach((m,i)=>{
+      const x=L+(m.s-st.lo)/(st.hi-st.lo)*(W-L-R);
+      ann.appendChild(el('line',{x1:x,y1:T+18,x2:x,y2:H-B,stroke:'#0A7B74','stroke-width':1.6,'stroke-dasharray':'4 3'}));
+    });
+    const xs=DATA.vhist.top.map(m=>L+(m.s-st.lo)/(st.hi-st.lo)*(W-L-R));
+    const x0=Math.min(...xs)-6,x1=Math.max(...xs)+6;
+    ann.appendChild(el('line',{x1:x0,y1:T+12,x2:x1,y2:T+12,stroke:'#0A7B74','stroke-width':2}));
+    ann.appendChild(txt((x0+x1)/2,T+2,'the synonym cluster',{fs:12.5,mono:1,fw:700,anchor:'middle',fill:'#0A7B74'}));
+  }
+  function showStatic(k){const st=S[k];setStage(st,st,0);stageLbl.textContent=st.lbl;stageSub.textContent=st.sub;
+    cap.textContent=st.cap;cap2.textContent=st.cap2;annotate(k);}
+  const isPrint=window.matchMedia&&window.matchMedia('print').matches;
+  if(isPrint){showStatic(3);return;}
+  let k=0; showStatic(0);
+  const HOLD=2300,MORPH=650;
+  function next(){
+    if(k>=S.length-1) return;              // one pass, rest on the annotated final stage
+    const a=S[k]; k=k+1; const b=S[k];
+    const t0=performance.now(); ann.innerHTML='';
+    function step(now){const t=Math.min(1,(now-t0)/MORPH);
+      setStage(a,b,t*t*(3-2*t));
+      if(t<1){requestAnimationFrame(step);}else{stageLbl.textContent=b.lbl;stageSub.textContent=b.sub;cap.textContent=b.cap;cap2.textContent=b.cap2;annotate(k);setTimeout(next,HOLD);}}
+    requestAnimationFrame(step);
+  }
+  // headless PDF rendering never ticks rAF: fall back to the final annotated stage
+  let rafOk=false; requestAnimationFrame(()=>{rafOk=true;});
+  setTimeout(()=>{ if(!rafOk){ showStatic(3); return; } setTimeout(next,HOLD); },420);
+}
+window.restartVhist=drawVocabHist;
+
+function renderAll(){fillResults();drawLadder();drawLevers();drawCompute();drawVocabHist();}
 
 function init(){
   fit(); requestAnimationFrame(fit);

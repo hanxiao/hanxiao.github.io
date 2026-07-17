@@ -232,7 +232,26 @@ And that is it.
 No head. No logits. No learned threshold.
 *Every symbol* in that equation is either the frozen model, or a max.`},
 
-  { n:14, sec:30, title:"Results",
+  { n:14, sec:40, title:"The equation, over the vocabulary",
+    note:`And here is that equation, watched over the *whole* vocabulary.
+This is real data, for the cat image. Not a sketch.//
+Stage one. The raw fused score, all hundred twenty-eight thousand tokens.
+A smooth bell. Every token is *somewhat* close to every image.
+There is no signal you can threshold here.//
+Stage two. Subtract each token's own prior.
+The mass snaps to zero.
+What remains on the *right tail* is evidence.//
+Stage three. The word-start gate.
+A hundred twenty-eight thousand candidates become twenty-five thousand.
+The shape survives. The fragments do not.//
+And stage four. Zoom into that right tail.
+The top eight tokens are kitty, cat, kitten, chatte, kitt, cats, kittens.
+*One concept*, in seven forms.
+That is exactly what embedding NMS is for.
+It keeps one, and the final tags fall out.//
+Tagging, in one sentence, is *distribution sharpening*.`},
+
+  { n:15, sec:30, title:"Results",
     note:`The full progression, on a hundred and fifty real COCO images
 with true multi-label ground truth.//
 Global pooling, the weak baseline, mAP point two six.
@@ -242,7 +261,7 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:15, sec:28, title:"Qualitative results",
+  { n:16, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 A conference hall, it gets onstage and venue.
 A Porsche interior, it gets carro and steering.
@@ -252,7 +271,7 @@ you also see multilingual variants, like *carro* for car,
 and the occasional fragment.
 That is the direct cost of a *zero-annotation* open vocabulary.`},
 
-  { n:16, sec:38, title:"Patch-local adjectives",
+  { n:17, sec:38, title:"Patch-local adjectives",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.//
@@ -272,7 +291,7 @@ like cat plush.
 But every pair is grounded in the region it came from.
 And it is still family A. Thirty milliseconds extra.`},
 
-  { n:17, sec:42, title:"Test-time scaling",
+  { n:18, sec:42, title:"Test-time scaling",
     note:`And here is the same result, drawn as a scaling curve.
 Accuracy, as a function of where the test-time compute *went*.//
 The first gain is large, and it is *nearly free*.
@@ -289,7 +308,7 @@ More math, same pixels.
 Not one of them improves the pipeline it was applied to.//
 Compute only scales accuracy when it carries *new information*.`},
 
-  { n:18, sec:40, title:"The levers chart",
+  { n:19, sec:40, title:"The levers chart",
     note:`Now, research question three, answered by measurement.
 We re-implemented every training-free lever from the recent literature,
 on *this* pipeline, on the *same* benchmark.
@@ -310,7 +329,7 @@ either does nothing or *breaks*.
 Only one bar is positive.
 Multi-crop re-encoding, plus point zero seven five.`},
 
-  { n:19, sec:40, title:"The meta-conclusion",
+  { n:20, sec:40, title:"The meta-conclusion",
     note:`So here is the meta-conclusion, and it is the real payoff.//
 Every method that *re-processes* the existing features
 is a no-op or a collapse.
@@ -326,7 +345,7 @@ Family C is the one that does not scale.
 Real test-time compute means giving the model more to *look at*,
 not re-arranging what it already saw.`},
 
-  { n:20, sec:32, title:"Relation to prior work",
+  { n:21, sec:32, title:"Relation to prior work",
     note:`To place this against the literature, in one table.
 The RAM line trains a tagging model on a curated tag list.
 We do zero training, and the labels *are* the tokenizer vocabulary.
@@ -341,7 +360,7 @@ the test-time machinery everyone else is adding.//
 And this combination is cheap enough to run on a laptop.
 Which brings me to deployment.`},
 
-  { n:21, sec:44, title:"Deployment in Omni",
+  { n:22, sec:44, title:"Deployment in Omni",
     note:`And this did not stay a Python study.
 It is deployed, in Omni,
 a native on-device search app I built, in Swift, on the same frozen model.
@@ -357,7 +376,7 @@ So your photos and videos become findable by *keyword*, not just by vector.
 And the background prior calibrates itself,
 on device, from the first sixty-four images it sees.`},
 
-  { n:22, sec:46, title:"Every media shape",
+  { n:23, sec:46, title:"Every media shape",
     note:`And here is my favorite part of the port.
 One label matrix, one scoring rule,
 and it covers *every media shape* in the app.//
@@ -378,7 +397,7 @@ Invoice, table, signature, per page.//
 The media shape only changes *what counts as a patch*.
 Crops for detail. Frames for time. Pages for documents.`},
 
-  { n:23, sec:34, title:"Synthesis",
+  { n:24, sec:34, title:"Synthesis",
     note:`Let me tie the two talks together.
 One thesis, twice.
 A frozen encoder holds *more capability*
@@ -392,7 +411,7 @@ But test-time compute only *scales*
 when it supplies the model with *new information*.
 Re-processing a representation that is already good yields *nothing*.`},
 
-  { n:24, sec:26, title:"Close",
+  { n:25, sec:26, title:"Close",
     note:`So this is the idea I want to leave you with.
 A frozen model already knows *more* than its objective admits.
 And test-time compute is how you *ask*.
