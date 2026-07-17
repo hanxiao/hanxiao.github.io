@@ -303,7 +303,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 13px;width:100%}
 .tcell{border:1.2px solid var(--hair2);border-radius:8px;overflow:hidden;background:#fff}
 .tcell img{width:100%;height:104px;object-fit:cover;display:block}
-.tcell .tc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);padding:6px 10px;white-space:nowrap;overflow:hidden}
+.tcell .tc{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--accent);padding:6px 8px;white-space:nowrap;overflow:hidden}
 
 /* stacked vocabulary chips (offline label path) */
 .tokstack{position:relative;width:196px;height:100px}
@@ -359,20 +359,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 2 THE RESULT FIRST ============ -->
 <section class="slide">
   <div class="kicker">The result, first</div>
-  <h2 class="h-slide sm" style="margin-bottom:16px">Nine files from this Mac, tagged by a frozen retrieval model.</h2>
+  <h2 class="h-slide sm" style="margin-bottom:16px">Training-free, open-vocabulary tagging from a frozen retrieval model.</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
-      <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky</div></figure>
-      <figure class="tcell"><img src="img/grid/g2.jpg" alt=""><div class="tc">clock &middot; thermostat &middot; dial</div></figure>
-      <figure class="tcell"><img src="img/grid/g3.jpg" alt=""><div class="tc">fiyat &middot; pagamento &middot; gratuiti</div></figure>
-      <figure class="tcell"><img src="img/grid/g4.jpg" alt=""><div class="tc">contiene &middot; liters &middot; thirst</div></figure>
-      <figure class="tcell"><img src="img/grid/g5.jpg" alt=""><div class="tc">harga &middot; lcd &middot; samsung</div></figure>
-      <figure class="tcell"><img src="img/grid/g6.jpg" alt=""><div class="tc">sunglasses &middot; watches &middot; branded</div></figure>
-      <figure class="tcell"><img src="img/grid/g7.jpg" alt=""><div class="tc">tablet &middot; motherboard &middot; wearable</div></figure>
-      <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award &middot; speaking &middot; workshop</div></figure>
-      <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift &middot; toy &middot; celebration</div></figure>
+      <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky &middot; rooftop &middot; location</div></figure>
+      <figure class="tcell"><img src="img/grid/g2.jpg" alt=""><div class="tc">clock &middot; thermostat &middot; dial &middot; dst &middot; wifi</div></figure>
+      <figure class="tcell"><img src="img/grid/g3.jpg" alt=""><div class="tc">fiyat &middot; pagamento &middot; brasile &middot; gratuiti &middot; utils</div></figure>
+      <figure class="tcell"><img src="img/grid/g4.jpg" alt=""><div class="tc">contiene &middot; liters &middot; dosage &middot; thirst &middot; consumo</div></figure>
+      <figure class="tcell"><img src="img/grid/g5.jpg" alt=""><div class="tc">harga &middot; lcd &middot; samsung &middot; refurbished &middot; warrants</div></figure>
+      <figure class="tcell"><img src="img/grid/g6.jpg" alt=""><div class="tc">sunglasses &middot; watches &middot; branded &middot; bronze &middot; necklace</div></figure>
+      <figure class="tcell"><img src="img/grid/g7.jpg" alt=""><div class="tc">tablet &middot; motherboard &middot; wearable &middot; celular &middot; datastore</div></figure>
+      <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award &middot; forwarding &middot; speaking &middot; defendant &middot; workshop</div></figure>
+      <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift &middot; toy &middot; celebration &middot; balloons &middot; cheerful</div></figure>
     </div>
-    <p class="takeaway" style="font-size:18px">Training-free, open vocabulary of 128,260 tokens, 75 ms per image: <span class="accent">P@1 0.813 on COCO-150</span>. The rest of the talk: where this comes from, and which compute pays for it.</p>
+    <p class="takeaway" style="font-size:18px">Unstaged files from this machine; top-5 tags, unfiltered; 75 ms each. <span class="accent">P@1 0.813 on COCO-150.</span> The rest of the talk: where this comes from, and which compute pays for it.</p>
   </div>
 </section>
 
@@ -783,7 +783,28 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 16 TEST-TIME SCALING ============ -->
+<!-- ============ 16 ADJ MODE ============ -->
+<section class="slide">
+  <div class="kicker">One more mode &middot; --adj</div>
+  <h2 class="h-slide sm">Patch-local adjectives: modifiers without a POS tagger.</h2>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:.9">
+      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
+      <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
+    </div>
+    <div style="flex:1.1">
+      <div class="card" style="margin-bottom:14px"><div class="ttl">--adj off &middot; nouns &middot; 89 ms</div>
+        <div class="demotags" style="margin-top:4px"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div>
+      </div>
+      <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
+        <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
+      </div>
+      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is tied to the object&rsquo;s pixels: the cats really are grey and sleeping on a couch. No POS tagger, so a related noun can fill the slot (&ldquo;cat plush&rdquo;), but every pair is grounded.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17 TEST-TIME SCALING ============ -->
 <section class="slide">
   <div class="kicker">Test-time scaling</div>
   <h2 class="h-slide sm">Accuracy as a function of test-time compute.</h2>
@@ -793,7 +814,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 17 THE LEVERS ============ -->
+<!-- ============ 18 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers; only re-encoding adds accuracy.</h2>
@@ -803,7 +824,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 18 META CONCLUSION ============ -->
+<!-- ============ 19 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Re-processing well-calibrated features yields nothing; new information does.</h2>
@@ -817,7 +838,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 PRIOR WORK ============ -->
+<!-- ============ 20 PRIOR WORK ============ -->
 <section class="slide">
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
@@ -835,7 +856,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 OMNI ============ -->
+<!-- ============ 21 OMNI ============ -->
 <section class="slide">
   <div class="kicker">Deployment</div>
   <h2 class="h-slide sm">From study to production: on-device tagging in Omni.</h2>
@@ -862,7 +883,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 21 MEDIA SHAPES ============ -->
+<!-- ============ 22 MEDIA SHAPES ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
   <h2 class="h-slide sm">One label matrix: images, HQ re-encoding, video, and scanned documents.</h2>
@@ -897,7 +918,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 22 SYNTHESIS ============ -->
+<!-- ============ 23 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
   <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
@@ -911,7 +932,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 23 CLOSE ============ -->
+<!-- ============ 24 CLOSE ============ -->
 <section class="slide closing">
   <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
   <div class="contact">

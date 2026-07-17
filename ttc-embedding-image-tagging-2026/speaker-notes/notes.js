@@ -19,8 +19,10 @@ These are nine real files from this Mac Studio.
 A mountain vista. A thermostat. A receipt. A drink carton.
 A store shelf. Sunglasses. A tablet teardown.
 A workshop stage. A birthday card.//
-Every tag you see was produced by a *one billion* parameter embedding model
+Every card shows the top *five* tags, completely unfiltered,
+produced by a *one billion* parameter embedding model
 that was built for retrieval, and *never* trained to tag.
+You even see the occasional odd word. Nothing is cherry picked.
 Seventy-five milliseconds per image, on this machine.//
 And notice the vocabulary.
 *Harga*, Indonesian for price, on the store shelf.
@@ -250,7 +252,27 @@ you also see multilingual variants, like *carro* for car,
 and the occasional fragment.
 That is the direct cost of a *zero-annotation* open vocabulary.`},
 
-  { n:16, sec:42, title:"Test-time scaling",
+  { n:16, sec:38, title:"Patch-local adjectives",
+    note:`One more mode, because open vocabulary invites a harder question.
+Can we get *modifiers*, not just nouns?
+Without a part of speech tagger, of course.//
+Naive phrase scoring fails.
+Image to text similarity is bag of words,
+so any high scoring word attaches to any noun.//
+The trick is *locality*.
+For each detected noun, we find the patches where it fires,
+pool that local region into one vector,
+and score adjective candidates *only against that region*.//
+Look at the result.
+Couch kitty. *Grey* cosy. *Sleeping* crib.
+The cats really are grey, and they really are asleep on a couch.
+The modifier is tied to the object's *pixels*.//
+No grammar anywhere, so a related noun can fill the slot,
+like cat plush.
+But every pair is grounded in the region it came from.
+And it is still family A. Thirty milliseconds extra.`},
+
+  { n:17, sec:42, title:"Test-time scaling",
     note:`And here is the same result, drawn as a scaling curve.
 Accuracy, as a function of where the test-time compute *went*.//
 The first gain is large, and it is *nearly free*.
@@ -267,7 +289,7 @@ More math, same pixels.
 Not one of them improves the pipeline it was applied to.//
 Compute only scales accuracy when it carries *new information*.`},
 
-  { n:17, sec:40, title:"The levers chart",
+  { n:18, sec:40, title:"The levers chart",
     note:`Now, research question three, answered by measurement.
 We re-implemented every training-free lever from the recent literature,
 on *this* pipeline, on the *same* benchmark.
@@ -288,7 +310,7 @@ either does nothing or *breaks*.
 Only one bar is positive.
 Multi-crop re-encoding, plus point zero seven five.`},
 
-  { n:18, sec:40, title:"The meta-conclusion",
+  { n:19, sec:40, title:"The meta-conclusion",
     note:`So here is the meta-conclusion, and it is the real payoff.//
 Every method that *re-processes* the existing features
 is a no-op or a collapse.
@@ -304,7 +326,7 @@ Family C is the one that does not scale.
 Real test-time compute means giving the model more to *look at*,
 not re-arranging what it already saw.`},
 
-  { n:19, sec:32, title:"Relation to prior work",
+  { n:20, sec:32, title:"Relation to prior work",
     note:`To place this against the literature, in one table.
 The RAM line trains a tagging model on a curated tag list.
 We do zero training, and the labels *are* the tokenizer vocabulary.
@@ -319,7 +341,7 @@ the test-time machinery everyone else is adding.//
 And this combination is cheap enough to run on a laptop.
 Which brings me to deployment.`},
 
-  { n:20, sec:44, title:"Deployment in Omni",
+  { n:21, sec:44, title:"Deployment in Omni",
     note:`And this did not stay a Python study.
 It is deployed, in Omni,
 a native on-device search app I built, in Swift, on the same frozen model.
@@ -335,7 +357,7 @@ So your photos and videos become findable by *keyword*, not just by vector.
 And the background prior calibrates itself,
 on device, from the first sixty-four images it sees.`},
 
-  { n:21, sec:46, title:"Every media shape",
+  { n:22, sec:46, title:"Every media shape",
     note:`And here is my favorite part of the port.
 One label matrix, one scoring rule,
 and it covers *every media shape* in the app.//
@@ -356,7 +378,7 @@ Invoice, table, signature, per page.//
 The media shape only changes *what counts as a patch*.
 Crops for detail. Frames for time. Pages for documents.`},
 
-  { n:22, sec:34, title:"Synthesis",
+  { n:23, sec:34, title:"Synthesis",
     note:`Let me tie the two talks together.
 One thesis, twice.
 A frozen encoder holds *more capability*
@@ -370,7 +392,7 @@ But test-time compute only *scales*
 when it supplies the model with *new information*.
 Re-processing a representation that is already good yields *nothing*.`},
 
-  { n:23, sec:26, title:"Close",
+  { n:24, sec:26, title:"Close",
     note:`So this is the idea I want to leave you with.
 A frozen model already knows *more* than its objective admits.
 And test-time compute is how you *ask*.
