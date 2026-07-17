@@ -8,15 +8,15 @@ window.NOTES = [
 My name is Han Xiao.
 I run the model training and inference team at *Elastic*,
 and before that I founded and ran *Jina AI*.//
-Last time I was on this stage, I talked about test-time compute for *search*.
-Today I want to push that same idea somewhere stranger.
+In my last talk, I discussed test-time compute for *search*.
+Today I want to push that same idea one step further.
 I have a *one billion* parameter embedding model.
 It was built for retrieval.
 It was *never* trained to tag images.
 And yet, with zero training and no second model,
 it tags images anyway.
 The question for the next fifteen minutes is,
-how much of that new skill is really just *test-time compute*?`},
+how much of that new capability is really just *test-time compute*?`},
 
   { n:2, sec:36, title:"Recap: search is test-time compute",
     note:`Let me quickly recap where the last talk landed.
@@ -27,17 +27,17 @@ and you recombine its geometry at inference.
 You split the document, you re-score, you fuse channels, you feed it back.
 That extra work at test time *is* the compute.//
 So here is the new question.
-Instead of squeezing more *relevance* out of that frozen model,
-can we squeeze out an entirely *new task*?`},
+Beyond buying more *relevance* on the task it was trained for,
+can test-time compute produce an entirely *new capability*?`},
 
-  { n:3, sec:45, title:"The compute menu",
+  { n:3, sec:45, title:"Three families",
     note:`But first, let me be precise about what test-time compute even *means* here.
 Language models scale it in tokens.
 Longer chains of thought, more samples.
 An embedding model has no tokens to spend.
-Its budget comes in exactly *three* currencies.//
-Family *A*. More algebra on the same pass.
-You read one forward pass *harder*.
+Its budget takes exactly *three* forms.//
+Family *A*. More computation per pass.
+You extract more from a *single* forward pass.
 Score every patch, fuse channels, subtract priors.
 It costs a few matrix multiplies.//
 Family *B*. New passes on new views.
@@ -46,12 +46,12 @@ Crops of an image. Splits of a document.
 That costs full forward passes.//
 And family *C*. Re-processing the features.
 Whitening, graph propagation, optimal transport.
-Most of the recent training-free literature lives *here*.//
-This talk is a controlled experiment on that menu.
-Two of the three buy accuracy.
-One of them is a *mirage*.`},
+Most of the recent training-free literature operates *here*.//
+This talk is a controlled experiment across all three families.
+Two of them scale accuracy with compute.
+One of them does *not*.`},
 
-  { n:4, sec:38, title:"The move: emergent skill",
+  { n:4, sec:38, title:"The hypothesis",
     note:`Here is the move.
 The model is jina-embeddings-v5-omni-nano.
 About a billion parameters.
@@ -60,13 +60,13 @@ It has no tagging head.
 It has no classifier.
 It has no tag list.
 It was never trained to answer, what is in this image.//
-The naive path would be, train a head, curate labels, fine-tune.
+The standard approach would be, train a head, curate labels, fine-tune.
 A second model, more data, more parameters.
 This talk does the opposite.
 We keep the model completely *frozen*,
-and we manufacture the whole tagger out of *test-time compute*.//
-If a skill it was never trained on *emerges* purely from inference,
-then test-time compute is buying *capability*, not just quality.`},
+and we construct the entire tagger from *test-time compute*.//
+If a capability it was never trained for *emerges* purely from inference,
+then test-time compute yields *capability*, not merely quality.`},
 
   { n:5, sec:32, title:"The task",
     note:`The task itself.
@@ -238,19 +238,19 @@ Let me say what that means.
 A frozen *retrieval* model,
 with zero training and no tagging head,
 tags images at eighty-one percent precision at one.
-The emergent skill is real.`},
+The emergent capability is real.`},
 
   { n:16, sec:42, title:"The compute-accuracy curve",
-    note:`And here is the same result, drawn the way I actually think about it.
-Accuracy, against where the test-time compute *went*.//
-The first jump is huge, and it is *nearly free*.
+    note:`And here is the same result, drawn as a scaling curve.
+Accuracy, as a function of where the test-time compute *went*.//
+The first gain is large, and it is *nearly free*.
 Same pixels, same single forward pass.
-We just read the pass harder. More algebra.
+We simply extract more from that pass. More computation.
 Point two six to point six three.//
-The second jump costs real money.
+The second gain costs real compute.
 Fourteen extra forward passes, fourteen x latency,
 for another seven and a half points.
-Diminishing, but *real*. That is a scaling curve.//
+Diminishing, but *real*. That is test-time scaling.//
 And then look at the pink cluster.
 Eight methods that spent their compute *re-processing the features*.
 More math, same pixels.
@@ -265,11 +265,11 @@ A bear on grass, it gets fur and bear.//
 Because the labels come straight from the tokenizer,
 you also see multilingual variants, like *carro* for car,
 and the occasional fragment.
-That is the honest price of a *zero-annotation* open vocabulary.`},
+That is the direct cost of a *zero-annotation* open vocabulary.`},
 
   { n:18, sec:30, title:"The scientific question",
     note:`Now for the part I actually care about.
-The tagger works. Fine.
+The tagger works.
 The *scientific* question is, does accuracy keep scaling
 with the compute you pour in at test time?//
 So we took the twenty twenty-four to twenty twenty-six
@@ -307,15 +307,15 @@ This encoder's space is *already* aligned, already calibrated,
 and already multi-label.
 There is nothing left to recover by re-arranging it.//
 The only thing that moves the ceiling
-is *feeding the model new pixels*.
-Family C is the mirage.
+is *supplying the model with new pixels*.
+Family C is the one that does not scale.
 Real test-time compute means giving the model more to *look at*,
-not shuffling what it already saw.`},
+not re-arranging what it already saw.`},
 
   { n:21, sec:44, title:"Shipped in Omni",
     note:`And this did not stay a Python study.
-It shipped, in Omni,
-a native on-device search app I build, in Swift, on the same frozen model.
+It is deployed, in Omni,
+a native on-device search app I built, in Swift, on the same frozen model.
 Every image on my Mac is tagged this way, today.//
 The production story is where the design pays off.
 The patch rows *already exist*, for the file's embedding.
@@ -356,11 +356,11 @@ than its training objective ever exposes.
 And you unlock it with *test-time compute*, not more parameters.//
 In the retrieval talk, that bought more *relevance*
 on the task it was trained for.
-In this talk, it bought an entirely *new task*, tagging,
-that it was never trained for.//
-But test-time compute is *not* a free lunch.
-It only pays off when it feeds the model *new information*.
-Re-processing a representation that is already good buys you *nothing*.`},
+In this talk, it produced an entirely *new task*, tagging,
+that the model was never trained for.//
+But test-time compute only *scales*
+when it supplies the model with *new information*.
+Re-processing a representation that is already good yields *nothing*.`},
 
   { n:24, sec:30, title:"What is new here",
     note:`Quickly, how this sits against the recent literature.

@@ -1,4 +1,4 @@
-# Test-time compute for a frozen embedding model: emergent image tagging
+# Test-time compute for image tagging with a frozen jina-embeddings-v5-omni
 
 Talk deck by Han Xiao (VP of AI, Elastic). 25 slides, ~15.5 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast), MathJax math.
@@ -54,7 +54,7 @@ The slides live in exactly one file, `index.html`. The presenter page embeds it 
 there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 25
 entries, one per slide. When you edit a slide's facts, numbers, order, or count, update the matching
 `notes.js` entry in the same pass. Cloudflare edge-caches `notes.js`, so after editing it bump the
-cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=2).
+cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=3).
 
 ## Present
 Open `index.html`, then: Right/Space/click = next, Left = previous, `f` = fullscreen,
@@ -95,10 +95,15 @@ Canvas #FCFCFD, ink #1C1E23, blue #0B64DD (structure / family A / the thing that
 #00BFB3 dark #0A7B74 (family B, new passes), pink #F04E98 (family C, the foil that fails).
 Projector rule: no grey or dim ink anywhere.
 
+Register note: academic/professional tone throughout - no "squeeze", no "LLM cousin", no AIE
+World's Fair badge (not presenting there). Title covers test-time compute + frozen
+jina-embeddings-v5-omni + image tagging, no subtitle. The pipeline and architecture diagrams
+carry a staggered arrow animation (data flow), disabled in print.
+
 ## Slide map (25)
-1 Title (repo QR + AIE badge) · 2 Recap: search is test-time compute over a frozen encoder ·
-3 The compute menu (A more algebra / B new passes / C re-process; two work, one is a mirage) ·
-4 The move: point the same lens at a task the model was never trained on (emergent skill) ·
+1 Title (repo QR, no subtitle) · 2 Recap: search as test-time compute over a frozen encoder ·
+3 Taxonomy: three families of test-time compute (A per-pass computation / B new passes / C re-process) ·
+4 The hypothesis: apply the same principle to a task the model was never trained for ·
 5 The task (open-vocabulary, multi-label tagging) · 6 The rules (zero training, no second model) ·
 7 Architecture (custom diagram: two entrances, one frozen tower, outputs P / g / E) ·
 8 Pipeline (custom two-lane diagram: offline cache lane + per-image lane with A/B badges) ·
@@ -108,14 +113,14 @@ Projector rule: no grey or dim ink anywhere.
 13 Step 5: CWR multi-crop (14-crop geometry glyphs + bear photo + fusion math, family B) ·
 14 The whole tagger as one annotated equation (underbraces mapped to A/A/B) ·
 15 Results (COCO-150 table + mAP ladder chart) ·
-16 The compute-accuracy curve (the TTC scaling read: first jump free, second 14x, C cluster flat) ·
-17 In the wild (demo photos) · 18 The scientific question (family C vs family B) ·
+16 Test-time scaling: accuracy vs compute (first gain free, second 14x, C cluster flat) ·
+17 Qualitative results (demo photos) · 18 The scientific question (family C vs family B) ·
 19 The levers chart (10 levers, only CWR wins) ·
 20 The meta-conclusion (re-processing vs feeding new info) ·
 21 Shipped in Omni (same forward pass, ~0.6 ms/image, tags = searchable snippets, app-window mock) ·
 22 Every media shape (image / HQ 5-crop / video 32-frame segments / scanned pages) ·
-23 Synthesis (two talks, one thesis) · 24 What is new here (vs RAM / TagCLIP / PIAA / 2025 calibration) ·
-25 Close (repo QR + AIE badge).
+23 Synthesis (two talks, one thesis) · 24 Relation to prior work (RAM / TagCLIP / PIAA / 2025 calibration) ·
+25 Close (repo QR).
 
 Pace the framing fast; the payoffs are slide 16 (the curve) and slides 19-20 (only CWR wins, and
 why), then 21-22 land it in production. All numbers were checked against the project result files

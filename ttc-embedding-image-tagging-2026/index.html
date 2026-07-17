@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Test-time compute for a frozen embedding model: emergent image tagging · Han Xiao</title>
+<title>Test-time compute for image tagging with a frozen jina-embeddings-v5-omni · Han Xiao</title>
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -302,6 +302,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .lane .flow{margin:0}
 .lane .fbox{min-height:66px}
 
+/* data-flow animation on the pipeline and architecture diagrams */
+@keyframes flowpulse{0%,100%{transform:translateX(0);opacity:.55}50%{transform:translateX(6px);opacity:1}}
+.lane .farr,.arch .aarr{animation:flowpulse 1.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@media print{.lane .farr,.arch .aarr{animation:none}}
+
 @media print{
   @page{size:1280px 720px;margin:0}
   html,body{background:#fff;height:auto;overflow:visible}
@@ -317,10 +322,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 1 TITLE ============ -->
 <section class="slide title">
-  <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
-  <div class="kicker">Frozen encoder · Test-time compute · Emergent task</div>
-  <h1><span class="accent">Squeezing a new skill</span><br>out of a frozen<br>embedding model at test time</h1>
-  <p class="sub">A 1B embedding model was never trained to tag images. With zero training and no second model, it does it anyway. How much of that is test-time compute?</p>
+  <div class="kicker">Zero training · No task head · Open vocabulary</div>
+  <h1><span class="accent">Test-time compute</span> for<br>image tagging with a frozen<br>jina-embeddings-v5-omni</h1>
   <div class="auth">
     <div class="nm">Han Xiao</div>
     <div class="rl">VP of AI, Elastic</div>
@@ -335,56 +338,56 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 2 RECAP: search is test-time compute ============ -->
 <section class="slide">
-  <div class="kicker">Where we left off</div>
-  <h2 class="h-slide sm">Last talk: search is test-time compute over a frozen encoder.</h2>
+  <div class="kicker">Context</div>
+  <h2 class="h-slide sm">The previous talk: search as test-time compute over a frozen encoder.</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:70ch">The claim from the autoresearch talk: you do not need a bigger model to get better retrieval. You <strong>recombine the geometry</strong> of one frozen encoder at inference: split the document, re-score, fuse channels, feed back. That extra work at test time is the compute.</p>
     <div class="cards">
       <div class="card"><div class="ttl">The model</div><div class="desc">frozen. One embedding API. No retraining, no new parameters.</div></div>
       <div class="card hero"><div class="ttl accent">The compute</div><div class="desc">multi-pass embedding algebra assembled at test time, climbing a cost-versus-quality curve.</div></div>
     </div>
-    <p class="takeaway">Same idea, new question: instead of squeezing more <span class="accent">relevance</span> out of the encoder, can we squeeze out an entirely <span class="accent">new task</span>?</p>
+    <p class="takeaway">Same principle, new question: beyond buying more <span class="accent">relevance</span> on the trained task, can test-time compute produce an entirely <span class="accent">new capability</span>?</p>
   </div>
 </section>
 
 <!-- ============ 3 WHAT TEST-TIME COMPUTE MEANS HERE ============ -->
 <section class="slide">
-  <div class="kicker">The compute menu</div>
-  <h2 class="h-slide sm">For an embedding model, "test-time compute" is three different things.</h2>
+  <div class="kicker">A taxonomy</div>
+  <h2 class="h-slide sm">Test-time compute for an embedding model: three families.</h2>
   <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap" style="max-width:76ch">LLMs scale test-time compute in tokens: longer chains, more samples. A frozen encoder has no tokens to spend. Its inference-time budget comes in exactly three currencies:</p>
+    <p class="cap" style="max-width:76ch">Language models scale test-time compute in tokens: longer chains, more samples. A frozen encoder has no tokens to spend. Its inference-time budget takes exactly three forms:</p>
     <div class="cards">
       <div class="card hero">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">More algebra, same pass</div></div>
-        <div class="desc">Read one forward pass <strong>harder</strong>: score every patch, fuse channels, subtract priors. Costs a few matmuls.</div>
-        <div class="foot">LLM cousin: squeezing one sample with a better readout.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">More computation per pass</div></div>
+        <div class="desc">Extract more from a single forward pass: score every patch, fuse channels, subtract priors. Cost: a few matrix multiplies.</div>
+        <div class="foot">LLM analogue: a richer readout of one sample.</div>
       </div>
       <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)">
         <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">New passes, new views</div></div>
-        <div class="desc">Run the frozen encoder <strong>again</strong> on inputs it has not seen: crops of the image, splits of the document. Costs full forwards.</div>
-        <div class="foot" style="color:var(--teal-ink)">LLM cousin: best-of-N sampling.</div>
+        <div class="desc">Run the frozen encoder <strong>again</strong> on inputs it has not seen: crops of the image, splits of the document. Cost: full forward passes.</div>
+        <div class="foot" style="color:var(--teal-ink)">LLM analogue: best-of-N sampling.</div>
       </div>
       <div class="card foilcard">
         <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Re-process the features</div></div>
-        <div class="desc">Massage the vectors you already have: whiten, propagate on graphs, optimal transport, renormalize. Costs almost nothing.</div>
-        <div class="foot" style="color:var(--foil-ink)">Most of the 2024&ndash;2026 training-free literature is here.</div>
+        <div class="desc">Transform the vectors already computed: whitening, graph propagation, optimal transport, re-normalization. Cost: nearly zero.</div>
+        <div class="foot" style="color:var(--foil-ink)">Where most of the 2024&ndash;2026 training-free literature operates.</div>
       </div>
     </div>
-    <p class="takeaway">This talk is a controlled experiment on that menu. <span class="accent">Two of the three buy accuracy.</span> One is a mirage.</p>
+    <p class="takeaway">This talk is a controlled experiment across all three families. <span class="accent">Two of them scale accuracy with compute.</span> One does not.</p>
   </div>
 </section>
 
 <!-- ============ 4 THE MOVE: emergent skill ============ -->
 <section class="slide">
-  <div class="kicker">The move</div>
-  <h2 class="h-slide sm">Point the same lens at a task the model was never trained to do.</h2>
+  <div class="kicker">The hypothesis</div>
+  <h2 class="h-slide sm">Apply the same principle to a task the model was never trained for.</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <p class="cap" style="max-width:72ch"><strong>jina-embeddings-v5-omni-nano</strong> is a ~1B retrieval model. It embeds text and images into one space for search. It has <strong>no tagging head, no classifier, no tag list</strong>. It was never trained to answer "what is in this image".</p>
     <div class="cards">
-      <div class="card foilcard"><div class="ttl">The naive path</div><div class="desc">train a tagging head. Curate a label set. Fine-tune. A second model, more data, more parameters.</div></div>
-      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">keep the model frozen. Manufacture the whole tagger out of test-time compute over its existing geometry.</div></div>
+      <div class="card foilcard"><div class="ttl">The standard approach</div><div class="desc">train a tagging head. Curate a label set. Fine-tune. A second model, more data, more parameters.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">keep the model frozen. Construct the entire tagger from test-time compute over its existing geometry.</div></div>
     </div>
-    <p class="takeaway">If a skill it was never trained on <span class="accent">emerges</span> purely from inference-time work, that is test-time compute buying capability, not just quality.</p>
+    <p class="takeaway">If a capability the model was never trained for <span class="accent">emerges</span> purely from inference-time computation, then test-time compute yields new capability, not merely higher quality.</p>
   </div>
 </section>
 
@@ -411,20 +414,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 5 THE RULES ============ -->
 <section class="slide">
   <div class="kicker">The rules</div>
-  <h2 class="h-slide sm">Every signal comes from that one frozen model. Nothing else.</h2>
+  <h2 class="h-slide sm">Every signal must come from the one frozen model.</h2>
   <div class="body" style="gap:26px;justify-content:center">
     <div>
       <span class="chip on">Zero training</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
     </div>
-    <p class="cap" style="max-width:74ch">This is the same discipline as the retrieval talk, ported to a new task. The label space, the visual features, and the word filter must <strong>all</strong> come from the frozen encoder. The moment you add a curated tag list or a POS tagger, it is no longer the model doing the work.</p>
-    <p class="takeaway">The constraint is the point: it forces every ounce of the new skill to come from <span class="accent">test-time compute over existing geometry</span>.</p>
+    <p class="cap" style="max-width:74ch">This is the same discipline as the retrieval talk, applied to a new task. The label space, the visual features, and the word filter must <strong>all</strong> come from the frozen encoder. The moment a curated tag list or a POS tagger is added, it is no longer the model doing the work.</p>
+    <p class="takeaway">The constraint is the experimental control: it ensures the entire capability is attributable to <span class="accent">test-time compute over existing geometry</span>.</p>
   </div>
 </section>
 
 <!-- ============ 7 THE MODEL: ARCHITECTURE ============ -->
 <section class="slide">
-  <div class="kicker">The model &middot; anatomy</div>
-  <h2 class="h-slide sm">Two entrances, one frozen tower, one 768-d space.</h2>
+  <div class="kicker">The model &middot; architecture</div>
+  <h2 class="h-slide sm">One frozen encoder, two input paths, one 768-d space.</h2>
   <div class="body" style="justify-content:center;gap:18px">
     <div class="arch">
       <!-- row 1: image path -->
@@ -437,15 +440,15 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
           <rect x="79" y="35.3" width="39.5" height="35.3" fill="none" stroke="#0B64DD" stroke-width="2.6"/>
         </svg>
       </div>
-      <div class="aarr" style="grid-column:2;grid-row:1">&rarr;</div>
+      <div class="aarr" style="grid-column:2;grid-row:1;--d:0s">&rarr;</div>
       <div class="fbox" style="grid-column:3;grid-row:1"><div class="fn">Qwen3-VL vision tower</div><div class="fd">frozen &middot; 16 px patches<br>2&times;2 merge &rarr; vision tokens</div></div>
-      <div class="aarr" style="grid-column:4;grid-row:1">&rarr;</div>
+      <div class="aarr" style="grid-column:4;grid-row:1;--d:.25s">&rarr;</div>
       <div class="tower" style="grid-column:5;grid-row:1/3">
         <div class="fn">EuroBERT-12L text tower</div>
         <div class="fd">bidirectional &middot; hidden 768 &middot; frozen</div>
         <div class="inj">vision tokens are <b>injected at the image-token positions</b>; label words enter as plain text. Same weights, both lanes.</div>
       </div>
-      <div class="aarr" style="grid-column:6;grid-row:1">&rarr;</div>
+      <div class="aarr" style="grid-column:6;grid-row:1;--d:.5s">&rarr;</div>
       <div class="outcol" style="grid-column:7;grid-row:1">
         <div class="outrow">
           <svg width="46" height="38" viewBox="0 0 46 38"><g fill="#0B64DD"><rect x="2" y="2" width="42" height="6" rx="2"/><rect x="2" y="11" width="42" height="6" rx="2"/><rect x="2" y="20" width="42" height="6" rx="2" opacity=".55"/><rect x="2" y="29" width="42" height="6" rx="2"/></g></svg>
@@ -461,10 +464,10 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="tk">&#288;zebra</div>
         <div class="tkn">&times; 128,260 vocabulary tokens</div>
       </div>
-      <div class="aarr" style="grid-column:2;grid-row:2">&rarr;</div>
+      <div class="aarr" style="grid-column:2;grid-row:2;--d:.12s">&rarr;</div>
       <div class="fbox compact" style="grid-column:3;grid-row:2;border-style:dashed"><div class="fn" style="font-size:14px">encoded as plain text</div><div class="fd">no vision tower, straight in</div></div>
-      <div class="aarr" style="grid-column:4;grid-row:2">&rarr;</div>
-      <div class="aarr" style="grid-column:6;grid-row:2">&rarr;</div>
+      <div class="aarr" style="grid-column:4;grid-row:2;--d:.37s">&rarr;</div>
+      <div class="aarr" style="grid-column:6;grid-row:2;--d:.62s">&rarr;</div>
       <div class="outrow" style="grid-column:7;grid-row:2">
         <svg width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#0B64DD" stroke-width="2.2"><rect x="4" y="3" width="38" height="38" rx="3"/><line x1="4" y1="13" x2="42" y2="13"/><line x1="4" y1="23" x2="42" y2="23"/><line x1="4" y1="33" x2="42" y2="33"/></g></svg>
         <div class="od"><b>\(E\)</b> &mdash; label matrix, 128,260 &times; 768, computed once and cached</div>
@@ -477,15 +480,15 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 8 PIPELINE OVERVIEW ============ -->
 <section class="slide">
   <div class="kicker">The pipeline</div>
-  <h2 class="h-slide sm">The whole tagger is test-time compute around a frozen forward pass.</h2>
+  <h2 class="h-slide sm">The complete tagger: test-time compute around a frozen forward pass.</h2>
   <div class="body" style="justify-content:center;gap:26px">
     <div class="lane">
       <div class="lhd">Offline &middot; computed once, cached</div>
       <div class="flow">
         <div class="fbox compact"><div class="fn">tokenizer vocab</div><div class="fd">128,260 tokens</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:0s">&rarr;</div>
         <div class="fbox compact"><div class="fn">encode_text</div><div class="fd">the same frozen tower</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:.25s">&rarr;</div>
         <div class="fbox compact"><div class="fn">label matrix \(E\)</div><div class="fd">128,260 &times; 768</div></div>
         <div style="flex:0 0 26px"></div>
         <div class="fbox compact"><div class="fn">background prior \(\mu\)</div><div class="fd">from neutral images</div></div>
@@ -497,21 +500,21 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="lhd">Per image &middot; <span class="ms">75 ms fast &middot; 1016 ms --hq</span></div>
       <div class="flow">
         <div class="fbox compact"><div class="fn">image</div><div class="fd">one frozen forward</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:0s">&rarr;</div>
         <div class="fbox compact"><div class="fn">\(P,\;g\)</div><div class="fd">patches + global</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:.2s">&rarr;</div>
         <div class="fbox lit compact"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global fuse</div></div>
-        <div class="farr">&rarr;</div>
-        <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">kill base-rate bias</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:.4s">&rarr;</div>
+        <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
+        <div class="farr" style="--d:.6s">&rarr;</div>
         <div class="fbox compact"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
-        <div class="farr">&rarr;</div>
+        <div class="farr" style="--d:.8s">&rarr;</div>
         <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
       </div>
       <div class="flow" style="justify-content:flex-start;gap:0;margin-top:2px">
         <div style="flex:0 0 176px"></div>
         <div class="fbox compact" style="flex:0 0 auto;border-color:var(--teal-ink);border-width:1.6px;padding:10px 16px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>--hq: 14 crops &rarr; same model &rarr; per-label max</div><div class="fd">adds into the score, weight 1.3 &nbsp;&middot;&nbsp; the accuracy lever</div></div>
-        <div class="farr" style="color:var(--teal-ink)">&nearr;</div>
+        <div class="farr" style="color:var(--teal-ink);--d:1s">&nearr;</div>
       </div>
     </div>
     <p class="takeaway">Every box is the frozen model or plain arithmetic. <span class="accent">A</span> is more algebra on one pass; <span style="color:var(--teal-ink);font-weight:700">B</span> is new passes on new pixels. No box is family C.</p>
@@ -536,7 +539,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     </div>
     <div style="flex:.9">
       <p class="cap" style="font-size:17px"><strong>Why encode_text, not the embedding table?</strong> The model has <span class="mono">tie_word_embeddings = false</span>: the input-embedding table lives in a different space than the pooled output. You must encode each token <em>as a text string</em> to put labels in the image's space.</p>
-      <p class="cap" style="font-size:17px;margin-top:14px">Han's original intuition ("just use the vocab") was right, but only through the aligned output space.</p>
+      <p class="cap" style="font-size:17px;margin-top:14px">The original intuition &mdash; use the vocabulary directly &mdash; was correct, but only through the aligned output space.</p>
     </div>
   </div>
 </section>
@@ -544,7 +547,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 9 STEP 2: patch > global ============ -->
 <section class="slide">
   <div class="kicker">Step 2 · where to look</div>
-  <h2 class="h-slide sm">One vector per image is a weak tagger. Score every patch.</h2>
+  <h2 class="h-slide sm">One pooled vector under-detects; score every patch instead.</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="vsrow">
       <div class="vspanel foil">
@@ -588,17 +591,17 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </svg>
         <div class="vsform">+0.37 mAP</div>
         <div class="vssub">"[CLS] is not enough", confirmed on this encoder</div>
-        <div class="vstag">no new pixels, just look closer</div>
+        <div class="vstag">same pixels, more computation</div>
       </div>
     </div>
-    <p class="takeaway"><span class="abc sm" style="vertical-align:2px;margin-right:6px">A</span>Pure family-A compute: the patches were already there in the forward pass. <span class="accent">One extra max over rows buys +0.37 mAP.</span></p>
+    <p class="takeaway"><span class="abc sm" style="vertical-align:2px;margin-right:6px">A</span>Pure family-A compute: the patch features already exist in the forward pass. <span class="accent">One additional max over rows yields +0.37 mAP.</span></p>
   </div>
 </section>
 
 <!-- ============ 10 STEP 3: prior subtraction ============ -->
 <section class="slide">
   <div class="kicker">Step 3 · de-bias</div>
-  <h2 class="h-slide sm">Some words are just close to every image. Subtract that.</h2>
+  <h2 class="h-slide sm">Generic words sit close to every image: subtract the per-label prior.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:1.05">
       <p class="cap">Raw cosine has a base-rate bias: generic words ("bed", "cat") score high on almost any image because they sit near the image modality. Estimate a per-label prior once from neutral background images, then subtract it:
@@ -652,7 +655,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 12 STEP 5: CWR ============ -->
 <section class="slide">
   <div class="kicker">Step 5 · the one real lever</div>
-  <h2 class="h-slide sm">CWR multi-crop: the only move that genuinely lifts accuracy.</h2>
+  <h2 class="h-slide sm">CWR multi-crop: the one lever that raises the accuracy ceiling.</h2>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.05">
       <p class="cap">Re-encode the image as a <strong>3&times;3 + 2&times;2 + center</strong> grid of 14 crops through the same frozen model, and take the per-label <strong>max</strong> across crops. A small object becomes large in whichever crop contains it, so its signal jumps from weak to strong.</p>
@@ -689,7 +692,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="it"><span class="abc sm">A</span><div class="tx"><strong>Global context</strong> &mdash; the pooled vector, de-biased by its own background prior. Free.</div></div>
       <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>Multi-crop</strong> &mdash; 14 fresh forward passes on new pixels. 14&times; the cost. +0.075 mAP.</div></div>
     </div>
-    <p class="eqpost">then \( \;\ell \in \text{&#288;-gated words} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) &mdash; and that string of arithmetic <strong>is</strong> the tagger.</p>
+    <p class="eqpost">then \( \;\ell \in \text{&#288;-gated words} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) &mdash; and this composition of arithmetic <strong>is</strong> the tagger.</p>
     <p class="takeaway" style="margin-top:10px">No head, no logits, no learned threshold. <span class="accent">Every symbol is either the frozen model or a max.</span></p>
   </div>
 </section>
@@ -715,17 +718,17 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 16 THE COMPUTE-ACCURACY CURVE ============ -->
 <section class="slide">
-  <div class="kicker">Accuracy vs compute</div>
-  <h2 class="h-slide sm">Where the test-time compute actually went, and what it bought.</h2>
+  <div class="kicker">Test-time scaling</div>
+  <h2 class="h-slide sm">Accuracy as a function of test-time compute.</h2>
   <div class="body" style="justify-content:center;gap:10px">
     <div class="chart" style="height:392px"><div id="c-compute" style="height:100%"></div></div>
-    <p class="takeaway" style="font-size:19px">The first jump is <span class="accent">nearly free</span>: same pixels, more algebra. The second costs 14&times; the latency for +0.075. The pink cluster spent compute on the <em>features</em> &mdash; and bought nothing.</p>
+    <p class="takeaway" style="font-size:19px">The first gain is <span class="accent">nearly free</span>: the same pixels, more computation per pass. The second costs 14&times; the latency for +0.075. The pink cluster spent its compute re-processing <em>features</em> &mdash; and gained nothing.</p>
   </div>
 </section>
 
 <!-- ============ 17 DEMO ============ -->
 <section class="slide">
-  <div class="kicker">In the wild</div>
+  <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Open vocabulary, out-of-distribution photos.</h2>
   <div class="body" style="justify-content:center">
     <div class="demorow">
@@ -751,14 +754,14 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:22px">Labels come straight from the tokenizer, so multilingual variants ("carro") and the odd fragment appear. That is the honest price of a <span class="accent">zero-annotation</span> open vocabulary.</p>
+    <p class="takeaway" style="margin-top:22px">Labels come directly from the tokenizer, so multilingual variants ("carro") and occasional fragments appear. That is the direct cost of a <span class="accent">zero-annotation</span> open vocabulary.</p>
   </div>
 </section>
 
 <!-- ============ 15 THE SCIENTIFIC QUESTION ============ -->
 <section class="slide">
   <div class="kicker">The real experiment</div>
-  <h2 class="h-slide sm">So where is the ceiling? Spend more test-time compute, keep winning?</h2>
+  <h2 class="h-slide sm">Does accuracy continue to scale with test-time compute?</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:76ch">The tagger works. The scientific question is the same one from the retrieval talk: <strong>does accuracy scale with the compute you pour in at test time?</strong> We systematically implemented the obvious upgrades from the 2024-2026 training-free literature and measured each on COCO-150.</p>
     <div class="cards">
@@ -772,7 +775,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 THE LEVERS TABLE ============ -->
 <section class="slide">
   <div class="kicker">Everything we tried</div>
-  <h2 class="h-slide sm">Nine "advanced" test-time methods. Only one beats the baseline.</h2>
+  <h2 class="h-slide sm">Nine training-free methods from the literature; one beats the baseline.</h2>
   <div class="body" style="justify-content:center">
     <div class="chart" style="height:410px"><div id="c-levers" style="height:100%"></div></div>
   </div>
@@ -781,7 +784,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 17 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
-  <h2 class="h-slide sm">Re-processing good features does nothing. Feeding new pixels works.</h2>
+  <h2 class="h-slide sm">Re-processing well-calibrated features yields nothing; new information does.</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:80ch">Every method that <strong>re-processes</strong> the existing features - new layer, whitening, cross-class softmax, label propagation, optimal transport, Dirichlet, robust trimming - is a no-op or a collapse. They were designed for weakly calibrated single-label CLIP. This encoder's space is already good and already multi-label, so there is nothing left to recover.</p>
     <div class="cards">
@@ -794,8 +797,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 21 SHIPPED: OMNI ============ -->
 <section class="slide">
-  <div class="kicker">From study to product</div>
-  <h2 class="h-slide sm">This shipped: every file on my Mac is tagged this way.</h2>
+  <div class="kicker">Deployment</div>
+  <h2 class="h-slide sm">From study to production: on-device tagging in Omni.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:1.05">
       <p class="cap">The Python study became a feature of <strong>Omni</strong>, a native on-device semantic-search app (Swift + MLX, same frozen model). The port is where the design pays off:</p>
@@ -822,7 +825,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 22 IMAGE / HQ / VIDEO / SCANS ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
-  <h2 class="h-slide sm">The same label matrix tags images, HQ re-passes, video, and scans.</h2>
+  <h2 class="h-slide sm">One label matrix: images, high-quality re-passes, video, and scanned documents.</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <div class="mcards">
       <div class="mcard">
@@ -857,20 +860,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 23 SYNTHESIS back to TTC ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
-  <h2 class="h-slide sm">A skill it was never trained on, manufactured at inference.</h2>
+  <h2 class="h-slide sm">A capability the model was never trained for, realized at inference.</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <p class="cap" style="max-width:80ch">Two talks, one thesis. A frozen encoder holds more capability than its training objective exposes, and you unlock it with <strong>test-time compute</strong>, not more parameters.</p>
     <div class="cards">
-      <div class="card"><div class="ttl">Retrieval talk</div><div class="desc">recombine the geometry to buy more <strong>relevance</strong> on the task it was trained for.</div></div>
-      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">recombine the geometry to buy an <strong>emergent new task</strong> it was never trained for: tagging.</div></div>
+      <div class="card"><div class="ttl">Retrieval talk</div><div class="desc">recombine the geometry for more <strong>relevance</strong> on the task it was trained for.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">recombine the geometry for an <strong>emergent new task</strong> it was never trained for: tagging.</div></div>
     </div>
-    <p class="takeaway">But test-time compute is not free lunch: it only cashes out when it <span class="accent">feeds the model new information</span>. Re-processing a good representation buys nothing.</p>
+    <p class="takeaway">Test-time compute scales only when it <span class="accent">supplies the model with new information</span>. Re-processing an already-good representation yields nothing.</p>
   </div>
 </section>
 
 <!-- ============ 19 VS RECENT PAPERS ============ -->
 <section class="slide">
-  <div class="kicker">What is new here</div>
+  <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the 2024-2026 training-free tagging literature.</h2>
   <div class="body" style="justify-content:center;gap:16px">
     <table class="bt syn" style="font-size:15.5px">
@@ -888,7 +891,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 20 CLOSE ============ -->
 <section class="slide closing">
-  <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
   <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
   <div class="contact">
     <div class="nm">Han Xiao &middot; VP of AI, Elastic</div>
