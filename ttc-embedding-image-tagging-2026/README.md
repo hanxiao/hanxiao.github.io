@@ -65,6 +65,24 @@ edges on slides 10 and 12) freeze to a static frame in the PDF.
 On the projector laptop, open the deck with `?follow`. On your phone, open
 `/ttc-embedding-image-tagging-2026/speaker-notes/`, tap **Remote**, then tap Back / Next.
 
+## Source of truth + deploy
+THIS repo (`~/ttc-embedding-image-tagging-2026-slides`, pushed to
+`github.com/hanxiao/ttc-embedding-image-tagging-2026-slides`) is the ONLY place to edit the deck.
+The live copy at `https://hanxiao.io/ttc-embedding-image-tagging-2026/` is a deploy artifact
+inside the `hanxiao/hanxiao.github.io` Pages repo - never edit it there. To deploy:
+
+```
+rsync -a --delete --exclude '.git' ~/ttc-embedding-image-tagging-2026-slides/ \
+  ~/Documents/hanxiao.github.io/ttc-embedding-image-tagging-2026/
+cd ~/Documents/hanxiao.github.io && git add ttc-embedding-image-tagging-2026 \
+  && git commit -m "Update ttc-embedding-image-tagging-2026 deck" && git push
+```
+
+GitHub Pages goes live in ~1 min. Commit + push this repo in the same pass so source and
+deploy never diverge. Cloudflare edge-caches `notes.js` and `data.js`: after editing either,
+bump the `?v=N` cache-bust in the file that references it (deck `index.html` for data.js,
+presenter `index.html` for notes.js).
+
 ## Re-export the PDF
 ```
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
