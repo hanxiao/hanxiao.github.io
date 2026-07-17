@@ -425,11 +425,10 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">Problem setup</div>
   <h2 class="h-slide sm">Open-vocabulary, multi-label tagging, under a strict constraint.</h2>
   <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap" style="max-width:80ch"><strong>jina-embeddings-v5-omni-nano</strong> is a ~1B retrieval encoder: no tagging head, no classifier, no tag list. It was never trained to answer &ldquo;what is in this image&rdquo;. The task: given an image, return the words for <strong>every</strong> object in it, from an open vocabulary.</p>
+    <p class="cap" style="max-width:80ch"><strong>jina-embeddings-v5-omni-nano</strong> is a ~1B retrieval encoder, never trained to answer &ldquo;what is in this image&rdquo;. The task: given an image, return the words for <strong>every</strong> object in it.</p>
     <div class="deflist" style="max-width:980px">
       <div class="defrow"><div class="tag sm">open-vocabulary</div><div class="dsc">no curated tag list; the label space is the model&rsquo;s own.</div></div>
       <div class="defrow"><div class="tag sm">multi-label</div><div class="dsc">a photo has many objects; recall them all.</div></div>
-      <div class="defrow"><div class="tag sm">single frozen model</div><div class="dsc">every signal from one encoder, or the model is no longer doing the work.</div></div>
     </div>
     <div>
       <span class="chip on">Training-free</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
@@ -472,7 +471,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
           <div class="aarr" style="--d:.25s">&rarr;</div>
           <div class="fbox sub" style="grid-column:3;grid-row:1"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div><div class="inj">vision tokens injected at<br>image-token positions</div></div>
         </div>
-        <div class="omnifoot">two internal submodels, never modified, never retrained &middot; image path runs per image; the vocabulary path ran once</div>
+        <div class="omnifoot">never modified, never retrained &middot; image path runs per image; vocabulary path ran once</div>
       </div>
       <div class="archarrs"><div class="aarr" style="--d:.5s">&rarr;</div><div class="aarr" style="animation:none;color:var(--ink)">&rarr;</div></div>
       <div class="outcol" style="max-width:330px">
@@ -486,7 +485,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </div>
         <div class="outrow">
           <svg width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#0B64DD" stroke-width="2.2"><rect x="4" y="3" width="38" height="38" rx="3"/><line x1="4" y1="13" x2="42" y2="13"/><line x1="4" y1="23" x2="42" y2="23"/><line x1="4" y1="33" x2="42" y2="33"/></g></svg>
-          <div class="od"><b>\(E\)</b>: label matrix, 128,260 &times; 768, computed once and cached; gated to 25,465 words at scoring</div>
+          <div class="od"><b>\(E\)</b>: label matrix, 128,260 &times; 768; gated to 25,465 words at scoring</div>
         </div>
       </div>
     </div>
@@ -556,7 +555,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     </div>
     <div style="flex:.9">
       <p class="cap" style="font-size:17px"><strong>Why encode_text, not the embedding table?</strong> The model has <span class="mono">tie_word_embeddings = false</span>: the input-embedding table lives in a different space than the pooled output. You must encode each token <em>as a text string</em> to put labels in the image's space.</p>
-      <p class="cap" style="font-size:17px;margin-top:14px">The original intuition (use the vocabulary directly) was correct, but only through the aligned output space.</p>
     </div>
   </div>
 </section>
@@ -610,23 +608,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="vssub">a small object fires on its own patch and survives</div>
         <div class="vstag" style="text-transform:none">mAP 0.635</div>
       </div>
-      <div class="vspanel">
-        <div class="vshd">the gain</div>
-        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
-          <line x1="40" y1="120" x2="200" y2="120" stroke="var(--ink)" stroke-width="1.6"></line>
-          <rect x="66" y="86" width="34" height="34" fill="var(--foil)"></rect>
-          <rect x="140" y="38" width="34" height="82" fill="var(--accent)"></rect>
-          <text class="vlbl" x="83" y="138" text-anchor="middle" style="font-size:12px">global</text>
-          <text class="vlbl" x="157" y="138" text-anchor="middle" style="font-size:12px">patch</text>
-          <text class="vlbl" x="83" y="80" text-anchor="middle" style="font-size:12px;fill:var(--foil-ink)">.264</text>
-          <text class="vlbl" x="157" y="32" text-anchor="middle" style="font-size:12px;fill:var(--accent)">.635</text>
-        </svg>
-        <div class="vsform">+0.37 mAP</div>
-        <div class="vssub">PIAA&rsquo;s claim, &ldquo;[CLS] is not enough&rdquo;, confirmed on this encoder</div>
-        <div class="vstag">same pixels, more computation</div>
-      </div>
     </div>
-    <p class="takeaway"><span class="abc sm" style="vertical-align:2px;margin-right:6px">A</span>Pure family-A compute: the patch features already exist in the forward pass. <span class="accent">One additional max over rows yields +0.37 mAP.</span></p>
+    <p class="takeaway"><span class="abc sm" style="vertical-align:2px;margin-right:6px">A</span>PIAA&rsquo;s &ldquo;[CLS] is not enough&rdquo;, confirmed on this encoder: <span class="accent">+0.37 mAP</span> from one max over rows the forward pass already produced.</p>
   </div>
 </section>
 
@@ -639,7 +622,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <p class="cap">Raw cosine has a base-rate bias: generic words ("bed", "cat") score high on almost any image because they sit near the image modality. Estimate a per-label prior once from neutral background images, then subtract it:
       \[ \tilde s_\ell \;=\; s_\ell-\mu_\ell,\qquad \mu_\ell=\mathbb{E}_{x\,\sim\,\text{background}}\big[s_\ell(x)\big] \]
       </p>
-      <p class="cap" style="font-size:16.5px;margin-top:10px">No calibration set, no labels, one offline pass: only image-specific spikes survive.</p>
+      <p class="cap" style="font-size:16.5px;margin-top:10px">No calibration set, no labels, one offline pass.</p>
     </div>
     <div style="flex:.95">
       <svg viewBox="0 0 320 210" style="width:100%;border:1.2px solid var(--hair2);border-radius:8px;background:#fff">
@@ -670,7 +653,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:1">
-      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE tokenizers encode a leading space as the glyph <span class="mono">&#288;</span>; a token beginning with it starts a new word: <span class="mono">&#288;cat</span> is a whole word, <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
+      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE tokenizers encode a leading space as the glyph <span class="mono">&#288;</span>; a token beginning with it starts a new word: <span class="mono">&#288;cat</span> is a whole word, <span class="mono">GetComponent</span> is a fragment. That one built-in signal is the gate; no external dictionary.</p>
       <p class="cap" style="margin-top:16px"><strong>Embedding-NMS.</strong> Synonyms and multilingual variants (猫 / Cat / кот / cat) collapse into one, using cosine in the model's own space. Walk labels by score; keep \(\ell\) only if
       \( \max_{k\,\in\,\text{kept}}\langle e_\ell, e_k\rangle < 0.6 \).
       Again: no lookup table, just the geometry.</p>
@@ -693,7 +676,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">CWR multi-crop: the one lever that raises the accuracy ceiling.</h2>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.05">
-      <p class="cap"><strong>Class-Wise Reranking (CWR)</strong>, the crop-and-rescore idea from TagCLIP (AAAI&rsquo;24), extended to a full-coverage <strong>3&times;3 + 2&times;2 + center</strong> grid: 14 crops through the same frozen model, per-label <strong>max</strong> across crops. A small object fills whichever crop contains it: weak signal becomes strong.</p>
+      <p class="cap"><strong>Class-Wise Reranking (CWR)</strong>, the crop-and-rescore idea from TagCLIP (AAAI&rsquo;24), extended to a full-coverage grid through the same frozen model. A small object fills whichever crop contains it: weak signal becomes strong.</p>
       <div class="croprow">
         <svg width="96" height="66" viewBox="0 0 96 66"><rect x="1" y="1" width="94" height="64" fill="#fff" stroke="#1C1E23" stroke-width="1.6"/><g stroke="#0B64DD" stroke-width="1.4"><line x1="32.3" y1="1" x2="32.3" y2="65"/><line x1="63.6" y1="1" x2="63.6" y2="65"/><line x1="1" y1="22.3" x2="95" y2="22.3"/><line x1="1" y1="43.6" x2="95" y2="43.6"/></g><rect x="63.6" y="43.6" width="31.4" height="21.4" fill="#E7EEFC"/><circle cx="79" cy="54" r="4.5" fill="#0B64DD"/></svg>
         <svg width="96" height="66" viewBox="0 0 96 66"><rect x="1" y="1" width="94" height="64" fill="#fff" stroke="#1C1E23" stroke-width="1.6"/><g stroke="#0B64DD" stroke-width="1.4" stroke-dasharray="4 3"><line x1="48" y1="1" x2="48" y2="65"/><line x1="1" y1="33" x2="95" y2="33"/></g></svg>
@@ -738,7 +721,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm" style="margin-bottom:14px">One score per token: the pipeline sharpens a distribution.</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <div class="chart" style="height:400px"><div id="c-vhist" style="height:100%"></div></div>
-    <p class="takeaway" style="font-size:18px">Real data, one image: every token of the vocabulary is scored, centered, gated, deduplicated. <span class="accent">Tagging is distribution sharpening.</span></p>
+    <p class="takeaway" style="font-size:18px">Real pipeline output, one image, all 128,260 tokens. <span class="accent">Tagging is distribution sharpening.</span></p>
   </div>
 </section>
 
@@ -809,7 +792,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
         <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
       </div>
-      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is grounded in the object&rsquo;s pixels: grey, sleeping, on a couch. Without a POS tagger a related noun can fill the slot (&ldquo;cat plush&rdquo;), but every pair stays grounded.</p>
+      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is grounded in the object&rsquo;s pixels: grey, sleeping, on a couch. Without a POS tagger a related noun can fill the slot (&ldquo;cat plush&rdquo;).</p>
     </div>
   </div>
 </section>
@@ -820,7 +803,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">Accuracy as a function of test-time compute.</h2>
   <div class="body" style="justify-content:center;gap:10px">
     <div class="chart" style="height:392px"><div id="c-compute" style="height:100%"></div></div>
-    <p class="takeaway" style="font-size:19px">Accuracy scales along exactly one axis: <span class="accent">the compute that carries new information</span>. Family A is nearly free; family B pays 14&times; latency for +0.075. The pink cluster is the subject of the next slide.</p>
+    <p class="takeaway" style="font-size:19px">Accuracy scales along exactly one axis: <span class="accent">the compute that carries new information</span>. The pink cluster is the subject of the next slide.</p>
   </div>
 </section>
 
@@ -829,7 +812,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers; only re-encoding adds accuracy.</h2>
   <div class="body" style="justify-content:center;gap:8px">
-    <p class="cap" style="max-width:88ch;font-size:16.5px">RQ3, answered by measurement: every published lever, re-implemented. Each bar: &Delta; mAP on the pipeline the method modifies.</p>
+    <p class="cap" style="max-width:88ch;font-size:16.5px">RQ3, answered by measurement: every published lever, re-implemented on this pipeline.</p>
     <div class="chart" style="height:392px"><div id="c-levers" style="height:100%"></div></div>
   </div>
 </section>
@@ -928,7 +911,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="foot">every page, keyword-findable</div>
       </div>
     </div>
-    <p class="takeaway">One label matrix, one scoring rule. The media shape only changes <span class="accent">what counts as a patch</span>: crops for detail, frames for time, pages for documents.</p>
+    <p class="takeaway">The media shape only changes <span class="accent">what counts as a patch</span>: crops for detail, frames for time, pages for documents.</p>
   </div>
 </section>
 
