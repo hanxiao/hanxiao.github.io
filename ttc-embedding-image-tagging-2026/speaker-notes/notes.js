@@ -265,7 +265,7 @@ now with the full ablation behind it.`},
     note:`And it holds up outside the benchmark.
 Each card shows all three modes.
 The fast pass, fourteen-crop re-encoding, and patch-local adjectives.
-Top three per mode, unfiltered.//
+Top five per mode, unfiltered.//
 Look at the Porsche.
 The fast pass returns *fragments*. Driv. Sidew.
 Re-encoding turns them into words.
