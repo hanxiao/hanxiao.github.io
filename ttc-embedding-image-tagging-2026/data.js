@@ -34,5 +34,18 @@ window.DATA = {
 "leverBaseline": 0.635,   // patch fusion baseline that every lever is measured against
 
 /* ---- latency breakdown (M3 Ultra, MLX), ms per image ---- */
-"latency": {"fast":75, "hq":1016}
+"latency": {"fast":75, "hq":1016},
+
+/* ---- the compute-accuracy curve (slide: does accuracy scale with test-time compute?)
+   x positions are compute regimes, not measured ms; ms shown only where measured. ---- */
+"compute": [
+  {"label":"1 forward pass",        "sub":"pooled vector only",            "ms":null, "map":0.264},
+  {"label":"1 pass + patch algebra","sub":"score all patches vs 128k labels &middot; 75 ms", "ms":75,   "map":0.635},
+  {"label":"15 forward passes",     "sub":"+ 14 crops re-encoded &middot; 1016 ms",          "ms":1016, "map":0.710}
+],
+/* the 8 re-processing methods: heavier math on the SAME pixels, all <= baseline */
+"reprocess": [0.06, 0.14, 0.17, 0.608, 0.636, 0.671, 0.693, 0.699],
+
+/* ---- Omni (macOS app) Swift/bf16 port, COCO-150 via omni-verify tageval ---- */
+"omni": {"baseP1":0.773, "baseMap":0.645, "hqP1":0.847, "hqMap":0.697}
 };
