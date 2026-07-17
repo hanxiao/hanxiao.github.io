@@ -670,7 +670,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:1">
-      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE tokenizers encode a leading space as the glyph <span class="mono">&#288;</span> (a tokenizer artifact, not a rendering error), so a token beginning with <span class="mono">&#288;</span> starts a new word: <span class="mono">&#288;cat</span> is a whole word, <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
+      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE tokenizers encode a leading space as the glyph <span class="mono">&#288;</span>; a token beginning with it starts a new word: <span class="mono">&#288;cat</span> is a whole word, <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
       <p class="cap" style="margin-top:16px"><strong>Embedding-NMS.</strong> Synonyms and multilingual variants (猫 / Cat / кот / cat) collapse into one, using cosine in the model's own space. Walk labels by score; keep \(\ell\) only if
       \( \max_{k\,\in\,\text{kept}}\langle e_\ell, e_k\rangle < 0.6 \).
       Again: no lookup table, just the geometry.</p>
@@ -799,7 +799,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
         <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
       </div>
-      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is tied to the object&rsquo;s pixels: the cats really are grey and sleeping on a couch. No POS tagger, so a related noun can fill the slot (&ldquo;cat plush&rdquo;), but every pair is grounded.</p>
+      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is grounded in the object&rsquo;s pixels: grey, sleeping, on a couch. Without a POS tagger a related noun can fill the slot (&ldquo;cat plush&rdquo;), but every pair stays grounded.</p>
     </div>
   </div>
 </section>
