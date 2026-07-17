@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speaker notes · ttc-embedding-image-tagging-2026</title>
+<style>
+:root{
+  --bg:#FCFCFD; --ink:#1C1E23; --accent:#0B64DD; --teal:#0A7B74; --foil:#C2186A;
+  --hair:rgba(28,30,35,.14); --hair2:rgba(28,30,35,.28);
+  --sans:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",system-ui,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,"Roboto Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;touch-action:manipulation}   /* touch-action: kill iOS double-tap-to-zoom (pinch still works) */
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+
+/* top bar */
+header{flex:0 0 auto;display:flex;align-items:center;gap:22px;padding:10px 20px;border-bottom:1px solid var(--hair);background:#fff}
+header .brand{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.clock{font-family:var(--mono);font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:8px}
+.clock .big{font-size:30px;font-weight:700;letter-spacing:-.01em}
+.clock .of{font-size:15px;color:var(--ink);opacity:.6}
+.pace{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 12px;border-radius:6px;border:1.4px solid var(--hair2)}
+.pace.ok{color:var(--teal);border-color:var(--teal)}
+.pace.behind{color:var(--foil);border-color:var(--foil)}
+.pace.ahead{color:var(--accent);border-color:var(--accent)}
+header .btns{margin-left:auto;display:flex;gap:8px}
+button{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.03em;border:1.4px solid var(--hair2);
+  background:#fff;color:var(--ink);border-radius:6px;padding:7px 14px;cursor:pointer;touch-action:manipulation}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button.pri:hover{color:#fff;opacity:.92}
+.pos{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.04em}
+
+/* main split */
+main{flex:1;min-height:0;display:flex;gap:0}
+#slidepane{flex:0 0 56%;display:flex;align-items:center;justify-content:center;background:#f0f1f4;padding:18px}
+#splitter{flex:0 0 10px;cursor:col-resize;position:relative;background:#fff;z-index:6}
+#splitter::before{content:"";position:absolute;left:4px;top:0;bottom:0;width:2px;background:var(--hair);border-radius:2px;transition:background .12s}
+#splitter::after{content:"";position:absolute;left:1px;top:50%;transform:translateY(-50%);width:8px;height:30px;border-radius:4px;background:transparent}
+#splitter:hover::before,#splitter.drag::before{background:var(--accent)}
+.frame{width:100%;aspect-ratio:16/9;max-height:100%;box-shadow:0 6px 28px rgba(28,30,35,.16);border-radius:6px;overflow:hidden;background:#fff}
+.frame iframe{width:100%;height:100%;border:0;display:block}
+
+#notepane{flex:1;min-width:0;display:flex;flex-direction:column;padding:22px 30px}
+.nmeta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding-bottom:12px;margin-bottom:6px}
+.nmeta .ttl{font-size:20px;font-weight:750;letter-spacing:-.01em}
+.nmeta .budget{margin-left:auto;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);opacity:.75;white-space:nowrap}
+.nmeta .budget b{color:var(--accent)}
+#note{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overflow-wrap:break-word;font-size:24px;line-height:1.36;font-weight:430;padding:16px 4px 16px 0;letter-spacing:-.003em;touch-action:manipulation;overscroll-behavior:contain}
+#note .ph{margin-bottom:.34em}
+#note b{font-weight:750;color:var(--accent)}
+#note .pz{color:var(--accent);font-weight:800;font-size:.82em;opacity:.6;padding:0 1px}
+#note .pron{font-size:.62em;font-weight:600;color:var(--teal);opacity:.85;letter-spacing:0;font-variant-numeric:normal}
+#note::-webkit-scrollbar{width:8px}#note::-webkit-scrollbar-thumb{background:var(--hair2);border-radius:4px}
+.nfoot{flex:0 0 auto;display:flex;align-items:center;gap:14px;border-top:1px solid var(--hair);padding-top:12px}
+.slidetimer{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600}
+.slidetimer.over{color:var(--foil)}
+.hint{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink);opacity:.5;letter-spacing:.02em}
+.fontbtns{display:flex;gap:6px}
+.bar{flex:0 0 auto;height:4px;background:var(--hair);border-radius:3px;overflow:hidden;margin-top:8px}
+.bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s linear}
+.bar > i.over{background:var(--foil)}
+/* skipped slides */
+button.skip.on{background:var(--foil);border-color:var(--foil);color:#fff}
+button.skip.on:hover{color:#fff;opacity:.92}
+.nmeta .skipbadge{font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--foil);border-radius:5px;padding:3px 8px}
+#note.skipped{opacity:.4}
+.skiplist{font-family:var(--mono);font-size:12px;color:var(--ink);opacity:.78;letter-spacing:.02em}
+.skiplist .sk{cursor:pointer;border:1.3px solid var(--hair2);border-radius:5px;padding:2px 8px;margin-left:4px;color:var(--foil);font-weight:800}
+.skiplist .sk:hover{border-color:var(--foil)}
+/* remote control + phone layout */
+.remote.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#rhint{display:none;flex:0 0 auto;font-family:var(--mono);font-size:12px;color:var(--teal);background:#fff;border-bottom:1px solid var(--hair);padding:6px 14px;text-align:center}
+#rhint b{color:var(--ink)}
+.bignav{display:none;gap:10px;padding:10px 0 2px}
+.bignav button{flex:1;font-family:var(--sans);font-size:22px;font-weight:800;letter-spacing:0;padding:22px 0;border-radius:12px}
+.bignav #nextBig{flex:2;background:var(--accent);border-color:var(--accent);color:#fff}
+@media (max-width:720px){
+  /* ONE toolbar only: move the header to the BOTTOM (thumb reach); the note fills everything above it. */
+  main{order:1}
+  header{order:2;flex-wrap:nowrap;gap:7px;align-items:center;min-width:0;
+    padding:7px 10px calc(7px + env(safe-area-inset-bottom));
+    border-bottom:none;border-top:1px solid var(--hair)}
+  #rhint{display:none}
+  header .brand,.pos,.clock .of{display:none}
+  .clock{min-width:0}
+  .clock .big{font-size:19px}
+  .pace{font-size:11px;padding:4px 7px;white-space:nowrap}
+  #slidepane,#splitter{display:none}
+  /* note area gets the room */
+  #notepane{padding:8px 14px 6px}
+  .nmeta{padding-bottom:6px;margin-bottom:2px}
+  .nmeta .ttl{font-size:17px}
+  .nmeta .budget{font-size:12px}
+  #note{font-size:27px;line-height:1.4;padding:10px 2px 8px 0}
+  .nfoot,.bignav,.fontbtns,#fsBtn,#skipBtn{display:none}
+  /* header buttons -> compact icons that FLEX-SHARE the row (shrink to fit; never overflow). */
+  /* CSS-only: text hidden via font-size:0, icon drawn via ::before, state via existing classes. */
+  header .btns{flex:1;min-width:0;margin-left:8px;gap:6px;flex-wrap:nowrap}
+  header .btns button{flex:1 1 0;min-width:0;font-size:0;padding:10px 0;border-radius:9px;line-height:1}
+  header .btns button::before{font-size:18px;font-weight:700}
+  #remoteBtn::before{content:"📡"}
+  #startBtn::before{content:"❚❚"}      /* running -> pause glyph */
+  #startBtn.pri::before{content:"▸"}     /* .pri present = not running = Start */
+  #resetBtn::before{content:"↺"}
+  #prevBtn::before{content:"◂"}
+  #nextBtn::before{content:"▸";color:#fff}
+  #nextBtn{flex:1.5 1 0;background:var(--accent);border-color:var(--accent)}
+}
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">Speaker notes</span>
+  <div class="clock"><span class="big" id="elapsed">0:00</span><span class="of">/ <span id="total">0:00</span> target</span></div>
+  <span class="pace" id="pace">ready</span>
+  <span class="pos" id="pos">1 / 30</span>
+  <div class="btns">
+    <button class="remote" id="remoteBtn">📡 Remote</button>
+    <button class="pri" id="startBtn">Start ▸</button>
+    <button id="resetBtn">Reset</button>
+    <button id="prevBtn">◂ Prev</button>
+    <button id="nextBtn">Next ▸</button>
+    <button class="skip" id="skipBtn">Skip</button>
+    <button id="fsBtn">⛶</button>
+  </div>
+</header>
+<div id="rhint"></div>
+<main>
+  <section id="slidepane"><div class="frame"><iframe id="deck" src="../index.html" title="slide"></iframe></div></section>
+  <div id="splitter" title="Drag to resize · double-click to reset"></div>
+  <section id="notepane">
+    <div class="nmeta">
+      <span class="ttl" id="ntitle">—</span>
+      <span class="skipbadge" id="skipbadge" style="display:none">skipped</span>
+      <span class="budget" id="nbudget"></span>
+    </div>
+    <div id="note">Loading…</div>
+    <div class="bar"><i id="slidebar"></i></div>
+    <div class="nfoot">
+      <span class="slidetimer" id="slidetimer">0s / 0s</span>
+      <span class="skiplist" id="skiplist"></span>
+      <div class="fontbtns"><button id="fdown">A−</button><button id="fup">A+</button></div>
+      <span class="hint"><b style="color:var(--accent);font-weight:750">bold</b> = stress · new line = breathe · <span style="color:var(--accent);font-weight:800">//</span> = pause · <span style="color:var(--teal)">(say:…)</span> = how to pronounce &nbsp;|&nbsp; ←→ nav · S · R · F · K skip</span>
+    </div>
+    <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
+  </section>
+</main>
+<script src="notes.js?v=1"></script>
+<script src="../sync.js?v=1"></script>
+<script>
+const N = window.NOTES || [];
+const deck = document.getElementById('deck');
+const $ = id => document.getElementById(id);
+let cur = 0, fontPx = 24, remoteOn = false, userScrollAt = 0;
+const isMobile = window.matchMedia('(max-width:720px)').matches;
+// ---- skipped slides: excluded from nav, pace, and the projected deck ----
+const SKIP_KEY = 'ttc-image-tagging-2026-skip';
+let SKIP = (()=>{ try{ const s=JSON.parse(localStorage.getItem(SKIP_KEY)); if(Array.isArray(s)) return new Set(s); }catch(_){} return new Set([23,24]); })();
+const isSkipped = i => SKIP.has(i+1);   // i is 0-based; SKIP holds 1-based slide numbers
+function saveSkip(){ try{ localStorage.setItem(SKIP_KEY, JSON.stringify([...SKIP].sort((a,b)=>a-b))); }catch(_){} }
+function broadcast(){ if(remoteOn && window.Sync && !isSkipped(cur)){ try{ Sync.publish(cur+1); }catch(_){} } }
+// render delivery annotations: *stress* -> bold, // -> pause beat, line -> thought group
+function fmt(t){
+  t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t = t.replace(/\(say:([^)]*)\)/g,'<span class="pron">(say:$1)</span>');
+  t = t.replace(/\*([^*\n]+)\*/g,'<b>$1</b>');
+  t = t.replace(/\/\//g,'<span class="pz">//</span>');
+  return t.split('\n').map(l=> l.trim() ? '<div class="ph">'+l+'</div>' : '').join('');
+}
+
+// cumulative budgets (skipped slides count toward neither the target nor the pace)
+const cumEnd = [], cumStart = [];
+let TOTAL = 0;
+function recomputeBudgets(){ let acc=0; N.forEach((s,i)=>{ cumStart[i]=acc; if(!isSkipped(i)) acc+=s.sec; cumEnd[i]=acc; }); TOTAL=acc; }
+recomputeBudgets();
+const mmss = s => { s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+$('total').textContent = mmss(TOTAL);
+
+// timer state
+let running=false, startEpoch=0, elapsedAcc=0, slideEnterElapsed=0;
+function nowElapsed(){ return elapsedAcc + (running ? (Date.now()-startEpoch)/1000 : 0); }
+
+function navDeck(i){
+  if(isMobile) return;   // phone: don't load/drive the deck iframe (the deck is on the projector)
+  // try direct call into the deck's global show(); fall back to hash reload
+  try { if (deck.contentWindow && typeof deck.contentWindow.show === 'function'){ deck.contentWindow.show(i); return; } } catch(e){}
+  deck.src = '../index.html#'+(i+1);
+}
+function render(){
+  const s = N[cur];
+  const sk = isSkipped(cur);
+  $('ntitle').textContent = (cur+1)+'. '+s.title;
+  $('skipbadge').style.display = sk ? '' : 'none';
+  $('nbudget').innerHTML = sk ? '<span style="color:var(--foil);font-weight:700">skipped &middot; not counted</span>'
+                              : ('budget <b>'+s.sec+'s</b> &middot; by end ' + mmss(cumEnd[cur]));
+  const note = $('note'); note.innerHTML = fmt(s.note); note.scrollTop = 0; userScrollAt = 0; note.style.fontSize = fontPx+'px';
+  note.classList.toggle('skipped', sk);
+  $('pos').textContent = (cur+1)+' / '+N.length;
+  const sb = $('skipBtn'); sb.classList.toggle('on', sk); sb.textContent = sk ? 'Skipped' : 'Skip';
+  slideEnterElapsed = nowElapsed();
+  navDeck(cur);
+  broadcast();
+  updatePace();
+}
+function go(d){
+  let i = cur + d;
+  while(i>=0 && i<N.length && isSkipped(i)) i += d;   // hop over skipped slides
+  if(i<0 || i>=N.length) return;                      // nothing visible that way; stay put
+  cur = i; render();
+}
+function jumpTo(i){ cur = Math.max(0, Math.min(N.length-1, i)); render(); }   // ignores skip, for reviewing
+function renderSkipList(){
+  const el=$('skiplist'), arr=[...SKIP].sort((a,b)=>a-b);
+  el.innerHTML = arr.length ? ('skipped: '+arr.map(n=>'<span class="sk" data-n="'+n+'">'+n+'</span>').join('')) : '';
+  el.querySelectorAll('.sk').forEach(c=> c.onclick=()=> jumpTo(parseInt(c.dataset.n,10)-1));
+}
+function toggleSkip(){
+  const n=cur+1;
+  if(SKIP.has(n)) SKIP.delete(n); else SKIP.add(n);
+  saveSkip(); recomputeBudgets(); $('total').textContent=mmss(TOTAL); renderSkipList(); render();
+}
+
+function updatePace(){
+  const e = nowElapsed();
+  $('elapsed').textContent = mmss(e);
+  // per-slide timer + progress bar
+  const onSlide = e - slideEnterElapsed;
+  const bud = N[cur].sec;
+  const st = $('slidetimer'); st.textContent = Math.round(onSlide)+'s / '+bud+'s';
+  st.classList.toggle('over', onSlide > bud+0.5);
+  const frac = Math.min(1.4, onSlide/bud);
+  const bar = $('slidebar'); bar.style.width = Math.min(100,frac*100)+'%'; bar.classList.toggle('over', onSlide>bud);
+  // global pace: where SHOULD you be? you should be between cumStart and cumEnd of the current slide
+  const p = $('pace');
+  if(!running && e===0){ p.textContent='ready'; p.className='pace'; return; }
+  const lo = cumStart[cur], hi = cumEnd[cur];
+  let delta=0, cls='ok', label;
+  if(e < lo){ delta=lo-e; cls='ahead'; label='ahead '+mmss(delta); }
+  else if(e > hi){ delta=e-hi; cls='behind'; label='behind '+mmss(delta); }
+  else { cls='ok'; label='on pace'; }
+  p.textContent = label; p.className='pace '+cls;
+}
+
+// controls
+function toggle(){ running=!running; if(running){ startEpoch=Date.now(); } else { elapsedAcc=nowElapsed(); } $('startBtn').textContent = running?'Pause ❚❚':'Start ▸'; $('startBtn').classList.toggle('pri', !running); }
+function reset(){ running=false; elapsedAcc=0; startEpoch=0; slideEnterElapsed=0; $('startBtn').textContent='Start ▸'; $('startBtn').classList.add('pri'); updatePace(); }
+$('startBtn').onclick=toggle; $('resetBtn').onclick=reset;
+$('prevBtn').onclick=()=>go(-1); $('nextBtn').onclick=()=>go(1);
+$('skipBtn').onclick=toggleSkip; renderSkipList();
+$('fup').onclick=()=>{fontPx=Math.min(40,fontPx+2);$('note').style.fontSize=fontPx+'px';};
+$('fdown').onclick=()=>{fontPx=Math.max(16,fontPx-2);$('note').style.fontSize=fontPx+'px';};
+$('fsBtn').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+
+document.addEventListener('keydown', e=>{
+  if(['ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); go(1); }
+  else if(['ArrowLeft','Backspace','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
+  else if(e.key==='s'||e.key==='S'){ toggle(); }
+  else if(e.key==='r'||e.key==='R'){ reset(); }
+  else if(e.key==='f'||e.key==='F'){ $('fsBtn').onclick(); }
+  else if(e.key==='k'||e.key==='K'){ toggleSkip(); }
+  else if(e.key==='Home'){ cur=0; if(isSkipped(cur)) go(1); else render(); }
+  else if(e.key==='End'){ cur=N.length-1; if(isSkipped(cur)) go(-1); else render(); }
+});
+
+deck.addEventListener('load', ()=>{ navDeck(cur); });
+setInterval(updatePace, 250);
+
+// ---- teleprompter auto-scroll: while the timer runs, ease the note toward its time-proportional spot ----
+// never advances the page (that stays manual); if you scroll by hand it backs off so it doesn't fight you.
+(function(){
+  const note = $('note');
+  ['wheel','touchstart','touchmove','pointerdown','mousedown'].forEach(ev=>
+    note.addEventListener(ev, ()=>{ userScrollAt = Date.now(); }, {passive:true}));
+  function autoScroll(){
+    if(!running) return;                              // only once the timer is started
+    if(Date.now() - userScrollAt < 4000) return;      // hand-scrolled recently: leave it alone for a bit
+    const max = note.scrollHeight - note.clientHeight;
+    if(max <= 2) return;                              // note fits on screen; nothing to scroll
+    const onSlide = nowElapsed() - slideEnterElapsed;
+    const bud = N[cur] ? N[cur].sec : 1;
+    const p = Math.min(1, onSlide/Math.max(1,bud));
+    // LEAD the speaker: keep the line you're reading in the upper third, so the sentence
+    // you're about to say is already on screen below it (not just appearing at the bottom edge).
+    const target = Math.max(0, Math.min(max, p*note.scrollHeight - 0.35*note.clientHeight));
+    note.scrollTop += (target - note.scrollTop) * 0.15;          // ease toward target, smooth on any device
+  }
+  setInterval(autoScroll, 120);
+})();
+
+// ---- remote control: this page (your phone) drives /aie-sf-2026/?follow on the projector ----
+if(isMobile){ try{ deck.src='about:blank'; }catch(_){} }   // phone: don't load the deck here
+(function(){
+  const rb=$('remoteBtn'), rh=$('rhint');
+  function ui(){ rb.className='remote'+(remoteOn?' on':''); rb.textContent=remoteOn?'📡 LIVE':'📡 Remote'; }
+  rb.onclick=()=>{ remoteOn=!remoteOn;
+    if(remoteOn){ if(window.Sync){ Sync.takeover(); Sync.ensureMqtt(); } rh.style.display='block'; rh.innerHTML='📡 Live · on the projector open <b>hanxiao.io/ttc-embedding-image-tagging-2026/?follow</b>'; }
+    else { rh.style.display='none'; }
+    ui(); broadcast(); };
+  $('backBig').onclick=()=>go(-1); $('nextBig').onclick=()=>go(1);
+  setInterval(broadcast, 15000);   // heartbeat: re-assert the current slide; self-heals dropped taps + late joiners
+  ui();
+})();
+
+// ---- adjustable split: drag the divider to resize the slide vs notes panes ----
+(function(){
+  const main=document.querySelector('main'), sp=$('slidepane'), sptr=$('splitter');
+  if(!sptr||!sp||isMobile) return;
+  try{ const v=localStorage.getItem('aie-split'); if(v) sp.style.flexBasis=v; }catch(_){}
+  let drag=false;
+  function move(e){
+    if(!drag) return;
+    const r=main.getBoundingClientRect();
+    let pct=((e.clientX-r.left)/r.width)*100;
+    pct=Math.max(26,Math.min(74,pct));        // keep both panes usable
+    sp.style.flexBasis=pct.toFixed(1)+'%';
+  }
+  sptr.addEventListener('mousedown',e=>{ drag=true; sptr.classList.add('drag');
+    deck.style.pointerEvents='none';          // let mouse cross the slide iframe while dragging
+    document.body.style.userSelect='none'; e.preventDefault(); });
+  window.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',()=>{ if(!drag) return; drag=false; sptr.classList.remove('drag');
+    deck.style.pointerEvents=''; document.body.style.userSelect='';
+    try{ localStorage.setItem('aie-split',sp.style.flexBasis||'56%'); }catch(_){} });
+  sptr.addEventListener('dblclick',()=>{ sp.style.flexBasis='56%'; try{ localStorage.removeItem('aie-split'); }catch(_){} });
+})();
+
+render();
+</script>
+</body>
+</html>

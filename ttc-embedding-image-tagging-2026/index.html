@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test-time compute for a frozen embedding model: emergent image tagging · Han Xiao</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'none' },
+  options: { enableMenu: false },
+  startup: { typeset: true }
+};
+</script>
+<style>
+:root{
+  --bg:#FCFCFD; --ink:#1C1E23; --ink2:#1C1E23;
+  --accent:#0B64DD; --foil:#F04E98; --foil-ink:#C2186A;
+  --teal:#00BFB3; --teal-ink:#0A7B74;
+  --accent-soft:#E7EEFC; --hair:rgba(28,30,35,.18); --hair2:rgba(28,30,35,.30);
+  --rule:#1C1E23; --r-card:8px; --r-box:5px;
+  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Inter",system-ui,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,"Roboto Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#0b0a08;}
+body{font-family:var(--sans);color:var(--ink);overflow:hidden;}
+#stage{position:fixed;left:50%;top:50%;width:1280px;height:720px;transform:translate(-50%,-50%);
+  transform-origin:center center;background:var(--bg);overflow:hidden;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:62px 76px 58px;background:var(--bg);}
+.slide.active{display:flex}
+
+.kicker{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:11px;margin-bottom:26px}
+.kicker::before{content:"";width:26px;height:3px;background:var(--accent);display:inline-block;border-radius:2px}
+h1{font-size:58px;line-height:1.05;font-weight:800;letter-spacing:-.022em;max-width:20ch}
+.h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;margin-bottom:36px}
+.h-slide.sm{font-size:33px}
+.sub{font-size:21px;line-height:1.42;font-weight:430;max-width:60ch}
+.lead{font-size:18px;line-height:1.45;font-weight:450;max-width:64ch}
+.mono{font-family:var(--mono)}
+.mlabel{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.accent{color:var(--accent)}
+strong,b{font-weight:700}
+.hairline{height:1px;background:var(--hair2);width:100%;border:0}
+
+#chrome{position:absolute;left:76px;right:76px;bottom:22px;display:flex;justify-content:space-between;
+  align-items:center;font-family:var(--mono);font-size:13.5px;letter-spacing:.03em;color:var(--ink);
+  border-top:1px solid var(--hair);padding-top:11px}
+#chrome.hidden{display:none}
+#chrome .r{display:flex;gap:18px;align-items:center}
+#chrome .hx{color:var(--accent);font-weight:600;text-decoration:none;cursor:pointer}
+
+.title{justify-content:center}
+.title h1{margin:18px 0 0;max-width:24ch}
+.title .sub{margin-top:24px;max-width:52ch}
+.title .auth{margin-top:38px}
+.title .auth .nm{font-size:23px;font-weight:700}
+.title .auth .rl{font-size:18px;font-weight:450;margin-top:2px}
+.title .meta{font-family:var(--mono);font-size:14px;margin-top:16px;letter-spacing:.03em}
+
+.body{flex:1;display:flex;flex-direction:column;min-height:0;justify-content:center}
+.row{display:flex;flex-direction:row;gap:34px;align-items:stretch}
+.fill{flex:1;min-height:0}
+.cap{font-size:18px;line-height:1.45;font-weight:440;max-width:88ch}
+.cap .mono{font-size:14px}
+.takeaway{font-size:21px;line-height:1.4;font-weight:600;text-align:center;text-wrap:balance;max-width:66ch;margin-left:auto;margin-right:auto}
+.note{font-family:var(--mono);font-size:13px;line-height:1.5;letter-spacing:.01em}
+
+.nlist{display:flex;flex-direction:column;gap:18px;margin-top:6px}
+.nitem{display:flex;gap:20px;align-items:flex-start}
+.nitem .n{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent);min-width:42px;line-height:1.15}
+.nitem .t{font-size:20px;font-weight:600;line-height:1.3}
+.nitem .t span{display:block;font-size:16.5px;font-weight:440;margin-top:4px}
+
+.deflist{display:flex;flex-direction:column;gap:16px;margin-top:4px}
+.defrow{display:flex;gap:18px;align-items:baseline}
+.defrow .tag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink);min-width:210px;border-left:3px solid var(--accent);padding-left:12px}
+.defrow .dsc{font-size:18px;font-weight:450;line-height:1.35}
+.defrow .tag.sm{min-width:172px}
+
+.pull{font-size:22px;line-height:1.34;font-weight:600;border-left:4px solid var(--accent);padding-left:24px;color:var(--ink)}
+.pull strong{font-weight:800;color:var(--accent)}
+.pull cite{display:block;margin-top:18px;font-family:var(--mono);font-size:14px;font-weight:600;font-style:normal;color:var(--accent);letter-spacing:.01em}
+
+.autoloop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;font-weight:600}
+.autoloop .step{border:1.2px solid var(--ink);border-radius:var(--r-box);padding:8px 13px;background:#fff}
+.autoloop .ar{color:var(--accent);font-size:17px;font-weight:800}
+.autoloop .rep{color:var(--accent);font-size:18px;font-weight:800;margin-left:2px}
+
+.cards{display:flex;gap:26px;margin-top:8px}
+.card{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);padding:24px 26px 22px;background:#fff;display:flex;flex-direction:column}
+.card .ttl{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+.card.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.card.hero .ttl{color:var(--accent)}
+.card.foilcard{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
+.card.foilcard .ttl{color:var(--foil-ink)}
+.card .desc{font-size:17.5px;line-height:1.42;font-weight:450}
+.card .eq{font-family:var(--mono);font-size:15px;margin:12px 0;font-weight:500}
+.card .foot{margin-top:auto;font-size:15.5px;font-weight:600;padding-top:14px}
+
+.chip{display:inline-block;font-family:var(--mono);font-size:15.5px;font-weight:600;letter-spacing:.04em;
+  border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;margin:0 10px 11px 0;text-transform:uppercase}
+.chip.on{background:var(--ink);color:var(--bg)}
+
+.lin{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.linrow{display:flex;align-items:center;gap:16px}
+.linrow .src{font-family:var(--mono);font-size:14px;font-weight:700;min-width:120px;text-align:right;color:var(--accent)}
+.linrow .arr{color:var(--accent);font-size:20px;font-weight:700}
+.linrow .dst{display:flex;gap:9px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:13.5px;font-weight:500;border:1.2px solid var(--hair2);
+  border-radius:var(--r-box);padding:7px 13px;background:#fff;white-space:nowrap}
+
+/* flow diagram */
+.flow{display:flex;align-items:center;gap:0;margin:10px 0 2px;justify-content:space-between}
+.fbox{border:1.2px solid var(--ink);border-radius:var(--r-box);background:#fff;padding:13px 12px;text-align:center;
+  flex:1;display:flex;flex-direction:column;gap:3px;min-height:80px;justify-content:center}
+.fbox .fn{font-size:15px;font-weight:700;line-height:1.12}
+.fbox .fd{font-family:var(--mono);font-size:12.5px;font-weight:500;line-height:1.24}
+.fbox.dark{background:var(--ink);color:var(--bg)}
+.fbox.lit{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(11,100,221,.26);z-index:2}
+.fbox.lit .fd{color:#e6eefc}
+.fbox.compact{min-height:0;padding:11px}
+.farr{color:var(--accent);font-size:22px;font-weight:700;padding:0 9px;flex:0 0 auto}
+.loopnote{font-family:var(--mono);font-size:12.5px;color:var(--accent);text-align:center;margin-top:10px;font-weight:600}
+.spdetail{display:flex;gap:36px;align-items:flex-start;width:100%;max-width:1060px;margin:26px auto 0}
+.spdesign{flex:1.5}
+.spcaveat{flex:1;border-left:3px solid var(--foil);padding-left:20px}
+.spdetail .mlabel{margin-bottom:9px;display:block}
+.spdetail .cap{font-size:17.5px}
+.spdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 7px 2px 0}
+.codebox{font-family:var(--mono);font-size:14px;background:#fff;border:1.2px solid var(--hair2);
+  border-radius:var(--r-card);padding:12px 14px;line-height:1.45;color:var(--ink)}
+.codebox .cm{color:var(--accent);font-weight:600}
+.codebox .no{color:var(--foil-ink)}
+
+.stats{display:flex;gap:30px;margin-top:4px}
+.stat{display:flex;flex-direction:column}
+.stat .v{font-family:var(--mono);font-size:44px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.stat .v.o{color:var(--accent)}
+.stat .v.foil{color:var(--foil)}
+.stat .v.teal{color:var(--teal-ink)}
+.stat .l{font-size:14px;font-weight:480;line-height:1.3;margin-top:9px;max-width:26ch}
+
+table.bt{border-collapse:collapse;width:100%;font-size:16px}
+table.bt th,table.bt td{padding:9px 12px;text-align:right;font-variant-numeric:tabular-nums}
+table.bt th:first-child,table.bt td:first-child{text-align:left}
+table.bt thead th{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;border-bottom:2px solid var(--rule)}
+table.bt tbody td{border-bottom:1px solid var(--hair)}
+table.bt tbody td:first-child{font-family:var(--mono);font-size:14.5px;font-weight:600}
+table.bt tbody tr:last-child td{border-bottom:2px solid var(--rule)}
+table.bt tr.hero td{background:var(--accent-soft)}
+table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
+table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.chart{width:100%;height:100%}
+.chart svg{display:block;width:100%;height:100%}
+.legend{display:flex;gap:22px;font-family:var(--mono);font-size:13px;font-weight:600;margin-bottom:4px}
+.legend .it{display:flex;align-items:center;gap:8px}
+.legend .sw{width:16px;height:11px;border-radius:2px;display:inline-block}
+
+/* vector-diagram language (shared with the scoring panels) */
+.vq{fill:var(--accent)}
+.vd{fill:var(--ink)}
+.vd.pos{fill:var(--accent)}
+.vd.neg{fill:var(--foil)}
+.vlbl{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
+.vlbl.pos{fill:var(--accent)}
+.vconn{fill:none;stroke:var(--ink);stroke-width:1.8}
+.vwin{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 5;animation:march 1s linear infinite}
+.vsingle{fill:none;stroke:var(--accent);stroke-width:2.8}
+.vpulse{transform-box:fill-box;transform-origin:center;animation:vpulse 1.5s ease-in-out infinite}
+@keyframes march{to{stroke-dashoffset:-28}}
+@keyframes vpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+@media print{.vwin{animation:none}.vpulse{animation:none}}
+
+.vsrow{display:flex;gap:30px;align-items:stretch;width:100%}
+.vspanel{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px}
+.vshd{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.vsspace{width:100%;height:158px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
+.vsform{font-size:16px;min-height:22px}
+.vssub{font-size:14px;line-height:1.32;font-weight:450;max-width:30ch}
+.vstag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-top:1px}
+.vspanel.hero .vsspace{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.vspanel.hero .vstag{color:var(--accent)}
+.vspanel.foil .vsspace{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
+.vspanel.foil .vstag{color:var(--foil-ink)}
+
+/* demo tag chips */
+.demorow{display:flex;gap:24px;width:100%;align-items:stretch}
+.democard{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.democard.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.democard img{width:100%;height:190px;object-fit:cover;display:block}
+.demobody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px}
+.demogt{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--ink)}
+.demotags{display:flex;gap:7px;flex-wrap:wrap}
+.tg{font-family:var(--mono);font-size:13px;font-weight:600;border:1.2px solid var(--hair2);border-radius:999px;padding:5px 12px;background:#fff}
+.tg.hit{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tg.mode{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:0;padding:0;color:var(--accent);background:none}
+
+.shot{border:1.2px solid var(--hair2);border-radius:var(--r-card);overflow:hidden;background:#fff;box-shadow:0 3px 14px rgba(28,30,35,.09)}
+.shot img{display:block;width:100%;height:auto}
+.imgcap{font-family:var(--mono);font-size:12px;color:var(--ink);line-height:1.4;margin-top:8px;text-align:center}
+
+.closing{justify-content:center}
+.closing h1{font-size:46px;line-height:1.24;letter-spacing:-.015em;max-width:none}
+.closing h1 .hl{color:var(--accent)}
+.contact{margin-top:32px;font-family:var(--mono);font-size:17px;line-height:1.85}
+.contact .nm{font-family:var(--sans);font-size:22px;font-weight:700;margin-bottom:10px}
+.contact a,.contact span.lk{color:var(--ink)}
+.contact .hx{color:var(--accent);font-weight:600}
+
+.qr{display:flex;flex-direction:column;align-items:center;gap:10px}
+.qr img{width:172px;height:172px;display:block}
+.qr .qrtop{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);max-width:150px;text-align:center;line-height:1.3}
+.qr .qrlabel{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+.qr-abs{position:absolute;right:104px;top:50%;transform:translateY(-50%)}
+.qr-corner{position:absolute;top:46px;right:76px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:6;text-decoration:none}
+.qr-corner .qrtop{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);line-height:1}
+.qr-corner img{width:92px;height:92px;display:block}
+.qr-corner .qrlabel{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
+.aie-badge{position:absolute;left:76px;top:48px}
+.aie-badge img{height:42px;display:block}
+
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{background:#fff;height:auto;overflow:visible}
+  #stage{position:static;transform:none !important;width:1280px;height:auto;left:0;top:0}
+  .slide{display:flex !important;position:relative;inset:auto;width:1280px;height:720px;
+    page-break-after:always;break-after:page;overflow:hidden}
+  #chrome{display:none !important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ============ 1 TITLE ============ -->
+<section class="slide title">
+  <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
+  <div class="kicker">Frozen encoder · Test-time compute · Emergent task</div>
+  <h1><span class="accent">Squeezing a new skill</span><br>out of a frozen<br>embedding model at test time</h1>
+  <p class="sub">A 1B embedding model was never trained to tag images. With zero training and no second model, it does it anyway. How much of that is test-time compute?</p>
+  <div class="auth">
+    <div class="nm">Han Xiao</div>
+    <div class="rl">VP of AI, Elastic</div>
+    <div class="meta"><span class="accent">@hxiao</span> &nbsp;·&nbsp; <span class="accent">in/hxiao87</span></div>
+  </div>
+  <div class="qr qr-abs">
+    <div class="qrtop">github repo</div>
+    <a href="https://github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-repo.png" alt="QR code to the repo"></a>
+    <div class="qrlabel">the code</div>
+  </div>
+</section>
+
+<!-- ============ 2 RECAP: search is test-time compute ============ -->
+<section class="slide">
+  <div class="kicker">Where we left off</div>
+  <h2 class="h-slide sm">Last talk: search is test-time compute over a frozen encoder.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:70ch">The claim from the autoresearch talk: you do not need a bigger model to get better retrieval. You <strong>recombine the geometry</strong> of one frozen encoder at inference: split the document, re-score, fuse channels, feed back. That extra work at test time is the compute.</p>
+    <div class="cards">
+      <div class="card"><div class="ttl">The model</div><div class="desc">frozen. One embedding API. No retraining, no new parameters.</div></div>
+      <div class="card hero"><div class="ttl accent">The compute</div><div class="desc">multi-pass embedding algebra assembled at test time, climbing a cost-versus-quality curve.</div></div>
+    </div>
+    <p class="takeaway">Same idea, new question: instead of squeezing more <span class="accent">relevance</span> out of the encoder, can we squeeze out an entirely <span class="accent">new task</span>?</p>
+  </div>
+</section>
+
+<!-- ============ 3 THE MOVE: emergent skill ============ -->
+<section class="slide">
+  <div class="kicker">The move</div>
+  <h2 class="h-slide sm">Point the same lens at a task the model was never trained to do.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <p class="cap" style="max-width:72ch"><strong>jina-embeddings-v5-omni-nano</strong> is a ~1B retrieval model. It embeds text and images into one space for search. It has <strong>no tagging head, no classifier, no tag list</strong>. It was never trained to answer "what is in this image".</p>
+    <div class="cards">
+      <div class="card foilcard"><div class="ttl">The naive path</div><div class="desc">train a tagging head. Curate a label set. Fine-tune. A second model, more data, more parameters.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">keep the model frozen. Manufacture the whole tagger out of test-time compute over its existing geometry.</div></div>
+    </div>
+    <p class="takeaway">If a skill it was never trained on <span class="accent">emerges</span> purely from inference-time work, that is test-time compute buying capability, not just quality.</p>
+  </div>
+</section>
+
+<!-- ============ 4 THE TASK ============ -->
+<section class="slide">
+  <div class="kicker">The task</div>
+  <h2 class="h-slide sm">Open-vocabulary, multi-label image tagging.</h2>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:1.05">
+      <p class="cap">Give it an image, get back the words for what is in it. Not one label: <strong>every</strong> object present. Not a fixed 80-class head: an <strong>open vocabulary</strong>, any word the model knows.</p>
+      <div class="deflist" style="margin-top:20px">
+        <div class="defrow"><div class="tag sm">open-vocabulary</div><div class="dsc">no curated tag list; the label space is the model's own.</div></div>
+        <div class="defrow"><div class="tag sm">multi-label</div><div class="dsc">a photo has many objects; recall them all.</div></div>
+        <div class="defrow"><div class="tag sm">single frozen model</div><div class="dsc">no WordNet, no POS tagger, no second network.</div></div>
+      </div>
+    </div>
+    <div style="flex:.95">
+      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:300px;object-fit:cover"></div>
+      <div class="imgcap">cat.jpg (86ms) &rarr; <span class="accent">kitty, cosy, plush, crib, paw, sleeps</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 THE RULES ============ -->
+<section class="slide">
+  <div class="kicker">The rules</div>
+  <h2 class="h-slide sm">Every signal comes from that one frozen model. Nothing else.</h2>
+  <div class="body" style="gap:26px;justify-content:center">
+    <div>
+      <span class="chip on">Zero training</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
+    </div>
+    <p class="cap" style="max-width:74ch">This is the same discipline as the retrieval talk, ported to a new task. The label space, the visual features, and the word filter must <strong>all</strong> come from the frozen encoder. The moment you add a curated tag list or a POS tagger, it is no longer the model doing the work.</p>
+    <p class="takeaway">The constraint is the point: it forces every ounce of the new skill to come from <span class="accent">test-time compute over existing geometry</span>.</p>
+  </div>
+</section>
+
+<!-- ============ 6 THE MODEL ============ -->
+<section class="slide">
+  <div class="kicker">The model</div>
+  <h2 class="h-slide sm">One frozen omni encoder, image and text in one space.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <div class="flow">
+      <div class="fbox"><div class="fn">Image</div><div class="fd">or text, audio, video</div></div>
+      <div class="farr">&rarr;</div>
+      <div class="fbox"><div class="fn">Qwen3VL Vision Tower</div><div class="fd">frozen, patches</div></div>
+      <div class="farr">&rarr;</div>
+      <div class="fbox"><div class="fn">Bidirectional Text Tower</div><div class="fd">EuroBERT-12L, 768-d</div></div>
+      <div class="farr">&rarr;</div>
+      <div class="fbox dark"><div class="fn">768-d vector</div><div class="fd">last-token pooled</div></div>
+    </div>
+    <div class="stats" style="justify-content:center;gap:52px;margin-top:14px">
+      <div class="stat"><div class="v o">~1B</div><div class="l">parameters, runs on a Mac in MLX</div></div>
+      <div class="stat"><div class="v o">768</div><div class="l">shared image-text dimensions</div></div>
+      <div class="stat"><div class="v o">1</div><div class="l">model for every modality and every signal</div></div>
+    </div>
+    <p class="takeaway">Because image and text land in the <span class="accent">same</span> space, an image can be scored directly against words. That shared geometry is the raw material.</p>
+  </div>
+</section>
+
+<!-- ============ 7 PIPELINE OVERVIEW ============ -->
+<section class="slide">
+  <div class="kicker">The pipeline</div>
+  <h2 class="h-slide sm">The whole tagger is test-time compute around a frozen forward pass.</h2>
+  <div class="body" style="justify-content:center;gap:14px">
+    <div class="shot" style="max-width:1000px;margin:0 auto"><img src="img/pipeline.png" alt="tagging pipeline diagram"></div>
+    <p class="cap" style="text-align:center;max-width:82ch;margin:0 auto">Offline (once): encode the tokenizer vocabulary into a label matrix. Per image: score patches and the global vector against those labels, subtract a prior, optionally boost with multi-crop, then filter to words. <strong>Every box is the same frozen model or plain arithmetic.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 8 STEP 1: vocabulary as label space ============ -->
+<section class="slide">
+  <div class="kicker">Step 1 · the label space</div>
+  <h2 class="h-slide sm">The label set is the tokenizer's own vocabulary.</h2>
+  <div class="body row" style="gap:40px;align-items:center">
+    <div style="flex:1.1">
+      <p class="cap">No curated tag list. Take all <strong>128,260</strong> tokens and encode each one <span class="mono">as text</span> into a label matrix. Now any image can be scored against the entire vocabulary at once.</p>
+      <div class="codebox" style="margin-top:16px">
+        <div><span class="no">wrong:</span> image_vec &middot; embed_tokens.weight</div>
+        <div style="padding-left:62px;color:var(--foil-ink)">&rarr; Tutor, avatar, PyTuple &nbsp;(garbage)</div>
+        <div style="margin-top:8px"><span class="cm">right:</span> image_vec &middot; encode_text(token)</div>
+        <div style="padding-left:52px;color:var(--accent)">&rarr; kitty, cosy, plush, paw &nbsp;(aligned)</div>
+      </div>
+    </div>
+    <div style="flex:.9">
+      <p class="cap" style="font-size:17px"><strong>Why encode_text, not the embedding table?</strong> The model has <span class="mono">tie_word_embeddings = false</span>: the input-embedding table lives in a different space than the pooled output. You must encode each token <em>as a text string</em> to put labels in the image's space.</p>
+      <p class="cap" style="font-size:17px;margin-top:14px">Han's original intuition ("just use the vocab") was right, but only through the aligned output space.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 STEP 2: patch > global ============ -->
+<section class="slide">
+  <div class="kicker">Step 2 · where to look</div>
+  <h2 class="h-slide sm">One vector per image is a weak tagger. Score every patch.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <div class="vsrow">
+      <div class="vspanel foil">
+        <div class="vshd">global pooled</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line class="vsingle" x1="54" y1="80" x2="166" y2="64" style="stroke:var(--foil)"></line>
+          <circle class="vq" cx="54" cy="80" r="6.5"></circle>
+          <circle class="vd neg" cx="166" cy="64" r="6.5"></circle>
+          <text class="vlbl" x="54" y="101" text-anchor="middle">img</text>
+        </svg>
+        <div class="vsform">\( \cos(g,\,E) \)</div>
+        <div class="vssub">one vector dominated by the most salient object</div>
+        <div class="vstag">mAP 0.264</div>
+      </div>
+      <div class="vspanel hero">
+        <div class="vshd">patch max + global</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line class="vconn" x1="50" y1="76" x2="164" y2="44"></line>
+          <line class="vconn" x1="50" y1="76" x2="164" y2="108"></line>
+          <line class="vwin"  x1="50" y1="76" x2="170" y2="76"></line>
+          <circle class="vd" cx="164" cy="44" r="4.5"></circle>
+          <circle class="vd pos" cx="170" cy="76" r="6"></circle>
+          <circle class="vd" cx="164" cy="108" r="4.5"></circle>
+          <circle class="vq" cx="50" cy="76" r="6.5"></circle>
+          <text class="vlbl" x="50" y="97" text-anchor="middle">img</text>
+        </svg>
+        <div class="vsform">\( 0.7\,\max_p \cos(P,E) + 0.3\,\cos(g,E) \)</div>
+        <div class="vssub">a small object fires on its own patch and survives</div>
+        <div class="vstag">mAP 0.635</div>
+      </div>
+      <div class="vspanel">
+        <div class="vshd">the gain</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line x1="40" y1="120" x2="200" y2="120" stroke="var(--ink)" stroke-width="1.6"></line>
+          <rect x="66" y="86" width="34" height="34" fill="var(--foil)"></rect>
+          <rect x="140" y="38" width="34" height="82" fill="var(--accent)"></rect>
+          <text class="vlbl" x="83" y="138" text-anchor="middle" style="font-size:12px">global</text>
+          <text class="vlbl" x="157" y="138" text-anchor="middle" style="font-size:12px">patch</text>
+          <text class="vlbl" x="83" y="80" text-anchor="middle" style="font-size:12px;fill:var(--foil-ink)">.264</text>
+          <text class="vlbl" x="157" y="32" text-anchor="middle" style="font-size:12px;fill:var(--accent)">.635</text>
+        </svg>
+        <div class="vsform">+0.37 mAP</div>
+        <div class="vssub">"[CLS] is not enough", confirmed on this encoder</div>
+        <div class="vstag">no new pixels, just look closer</div>
+      </div>
+    </div>
+    <p class="takeaway">Scoring each patch and taking the per-label max is <span class="accent">multi-pass compute over the same features</span>: more work at test time, no new model.</p>
+  </div>
+</section>
+
+<!-- ============ 10 STEP 3: prior subtraction ============ -->
+<section class="slide">
+  <div class="kicker">Step 3 · de-bias</div>
+  <h2 class="h-slide sm">Some words are just close to every image. Subtract that.</h2>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:1.05">
+      <p class="cap">Raw cosine has a base-rate bias: generic words ("bed", "cat") score high on almost any image because they sit near the image modality. Estimate a per-label prior <span class="mono">&mu;</span> from a handful of background images once, then subtract it.</p>
+      <div class="codebox" style="margin-top:16px">
+        <div>base = 0.7&middot;s_patch + 0.3&middot;s_global <span class="no">&minus; &mu;</span></div>
+      </div>
+      <p class="cap" style="font-size:16.5px;margin-top:14px">Pure marginal de-biasing: no calibration set, no labels, one offline pass over neutral images. It is the lightest possible correction, and it is enough because the space is already well aligned.</p>
+    </div>
+    <div style="flex:.95">
+      <svg viewBox="0 0 320 210" style="width:100%;border:1.2px solid var(--hair2);border-radius:8px;background:#fff">
+        <text x="160" y="24" text-anchor="middle" font-family="var(--mono)" font-size="12" font-weight="700" fill="#1C1E23">per-label score</text>
+        <line x1="40" y1="170" x2="300" y2="170" stroke="#1C1E23" stroke-width="1.4"></line>
+        <rect x="58"  y="70"  width="26" height="100" fill="#F04E98"></rect>
+        <rect x="98"  y="60"  width="26" height="110" fill="#F04E98"></rect>
+        <rect x="150" y="52"  width="26" height="118" fill="#0B64DD"></rect>
+        <rect x="210" y="120" width="26" height="50" fill="#F04E98"></rect>
+        <line x1="40" y1="120" x2="300" y2="120" stroke="#1C1E23" stroke-width="1.4" stroke-dasharray="5 4"></line>
+        <text x="305" y="124" font-family="var(--mono)" font-size="10" fill="#1C1E23">&mu;</text>
+        <text x="71"  y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#C2186A">bed</text>
+        <text x="111" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#C2186A">cat*</text>
+        <text x="163" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#0B64DD">couch</text>
+        <text x="223" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#C2186A">plane</text>
+        <text x="160" y="204" text-anchor="middle" font-family="var(--sans)" font-size="11" fill="#1C1E23">subtract &mu;: only true spikes survive</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 STEP 4: word gate + NMS ============ -->
+<section class="slide">
+  <div class="kicker">Step 4 · clean up</div>
+  <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:1">
+      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE marks whole-word starts with a space glyph. <span class="mono">&#288;cat</span> is a word; <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
+      <p class="cap" style="margin-top:16px"><strong>Embedding-NMS.</strong> Synonyms and multilingual variants (猫 / Cat / кот / cat) collapse into one, using cosine in the model's own space. Again: no lookup table, just the geometry.</p>
+    </div>
+    <div style="flex:.85">
+      <div class="flow" style="flex-direction:column;gap:10px">
+        <div class="fbox" style="width:100%"><div class="fn">128,260 tokens</div><div class="fd">raw vocabulary</div></div>
+        <div class="farr" style="transform:rotate(90deg)">&rarr;</div>
+        <div class="fbox lit" style="width:100%"><div class="fn">&#288; word-start gate</div><div class="fd">tokenizer's own signal</div></div>
+        <div class="farr" style="transform:rotate(90deg)">&rarr;</div>
+        <div class="fbox" style="width:100%"><div class="fn">25,465 words</div><div class="fd">then embedding-NMS dedup</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 STEP 5: CWR ============ -->
+<section class="slide">
+  <div class="kicker">Step 5 · the one real lever</div>
+  <h2 class="h-slide sm">CWR multi-crop: the only move that genuinely lifts accuracy.</h2>
+  <div class="body row" style="gap:40px;align-items:center">
+    <div style="flex:1.05">
+      <p class="cap">Re-encode the image as a <strong>3&times;3 + 2&times;2 + center</strong> grid of 14 crops through the same frozen model, and take the per-label <strong>max</strong> across crops. A small object becomes large in whichever crop contains it, so its signal jumps from weak to strong.</p>
+      <div class="codebox" style="margin-top:14px">S = base + 1.3 &middot; s_crop</div>
+      <p class="cap" style="font-size:16.5px;margin-top:14px">This is test-time augmentation done right: full-coverage grid plus per-label max. Blind center-crop averaging <span class="foil-ink" style="color:var(--foil-ink)">hurt</span>; the outlier crop is not noise, it is the evidence.</p>
+    </div>
+    <div style="flex:.95">
+      <div class="shot"><img src="img/zebra.jpg" alt="a bear, small in frame" style="height:300px;object-fit:cover"></div>
+      <div class="imgcap">fast: <span style="color:var(--foil-ink)">wolf, roar, muzzle</span> &nbsp;&rarr;&nbsp; --hq: <span class="accent">fur, <b>bear</b>, muzzle</span><br>CWR recovers the small bear the single pass misses</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 RESULTS ============ -->
+<section class="slide">
+  <div class="kicker">Results</div>
+  <h2 class="h-slide sm">COCO-150, 80 categories: a frozen retrieval model that tags.</h2>
+  <div class="body row" style="gap:40px;align-items:center">
+    <div style="flex:1.15">
+      <table class="bt" id="t-results">
+        <thead><tr><th>method</th><th>P@1</th><th>P@3</th><th>R@5</th><th>mAP</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="imgcap" style="text-align:left;margin-top:12px">150 COCO-val images, real multi-label ground truth, avg 2.93 labels/image.</p>
+    </div>
+    <div style="flex:.85">
+      <div class="chart" style="height:300px"><div id="c-ladder" style="height:100%"></div></div>
+      <p class="imgcap">mAP: global &rarr; patch &rarr; +CWR</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 DEMO ============ -->
+<section class="slide">
+  <div class="kicker">In the wild</div>
+  <h2 class="h-slide sm">Open vocabulary, out-of-distribution photos.</h2>
+  <div class="body" style="justify-content:center">
+    <div class="demorow">
+      <div class="democard">
+        <img src="img/photo1.jpg" alt="conference hall">
+        <div class="demobody">
+          <div class="demogt">AI conference hall</div>
+          <div class="demotags"><span class="tg hit">onstage</span><span class="tg hit">attendees</span><span class="tg">ceilings</span><span class="tg">seats</span></div>
+        </div>
+      </div>
+      <div class="democard hero">
+        <img src="img/photo3.jpg" alt="porsche interior">
+        <div class="demobody">
+          <div class="demogt">Porsche 911 interior &middot; --hq</div>
+          <div class="demotags"><span class="tg hit">carro</span><span class="tg hit">leather</span><span class="tg hit">steering</span><span class="tg">clock</span><span class="tg">seat</span></div>
+        </div>
+      </div>
+      <div class="democard">
+        <img src="img/photo5.jpg" alt="bear on grass">
+        <div class="demobody">
+          <div class="demogt">bear on grass &middot; --hq</div>
+          <div class="demotags"><span class="tg hit">fur</span><span class="tg hit">bear</span><span class="tg">muzzle</span><span class="tg">ivory</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="takeaway" style="margin-top:22px">Labels come straight from the tokenizer, so multilingual variants ("carro") and the odd fragment appear. That is the honest price of a <span class="accent">zero-annotation</span> open vocabulary.</p>
+  </div>
+</section>
+
+<!-- ============ 15 THE SCIENTIFIC QUESTION ============ -->
+<section class="slide">
+  <div class="kicker">The real experiment</div>
+  <h2 class="h-slide sm">So where is the ceiling? Spend more test-time compute, keep winning?</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:76ch">The tagger works. The scientific question is the same one from the retrieval talk: <strong>does accuracy scale with the compute you pour in at test time?</strong> We systematically implemented the obvious upgrades from the 2024-2026 training-free literature and measured each on COCO-150.</p>
+    <div class="cards">
+      <div class="card"><div class="ttl accent">Re-process the features</div><div class="desc">change the layer, whiten, softmax over classes, propagate on a graph, optimal transport, robust aggregation.</div></div>
+      <div class="card hero"><div class="ttl accent">Feed the model new info</div><div class="desc">CWR: run the frozen encoder again on crops it has not seen at that scale.</div></div>
+    </div>
+    <p class="takeaway">One of these two families works. The other does nothing, or collapses.</p>
+  </div>
+</section>
+
+<!-- ============ 16 THE LEVERS TABLE ============ -->
+<section class="slide">
+  <div class="kicker">Everything we tried</div>
+  <h2 class="h-slide sm">Nine "advanced" test-time methods. Only one beats the baseline.</h2>
+  <div class="body" style="justify-content:center">
+    <div class="chart" style="height:410px"><div id="c-levers" style="height:100%"></div></div>
+  </div>
+</section>
+
+<!-- ============ 17 META CONCLUSION ============ -->
+<section class="slide">
+  <div class="kicker">The meta-conclusion</div>
+  <h2 class="h-slide sm">Re-processing good features does nothing. Feeding new pixels works.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:80ch">Every method that <strong>re-processes</strong> the existing features - new layer, whitening, cross-class softmax, label propagation, optimal transport, Dirichlet, robust trimming - is a no-op or a collapse. They were designed for weakly calibrated single-label CLIP. This encoder's space is already good and already multi-label, so there is nothing left to recover.</p>
+    <div class="cards">
+      <div class="card foilcard"><div class="ttl">Re-processing features</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; softmax 0.636 &middot; OTTER 0.699. All &le; baseline.</div></div>
+      <div class="card hero"><div class="ttl accent">Feeding new information</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only lever that moves the ceiling.</div></div>
+    </div>
+    <p class="takeaway">The ceiling is the 1B model itself. Real test-time compute here means <span class="accent">giving the model more to look at</span>, not re-arranging what it already saw.</p>
+  </div>
+</section>
+
+<!-- ============ 18 SYNTHESIS back to TTC ============ -->
+<section class="slide">
+  <div class="kicker">Synthesis</div>
+  <h2 class="h-slide sm">A skill it was never trained on, manufactured at inference.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <p class="cap" style="max-width:80ch">Two talks, one thesis. A frozen encoder holds more capability than its training objective exposes, and you unlock it with <strong>test-time compute</strong>, not more parameters.</p>
+    <div class="cards">
+      <div class="card"><div class="ttl">Retrieval talk</div><div class="desc">recombine the geometry to buy more <strong>relevance</strong> on the task it was trained for.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">recombine the geometry to buy an <strong>emergent new task</strong> it was never trained for: tagging.</div></div>
+    </div>
+    <p class="takeaway">But test-time compute is not free lunch: it only cashes out when it <span class="accent">feeds the model new information</span>. Re-processing a good representation buys nothing.</p>
+  </div>
+</section>
+
+<!-- ============ 19 VS RECENT PAPERS ============ -->
+<section class="slide">
+  <div class="kicker">What is new here</div>
+  <h2 class="h-slide sm">Versus the 2024-2026 training-free tagging literature.</h2>
+  <div class="body" style="justify-content:center;gap:16px">
+    <table class="bt syn" style="font-size:15.5px">
+      <thead><tr><th>line of work</th><th style="text-align:left">their setup</th><th style="text-align:left">our delta</th></tr></thead>
+      <tbody>
+        <tr><td>RAM / RAM++</td><td style="text-align:left">trained tagging model, curated 6.4k tag list</td><td style="text-align:left;color:#0B64DD">zero training, label space = tokenizer vocab</td></tr>
+        <tr><td>TagCLIP</td><td style="text-align:left">CLIP two-tower, penultimate layer, DMAR+CWR</td><td style="text-align:left;color:#0B64DD">single omni model, last layer is the output space</td></tr>
+        <tr><td>PIAA</td><td style="text-align:left">GDA whitening to close the modality gap</td><td style="text-align:left;color:#0B64DD">image/text already one space; whitening collapses it</td></tr>
+        <tr><td>2025 calibration (OTTER, BCA)</td><td style="text-align:left">calibration set or target prior to de-bias</td><td style="text-align:left;color:#0B64DD">one offline background prior, zero calibration</td></tr>
+      </tbody>
+    </table>
+    <p class="takeaway">The novelty is the <span class="accent">combination</span>: tokenizer vocab as the open label space, one frozen omni model for every signal, and marginal de-biasing, with all the fancy test-time machinery empirically ruled out.</p>
+  </div>
+</section>
+
+<!-- ============ 20 CLOSE ============ -->
+<section class="slide closing">
+  <div class="aie-badge"><img src="img/aie-worldsfair.svg?v=1" alt="AI Engineer World's Fair"></div>
+  <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
+  <div class="contact">
+    <div class="nm">Han Xiao &middot; VP of AI, Elastic</div>
+    <span class="hx">@hxiao</span> &nbsp;·&nbsp; <span class="hx">in/hxiao87</span><br>
+    <span class="lk">github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging</span>
+  </div>
+  <div class="qr qr-abs">
+    <div class="qrtop">github repo</div>
+    <a href="https://github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-repo.png" alt="QR code to the repo"></a>
+    <div class="qrlabel">the code</div>
+  </div>
+</section>
+
+<div id="chrome">
+  <div class="l">Test-time compute for a frozen embedding model</div>
+  <div class="r"><a class="hx" href="https://x.com/hxiao" target="_blank" rel="noopener" onclick="event.stopPropagation()">X: @hxiao</a><span id="pg">1 / 20</span></div>
+</div>
+
+</div>
+
+<script src="data.js?v=1"></script>
+<script src="sync.js?v=1"></script>
+<script>
+const stage=document.getElementById('stage');
+const slides=[...document.querySelectorAll('.slide')];
+const footEl=document.getElementById('chrome');
+const pg=document.getElementById('pg');
+let i=0;
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  pg.textContent=(i+1)+' / '+slides.length;
+  footEl.classList.toggle('hidden', i===0 || i===slides.length-1);
+  if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+}
+function fit(){
+  const vv = window.visualViewport;
+  const w = (vv && vv.width)  || window.innerWidth  || document.documentElement.clientWidth  || (window.screen && screen.width)  || 1280;
+  const h = (vv && vv.height) || window.innerHeight || document.documentElement.clientHeight || (window.screen && screen.height) || 720;
+  let s = Math.min(w/1280, h/720);
+  if(!(s > 0)) s = 1;
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`;
+}
+['resize','orientationchange','load','pageshow'].forEach(ev=>window.addEventListener(ev,fit));
+if(window.visualViewport) window.visualViewport.addEventListener('resize',fit);
+window.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){show(i+1);e.preventDefault();}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){show(i-1);e.preventDefault();}
+  else if(e.key==='Home'){show(0);}
+  else if(e.key==='End'){show(slides.length-1);}
+  else if(e.key==='f'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+});
+stage.addEventListener('click',e=>{ if(e.clientX < window.innerWidth*0.32) show(i-1); else show(i+1); });
+
+/* ---------------- SVG chart toolkit ---------------- */
+const SVGNS='http://www.w3.org/2000/svg';
+const INK='#1C1E23', ACC='#0B64DD', FOIL='#F04E98', TEAL='#00BFB3', HAIR='rgba(28,30,35,.26)';
+function el(tag,attrs){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+const F_SANS='-apple-system,"Helvetica Neue",Inter,sans-serif', F_MONO='"SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace';
+function txt(x,y,s,o={}){const t=el('text',{x,y,'font-family':o.mono?F_MONO:F_SANS,
+  'font-size':o.fs||13,'font-weight':o.fw||500,fill:o.fill||INK,'text-anchor':o.anchor||'start','letter-spacing':o.ls||0});
+  t.textContent=s;return t;}
+function mount(id,w,h){const c=document.getElementById(id);if(!c)return null;c.innerHTML='';
+  const svg=el('svg',{viewBox:`0 0 ${w} ${h}`,preserveAspectRatio:'xMidYMid meet'});c.appendChild(svg);return svg;}
+
+/* results table */
+function fillResults(){
+  const tb=document.querySelector('#t-results tbody'); if(!tb)return; tb.innerHTML='';
+  DATA.methods.forEach(m=>{
+    const tr=document.createElement('tr');
+    if(m.kind==='win') tr.className='hero';
+    if(m.kind==='weak') tr.className='weakrow';
+    const cells=[m.name, m.p1.toFixed(3), m.p3.toFixed(3), m.r5.toFixed(3), m.map.toFixed(3)];
+    cells.forEach((c,k)=>{const td=document.createElement('td');
+      td.innerHTML = k? '<span class="num">'+c+'</span>' : c; tr.appendChild(td);});
+    tb.appendChild(tr);
+  });
+}
+
+/* mAP ladder (global -> patch -> +CWR) */
+function drawLadder(){
+  const W=360,H=300,L=48,R=18,T=24,B=64;
+  const svg=mount('c-ladder',W,H); if(!svg)return;
+  const d=DATA.ladder, ymax=0.8;
+  const Y=v=>H-B-(v/ymax)*(H-T-B);
+  const bw=(W-L-R)/d.length;
+  svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:INK,'stroke-width':1.6}));
+  svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:Y(0),stroke:INK,'stroke-width':1.6}));
+  [0,0.2,0.4,0.6,0.8].forEach(v=>{svg.appendChild(el('line',{x1:L-5,y1:Y(v),x2:L,y2:Y(v),stroke:INK,'stroke-width':1.2}));
+    svg.appendChild(txt(L-9,Y(v)+4,v.toFixed(1),{fs:12,mono:1,anchor:'end'}));});
+  d.forEach((m,k)=>{
+    const cx=L+bw*k+bw/2, w=Math.min(64,bw*0.56);
+    const col=m.kind==='weak'?FOIL:(m.kind==='win'?ACC:'#7FA8E8');
+    svg.appendChild(el('rect',{x:cx-w/2,y:Y(m.map),width:w,height:Y(0)-Y(m.map),fill:col,rx:2}));
+    svg.appendChild(txt(cx,Y(m.map)-8,m.map.toFixed(3),{fs:13,mono:1,anchor:'middle',fw:700,fill:col}));
+    const words=m.label.split(' ');
+    svg.appendChild(txt(cx,Y(0)+20,words.slice(0,2).join(' '),{fs:11,mono:1,anchor:'middle',fw:600}));
+    if(words.length>2) svg.appendChild(txt(cx,Y(0)+34,words.slice(2).join(' '),{fs:11,mono:1,anchor:'middle',fw:600}));
+  });
+  svg.appendChild(txt(L-34,(T+Y(0))/2,'mAP',{fs:12,fw:700,anchor:'middle'})).setAttribute('transform',`rotate(-90 ${L-34} ${(T+Y(0))/2})`);
+}
+
+/* levers: diverging bar chart around the patch baseline (0.635) */
+function drawLevers(){
+  const W=980,H=410,L=250,R=150,T=16,B=44;
+  const svg=mount('c-levers',W,H); if(!svg)return;
+  const base=DATA.leverBaseline;
+  const d=[...DATA.levers].sort((a,b)=>b.map-a.map);
+  const xmin=0, xmax=0.80;
+  const X=v=>L+(v-xmin)/(xmax-xmin)*(W-L-R);
+  const rowH=(H-T-B)/d.length;
+  // baseline vertical line
+  svg.appendChild(el('line',{x1:X(base),y1:T-4,x2:X(base),y2:H-B,stroke:INK,'stroke-width':1.8,'stroke-dasharray':'6 4'}));
+  svg.appendChild(txt(X(base),H-B+16,'patch baseline 0.635',{fs:12,mono:1,anchor:'middle',fw:700}));
+  // x ticks
+  [0,0.2,0.4,0.6,0.8].forEach(v=>{svg.appendChild(el('line',{x1:X(v),y1:H-B,x2:X(v),y2:H-B+5,stroke:INK,'stroke-width':1.2}));
+    svg.appendChild(txt(X(v),H-B+30,v.toFixed(1),{fs:11,mono:1,anchor:'middle'}));});
+  d.forEach((m,k)=>{
+    const cy=T+rowH*k+rowH/2, bh=Math.min(20,rowH*0.62);
+    const col=m.verdict==='win'?ACC:(m.verdict==='collapse'?FOIL:'#9AA3B2');
+    const x0=Math.min(X(base),X(m.map)), x1=Math.max(X(base),X(m.map));
+    svg.appendChild(el('rect',{x:x0,y:cy-bh/2,width:Math.max(2,x1-x0),height:bh,fill:col,rx:2,opacity:m.verdict==='flat'?0.55:1}));
+    // marker at the value
+    svg.appendChild(el('circle',{cx:X(m.map),cy,r:3.4,fill:col}));
+    // label
+    svg.appendChild(txt(L-12,cy+4,m.name,{fs:13,anchor:'end',fw:m.verdict==='win'?700:500,fill:m.verdict==='win'?ACC:INK}));
+    // value + verdict
+    const vtxt=m.map.toFixed(3)+(m.verdict==='win'?'  win':m.verdict==='collapse'?'  collapse':'  flat');
+    svg.appendChild(txt(W-R+8,cy+4,vtxt,{fs:12,mono:1,fw:m.verdict==='win'?700:500,
+      fill:m.verdict==='win'?ACC:(m.verdict==='collapse'?FOIL:INK)}));
+  });
+  svg.appendChild(txt((L+W-R)/2,H-6,'COCO-150 mAP',{fs:12,fw:700,anchor:'middle'}));
+}
+
+function renderAll(){fillResults();drawLadder();drawLevers();}
+
+function init(){
+  fit(); requestAnimationFrame(fit);
+  [60,160,320,650,1200].forEach(t=>setTimeout(fit,t));
+  const h=parseInt((location.hash||'#1').slice(1))||1; show(h-1);
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(renderAll);}
+  renderAll();
+}
+init();
+
+(function(){
+  if(!new URLSearchParams(location.search).has('follow')) return;
+  if(!window.Sync) return;
+  var shown=-1, b=document.createElement('div');
+  b.style.cssText='position:fixed;left:12px;bottom:10px;z-index:99;font:600 12px/1 ui-monospace,monospace;color:#0B64DD;background:#fff;border:1px solid rgba(28,30,35,.18);border-radius:6px;padding:6px 10px';
+  b.textContent='waiting for phone'; document.body.appendChild(b);
+  Sync.follow(function(n){ if(n!==shown){ shown=n; if(typeof show==='function') show(n-1); } b.style.display='none'; });
+})();
+</script>
+<script src="vendor/tex-svg.js" id="MathJax-script"></script>
+</body>
+</html>
