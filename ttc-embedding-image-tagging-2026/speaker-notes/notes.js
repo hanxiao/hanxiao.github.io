@@ -13,20 +13,22 @@ Today I want to push that same idea one step further,
 to image tagging,
 with a frozen jina-embeddings-v5-omni model.`},
 
-  { n:2, sec:40, title:"The result, first",
+  { n:2, sec:44, title:"The result, first",
     note:`Let me show you the destination before the route.//
-This is a *one billion* parameter embedding model.
-It was built for retrieval.
-It was *never* trained to tag images.
-And yet, here is what it does.
-Two cats on a couch, eighty-six milliseconds,
-and it returns kitty, cosy, plush, paw.//
-On a real COCO multi-label benchmark,
-it reaches *eighty-one percent* precision at one.
-Its label space is not a curated list.
-It is the model's own tokenizer vocabulary,
-a hundred and twenty-eight thousand tokens.
-And the number of training steps behind this capability is *zero*.//
+These are nine real files from this Mac Studio.
+A mountain vista. A thermostat. A receipt. A drink carton.
+A store shelf. Sunglasses. A tablet teardown.
+A workshop stage. A birthday card.//
+Every tag you see was produced by a *one billion* parameter embedding model
+that was built for retrieval, and *never* trained to tag.
+Seventy-five milliseconds per image, on this machine.//
+And notice the vocabulary.
+*Harga*, Indonesian for price, on the store shelf.
+*Fiyat*, Turkish, on the receipt.
+The label space is the tokenizer itself,
+a hundred and twenty-eight thousand tokens, no curated list.//
+On a real COCO benchmark this reaches
+*eighty-one percent* precision at one. Training-free.//
 The rest of this talk answers two questions.
 Where does this capability come from,
 and *which kind* of test-time compute pays for it.`},
@@ -80,7 +82,7 @@ It was never trained to answer, what is in this image.//
 The task is open-vocabulary, multi-label tagging.
 Every object in the frame, from any word the model knows.//
 And the rules are strict.
-Zero training.
+Training-free.
 No second model.
 No WordNet, no dictionary, no part-of-speech tagger.
 The constraint is the experimental control.
@@ -101,11 +103,11 @@ Out come two things.
 Capital P, one seven-sixty-eight dimensional row *per patch*,
 contextualized by the whole sequence.
 And small g, the pooled global vector.//
-The text path.
-A vocabulary token enters the *same* text tower directly,
-bypassing the vision tower,
-and comes out as a label vector.
-Stack all of them, and you get E, the label matrix.//
+The vocabulary path.
+This one runs *once*, offline.
+All hundred twenty-eight thousand tokens go through the *same* text tower,
+and the results are cached as E, the label matrix.
+At test time, only the *image* path runs.//
 Both paths end in the *same* space.
 So any patch, of any image,
 can be scored against *any word the model knows*.`},
@@ -240,8 +242,8 @@ now with the full ablation behind it.`},
 
   { n:15, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-A conference hall, it gets onstage and attendees.
-A Porsche interior, it gets leather, steering, seat.
+A conference hall, it gets onstage and venue.
+A Porsche interior, it gets carro and steering.
 A bear on grass, it gets fur and bear.//
 Because the labels come straight from the tokenizer,
 you also see multilingual variants, like *carro* for car,

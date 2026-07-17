@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Test-time compute of jina-v5-omni for image tagging · Han Xiao</title>
+<title>Test-time compute of jina-embeddings-v5-omni for image tagging · Han Xiao</title>
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -299,6 +299,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .mcard .foot{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--accent);border-top:1px solid var(--hair);padding-top:10px;line-height:1.4}
 .mcard svg{display:block}
 
+/* teaser 3x3 tagged-photo grid */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 13px;width:100%}
+.tcell{border:1.2px solid var(--hair2);border-radius:8px;overflow:hidden;background:#fff}
+.tcell img{width:100%;height:104px;object-fit:cover;display:block}
+.tcell .tc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);padding:6px 10px;white-space:nowrap;overflow:hidden}
+
+/* stacked vocabulary chips (offline label path) */
+.tokstack{position:relative;width:196px;height:100px}
+.tokstack .tks{position:absolute;font-family:var(--mono);font-size:13.5px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:6px 12px;background:#fff;white-space:nowrap}
+.tokstack .t1{left:0;top:0;z-index:3}
+.tokstack .t2{left:46px;top:14px;z-index:2}
+.tokstack .t3{left:112px;top:28px;z-index:1}
+.tokstack .tkn{position:absolute;left:0;top:72px;font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap}
+
 /* offline / per-image pipeline lanes */
 .lane{display:flex;flex-direction:column;gap:9px}
 .lane .lhd{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
@@ -328,8 +342,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 1 TITLE ============ -->
 <section class="slide title">
-  <div class="kicker">Zero training · No task head · Open vocabulary</div>
-  <h1><span class="accent">Test-time compute</span> of<br>a frozen jina-v5-omni<br>for image tagging</h1>
+  <div class="kicker">Training-free · No task head · Open vocabulary</div>
+  <h1><span class="accent">Test-time compute</span> of<br>jina-embeddings-v5-omni<br>for image tagging</h1>
   <div class="auth">
     <div class="nm">Han Xiao</div>
     <div class="rl">VP of AI, Elastic</div>
@@ -345,22 +359,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 2 THE RESULT FIRST ============ -->
 <section class="slide">
   <div class="kicker">The result, first</div>
-  <h2 class="h-slide sm">A frozen retrieval model that tags: zero training, open vocabulary.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="row" style="gap:48px;align-items:center">
-      <div style="flex:.92">
-        <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:288px;object-fit:cover"></div>
-        <div class="imgcap">cat.jpg, 86 ms &rarr; <span class="accent">kitty, cosy, plush, crib, paw, sleeps</span></div>
-      </div>
-      <div style="flex:1.08">
-        <div class="stats" style="flex-direction:column;gap:24px">
-          <div class="stat"><div class="v o">0.813</div><div class="l" style="max-width:44ch">precision@1 on COCO-150 multi-label, 14-crop mode (fast mode: 0.753 at 75 ms)</div></div>
-          <div class="stat"><div class="v o">128,260</div><div class="l" style="max-width:44ch">tokens in the label vocabulary, self-gated to 25,465 words at scoring time: no curated tag list</div></div>
-          <div class="stat"><div class="v o">0</div><div class="l" style="max-width:44ch">training steps, second models, dictionaries, annotations: everything is test-time compute</div></div>
-        </div>
-      </div>
+  <h2 class="h-slide sm" style="margin-bottom:16px">Nine files from this Mac, tagged by a frozen retrieval model.</h2>
+  <div class="body" style="justify-content:center;gap:14px">
+    <div class="tgrid">
+      <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky</div></figure>
+      <figure class="tcell"><img src="img/grid/g2.jpg" alt=""><div class="tc">clock &middot; thermostat &middot; dial</div></figure>
+      <figure class="tcell"><img src="img/grid/g3.jpg" alt=""><div class="tc">fiyat &middot; pagamento &middot; gratuiti</div></figure>
+      <figure class="tcell"><img src="img/grid/g4.jpg" alt=""><div class="tc">contiene &middot; liters &middot; thirst</div></figure>
+      <figure class="tcell"><img src="img/grid/g5.jpg" alt=""><div class="tc">harga &middot; lcd &middot; samsung</div></figure>
+      <figure class="tcell"><img src="img/grid/g6.jpg" alt=""><div class="tc">sunglasses &middot; watches &middot; branded</div></figure>
+      <figure class="tcell"><img src="img/grid/g7.jpg" alt=""><div class="tc">tablet &middot; motherboard &middot; wearable</div></figure>
+      <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award &middot; speaking &middot; workshop</div></figure>
+      <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift &middot; toy &middot; celebration</div></figure>
     </div>
-    <p class="takeaway">Deployed on-device over images, video, and scanned documents. The rest of this talk: <span class="accent">where this capability comes from, and which test-time compute pays for it</span>.</p>
+    <p class="takeaway" style="font-size:18px">Training-free, open vocabulary of 128,260 tokens, 75 ms per image: <span class="accent">P@1 0.813 on COCO-150</span>. The rest of the talk: where this comes from, and which compute pays for it.</p>
   </div>
 </section>
 
@@ -420,7 +432,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="defrow"><div class="tag sm">single frozen model</div><div class="dsc">every signal from one encoder, or the model is no longer doing the work.</div></div>
     </div>
     <div>
-      <span class="chip on">Zero training</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
+      <span class="chip on">Training-free</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
     </div>
   </div>
 </section>
@@ -442,28 +454,27 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
               <rect x="79" y="35.3" width="39.5" height="35.3" fill="none" stroke="#0B64DD" stroke-width="2.6"/>
             </svg>
           </div>
-          <div class="inlbl">image</div>
+          <div class="inlbl" style="color:var(--accent)">per image &middot; test time</div>
         </div>
         <div>
-          <div class="tokin">
-            <div class="tk">zebra</div>
-            <div class="tkn">&times; 128,260 vocabulary tokens</div>
+          <div class="tokstack">
+            <div class="tks t1">cat</div><div class="tks t2">coche</div><div class="tks t3">&#27227;</div>
+            <div class="tkn">&times; 128,260 tokens</div>
           </div>
-          <div class="inlbl">plain text</div>
+          <div class="inlbl">vocabulary &middot; encoded once</div>
         </div>
       </div>
-      <div class="archarrs"><div class="aarr" style="--d:0s">&rarr;</div><div class="aarr" style="--d:.12s">&rarr;</div></div>
+      <div class="archarrs"><div class="aarr" style="--d:0s">&rarr;</div><div class="aarr" style="animation:none;color:var(--ink)">&rarr;</div></div>
       <div class="omni">
         <div class="omnihd">jina-embeddings-v5-omni-nano &middot; ~1B &middot; frozen</div>
         <div class="omnigrid">
           <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches<br>2&times;2 merge</div></div>
           <div class="aarr" style="--d:.25s">&rarr;</div>
-          <div class="fbox sub" style="grid-column:3;grid-row:1/3"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div><div class="inj">vision tokens injected at<br>image-token positions</div></div>
-          <div class="passthru" style="grid-column:1/3">text input bypasses the vision tower</div>
+          <div class="fbox sub" style="grid-column:3;grid-row:1"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div><div class="inj">vision tokens injected at<br>image-token positions</div></div>
         </div>
-        <div class="omnifoot">two internal submodels of one released checkpoint: never modified, never retrained</div>
+        <div class="omnifoot">two internal submodels, never modified, never retrained &middot; image path runs per image; the vocabulary path ran once</div>
       </div>
-      <div class="archarrs"><div class="aarr" style="--d:.5s">&rarr;</div><div class="aarr" style="--d:.62s">&rarr;</div></div>
+      <div class="archarrs"><div class="aarr" style="--d:.5s">&rarr;</div><div class="aarr" style="animation:none;color:var(--ink)">&rarr;</div></div>
       <div class="outcol" style="max-width:330px">
         <div class="outrow">
           <svg width="46" height="38" viewBox="0 0 46 38"><g fill="#0B64DD"><rect x="2" y="2" width="42" height="6" rx="2"/><rect x="2" y="11" width="42" height="6" rx="2"/><rect x="2" y="20" width="42" height="6" rx="2" opacity=".55"/><rect x="2" y="29" width="42" height="6" rx="2"/></g></svg>
@@ -750,21 +761,21 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <img src="img/photo1.jpg" alt="conference hall">
         <div class="demobody">
           <div class="demogt">AI conference hall &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">onstage</span><span class="tg hit">attendees</span><span class="tg">ceilings</span><span class="tg">seats</span></div>
+          <div class="demotags"><span class="tg hit">onstage</span><span class="tg hit">venue</span><span class="tg">ceiling</span><span class="tg">projector</span></div>
         </div>
       </div>
       <div class="democard hero">
         <img src="img/photo3.jpg" alt="porsche interior">
         <div class="demobody">
           <div class="demogt">Porsche 911 interior &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">carro</span><span class="tg hit">leather</span><span class="tg hit">steering</span><span class="tg">clock</span><span class="tg">seat</span></div>
+          <div class="demotags"><span class="tg hit">carro</span><span class="tg hit">steering</span><span class="tg">rims</span><span class="tg">windshield</span></div>
         </div>
       </div>
       <div class="democard">
-        <img src="img/photo5.jpg" alt="bear on grass">
+        <img src="img/zebra.jpg" alt="bear on grass">
         <div class="demobody">
           <div class="demogt">bear on grass &middot; --hq</div>
-          <div class="demotags"><span class="tg hit">fur</span><span class="tg hit">bear</span><span class="tg">muzzle</span><span class="tg">ivory</span></div>
+          <div class="demotags"><span class="tg hit">fur</span><span class="tg hit">bear</span><span class="tg">puppy</span><span class="tg">muzzle</span></div>
         </div>
       </div>
     </div>
@@ -814,7 +825,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <table class="bt syn" style="font-size:15.5px">
       <thead><tr><th>line of work</th><th style="text-align:left">their setup</th><th style="text-align:left">our delta</th></tr></thead>
       <tbody>
-        <tr><td>Tag2Text / RAM / RAM++</td><td style="text-align:left">trained tagging models, curated ~6.4k tag list</td><td style="text-align:left;color:#0B64DD">zero training, label space = tokenizer vocab</td></tr>
+        <tr><td>Tag2Text / RAM / RAM++</td><td style="text-align:left">trained tagging models, curated ~6.4k tag list</td><td style="text-align:left;color:#0B64DD">training-free, label space = tokenizer vocab</td></tr>
         <tr><td>TagCLIP</td><td style="text-align:left">CLIP two-tower, penultimate layer, DMAR+CWR</td><td style="text-align:left;color:#0B64DD">single omni model, last layer is the output space</td></tr>
         <tr><td>PIAA</td><td style="text-align:left">patch-level scoring (&ldquo;[CLS] is not enough&rdquo;) + GDA whitening</td><td style="text-align:left;color:#0B64DD">patch thesis confirmed (+0.37 mAP); whitening collapses (0.06)</td></tr>
         <tr><td>recent calibration (OTTER, BCA)</td><td style="text-align:left">calibration set or target prior to de-bias</td><td style="text-align:left;color:#0B64DD">one offline background prior, zero calibration</td></tr>
@@ -841,8 +852,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div style="flex:.95">
       <div class="mockwin">
         <div class="mockbar"><span class="dot" style="background:var(--foil)"></span><span class="dot" style="background:var(--teal)"></span><span class="dot" style="background:var(--accent)"></span><span class="ttl">OMNI &middot; ON-DEVICE SEARCH</span></div>
-        <div class="mocksearch"><span class="q">search:</span> leather steering</div>
-        <div class="mockrow"><img src="img/photo3.jpg" alt=""><div class="mockmeta"><div class="fn">IMG_2214.jpg</div><span class="tg hit">leather</span><span class="tg hit">steering</span><span class="tg">carro</span><span class="tg">clock</span><span class="tg">seat</span></div></div>
+        <div class="mocksearch"><span class="q">search:</span> carro steering</div>
+        <div class="mockrow"><img src="img/photo3.jpg" alt=""><div class="mockmeta"><div class="fn">IMG_2214.jpg</div><span class="tg hit">carro</span><span class="tg hit">steering</span><span class="tg">rims</span><span class="tg">windshield</span></div></div>
         <div class="mockrow"><img src="img/cat.jpg" alt=""><div class="mockmeta"><div class="fn">couch-nap.heic</div><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">paw</span></div></div>
         <div class="mockrow"><img src="img/zebra.jpg" alt=""><div class="mockmeta"><div class="fn">trail-cam-04.mp4 &middot; segment 0:00&ndash;4:00</div><span class="tg">fur</span><span class="tg">bear</span><span class="tg">muzzle</span></div></div>
       </div>

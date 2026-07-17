@@ -1,4 +1,4 @@
-# Test-time compute of jina-v5-omni for image tagging
+# Test-time compute of jina-embeddings-v5-omni for image tagging
 
 Talk deck by Han Xiao (VP of AI, Elastic). 23 slides, ~15 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast), MathJax math.
@@ -30,7 +30,7 @@ Companion project repo (the code + full grounded findings):
 - `data.js` - chart data (COCO-150 numbers + compute-curve + Omni port numbers), extracted
   verbatim from the project result files and OmniTagger.swift.
 - `vendor/tex-svg.js` - self-hosted MathJax (SVG output), so math renders offline.
-- `img/` - cat/zebra/photo demo images, aie-worldsfair.svg, qr-repo.png. (pipeline.png is no
+- `img/` - cat/zebra/photo demo images, img/grid/g1-g9.jpg (slide-2 photos), qr-repo.png. (pipeline.png is no
   longer referenced: the pipeline and architecture diagrams are now hand-built HTML/SVG.)
 - `slides.pdf` - 23-page export for sharing.
 - `speaker-notes/` - the teleprompter/presenter page. `index.html` is the presenter UI (timer +
@@ -94,13 +94,15 @@ Canvas #FCFCFD, ink #1C1E23, blue #0B64DD (structure / family A / the thing that
 #00BFB3 dark #0A7B74 (family B, new passes), pink #F04E98 (family C, the foil that fails).
 Projector rule: no grey or dim ink anywhere.
 
-Register note: academic/professional tone throughout - no "squeeze", no "LLM cousin", no AIE
+Register note: academic/professional tone throughout - "training-free" (never "zero training"), no "squeeze", no "LLM cousin", no AIE
 World's Fair badge (not presenting there). Title covers test-time compute + frozen
 jina-embeddings-v5-omni + image tagging, no subtitle. The pipeline and architecture diagrams
 carry a staggered arrow animation (data flow), disabled in print.
 
 ## Slide map (23)
-1 Title · 2 The result first (teaser: cat demo + 0.813 / 128,260 / 0 stats, destination before route) ·
+1 Title · 2 The result first (3x3 grid of nine REAL files from this Mac, tagged by the real
+  algorithm in fast mode - images in img/grid/, tags verbatim from src/tag_image.py runs;
+  vision_output source files; NEVER invent tags, re-run the tagger to change them) ·
 3 Research questions RQ1-3 (vs RAM/Tag2Text, TagCLIP, PIAA, ZLaP/OTTER/BCA, with glosses) ·
 4 Three families of test-time compute (A per-pass computation / B new passes / C re-process) ·
 5 Problem setup (task + constraint chips, merged task+rules) ·
