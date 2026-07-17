@@ -446,7 +446,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </div>
         <div>
           <div class="tokin">
-            <div class="tk">&#288;zebra</div>
+            <div class="tk">zebra</div>
             <div class="tkn">&times; 128,260 vocabulary tokens</div>
           </div>
           <div class="inlbl">plain text</div>
@@ -499,7 +499,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div style="flex:0 0 26px"></div>
         <div class="fbox compact"><div class="fn">background prior \(\mu\)</div><div class="fd">from neutral images</div></div>
         <div style="flex:0 0 26px"></div>
-        <div class="fbox compact"><div class="fn">&#288; word gate</div><div class="fd">&rarr; 25,465 words</div></div>
+        <div class="fbox compact"><div class="fn">word-start gate</div><div class="fd">&rarr; 25,465 words</div></div>
       </div>
     </div>
     <div class="lane">
@@ -659,7 +659,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:1">
-      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE marks whole-word starts with a space glyph. <span class="mono">&#288;cat</span> is a word; <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
+      <p class="cap"><strong>Word-start gate.</strong> Byte-BPE tokenizers encode a leading space as the glyph <span class="mono">&#288;</span> (a tokenizer artifact, not a rendering error), so a token beginning with <span class="mono">&#288;</span> starts a new word: <span class="mono">&#288;cat</span> is a whole word, <span class="mono">GetComponent</span> is a fragment. That one built-in signal filters 128k tokens down to <strong>25,465</strong> clean words. No external dictionary.</p>
       <p class="cap" style="margin-top:16px"><strong>Embedding-NMS.</strong> Synonyms and multilingual variants (猫 / Cat / кот / cat) collapse into one, using cosine in the model's own space. Walk labels by score; keep \(\ell\) only if
       \( \max_{k\,\in\,\text{kept}}\langle e_\ell, e_k\rangle < 0.6 \).
       Again: no lookup table, just the geometry.</p>
@@ -668,7 +668,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="flow" style="flex-direction:column;gap:10px">
         <div class="fbox" style="width:100%"><div class="fn">128,260 tokens</div><div class="fd">raw vocabulary</div></div>
         <div class="farr" style="transform:rotate(90deg)">&rarr;</div>
-        <div class="fbox lit" style="width:100%"><div class="fn">&#288; word-start gate</div><div class="fd">tokenizer's own signal</div></div>
+        <div class="fbox lit" style="width:100%"><div class="fn">word-start gate</div><div class="fd">keep tokens with the leading-space mark &#288;</div></div>
         <div class="farr" style="transform:rotate(90deg)">&rarr;</div>
         <div class="fbox" style="width:100%"><div class="fn">25,465 words</div><div class="fd">then embedding-NMS dedup</div></div>
       </div>
@@ -716,7 +716,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="it"><span class="abc sm">A</span><div class="tx"><strong>Global context</strong>: the pooled vector, de-biased by its own background prior. Free.</div></div>
       <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>Multi-crop</strong>: 14 fresh forward passes on new pixels. 14&times; the cost. +0.075 mAP.</div></div>
     </div>
-    <p class="eqpost">then \( \;\ell \in \text{&#288;-gated words} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) </p>
+    <p class="eqpost">then \( \;\ell \in \text{word-gated vocabulary} \;\rightarrow\; \text{embedding-NMS}\,(\tau=0.6) \;\rightarrow\; \text{top-}k \) </p>
     <p class="takeaway" style="margin-top:10px">No head, no logits, no learned threshold: <span class="accent">three fixed weights, two background priors, and max operations over frozen-model outputs.</span></p>
   </div>
 </section>

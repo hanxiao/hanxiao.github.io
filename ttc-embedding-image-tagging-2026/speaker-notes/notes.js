@@ -178,7 +178,10 @@ It is the lightest correction possible, and it is enough.`},
   { n:11, sec:32, title:"Step 4: word gate and NMS",
     note:`Step four. Cleaning up the output.
 The tokenizer *already* knows what a word is.
-Byte-level tokenizers mark word starts with a space glyph.
+Byte-level tokenizers encode a leading space as a special glyph.
+That G-with-a-dot on the slide is exactly that glyph.
+It is a tokenizer artifact, *not* a rendering error.
+A token that starts with it starts a *new word*.
 So *space-cat* is a whole word, but *GetComponent* is a fragment.
 That one built-in signal filters a hundred-twenty-eight-thousand tokens
 down to about *twenty-five thousand* clean words.
