@@ -6,7 +6,7 @@ window.DATA = {
 /* ---- COCO-150 method progression (the four rows of the README results table) ---- */
 "methods": [
   {"name":"global pooled",  "tag":"[CLS]-style",       "p1":0.433, "p3":0.289, "r5":0.449, "map":0.264, "kind":"weak"},
-  {"name":"patch max",      "tag":"a = 0.7 fusion",    "p1":0.753, "p3":0.427, "r5":0.631, "map":0.635, "kind":"mid"},
+  {"name":"patch max + global","tag":"a = 0.7 fusion", "p1":0.753, "p3":0.427, "r5":0.631, "map":0.635, "kind":"mid"},
   {"name":"softpool",       "tag":"T = 0.05",          "p1":0.773, "p3":0.449, "r5":0.649, "map":0.608, "kind":"mid"},
   {"name":"+ CWR multi-crop","tag":"--hq, 14 crops",   "p1":0.813, "p3":0.476, "r5":0.680, "map":0.710, "kind":"win"}
 ],
@@ -18,20 +18,22 @@ window.DATA = {
   {"label":"+ CWR multi-crop","sub":"re-encode 14 crops, per-label max", "map":0.710, "kind":"win"}
 ],
 
-/* ---- the levers we tried: what feeds new info (win) vs what re-processes features (fail) ---- */
+/* ---- the levers we tried, as DELTA vs the pipeline each method was applied to.
+   OTTER/BCA ran on the CWR-augmented scores (base 0.693); soft-trim replaced max in
+   14-crop CWR (base 0.710); the rest ran on the patch-fuse baseline (0.635).
+   All endpoints verified in docs/ttc-paper-eval.md / accuracy-design-memo.md. ---- */
 "levers": [
-  {"name":"CWR multi-crop",        "map":0.710, "verdict":"win",  "why":"feeds the model new pixels: a small object fills a crop"},
-  {"name":"softpool aggregation",  "map":0.608, "verdict":"flat", "why":"better top-k, lower full ranking; a wash"},
-  {"name":"penultimate-layer patches","map":0.16, "verdict":"collapse", "why":"last layer IS the trained output space here"},
-  {"name":"softmax-over-classes",  "map":0.636, "verdict":"flat", "why":"cross-class competition not needed"},
-  {"name":"whitening / GDA",       "map":0.06,  "verdict":"collapse", "why":"image and text already share one space"},
-  {"name":"ZLaP label propagation","map":0.14,  "verdict":"collapse", "why":"graph built on the weak global vector"},
-  {"name":"OTTER optimal transport","map":0.699,"verdict":"flat", "why":"scores already calibrated; mass-conservation fights recall"},
-  {"name":"BCA adaptive prior",    "map":0.693, "verdict":"flat", "why":"a per-class shift is absorbed by centering"},
-  {"name":"EM-Dirichlet",          "map":0.17,  "verdict":"collapse", "why":"simplex normalization destroys multi-label"},
-  {"name":"soft-trim crop agg.",   "map":0.671, "verdict":"flat", "why":"the outlier crop IS the signal; do not trim it"}
+  {"name":"CWR multi-crop (family B)","base":0.635,"to":0.710,"verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
+  {"name":"OTTER optimal transport", "base":0.693,"to":0.699,"verdict":"flat", "why":"scores already calibrated; mass conservation fights recall"},
+  {"name":"softmax-over-classes",    "base":0.635,"to":0.636,"verdict":"flat", "why":"cross-class competition not needed"},
+  {"name":"BCA adaptive prior",      "base":0.693,"to":0.693,"verdict":"flat", "why":"a per-class shift is absorbed by centering"},
+  {"name":"softpool aggregation",    "base":0.635,"to":0.608,"verdict":"flat", "why":"better top-k, lower full ranking"},
+  {"name":"soft-trim crop agg.",     "base":0.710,"to":0.671,"verdict":"flat", "why":"the outlier crop IS the signal; do not trim it"},
+  {"name":"EM-Dirichlet",            "base":0.635,"to":0.170,"verdict":"collapse", "why":"simplex normalization destroys multi-label"},
+  {"name":"penultimate-layer patches","base":0.635,"to":0.160,"verdict":"collapse", "why":"last layer IS the trained output space here"},
+  {"name":"ZLaP label propagation",  "base":0.635,"to":0.140,"verdict":"collapse", "why":"graph built on the weak global vector"},
+  {"name":"whitening / GDA",         "base":0.635,"to":0.060,"verdict":"collapse", "why":"image and text already share one space"}
 ],
-"leverBaseline": 0.635,   // patch fusion baseline that every lever is measured against
 
 /* ---- latency breakdown (M3 Ultra, MLX), ms per image ---- */
 "latency": {"fast":75, "hq":1016},

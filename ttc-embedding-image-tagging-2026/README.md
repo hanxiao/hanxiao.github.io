@@ -1,6 +1,6 @@
 # Test-time compute for image tagging with a frozen jina-embeddings-v5-omni
 
-Talk deck by Han Xiao (VP of AI, Elastic). 25 slides, ~15.5 minutes.
+Talk deck by Han Xiao (VP of AI, Elastic). 23 slides, ~15 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast), MathJax math.
 Built in the same style/engine as [`aie-sf-2026-slides`](https://github.com/hanxiao/aie-sf-2026-slides).
 
@@ -32,29 +32,28 @@ Companion project repo (the code + full grounded findings):
 - `vendor/tex-svg.js` - self-hosted MathJax (SVG output), so math renders offline.
 - `img/` - cat/zebra/photo demo images, aie-worldsfair.svg, qr-repo.png. (pipeline.png is no
   longer referenced: the pipeline and architecture diagrams are now hand-built HTML/SVG.)
-- `slides.pdf` - 25-page export for sharing.
+- `slides.pdf` - 23-page export for sharing.
 - `speaker-notes/` - the teleprompter/presenter page. `index.html` is the presenter UI (timer +
   pace meter); it shows the deck in an `<iframe src="../index.html">`, so the slides are NEVER
-  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (25 entries).
+  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (23 entries).
 - `sync.js` - cross-device slide sync (loaded by both the deck and the presenter page).
   `sync-worker.js` - optional Cloudflare Worker, a 3rd sync channel.
 - `tools/genqr.py` - regenerate a QR in the house style (blue finders, gapped modules) with a scan check.
 
 ## Three charts (drawn client-side into SVG from data.js)
-- Slide 15 `drawLadder`: the 3-step mAP story, global (0.264) -> patch (0.635) -> +CWR (0.710).
-- Slide 16 `drawCompute`: the compute-accuracy curve. Three compute regimes (1 pass / 1 pass +
-  patch algebra / 15 passes) vs mAP, with the 8 re-processing methods as a pink cluster that all
-  land at or below the 0.635 baseline. x positions are compute regimes; ms labels only where
-  measured (75 ms, 1016 ms).
-- Slide 19 `drawLevers`: a diverging bar chart of 10 test-time levers around the patch baseline
-  (0.635). Blue extends right (win), pink extends left (collapse), ink bars are flat.
+- Slide 14 `drawLadder`: the 3-step mAP story, global (0.264) -> patch (0.635) -> +CWR (0.710).
+- Slide 16 `drawCompute`: the test-time-scaling curve. Three compute regimes (1 pass / 1 pass +
+  patch algebra / 15 passes) vs mAP, with the 8 re-processing methods as a countable pink cluster.
+- Slide 17 `drawLevers`: DELTA chart: each lever's change in mAP relative to the pipeline it was
+  applied to (OTTER/BCA ran on the CWR-augmented scores, soft-trim on 14-crop CWR; bases shown in
+  the right column). Zero line = no effect; blue = the one gain, pink = collapses, ink = flat.
 
 ## Single source of truth
 The slides live in exactly one file, `index.html`. The presenter page embeds it live (iframe), so
-there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 25
+there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 23
 entries, one per slide. When you edit a slide's facts, numbers, order, or count, update the matching
 `notes.js` entry in the same pass. Cloudflare edge-caches `notes.js`, so after editing it bump the
-cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=3).
+cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=5).
 
 ## Present
 Open `index.html`, then: Right/Space/click = next, Left = previous, `f` = fullscreen,
@@ -100,29 +99,25 @@ World's Fair badge (not presenting there). Title covers test-time compute + froz
 jina-embeddings-v5-omni + image tagging, no subtitle. The pipeline and architecture diagrams
 carry a staggered arrow animation (data flow), disabled in print.
 
-## Slide map (25)
-1 Title (repo QR, no subtitle) · 2 Recap: search as test-time compute over a frozen encoder ·
-3 Taxonomy: three families of test-time compute (A per-pass computation / B new passes / C re-process) ·
-4 The hypothesis: apply the same principle to a task the model was never trained for ·
-5 The task (open-vocabulary, multi-label tagging) · 6 The rules (zero training, no second model) ·
-7 Architecture (custom diagram: two entrances, one frozen tower, outputs P / g / E) ·
-8 Pipeline (custom two-lane diagram: offline cache lane + per-image lane with A/B badges) ·
-9 Step 1: vocabulary as label space (E via encode_text, not embed_tokens) ·
-10 Step 2: patch beats global (mAP 0.264 -> 0.635, family A) ·
-11 Step 3: subtract the per-label prior (LaTeX) · 12 Step 4: word-start gate + embedding-NMS (tau 0.6) ·
-13 Step 5: CWR multi-crop (14-crop geometry glyphs + bear photo + fusion math, family B) ·
-14 The whole tagger as one annotated equation (underbraces mapped to A/A/B) ·
-15 Results (COCO-150 table + mAP ladder chart) ·
-16 Test-time scaling: accuracy vs compute (first gain free, second 14x, C cluster flat) ·
-17 Qualitative results (demo photos) · 18 The scientific question (family C vs family B) ·
-19 The levers chart (10 levers, only CWR wins) ·
-20 The meta-conclusion (re-processing vs feeding new info) ·
-21 Shipped in Omni (same forward pass, ~0.6 ms/image, tags = searchable snippets, app-window mock) ·
-22 Every media shape (image / HQ 5-crop / video 32-frame segments / scanned pages) ·
-23 Synthesis (two talks, one thesis) · 24 Relation to prior work (RAM / TagCLIP / PIAA / 2025 calibration) ·
-25 Close (repo QR).
+## Slide map (23)
+1 Title · 2 The result first (teaser: cat demo + 0.813 / 128,260 / 0 stats, destination before route) ·
+3 Research questions RQ1-3 (vs RAM/Tag2Text, TagCLIP, PIAA, ZLaP/OTTER/BCA, with glosses) ·
+4 Three families of test-time compute (A per-pass computation / B new passes / C re-process) ·
+5 Problem setup (task + constraint chips, merged task+rules) ·
+6 Architecture (ONE frozen jina-embeddings-v5-omni-nano block containing Qwen3-VL vision tower +
+  EuroBERT-12L text tower as internal submodels; outputs P / g / E) ·
+7 Pipeline (offline lane + per-image lane, A/B badges, animated data flow) ·
+8 Step 1: label space via encode_text (gate forward-referenced) · 9 Step 2: patch beats global
+  (truthful many-patches-max panels, PIAA credited) · 10 Step 3: per-label prior (per-bar mu ticks) ·
+11 Step 4: word-start gate + embedding-NMS (tau 0.6) · 12 Step 5: CWR multi-crop (credited to
+  TagCLIP, extended to 14-crop grid; crop-geometry glyphs) · 13 One annotated equation ·
+14 Results (table + ladder) · 15 Qualitative demo photos · 16 Test-time scaling curve ·
+17 Levers delta chart (10 levers vs their own baselines) · 18 Meta-conclusion ·
+19 Prior-work table (Tag2Text/RAM/RAM++, TagCLIP, PIAA, OTTER/BCA) closing with RQ1-3 answers ·
+20 Omni deployment (same-pass tagging, ~0.6 ms, app mock) · 21 Media shapes (image / HQ 5-crop
+  production variant / video 32-frame segments / scanned pages) · 22 Synthesis · 23 Close.
 
-Pace the framing fast; the payoffs are slide 16 (the curve) and slides 19-20 (only CWR wins, and
-why), then 21-22 land it in production. All numbers were checked against the project result files
-(docs/findings-v5omni-nano.md, docs/accuracy-design-memo.md, docs/ttc-paper-eval.md) and
-omni-macos OmniTagger.swift / IndexSettings.swift; nothing is estimated.
+Reviewed by a 49-agent workflow (per-slide review + adversarial verify + global flow /
+related-work / design auditors); all confirmed findings applied. All numbers were checked against
+the project result files (docs/findings-v5omni-nano.md, docs/accuracy-design-memo.md,
+docs/ttc-paper-eval.md) and omni-macos OmniTagger.swift / IndexSettings.swift; nothing is estimated.
