@@ -841,19 +841,18 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 16 ADJ MODE ============ -->
 <section class="slide">
-  <div class="kicker">One more mode &middot; --adj</div>
-  <h2 class="h-slide sm">Patch-local bigrams: grounded modifiers, no POS tagger.</h2>
+  <div class="kicker">One more mode &middot; --ngram</div>
+  <h2 class="h-slide sm">Patch-local n-grams: grounded modifiers, no POS tagger.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:.9">
       <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
       <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
     </div>
     <div style="flex:1.1">
-      <div class="card" style="margin-bottom:14px"><div class="ttl">--adj off &middot; nouns &middot; 89 ms</div>
-        <div class="demotags" style="margin-top:4px"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div>
-      </div>
-      <div class="card hero"><div class="ttl accent">--adj on &middot; grounded bigrams &middot; 116 ms</div>
-        <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
+      <div class="card" style="margin-bottom:14px"><div class="ttl">--ngram &middot; the same four tags, three orders</div>
+        <div class="modeline" style="margin-top:8px"><span class="mlab">n=1</span><div class="chips"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div></div>
+        <div class="modeline hq" style="margin-top:6px"><span class="mlab">n=2</span><div class="chips"><span class="tg">couch kitty</span><span class="tg">grey cosy</span><span class="tg">cat plush</span><span class="tg">sleeping crib</span></div></div>
+        <div class="modeline adj" style="margin-top:6px"><span class="mlab">n=3</span><div class="chips"><span class="tg">couch fleece kitty</span><span class="tg">grey blanket cosy</span><span class="tg">cat cloak plush</span><span class="tg">sleeping fleece crib</span></div></div>
       </div>
       <div class="funnel" style="margin-top:14px">
         <div class="fstep">
@@ -861,7 +860,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
           <div class="fx">pool the patches where <span class="keep">kitty</span> fires &rarr; rank all 25,465 gated words on that region alone:</div>
           <div class="fx"><span class="kill">cat</span> &middot; <span class="kill">kitty</span> &middot; <span class="kill">kitten</span> <span style="color:var(--foil-ink)">(cos &ge; 0.55 to the noun: suppressed)</span> &middot; <span class="keep">couch &#10003;</span> &middot; fleece &middot; blanket &middot; grey</div>
         </div>
-        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo;: not grammatically an adjective, a <b>region-grounded bigram</b> &middot; suppressing again yields trigrams and n-grams (not evaluated)</div>
+        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo; (n=2) &middot; suppress again and the next survivor joins: &ldquo;couch fleece kitty&rdquo; (n=3) &middot; N-1 modifiers, no word-class constraint</div>
       </div>
     </div>
   </div>
@@ -878,7 +877,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="demobody">
           <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">onstage</span><span class="tg">attendees</span><span class="tg">livest</span><span class="tg">concert</span><span class="tg">presenter</span></div></div>
           <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">onstage</span><span class="tg">venue</span><span class="tg">ceiling</span><span class="tg">projector</span><span class="tg">theater</span></div></div>
-          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">attendees onstage</span><span class="tg">projector attendees</span><span class="tg">attendees livest</span><span class="tg">projector concert</span><span class="tg">attendees presenter</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">attendees onstage</span><span class="tg">projector attendees</span><span class="tg">attendees livest</span><span class="tg">projector concert</span><span class="tg">attendees presenter</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">attendees projector onstage</span><span class="tg">projector onstage attendees</span><span class="tg">attendees projector livest</span></div></div>
         </div>
       </div>
       <div class="democard hero">
@@ -886,7 +886,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="demobody">
           <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">driv</span><span class="tg">rims</span><span class="tg">ford</span><span class="tg">traction</span><span class="tg">sidew</span></div></div>
           <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">carro</span><span class="tg">rims</span><span class="tg">windshield</span><span class="tg">steering</span><span class="tg">beach</span></div></div>
-          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">carro rims</span><span class="tg">windshield ford</span><span class="tg">car traction</span><span class="tg">windshield sidew</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">carro rims</span><span class="tg">windshield ford</span><span class="tg">car traction</span><span class="tg">windshield sidew</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">windshield yacht driv</span><span class="tg">carro windshield rims</span><span class="tg">windshield yacht ford</span></div></div>
         </div>
       </div>
       <div class="democard">
@@ -894,11 +895,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="demobody">
           <div class="modeline "><span class="mlab">fast</span><div class="chips"><span class="tg">attendees</span><span class="tg">passengers</span><span class="tg">protestors</span><span class="tg">migrants</span><span class="tg">crowded</span></div></div>
           <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">attendees</span><span class="tg">commuters</span><span class="tg">demonstrators</span><span class="tg">synagogue</span><span class="tg">crowded</span></div></div>
-          <div class="modeline adj"><span class="mlab">--adj</span><div class="chips"><span class="tg">passengers attendees</span><span class="tg">crowd passengers</span><span class="tg">crowd protestors</span><span class="tg">crowd migrants</span><span class="tg">demonstrators crowded</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">passengers attendees</span><span class="tg">crowd passengers</span><span class="tg">crowd protestors</span><span class="tg">crowd migrants</span><span class="tg">demonstrators crowded</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">passengers protesters attendees</span><span class="tg">crowd protestors passengers</span><span class="tg">crowd passengers protestors</span></div></div>
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield); patch-local scoring attaches modifiers. Top-5 per mode, unfiltered.</p>
+    <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield); patch-local scoring attaches modifiers (n=2 top-5, n=3 top-3; all unfiltered).</p>
   </div>
 </section>
 
