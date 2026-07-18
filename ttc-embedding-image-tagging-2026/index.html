@@ -322,11 +322,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .archrow{display:flex;align-items:center;gap:20px;justify-content:center;width:100%}
 .archrow .aarr{color:var(--accent);font-size:24px;font-weight:800;text-align:center}
 .archin{display:flex;flex-direction:column;gap:44px;align-items:center}
-.archin .inlbl{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:7px}
+.archin .inlbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-top:7px;white-space:nowrap}
 .archarrs{display:flex;flex-direction:column;gap:76px}
 .omni{position:relative;border:2.4px solid var(--accent);border-radius:14px;background:#fff;
   padding:32px 22px 14px;box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(11,100,221,.12)}
-.omnihd{position:absolute;top:-15px;left:16px;background:var(--accent);color:#fff;padding:5px 13px;
+.omnihd{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:5px 14px;
   font-family:var(--mono);font-size:12.5px;font-weight:800;letter-spacing:.05em;border-radius:7px;white-space:nowrap}
 .omnigrid{display:grid;grid-template-columns:auto 36px auto;gap:14px 0;align-items:center}
 .omnigrid .aarr{animation:flowpulse 1.6s ease-in-out infinite;animation-delay:var(--d,0s)}
@@ -562,7 +562,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
               <rect x="79" y="38.6" width="9.9" height="9.6" fill="none" stroke="#0B64DD" stroke-width="1.8"/>
             </svg>
           </div>
-          <div class="inlbl" style="color:var(--accent)">per image &middot; 16 px patches &middot; test time</div>
+          <div class="inlbl" style="color:var(--accent)">per image &middot; test time</div>
         </div>
         <div>
           <div class="tokstack">
@@ -574,7 +574,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       </div>
       <div class="archarrs"><div class="aarr" style="--d:0s">&rarr;</div><div class="aarr" style="animation:none;color:var(--ink)">&rarr;</div></div>
       <div class="omni">
-        <div class="omnihd">jina-embeddings-v5-omni-nano &middot; ~1B &middot; frozen</div>
+        <div class="omnihd">jina-embeddings-v5-omni-nano</div>
         <div class="omnigrid">
           <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches<br>2&times;2 merge</div></div>
           <div class="aarr" style="--d:.25s">&rarr;</div>
