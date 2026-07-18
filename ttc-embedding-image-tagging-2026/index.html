@@ -468,27 +468,27 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 4 THREE FAMILIES ============ -->
 <section class="slide">
   <div class="kicker">A taxonomy</div>
-  <h2 class="h-slide sm">Test-time compute for an embedding model: three families.</h2>
+  <h2 class="h-slide sm">Three families, one axis: where does new information come from?</h2>
   <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap" style="max-width:76ch">Language models scale test-time compute in tokens: longer chains, more samples. A frozen encoder has no tokens to spend. Its inference-time budget takes exactly three forms:</p>
+    <p class="cap" style="max-width:78ch">All three spend extra compute at inference, and superficially all three are &ldquo;more math on the model&rsquo;s outputs&rdquo;. They differ on exactly one thing: whether new information enters the computation, and from where.</p>
     <div class="cards">
       <div class="card hero">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">More computation per pass</div></div>
-        <div class="desc">Extract more from a single forward pass: score every patch, fuse channels, subtract priors.</div>
-        <div class="foot" style="color:var(--accent)">LLM analogue: a richer readout of one sample.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">Read more of the pass</div></div>
+        <div class="desc">The forward pass computes far more than the one pooled vector: a row per patch, all discarded by default. Family A reads outputs that were <strong>already paid for</strong>.</div>
+        <div class="foot" style="color:var(--accent)">new information: reclaimed from inside the pass</div>
       </div>
       <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">New passes, new views</div></div>
-        <div class="desc">Run the frozen encoder <strong>again</strong> on inputs it has not seen: crops of the image, splits of the document.</div>
-        <div class="foot" style="color:var(--teal-ink)">LLM analogue: best-of-N sampling.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">Run new passes</div></div>
+        <div class="desc">Show the frozen encoder inputs it has <strong>not seen</strong>: crops of the image, splits of the document. New pixels, new forward passes.</div>
+        <div class="foot" style="color:var(--teal-ink)">new information: acquired from the input</div>
       </div>
       <div class="card foilcard">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Re-process the features</div></div>
-        <div class="desc">Transform the vectors already computed: whitening, graph propagation, optimal transport, re-normalization.</div>
-        <div class="foot" style="color:var(--foil-ink)">Where most of the 2024&ndash;2026 training-free literature operates.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Re-arrange what you have</div></div>
+        <div class="desc">Transform a <strong>fixed</strong> set of vectors: whitening, graph propagation, optimal transport, re-normalization. Most of the recent training-free literature lives here.</div>
+        <div class="foot" style="color:var(--foil-ink)">new information: none</div>
       </div>
     </div>
-    <p class="takeaway">This talk is a controlled experiment across all three families. <span class="accent">Two of them scale accuracy with compute.</span> One does not.</p>
+    <p class="takeaway">A and B <span class="accent">add information</span>; C only re-arranges it. The rest of this talk measures that difference.</p>
   </div>
 </section>
 

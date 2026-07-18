@@ -54,26 +54,27 @@ Whitening, label propagation, optimal transport, Bayesian priors.
 We measure every one of them against a single alternative,
 re-encoding *new crops*.`},
 
-  { n:4, sec:42, title:"Three families",
-    note:`Before the method, let me define terms,
-because test-time compute means something specific for an encoder.
-Language models scale it in tokens.
-An embedding model has no tokens to spend.
-Its budget takes exactly *three* forms.//
-Family *A*. More computation per pass.
-You extract more from a *single* forward pass.
-Score every patch, fuse channels, subtract priors.
-It costs a few matrix multiplies.//
-Family *B*. New passes on new views.
-You run the frozen encoder *again*, on inputs it has not seen.
+  { n:4, sec:46, title:"Three families, one axis",
+    note:`Before the method, let me define terms carefully,
+because at first glance these three look like the *same* thing.
+All of them are extra math on the model's outputs.
+They differ on exactly one axis.
+Where does *new information* come from.//
+Family *A* reads more of the pass.
+The forward pass computes a row for *every patch*,
+and by default all of it is thrown away except one pooled vector.
+Family A reads what was already *paid for*.
+The information is new to you, reclaimed from inside the pass.//
+Family *B* runs new passes.
 Crops of an image. Splits of a document.
-That costs full forward passes.//
-And family *C*. Re-processing the features.
-Whitening, graph propagation, optimal transport.
-Most of the recent training-free literature operates *here*.//
-This talk is a controlled experiment across all three.
-Two of them scale accuracy with compute.
-One of them does *not*.`},
+Inputs the model has *never seen*.
+The information is new, acquired from the input.//
+And family *C* re-arranges what you have.
+Whitening, propagation, optimal transport.
+A fixed set of vectors goes in, the same information comes out.
+*Nothing new enters.*//
+A and B add information. C only shuffles it.
+The rest of this talk is a measurement of that difference.`},
 
   { n:5, sec:38, title:"Problem setup",
     note:`The setup, stated precisely.
