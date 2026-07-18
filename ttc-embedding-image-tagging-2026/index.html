@@ -855,7 +855,14 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
         <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
       </div>
-      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>There is no adjective list: the candidates are the <strong>same 25,465 gated words</strong>. For each noun, the patches where it fires are pooled into a local vector, and the modifier slot goes to the highest-scoring word <strong>on that region alone</strong> (the noun itself excluded by NMS). True attributes win because only they are supported by those pixels; a related noun can still slip in (&ldquo;cat plush&rdquo;).</p>
+      <div class="funnel" style="margin-top:14px">
+        <div class="fstep">
+          <div class="fh"><span class="fn2">how the modifier is chosen &middot; noun = kitty</span><span class="fc">no adjective list</span></div>
+          <div class="fx">pool the patches where <span class="keep">kitty</span> fires &rarr; rank all 25,465 gated words on that region alone:</div>
+          <div class="fx"><span class="kill">cat</span> &middot; <span class="kill">kitty</span> &middot; <span class="kill">kitten</span> <span style="color:var(--foil-ink)">(cos &ge; 0.55 to the noun: suppressed)</span> &middot; <span class="keep">couch &#10003;</span> &middot; fleece &middot; blanket &middot; grey</div>
+        </div>
+        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo; &middot; the modifier is whatever those pixels support next, after the noun&rsquo;s own concept is removed</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1032,8 +1039,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
   <div class="contact">
     <div class="nm">Han Xiao &middot; VP of AI, Elastic</div>
-    <span class="hx">@hxiao</span> &nbsp;·&nbsp; <span class="hx">in/hxiao87</span><br>
-    <span class="lk">github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging</span>
+    <span class="hx">@hxiao</span> &nbsp;·&nbsp; <span class="hx">in/hxiao87</span>
   </div>
   <div class="qr qr-abs">
     <div class="qrtop">github repo</div>

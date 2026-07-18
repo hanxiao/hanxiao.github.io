@@ -275,12 +275,15 @@ Naive phrase scoring fails.
 Image to text similarity is bag of words,
 so any high scoring word attaches to any noun.//
 The trick is *locality*, and there is no adjective list.
-The candidates are the same twenty-five thousand gated words.
-For each detected noun, we find the patches where it fires,
-pool that local region into one vector,
-and let the *whole vocabulary* compete on that region alone,
-with the noun itself excluded.
-True attributes win, because only they are supported by those pixels.//
+Watch it happen for one noun. Kitty.
+Pool the patches where kitty fires.
+Rank *every* gated word on that region alone.
+The top of that list is cat, kitty, kitten.
+All within cosine point five five of the noun. Suppressed.
+The first survivor is *couch*. So the pair is couch kitty.
+Grey, blanket, fleece are right behind, and they win other slots.
+The modifier is whatever the object's own pixels support next,
+once the noun's concept is removed.//
 Look at the result.
 Couch kitty. *Grey* cosy. *Sleeping* crib.
 The cats really are grey, and they really are asleep on a couch.
