@@ -267,13 +267,13 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:40, title:"Patch-local bigrams",
+  { n:16, sec:40, title:"Patch-local n-grams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.
 And I will be precise up front.
 Without grammar these are not adjectives, strictly.
-They are *region grounded bigrams*. The flag is just called adj.//
+They are *region grounded n-grams*.//
 Naive phrase scoring fails.
 Image to text similarity is bag of words,
 so any high scoring word attaches to any noun.//
@@ -287,9 +287,10 @@ The first survivor is *couch*. So the pair is couch kitty.
 Grey, blanket, fleece are right behind, and they win other slots.
 The modifier is whatever the object's own pixels support next,
 once the noun's concept is removed.
-And nothing stops you from suppressing again,
-taking the next survivor, and building trigrams, or any n gram.
-We have not evaluated that. But the construction is right there.//
+And the construction iterates.
+Suppress again, and the next survivor joins.
+Couch fleece kitty. Grey blanket cosy.
+Real trigrams, same mechanism, no benchmark numbers yet.//
 Look at the result.
 Couch kitty. *Grey* cosy. *Sleeping* crib.
 The cats really are grey, and they really are asleep on a couch.
@@ -301,9 +302,10 @@ And it is still family A. Thirty milliseconds extra.`},
 
   { n:17, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-Each card shows all three modes.
-The fast pass, fourteen-crop re-encoding, and patch-local adjectives.
-Top five per mode, unfiltered.//
+Each card shows every mode.
+The fast pass, fourteen-crop re-encoding,
+and grounded n-grams at two and at three.
+All unfiltered.//
 Look at the Porsche.
 The fast pass returns *fragments*. Driv. Sidew.
 Re-encoding turns them into words.
