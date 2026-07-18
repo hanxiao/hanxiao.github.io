@@ -1,6 +1,6 @@
 # Test-time compute of jina-embeddings-v5-omni for image tagging
 
-Talk deck by Han Xiao (VP of AI, Elastic). 25 slides, ~16 minutes.
+Talk deck by Han Xiao (VP of AI, Elastic). 26 slides, ~16.5 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast), MathJax math.
 Built in the same style/engine as [`aie-sf-2026-slides`](https://github.com/hanxiao/aie-sf-2026-slides).
 
@@ -32,10 +32,10 @@ Companion project repo (the code + full grounded findings):
 - `vendor/tex-svg.js` - self-hosted MathJax (SVG output), so math renders offline.
 - `img/` - cat/zebra/photo demo images, img/grid/g1-g9.jpg (slide-2 photos), qr-repo.png. (pipeline.png is no
   longer referenced: the pipeline and architecture diagrams are now hand-built HTML/SVG.)
-- `slides.pdf` - 25-page export for sharing.
+- `slides.pdf` - 26-page export for sharing.
 - `speaker-notes/` - the teleprompter/presenter page. `index.html` is the presenter UI (timer +
   pace meter); it shows the deck in an `<iframe src="../index.html">`, so the slides are NEVER
-  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (25 entries).
+  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (26 entries).
 - `sync.js` - cross-device slide sync (loaded by both the deck and the presenter page).
   `sync-worker.js` - optional Cloudflare Worker, a 3rd sync channel.
 - `tools/genqr.py` - regenerate a QR in the house style (blue finders, gapped modules) with a scan check.
@@ -54,7 +54,7 @@ Companion project repo (the code + full grounded findings):
 
 ## Single source of truth
 The slides live in exactly one file, `index.html`. The presenter page embeds it live (iframe), so
-there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 25
+there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 26
 entries, one per slide. When you edit a slide's facts, numbers, order, or count, update the matching
 `notes.js` entry in the same pass. Cloudflare edge-caches `notes.js`, so after editing it bump the
 cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=5).

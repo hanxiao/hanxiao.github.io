@@ -189,6 +189,27 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .vspanel.foil .vsspace{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
 .vspanel.foil .vstag{color:var(--foil-ink)}
 
+/* beam-search slot animation */
+.bstages{display:flex;gap:18px;align-items:stretch;width:100%}
+.bstage{flex:1;border:1.2px solid var(--hair2);border-radius:10px;background:#fff;padding:16px 18px;
+  opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.bstage.on{opacity:1;transform:none}
+.bstage .bh{font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.bstage.win{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.bstage.win .bh{color:var(--accent)}
+.slotrow{display:flex;gap:7px;margin-bottom:12px}
+.slot{font-family:var(--mono);font-size:14px;font-weight:700;border:1.6px dashed var(--hair2);border-radius:7px;padding:7px 14px;color:var(--ink)}
+.slot.filled{border-style:solid;border-color:var(--ink)}
+.brow{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:13px;font-weight:600;padding:4px 0}
+.brow .sc{font-size:12px}
+.brow.kept{color:var(--accent)}
+.brow.top{color:var(--accent);font-weight:800;font-size:14.5px}
+.brow.pruned{color:var(--foil-ink);text-decoration:line-through}
+.brow .nb{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink);text-decoration:none}
+.barrow{display:flex;align-items:center;color:var(--accent);font-size:22px;font-weight:800;opacity:0;transition:opacity .5s ease}
+.barrow.on{opacity:1}
+@media print{.bstage,.barrow{opacity:1;transform:none}}
+
 /* neutral-pool thumbnails (prior slide) */
 .bgpool{display:flex;align-items:center;gap:10px;margin-top:12px;justify-content:center}
 .bgpool img{width:56px;height:40px;object-fit:cover;border-radius:5px;border:1.2px solid var(--hair2)}
@@ -453,17 +474,17 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div class="cards">
       <div class="card hero">
         <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">More computation per pass</div></div>
-        <div class="desc">Extract more from a single forward pass: score every patch, fuse channels, subtract priors. Cost: a few matrix multiplies.</div>
+        <div class="desc">Extract more from a single forward pass: score every patch, fuse channels, subtract priors.</div>
         <div class="foot" style="color:var(--accent)">LLM analogue: a richer readout of one sample.</div>
       </div>
       <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)">
         <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">New passes, new views</div></div>
-        <div class="desc">Run the frozen encoder <strong>again</strong> on inputs it has not seen: crops of the image, splits of the document. Cost: full forward passes.</div>
+        <div class="desc">Run the frozen encoder <strong>again</strong> on inputs it has not seen: crops of the image, splits of the document.</div>
         <div class="foot" style="color:var(--teal-ink)">LLM analogue: best-of-N sampling.</div>
       </div>
       <div class="card foilcard">
         <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Re-process the features</div></div>
-        <div class="desc">Transform the vectors already computed: whitening, graph propagation, optimal transport, re-normalization. Cost: nearly zero.</div>
+        <div class="desc">Transform the vectors already computed: whitening, graph propagation, optimal transport, re-normalization.</div>
         <div class="foot" style="color:var(--foil-ink)">Where most of the 2024&ndash;2026 training-free literature operates.</div>
       </div>
     </div>
@@ -867,7 +888,42 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 17 QUALITATIVE ============ -->
+<!-- ============ 17 BEAM SEARCH ============ -->
+<section class="slide">
+  <div class="kicker">--ngram --beam &middot; mechanics</div>
+  <h2 class="h-slide sm" style="margin-bottom:20px">Beam search over modifier slots, scored by the encoder itself.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <div class="bstages" id="beamstages">
+      <div class="bstage">
+        <div class="bh">the slots &middot; noun = kitty</div>
+        <div class="slotrow"><span class="slot">?</span><span class="slot">?</span><span class="slot filled">kitty</span></div>
+        <div class="brow"><span>candidates: the region&rsquo;s surviving words</span></div>
+        <div class="brow"><span>couch &middot; grey &middot; sleeps &middot; sofa &middot; fleece &middot; blanket &middot; &hellip;</span></div>
+        <div class="brow" style="margin-top:8px"><span class="nb">score of a filled phrase: \( \langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \)</span></div>
+      </div>
+      <div class="barrow">&rarr;</div>
+      <div class="bstage">
+        <div class="bh">depth 1 &middot; fill slot 1 &middot; keep B = 4</div>
+        <div class="brow kept"><span>couch kitty</span><span class="sc">+0.059</span></div>
+        <div class="brow kept"><span>grey kitty</span><span class="sc">+0.050</span></div>
+        <div class="brow kept"><span>sleeps kitty</span><span class="sc">+0.048</span></div>
+        <div class="brow kept"><span>sofa kitty</span><span class="sc">+0.047</span></div>
+        <div class="brow pruned"><span>fleece kitty &middot; blanket kitty &middot; &hellip;</span><span class="sc">pruned</span></div>
+      </div>
+      <div class="barrow">&rarr;</div>
+      <div class="bstage win">
+        <div class="bh">depth 2 &middot; fill slot 2 &middot; the encoder decides</div>
+        <div class="brow top"><span>grey couch kitty</span><span class="sc">+0.093</span></div>
+        <div class="brow"><span>couch grey kitty <span class="nb">same words, worse order</span></span><span class="sc">+0.091</span></div>
+        <div class="brow"><span>sleeping couch kitty</span><span class="sc">+0.084</span></div>
+        <div class="brow"><span>sleeps couch kitty</span><span class="sc">+0.084</span></div>
+      </div>
+    </div>
+    <p class="takeaway">Every assembled phrase is a real string, embedded and scored by the frozen model. <span class="accent">It ranks &ldquo;grey couch kitty&rdquo; above &ldquo;couch grey kitty&rdquo;: word order resolved with no grammar anywhere.</span></p>
+  </div>
+</section>
+
+<!-- ============ 18 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Out-of-distribution photos, all three modes.</h2>
@@ -905,7 +961,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 18 TEST-TIME SCALING ============ -->
+<!-- ============ 19 TEST-TIME SCALING ============ -->
 <section class="slide">
   <div class="kicker">Test-time scaling</div>
   <h2 class="h-slide sm">Accuracy as a function of test-time compute.</h2>
@@ -915,7 +971,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 THE LEVERS ============ -->
+<!-- ============ 20 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers; only re-encoding adds accuracy.</h2>
@@ -925,7 +981,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 META CONCLUSION ============ -->
+<!-- ============ 21 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Re-processing well-calibrated features yields nothing; new information does.</h2>
@@ -939,7 +995,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 21 PRIOR WORK ============ -->
+<!-- ============ 22 PRIOR WORK ============ -->
 <section class="slide">
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
@@ -957,7 +1013,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 22 OMNI ============ -->
+<!-- ============ 23 OMNI ============ -->
 <section class="slide">
   <div class="kicker">Deployment</div>
   <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
@@ -988,7 +1044,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 23 MEDIA SHAPES ============ -->
+<!-- ============ 24 MEDIA SHAPES ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
   <h2 class="h-slide sm">One label matrix: images, HQ re-encoding, video, and scanned documents.</h2>
@@ -1023,7 +1079,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 24 SYNTHESIS ============ -->
+<!-- ============ 25 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
   <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
@@ -1037,7 +1093,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 25 CLOSE ============ -->
+<!-- ============ 26 CLOSE ============ -->
 <section class="slide closing">
   <h1>A frozen model already knows more<br>than its objective admits.<br><span class="hl">Test-time compute is how you ask.</span></h1>
   <div class="contact">
@@ -1070,6 +1126,7 @@ function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   if(slides[i].querySelector('#c-vhist')&&window.restartVhist) window.restartVhist();
+  if(slides[i].querySelector('#beamstages')&&window.restartBeam) window.restartBeam();
   pg.textContent=(i+1)+' / '+slides.length;
   footEl.classList.toggle('hidden', i===0 || i===slides.length-1);
   if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
@@ -1291,6 +1348,14 @@ function drawVocabHist(){
 }
 window.restartVhist=drawVocabHist;
 
+window.restartBeam=function(){
+  const w=document.getElementById('beamstages'); if(!w)return;
+  const els=[...w.children];
+  els.forEach(e=>e.classList.remove('on'));
+  if(window.matchMedia&&window.matchMedia('print').matches){els.forEach(e=>e.classList.add('on'));return;}
+  els.forEach((e,k)=>setTimeout(()=>e.classList.add('on'), 400+k*900));
+};
+setTimeout(window.restartBeam, 300);
 function renderAll(){fillResults();drawLadder();drawLevers();drawCompute();drawVocabHist();}
 
 function init(){
