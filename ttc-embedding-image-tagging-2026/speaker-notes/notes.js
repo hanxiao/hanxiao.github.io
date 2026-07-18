@@ -267,7 +267,30 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:28, title:"Qualitative results",
+  { n:16, sec:38, title:"Patch-local adjectives",
+    note:`One more mode, because open vocabulary invites a harder question.
+Can we get *modifiers*, not just nouns?
+Without a part of speech tagger, of course.//
+Naive phrase scoring fails.
+Image to text similarity is bag of words,
+so any high scoring word attaches to any noun.//
+The trick is *locality*, and there is no adjective list.
+The candidates are the same twenty-five thousand gated words.
+For each detected noun, we find the patches where it fires,
+pool that local region into one vector,
+and let the *whole vocabulary* compete on that region alone,
+with the noun itself excluded.
+True attributes win, because only they are supported by those pixels.//
+Look at the result.
+Couch kitty. *Grey* cosy. *Sleeping* crib.
+The cats really are grey, and they really are asleep on a couch.
+The modifier is tied to the object's *pixels*.//
+No grammar anywhere, so a related noun can fill the slot,
+like cat plush.
+But every pair is grounded in the region it came from.
+And it is still family A. Thirty milliseconds extra.`},
+
+  { n:17, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 Each card shows all three modes.
 The fast pass, fourteen-crop re-encoding, and patch-local adjectives.
@@ -281,26 +304,6 @@ The expo corridor stays crowded, but passengers become commuters.
 And one miss survives, synagogue.
 That is the direct cost of a *zero-annotation* open vocabulary,
 and I would rather show it than hide it.`},
-
-  { n:17, sec:38, title:"Patch-local adjectives",
-    note:`One more mode, because open vocabulary invites a harder question.
-Can we get *modifiers*, not just nouns?
-Without a part of speech tagger, of course.//
-Naive phrase scoring fails.
-Image to text similarity is bag of words,
-so any high scoring word attaches to any noun.//
-The trick is *locality*.
-For each detected noun, we find the patches where it fires,
-pool that local region into one vector,
-and score adjective candidates *only against that region*.//
-Look at the result.
-Couch kitty. *Grey* cosy. *Sleeping* crib.
-The cats really are grey, and they really are asleep on a couch.
-The modifier is tied to the object's *pixels*.//
-No grammar anywhere, so a related noun can fill the slot,
-like cat plush.
-But every pair is grounded in the region it came from.
-And it is still family A. Thirty milliseconds extra.`},
 
   { n:18, sec:42, title:"Test-time scaling",
     note:`And here is the same result, drawn as a scaling curve.

@@ -839,7 +839,28 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 16 QUALITATIVE ============ -->
+<!-- ============ 16 ADJ MODE ============ -->
+<section class="slide">
+  <div class="kicker">One more mode &middot; --adj</div>
+  <h2 class="h-slide sm">Patch-local adjectives: modifiers without a POS tagger.</h2>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:.9">
+      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
+      <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
+    </div>
+    <div style="flex:1.1">
+      <div class="card" style="margin-bottom:14px"><div class="ttl">--adj off &middot; nouns &middot; 89 ms</div>
+        <div class="demotags" style="margin-top:4px"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div>
+      </div>
+      <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
+        <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
+      </div>
+      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>There is no adjective list: the candidates are the <strong>same 25,465 gated words</strong>. For each noun, the patches where it fires are pooled into a local vector, and the modifier slot goes to the highest-scoring word <strong>on that region alone</strong> (the noun itself excluded by NMS). True attributes win because only they are supported by those pixels; a related noun can still slip in (&ldquo;cat plush&rdquo;).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Out-of-distribution photos, all three modes.</h2>
@@ -871,27 +892,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       </div>
     </div>
     <p class="takeaway" style="margin-top:22px">Re-encoding turns fragments into words (driv &rarr; carro, windshield); patch-local scoring attaches modifiers. Top-5 per mode, unfiltered.</p>
-  </div>
-</section>
-
-<!-- ============ 17 ADJ MODE ============ -->
-<section class="slide">
-  <div class="kicker">One more mode &middot; --adj</div>
-  <h2 class="h-slide sm">Patch-local adjectives: modifiers without a POS tagger.</h2>
-  <div class="body row" style="gap:44px;align-items:center">
-    <div style="flex:.9">
-      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
-      <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
-    </div>
-    <div style="flex:1.1">
-      <div class="card" style="margin-bottom:14px"><div class="ttl">--adj off &middot; nouns &middot; 89 ms</div>
-        <div class="demotags" style="margin-top:4px"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div>
-      </div>
-      <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
-        <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
-      </div>
-      <p class="cap" style="font-size:16px;margin-top:16px"><span class="abc sm" style="vertical-align:1px;margin-right:6px">A</span>For each noun, the patches where it fires are pooled into a local vector; adjective candidates are scored <strong>only against that region</strong>. The modifier is grounded in the object&rsquo;s pixels: grey, sleeping, on a couch. Without a POS tagger a related noun can fill the slot (&ldquo;cat plush&rdquo;).</p>
-    </div>
   </div>
 </section>
 
