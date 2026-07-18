@@ -842,7 +842,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 ADJ MODE ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --adj</div>
-  <h2 class="h-slide sm">Patch-local adjectives: modifiers without a POS tagger.</h2>
+  <h2 class="h-slide sm">Patch-local bigrams: grounded modifiers, no POS tagger.</h2>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:.9">
       <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
@@ -852,16 +852,16 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="card" style="margin-bottom:14px"><div class="ttl">--adj off &middot; nouns &middot; 89 ms</div>
         <div class="demotags" style="margin-top:4px"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div>
       </div>
-      <div class="card hero"><div class="ttl accent">--adj on &middot; adjective + noun &middot; 116 ms</div>
+      <div class="card hero"><div class="ttl accent">--adj on &middot; grounded bigrams &middot; 116 ms</div>
         <div class="demotags" style="margin-top:4px"><span class="tg hit">couch kitty</span><span class="tg hit">grey cosy</span><span class="tg hit">cat plush</span><span class="tg hit">sleeping crib</span></div>
       </div>
       <div class="funnel" style="margin-top:14px">
         <div class="fstep">
-          <div class="fh"><span class="fn2">how the modifier is chosen &middot; noun = kitty</span><span class="fc">no adjective list</span></div>
+          <div class="fh"><span class="fn2">how the modifier is chosen &middot; noun = kitty</span><span class="fc">no word-class constraint</span></div>
           <div class="fx">pool the patches where <span class="keep">kitty</span> fires &rarr; rank all 25,465 gated words on that region alone:</div>
           <div class="fx"><span class="kill">cat</span> &middot; <span class="kill">kitty</span> &middot; <span class="kill">kitten</span> <span style="color:var(--foil-ink)">(cos &ge; 0.55 to the noun: suppressed)</span> &middot; <span class="keep">couch &#10003;</span> &middot; fleece &middot; blanket &middot; grey</div>
         </div>
-        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo; &middot; the modifier is whatever those pixels support next, after the noun&rsquo;s own concept is removed</div>
+        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo;: not grammatically an adjective, a <b>region-grounded bigram</b> &middot; suppressing again yields trigrams and n-grams (not evaluated)</div>
       </div>
     </div>
   </div>

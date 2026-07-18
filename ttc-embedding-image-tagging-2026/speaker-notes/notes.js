@@ -267,10 +267,13 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:38, title:"Patch-local adjectives",
+  { n:16, sec:40, title:"Patch-local bigrams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
-Without a part of speech tagger, of course.//
+Without a part of speech tagger, of course.
+And I will be precise up front.
+Without grammar these are not adjectives, strictly.
+They are *region grounded bigrams*. The flag is just called adj.//
 Naive phrase scoring fails.
 Image to text similarity is bag of words,
 so any high scoring word attaches to any noun.//
@@ -283,7 +286,10 @@ All within cosine point five five of the noun. Suppressed.
 The first survivor is *couch*. So the pair is couch kitty.
 Grey, blanket, fleece are right behind, and they win other slots.
 The modifier is whatever the object's own pixels support next,
-once the noun's concept is removed.//
+once the noun's concept is removed.
+And nothing stops you from suppressing again,
+taking the next survivor, and building trigrams, or any n gram.
+We have not evaluated that. But the construction is right there.//
 Look at the result.
 Couch kitty. *Grey* cosy. *Sleeping* crib.
 The cats really are grey, and they really are asleep on a couch.
