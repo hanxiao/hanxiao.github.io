@@ -849,10 +849,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
     </div>
     <div style="flex:1.1">
-      <div class="card" style="margin-bottom:14px"><div class="ttl">--ngram &middot; the same four tags, three orders</div>
+      <div class="card" style="margin-bottom:14px"><div class="ttl">--ngram &middot; the same four tags, n=1..3 + beam</div>
         <div class="modeline" style="margin-top:8px"><span class="mlab">n=1</span><div class="chips"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div></div>
         <div class="modeline hq" style="margin-top:6px"><span class="mlab">n=2</span><div class="chips"><span class="tg">couch kitty</span><span class="tg">grey cosy</span><span class="tg">cat plush</span><span class="tg">sleeping crib</span></div></div>
         <div class="modeline adj" style="margin-top:6px"><span class="mlab">n=3</span><div class="chips"><span class="tg">couch fleece kitty</span><span class="tg">grey blanket cosy</span><span class="tg">cat cloak plush</span><span class="tg">sleeping fleece crib</span></div></div>
+        <div class="modeline hq" style="margin-top:6px"><span class="mlab">+beam</span><div class="chips"><span class="tg hit">grey couch kitty</span><span class="tg hit">sleeping black cosy</span><span class="tg hit">grey sleeping plush</span><span class="tg hit">sleeps grey crib</span></div></div>
       </div>
       <div class="funnel" style="margin-top:14px">
         <div class="fstep">
@@ -860,7 +861,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
           <div class="fx">pool the patches where <span class="keep">kitty</span> fires &rarr; rank all 25,465 gated words on that region alone:</div>
           <div class="fx"><span class="kill">cat</span> &middot; <span class="kill">kitty</span> &middot; <span class="kill">kitten</span> <span style="color:var(--foil-ink)">(cos &ge; 0.55 to the noun: suppressed)</span> &middot; <span class="keep">couch &#10003;</span> &middot; fleece &middot; blanket &middot; grey</div>
         </div>
-        <div class="fop">&rarr; emit &ldquo;couch kitty&rdquo; (n=2) &middot; suppress again and the next survivor joins: &ldquo;couch fleece kitty&rdquo; (n=3) &middot; N-1 modifiers, no word-class constraint</div>
+        <div class="fop">&rarr; greedy picks off one ranking &middot; <b>--beam</b> lets the encoder score whole phrases against the region: it promotes &ldquo;grey couch kitty&rdquo; and prefers <b>attribute-first order</b>, with no grammar anywhere</div>
       </div>
     </div>
   </div>

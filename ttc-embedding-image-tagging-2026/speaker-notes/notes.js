@@ -267,7 +267,7 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:40, title:"Patch-local n-grams",
+  { n:16, sec:46, title:"Patch-local n-grams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.
@@ -289,8 +289,14 @@ The modifier is whatever the object's own pixels support next,
 once the noun's concept is removed.
 And the construction iterates.
 Suppress again, and the next survivor joins.
-Couch fleece kitty. Grey blanket cosy.
-Real trigrams, same mechanism, no benchmark numbers yet.//
+Couch fleece kitty. Grey blanket cosy.//
+One step further, and this is new.
+The greedy pick never scores the *phrase*.
+With beam search, the encoder itself scores assembled phrases
+against the region, and it promotes *grey couch kitty*.
+It even prefers attribute *first* order over the alternatives.
+Composition emerges from the embedding space.
+No grammar anywhere. No benchmark numbers yet.//
 Look at the result.
 Couch kitty. *Grey* cosy. *Sleeping* crib.
 The cats really are grey, and they really are asleep on a couch.
