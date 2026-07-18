@@ -174,6 +174,8 @@ just because they sit close to the image modality.//
 So we estimate a per-label prior, mu,
 from a handful of neutral background images, once,
 and we subtract it.
+The thumbnails under the chart are the actual pool.
+Any ordinary images work.
 A word that scores high on *everything* gets centered to zero.
 Only the image-specific spikes survive.//
 No calibration set. No labels. One offline pass.
@@ -190,18 +192,20 @@ So *space-cat* is a whole word, but *GetComponent* is a fragment.
 That one built-in signal filters a hundred-twenty-eight-thousand tokens
 down to about *twenty-five thousand* clean words.
 No external dictionary.//
-Then embedding-based suppression collapses synonyms and translations.
+Then embedding NMS. Non maximum suppression, in embedding space.
 Walk the labels by score,
 and keep a word only if its cosine to everything already kept
 is below zero point six.
-Cat in four languages becomes *one* cat.
+The funnel on the right is the real ranking for the cat image.
+Cat, kitten, chatte, cats, all struck out, suppressed by kitty.
 Again, no lookup table. Just the geometry.`},
 
   { n:12, sec:42, title:"Step 5: CWR multi-crop",
     note:`Step five. And this is the important one.
 This is the *only* lever that genuinely raises accuracy.//
 We re-encode the image as a grid of *fourteen crops*.
-Three by three, plus two by two, plus the center.
+Watch the overlay sweep the image.
+Three by three, then two by two, then the center.
 Each crop is a full forward pass through the *same* frozen model.
 And we take the per-label max across crops.
 A small object becomes *large* in whichever crop contains it,
