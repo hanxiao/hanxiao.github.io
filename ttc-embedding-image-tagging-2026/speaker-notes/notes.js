@@ -35,62 +35,61 @@ The rest of this talk answers two questions.
 Where does this capability come from,
 and *which kind* of test-time compute pays for it.`},
 
-  { n:3, sec:48, title:"Research questions",
-    note:`Image tagging is not a new problem, so let me position this precisely.//
-Question one.
-Can the tokenizer vocabulary replace a curated label set?
-The RAM line of work *trains* tagging models over about six thousand curated tags.
-TagCLIP and PIAA are training-free, but they *assume* the class list is given.
-We ask whether the model's own vocabulary can be the label space.//
-Question two.
-Can *one frozen model* supply every signal?
-Prior training-free work runs on two-tower CLIP,
-plus WordNet, dictionaries, part-of-speech tags.
-We allow a single frozen omni encoder, and nothing else.//
-Question three, the one I care most about.
-*Which* test-time compute scales accuracy?
-The recent literature bets on re-processing features.
-Whitening, label propagation, optimal transport, Bayesian priors.
-We measure every one of them against a single alternative,
-re-encoding *new crops*.`},
+  { n:3, sec:38, title:"Problem formulation",
+    note:`Let me state the problem precisely.//
+Given. One embedding model, jina-embeddings-v5-omni-nano.
+About a billion parameters. Image and text in one space.
+And one image.//
+Output. Words for *every* object in that image.
+Multi-label. Open vocabulary.//
+Frozen. All weights.
+This is a retrieval encoder.
+No tagging head, no classifier. Never trained for this.//
+Allowed. Inference-time computation over the model's own outputs.
+And *nothing* else.
+Training-free. No second model. No dictionaries, no POS taggers.//
+So whatever tagging ability appears
+must come from *test-time compute of the embedding model*.
+That is the game.`},
 
-  { n:4, sec:46, title:"Three families, one axis",
-    note:`Before the method, let me define terms carefully,
-because at first glance these three look like the *same* thing.
-All of them are extra math on the model's outputs.
-They differ on exactly one axis.
+  { n:4, sec:44, title:"Where new information comes from",
+    note:`Before the method, one piece of vocabulary,
+because at first glance the options all look the same.
+A frozen encoder's inference budget takes roughly three forms,
+and all of them are extra math on the model's outputs.
+They differ on one axis.
 Where does *new information* come from.//
 Family *A* reads more of the pass.
-The forward pass computes a row for *every patch*,
-and by default all of it is thrown away except one pooled vector.
-Family A reads what was already *paid for*.
-The information is new to you, reclaimed from inside the pass.//
+The pass already computes a vector for every token, every patch,
+and single-vector use throws them away.
+If you did retrieval, you know this move.
+It is *late interaction*. ColBERT-style rescoring.
+The information is reclaimed from inside the pass.//
 Family *B* runs new passes.
-Crops of an image. Splits of a document.
-Inputs the model has *never seen*.
-The information is new, acquired from the input.//
-And family *C* re-arranges what you have.
+Split a document and embed the pieces.
+Crop an image and re-encode it.
+The information is acquired from the input.//
+Family *C* re-arranges what you have.
 Whitening, propagation, optimal transport.
-A fixed set of vectors goes in, the same information comes out.
-*Nothing new enters.*//
-A and B add information. C only shuffles it.
-The rest of this talk is a measurement of that difference.`},
+A fixed set of vectors goes in. Nothing new enters.//
+Same frozen encoder in all three.
+The difference is only what enters the computation.`},
 
-  { n:5, sec:38, title:"Problem setup",
-    note:`The setup, stated precisely.
-The model is jina-embeddings-v5-omni-nano.
-A one billion parameter *retrieval* encoder.
-No tagging head, no classifier, no tag list.
-It was never trained to answer, what is in this image.//
-The task is open-vocabulary, multi-label tagging.
-Every object in the frame, from any word the model knows.//
-And the rules are strict.
-Training-free.
-No second model.
-No WordNet, no dictionary, no part-of-speech tagger.
-The constraint is the experimental control.
-Whatever quality appears is attributable to *test-time compute*,
-and to nothing else.`},
+  { n:5, sec:36, title:"Two research questions",
+    note:`Two questions, in increasing depth.//
+Question one.
+Can a frozen embedding model *become* an image tagger,
+through test-time compute alone?
+Prior work pays for tagging with training or with resources.
+The RAM line trains over curated tags.
+TagCLIP and PIAA are training-free,
+but they assume the class list is *given*,
+and they lean on WordNet and part of speech tools.
+We allow none of that.//
+And question two, if it can.
+*Which* test-time compute scales its accuracy?
+Re-processing features, family C, where the literature bets?
+Or new information, families A and B?`},
 
   { n:6, sec:48, title:"Architecture",
     note:`Now let me open the model up, because the whole method lives in this picture.//
@@ -100,12 +99,14 @@ Inside it there are two internal submodels.
 A vision tower, and a text tower.
 We never break them apart, and we never retrain them.//
 The image path.
-An image becomes sixteen pixel patches, merged two by two,
-and those vision tokens are *injected* into the bidirectional text tower.
+An image becomes sixteen pixel patches.
+The patch is the vision tower's *internal* unit, not a crop.
+Those patch tokens are *injected* into the bidirectional text tower.
 Out come two things.
-Capital P, one seven-sixty-eight dimensional row *per patch*,
-contextualized by the whole sequence.
-And small g, the pooled global vector.//
+Capital P, one row per patch,
+and each row is shaped by attention over the *whole* image.
+And small g, one vector for the whole image,
+pooled from the last token of that same sequence.//
 The vocabulary path.
 This one runs *once*, offline.
 All hundred twenty-eight thousand tokens go through the *same* text tower,
@@ -130,8 +131,6 @@ Top k tags come out. Seventy-five milliseconds.//
 And the teal box below is the optional high quality mode.
 Fourteen crops, back through the *same* model.
 That is family *B*, new passes on new pixels.//
-Notice what is *not* here.
-No box from family C.
 Every box is the frozen model, or plain arithmetic.`},
 
   { n:8, sec:42, title:"Step 1: the label space",
@@ -155,9 +154,11 @@ But only through the aligned output space.`},
 On the left, the global vector g scored against each label.
 One vector, dominated by the most salient object.
 Mean average precision, *point two six*.//
-In the middle, the truthful picture of what we do instead.
-Every *patch row* is scored against the label,
-and the per-label max survives.
+On the right, what we do instead.
+Every patch row is scored against *every* label,
+and each label keeps its max over the patches.
+If you know ColBERT, this *is* late interaction.
+Patches play the token vectors. MaxSim per label.
 A small object fires on its *own* patch.
 That jumps the mAP to *point six three*.
 Plus zero-point-three-seven, in one line of algebra.//
@@ -207,6 +208,9 @@ Again, no lookup table. Just the geometry.`},
     note:`Step five. And this is the important one.
 This is the *only* lever that genuinely raises accuracy.//
 We re-encode the image as a grid of *fourteen crops*.
+And note the distinction.
+A patch is the tower's internal unit.
+A crop is a new *input image*, which gets re-patchified itself.
 Watch the overlay sweep the image.
 Three by three, then two by two, then the center.
 Each crop is a full forward pass through the *same* frozen model.
@@ -234,6 +238,9 @@ Also family A. Also free.//
 Third term. The multi-crop max.
 Fourteen fresh forward passes.
 Family B. Fourteen times the cost, plus point zero seven five.//
+And notice the third term is *recursive*.
+S c l is the same patch plus global score,
+applied to each crop as a fresh image.//
 Then gate to real words, dedupe by cosine, take the top k.
 And that is it.
 No head. No logits. No learned threshold.
@@ -268,7 +275,48 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:46, title:"Patch-local n-grams",
+  { n:16, sec:40, title:"The levers chart",
+    note:`Now, research question two, answered by measurement.
+We re-implemented every training-free lever from the recent literature,
+on *this* pipeline, on the *same* benchmark.
+And to be scrupulously fair,
+each bar shows the *change* in accuracy
+relative to the pipeline that method was applied to.
+The dashed line is zero. No effect.//
+Look at the pink bars.
+Changing the layer, minus point four eight.
+Whitening, minus point five eight.
+Graph label propagation, minus point five.
+Dirichlet, minus point four seven.
+Optimal transport, plus point zero zero six. Noise.
+Bayesian priors, exactly zero.
+Robust crop trimming, *negative*.//
+Every published method
+either does nothing or *breaks*.
+Only one bar is positive.
+Multi-crop re-encoding, plus point zero seven five.`},
+
+  { n:17, sec:42, title:"The frontier",
+    note:`And here is everything on one chart.
+Accuracy, against *measured* latency per image. Log scale.//
+The frontier runs through three points.
+Global only, fifty-two milliseconds, point two six.
+Patch fusion, seventy-five milliseconds, point six three.
+Fourteen-crop re-encoding, one second, point seven one.
+Read more of the pass, then re-encode new views.//
+Now the pink points.
+Every re-processing method costs almost nothing,
+under a tenth of a millisecond, measured.
+So they sit at the *same* latency as the pipeline they modify.
+And at that latency, they are at or below the frontier.//
+One honest footnote.
+Softmax over classes lands a thousandth *above* patch fusion.
+Noise level. I put it on the frontier anyway.
+The picture does not change.
+Free re-arrangement buys a thousandth.
+Re-encoding buys seven and a half points.`},
+
+  { n:18, sec:46, title:"Patch-local n-grams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.
@@ -307,7 +355,7 @@ like cat plush.
 But every pair is grounded in the region it came from.
 And it is still family A. Thirty milliseconds extra.`},
 
-  { n:17, sec:40, title:"Beam mechanics",
+  { n:19, sec:40, title:"Beam mechanics",
     note:`Here is the whole search space, drawn as a tree, with real numbers.//
 Two open slots, and the noun, kitty.
 The candidates are the region's surviving words.
@@ -325,7 +373,7 @@ The encoder prefers the attribute *first*.
 Word order, resolved by an embedding model,
 with no grammar anywhere in the system.`},
 
-  { n:18, sec:28, title:"Qualitative results",
+  { n:20, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 Each card shows every mode.
 The fast pass, fourteen-crop re-encoding,
@@ -340,44 +388,6 @@ The expo corridor stays crowded, but passengers become commuters.
 And one miss survives, synagogue.
 That is the direct cost of a *zero-annotation* open vocabulary,
 and I would rather show it than hide it.`},
-
-  { n:19, sec:42, title:"Test-time scaling",
-    note:`And here is the same result, drawn as a scaling curve.
-Accuracy, as a function of where the test-time compute *went*.//
-The first gain is large, and it is *nearly free*.
-Same pixels, same single forward pass.
-We simply extract more from that pass. More computation.
-Point two six to point six three.//
-The second gain costs real compute.
-Fourteen extra forward passes, fourteen x latency,
-for another seven and a half points.
-Diminishing, but *real*. That is test-time scaling.//
-And then look at the pink cluster.
-Eight methods that spent their compute *re-processing the features*.
-More math, same pixels.
-Not one of them improves the pipeline it was applied to.//
-Compute only scales accuracy when it carries *new information*.`},
-
-  { n:20, sec:40, title:"The levers chart",
-    note:`Now, research question three, answered by measurement.
-We re-implemented every training-free lever from the recent literature,
-on *this* pipeline, on the *same* benchmark.
-And to be scrupulously fair,
-each bar shows the *change* in accuracy
-relative to the pipeline that method was applied to.
-The dashed line is zero. No effect.//
-Look at the pink bars.
-Changing the layer, minus point four eight.
-Whitening, minus point five eight.
-Graph label propagation, minus point five.
-Dirichlet, minus point four seven.
-Optimal transport, plus point zero zero six. Noise.
-Bayesian priors, exactly zero.
-Robust crop trimming, *negative*.//
-Every published method
-either does nothing or *breaks*.
-Only one bar is positive.
-Multi-crop re-encoding, plus point zero seven five.`},
 
   { n:21, sec:40, title:"The meta-conclusion",
     note:`So here is the meta-conclusion, and it is the real payoff.//
@@ -403,6 +413,8 @@ TagCLIP uses a two-tower CLIP and the second-to-last layer.
 We use one omni model, where the *last* layer is the output space.
 PIAA whitens to close the modality gap.
 Our image and text are *already* one space, so whitening collapses it.//
+Research question one: yes. A frozen embedding model becomes a tagger.
+Research question two: only compute that adds information scales it.
 The contribution is the *combination*,
 plus the negative results.
 We empirically ruled out
@@ -469,5 +481,6 @@ But only new information gets an answer.//
 The code, the benchmark, and every negative result are on GitHub.
 It all runs on a Mac.
 Thank you.
-I would love your questions.`}
+I would love your questions.`},
+
 ];

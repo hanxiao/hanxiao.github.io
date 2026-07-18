@@ -62,6 +62,29 @@ window.DATA = {
  "final": ["kitty","cosy","plush","crib","paw","sleeps"]
 },
 
+
+/* ---- Pareto: measured ms/img on M3 Ultra (global-only 52 = forward+global scoring, measured
+   2026-07-18; patch 75 and 14-crop 1016 from bench_latency). Family-C methods run as batch
+   post-processing on cached scores; measured worst-case cost < 0.1 ms/img, so they plot at the
+   latency of the pipeline they modify. softmax-over-classes edges patch by +0.001 (noise). ---- */
+"pareto": {
+ "frontier": ["global","patch fuse","softmax/cls","+CWR 14-crop"],
+ "points": [
+  {"name":"global",        "ms":52,   "map":0.264, "fam":"A", "la":"start", "dx":11},
+  {"name":"patch fuse",    "ms":75,   "map":0.635, "fam":"A", "la":"end",   "dx":-12, "dy":12},
+  {"name":"softmax/cls",   "ms":75,   "map":0.636, "fam":"C", "la":"end",   "dx":-12, "dy":-8},
+  {"name":"softpool",      "ms":75,   "map":0.608, "fam":"A", "la":"start", "dx":11,  "dy":8},
+  {"name":"penult. layer", "ms":75,   "map":0.160, "fam":"C", "lbl":false},
+  {"name":"EM-Dirichlet",  "ms":75,   "map":0.170, "fam":"C", "lbl":false},
+  {"name":"ZLaP",          "ms":75,   "map":0.140, "fam":"C", "lbl":false},
+  {"name":"whitening",     "ms":75,   "map":0.060, "fam":"C", "lbl":false},
+  {"name":"+CWR 14-crop",  "ms":1016, "map":0.710, "fam":"B", "la":"end",   "dx":-12, "dy":-8},
+  {"name":"OTTER",         "ms":1016, "map":0.699, "fam":"C", "la":"start", "dx":11,  "dy":-8},
+  {"name":"BCA",           "ms":1016, "map":0.693, "fam":"C", "la":"start", "dx":11,  "dy":8},
+  {"name":"soft-trim",     "ms":1016, "map":0.671, "fam":"C", "la":"start", "dx":11,  "dy":22}
+ ]
+},
+
 /* ---- Omni (macOS app) Swift/bf16 port, COCO-150 via omni-verify tageval ---- */
 "omni": {"baseP1":0.773, "baseMap":0.645, "hqP1":0.847, "hqMap":0.697}
 };

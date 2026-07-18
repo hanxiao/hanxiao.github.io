@@ -46,7 +46,7 @@ Companion project repo (the code + full grounded findings):
   pipeline, stored as DATA.vhist). Runs one pass when the slide is shown, rests on the annotated
   final stage; falls back to the final stage in print/PDF (rAF probe).
 - Slide 14 `drawLadder`: the 3-step mAP story, global (0.264) -> patch (0.635) -> +CWR (0.710).
-- Slide 16 `drawCompute`: the test-time-scaling curve. Three compute regimes (1 pass / 1 pass +
+- (replaced) `drawCompute`: the test-time-scaling curve. Three compute regimes (1 pass / 1 pass +
   patch algebra / 15 passes) vs mAP, with the 8 re-processing methods as a countable pink cluster.
 - Slide 17 `drawLevers`: DELTA chart: each lever's change in mAP relative to the pipeline it was
   applied to (OTTER/BCA ran on the CWR-augmented scores, soft-trim on 14-crop CWR; bases shown in
@@ -103,27 +103,20 @@ World's Fair badge (not presenting there). Title covers test-time compute + froz
 jina-embeddings-v5-omni + image tagging, no subtitle. The pipeline and architecture diagrams
 carry a staggered arrow animation (data flow), disabled in print.
 
-## Slide map (23)
-1 Title · 2 The result first (3x3 grid of real files from this machine, tagged by the real
-  algorithm in fast mode - images in img/grid/, tags verbatim from src/tag_image.py runs;
-  vision_output source files; NEVER invent tags, re-run the tagger to change them) ·
-3 Research questions RQ1-3 (vs RAM/Tag2Text, TagCLIP, PIAA, ZLaP/OTTER/BCA, with glosses) ·
-4 Three families of test-time compute (A per-pass computation / B new passes / C re-process) ·
-5 Problem setup (task + constraint chips, merged task+rules) ·
-6 Architecture (ONE frozen jina-embeddings-v5-omni-nano block containing Qwen3-VL vision tower +
-  EuroBERT-12L text tower as internal submodels; outputs P / g / E) ·
-7 Pipeline (offline lane + per-image lane, A/B badges, animated data flow) ·
-8 Step 1: label space via encode_text (gate forward-referenced) · 9 Step 2: patch beats global
-  (truthful many-patches-max panels, PIAA credited) · 10 Step 3: per-label prior (per-bar mu ticks) ·
-11 Step 4: word-start gate + embedding-NMS (tau 0.6) · 12 Step 5: CWR multi-crop (credited to
-  TagCLIP, extended to 14-crop grid; crop-geometry glyphs) · 13 One annotated equation ·
-14 Results (table + ladder) · 15 Qualitative demo photos · 16 Test-time scaling curve ·
-17 Levers delta chart (10 levers vs their own baselines) · 18 Meta-conclusion ·
-19 Prior-work table (Tag2Text/RAM/RAM++, TagCLIP, PIAA, OTTER/BCA) closing with RQ1-3 answers ·
-20 Omni deployment (same-pass tagging, ~0.6 ms, app mock) · 21 Media shapes (image / HQ 5-crop
-  production variant / video 32-frame segments / scanned pages) · 22 Synthesis · 23 Close.
+## Slide map (26)
+1 Title · 2 The result first (3x3 real-photo grid) · 3 Problem formulation (given/output/frozen/allowed) ·
+4 Taxonomy: where new information comes from (A read the pass / B new passes / C re-arrange) ·
+5 Two research questions (RQ1 can it tag; RQ2 which compute scales) · 6 Architecture (one-block
+  v5-omni-nano, dense 16px patch grid, P/g/E) · 7 Pipeline · 8 Step 1 label space · 9 Step 2 patch
+  MaxSim (ColBERT late interaction framing) · 10 Step 3 prior (procedural background swatches) ·
+11 Step 4 gate + NMS funnel · 12 Step 5 multi-crop re-encoding (patch-vs-crop distinction, animated
+  overlay) · 13 One equation (recursive s_c,l note) · 14 Vocab histogram (animated) · 15 Results ·
+16 Levers delta chart · 17 Pareto frontier (measured ms/img log-x vs mAP; global 52 / patch 75 /
+  CWR 1016; C-cluster at base cost, softmax/cls on-frontier by +0.001 noise) · 18 n-grams ·
+19 Beam search tree · 20 Qualitative (three modes) · 21 Meta-conclusion · 22 Prior work + RQ answers ·
+23 Omni deployment · 24 Media shapes · 25 Synthesis · 26 Close.
 
-Reviewed by a 49-agent workflow (per-slide review + adversarial verify + global flow /
-related-work / design auditors); all confirmed findings applied. All numbers were checked against
-the project result files (docs/findings-v5omni-nano.md, docs/accuracy-design-memo.md,
-docs/ttc-paper-eval.md) and omni-macos OmniTagger.swift / IndexSettings.swift; nothing is estimated.
+Editorial rules learned: no conclusions disclosed before their evidence slide (the meta-conclusion
+owns the verdict); lean titles, no "A: B" colon constructions; text-embedding analogies (late
+interaction/ColBERT, split-and-embed) over vision jargon for this audience. All numbers checked
+against project result files and fresh measured latencies; nothing is estimated.
