@@ -174,8 +174,10 @@ just because they sit close to the image modality.//
 So we estimate a per-label prior, mu,
 from a handful of neutral background images, once,
 and we subtract it.
-The thumbnails under the chart are the actual pool.
-Any ordinary images work.
+The strip under the chart shows the actual pools.
+In the study, ordinary photos.
+In the app port, *procedural* neutrals.
+Gradients, flat fields, noise. No real data needed at all.
 A word that scores high on *everything* gets centered to zero.
 Only the image-specific spikes survive.//
 No calibration set. No labels. One offline pass.

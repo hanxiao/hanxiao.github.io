@@ -191,7 +191,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 /* neutral-pool thumbnails (prior slide) */
 .bgpool{display:flex;align-items:center;gap:10px;margin-top:12px;justify-content:center}
-.bgpool img{width:64px;height:46px;object-fit:cover;border-radius:5px;border:1.2px solid var(--hair2)}
+.bgpool img{width:56px;height:40px;object-fit:cover;border-radius:5px;border:1.2px solid var(--hair2)}
 .bgpool .bgarr{color:var(--accent);font-size:19px;font-weight:800}
 .bgpool .bglbl{font-family:var(--mono);font-size:12.5px;font-weight:700}
 
@@ -217,12 +217,18 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 @keyframes cyc22{0%,30%{opacity:0}36%,63%{opacity:1}69%,100%{opacity:0}}
 @keyframes cycc{0%,63%{opacity:0}69%,96%{opacity:1}100%{opacity:0}}
 @media print{.cropov > g{animation:none}.cropov .g33{opacity:1}}
-.croplab{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-family:var(--mono);
+.croplab{position:absolute;bottom:10px;left:10px;background:var(--accent);color:#fff;font-family:var(--mono);
   font-size:12.5px;font-weight:800;letter-spacing:.03em;padding:5px 11px;border-radius:6px;opacity:0;pointer-events:none}
 .croplab.l33{animation:cyc33 7.5s linear infinite}
 .croplab.l22{animation:cyc22 7.5s linear infinite}
 .croplab.lc{animation:cycc 7.5s linear infinite}
 @media print{.croplab{animation:none}.croplab.l33{opacity:1}}
+.cid{position:absolute;font-family:var(--mono);font-size:10px;font-weight:700;background:rgba(28,30,35,.78);
+  color:#fff;padding:1px 5px;border-radius:3px;opacity:0;pointer-events:none}
+.cid.c33{animation:cyc33 7.5s linear infinite}
+.cid.c22{animation:cyc22 7.5s linear infinite}
+.cid.cc{animation:cycc 7.5s linear infinite}
+@media print{.cid{animation:none}.cid.c33{opacity:1}}
 
 /* mode chip rows on the qualitative cards */
 .modeline{display:flex;align-items:flex-start;gap:6px}
@@ -689,10 +695,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <text x="160" y="203" text-anchor="middle" font-family="var(--sans)" font-size="11" fill="#1C1E23">only couch clears its own prior</text>
       </svg>
       <div class="bgpool">
-        <span class="bglbl">the neutral pool</span>
+        <span class="bglbl">study: photos</span>
         <img src="img/cat.jpg" alt=""><img src="img/skate.jpg" alt=""><img src="img/zebra.jpg" alt="">
+        <span class="bglbl" style="margin-left:8px">port: procedural</span>
+        <img src="img/neutral-grad.png" alt=""><img src="img/neutral-flat.png" alt=""><img src="img/neutral-noise.png" alt="">
         <span class="bgarr">&rarr;</span>
-        <span class="bglbl">&mu;<span style="font-size:9px;vertical-align:sub">&#8467;</span> per label</span>
+        <span class="bglbl">&mu;<span style="font-size:9px;vertical-align:sub">&#8467;</span></span>
       </div>
     </div>
   </div>
@@ -759,6 +767,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
             <rect x="25" y="25" width="50" height="50" fill="none" stroke="#0B64DD" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
                       </g>
         </svg>
+        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(0.0% + 4px)">c1</div>
+        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(0.0% + 4px)">c2</div>
+        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(0.0% + 4px)">c3</div>
+        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(33.3% + 4px)">c4</div>
+        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(33.3% + 4px)">c5</div>
+        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(33.3% + 4px)">c6</div>
+        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(66.6% + 4px)">c7</div>
+        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(66.6% + 4px)">c8</div>
+        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(66.6% + 4px)">c9</div>
+        <div class="cid c22" style="left:calc(0% + 4px);top:calc(0% + 4px)">c10</div>
+        <div class="cid c22" style="left:calc(50% + 4px);top:calc(0% + 4px)">c11</div>
+        <div class="cid c22" style="left:calc(0% + 4px);top:calc(50% + 4px)">c12</div>
+        <div class="cid c22" style="left:calc(50% + 4px);top:calc(50% + 4px)">c13</div>
+        <div class="cid cc" style="left:calc(25% + 4px);top:calc(25% + 4px)">c14</div>
         <div class="croplab l33">3&times;3 &middot; 9 crops</div>
         <div class="croplab l22">2&times;2 &middot; 4 crops</div>
         <div class="croplab lc">center &middot; 1 crop</div>
