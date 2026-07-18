@@ -308,14 +308,15 @@ But every pair is grounded in the region it came from.
 And it is still family A. Thirty milliseconds extra.`},
 
   { n:17, sec:40, title:"Beam mechanics",
-    note:`Let me show you the beam, one step at a time, with real numbers.//
+    note:`Here is the whole search space, drawn as a tree, with real numbers.//
 Two open slots, and the noun, kitty.
 The candidates are the region's surviving words.
 And the score of any filled phrase is the encoder's own judgment.
 Embed the phrase, dot it with the region, subtract the bare noun.//
 Depth one. Fill the first slot.
 Couch kitty scores highest. Grey, sleeps, sofa follow.
-We keep the top four. Everything else is pruned.//
+We keep the top four branches.
+The pink branches, fleece, blanket, are pruned. Dead subtrees.//
 Depth two. Fill the second slot on each survivor.
 And here is the moment I love.
 Grey couch kitty, plus point zero nine three.

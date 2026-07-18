@@ -189,6 +189,21 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .vspanel.foil .vsspace{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
 .vspanel.foil .vstag{color:var(--foil-ink)}
 
+/* beam-search tree */
+.btree g.lv{opacity:0;transition:opacity .6s ease}
+.btree g.lv.on{opacity:1}
+.btree .bn{fill:#fff;stroke:#1C1E23;stroke-width:1.4;rx:7}
+.btree .bn.win{stroke:#0B64DD;stroke-width:2.2;fill:#E7EEFC}
+.btree .bn.prn{stroke:#F04E98;stroke-width:1.2}
+.btree text{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-weight:600;fill:#1C1E23}
+.btree .sc2{font-size:11px;fill:#0B64DD}
+.btree .prntxt{fill:#C2186A;text-decoration:line-through}
+.btree .ed{fill:none;stroke:#1C1E23;stroke-width:1.4}
+.btree .ed.prn{stroke:#F04E98;stroke-dasharray:4 3;stroke-width:1.2}
+.btree .ed.win{stroke:#0B64DD;stroke-width:2.6;stroke-dasharray:7 5;animation:march 1s linear infinite}
+.btree .lvh{font-size:11.5px;font-weight:700;letter-spacing:.08em;fill:#1C1E23}
+@media print{.btree g.lv{opacity:1}.btree .ed.win{animation:none}}
+
 /* beam-search slot animation */
 .bstages{display:flex;gap:18px;align-items:stretch;width:100%}
 .bstage{flex:1;border:1.2px solid var(--hair2);border-radius:10px;background:#fff;padding:16px 18px;
@@ -891,35 +906,51 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 17 BEAM SEARCH ============ -->
 <section class="slide">
   <div class="kicker">--ngram --beam &middot; mechanics</div>
-  <h2 class="h-slide sm" style="margin-bottom:20px">Beam search over modifier slots, scored by the encoder itself.</h2>
-  <div class="body" style="justify-content:center;gap:20px">
-    <div class="bstages" id="beamstages">
-      <div class="bstage">
-        <div class="bh">the slots &middot; noun = kitty</div>
-        <div class="slotrow"><span class="slot">?</span><span class="slot">?</span><span class="slot filled">kitty</span></div>
-        <div class="brow"><span>candidates: the region&rsquo;s surviving words</span></div>
-        <div class="brow"><span>couch &middot; grey &middot; sleeps &middot; sofa &middot; fleece &middot; blanket &middot; &hellip;</span></div>
-        <div class="brow" style="margin-top:8px"><span class="nb">score of a filled phrase: \( \langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \)</span></div>
-      </div>
-      <div class="barrow">&rarr;</div>
-      <div class="bstage">
-        <div class="bh">depth 1 &middot; fill slot 1 &middot; keep B = 4</div>
-        <div class="brow kept"><span>couch kitty</span><span class="sc">+0.059</span></div>
-        <div class="brow kept"><span>grey kitty</span><span class="sc">+0.050</span></div>
-        <div class="brow kept"><span>sleeps kitty</span><span class="sc">+0.048</span></div>
-        <div class="brow kept"><span>sofa kitty</span><span class="sc">+0.047</span></div>
-        <div class="brow pruned"><span>fleece kitty &middot; blanket kitty &middot; &hellip;</span><span class="sc">pruned</span></div>
-      </div>
-      <div class="barrow">&rarr;</div>
-      <div class="bstage win">
-        <div class="bh">depth 2 &middot; fill slot 2 &middot; the encoder decides</div>
-        <div class="brow top"><span>grey couch kitty</span><span class="sc">+0.093</span></div>
-        <div class="brow"><span>couch grey kitty <span class="nb">same words, worse order</span></span><span class="sc">+0.091</span></div>
-        <div class="brow"><span>sleeping couch kitty</span><span class="sc">+0.084</span></div>
-        <div class="brow"><span>sleeps couch kitty</span><span class="sc">+0.084</span></div>
-      </div>
-    </div>
-    <p class="takeaway">Every assembled phrase is a real string, embedded and scored by the frozen model. <span class="accent">It ranks &ldquo;grey couch kitty&rdquo; above &ldquo;couch grey kitty&rdquo;: word order resolved with no grammar anywhere.</span></p>
+  <h2 class="h-slide sm" style="margin-bottom:16px">The search space: beam over modifier slots, scored by the encoder.</h2>
+  <div class="body" style="justify-content:center;gap:6px">
+    <p class="cap" style="font-size:15.5px;max-width:86ch">Every node is a real phrase, embedded by the frozen model and scored against the noun&rsquo;s patch region: \( s=\langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \). Beam width 4.</p>
+    <div class="chart" style="height:382px"><svg id="beamtree" class="btree" viewBox="0 0 1080 400" preserveAspectRatio="xMidYMid meet">
+      <text class="lvh" x="60" y="20">NOUN</text>
+      <text class="lvh" x="330" y="20">SLOT 1 &middot; KEEP B=4</text>
+      <text class="lvh" x="700" y="20">SLOT 2 &middot; RESCORED, THE ENCODER DECIDES</text>
+      <g class="lv l0 on">
+        <rect class="bn" x="40" y="185" width="110" height="36" rx="7"/>
+        <text x="95" y="208" text-anchor="middle" font-size="14">kitty</text>
+      </g>
+      <g class="lv l1">
+        <path class="ed" d="M150 203 C 220 203, 240 62, 300 62"/>
+        <path class="ed" d="M150 203 C 220 203, 240 128, 300 128"/>
+        <path class="ed" d="M150 203 C 220 203, 240 194, 300 194"/>
+        <path class="ed" d="M150 203 C 220 203, 240 260, 300 260"/>
+        <path class="ed prn" d="M150 203 C 220 203, 240 318, 300 318"/>
+        <path class="ed prn" d="M150 203 C 220 203, 240 372, 300 372"/>
+        <rect class="bn" x="300" y="46" width="196" height="32" rx="7"/><text x="312" y="67" font-size="12.5">couch kitty</text><text class="sc2" x="484" y="67" text-anchor="end">+0.059</text>
+        <rect class="bn" x="300" y="112" width="196" height="32" rx="7"/><text x="312" y="133" font-size="12.5">grey kitty</text><text class="sc2" x="484" y="133" text-anchor="end">+0.050</text>
+        <rect class="bn" x="300" y="178" width="196" height="32" rx="7"/><text x="312" y="199" font-size="12.5">sleeps kitty</text><text class="sc2" x="484" y="199" text-anchor="end">+0.048</text>
+        <rect class="bn" x="300" y="244" width="196" height="32" rx="7"/><text x="312" y="265" font-size="12.5">sofa kitty</text><text class="sc2" x="484" y="265" text-anchor="end">+0.047</text>
+        <rect class="bn prn" x="300" y="302" width="196" height="32" rx="7"/><text class="prntxt" x="312" y="323" font-size="12.5">fleece kitty</text><text class="sc2" x="484" y="323" text-anchor="end" fill="#C2186A">pruned</text>
+        <rect class="bn prn" x="300" y="356" width="196" height="32" rx="7"/><text class="prntxt" x="312" y="377" font-size="12.5">blanket kitty &middot; &hellip;</text><text class="sc2" x="484" y="377" text-anchor="end" fill="#C2186A">pruned</text>
+      </g>
+      <g class="lv l2">
+        <path class="ed" d="M496 62 C 580 62, 600 100, 670 100"/>
+        <path class="ed" d="M496 128 C 580 128, 600 153, 670 153"/>
+        <path class="ed prn" d="M496 194 C 580 194, 600 282, 670 282"/>
+        <path class="ed prn" d="M496 260 C 580 260, 600 330, 670 330"/>
+        <rect class="bn" x="670" y="84" width="280" height="34" rx="7"/><text x="682" y="106" font-size="13">sleeping couch kitty</text><text class="sc2" x="938" y="106" text-anchor="end">+0.084</text>
+        <rect class="bn" x="670" y="136" width="280" height="34" rx="7"/><text x="682" y="158" font-size="13">couch grey kitty</text><text class="sc2" x="938" y="158" text-anchor="end">+0.091</text>
+        <text x="682" y="186" font-size="10.5" font-family="-apple-system,sans-serif" font-weight="500">same two words, worse order</text>
+        <rect class="bn prn" x="670" y="266" width="280" height="32" rx="7"/><text class="prntxt" x="682" y="287" font-size="12.5">&hellip; below the beam</text>
+        <rect class="bn prn" x="670" y="314" width="280" height="32" rx="7"/><text class="prntxt" x="682" y="335" font-size="12.5">&hellip; below the beam</text>
+      </g>
+      <g class="lv lwin">
+        <path class="ed win" d="M150 203 C 220 203, 240 62, 300 62"/>
+        <path class="ed win" d="M496 62 C 580 62, 600 40, 670 40"/>
+        <rect class="bn win" x="670" y="22" width="280" height="38" rx="8"/>
+        <text x="682" y="46" font-size="14" font-weight="800" fill="#0B64DD">grey couch kitty</text>
+        <text class="sc2" x="938" y="46" text-anchor="end" font-weight="800">+0.093</text>
+      </g>
+    </svg></div>
+    <p class="takeaway" style="font-size:18px">The winning path re-orders its own words: <span class="accent">&ldquo;grey couch kitty&rdquo; beats &ldquo;couch grey kitty&rdquo;</span>. Word order, resolved by an embedding model with no grammar.</p>
   </div>
 </section>
 
@@ -1126,7 +1157,7 @@ function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   if(slides[i].querySelector('#c-vhist')&&window.restartVhist) window.restartVhist();
-  if(slides[i].querySelector('#beamstages')&&window.restartBeam) window.restartBeam();
+  if(slides[i].querySelector('#beamtree')&&window.restartBeam) window.restartBeam();
   pg.textContent=(i+1)+' / '+slides.length;
   footEl.classList.toggle('hidden', i===0 || i===slides.length-1);
   if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
@@ -1349,11 +1380,11 @@ function drawVocabHist(){
 window.restartVhist=drawVocabHist;
 
 window.restartBeam=function(){
-  const w=document.getElementById('beamstages'); if(!w)return;
-  const els=[...w.children];
-  els.forEach(e=>e.classList.remove('on'));
-  if(window.matchMedia&&window.matchMedia('print').matches){els.forEach(e=>e.classList.add('on'));return;}
-  els.forEach((e,k)=>setTimeout(()=>e.classList.add('on'), 400+k*900));
+  const w=document.getElementById('beamtree'); if(!w)return;
+  const lv=[w.querySelector('.l1'),w.querySelector('.l2'),w.querySelector('.lwin')];
+  lv.forEach(e=>e&&e.classList.remove('on'));
+  if(window.matchMedia&&window.matchMedia('print').matches){lv.forEach(e=>e&&e.classList.add('on'));return;}
+  lv.forEach((e,k)=>e&&setTimeout(()=>e.classList.add('on'), 700+k*1100));
 };
 setTimeout(window.restartBeam, 300);
 function renderAll(){fillResults();drawLadder();drawLevers();drawCompute();drawVocabHist();}
