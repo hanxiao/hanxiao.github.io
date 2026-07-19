@@ -607,9 +607,9 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 7 PIPELINE ============ -->
 <section class="slide">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
-    <path class="dline" d="M652 338 C 652 368, 560 358, 548 384"/><path class="dhead" d="M541 376 L548 388 L556 377"/>
-    <path class="dline" d="M877 338 C 877 368, 752 358, 740 384"/><path class="dhead" d="M733 376 L740 388 L748 377"/>
-    <path class="dline" d="M1104 338 C 1104 368, 948 358, 936 384"/><path class="dhead" d="M929 376 L936 388 L944 377"/>
+    <path class="dline" d="M652 338 V 362 H 548 V 384"/><path class="dhead" d="M541 377 L548 389 L555 377"/>
+    <path class="dline" d="M877 338 V 362 H 740 V 384"/><path class="dhead" d="M733 377 L740 389 L747 377"/>
+    <path class="dline" d="M1104 338 V 362 H 936 V 384"/><path class="dhead" d="M929 377 L936 389 L943 377"/>
   </svg>
   <div class="kicker">The pipeline</div>
   <h2 class="h-slide sm">The complete tagger: test-time compute around a frozen forward pass.</h2>
@@ -857,8 +857,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 13 ONE EQUATION ============ -->
 <section class="slide">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
-    <path class="dline" d="M1000 238 C 900 168, 380 162, 218 250"/><path class="dhead" d="M228 240 L214 253 L232 257"/>
-    <text x="600" y="180" text-anchor="middle" font-family="SF Mono,ui-monospace,monospace" font-size="13" font-weight="700" fill="#0B64DD">the same score \(s_\ell\), applied to each crop as a fresh image</text>
+    <path class="dline" d="M1000 238 V 178 H 218 V 242"/><path class="dhead" d="M210 234 L218 246 L226 234"/>
+    <text x="600" y="168" text-anchor="middle" font-family="SF Mono,ui-monospace,monospace" font-size="13" font-weight="700" fill="#0B64DD">the same score \(s_\ell\), applied to each crop as a fresh image</text>
   </svg>
   <div class="kicker">All five steps, assembled</div>
   <h2 class="h-slide sm">The entire tagger is one scoring function.</h2>
@@ -978,12 +978,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <text x="95" y="208" text-anchor="middle" font-size="14">kitty</text>
       </g>
       <g class="lv l1">
-        <path class="ed" d="M150 203 C 220 203, 240 62, 300 62"/>
-        <path class="ed" d="M150 203 C 220 203, 240 128, 300 128"/>
-        <path class="ed" d="M150 203 C 220 203, 240 194, 300 194"/>
-        <path class="ed" d="M150 203 C 220 203, 240 260, 300 260"/>
-        <path class="ed prn" d="M150 203 C 220 203, 240 318, 300 318"/>
-        <path class="ed prn" d="M150 203 C 220 203, 240 372, 300 372"/>
+        <path class="ed" d="M150 203 H 240 V 62 H 300"/>
+        <path class="ed" d="M150 203 H 240 V 128 H 300"/>
+        <path class="ed" d="M150 203 H 240 V 194 H 300"/>
+        <path class="ed" d="M150 203 H 240 V 260 H 300"/>
+        <path class="ed prn" d="M150 203 H 240 V 318 H 300"/>
+        <path class="ed prn" d="M150 203 H 240 V 372 H 300"/>
         <rect class="bn" x="300" y="46" width="196" height="32" rx="7"/><text x="312" y="67" font-size="12.5">couch kitty</text><text class="sc2" x="484" y="67" text-anchor="end">+0.059</text>
         <rect class="bn" x="300" y="112" width="196" height="32" rx="7"/><text x="312" y="133" font-size="12.5">grey kitty</text><text class="sc2" x="484" y="133" text-anchor="end">+0.050</text>
         <rect class="bn" x="300" y="178" width="196" height="32" rx="7"/><text x="312" y="199" font-size="12.5">sleeps kitty</text><text class="sc2" x="484" y="199" text-anchor="end">+0.048</text>
@@ -992,10 +992,10 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <rect class="bn prn" x="300" y="356" width="196" height="32" rx="7"/><text class="prntxt" x="312" y="377" font-size="12.5">blanket kitty &middot; &hellip;</text><text class="sc2" x="484" y="377" text-anchor="end" fill="#C2186A">pruned</text>
       </g>
       <g class="lv l2">
-        <path class="ed" d="M496 62 C 580 62, 600 100, 670 100"/>
-        <path class="ed" d="M496 128 C 580 128, 600 153, 670 153"/>
-        <path class="ed prn" d="M496 194 C 580 194, 600 282, 670 282"/>
-        <path class="ed prn" d="M496 260 C 580 260, 600 330, 670 330"/>
+        <path class="ed" d="M496 62 H 600 V 100 H 670"/>
+        <path class="ed" d="M496 128 H 600 V 153 H 670"/>
+        <path class="ed prn" d="M496 194 H 600 V 282 H 670"/>
+        <path class="ed prn" d="M496 260 H 600 V 330 H 670"/>
         <rect class="bn" x="670" y="84" width="280" height="34" rx="7"/><text x="682" y="106" font-size="13">sleeping couch kitty</text><text class="sc2" x="938" y="106" text-anchor="end">+0.084</text>
         <rect class="bn" x="670" y="136" width="280" height="34" rx="7"/><text x="682" y="158" font-size="13">couch grey kitty</text><text class="sc2" x="938" y="158" text-anchor="end">+0.091</text>
         <text x="682" y="186" font-size="10.5" font-family="-apple-system,sans-serif" font-weight="500">same two words, worse order</text>
@@ -1003,8 +1003,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <rect class="bn prn" x="670" y="314" width="280" height="32" rx="7"/><text class="prntxt" x="682" y="335" font-size="12.5">&hellip; below the beam</text>
       </g>
       <g class="lv lwin">
-        <path class="ed win" d="M150 203 C 220 203, 240 62, 300 62"/>
-        <path class="ed win" d="M496 62 C 580 62, 600 49, 670 49"/>
+        <path class="ed win" d="M150 203 H 240 V 62 H 300"/>
+        <path class="ed win" d="M496 62 H 600 V 49 H 670"/>
         <rect class="bn win" x="670" y="30" width="280" height="38" rx="8"/>
         <text x="682" y="54" font-size="14" font-weight="800" fill="#0B64DD">grey couch kitty</text>
         <text class="sc2" x="938" y="54" text-anchor="end" font-weight="800">+0.093</text>
