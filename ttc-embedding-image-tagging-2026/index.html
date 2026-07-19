@@ -931,14 +931,28 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
-  <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers, measured.</h2>
+  <h2 class="h-slide sm" style="margin-bottom:14px">Does bootstrapping scale accuracy at test time?</h2>
   <div class="body" style="justify-content:center;gap:8px">
-    <p class="cap" style="max-width:88ch;font-size:16.5px">RQ2, answered by measurement: every published lever, re-implemented. Levers apply to different pipelines; each is measured against its own baseline.</p>
-    <div class="chart" style="height:392px"><div id="c-levers" style="height:100%"></div></div>
+    <p class="cap" style="max-width:96ch;font-size:15.5px">Take one: <strong>OTTER</strong> re-balances the per-label scores toward a target class distribution by optimal transport &mdash; a pure re-arrangement of vectors it already has. It is applied on top of the 5-crop CWR pipeline, so its baseline is <strong>0.693</strong>, not the 0.635 patch baseline (open circle = the pipeline each lever modifies, filled = its result). Result: +0.006, noise.</p>
+    <div class="chart" style="height:388px"><div id="c-levers" style="height:100%"></div></div>
   </div>
 </section>
 
-<!-- ============ 17 PARETO ============ -->
+<!-- ============ 17 META CONCLUSION ============ -->
+<section class="slide">
+  <div class="kicker">The meta-conclusion</div>
+  <h2 class="h-slide sm">Only new information moves accuracy.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:80ch">Bootstrap methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
+    <div class="cards">
+      <div class="card foilcard"><div class="ttl">Bootstrap (family C)</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
+      <div class="card hero"><div class="ttl accent">Feeding new information</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only intervention that improves results.</div></div>
+    </div>
+    <p class="takeaway">The ceiling is the 1B model itself. Real test-time compute here means <span class="accent">giving the model more to look at</span>, not re-arranging what it already saw.</p>
+  </div>
+</section>
+
+<!-- ============ 18 PARETO ============ -->
 <section class="slide">
   <div class="kicker">The frontier</div>
   <h2 class="h-slide sm">Accuracy versus test-time compute.</h2>
@@ -948,7 +962,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 18 NGRAM ============ -->
+<!-- ============ 19 NGRAM ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --ngram</div>
   <h2 class="h-slide sm">Extend to n-grams.</h2>
@@ -975,7 +989,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 BEAM SEARCH ============ -->
+<!-- ============ 20 BEAM SEARCH ============ -->
 <section class="slide">
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over n-gram slots.</h2>
@@ -1033,7 +1047,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 QUALITATIVE ============ -->
+<!-- ============ 21 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Out-of-distribution photos.</h2>
@@ -1065,20 +1079,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       </div>
     </div>
     <p class="takeaway" style="margin-top:22px">14-crop re-encoding and beam-searched n-grams, on unstaged photos. <span class="accent">All outputs verbatim, unfiltered.</span></p>
-  </div>
-</section>
-
-<!-- ============ 21 META CONCLUSION ============ -->
-<section class="slide">
-  <div class="kicker">The meta-conclusion</div>
-  <h2 class="h-slide sm">Only new information moves accuracy.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:80ch">Bootstrap methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
-    <div class="cards">
-      <div class="card foilcard"><div class="ttl">Bootstrap (family C)</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
-      <div class="card hero"><div class="ttl accent">Feeding new information</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only intervention that improves results.</div></div>
-    </div>
-    <p class="takeaway">The ceiling is the 1B model itself. Real test-time compute here means <span class="accent">giving the model more to look at</span>, not re-arranging what it already saw.</p>
   </div>
 </section>
 

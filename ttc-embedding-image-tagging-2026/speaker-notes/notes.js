@@ -272,7 +272,7 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:40, title:"The levers chart",
+  { n:16, sec:40, title:"Does bootstrapping scale?",
     note:`Now, research question two, answered by measurement.
 We re-implemented every training-free lever from the recent literature,
 on *this* pipeline, on the *same* benchmark.
@@ -296,7 +296,23 @@ either does nothing or *breaks*, from wherever it starts.
 Only one lever moves right.
 Multi-crop re-encoding, plus point zero seven five.`},
 
-  { n:17, sec:42, title:"The frontier",
+  { n:17, sec:40, title:"The meta-conclusion",
+    note:`So here is the meta-conclusion, and it is the real payoff.//
+Every method that *re-processes* the existing features
+is a no-op or a collapse.
+Why?
+Because those methods were designed for
+weakly calibrated, *single-label*, two-tower CLIP.
+This encoder's space is *already* aligned, already calibrated,
+and already multi-label.
+There is nothing left to recover by re-arranging it.//
+The only thing that moves the ceiling
+is *supplying the model with new pixels*.
+Family C is the one that does not scale.
+Real test-time compute means giving the model more to *look at*,
+not re-arranging what it already saw.`},
+
+  { n:18, sec:42, title:"The frontier",
     note:`And here is everything on one chart.
 Accuracy, against *measured* latency per image. Log scale.//
 The frontier runs through four points.
@@ -318,7 +334,7 @@ That is why it is not adopted.
 Free re-arrangement buys noise.
 Re-encoding buys seven and a half points.`},
 
-  { n:18, sec:46, title:"Patch-local n-grams",
+  { n:19, sec:46, title:"Patch-local n-grams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.
@@ -356,7 +372,7 @@ like cat plush.
 But every pair is grounded in the region it came from.
 And it is still family A. Thirty milliseconds extra.`},
 
-  { n:19, sec:40, title:"Beam mechanics",
+  { n:20, sec:40, title:"Beam mechanics",
     note:`Here is the whole search space, drawn as a tree, with real numbers.//
 Top left is the phrase template.
 Two open slots, then the noun, kitty, fixed.
@@ -377,7 +393,7 @@ The encoder prefers the attribute *first*.
 Word order, resolved by an embedding model,
 with no grammar anywhere in the system.`},
 
-  { n:20, sec:28, title:"Qualitative results",
+  { n:21, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 Each card shows fourteen-crop re-encoding,
 and beam-searched n-grams at two and at three.
@@ -388,22 +404,6 @@ The corridor, attendees, commuters, demonstrators.
 And one miss survives, synagogue.
 That is the direct cost of a *zero-annotation* open vocabulary,
 and I would rather show it than hide it.`},
-
-  { n:21, sec:40, title:"The meta-conclusion",
-    note:`So here is the meta-conclusion, and it is the real payoff.//
-Every method that *re-processes* the existing features
-is a no-op or a collapse.
-Why?
-Because those methods were designed for
-weakly calibrated, *single-label*, two-tower CLIP.
-This encoder's space is *already* aligned, already calibrated,
-and already multi-label.
-There is nothing left to recover by re-arranging it.//
-The only thing that moves the ceiling
-is *supplying the model with new pixels*.
-Family C is the one that does not scale.
-Real test-time compute means giving the model more to *look at*,
-not re-arranging what it already saw.`},
 
   { n:22, sec:32, title:"Relation to prior work",
     note:`To place this against the literature, in one table.
