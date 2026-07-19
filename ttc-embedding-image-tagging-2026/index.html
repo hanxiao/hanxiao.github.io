@@ -933,7 +933,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:14px">Does bootstrapping scale accuracy at test time?</h2>
   <div class="body" style="justify-content:center;gap:8px">
-    <p class="cap" style="max-width:98ch;font-size:15px">Take one: <strong>OTTER</strong> re-balances the per-label scores toward a target class distribution by optimal transport &mdash; a pure re-arrangement of vectors it already has. Applied on the 5-crop CWR pipeline, so its baseline is the 5-crop result <strong>0.693</strong>, not the 0.635 patch baseline (open circle = the pipeline each lever modifies, filled = its result). Result: +0.006, noise. It only corrects base-rate calibration, already removed by our prior subtraction, so the crop count underneath does not change the verdict.</p>
+    <p class="cap" style="max-width:80ch;font-size:16px">One example: <strong>OTTER</strong> re-balances scores toward a target class distribution &mdash; a pure re-arrangement. Its baseline (open circle) is the 5-crop result <strong>0.693</strong>, not 0.635; it lands at 0.699.</p>
     <div class="chart" style="height:388px"><div id="c-levers" style="height:100%"></div></div>
   </div>
 </section>
