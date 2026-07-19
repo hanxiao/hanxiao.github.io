@@ -545,80 +545,136 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 6 PIPELINE ============ -->
+<!-- ============ 6 ARCHITECTURE ============ -->
 <section class="slide">
-  <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
-    <path class="dline" d="M965 396 V 438 H 110 V 468"/><path class="dhead" d="M103 461 L110 473 L117 461"/><text x="600" y="426" font-family="SF Mono,ui-monospace,monospace" font-size="11" font-weight="700" fill="#0B64DD">P, g, E → per-image pipeline</text>
-  </svg>
-  <div class="kicker">The pipeline</div>
-  <h2 class="h-slide sm" style="margin-bottom:20px">The complete tagger, on one frozen forward pass.</h2>
-  <div class="body" style="justify-content:center;gap:6px">
-    <div class="mstage">
-      <!-- encoder row -->
-      <div class="menc">
-        <div class="mcol">
-          <div>
-            <div class="patchimg"><img src="img/cat.jpg" alt="input image">
-              <svg viewBox="0 0 132 88" aria-hidden="true">
-                <g stroke="#fff" stroke-width="0.5" opacity="0.7">
-                  <line x1="16.5" y1="0" x2="16.5" y2="88"/><line x1="33" y1="0" x2="33" y2="88"/><line x1="49.5" y1="0" x2="49.5" y2="88"/><line x1="66" y1="0" x2="66" y2="88"/><line x1="82.5" y1="0" x2="82.5" y2="88"/><line x1="99" y1="0" x2="99" y2="88"/><line x1="115.5" y1="0" x2="115.5" y2="88"/>
-                  <line x1="0" y1="17.6" x2="132" y2="17.6"/><line x1="0" y1="35.2" x2="132" y2="35.2"/><line x1="0" y1="52.8" x2="132" y2="52.8"/><line x1="0" y1="70.4" x2="132" y2="70.4"/>
-                </g>
-                <rect x="66" y="35.2" width="16.5" height="17.6" fill="none" stroke="#0B64DD" stroke-width="1.6"/>
-              </svg>
-            </div>
-            <div class="mlbl" style="color:var(--accent)">image &middot; per pass</div>
+  <div class="kicker">The model &middot; architecture</div>
+  <h2 class="h-slide sm">One frozen checkpoint, two input paths, one 768-d space.</h2>
+  <div class="body" style="justify-content:center;gap:18px">
+    <div class="archrow">
+      <div class="archin">
+        <div>
+          <div class="patchimg"><img src="img/cat.jpg" alt="input image">
+            <svg viewBox="0 0 158 106" aria-hidden="true">
+              <g stroke="#fff" stroke-width="0.55" opacity="0.75">
+                <line x1="9.9" y1="0" x2="9.9" y2="106"/>
+                <line x1="19.8" y1="0" x2="19.8" y2="106"/>
+                <line x1="29.6" y1="0" x2="29.6" y2="106"/>
+                <line x1="39.5" y1="0" x2="39.5" y2="106"/>
+                <line x1="49.4" y1="0" x2="49.4" y2="106"/>
+                <line x1="59.2" y1="0" x2="59.2" y2="106"/>
+                <line x1="69.1" y1="0" x2="69.1" y2="106"/>
+                <line x1="79.0" y1="0" x2="79.0" y2="106"/>
+                <line x1="88.9" y1="0" x2="88.9" y2="106"/>
+                <line x1="98.8" y1="0" x2="98.8" y2="106"/>
+                <line x1="108.6" y1="0" x2="108.6" y2="106"/>
+                <line x1="118.5" y1="0" x2="118.5" y2="106"/>
+                <line x1="128.4" y1="0" x2="128.4" y2="106"/>
+                <line x1="138.2" y1="0" x2="138.2" y2="106"/>
+                <line x1="148.1" y1="0" x2="148.1" y2="106"/>
+                <line x1="0" y1="9.6" x2="158" y2="9.6"/>
+                <line x1="0" y1="19.3" x2="158" y2="19.3"/>
+                <line x1="0" y1="28.9" x2="158" y2="28.9"/>
+                <line x1="0" y1="38.6" x2="158" y2="38.6"/>
+                <line x1="0" y1="48.2" x2="158" y2="48.2"/>
+                <line x1="0" y1="57.8" x2="158" y2="57.8"/>
+                <line x1="0" y1="67.5" x2="158" y2="67.5"/>
+                <line x1="0" y1="77.1" x2="158" y2="77.1"/>
+                <line x1="0" y1="86.8" x2="158" y2="86.8"/>
+                <line x1="0" y1="96.4" x2="158" y2="96.4"/>
+              </g>
+              <rect x="79" y="38.6" width="9.9" height="9.6" fill="none" stroke="#0B64DD" stroke-width="1.8"/>
+            </svg>
           </div>
-          <div>
-            <div class="tokstack">
-              <div class="tks t1">cat</div><div class="tks t2">coche</div><div class="tks t3">&#27227;</div>
-              <div class="tkn">&times; 128,260 tokens</div>
-            </div>
-            <div class="mlbl">vocabulary &middot; encoded once</div>
-          </div>
+          <div class="inlbl" style="color:var(--accent)">per image &middot; test time</div>
         </div>
-        <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="momni">
-          <div class="omnihd">jina-embeddings-v5-omni-nano</div>
-          <div class="twins">
-            <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches</div></div>
-            <div class="aarr"><svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="14" y2="7"/><path class="dhead" d="M10 2 L17 7 L10 12"/></svg></div>
-            <div class="fbox sub"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div></div>
+        <div>
+          <div class="tokstack">
+            <div class="tks t1">cat</div><div class="tks t2">coche</div><div class="tks t3">&#27227;</div>
+            <div class="tkn">&times; 128,260 tokens</div>
           </div>
-          <div class="omnifoot">frozen &middot; never modified, never retrained</div>
-        </div>
-        <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="mout">
-          <div class="outrow">
-            <svg width="40" height="34" viewBox="0 0 40 34"><g fill="#0B64DD"><rect x="2" y="2" width="36" height="5" rx="2"/><rect x="2" y="10" width="36" height="5" rx="2"/><rect x="2" y="18" width="36" height="5" rx="2" opacity=".55"/><rect x="2" y="26" width="36" height="5" rx="2"/></g></svg>
-            <div class="od"><b>\(P\)</b> patch rows &middot; <b>\(g\)</b> global<br><span style="font-size:11px">per image</span></div>
-          </div>
-          <div class="outrow">
-            <svg width="40" height="38" viewBox="0 0 40 38"><g fill="none" stroke="#0B64DD" stroke-width="2"><rect x="3" y="2" width="34" height="34" rx="3"/><line x1="3" y1="11" x2="37" y2="11"/><line x1="3" y1="20" x2="37" y2="20"/><line x1="3" y1="29" x2="37" y2="29"/></g></svg>
-            <div class="od"><b>\(E\)</b> label matrix, 25,465 words<br><span style="font-size:11px">offline, cached once</span></div>
-          </div>
+          <div class="inlbl">vocabulary &middot; encoded once</div>
         </div>
       </div>
-      <!-- per-image pipeline row -->
-      <div class="lane" style="margin-top:12px;width:100%">
-        <div class="flow">
-          <div class="fbox lit compact"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global fuse</div></div>
-          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-          <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
-          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-          <div class="fbox compact"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
-          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-          <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
-          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-          <div class="fbox compact" style="border-color:var(--teal-ink);border-width:1.6px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>--hq: +14 crops</div><div class="fd">re-encode, per-label max</div></div>
+      <div class="archarrs"><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline static" x1="0" y1="7" x2="18" y2="7"/><path class="dhead static" d="M14 2 L21 7 L14 12"/></svg></div></div>
+      <div class="omni">
+        <div class="omnihd">jina-embeddings-v5-omni-nano</div>
+        <div class="omnigrid">
+          <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches<br>2&times;2 merge</div></div>
+          <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+          <div class="fbox sub" style="grid-column:3;grid-row:1"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div><div class="inj">vision tokens injected at<br>image-token positions</div></div>
+        </div>
+        <div class="omnifoot">never modified, never retrained</div>
+      </div>
+      <div class="archarrs"><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline static" x1="0" y1="7" x2="18" y2="7"/><path class="dhead static" d="M14 2 L21 7 L14 12"/></svg></div></div>
+      <div class="outcol" style="max-width:330px">
+        <div class="outrow">
+          <svg width="46" height="38" viewBox="0 0 46 38"><g fill="#0B64DD"><rect x="2" y="2" width="42" height="6" rx="2"/><rect x="2" y="11" width="42" height="6" rx="2"/><rect x="2" y="20" width="42" height="6" rx="2" opacity=".55"/><rect x="2" y="29" width="42" height="6" rx="2"/></g></svg>
+          <div class="od"><b>\(P\)</b>: one 768-d row per patch (the tower&rsquo;s internal 16 px unit), each vector shaped by attention over the <em>whole</em> image</div>
+        </div>
+        <div class="outrow">
+          <svg width="46" height="20" viewBox="0 0 46 20"><circle cx="23" cy="10" r="8" fill="#1C1E23"/></svg>
+          <div class="od"><b>\(g\)</b>: one vector for the whole image, pooled from the last token of the same sequence</div>
+        </div>
+        <div class="outrow">
+          <svg width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#0B64DD" stroke-width="2.2"><rect x="4" y="3" width="38" height="38" rx="3"/><line x1="4" y1="13" x2="42" y2="13"/><line x1="4" y1="23" x2="42" y2="23"/><line x1="4" y1="33" x2="42" y2="33"/></g></svg>
+          <div class="od"><b>\(E\)</b>: label matrix, 128,260 &times; 768; gated to 25,465 words at scoring</div>
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:8px">One frozen encoder makes \(P\), \(g\), \(E\); the rest is arithmetic. <span class="accent">A</span> reads more of the pass, <span style="color:var(--teal-ink);font-weight:700">B</span> runs more passes.</p>
+    <p class="takeaway" style="margin-top:4px">Both paths end in the same space, so \( \langle p,\,e_\ell\rangle \) is well-defined: <span class="accent">any patch of any image, scored against any word the model knows</span>.</p>
   </div>
 </section>
 
-<!-- ============ 7 STEP 1: LABEL SPACE ============ -->
+<!-- ============ 7 PIPELINE ============ -->
+<section class="slide">
+  <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
+    <path class="dline" d="M652 338 V 362 H 548 V 384"/><path class="dhead" d="M541 377 L548 389 L555 377"/>
+    <path class="dline" d="M877 338 V 362 H 740 V 384"/><path class="dhead" d="M733 377 L740 389 L747 377"/>
+    <path class="dline" d="M1104 338 V 362 H 936 V 384"/><path class="dhead" d="M929 377 L936 389 L943 377"/>
+  </svg>
+  <div class="kicker">The pipeline</div>
+  <h2 class="h-slide sm">The complete tagger: test-time compute around a frozen forward pass.</h2>
+  <div class="body" style="justify-content:center;gap:26px">
+    <div class="lane">
+      <div class="lhd">Offline</div>
+      <div class="flow">
+        <div class="fbox compact"><div class="fn">tokenizer vocab</div><div class="fd">128,260 tokens</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact"><div class="fn">encode_text</div><div class="fd">the same frozen tower</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact"><div class="fn">label matrix \(E\)</div><div class="fd">128,260 &times; 768</div></div>
+        <div style="flex:0 0 26px"></div>
+        <div class="fbox compact"><div class="fn">background prior \(\mu\)</div><div class="fd">from neutral images</div></div>
+        <div style="flex:0 0 26px"></div>
+        <div class="fbox compact"><div class="fn">word-start gate</div><div class="fd">&rarr; 25,465 words</div></div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lhd">Per image</div>
+      <div class="flow">
+        <div class="fbox compact"><div class="fn">image</div><div class="fd">one frozen forward</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact"><div class="fn">\(P,\;g\)</div><div class="fd">patches + global</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox lit compact"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global fuse</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
+        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
+      </div>
+      <div class="flow" style="justify-content:flex-start;gap:0;margin-top:2px">
+        <div style="flex:0 0 176px"></div>
+        <div class="fbox compact" style="flex:0 0 auto;border-color:var(--teal-ink);border-width:1.6px;padding:10px 16px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>--hq: 14 crops &rarr; same model &rarr; per-label max</div><div class="fd">adds into the score, weight 1.3</div></div>
+        <div class="farr"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><line class="dline" style="stroke:var(--teal-ink)" x1="3" y1="19" x2="15" y2="7"/><path class="dhead" style="stroke:var(--teal-ink)" d="M9 5 L17 5 L17 13"/></svg></div>
+      </div>
+    </div>
+    <p class="takeaway">Every box is the frozen model or plain arithmetic: <span class="accent">A</span> reads more of one pass; <span style="color:var(--teal-ink);font-weight:700">B</span> runs new passes on new pixels.</p>
+  </div>
+</section>
+
+<!-- ============ 8 STEP 1: LABEL SPACE ============ -->
 <section class="slide">
   <div class="kicker">Step 1 · the label space</div>
   <h2 class="h-slide sm">The label set is the tokenizer's own vocabulary.</h2>
@@ -640,7 +696,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 8 STEP 2: PATCH MAXSIM ============ -->
+<!-- ============ 9 STEP 2: PATCH MAXSIM ============ -->
 <section class="slide">
   <div class="kicker">Step 2 · where to look</div>
   <h2 class="h-slide sm">Score every patch.</h2>
@@ -695,7 +751,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 9 STEP 3: PRIOR ============ -->
+<!-- ============ 10 STEP 3: PRIOR ============ -->
 <section class="slide">
   <div class="kicker">Step 3 · de-bias</div>
   <h2 class="h-slide sm">Subtract the per-label prior.</h2>
@@ -735,7 +791,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 10 STEP 4: GATE + NMS ============ -->
+<!-- ============ 11 STEP 4: GATE + NMS ============ -->
 <section class="slide">
   <div class="kicker">Step 4 · clean up</div>
   <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
@@ -767,7 +823,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 11 STEP 5: CWR ============ -->
+<!-- ============ 12 STEP 5: CWR ============ -->
 <section class="slide">
   <div class="kicker">Step 5 · new views</div>
   <h2 class="h-slide sm">Multi-crop re-encoding.</h2>
@@ -819,7 +875,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 12 ONE EQUATION ============ -->
+<!-- ============ 13 ONE EQUATION ============ -->
 <section class="slide">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
     <path class="dline" d="M1000 238 V 178 H 218 V 242"/><path class="dhead" d="M210 234 L218 246 L226 234"/>
@@ -843,7 +899,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 13 VOCAB HISTOGRAM ============ -->
+<!-- ============ 14 VOCAB HISTOGRAM ============ -->
 <section class="slide">
   <div class="kicker">The equation, visualized</div>
   <h2 class="h-slide sm" style="margin-bottom:14px">The pipeline sharpens a distribution.</h2>
@@ -853,7 +909,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 14 RESULTS ============ -->
+<!-- ============ 15 RESULTS ============ -->
 <section class="slide">
   <div class="kicker">Results</div>
   <h2 class="h-slide sm">Results on COCO-150.</h2>
@@ -872,7 +928,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 15 THE LEVERS ============ -->
+<!-- ============ 16 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers, measured.</h2>
@@ -882,7 +938,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 16 PARETO ============ -->
+<!-- ============ 17 PARETO ============ -->
 <section class="slide">
   <div class="kicker">The frontier</div>
   <h2 class="h-slide sm">Accuracy versus test-time compute.</h2>
@@ -892,7 +948,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 17 NGRAM ============ -->
+<!-- ============ 18 NGRAM ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --ngram</div>
   <h2 class="h-slide sm">Patch-local n-grams.</h2>
@@ -919,7 +975,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 18 BEAM SEARCH ============ -->
+<!-- ============ 19 BEAM SEARCH ============ -->
 <section class="slide">
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over modifier slots.</h2>
@@ -979,7 +1035,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 QUALITATIVE ============ -->
+<!-- ============ 20 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Out-of-distribution photos.</h2>
@@ -1014,7 +1070,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 META CONCLUSION ============ -->
+<!-- ============ 21 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Only new information moves accuracy.</h2>
@@ -1028,7 +1084,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 21 PRIOR WORK ============ -->
+<!-- ============ 22 PRIOR WORK ============ -->
 <section class="slide">
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
@@ -1046,7 +1102,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 22 OMNI ============ -->
+<!-- ============ 23 OMNI ============ -->
 <section class="slide">
   <div class="kicker">Deployment</div>
   <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
@@ -1077,7 +1133,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 23 MEDIA SHAPES ============ -->
+<!-- ============ 24 MEDIA SHAPES ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
   <h2 class="h-slide sm">Images, video, and scanned documents.</h2>
@@ -1107,7 +1163,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 24 SYNTHESIS ============ -->
+<!-- ============ 25 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
   <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
@@ -1121,7 +1177,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 25 CLOSE ============ -->
+<!-- ============ 26 CLOSE ============ -->
 <section class="slide closing">
   <h1>Scaling test-time compute of an<br>embedding model <span class="hl">unlocks tasks<br>beyond retrieval.</span></h1>
   <div class="auth" style="margin-top:36px">
