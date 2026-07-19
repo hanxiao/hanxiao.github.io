@@ -19,8 +19,8 @@ window.DATA = {
 ],
 
 /* ---- the levers we tried, as DELTA vs the pipeline each method was applied to.
-   OTTER/BCA ran on the CWR-augmented scores (base 0.693); soft-trim replaced max in
-   14-crop CWR (base 0.710); the rest ran on the patch-fuse baseline (0.635).
+   OTTER/BCA ran on the 5-CROP CWR pipeline (base 0.693, measured 407 ms); soft-trim replaced
+   max in 14-crop CWR (base 0.710); the rest ran on the patch-fuse baseline (0.635).
    All endpoints verified in docs/ttc-paper-eval.md / accuracy-design-memo.md. ---- */
 "levers": [
   {"name":"CWR multi-crop (family B)","base":0.635,"to":0.710,"verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
@@ -68,7 +68,7 @@ window.DATA = {
    post-processing on cached scores; measured worst-case cost < 0.1 ms/img, so they plot at the
    latency of the pipeline they modify. softmax-over-classes edges patch by +0.001 (noise). ---- */
 "pareto": {
- "frontier": ["global","patch fuse","softmax/cls","+CWR 14-crop"],
+ "frontier": ["global","patch fuse","softmax/cls","+CWR 5-crop","+CWR 14-crop"],
  "points": [
   {"name":"global",        "ms":52,   "map":0.264, "fam":"A", "la":"start", "dx":11},
   {"name":"patch fuse",    "ms":75,   "map":0.635, "fam":"A", "la":"end",   "dx":-12, "dy":12},
@@ -78,10 +78,11 @@ window.DATA = {
   {"name":"EM-Dirichlet",  "ms":75,   "map":0.170, "fam":"C", "lbl":false},
   {"name":"ZLaP",          "ms":75,   "map":0.140, "fam":"C", "lbl":false},
   {"name":"whitening",     "ms":75,   "map":0.060, "fam":"C", "lbl":false},
+  {"name":"+CWR 5-crop",   "ms":407,  "map":0.693, "fam":"B", "la":"end",   "dx":-12, "dy":18},
+  {"name":"OTTER",         "ms":407,  "map":0.699, "fam":"C", "la":"start", "dx":11,  "dy":-8},
+  {"name":"BCA (no-op)",   "ms":407,  "map":0.693, "fam":"C", "jx":12, "la":"start", "dx":11,  "dy":12},
   {"name":"+CWR 14-crop",  "ms":1016, "map":0.710, "fam":"B", "la":"end",   "dx":-12, "dy":-8},
-  {"name":"OTTER",         "ms":1016, "map":0.699, "fam":"C", "la":"start", "dx":11,  "dy":-8},
-  {"name":"BCA",           "ms":1016, "map":0.693, "fam":"C", "la":"start", "dx":11,  "dy":8},
-  {"name":"soft-trim",     "ms":1016, "map":0.671, "fam":"C", "la":"start", "dx":11,  "dy":22}
+  {"name":"soft-trim",     "ms":1016, "map":0.671, "fam":"C", "la":"start", "dx":11,  "dy":4}
  ]
 },
 

@@ -279,41 +279,46 @@ now with the full ablation behind it.`},
     note:`Now, research question two, answered by measurement.
 We re-implemented every training-free lever from the recent literature,
 on *this* pipeline, on the *same* benchmark.
-And to be scrupulously fair,
-each bar shows the *change* in accuracy
-relative to the pipeline that method was applied to.
-The dashed line is zero. No effect.//
+And to be scrupulously fair, every lever is drawn
+from the pipeline it modifies, the open circle,
+to its result, the filled circle.
+Three different baselines, the dashed lines.
+Patch at point six three five.
+Five crop at point six nine three.
+Fourteen crop at point seven one.//
 Look at the pink bars.
 Changing the layer, minus point four eight.
 Whitening, minus point five eight.
 Graph label propagation, minus point five.
 Dirichlet, minus point four seven.
-Optimal transport, plus point zero zero six. Noise.
+Optimal transport, plus point zero zero six over its own base. Noise.
 Bayesian priors, exactly zero.
 Robust crop trimming, *negative*.//
 Every published method
-either does nothing or *breaks*.
-Only one bar is positive.
+either does nothing or *breaks*, from wherever it starts.
+Only one lever moves right.
 Multi-crop re-encoding, plus point zero seven five.`},
 
   { n:17, sec:42, title:"The frontier",
     note:`And here is everything on one chart.
 Accuracy, against *measured* latency per image. Log scale.//
-The frontier runs through three points.
+The frontier runs through four points.
 Global only, fifty-two milliseconds, point two six.
 Patch fusion, seventy-five milliseconds, point six three.
-Fourteen-crop re-encoding, one second, point seven one.
+Five-crop re-encoding, four hundred milliseconds, point six nine.
+Fourteen-crop, one second, point seven one.
 Read more of the pass, then re-encode new views.//
 Now the pink points.
-Every re-processing method costs almost nothing,
-under a tenth of a millisecond, measured.
-So they sit at the *same* latency as the pipeline they modify.
-And at that latency, they are at or below the frontier.//
-One honest footnote.
-Softmax over classes lands a thousandth *above* patch fusion.
-Noise level. I put it on the frontier anyway.
-The picture does not change.
-Free re-arrangement buys a thousandth.
+Re-processing costs under a tenth of a millisecond, measured.
+So each one sits at the latency of the pipeline it modifies,
+at or below the frontier.//
+Two honest footnotes.
+Softmax over classes lands a thousandth above patch fusion.
+Noise level. It is on the frontier anyway.
+And OTTER lands six thousandths above five-crop on mAP,
+but its precision at three *collapses*, point four five to point three.
+That is why it is not adopted.
+Free re-arrangement buys noise.
 Re-encoding buys seven and a half points.`},
 
   { n:18, sec:46, title:"Patch-local n-grams",
@@ -339,10 +344,9 @@ once the noun's concept is removed.
 And the construction iterates.
 Suppress again, and the next survivor joins.
 Couch fleece kitty. Grey blanket cosy.//
-One step further, and this is new.
-The greedy pick never scores the *phrase*.
-With beam search, the encoder itself scores assembled phrases
-against the region, and it promotes *grey couch kitty*.
+And the phrases you see are chosen by *beam search*, the default.
+The encoder itself scores each assembled phrase against the region,
+and it promotes *grey couch kitty*.
 It even prefers attribute *first* order over the alternatives.
 Composition emerges from the embedding space.
 No grammar anywhere. No benchmark numbers yet.//
@@ -357,7 +361,10 @@ And it is still family A. Thirty milliseconds extra.`},
 
   { n:19, sec:40, title:"Beam mechanics",
     note:`Here is the whole search space, drawn as a tree, with real numbers.//
-Two open slots, and the noun, kitty.
+Top left is the phrase template.
+Two open slots, then the noun, kitty, fixed.
+Slot one fills first, next to the noun.
+Slot two prepends in front.
 The candidates are the region's surviving words.
 And the score of any filled phrase is the encoder's own judgment.
 Embed the phrase, dot it with the region, subtract the bare noun.//
@@ -375,16 +382,12 @@ with no grammar anywhere in the system.`},
 
   { n:20, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-Each card shows every mode.
-The fast pass, fourteen-crop re-encoding,
-and grounded n-grams at two and at three.
-All unfiltered.//
-Look at the Porsche.
-The fast pass returns *fragments*. Driv. Sidew.
-Re-encoding turns them into words.
-Carro, windshield, steering.//
-The conference hall sharpens from concert to venue and projector.
-The expo corridor stays crowded, but passengers become commuters.
+Each card shows fourteen-crop re-encoding,
+and beam-searched n-grams at two and at three.
+All verbatim, unfiltered.//
+The Porsche gets carro, rims, windshield, steering.
+The conference hall, venue, ceiling, projector.
+The corridor, attendees, commuters, demonstrators.
 And one miss survives, synagogue.
 That is the direct cost of a *zero-annotation* open vocabulary,
 and I would rather show it than hide it.`},
@@ -474,10 +477,10 @@ when it supplies the model with *new information*.
 Re-processing a representation that is already good yields *nothing*.`},
 
   { n:26, sec:26, title:"Close",
-    note:`So this is the idea I want to leave you with.
-A frozen model already knows *more* than its objective admits.
-And test-time compute is how you *ask*.
-But only new information gets an answer.//
+    note:`So this is the sentence I want to leave you with.
+Scaling test-time compute of an embedding model
+unlocks tasks *beyond retrieval*.
+But only the compute that carries new information scales.//
 The code, the benchmark, and every negative result are on GitHub.
 It all runs on a Mac.
 Thank you.
