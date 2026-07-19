@@ -23,7 +23,8 @@ window.DATA = {
    max in 14-crop CWR (base 0.710); the rest ran on the patch-fuse baseline (0.635).
    All endpoints verified in docs/ttc-paper-eval.md / accuracy-design-memo.md. ---- */
 "levers": [
-  {"name":"CWR multi-crop (family B)","base":0.635,"to":0.710,"verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
+  {"name":"CWR 14-crop (family B)",   "base":0.635,"to":0.710,"verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
+  {"name":"CWR 5-crop (family B)",    "base":0.635,"to":0.693,"verdict":"win",  "why":"lighter grid; its result is the OTTER/BCA baseline"},
   {"name":"OTTER optimal transport", "base":0.693,"to":0.699,"verdict":"flat", "why":"scores already calibrated; mass conservation fights recall"},
   {"name":"softmax-over-classes",    "base":0.635,"to":0.636,"verdict":"flat", "why":"cross-class competition not needed"},
   {"name":"BCA adaptive prior",      "base":0.693,"to":0.693,"verdict":"flat", "why":"a per-class shift is absorbed by centering"},

@@ -273,28 +273,29 @@ That is the headline number from slide two,
 now with the full ablation behind it.`},
 
   { n:16, sec:40, title:"Does bootstrapping scale?",
-    note:`Now, research question two, answered by measurement.
-We re-implemented every training-free lever from the recent literature,
-on *this* pipeline, on the *same* benchmark.
-And to be scrupulously fair, every lever is drawn
-from the pipeline it modifies, the open circle,
-to its result, the filled circle.
-Three different baselines, the dashed lines.
-Patch at point six three five.
-Five crop at point six nine three.
-Fourteen crop at point seven one.//
+    note:`Now the experiment behind that conclusion.
+Every published bootstrap lever, re-implemented, measured on COCO.//
+Read the chart as a dumbbell.
+Open circle, the pipeline the lever starts from.
+Filled circle, where it ends up.//
+The two blue bars on top are our own wins.
+Five-crop re-encoding, plus point zero five eight.
+Fourteen-crop, plus point zero seven five.
+Their endpoints, point six nine and point seven one,
+are the baselines the other levers start from.//
+Take OTTER, optimal transport.
+It re-balances the scores toward a target class distribution.
+Pure re-arrangement, nothing new.
+It sits on the five-crop pipeline, so it starts at point six nine three.
+And it moves *nothing*. Plus point zero zero six. Noise.//
+Someone always asks, why not run it on fourteen-crop.
+Because OTTER only corrects base-rate calibration,
+and our prior subtraction already did that.
+The crop count underneath does not change the verdict.//
 Look at the pink bars.
-Changing the layer, minus point four eight.
-Whitening, minus point five eight.
-Graph label propagation, minus point five.
-Dirichlet, minus point four seven.
-Optimal transport, plus point zero zero six over its own base. Noise.
-Bayesian priors, exactly zero.
-Robust crop trimming, *negative*.//
-Every published method
-either does nothing or *breaks*, from wherever it starts.
-Only one lever moves right.
-Multi-crop re-encoding, plus point zero seven five.`},
+Whitening, graph propagation, Dirichlet.
+Every one collapses, from wherever it starts.
+Only feeding new pixels moves right.`},
 
   { n:17, sec:40, title:"The meta-conclusion",
     note:`So here is the meta-conclusion, and it is the real payoff.//
