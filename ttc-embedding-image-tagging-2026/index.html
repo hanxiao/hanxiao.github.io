@@ -310,13 +310,35 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .qr-corner img{width:92px;height:92px;display:block}
 .qr-corner .qrlabel{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
 
-/* compute-type badges (A = more algebra, B = new passes, C = re-process) */
+/* compute-type badges (A = deeper pass, B = more passes, C = bootstrap) */
 .abc{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;
   font-family:var(--mono);font-size:16px;font-weight:800;flex:0 0 auto;color:#fff;background:var(--accent)}
 .abc.b{background:var(--teal-ink)}
 .abc.c{background:var(--foil)}
 .abc.sm{width:21px;height:21px;font-size:12px;border-radius:6px}
 .abcline{display:flex;gap:12px;align-items:center}
+
+/* merged model+pipeline slide */
+.mstage{display:flex;flex-direction:column;gap:12px;width:100%;align-items:center}
+.menc{display:flex;align-items:center;gap:14px;justify-content:center}
+.menc .mcol{display:flex;flex-direction:column;gap:12px;align-items:center}
+.menc .mlbl{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center}
+.menc .patchimg{width:132px;height:88px}
+.menc .tokstack{width:150px;height:66px}
+.menc .tokstack .tks{font-size:12px;padding:5px 10px}
+.menc .tokstack .tkn{top:52px;font-size:11px}
+.momni{position:relative;border:2.2px solid var(--accent);border-radius:12px;background:#fff;
+  padding:26px 18px 11px;box-shadow:0 0 0 1px var(--accent),0 8px 20px rgba(11,100,221,.10)}
+.momni .omnihd{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;
+  padding:4px 13px;font-family:var(--mono);font-size:11.5px;font-weight:800;letter-spacing:.04em;border-radius:6px;white-space:nowrap}
+.momni .twins{display:flex;align-items:center;gap:12px}
+.momni .fbox.sub{border:1.3px solid var(--ink);padding:11px 13px;min-height:0}
+.momni .omnifoot{margin-top:9px;text-align:center;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--accent)}
+.mout{display:flex;flex-direction:column;gap:9px}
+.mout .outrow{display:flex;gap:10px;align-items:center}
+.mout .od{font-size:13px;line-height:1.25;font-weight:460;max-width:32ch}
+.mout .od b{font-size:14.5px}
+.menc .aarr{color:var(--accent);font-size:22px;font-weight:800}
 
 /* architecture diagram: one frozen omni block containing both towers */
 .archrow{display:flex;align-items:center;gap:20px;justify-content:center;width:100%}
@@ -448,7 +470,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 2 THE RESULT FIRST ============ -->
 <section class="slide">
   <div class="kicker">The result, first</div>
-  <h2 class="h-slide sm" style="margin-bottom:16px">Training-free, open-vocabulary tagging from a frozen retrieval model.</h2>
+  <h2 class="h-slide sm" style="margin-bottom:16px">Training-free, open-vocabulary tagging from a frozen embedding model.</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
       <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky &middot; rooftop &middot; location</div></figure>
@@ -461,7 +483,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award &middot; forwarding &middot; speaking &middot; defendant &middot; workshop</div></figure>
       <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift &middot; toy &middot; celebration &middot; balloons &middot; cheerful</div></figure>
     </div>
-    <p class="takeaway" style="font-size:18px">Unstaged files from this machine; top-5 tags, unfiltered; 75 ms each. <span class="accent">P@1 0.813 on COCO-150.</span> The rest of the talk: where this comes from, and which compute pays for it.</p>
   </div>
 </section>
 
@@ -477,7 +498,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="defrow"><div class="tag sm">allowed</div><div class="dsc">inference-time computation over the model&rsquo;s own outputs, and nothing else.</div></div>
     </div>
     <div>
-      <span class="chip on">Training-free</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
+      <span class="chip on">No training</span><span class="chip on">No second model</span><span class="chip on">No WordNet / dictionary</span><span class="chip on">No regex / POS tagger</span>
     </div>
     <p class="takeaway">Whatever tagging ability appears must come from <span class="accent">test-time compute of the embedding model</span>.</p>
   </div>
@@ -488,21 +509,21 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">A taxonomy</div>
   <h2 class="h-slide sm">Where new information comes from.</h2>
   <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap" style="max-width:78ch">A frozen encoder&rsquo;s inference-time budget takes roughly three forms. Superficially all three are &ldquo;more math on the model&rsquo;s outputs&rdquo;; they differ on one axis: whether new information enters the computation, and from where.</p>
+    <p class="cap" style="max-width:78ch">A frozen encoder&rsquo;s inference-time budget takes roughly three forms:</p>
     <div class="cards">
       <div class="card hero">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">Read more of the pass</div></div>
-        <div class="desc">The pass computes a vector per token or patch; single-vector use throws them away. Reading them is the retrieval world&rsquo;s <strong>late interaction</strong> (ColBERT-style rescoring).</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc">A</span><div class="ttl accent" style="margin:0">Deeper pass</div></div>
+        <div class="desc">Read more of the one pass you already ran: every patch vector, not just the pooled one. The retrieval world&rsquo;s <strong>late interaction</strong>.</div>
         <div class="foot" style="color:var(--accent)">new information: reclaimed from inside the pass</div>
       </div>
       <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">Run new passes</div></div>
-        <div class="desc">Encode inputs the model has not seen: split a document and embed the pieces, crop an image and re-encode. New forward passes over new views.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc b">B</span><div class="ttl" style="margin:0;color:var(--teal-ink)">More passes</div></div>
+        <div class="desc">Run the frozen encoder again on new views: split a document, crop an image, re-encode.</div>
         <div class="foot" style="color:var(--teal-ink)">new information: acquired from the input</div>
       </div>
       <div class="card foilcard">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Re-arrange what you have</div></div>
-        <div class="desc">Transform a <strong>fixed</strong> set of vectors: whitening, graph propagation, optimal transport, re-normalization. Most of the recent training-free literature lives here.</div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Bootstrap</div></div>
+        <div class="desc">Transform the vectors you already have: whitening, propagation, optimal transport. Where most of the training-free literature lives.</div>
         <div class="foot" style="color:var(--foil-ink)">new information: none</div>
       </div>
     </div>
@@ -518,142 +539,86 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div class="nlist" style="gap:26px">
       <div class="nitem"><div class="n" style="min-width:60px">RQ1</div><div class="t">Can a frozen embedding model become an image tagger through test-time compute alone?
         <span>Prior tagging work pays with training or resources: Tag2Text / RAM / RAM++ train over ~6,400 curated tags; TagCLIP (AAAI&rsquo;24) and PIAA (&ldquo;[CLS] is not enough&rdquo;) are training-free but assume a given class list, on two-tower CLIP plus WordNet or POS tools.</span></div></div>
-      <div class="nitem"><div class="n" style="min-width:60px">RQ2</div><div class="t">If it can: which test-time compute scales its accuracy, re-processing features or new information?
-        <span>The 2024&ndash;26 literature bets on family C: whitening (PIAA), label propagation (ZLaP), optimal transport (OTTER), Bayesian adaptation (BCA). Each is measured here against families A and B.</span></div></div>
+      <div class="nitem"><div class="n" style="min-width:60px">RQ2</div><div class="t">If it can: which test-time compute scales its accuracy, bootstrapping or new information?
+        <span>The 2024&ndash;26 literature bets on family C: whitening (PIAA), label propagation (ZLaP), optimal transport (OTTER), Bayesian adaptation (BCA).</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 6 ARCHITECTURE ============ -->
-<section class="slide">
-  <div class="kicker">The model &middot; architecture</div>
-  <h2 class="h-slide sm">One frozen checkpoint, two input paths, one 768-d space.</h2>
-  <div class="body" style="justify-content:center;gap:18px">
-    <div class="archrow">
-      <div class="archin">
-        <div>
-          <div class="patchimg"><img src="img/cat.jpg" alt="input image">
-            <svg viewBox="0 0 158 106" aria-hidden="true">
-              <g stroke="#fff" stroke-width="0.55" opacity="0.75">
-                <line x1="9.9" y1="0" x2="9.9" y2="106"/>
-                <line x1="19.8" y1="0" x2="19.8" y2="106"/>
-                <line x1="29.6" y1="0" x2="29.6" y2="106"/>
-                <line x1="39.5" y1="0" x2="39.5" y2="106"/>
-                <line x1="49.4" y1="0" x2="49.4" y2="106"/>
-                <line x1="59.2" y1="0" x2="59.2" y2="106"/>
-                <line x1="69.1" y1="0" x2="69.1" y2="106"/>
-                <line x1="79.0" y1="0" x2="79.0" y2="106"/>
-                <line x1="88.9" y1="0" x2="88.9" y2="106"/>
-                <line x1="98.8" y1="0" x2="98.8" y2="106"/>
-                <line x1="108.6" y1="0" x2="108.6" y2="106"/>
-                <line x1="118.5" y1="0" x2="118.5" y2="106"/>
-                <line x1="128.4" y1="0" x2="128.4" y2="106"/>
-                <line x1="138.2" y1="0" x2="138.2" y2="106"/>
-                <line x1="148.1" y1="0" x2="148.1" y2="106"/>
-                <line x1="0" y1="9.6" x2="158" y2="9.6"/>
-                <line x1="0" y1="19.3" x2="158" y2="19.3"/>
-                <line x1="0" y1="28.9" x2="158" y2="28.9"/>
-                <line x1="0" y1="38.6" x2="158" y2="38.6"/>
-                <line x1="0" y1="48.2" x2="158" y2="48.2"/>
-                <line x1="0" y1="57.8" x2="158" y2="57.8"/>
-                <line x1="0" y1="67.5" x2="158" y2="67.5"/>
-                <line x1="0" y1="77.1" x2="158" y2="77.1"/>
-                <line x1="0" y1="86.8" x2="158" y2="86.8"/>
-                <line x1="0" y1="96.4" x2="158" y2="96.4"/>
-              </g>
-              <rect x="79" y="38.6" width="9.9" height="9.6" fill="none" stroke="#0B64DD" stroke-width="1.8"/>
-            </svg>
-          </div>
-          <div class="inlbl" style="color:var(--accent)">per image &middot; test time</div>
-        </div>
-        <div>
-          <div class="tokstack">
-            <div class="tks t1">cat</div><div class="tks t2">coche</div><div class="tks t3">&#27227;</div>
-            <div class="tkn">&times; 128,260 tokens</div>
-          </div>
-          <div class="inlbl">vocabulary &middot; encoded once</div>
-        </div>
-      </div>
-      <div class="archarrs"><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline static" x1="0" y1="7" x2="18" y2="7"/><path class="dhead static" d="M14 2 L21 7 L14 12"/></svg></div></div>
-      <div class="omni">
-        <div class="omnihd">jina-embeddings-v5-omni-nano</div>
-        <div class="omnigrid">
-          <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches<br>2&times;2 merge</div></div>
-          <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-          <div class="fbox sub" style="grid-column:3;grid-row:1"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div><div class="inj">vision tokens injected at<br>image-token positions</div></div>
-        </div>
-        <div class="omnifoot">never modified, never retrained</div>
-      </div>
-      <div class="archarrs"><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div><div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline static" x1="0" y1="7" x2="18" y2="7"/><path class="dhead static" d="M14 2 L21 7 L14 12"/></svg></div></div>
-      <div class="outcol" style="max-width:330px">
-        <div class="outrow">
-          <svg width="46" height="38" viewBox="0 0 46 38"><g fill="#0B64DD"><rect x="2" y="2" width="42" height="6" rx="2"/><rect x="2" y="11" width="42" height="6" rx="2"/><rect x="2" y="20" width="42" height="6" rx="2" opacity=".55"/><rect x="2" y="29" width="42" height="6" rx="2"/></g></svg>
-          <div class="od"><b>\(P\)</b>: one 768-d row per patch (the tower&rsquo;s internal 16 px unit), each vector shaped by attention over the <em>whole</em> image</div>
-        </div>
-        <div class="outrow">
-          <svg width="46" height="20" viewBox="0 0 46 20"><circle cx="23" cy="10" r="8" fill="#1C1E23"/></svg>
-          <div class="od"><b>\(g\)</b>: one vector for the whole image, pooled from the last token of the same sequence</div>
-        </div>
-        <div class="outrow">
-          <svg width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#0B64DD" stroke-width="2.2"><rect x="4" y="3" width="38" height="38" rx="3"/><line x1="4" y1="13" x2="42" y2="13"/><line x1="4" y1="23" x2="42" y2="23"/><line x1="4" y1="33" x2="42" y2="33"/></g></svg>
-          <div class="od"><b>\(E\)</b>: label matrix, 128,260 &times; 768; gated to 25,465 words at scoring</div>
-        </div>
-      </div>
-    </div>
-    <p class="takeaway" style="margin-top:4px">Both paths end in the same space, so \( \langle p,\,e_\ell\rangle \) is well-defined: <span class="accent">any patch of any image, scored against any word the model knows</span>.</p>
-  </div>
-</section>
-
-<!-- ============ 7 PIPELINE ============ -->
+<!-- ============ 6 PIPELINE ============ -->
 <section class="slide">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
-    <path class="dline" d="M652 338 V 362 H 548 V 384"/><path class="dhead" d="M541 377 L548 389 L555 377"/>
-    <path class="dline" d="M877 338 V 362 H 740 V 384"/><path class="dhead" d="M733 377 L740 389 L747 377"/>
-    <path class="dline" d="M1104 338 V 362 H 936 V 384"/><path class="dhead" d="M929 377 L936 389 L943 377"/>
+    <path class="dline" d="M965 396 V 438 H 110 V 468"/><path class="dhead" d="M103 461 L110 473 L117 461"/><text x="600" y="426" font-family="SF Mono,ui-monospace,monospace" font-size="11" font-weight="700" fill="#0B64DD">P, g, E → per-image pipeline</text>
   </svg>
   <div class="kicker">The pipeline</div>
-  <h2 class="h-slide sm">The complete tagger: test-time compute around a frozen forward pass.</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="lane">
-      <div class="lhd">Offline</div>
-      <div class="flow">
-        <div class="fbox compact"><div class="fn">tokenizer vocab</div><div class="fd">128,260 tokens</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">encode_text</div><div class="fd">the same frozen tower</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">label matrix \(E\)</div><div class="fd">128,260 &times; 768</div></div>
-        <div style="flex:0 0 26px"></div>
-        <div class="fbox compact"><div class="fn">background prior \(\mu\)</div><div class="fd">from neutral images</div></div>
-        <div style="flex:0 0 26px"></div>
-        <div class="fbox compact"><div class="fn">word-start gate</div><div class="fd">&rarr; 25,465 words</div></div>
+  <h2 class="h-slide sm" style="margin-bottom:20px">The complete tagger, on one frozen forward pass.</h2>
+  <div class="body" style="justify-content:center;gap:6px">
+    <div class="mstage">
+      <!-- encoder row -->
+      <div class="menc">
+        <div class="mcol">
+          <div>
+            <div class="patchimg"><img src="img/cat.jpg" alt="input image">
+              <svg viewBox="0 0 132 88" aria-hidden="true">
+                <g stroke="#fff" stroke-width="0.5" opacity="0.7">
+                  <line x1="16.5" y1="0" x2="16.5" y2="88"/><line x1="33" y1="0" x2="33" y2="88"/><line x1="49.5" y1="0" x2="49.5" y2="88"/><line x1="66" y1="0" x2="66" y2="88"/><line x1="82.5" y1="0" x2="82.5" y2="88"/><line x1="99" y1="0" x2="99" y2="88"/><line x1="115.5" y1="0" x2="115.5" y2="88"/>
+                  <line x1="0" y1="17.6" x2="132" y2="17.6"/><line x1="0" y1="35.2" x2="132" y2="35.2"/><line x1="0" y1="52.8" x2="132" y2="52.8"/><line x1="0" y1="70.4" x2="132" y2="70.4"/>
+                </g>
+                <rect x="66" y="35.2" width="16.5" height="17.6" fill="none" stroke="#0B64DD" stroke-width="1.6"/>
+              </svg>
+            </div>
+            <div class="mlbl" style="color:var(--accent)">image &middot; per pass</div>
+          </div>
+          <div>
+            <div class="tokstack">
+              <div class="tks t1">cat</div><div class="tks t2">coche</div><div class="tks t3">&#27227;</div>
+              <div class="tkn">&times; 128,260 tokens</div>
+            </div>
+            <div class="mlbl">vocabulary &middot; encoded once</div>
+          </div>
+        </div>
+        <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="momni">
+          <div class="omnihd">jina-embeddings-v5-omni-nano</div>
+          <div class="twins">
+            <div class="fbox sub"><div class="fn">Qwen3-VL<br>vision tower</div><div class="fd">16 px patches</div></div>
+            <div class="aarr"><svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="14" y2="7"/><path class="dhead" d="M10 2 L17 7 L10 12"/></svg></div>
+            <div class="fbox sub"><div class="fn">EuroBERT-12L<br>text tower</div><div class="fd">bidirectional &middot; 768-d</div></div>
+          </div>
+          <div class="omnifoot">frozen &middot; never modified, never retrained</div>
+        </div>
+        <div class="aarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="mout">
+          <div class="outrow">
+            <svg width="40" height="34" viewBox="0 0 40 34"><g fill="#0B64DD"><rect x="2" y="2" width="36" height="5" rx="2"/><rect x="2" y="10" width="36" height="5" rx="2"/><rect x="2" y="18" width="36" height="5" rx="2" opacity=".55"/><rect x="2" y="26" width="36" height="5" rx="2"/></g></svg>
+            <div class="od"><b>\(P\)</b> patch rows &middot; <b>\(g\)</b> global<br><span style="font-size:11px">per image</span></div>
+          </div>
+          <div class="outrow">
+            <svg width="40" height="38" viewBox="0 0 40 38"><g fill="none" stroke="#0B64DD" stroke-width="2"><rect x="3" y="2" width="34" height="34" rx="3"/><line x1="3" y1="11" x2="37" y2="11"/><line x1="3" y1="20" x2="37" y2="20"/><line x1="3" y1="29" x2="37" y2="29"/></g></svg>
+            <div class="od"><b>\(E\)</b> label matrix, 25,465 words<br><span style="font-size:11px">offline, cached once</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- per-image pipeline row -->
+      <div class="lane" style="margin-top:12px;width:100%">
+        <div class="flow">
+          <div class="fbox lit compact"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global fuse</div></div>
+          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+          <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
+          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+          <div class="fbox compact"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
+          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+          <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
+          <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+          <div class="fbox compact" style="border-color:var(--teal-ink);border-width:1.6px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>--hq: +14 crops</div><div class="fd">re-encode, per-label max</div></div>
+        </div>
       </div>
     </div>
-    <div class="lane">
-      <div class="lhd">Per image</div>
-      <div class="flow">
-        <div class="fbox compact"><div class="fn">image</div><div class="fd">one frozen forward</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">\(P,\;g\)</div><div class="fd">patches + global</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox lit compact"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global fuse</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
-      </div>
-      <div class="flow" style="justify-content:flex-start;gap:0;margin-top:2px">
-        <div style="flex:0 0 176px"></div>
-        <div class="fbox compact" style="flex:0 0 auto;border-color:var(--teal-ink);border-width:1.6px;padding:10px 16px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>--hq: 14 crops &rarr; same model &rarr; per-label max</div><div class="fd">adds into the score, weight 1.3</div></div>
-        <div class="farr"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><line class="dline" style="stroke:var(--teal-ink)" x1="3" y1="19" x2="15" y2="7"/><path class="dhead" style="stroke:var(--teal-ink)" d="M9 5 L17 5 L17 13"/></svg></div>
-      </div>
-    </div>
-    <p class="takeaway">Every box is the frozen model or plain arithmetic: <span class="accent">A</span> reads more of one pass; <span style="color:var(--teal-ink);font-weight:700">B</span> runs new passes on new pixels.</p>
+    <p class="takeaway" style="margin-top:8px">One frozen encoder makes \(P\), \(g\), \(E\); the rest is arithmetic. <span class="accent">A</span> reads more of the pass, <span style="color:var(--teal-ink);font-weight:700">B</span> runs more passes.</p>
   </div>
 </section>
 
-<!-- ============ 8 STEP 1: LABEL SPACE ============ -->
+<!-- ============ 7 STEP 1: LABEL SPACE ============ -->
 <section class="slide">
   <div class="kicker">Step 1 · the label space</div>
   <h2 class="h-slide sm">The label set is the tokenizer's own vocabulary.</h2>
@@ -675,7 +640,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 9 STEP 2: PATCH MAXSIM ============ -->
+<!-- ============ 8 STEP 2: PATCH MAXSIM ============ -->
 <section class="slide">
   <div class="kicker">Step 2 · where to look</div>
   <h2 class="h-slide sm">Score every patch.</h2>
@@ -730,7 +695,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 10 STEP 3: PRIOR ============ -->
+<!-- ============ 9 STEP 3: PRIOR ============ -->
 <section class="slide">
   <div class="kicker">Step 3 · de-bias</div>
   <h2 class="h-slide sm">Subtract the per-label prior.</h2>
@@ -770,7 +735,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 11 STEP 4: GATE + NMS ============ -->
+<!-- ============ 10 STEP 4: GATE + NMS ============ -->
 <section class="slide">
   <div class="kicker">Step 4 · clean up</div>
   <h2 class="h-slide sm">The tokenizer already knows what a word is.</h2>
@@ -802,7 +767,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 12 STEP 5: CWR ============ -->
+<!-- ============ 11 STEP 5: CWR ============ -->
 <section class="slide">
   <div class="kicker">Step 5 · new views</div>
   <h2 class="h-slide sm">Multi-crop re-encoding.</h2>
@@ -854,7 +819,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 13 ONE EQUATION ============ -->
+<!-- ============ 12 ONE EQUATION ============ -->
 <section class="slide">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
     <path class="dline" d="M1000 238 V 178 H 218 V 242"/><path class="dhead" d="M210 234 L218 246 L226 234"/>
@@ -878,7 +843,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 14 VOCAB HISTOGRAM ============ -->
+<!-- ============ 13 VOCAB HISTOGRAM ============ -->
 <section class="slide">
   <div class="kicker">The equation, visualized</div>
   <h2 class="h-slide sm" style="margin-bottom:14px">The pipeline sharpens a distribution.</h2>
@@ -888,7 +853,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 15 RESULTS ============ -->
+<!-- ============ 14 RESULTS ============ -->
 <section class="slide">
   <div class="kicker">Results</div>
   <h2 class="h-slide sm">Results on COCO-150.</h2>
@@ -907,7 +872,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 16 THE LEVERS ============ -->
+<!-- ============ 15 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm" style="margin-bottom:18px">Ten training-free levers, measured.</h2>
@@ -917,17 +882,17 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 17 PARETO ============ -->
+<!-- ============ 16 PARETO ============ -->
 <section class="slide">
   <div class="kicker">The frontier</div>
   <h2 class="h-slide sm">Accuracy versus test-time compute.</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <div class="chart" style="height:396px"><div id="c-pareto" style="height:100%"></div></div>
-    <p class="takeaway" style="font-size:18px">The frontier is traced by reading more of the pass and re-encoding new views; <span class="accent">re-processing sits at the same cost, at or below it</span> (post-processing adds &lt;0.1 ms/img, measured).</p>
+    <p class="takeaway" style="font-size:18px">The frontier is traced by reading more of the pass and re-encoding new views; <span class="accent">bootstrapping sits at the same cost, at or below it</span> (&lt;0.1 ms/img, measured).</p>
   </div>
 </section>
 
-<!-- ============ 18 NGRAM ============ -->
+<!-- ============ 17 NGRAM ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --ngram</div>
   <h2 class="h-slide sm">Patch-local n-grams.</h2>
@@ -954,7 +919,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 19 BEAM SEARCH ============ -->
+<!-- ============ 18 BEAM SEARCH ============ -->
 <section class="slide">
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over modifier slots.</h2>
@@ -1014,7 +979,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 20 QUALITATIVE ============ -->
+<!-- ============ 19 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
   <h2 class="h-slide sm">Out-of-distribution photos.</h2>
@@ -1049,21 +1014,21 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 21 META CONCLUSION ============ -->
+<!-- ============ 20 META CONCLUSION ============ -->
 <section class="slide">
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Only new information moves accuracy.</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:80ch">Re-processing methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
+    <p class="cap" style="max-width:80ch">Bootstrap methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
     <div class="cards">
-      <div class="card foilcard"><div class="ttl">Re-processing features</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
+      <div class="card foilcard"><div class="ttl">Bootstrap (family C)</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
       <div class="card hero"><div class="ttl accent">Feeding new information</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only intervention that improves results.</div></div>
     </div>
     <p class="takeaway">The ceiling is the 1B model itself. Real test-time compute here means <span class="accent">giving the model more to look at</span>, not re-arranging what it already saw.</p>
   </div>
 </section>
 
-<!-- ============ 22 PRIOR WORK ============ -->
+<!-- ============ 21 PRIOR WORK ============ -->
 <section class="slide">
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
@@ -1081,7 +1046,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 23 OMNI ============ -->
+<!-- ============ 22 OMNI ============ -->
 <section class="slide">
   <div class="kicker">Deployment</div>
   <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
@@ -1112,7 +1077,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 24 MEDIA SHAPES ============ -->
+<!-- ============ 23 MEDIA SHAPES ============ -->
 <section class="slide">
   <div class="kicker">One rule, every media shape</div>
   <h2 class="h-slide sm">Images, video, and scanned documents.</h2>
@@ -1142,7 +1107,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   </div>
 </section>
 
-<!-- ============ 25 SYNTHESIS ============ -->
+<!-- ============ 24 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
   <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
@@ -1152,11 +1117,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)"><div class="ttl" style="color:var(--teal-ink)">Retrieval talk</div><div class="desc">recombine the geometry for more <strong>relevance</strong> on the task it was trained for.</div></div>
       <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">recombine the geometry for an <strong>emergent new task</strong> it was never trained for: tagging.</div></div>
     </div>
-    <p class="takeaway">Test-time compute scales only when it <span class="accent">supplies the model with new information</span>. Re-processing an already-good representation yields nothing.</p>
+    <p class="takeaway">Test-time compute scales only when it <span class="accent">supplies the model with new information</span>. Bootstrapping an already-good representation yields nothing.</p>
   </div>
 </section>
 
-<!-- ============ 26 CLOSE ============ -->
+<!-- ============ 25 CLOSE ============ -->
 <section class="slide closing">
   <h1>Scaling test-time compute of an<br>embedding model <span class="hl">unlocks tasks<br>beyond retrieval.</span></h1>
   <div class="auth" style="margin-top:36px">
@@ -1293,7 +1258,7 @@ function drawLevers(){
   svg.appendChild(txt((L+W-R)/2,H-2,'COCO-150 mAP · open circle = the pipeline the lever modifies, filled = its result',{fs:12,fw:700,anchor:'middle'}));
 }
 
-/* Pareto: measured ms/img (log x) vs mAP; frontier vs re-processing cluster */
+/* Pareto: measured ms/img (log x) vs mAP; frontier vs bootstrapping cluster */
 function drawPareto(){
   const W=1080,H=396,L=70,R=40,T=30,B=64;
   const svg=mount('c-pareto',W,H); if(!svg)return;
@@ -1320,7 +1285,7 @@ function drawPareto(){
     const anchor=q.la||'start', dx=q.dx===undefined?11:q.dx, dy=q.dy===undefined?4:q.dy;
     svg.appendChild(txt(X(q.ms)+(q.jx||0)+dx,Y(q.map)+dy,q.name,{fs:12,mono:1,fw:onf?700:500,anchor,fill:col}));
   });
-  svg.appendChild(txt(X(92),Y(0.155),'re-processing collapses, same 75 ms:',{fs:12,fw:700,fill:FOIL,anchor:'start'}));
+  svg.appendChild(txt(X(92),Y(0.155),'bootstrapping collapses, same 75 ms:',{fs:12,fw:700,fill:FOIL,anchor:'start'}));
   svg.appendChild(txt(X(92),Y(0.155)+17,'EM-Dirichlet 0.17 · penult. layer 0.16 · ZLaP 0.14 · whitening 0.06',{fs:11.5,mono:1,fill:FOIL,anchor:'start'}));
   svg.appendChild(txt(X(407),Y(0.60),'OTTER: +0.006 mAP over 5-crop, but P@3 collapses 0.45→0.30',{fs:11.5,mono:1,fw:600,fill:FOIL,anchor:'middle'}));
   svg.appendChild(txt(X(150),Y(0.78),'the frontier: read more of the pass, then re-encode new views',{fs:12.5,fw:700,fill:ACC,anchor:'start'}));

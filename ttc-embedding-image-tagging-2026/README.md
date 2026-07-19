@@ -35,7 +35,7 @@ Companion project repo (the code + full grounded findings):
 - `slides.pdf` - 26-page export for sharing.
 - `speaker-notes/` - the teleprompter/presenter page. `index.html` is the presenter UI (timer +
   pace meter); it shows the deck in an `<iframe src="../index.html">`, so the slides are NEVER
-  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (26 entries).
+  copied here. `notes.js` is the spoken script, keyed 1:1 by slide number (25 entries).
 - `sync.js` - cross-device slide sync (loaded by both the deck and the presenter page).
   `sync-worker.js` - optional Cloudflare Worker, a 3rd sync channel.
 - `tools/genqr.py` - regenerate a QR in the house style (blue finders, gapped modules) with a scan check.
@@ -54,7 +54,7 @@ Companion project repo (the code + full grounded findings):
 
 ## Single source of truth
 The slides live in exactly one file, `index.html`. The presenter page embeds it live (iframe), so
-there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 26
+there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 25
 entries, one per slide. When you edit a slide's facts, numbers, order, or count, update the matching
 `notes.js` entry in the same pass. Cloudflare edge-caches `notes.js`, so after editing it bump the
 cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=5).
@@ -103,7 +103,7 @@ World's Fair badge (not presenting there). Title covers test-time compute + froz
 jina-embeddings-v5-omni + image tagging, no subtitle. The pipeline and architecture diagrams
 carry a staggered arrow animation (data flow), disabled in print.
 
-## Slide map (26)
+## Slide map (25)
 1 Title · 2 The result first (3x3 real-photo grid) · 3 Problem formulation (given/output/frozen/allowed) ·
 4 Taxonomy: where new information comes from (A read the pass / B new passes / C re-arrange) ·
 5 Two research questions (RQ1 can it tag; RQ2 which compute scales) · 6 Architecture (one-block

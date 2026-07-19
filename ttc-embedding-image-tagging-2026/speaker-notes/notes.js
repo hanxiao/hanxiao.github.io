@@ -55,23 +55,20 @@ That is the game.`},
   { n:4, sec:44, title:"Where new information comes from",
     note:`Before the method, one piece of vocabulary,
 because at first glance the options all look the same.
-A frozen encoder's inference budget takes roughly three forms,
-and all of them are extra math on the model's outputs.
-They differ on one axis.
-Where does *new information* come from.//
-Family *A* reads more of the pass.
-The pass already computes a vector for every token, every patch,
-and single-vector use throws them away.
-If you did retrieval, you know this move.
-It is *late interaction*. ColBERT-style rescoring.
+A frozen encoder's inference budget takes roughly three forms.//
+Family *A*, a deeper pass.
+Read more of the one pass you already ran.
+Every patch vector, not just the pooled one.
+If you did retrieval, you know this. Late interaction. ColBERT.
 The information is reclaimed from inside the pass.//
-Family *B* runs new passes.
-Split a document and embed the pieces.
-Crop an image and re-encode it.
+Family *B*, more passes.
+Run the frozen encoder *again*, on new views.
+Split a document. Crop an image. Re-encode.
 The information is acquired from the input.//
-Family *C* re-arranges what you have.
+Family *C*, bootstrap.
+Transform the vectors you already have.
 Whitening, propagation, optimal transport.
-A fixed set of vectors goes in. Nothing new enters.//
+Nothing new enters.//
 Same frozen encoder in all three.
 The difference is only what enters the computation.`},
 
@@ -91,49 +88,32 @@ And question two, if it can.
 Re-processing features, family C, where the literature bets?
 Or new information, families A and B?`},
 
-  { n:6, sec:48, title:"Architecture",
-    note:`Now let me open the model up, because the whole method lives in this picture.//
-This entire blue block is *one* released checkpoint,
-jina-embeddings-v5-omni-nano, and it stays *frozen*.
-Inside it there are two internal submodels.
+  { n:6, sec:48, title:"The pipeline",
+    note:`Now the whole tagger on one slide, and the whole trick is here.//
+This blue block is *one* released checkpoint,
+jina-embeddings-v5-omni-nano, and it stays frozen.
+Inside it, two internal submodels.
 A vision tower, and a text tower.
-We never break them apart, and we never retrain them.//
-The image path.
+Never broken apart, never retrained.//
+Two inputs.
 An image becomes sixteen pixel patches.
-The patch is the vision tower's *internal* unit, not a crop.
-Those patch tokens are *injected* into the bidirectional text tower.
-Out come two things.
-Capital P, one row per patch,
-and each row is shaped by attention over the *whole* image.
-And small g, one vector for the whole image,
-pooled from the last token of that same sequence.//
-The vocabulary path.
-This one runs *once*, offline.
-All hundred twenty-eight thousand tokens go through the *same* text tower,
-and the results are cached as E, the label matrix.
-At test time, only the *image* path runs.//
-Both paths end in the *same* space.
-So any patch, of any image,
-can be scored against *any word the model knows*.`},
-
-  { n:7, sec:40, title:"The pipeline",
-    note:`Here is the complete tagger on one slide.
-Top lane runs *once*, offline.
-Encode the vocabulary into the label matrix.
-Estimate a background prior.
-And build the word gate. We will meet each of these.//
-Bottom lane runs *per image*.
-One frozen forward pass gives patches and the global vector.
-Score them against the labels. That is family *A*.
-Subtract the prior.
-Gate and dedupe.
+The patch is the tower's *internal* unit, not a crop.
+And the vocabulary, all hundred twenty-eight thousand tokens,
+encoded once, offline.//
+Out come three things.
+Capital P, one row per patch, shaped by attention over the whole image.
+Small g, one pooled vector for the whole image.
+And E, the label matrix. Twenty-five thousand words, cached.//
+Everything after that is arithmetic.
+Per image, at test time.
+Score the patches and the global vector against E. That is family A.
+Subtract the background prior.
+Gate to real words, dedupe.
 Top k tags come out. Seventy-five milliseconds.//
-And the teal box below is the optional high quality mode.
-Fourteen crops, back through the *same* model.
-That is family *B*, new passes on new pixels.//
-Every box is the frozen model, or plain arithmetic.`},
+And the teal box is the optional high quality mode.
+Fourteen crops, back through the same model. Family B.`},
 
-  { n:8, sec:42, title:"Step 1: the label space",
+  { n:7, sec:42, title:"Step 1: the label space",
     note:`Step one. Where do the labels come from.
 There is no curated tag list.
 We take all *one hundred twenty-eight thousand* tokens in the tokenizer,
@@ -149,7 +129,7 @@ to put the labels in the same space as the image.//
 The intuition, use the vocabulary directly, was correct.
 But only through the aligned output space.`},
 
-  { n:9, sec:40, title:"Step 2: patch beats global",
+  { n:8, sec:40, title:"Step 2: patch beats global",
     note:`Step two. Where do you *look* in the image.
 On the left, the global vector g scored against each label.
 One vector, dominated by the most salient object.
@@ -167,7 +147,7 @@ This is pure family *A*.
 The patch features already exist in the forward pass.
 One additional max over rows. Essentially free.`},
 
-  { n:10, sec:32, title:"Step 3: subtract the prior",
+  { n:9, sec:32, title:"Step 3: subtract the prior",
     note:`Step three. A quick de-biasing.
 Raw cosine has a base-rate problem.
 Some generic words, like bed, or cat,
@@ -185,7 +165,7 @@ Only the image-specific spikes survive.//
 No calibration set. No labels. One offline pass.
 It is the lightest correction possible, and it is enough.`},
 
-  { n:11, sec:32, title:"Step 4: word gate and NMS",
+  { n:10, sec:32, title:"Step 4: word gate and NMS",
     note:`Step four. Cleaning up the output.
 The tokenizer *already* knows what a word is.
 Byte-level tokenizers encode a leading space as a special glyph.
@@ -204,7 +184,7 @@ The funnel on the right is the real ranking for the cat image.
 Cat, kitten, chatte, cats, all struck out, suppressed by kitty.
 Again, no lookup table. Just the geometry.`},
 
-  { n:12, sec:42, title:"Step 5: CWR multi-crop",
+  { n:11, sec:42, title:"Step 5: CWR multi-crop",
     note:`Step five. And this is the important one.
 This is the *only* lever that genuinely raises accuracy.//
 We re-encode the image as a grid of *fourteen crops*.
@@ -226,7 +206,7 @@ Blind crop averaging actually made things *worse*.
 For a small object, only one crop holds the evidence.
 The outlier crop is not noise. It *is* the signal.`},
 
-  { n:13, sec:40, title:"One equation",
+  { n:12, sec:40, title:"One equation",
     note:`Let me now assemble all five steps,
 because the entire tagger is *one scoring function*.//
 First term. Patch evidence.
@@ -246,7 +226,7 @@ And that is it.
 No head. No logits. No learned threshold.
 *Every symbol* in that equation is either the frozen model, or a max.`},
 
-  { n:14, sec:40, title:"The equation, over the vocabulary",
+  { n:13, sec:40, title:"The equation, over the vocabulary",
     note:`And here is that equation, watched over the *whole* vocabulary.
 This is real data, for the cat image. Not a sketch.//
 Stage one. The raw fused score, all hundred twenty-eight thousand tokens.
@@ -265,7 +245,7 @@ That is exactly what embedding NMS is for.
 It keeps one, and the final tags fall out.//
 Tagging, in one sentence, is *distribution sharpening*.`},
 
-  { n:15, sec:30, title:"Results",
+  { n:14, sec:30, title:"Results",
     note:`The full progression, on a hundred and fifty real COCO images
 with true multi-label ground truth.//
 Global pooling, the weak baseline, mAP point two six.
@@ -275,7 +255,7 @@ with precision at one over *eighty percent*.//
 That is the headline number from slide two,
 now with the full ablation behind it.`},
 
-  { n:16, sec:40, title:"The levers chart",
+  { n:15, sec:40, title:"The levers chart",
     note:`Now, research question two, answered by measurement.
 We re-implemented every training-free lever from the recent literature,
 on *this* pipeline, on the *same* benchmark.
@@ -299,7 +279,7 @@ either does nothing or *breaks*, from wherever it starts.
 Only one lever moves right.
 Multi-crop re-encoding, plus point zero seven five.`},
 
-  { n:17, sec:42, title:"The frontier",
+  { n:16, sec:42, title:"The frontier",
     note:`And here is everything on one chart.
 Accuracy, against *measured* latency per image. Log scale.//
 The frontier runs through four points.
@@ -321,7 +301,7 @@ That is why it is not adopted.
 Free re-arrangement buys noise.
 Re-encoding buys seven and a half points.`},
 
-  { n:18, sec:46, title:"Patch-local n-grams",
+  { n:17, sec:46, title:"Patch-local n-grams",
     note:`One more mode, because open vocabulary invites a harder question.
 Can we get *modifiers*, not just nouns?
 Without a part of speech tagger, of course.
@@ -359,7 +339,7 @@ like cat plush.
 But every pair is grounded in the region it came from.
 And it is still family A. Thirty milliseconds extra.`},
 
-  { n:19, sec:40, title:"Beam mechanics",
+  { n:18, sec:40, title:"Beam mechanics",
     note:`Here is the whole search space, drawn as a tree, with real numbers.//
 Top left is the phrase template.
 Two open slots, then the noun, kitty, fixed.
@@ -380,7 +360,7 @@ The encoder prefers the attribute *first*.
 Word order, resolved by an embedding model,
 with no grammar anywhere in the system.`},
 
-  { n:20, sec:28, title:"Qualitative results",
+  { n:19, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 Each card shows fourteen-crop re-encoding,
 and beam-searched n-grams at two and at three.
@@ -392,7 +372,7 @@ And one miss survives, synagogue.
 That is the direct cost of a *zero-annotation* open vocabulary,
 and I would rather show it than hide it.`},
 
-  { n:21, sec:40, title:"The meta-conclusion",
+  { n:20, sec:40, title:"The meta-conclusion",
     note:`So here is the meta-conclusion, and it is the real payoff.//
 Every method that *re-processes* the existing features
 is a no-op or a collapse.
@@ -408,7 +388,7 @@ Family C is the one that does not scale.
 Real test-time compute means giving the model more to *look at*,
 not re-arranging what it already saw.`},
 
-  { n:22, sec:32, title:"Relation to prior work",
+  { n:21, sec:32, title:"Relation to prior work",
     note:`To place this against the literature, in one table.
 The RAM line trains a tagging model on a curated tag list.
 We do zero training, and the labels *are* the tokenizer vocabulary.
@@ -425,7 +405,7 @@ the test-time machinery everyone else is adding.//
 And this combination is cheap enough to run on a laptop.
 Which brings me to deployment.`},
 
-  { n:23, sec:44, title:"Deployment in Omni",
+  { n:22, sec:44, title:"Deployment in Omni",
     note:`And this did not stay a Python study.
 It is deployed, in Omni,
 a native on-device search app I built, in Swift, on the same frozen model.
@@ -441,7 +421,7 @@ So your photos and videos become findable by *keyword*, not just by vector.
 And the background prior calibrates itself,
 on device, from the first sixty-four images it sees.`},
 
-  { n:24, sec:46, title:"Every media shape",
+  { n:23, sec:46, title:"Every media shape",
     note:`And here is my favorite part of the port.
 One label matrix, one scoring rule,
 and it covers *every media shape* in the app.//
@@ -462,7 +442,7 @@ Invoice, table, signature, per page.//
 The media shape only changes *what counts as a patch*.
 Crops for detail. Frames for time. Pages for documents.`},
 
-  { n:25, sec:34, title:"Synthesis",
+  { n:24, sec:34, title:"Synthesis",
     note:`Let me tie the two talks together.
 One thesis, twice.
 A frozen encoder holds *more capability*
@@ -476,7 +456,7 @@ But test-time compute only *scales*
 when it supplies the model with *new information*.
 Re-processing a representation that is already good yields *nothing*.`},
 
-  { n:26, sec:26, title:"Close",
+  { n:25, sec:26, title:"Close",
     note:`So this is the sentence I want to leave you with.
 Scaling test-time compute of an embedding model
 unlocks tasks *beyond retrieval*.
