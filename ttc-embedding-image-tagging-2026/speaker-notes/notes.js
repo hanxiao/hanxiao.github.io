@@ -396,15 +396,17 @@ with no grammar anywhere in the system.`},
 
   { n:21, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-Each card shows fourteen-crop re-encoding,
-and beam-searched n-grams at two and at three.
-All verbatim, unfiltered.//
-The Porsche gets carro, rims, windshield, steering.
-The conference hall, venue, ceiling, projector.
-The corridor, attendees, commuters, demonstrators.
-And one miss survives, synagogue.
-That is the direct cost of a *zero-annotation* open vocabulary,
-and I would rather show it than hide it.`},
+Each card shows four modes, top five each.//
+Default, the single pass.
+Crops, the fourteen-crop re-encoding.
+And beam-searched n-grams, at two and at three.//
+The Porsche is the clearest.
+The single pass returns fragments. Driv. Sidew.
+Re-encoding turns them into words. Carro, windshield, steering.
+And the n-grams ground the modifiers. Windshield driv. Blackjack windshield driv.//
+One miss survives, synagogue, on the corridor.
+That is the honest cost of a zero-annotation open vocabulary.
+All of it verbatim. Nothing cherry picked.`},
 
   { n:22, sec:32, title:"Relation to prior work",
     note:`To place this against the literature, in one table.

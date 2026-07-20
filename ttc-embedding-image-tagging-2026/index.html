@@ -267,12 +267,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 @media print{.cid{animation:none}.cid.c33{opacity:1}}
 
 /* mode chip rows on the qualitative cards */
-.modeline{display:flex;align-items:flex-start;gap:6px}
-.modeline .mlab{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;flex:0 0 44px;padding-top:5px}
-.modeline .chips{display:flex;flex-wrap:wrap;gap:5px;flex:1;min-width:0}
+.modeline{display:flex;align-items:flex-start;gap:6px;margin:0 !important}
+.modeline .mlab{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;flex:0 0 50px;padding-top:3px}
+.modeline .chips{display:flex;flex-wrap:wrap;gap:3.5px;flex:1;min-width:0}
 .modeline.hq .mlab{color:var(--accent)}
 .modeline.adj .mlab{color:var(--teal-ink)}
-.modeline .tg{font-size:10.5px;padding:3px 8px;margin:0}
+.modeline .tg{font-size:9.5px;padding:2px 6px;margin:0}
 .modeline.hq .tg{border-color:var(--accent);color:var(--accent)}
 .modeline.adj .tg{border-color:var(--teal-ink);color:var(--teal-ink)}
 
@@ -280,8 +280,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .demorow{display:flex;gap:24px;width:100%;align-items:stretch}
 .democard{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff;overflow:hidden;display:flex;flex-direction:column}
 .democard.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.democard img{width:100%;height:132px;object-fit:cover;display:block}
-.demobody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px}
+.democard img{width:100%;height:84px;object-fit:cover;display:block}
+.demobody{padding:9px 12px 10px;display:flex;flex-direction:column;gap:5px}
 .demogt{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--ink)}
 .demotags{display:flex;gap:7px;flex-wrap:wrap}
 .tg{font-family:var(--mono);font-size:13px;font-weight:600;border:1.2px solid var(--hair2);border-radius:999px;padding:5px 12px;background:#fff}
@@ -1041,35 +1041,38 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 21 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
-  <h2 class="h-slide sm">Out-of-distribution photos.</h2>
-  <div class="body" style="justify-content:center">
+  <h2 class="h-slide sm" style="margin-bottom:16px">Out-of-distribution photos.</h2>
+  <div class="body" style="justify-content:flex-start;gap:12px">
     <div class="demorow">
       <div class="democard">
         <img src="img/photo1.jpg" alt="conference hall">
         <div class="demobody">
-          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">onstage</span><span class="tg">venue</span><span class="tg">ceiling</span><span class="tg">projector</span><span class="tg">theater</span></div></div>
-          <div class="modeline hq"><span class="mlab">n=2</span><div class="chips"><span class="tg">conference onstage</span><span class="tg">projector attendees</span><span class="tg">attendees livest</span></div></div>
-          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">conference crowd onstage</span><span class="tg">lobby projector attendees</span></div></div>
+          <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">onstage</span><span class="tg">attendees</span><span class="tg">livest</span><span class="tg">concert</span><span class="tg">presenter</span></div></div>
+          <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">onstage</span><span class="tg">venue</span><span class="tg">ceiling</span><span class="tg">projector</span><span class="tg">theater</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">conference onstage</span><span class="tg">projector attendees</span><span class="tg">attendees livest</span><span class="tg">projector concert</span><span class="tg">projector presenter</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">conference crowd onstage</span><span class="tg">lobby projector attendees</span><span class="tg">projector attendees livest</span><span class="tg">projector lobby concert</span><span class="tg">attendees projector presenter</span></div></div>
         </div>
       </div>
       <div class="democard hero">
         <img src="img/photo3.jpg" alt="porsche interior">
         <div class="demobody">
-          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">carro</span><span class="tg">rims</span><span class="tg">windshield</span><span class="tg">steering</span><span class="tg">beach</span></div></div>
-          <div class="modeline hq"><span class="mlab">n=2</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">windshield rims</span><span class="tg">sail ford</span></div></div>
-          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">blackjack windshield driv</span><span class="tg">dealership windshield rims</span></div></div>
+          <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">driv</span><span class="tg">rims</span><span class="tg">ford</span><span class="tg">traction</span><span class="tg">sidew</span></div></div>
+          <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">carro</span><span class="tg">rims</span><span class="tg">windshield</span><span class="tg">steering</span><span class="tg">beach</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">windshield rims</span><span class="tg">sail ford</span><span class="tg">windshield traction</span><span class="tg">blue sidew</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">blackjack windshield driv</span><span class="tg">dealership windshield rims</span><span class="tg">windshield yacht ford</span><span class="tg">yacht sedan traction</span><span class="tg">blue car sidew</span></div></div>
         </div>
       </div>
       <div class="democard">
         <img src="img/photo2.jpg" alt="expo corridor">
         <div class="demobody">
-          <div class="modeline hq"><span class="mlab">--hq</span><div class="chips"><span class="tg">attendees</span><span class="tg">commuters</span><span class="tg">demonstrators</span><span class="tg">synagogue</span><span class="tg">crowded</span></div></div>
-          <div class="modeline hq"><span class="mlab">n=2</span><div class="chips"><span class="tg">protester attendees</span><span class="tg">demonstrators passengers</span><span class="tg">passengers protestors</span></div></div>
-          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">passengers protester attendees</span><span class="tg">crowded demonstrators passengers</span></div></div>
+          <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">attendees</span><span class="tg">passengers</span><span class="tg">protestors</span><span class="tg">migrants</span><span class="tg">crowded</span></div></div>
+          <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">attendees</span><span class="tg">commuters</span><span class="tg">demonstrators</span><span class="tg">synagogue</span><span class="tg">crowded</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">protester attendees</span><span class="tg">demonstrators passengers</span><span class="tg">passengers protestors</span><span class="tg">attendees migrants</span><span class="tg">demonstrators crowded</span></div></div>
+          <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">passengers protester attendees</span><span class="tg">crowded demonstrators passengers</span><span class="tg">passenger attendees protestors</span><span class="tg">passengers protester migrants</span><span class="tg">passenger demonstrators crowded</span></div></div>
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:22px">14-crop re-encoding and beam-searched n-grams, on unstaged photos. <span class="accent">All outputs verbatim, unfiltered.</span></p>
+    <p class="takeaway" style="margin-top:2px;font-size:17px">Single pass, crop re-encoding, beam-searched n-grams. Top-5 per mode, unstaged photos. <span class="accent">Verbatim, unfiltered.</span></p>
   </div>
 </section>
 
