@@ -943,7 +943,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The experiment</div>
   <h2 class="h-slide sm">Does bootstrapping scale accuracy at test time?</h2>
   <div class="body" style="justify-content:center;gap:8px">
-    <p class="cap" style="max-width:80ch;font-size:16px">One example: <strong>OTTER</strong> re-balances scores toward a target class distribution &mdash; a pure re-arrangement. Its baseline (open circle) is the 5-crop result <strong>0.693</strong>, not 0.635; it lands at 0.699.</p>
+    <p class="cap" style="max-width:80ch;font-size:16px">One example: <strong>OTTER</strong> re-balances scores toward a target class distribution, which only shuffles vectors it already has. Its open circle sits at the 5-crop baseline of <strong>0.693</strong>, and it lands at 0.699.</p>
     <div class="chart" style="height:388px"><div id="c-levers" style="height:100%"></div></div>
   </div>
 </section>
@@ -976,7 +976,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <section class="slide">
   <div class="kicker">One more mode &middot; --ngram</div>
   <h2 class="h-slide sm">Extend to n-grams.</h2>
-  <p class="lead" style="margin-bottom:30px">Every tag so far is a single word. Can more <strong>test-time compute</strong> turn it into a grounded <strong>noun phrase</strong> &mdash; no POS tagger, no grammar, no new model?</p>
+  <p class="lead" style="margin-bottom:30px">Every tag so far is a single word. Can more <strong>test-time compute</strong> turn it into a grounded <strong>noun phrase</strong>, with no part-of-speech tagger and no grammar?</p>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:.9">
       <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:270px;object-fit:cover"></div>
@@ -1191,12 +1191,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The bigger picture</div>
   <h2 class="h-slide sm">Test-time compute for embedding models.</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:82ch">A frozen embedding model exposes only part of what it can do. Spending compute at inference &mdash; extra passes, algebra over its outputs &mdash; reaches the rest, with no new parameters. Two talks, one escalation:</p>
+    <p class="cap" style="max-width:82ch">A frozen embedding model can do more than its training reveals. You reach the rest by spending compute at inference, not by adding parameters. Both of my talks push on that same idea.</p>
     <div class="cards">
-      <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)"><div class="ttl" style="color:var(--teal-ink)">AIE SF Talk</div><div class="desc">Spend test-time compute for more <strong>relevance</strong>: better retrieval on the task the encoder <em>was</em> trained for.</div></div>
-      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">Spend test-time compute for a new <strong>capability</strong>: image tagging, a task the encoder was <em>never</em> trained for.</div></div>
+      <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)"><div class="ttl" style="color:var(--teal-ink)">AIE SF Talk</div><div class="desc">Spend test-time compute to get more <strong>relevance</strong>, better retrieval on the task the encoder was already trained for.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">Spend test-time compute to get a new <strong>capability</strong>, image tagging, a task the encoder was never trained for.</div></div>
     </div>
-    <p class="takeaway">The same lever, escalating from <span style="color:var(--teal-ink);font-weight:700">quality</span> to <span class="accent">capability</span> &mdash; and it only pays when the compute feeds the model new information.</p>
   </div>
 </section>
 
@@ -1221,7 +1220,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 </div>
 
-<script src="data.js?v=8"></script>
+<script src="data.js?v=12"></script>
 <script src="sync.js?v=1"></script>
 <script>
 const stage=document.getElementById('stage');
@@ -1390,7 +1389,6 @@ function drawPareto(){
   });
   svg.appendChild(txt(X(92),Y(0.155),'bootstrapping collapses, same 75 ms:',{fs:12,fw:700,fill:FOIL,anchor:'start'}));
   svg.appendChild(txt(X(92),Y(0.155)+17,'EM-Dirichlet 0.17 · penult. layer 0.16 · ZLaP 0.14 · whitening 0.06',{fs:11.5,mono:1,fill:FOIL,anchor:'start'}));
-  svg.appendChild(txt(X(407),Y(0.60),'OTTER: +0.006 mAP over 5-crop, but P@3 collapses 0.45→0.30',{fs:11.5,mono:1,fw:600,fill:FOIL,anchor:'middle'}));
   svg.appendChild(txt(X(150),Y(0.78),'the frontier: read more of the pass, then re-encode new views',{fs:12.5,fw:700,fill:ACC,anchor:'start'}));
 }
 

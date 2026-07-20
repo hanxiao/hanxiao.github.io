@@ -79,9 +79,9 @@ window.DATA = {
   {"name":"EM-Dirichlet",  "ms":75,   "map":0.170, "fam":"C", "lbl":false},
   {"name":"ZLaP",          "ms":75,   "map":0.140, "fam":"C", "lbl":false},
   {"name":"whitening",     "ms":75,   "map":0.060, "fam":"C", "lbl":false},
-  {"name":"+CWR 5-crop",   "ms":407,  "map":0.693, "fam":"B", "la":"end",   "dx":-12, "dy":18},
-  {"name":"OTTER",         "ms":407,  "map":0.699, "fam":"C", "la":"start", "dx":11,  "dy":-8},
-  {"name":"BCA (no-op)",   "ms":407,  "map":0.693, "fam":"C", "jx":12, "la":"start", "dx":11,  "dy":12},
+  {"name":"+CWR 5-crop",   "ms":407,  "map":0.693, "fam":"B", "la":"end",   "dx":-14, "dy":18},
+  {"name":"OTTER",         "ms":420,  "map":0.699, "fam":"C", "la":"middle", "dx":0,  "dy":-11},
+  {"name":"BCA (no-op)",   "ms":407,  "map":0.693, "fam":"C", "la":"start", "dx":16,  "dy":16},
   {"name":"+CWR 14-crop",  "ms":1016, "map":0.710, "fam":"B", "la":"end",   "dx":-12, "dy":-8},
   {"name":"soft-trim",     "ms":1016, "map":0.671, "fam":"C", "la":"start", "dx":11,  "dy":4}
  ]
