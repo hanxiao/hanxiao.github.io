@@ -335,43 +335,18 @@ That is why it is not adopted.
 Free re-arrangement buys noise.
 Re-encoding buys seven and a half points.`},
 
-  { n:19, sec:46, title:"Patch-local n-grams",
-    note:`One more mode, because open vocabulary invites a harder question.
-Can we get *modifiers*, not just nouns?
-Without a part of speech tagger, of course.
-And I will be precise up front.
-Without grammar these are not adjectives, strictly.
-They are *region grounded n-grams*.//
-Naive phrase scoring fails.
-Image to text similarity is bag of words,
-so any high scoring word attaches to any noun.//
-The trick is *locality*, and there is no adjective list.
-Watch it happen for one noun. Kitty.
-Pool the patches where kitty fires.
-Rank *every* gated word on that region alone.
-The top of that list is cat, kitty, kitten.
-All within cosine point five five of the noun. Suppressed.
-The first survivor is *couch*. So the pair is couch kitty.
-Grey, blanket, fleece are right behind, and they win other slots.
-The modifier is whatever the object's own pixels support next,
-once the noun's concept is removed.
-And the construction iterates.
-Suppress again, and the next survivor joins.
-Couch fleece kitty. Grey blanket cosy.//
-And the phrases you see are chosen by *beam search*, the default.
-The encoder itself scores each assembled phrase against the region,
-and it promotes *grey couch kitty*.
-It even prefers attribute *first* order over the alternatives.
-Composition emerges from the embedding space.
-No grammar anywhere. No benchmark numbers yet.//
-Look at the result.
-Couch kitty. *Grey* cosy. *Sleeping* crib.
-The cats really are grey, and they really are asleep on a couch.
-The modifier is tied to the object's *pixels*.//
-No grammar anywhere, so a related noun can fill the slot,
-like cat plush.
-But every pair is grounded in the region it came from.
-And it is still family A. Thirty milliseconds extra.`},
+  { n:19, sec:30, title:"The next question",
+    note:`One more question, and it is a test-time compute question.//
+Every tag so far is a *single word*.
+Kitty. Cosy. Plush.//
+But what if I want a noun *phrase*?
+Grey couch kitty, not just kitty.//
+Can I spend a little more compute at inference,
+and get grounded modifiers,
+with no part of speech tagger,
+no grammar, no new model?
+Just the frozen encoder.//
+Let me show you how.`},
 
   { n:20, sec:40, title:"Beam mechanics",
     note:`Here is the whole search space, drawn as a tree, with real numbers.//

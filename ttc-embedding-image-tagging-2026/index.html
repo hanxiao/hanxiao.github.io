@@ -964,18 +964,16 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 19 NGRAM ============ -->
 <section class="slide">
-  <div class="kicker">One more mode &middot; --ngram</div>
-  <h2 class="h-slide sm">Extend to n-grams.</h2>
-  <div class="body row" style="gap:44px;align-items:center">
-    <div style="flex:.9">
+  <div class="kicker">The next question</div>
+  <h2 class="h-slide sm">Every tag is a single word.</h2>
+  <div class="body row" style="gap:48px;align-items:center">
+    <div style="flex:.85">
       <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
+      <div class="imgcap"><span class="mono">kitty</span> &nbsp;&rarr;&nbsp; <span class="mono accent">grey couch kitty</span></div>
     </div>
-    <div style="flex:1.1">
-      <div class="card" style="margin-bottom:14px"><div class="ttl">the same four tags, n = 1, 2, 3</div>
-        <div class="modeline" style="margin-top:8px"><span class="mlab">n=1</span><div class="chips"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div></div>
-        <div class="modeline hq" style="margin-top:6px"><span class="mlab">n=2</span><div class="chips"><span class="tg">couch kitty</span><span class="tg">black cosy</span><span class="tg">grey plush</span><span class="tg">grey crib</span></div></div>
-        <div class="modeline adj" style="margin-top:6px"><span class="mlab">n=3</span><div class="chips"><span class="tg">grey couch kitty</span><span class="tg">sleeping black cosy</span><span class="tg">grey sleeping plush</span><span class="tg">sleeps grey crib</span></div></div>
-      </div>
+    <div style="flex:1.15">
+      <p class="pull">Can more <strong>test-time compute</strong> turn a single-word tag into a grounded <strong>noun phrase</strong>?
+        <cite>no POS tagger, no grammar, no new model &mdash; only the frozen encoder</cite></p>
     </div>
   </div>
 </section>
