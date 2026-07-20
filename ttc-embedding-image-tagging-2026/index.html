@@ -996,12 +996,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm">Beam search over n-gram slots.</h2>
   <div class="body" style="justify-content:center;gap:6px">
-    <p class="cap" style="font-size:16px;max-width:86ch">Each slot is filled one at a time. At every level the encoder scores the full phrase against the region \( \big(\langle E(\text{phrase}),\text{region}\rangle-\langle E(\text{kitty}),\text{region}\rangle\big) \); the best 4 across <em>all</em> expansions survive. No backtracking &mdash; the winner is read off the final beam.</p>
+    <p class="cap" style="font-size:16px;max-width:86ch">Each slot is filled one at a time; the encoder scores the full phrase against the region: \( \langle E(\text{phrase}),\text{region}\rangle-\langle E(\text{kitty}),\text{region}\rangle \). Beam width 4.</p>
     <div class="chart" style="height:382px"><svg id="beamtree" class="btree" viewBox="0 0 1080 400" preserveAspectRatio="xMidYMid meet">
       <text class="lvh" x="24" y="20">trigram</text>
-      <text class="lvh" x="288" y="20">slot 1 &middot; keep 4</text>
-      <text class="lvh" x="658" y="20">slot 2 &middot; encoder scores each full phrase</text>
-      <!-- phrase template (left), slots fill as the search runs -->
+      <text class="lvh" x="286" y="20">slot 1 &middot; keep 4</text>
+      <text class="lvh" x="658" y="20">slot 2 &middot; every kept beam expands</text>
       <g class="lv l0 on">
         <rect class="bn" id="tslot2" x="24" y="182" width="58" height="34" rx="6" stroke-dasharray="5 3"/>
         <text id="tslot2t" x="53" y="204" text-anchor="middle" font-size="13">?</text>
@@ -1013,39 +1012,41 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <text x="115" y="232" text-anchor="middle" font-size="10" fill="#0B64DD" font-weight="700">slot 1</text>
         <text x="176" y="232" text-anchor="middle" font-size="10">noun</text>
       </g>
-      <!-- level 1: expand root into candidate words, keep top 4 -->
       <g class="lv l1">
-        <path class="ed" d="M204 199 C 250 199, 244 70, 300 70"/>
-        <path class="ed" d="M204 199 C 250 199, 244 134, 300 134"/>
-        <path class="ed" d="M204 199 C 250 199, 244 198, 300 198"/>
-        <path class="ed" d="M204 199 C 250 199, 244 262, 300 262"/>
-        <path class="ed prn" d="M204 199 C 250 199, 244 322, 300 322"/>
-        <path class="ed prn" d="M204 199 C 250 199, 244 372, 300 372"/>
-        <rect class="bn" x="300" y="54" width="186" height="32" rx="7"/><text x="311" y="75" font-size="12">couch kitty</text><text class="sc2" x="475" y="75" text-anchor="end">+0.059</text>
-        <rect class="bn" x="300" y="118" width="186" height="32" rx="7"/><text x="311" y="139" font-size="12">grey kitty</text><text class="sc2" x="475" y="139" text-anchor="end">+0.050</text>
-        <rect class="bn" x="300" y="182" width="186" height="32" rx="7"/><text x="311" y="203" font-size="12">sleeps kitty</text><text class="sc2" x="475" y="203" text-anchor="end">+0.048</text>
-        <rect class="bn" x="300" y="246" width="186" height="32" rx="7"/><text x="311" y="267" font-size="12">sofa kitty</text><text class="sc2" x="475" y="267" text-anchor="end">+0.047</text>
-        <rect class="bn prn" x="300" y="306" width="186" height="30" rx="7"/><text class="prntxt" x="311" y="326" font-size="12">fleece kitty</text><text class="sc2" x="475" y="326" text-anchor="end" fill="#C2186A">pruned</text>
-        <rect class="bn prn" x="300" y="356" width="186" height="30" rx="7"/><text class="prntxt" x="311" y="376" font-size="12">blanket kitty</text><text class="sc2" x="475" y="376" text-anchor="end" fill="#C2186A">pruned</text>
+        <path class="ed" d="M204 199 C 250 199, 244 45, 300 45"/>
+        <path class="ed" d="M204 199 C 250 199, 244 107, 300 107"/>
+        <path class="ed" d="M204 199 C 250 199, 244 169, 300 169"/>
+        <path class="ed" d="M204 199 C 250 199, 244 231, 300 231"/>
+        <path class="ed prn" d="M204 199 C 250 199, 244 293, 300 293"/>
+        <path class="ed prn" d="M204 199 C 250 199, 244 355, 300 355"/>
+        <rect class="bn" x="300" y="31" width="180" height="28" rx="6"/><text x="311" y="49" font-size="12">couch kitty</text><text x="464" y="49" text-anchor="end" font-size="11.5" class="sc2">+0.059</text>
+        <rect class="bn" x="300" y="93" width="180" height="28" rx="6"/><text x="311" y="111" font-size="12">grey kitty</text><text x="464" y="111" text-anchor="end" font-size="11.5" class="sc2">+0.050</text>
+        <rect class="bn" x="300" y="155" width="180" height="28" rx="6"/><text x="311" y="173" font-size="12">sleeps kitty</text><text x="464" y="173" text-anchor="end" font-size="11.5" class="sc2">+0.048</text>
+        <rect class="bn" x="300" y="217" width="180" height="28" rx="6"/><text x="311" y="235" font-size="12">sofa kitty</text><text x="464" y="235" text-anchor="end" font-size="11.5" class="sc2">+0.047</text>
+        <rect class="bn prn" x="300" y="279" width="180" height="28" rx="6"/><text x="311" y="297" font-size="12" class="prntxt">sleeping kitty</text><text x="464" y="297" text-anchor="end" font-size="11.5" fill="#C2186A">+0.046</text>
+        <rect class="bn prn" x="300" y="341" width="180" height="28" rx="6"/><text x="311" y="359" font-size="12" class="prntxt">cosy kitty</text><text x="464" y="359" text-anchor="end" font-size="11.5" fill="#C2186A">+0.044</text>
       </g>
-      <!-- level 2: expand EVERY kept beam; the best 4 survive (winner styled) -->
       <g class="lv l2">
-        <path class="ed" d="M486 70 C 560 70, 585 50, 660 50"/>
-        <path class="ed" d="M486 70 C 560 70, 585 99, 660 99"/>
-        <path class="ed" d="M486 70 C 560 70, 585 143, 660 143"/>
-        <path class="ed" d="M486 134 C 560 134, 585 197, 660 197"/>
-        <path class="ed prn" d="M486 198 C 560 198, 585 261, 660 261"/>
-        <path class="ed prn" d="M486 262 C 560 262, 585 261, 660 261"/>
-        <rect class="bn win" x="660" y="32" width="290" height="36" rx="8"/><text x="672" y="55" font-size="13.5" font-weight="800" fill="#0B64DD">grey couch kitty</text><text class="sc2" x="938" y="55" text-anchor="end" font-weight="800">+0.093</text>
-        <rect class="bn" x="660" y="84" width="290" height="30" rx="7"/><text x="672" y="104" font-size="12.5">sleeping couch kitty</text><text class="sc2" x="938" y="104" text-anchor="end">+0.084</text>
-        <rect class="bn" x="660" y="128" width="290" height="30" rx="7"/><text x="672" y="148" font-size="12.5">sleeps couch kitty</text><text class="sc2" x="938" y="148" text-anchor="end">+0.084</text>
-        <rect class="bn" x="660" y="182" width="290" height="30" rx="7"/><text x="672" y="202" font-size="12.5">couch grey kitty</text><text class="sc2" x="938" y="202" text-anchor="end">+0.091</text>
-        <rect class="bn prn" x="660" y="246" width="290" height="30" rx="7"/><text x="805" y="265" font-size="12" text-anchor="middle" fill="#C2186A">sleeps &amp; sofa branches: below the beam</text>
+        <path class="ed" d="M480 45 C 560 45, 585 40, 670 40"/>
+        <path class="ed" d="M480 45 C 560 45, 585 82, 670 82"/>
+        <path class="ed" d="M480 107 C 560 107, 585 124, 670 124"/>
+        <path class="ed" d="M480 107 C 560 107, 585 166, 670 166" style="stroke:#B7BCC4"/>
+        <path class="ed" d="M480 169 C 560 169, 585 208, 670 208" style="stroke:#B7BCC4"/>
+        <path class="ed" d="M480 169 C 560 169, 585 250, 670 250" style="stroke:#B7BCC4"/>
+        <path class="ed" d="M480 231 C 560 231, 585 292, 670 292"/>
+        <path class="ed" d="M480 231 C 560 231, 585 334, 670 334" style="stroke:#B7BCC4"/>
+        <rect class="bn win" x="670" y="27" width="290" height="26" rx="6"/><text x="682" y="44" font-size="12" fill="#0B64DD" font-weight="800">grey couch kitty</text><text x="948" y="44" text-anchor="end" font-size="11.5" class="sc2" font-weight="800">+0.093</text>
+        <rect class="bn" x="670" y="69" width="290" height="26" rx="6"/><text x="682" y="86" font-size="11.5">sleeping couch kitty</text><text x="948" y="86" text-anchor="end" font-size="11" class="sc2">+0.084</text>
+        <rect class="bn" x="670" y="111" width="290" height="26" rx="6"/><text x="682" y="128" font-size="11.5">couch grey kitty</text><text x="948" y="128" text-anchor="end" font-size="11" class="sc2">+0.091</text>
+        <rect class="bn" x="670" y="153" width="290" height="26" rx="6" style="stroke:#C7CCD3"/><text x="682" y="170" font-size="11.5" fill="#8A9099">sleeps grey kitty</text><text x="948" y="170" text-anchor="end" font-size="10.5" fill="#8A9099">+0.080 cut</text>
+        <rect class="bn" x="670" y="195" width="290" height="26" rx="6" style="stroke:#C7CCD3"/><text x="682" y="212" font-size="11.5" fill="#8A9099">grey sleeps kitty</text><text x="948" y="212" text-anchor="end" font-size="10.5" fill="#8A9099">+0.081 cut</text>
+        <rect class="bn" x="670" y="237" width="290" height="26" rx="6" style="stroke:#C7CCD3"/><text x="682" y="254" font-size="11.5" fill="#8A9099">couch sleeps kitty</text><text x="948" y="254" text-anchor="end" font-size="10.5" fill="#8A9099">+0.071 cut</text>
+        <rect class="bn" x="670" y="279" width="290" height="26" rx="6"/><text x="682" y="296" font-size="11.5">grey sofa kitty</text><text x="948" y="296" text-anchor="end" font-size="11" class="sc2">+0.081</text>
+        <rect class="bn" x="670" y="321" width="290" height="26" rx="6" style="stroke:#C7CCD3"/><text x="682" y="338" font-size="11.5" fill="#8A9099">sleeps sofa kitty</text><text x="948" y="338" text-anchor="end" font-size="10.5" fill="#8A9099">+0.077 cut</text>
       </g>
-      <!-- winner path (drawn on top, revealed last) -->
       <g class="lv lwin">
-        <path class="ed win" d="M204 199 C 250 199, 244 70, 300 70"/>
-        <path class="ed win" d="M486 70 C 560 70, 585 50, 660 50"/>
+        <path class="ed win" d="M204 199 C 250 199, 244 45, 300 45"/>
+        <path class="ed win" d="M480 45 C 560 45, 585 40, 670 40"/>
       </g>
     </svg></div>
     <p class="takeaway" style="font-size:18px">The winning path re-orders its own words: <span class="accent">&ldquo;grey couch kitty&rdquo; beats &ldquo;couch grey kitty&rdquo;</span>. Word order, resolved by an embedding model with no grammar.</p>
