@@ -969,21 +969,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:.9">
       <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
-      <div class="imgcap">the same image, the same frozen model, one extra scoring pass</div>
     </div>
     <div style="flex:1.1">
       <div class="card" style="margin-bottom:14px"><div class="ttl">the same four tags, n = 1, 2, 3</div>
         <div class="modeline" style="margin-top:8px"><span class="mlab">n=1</span><div class="chips"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div></div>
         <div class="modeline hq" style="margin-top:6px"><span class="mlab">n=2</span><div class="chips"><span class="tg">couch kitty</span><span class="tg">black cosy</span><span class="tg">grey plush</span><span class="tg">grey crib</span></div></div>
         <div class="modeline adj" style="margin-top:6px"><span class="mlab">n=3</span><div class="chips"><span class="tg">grey couch kitty</span><span class="tg">sleeping black cosy</span><span class="tg">grey sleeping plush</span><span class="tg">sleeps grey crib</span></div></div>
-      </div>
-      <div class="funnel" style="margin-top:14px">
-        <div class="fstep">
-          <div class="fh"><span class="fn2">how the modifier is chosen &middot; noun = kitty</span><span class="fc">no word-class constraint</span></div>
-          <div class="fx">pool the patches where <span class="keep">kitty</span> fires &rarr; rank all 25,465 gated words on that region alone:</div>
-          <div class="fx"><span class="kill">cat</span> &middot; <span class="kill">kitty</span> &middot; <span class="kill">kitten</span> <span style="color:var(--foil-ink)">(cos &ge; 0.55 to the noun: suppressed)</span> &middot; <span class="keep">couch &#10003;</span> &middot; fleece &middot; blanket &middot; grey</div>
-        </div>
-        <div class="fop"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg> greedy picks off one ranking &middot; <b>--beam</b> lets the encoder score whole phrases against the region: it promotes &ldquo;grey couch kitty&rdquo; and prefers <b>attribute-first order</b>, with no grammar anywhere</div>
       </div>
     </div>
   </div>
