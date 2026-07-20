@@ -23,17 +23,17 @@ window.DATA = {
    max in 14-crop CWR (base 0.710); the rest ran on the patch-fuse baseline (0.635).
    All endpoints verified in docs/ttc-paper-eval.md / accuracy-design-memo.md. ---- */
 "levers": [
-  {"name":"CWR 14-crop (family B)",   "base":0.635,"to":0.710,"verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
-  {"name":"CWR 5-crop (family B)",    "base":0.635,"to":0.693,"verdict":"win",  "why":"lighter grid; its result is the OTTER/BCA baseline"},
-  {"name":"OTTER optimal transport", "base":0.693,"to":0.699,"verdict":"flat", "why":"scores already calibrated; mass conservation fights recall"},
-  {"name":"softmax-over-classes",    "base":0.635,"to":0.636,"verdict":"flat", "why":"cross-class competition not needed"},
-  {"name":"BCA adaptive prior",      "base":0.693,"to":0.693,"verdict":"flat", "why":"a per-class shift is absorbed by centering"},
-  {"name":"softpool aggregation",    "base":0.635,"to":0.608,"verdict":"flat", "why":"better top-k, lower full ranking"},
-  {"name":"soft-trim crop agg.",     "base":0.710,"to":0.671,"verdict":"flat", "why":"the outlier crop IS the signal; do not trim it"},
-  {"name":"EM-Dirichlet",            "base":0.635,"to":0.170,"verdict":"collapse", "why":"simplex normalization destroys multi-label"},
-  {"name":"penultimate-layer patches","base":0.635,"to":0.160,"verdict":"collapse", "why":"last layer IS the trained output space here"},
-  {"name":"ZLaP label propagation",  "base":0.635,"to":0.140,"verdict":"collapse", "why":"graph built on the weak global vector"},
-  {"name":"whitening / GDA",         "base":0.635,"to":0.060,"verdict":"collapse", "why":"image and text already share one space"}
+  {"name":"CWR 14-crop",   "base":0.635,"to":0.710,"fam":"B","verdict":"win",  "why":"re-encodes new pixels: a small object fills a crop"},
+  {"name":"CWR 5-crop",    "base":0.635,"to":0.693,"fam":"B","verdict":"win",  "why":"lighter grid; its result is the OTTER/BCA baseline"},
+  {"name":"OTTER optimal transport", "base":0.693,"to":0.699,"fam":"C","verdict":"flat", "why":"scores already calibrated; mass conservation fights recall"},
+  {"name":"softmax-over-classes",    "base":0.635,"to":0.636,"fam":"C","verdict":"flat", "why":"cross-class competition not needed"},
+  {"name":"BCA adaptive prior",      "base":0.693,"to":0.693,"fam":"C","verdict":"flat", "why":"a per-class shift is absorbed by centering"},
+  {"name":"soft-trim crop agg.",     "base":0.710,"to":0.671,"fam":"C","verdict":"flat", "why":"the outlier crop IS the signal; do not trim it"},
+  {"name":"EM-Dirichlet",            "base":0.635,"to":0.170,"fam":"C","verdict":"collapse", "why":"simplex normalization destroys multi-label"},
+  {"name":"ZLaP label propagation",  "base":0.635,"to":0.140,"fam":"C","verdict":"collapse", "why":"graph built on the weak global vector"},
+  {"name":"whitening / GDA",         "base":0.635,"to":0.060,"fam":"C","verdict":"collapse", "why":"image and text already share one space"},
+  {"name":"softpool aggregation",    "base":0.635,"to":0.608,"fam":"A","verdict":"flat", "why":"better top-k, lower full ranking"},
+  {"name":"penultimate-layer patches","base":0.635,"to":0.160,"fam":"A","verdict":"collapse", "why":"last layer IS the trained output space here"}
 ],
 
 /* ---- latency breakdown (M3 Ultra, MLX), ms per image ---- */
