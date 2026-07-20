@@ -34,6 +34,7 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden;}
   text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:11px;margin-bottom:26px}
 .kicker::before{content:"";width:26px;height:3px;background:var(--accent);display:inline-block;border-radius:2px}
 h1{font-size:58px;line-height:1.05;font-weight:800;letter-spacing:-.022em;max-width:20ch}
+/* TYPE SCALE (fixed): headings 58/46 (h1), 35/33 (h-slide); body 21 (takeaway/sub), 18 (cap/lead), 16 (dense); labels 14/13/12/11 (mono, captions); 10 (micro). Do not introduce half-px or off-scale sizes. */
 .h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;margin-bottom:36px}
 .h-slide.sm{font-size:33px}
 .sub{font-size:21px;line-height:1.42;font-weight:430;max-width:60ch}
@@ -45,7 +46,7 @@ strong,b{font-weight:700}
 .hairline{height:1px;background:var(--hair2);width:100%;border:0}
 
 #chrome{position:absolute;left:76px;right:76px;bottom:22px;display:flex;justify-content:space-between;
-  align-items:center;font-family:var(--mono);font-size:13.5px;letter-spacing:.03em;color:var(--ink);
+  align-items:center;font-family:var(--mono);font-size:13px;letter-spacing:.03em;color:var(--ink);
   border-top:1px solid var(--hair);padding-top:11px}
 #chrome.hidden{display:none}
 #chrome .r{display:flex;gap:18px;align-items:center}
@@ -69,9 +70,9 @@ strong,b{font-weight:700}
 
 .nlist{display:flex;flex-direction:column;gap:18px;margin-top:6px}
 .nitem{display:flex;gap:20px;align-items:flex-start}
-.nitem .n{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent);min-width:42px;line-height:1.15}
-.nitem .t{font-size:20px;font-weight:600;line-height:1.3}
-.nitem .t span{display:block;font-size:16.5px;font-weight:440;margin-top:4px}
+.nitem .n{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--accent);min-width:42px;line-height:1.15}
+.nitem .t{font-size:21px;font-weight:600;line-height:1.3}
+.nitem .t span{display:block;font-size:16px;font-weight:440;margin-top:4px}
 
 .deflist{display:flex;flex-direction:column;gap:16px;margin-top:4px}
 .defrow{display:flex;gap:18px;align-items:baseline}
@@ -80,13 +81,13 @@ strong,b{font-weight:700}
 .defrow .dsc{font-size:18px;font-weight:450;line-height:1.35}
 .defrow .tag.sm{min-width:172px}
 
-.pull{font-size:22px;line-height:1.34;font-weight:600;border-left:4px solid var(--accent);padding-left:24px;color:var(--ink)}
+.pull{font-size:21px;line-height:1.34;font-weight:600;border-left:4px solid var(--accent);padding-left:24px;color:var(--ink)}
 .pull strong{font-weight:800;color:var(--accent)}
 .pull cite{display:block;margin-top:18px;font-family:var(--mono);font-size:14px;font-weight:600;font-style:normal;color:var(--accent);letter-spacing:.01em}
 
 .autoloop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;font-weight:600}
 .autoloop .step{border:1.2px solid var(--ink);border-radius:var(--r-box);padding:8px 13px;background:#fff}
-.autoloop .ar{color:var(--accent);font-size:17px;font-weight:800}
+.autoloop .ar{color:var(--accent);font-size:16px;font-weight:800}
 .autoloop .rep{color:var(--accent);font-size:18px;font-weight:800;margin-left:2px}
 
 .cards{display:flex;gap:26px;margin-top:8px}
@@ -96,39 +97,39 @@ strong,b{font-weight:700}
 .card.hero .ttl{color:var(--accent)}
 .card.foilcard{border-color:var(--foil);box-shadow:0 0 0 1px var(--foil)}
 .card.foilcard .ttl{color:var(--foil-ink)}
-.card .desc{font-size:17.5px;line-height:1.42;font-weight:450}
-.card .eq{font-family:var(--mono);font-size:15px;margin:12px 0;font-weight:500}
-.card .foot{margin-top:auto;font-size:15.5px;font-weight:600;padding-top:14px}
+.card .desc{font-size:18px;line-height:1.42;font-weight:450}
+.card .eq{font-family:var(--mono);font-size:16px;margin:12px 0;font-weight:500}
+.card .foot{margin-top:auto;font-size:16px;font-weight:600;padding-top:14px}
 
-.chip{display:inline-block;font-family:var(--mono);font-size:15.5px;font-weight:600;letter-spacing:.04em;
+.chip{display:inline-block;font-family:var(--mono);font-size:16px;font-weight:600;letter-spacing:.04em;
   border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;margin:0 10px 11px 0;text-transform:uppercase}
 .chip.on{background:var(--ink);color:var(--bg)}
 
 .lin{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .linrow{display:flex;align-items:center;gap:16px}
 .linrow .src{font-family:var(--mono);font-size:14px;font-weight:700;min-width:120px;text-align:right;color:var(--accent)}
-.linrow .arr{color:var(--accent);font-size:20px;font-weight:700}
+.linrow .arr{color:var(--accent);font-size:21px;font-weight:700}
 .linrow .dst{display:flex;gap:9px;flex-wrap:wrap}
-.pill{font-family:var(--mono);font-size:13.5px;font-weight:500;border:1.2px solid var(--hair2);
+.pill{font-family:var(--mono);font-size:13px;font-weight:500;border:1.2px solid var(--hair2);
   border-radius:var(--r-box);padding:7px 13px;background:#fff;white-space:nowrap}
 
 /* flow diagram */
 .flow{display:flex;align-items:center;gap:0;margin:10px 0 2px;justify-content:space-between}
 .fbox{border:1.2px solid var(--ink);border-radius:var(--r-box);background:#fff;padding:13px 12px;text-align:center;
   flex:1;display:flex;flex-direction:column;gap:3px;min-height:80px;justify-content:center}
-.fbox .fn{font-size:15px;font-weight:700;line-height:1.12}
-.fbox .fd{font-family:var(--mono);font-size:12.5px;font-weight:500;line-height:1.24}
+.fbox .fn{font-size:16px;font-weight:700;line-height:1.12}
+.fbox .fd{font-family:var(--mono);font-size:12px;font-weight:500;line-height:1.24}
 .fbox.dark{background:var(--ink);color:var(--bg)}
 .fbox.lit{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(11,100,221,.26);z-index:2}
 .fbox.lit .fd{color:#e6eefc}
 .fbox.compact{min-height:0;padding:11px}
-.farr{color:var(--accent);font-size:22px;font-weight:700;padding:0 9px;flex:0 0 auto}
-.loopnote{font-family:var(--mono);font-size:12.5px;color:var(--accent);text-align:center;margin-top:10px;font-weight:600}
+.farr{color:var(--accent);font-size:21px;font-weight:700;padding:0 9px;flex:0 0 auto}
+.loopnote{font-family:var(--mono);font-size:12px;color:var(--accent);text-align:center;margin-top:10px;font-weight:600}
 .spdetail{display:flex;gap:36px;align-items:flex-start;width:100%;max-width:1060px;margin:26px auto 0}
 .spdesign{flex:1.5}
 .spcaveat{flex:1;border-left:3px solid var(--foil);padding-left:20px}
 .spdetail .mlabel{margin-bottom:9px;display:block}
-.spdetail .cap{font-size:17.5px}
+.spdetail .cap{font-size:18px}
 .spdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin:0 7px 2px 0}
 .codebox{font-family:var(--mono);font-size:14px;background:#fff;border:1.2px solid var(--hair2);
   border-radius:var(--r-card);padding:12px 14px;line-height:1.45;color:var(--ink)}
@@ -146,10 +147,10 @@ strong,b{font-weight:700}
 table.bt{border-collapse:collapse;width:100%;font-size:16px}
 table.bt th,table.bt td{padding:9px 12px;text-align:right;font-variant-numeric:tabular-nums}
 table.bt th:first-child,table.bt td:first-child{text-align:left}
-table.bt thead th{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;
+table.bt thead th{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;
   text-transform:uppercase;border-bottom:2px solid var(--rule)}
 table.bt tbody td{border-bottom:1px solid var(--hair)}
-table.bt tbody td:first-child{font-family:var(--mono);font-size:14.5px;font-weight:600}
+table.bt tbody td:first-child{font-family:var(--mono);font-size:14px;font-weight:600}
 table.bt tbody tr:last-child td{border-bottom:2px solid var(--rule)}
 table.bt tr.hero td{background:var(--accent-soft)}
 table.bt tr.hero td:first-child{color:var(--accent);font-weight:700}
@@ -167,7 +168,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .vd{fill:var(--ink)}
 .vd.pos{fill:var(--accent)}
 .vd.neg{fill:var(--foil)}
-.vlbl{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
+.vlbl{font-family:var(--mono);font-size:16px;font-weight:700;fill:var(--ink)}
 .vlbl.pos{fill:var(--accent)}
 .vconn{fill:none;stroke:var(--ink);stroke-width:1.8}
 .vwin{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 5;animation:march 1s linear infinite}
@@ -179,7 +180,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 .vsrow{display:flex;gap:30px;align-items:stretch;width:100%}
 .vspanel{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px}
-.vshd{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.vshd{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
 .vsspace{width:100%;height:158px;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff}
 .vsform{font-size:16px;min-height:22px}
 .vssub{font-size:14px;line-height:1.32;font-weight:450;max-width:30ch}
@@ -201,7 +202,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .btree .ed{fill:none;stroke:#1C1E23;stroke-width:1.4}
 .btree .ed.prn{stroke:#F04E98;stroke-dasharray:4 3;stroke-width:1.2}
 .btree .ed.win{stroke:#0B64DD;stroke-width:2.6;stroke-dasharray:7 5;animation:march 1s linear infinite}
-.btree .lvh{font-size:11.5px;font-weight:700;letter-spacing:.08em;fill:#1C1E23}
+.btree .lvh{font-size:11px;font-weight:700;letter-spacing:.08em;fill:#1C1E23}
 @media print{.btree g.lv{opacity:1}.btree .ed.win{animation:none}}
 
 /* beam-search slot animation */
@@ -218,24 +219,24 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .brow{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:13px;font-weight:600;padding:4px 0}
 .brow .sc{font-size:12px}
 .brow.kept{color:var(--accent)}
-.brow.top{color:var(--accent);font-weight:800;font-size:14.5px}
+.brow.top{color:var(--accent);font-weight:800;font-size:14px}
 .brow.pruned{color:var(--foil-ink);text-decoration:line-through}
-.brow .nb{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink);text-decoration:none}
-.barrow{display:flex;align-items:center;color:var(--accent);font-size:22px;font-weight:800;opacity:0;transition:opacity .5s ease}
+.brow .nb{font-family:var(--sans);font-size:11px;font-weight:500;color:var(--ink);text-decoration:none}
+.barrow{display:flex;align-items:center;color:var(--accent);font-size:21px;font-weight:800;opacity:0;transition:opacity .5s ease}
 .barrow.on{opacity:1}
 @media print{.bstage,.barrow{opacity:1;transform:none}}
 
 /* neutral-pool thumbnails (prior slide) */
 .bgpool{display:flex;align-items:center;gap:10px;margin-top:12px;justify-content:center}
 .bgpool img{width:56px;height:40px;object-fit:cover;border-radius:5px;border:1.2px solid var(--hair2)}
-.bgpool .bgarr{color:var(--accent);font-size:19px;font-weight:800}
-.bgpool .bglbl{font-family:var(--mono);font-size:12.5px;font-weight:700}
+.bgpool .bgarr{color:var(--accent);font-size:18px;font-weight:800}
+.bgpool .bglbl{font-family:var(--mono);font-size:12px;font-weight:700}
 
 /* token funnel (gate + NMS slide) */
 .funnel{display:flex;flex-direction:column;gap:8px}
 .funnel .fstep{border:1.2px solid var(--hair2);border-radius:8px;background:#fff;padding:10px 14px}
 .funnel .fstep .fh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
-.funnel .fstep .fn2{font-size:14.5px;font-weight:750}
+.funnel .fstep .fn2{font-size:14px;font-weight:750}
 .funnel .fstep .fc{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
 .funnel .fstep .fx{font-family:var(--mono);font-size:12px;line-height:1.6}
 .funnel .fstep .fx .kill{color:var(--foil-ink);text-decoration:line-through}
@@ -254,7 +255,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 @keyframes cycc{0%,63%{opacity:0}69%,96%{opacity:1}100%{opacity:0}}
 @media print{.cropov > g{animation:none}.cropov .g33{opacity:1}}
 .croplab{position:absolute;bottom:10px;left:10px;background:var(--accent);color:#fff;font-family:var(--mono);
-  font-size:12.5px;font-weight:800;letter-spacing:.03em;padding:5px 11px;border-radius:6px;opacity:0;pointer-events:none}
+  font-size:12px;font-weight:800;letter-spacing:.03em;padding:5px 11px;border-radius:6px;opacity:0;pointer-events:none}
 .croplab.l33{animation:cyc33 7.5s linear infinite}
 .croplab.l22{animation:cyc22 7.5s linear infinite}
 .croplab.lc{animation:cycc 7.5s linear infinite}
@@ -268,11 +269,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 /* mode chip rows on the qualitative cards */
 .modeline{display:flex;align-items:flex-start;gap:6px;margin:0 !important}
-.modeline .mlab{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;flex:0 0 50px;padding-top:3px}
+.modeline .mlab{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;flex:0 0 50px;padding-top:3px}
 .modeline .chips{display:flex;flex-wrap:wrap;gap:3.5px;flex:1;min-width:0}
 .modeline.hq .mlab{color:var(--accent)}
 .modeline.adj .mlab{color:var(--teal-ink)}
-.modeline .tg{font-size:9.5px;padding:2px 6px;margin:0}
+.modeline .tg{font-size:10px;padding:2px 6px;margin:0}
 .modeline.hq .tg{border-color:var(--accent);color:var(--accent)}
 .modeline.adj .tg{border-color:var(--teal-ink);color:var(--teal-ink)}
 
@@ -295,20 +296,20 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .closing{justify-content:center}
 .closing h1{font-size:46px;line-height:1.24;letter-spacing:-.015em;max-width:none}
 .closing h1 .hl{color:var(--accent)}
-.contact{margin-top:32px;font-family:var(--mono);font-size:17px;line-height:1.85}
-.contact .nm{font-family:var(--sans);font-size:22px;font-weight:700;margin-bottom:10px}
+.contact{margin-top:32px;font-family:var(--mono);font-size:16px;line-height:1.85}
+.contact .nm{font-family:var(--sans);font-size:21px;font-weight:700;margin-bottom:10px}
 .contact a,.contact span.lk{color:var(--ink)}
 .contact .hx{color:var(--accent);font-weight:600}
 
 .qr{display:flex;flex-direction:column;align-items:center;gap:10px}
 .qr img{width:172px;height:172px;display:block}
 .qr .qrtop{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);max-width:150px;text-align:center;line-height:1.3}
-.qr .qrlabel{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+.qr .qrlabel{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);letter-spacing:.01em}
 .qr-abs{position:absolute;right:104px;top:50%;transform:translateY(-50%)}
 .qr-corner{position:absolute;top:46px;right:76px;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:6;text-decoration:none}
 .qr-corner .qrtop{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);line-height:1}
 .qr-corner img{width:92px;height:92px;display:block}
-.qr-corner .qrlabel{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
+.qr-corner .qrlabel{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
 
 /* compute-type badges (A = deeper pass, B = more passes, C = bootstrap) */
 .abc{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;
@@ -330,15 +331,15 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .momni{position:relative;border:2.2px solid var(--accent);border-radius:12px;background:#fff;
   padding:26px 18px 11px;box-shadow:0 0 0 1px var(--accent),0 8px 20px rgba(11,100,221,.10)}
 .momni .omnihd{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;
-  padding:4px 13px;font-family:var(--mono);font-size:11.5px;font-weight:800;letter-spacing:.04em;border-radius:6px;white-space:nowrap}
+  padding:4px 13px;font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.04em;border-radius:6px;white-space:nowrap}
 .momni .twins{display:flex;align-items:center;gap:12px}
 .momni .fbox.sub{border:1.3px solid var(--ink);padding:11px 13px;min-height:0}
-.momni .omnifoot{margin-top:9px;text-align:center;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--accent)}
+.momni .omnifoot{margin-top:9px;text-align:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent)}
 .mout{display:flex;flex-direction:column;gap:9px}
 .mout .outrow{display:flex;gap:10px;align-items:center}
 .mout .od{font-size:13px;line-height:1.25;font-weight:460;max-width:32ch}
-.mout .od b{font-size:14.5px}
-.menc .aarr{color:var(--accent);font-size:22px;font-weight:800}
+.mout .od b{font-size:14px}
+.menc .aarr{color:var(--accent);font-size:21px;font-weight:800}
 
 /* architecture diagram: one frozen omni block containing both towers */
 .archrow{display:flex;align-items:center;gap:20px;justify-content:center;width:100%}
@@ -349,12 +350,12 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .omni{position:relative;border:2.4px solid var(--accent);border-radius:14px;background:#fff;
   padding:32px 22px 14px;box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(11,100,221,.12)}
 .omnihd{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:5px 14px;
-  font-family:var(--mono);font-size:12.5px;font-weight:800;letter-spacing:.05em;border-radius:7px;white-space:nowrap}
+  font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.05em;border-radius:7px;white-space:nowrap}
 .omnigrid{display:grid;grid-template-columns:auto 36px auto;gap:14px 0;align-items:center}
 .omnigrid .aarr{animation:flowpulse 1.6s ease-in-out infinite;animation-delay:var(--d,0s)}
 .omni .fbox.sub{border:1.4px solid var(--ink);min-height:0;padding:13px 15px}
-.omni .fbox.sub .inj{font-size:11.5px;line-height:1.35;font-weight:500;border-top:1px solid var(--hair);padding-top:7px;margin-top:7px;font-family:var(--sans)}
-.passthru{font-family:var(--mono);font-size:11.5px;font-weight:600;text-align:center;color:var(--ink);
+.omni .fbox.sub .inj{font-size:11px;line-height:1.35;font-weight:500;border-top:1px solid var(--hair);padding-top:7px;margin-top:7px;font-family:var(--sans)}
+.passthru{font-family:var(--mono);font-size:11px;font-weight:600;text-align:center;color:var(--ink);
   border:1.4px dashed var(--hair2);border-radius:6px;padding:9px 10px}
 .omnifoot{margin-top:13px;text-align:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.02em}
 @media print{.omnigrid .aarr{animation:none}}
@@ -362,11 +363,11 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .patchimg img{width:100%;height:100%;object-fit:cover;display:block}
 .patchimg svg{position:absolute;inset:0;width:100%;height:100%}
 .tokin{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
-.tokin .tk{font-family:var(--mono);font-size:15px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:7px 12px;background:#fff}
+.tokin .tk{font-family:var(--mono);font-size:16px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:7px 12px;background:#fff}
 .tokin .tkn{font-family:var(--mono);font-size:12px;font-weight:600}
 .outrow{display:flex;gap:13px;align-items:center}
 .outrow svg{flex:0 0 auto}
-.outrow .od{font-size:14.5px;line-height:1.3;font-weight:480}
+.outrow .od{font-size:14px;line-height:1.3;font-weight:480}
 .outrow .od b{font-size:16px}
 .outcol{display:flex;flex-direction:column;gap:14px;justify-content:center}
 
@@ -374,8 +375,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .eqwrap{font-size:24px;text-align:center;margin:2px 0 6px}
 .eqlegend{display:flex;gap:26px;justify-content:center;margin-top:14px}
 .eqlegend .it{display:flex;gap:11px;align-items:flex-start;max-width:30ch}
-.eqlegend .it .tx{font-size:15.5px;line-height:1.35;font-weight:480;text-align:left}
-.eqpost{font-size:17px;text-align:center;margin-top:16px}
+.eqlegend .it .tx{font-size:16px;line-height:1.35;font-weight:480;text-align:left}
+.eqpost{font-size:16px;text-align:center;margin-top:16px}
 
 /* CWR crop-grid glyphs */
 .croprow{display:flex;gap:14px;align-items:center;margin-top:14px}
@@ -394,8 +395,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .mockrow:first-of-type{border-top:0}
 .mockrow img{width:62px;height:46px;object-fit:cover;border-radius:5px;flex:0 0 auto}
 .mockmeta{flex:1;min-width:0}
-.mockmeta .fn{font-family:var(--mono);font-size:12.5px;font-weight:600;margin-bottom:6px}
-.mockmeta .tg{font-size:11.5px;padding:3px 9px;margin-right:5px}
+.mockmeta .fn{font-family:var(--mono);font-size:12px;font-weight:600;margin-bottom:6px}
+.mockmeta .tg{font-size:11px;padding:3px 9px;margin-right:5px}
 
 /* media-shape cards */
 .mcards{display:flex;gap:20px;margin-top:4px}
@@ -404,19 +405,19 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .mcard.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .mcard .ttl{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .mcard.hero .ttl{color:var(--accent)}
-.mcard .desc{font-size:14.5px;line-height:1.42;font-weight:450;flex:1}
-.mcard .foot{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--accent);border-top:1px solid var(--hair);padding-top:10px;line-height:1.4}
+.mcard .desc{font-size:14px;line-height:1.42;font-weight:450;flex:1}
+.mcard .foot{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);border-top:1px solid var(--hair);padding-top:10px;line-height:1.4}
 .mcard svg{display:block}
 
 /* teaser 3x3 tagged-photo grid */
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 13px;width:100%}
 .tcell{border:1.2px solid var(--hair2);border-radius:8px;overflow:hidden;background:#fff}
 .tcell img{width:100%;height:104px;object-fit:cover;display:block}
-.tcell .tc{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--accent);padding:6px 8px;white-space:nowrap;overflow:hidden}
+.tcell .tc{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--accent);padding:6px 8px;white-space:nowrap;overflow:hidden}
 
 /* stacked vocabulary chips (offline label path) */
 .tokstack{position:relative;width:196px;height:100px}
-.tokstack .tks{position:absolute;font-family:var(--mono);font-size:13.5px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:6px 12px;background:#fff;white-space:nowrap}
+.tokstack .tks{position:absolute;font-family:var(--mono);font-size:13px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:6px 12px;background:#fff;white-space:nowrap}
 .tokstack .t1{left:0;top:0;z-index:3}
 .tokstack .t2{left:46px;top:14px;z-index:2}
 .tokstack .t3{left:112px;top:28px;z-index:1}
@@ -424,7 +425,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 /* offline / per-image pipeline lanes */
 .lane{display:flex;flex-direction:column;gap:9px}
-.lane .lhd{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+.lane .lhd{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
   display:flex;align-items:center;gap:10px}
 .lane .lhd::after{content:"";flex:1;height:1px;background:var(--hair2)}
 .lane .lhd .ms{color:var(--accent)}
@@ -691,7 +692,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       </div>
     </div>
     <div style="flex:.9">
-      <p class="cap" style="font-size:17px"><strong>Why encode_text, not the embedding table?</strong> The model has <span class="mono">tie_word_embeddings = false</span>: the input-embedding table lives in a different space than the pooled output. You must encode each token <em>as a text string</em> to put labels in the image's space.</p>
+      <p class="cap" style="font-size:16px"><strong>Why encode_text, not the embedding table?</strong> The model has <span class="mono">tie_word_embeddings = false</span>: the input-embedding table lives in a different space than the pooled output. You must encode each token <em>as a text string</em> to put labels in the image's space.</p>
     </div>
   </div>
 </section>
@@ -760,7 +761,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <p class="cap">Raw cosine has a base-rate bias: generic words ("bed", "cat") score high on almost any image because they sit near the image modality. Estimate a per-label prior once from neutral background images, then subtract it:
       \[ \tilde s_\ell \;=\; s_\ell-\mu_\ell,\qquad \mu_\ell=\mathbb{E}_{x\,\sim\,\text{background}}\big[s_\ell(x)\big] \]
       </p>
-      <p class="cap" style="font-size:16.5px;margin-top:10px">No calibration set, no labels, one offline pass.</p>
+      <p class="cap" style="font-size:16px;margin-top:10px">No calibration set, no labels, one offline pass.</p>
     </div>
     <div style="flex:.95">
       <svg viewBox="0 0 320 210" style="width:100%;border:1.2px solid var(--hair2);border-radius:8px;background:#fff">
@@ -785,7 +786,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <span class="bglbl">background:</span>
         <img src="img/neutral-grad.png" alt=""><img src="img/neutral-flat.png" alt=""><img src="img/neutral-noise.png" alt="">
         <span class="bgarr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></span>
-        <span class="bglbl">&mu;<span style="font-size:9px;vertical-align:sub">&#8467;</span> per label</span>
+        <span class="bglbl">&mu;<span style="font-size:10px;vertical-align:sub">&#8467;</span> per label</span>
       </div>
     </div>
   </div>
@@ -833,7 +834,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
       <p class="cap" style="margin-top:12px">
       \[ S_\ell=\tilde s_\ell+1.3\big(\max_{c=1..14} s_{c,\ell}-\mu_\ell\big),\qquad s_{c,\ell}=\max\!\big(\max_{p\in P_c}\langle p,e_\ell\rangle,\;\langle g_c,e_\ell\rangle\big) \]
       </p>
-      <p class="cap" style="font-size:16.5px;margin-top:8px"><span class="abc sm b" style="vertical-align:1px;margin-right:6px">B</span>Per-label <strong>max</strong>, not averaging: <span style="color:var(--foil-ink)">averaging hurt</span>. The outlier crop is the evidence.</p>
+      <p class="cap" style="font-size:16px;margin-top:8px"><span class="abc sm b" style="vertical-align:1px;margin-right:6px">B</span>Per-label <strong>max</strong>, not averaging: <span style="color:var(--foil-ink)">averaging hurt</span>. The outlier crop is the evidence.</p>
     </div>
     <div style="flex:.95">
       <div class="shot" style="position:relative"><img src="img/zebra.jpg" alt="a bear" style="height:300px;object-fit:cover">
@@ -964,16 +965,19 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 19 NGRAM ============ -->
 <section class="slide">
-  <div class="kicker">The next question</div>
-  <h2 class="h-slide sm">Every tag is a single word.</h2>
-  <div class="body row" style="gap:48px;align-items:center">
-    <div style="flex:.85">
-      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:280px;object-fit:cover"></div>
-      <div class="imgcap"><span class="mono">kitty</span> &nbsp;&rarr;&nbsp; <span class="mono accent">grey couch kitty</span></div>
+  <div class="kicker">One more mode &middot; --ngram</div>
+  <h2 class="h-slide sm" style="margin-bottom:14px">Extend to n-grams.</h2>
+  <p class="lead" style="margin-bottom:30px">Every tag so far is a single word. Can more <strong>test-time compute</strong> turn it into a grounded <strong>noun phrase</strong> &mdash; no POS tagger, no grammar, no new model?</p>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div style="flex:.9">
+      <div class="shot"><img src="img/cat.jpg" alt="two cats on a couch" style="height:270px;object-fit:cover"></div>
     </div>
-    <div style="flex:1.15">
-      <p class="pull">Can more <strong>test-time compute</strong> turn a single-word tag into a grounded <strong>noun phrase</strong>?
-        <cite>no POS tagger, no grammar, no new model &mdash; only the frozen encoder</cite></p>
+    <div style="flex:1.1">
+      <div class="card"><div class="ttl">the same four tags, n = 1, 2, 3</div>
+        <div class="modeline" style="margin-top:8px"><span class="mlab">n=1</span><div class="chips"><span class="tg">kitty</span><span class="tg">cosy</span><span class="tg">plush</span><span class="tg">crib</span></div></div>
+        <div class="modeline hq" style="margin-top:6px"><span class="mlab">n=2</span><div class="chips"><span class="tg">couch kitty</span><span class="tg">black cosy</span><span class="tg">grey plush</span><span class="tg">grey crib</span></div></div>
+        <div class="modeline adj" style="margin-top:6px"><span class="mlab">n=3</span><div class="chips"><span class="tg">grey couch kitty</span><span class="tg">sleeping black cosy</span><span class="tg">grey sleeping plush</span><span class="tg">sleeps grey crib</span></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -983,7 +987,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over n-gram slots.</h2>
   <div class="body" style="justify-content:center;gap:6px">
-    <p class="cap" style="font-size:15.5px;max-width:86ch">Every node is a real phrase, embedded by the frozen model and scored against the noun&rsquo;s patch region: \( s=\langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \). Beam width 4.</p>
+    <p class="cap" style="font-size:16px;max-width:86ch">Every node is a real phrase, embedded by the frozen model and scored against the noun&rsquo;s patch region: \( s=\langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \). Beam width 4.</p>
     <div class="chart" style="height:382px"><svg id="beamtree" class="btree" viewBox="0 0 1080 400" preserveAspectRatio="xMidYMid meet">
       <text class="lvh" x="30" y="20">THE PHRASE &middot; trigram</text>
       <text class="lvh" x="330" y="20">FILL SLOT 1 &middot; KEEP B=4</text>
@@ -1070,7 +1074,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:2px;font-size:17px">Single pass, crop re-encoding, beam-searched n-grams. Top-5 per mode, unstaged photos. <span class="accent">Verbatim, unfiltered.</span></p>
+    <p class="takeaway" style="margin-top:2px;font-size:16px">Single pass, crop re-encoding, beam-searched n-grams. Top-5 per mode, unstaged photos. <span class="accent">Verbatim, unfiltered.</span></p>
   </div>
 </section>
 
@@ -1079,7 +1083,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">Relation to prior work</div>
   <h2 class="h-slide sm">Versus the recent tagging literature.</h2>
   <div class="body" style="justify-content:center;gap:16px">
-    <table class="bt syn" style="font-size:15.5px">
+    <table class="bt syn" style="font-size:16px">
       <thead><tr><th>line of work</th><th style="text-align:left">their setup</th><th style="text-align:left">our delta</th></tr></thead>
       <tbody>
         <tr><td>Tag2Text / RAM / RAM++</td><td style="text-align:left">trained tagging models, curated ~6.4k tag list</td><td style="text-align:left;color:#0B64DD">training-free, label space = tokenizer vocab</td></tr>
