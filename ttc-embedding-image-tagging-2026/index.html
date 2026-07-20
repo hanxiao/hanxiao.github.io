@@ -35,7 +35,7 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden;}
 .kicker::before{content:"";width:26px;height:3px;background:var(--accent);display:inline-block;border-radius:2px}
 h1{font-size:58px;line-height:1.05;font-weight:800;letter-spacing:-.022em;max-width:20ch}
 /* TYPE SCALE (fixed): headings 58/46 (h1), 35/33 (h-slide); body 21 (takeaway/sub), 18 (cap/lead), 16 (dense); labels 14/13/12/11 (mono, captions); 10 (micro). Do not introduce half-px or off-scale sizes. */
-.h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;margin-bottom:36px}
+.h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;margin-bottom:28px}
 .h-slide.sm{font-size:33px}
 .sub{font-size:21px;line-height:1.42;font-weight:430;max-width:60ch}
 .lead{font-size:18px;line-height:1.45;font-weight:450;max-width:64ch}
@@ -480,7 +480,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 2 THE RESULT FIRST ============ -->
 <section class="slide">
   <div class="kicker">The result, first</div>
-  <h2 class="h-slide sm" style="margin-bottom:16px">Training-free, open-vocabulary tagging from a frozen embedding model.</h2>
+  <h2 class="h-slide sm">Training-free, open-vocabulary tagging from a frozen embedding model.</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
       <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky &middot; rooftop &middot; location</div></figure>
@@ -912,7 +912,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 14 VOCAB HISTOGRAM ============ -->
 <section class="slide">
   <div class="kicker">The equation, visualized</div>
-  <h2 class="h-slide sm" style="margin-bottom:14px">The pipeline sharpens a distribution.</h2>
+  <h2 class="h-slide sm">The pipeline sharpens a distribution.</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <div class="chart" style="height:400px"><div id="c-vhist" style="height:100%"></div></div>
     <p class="takeaway" style="font-size:18px">Real pipeline output, one image, all 128,260 tokens. <span class="accent">Tagging is distribution sharpening.</span></p>
@@ -941,7 +941,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
-  <h2 class="h-slide sm" style="margin-bottom:14px">Does bootstrapping scale accuracy at test time?</h2>
+  <h2 class="h-slide sm">Does bootstrapping scale accuracy at test time?</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <p class="cap" style="max-width:80ch;font-size:16px">One example: <strong>OTTER</strong> re-balances scores toward a target class distribution &mdash; a pure re-arrangement. Its baseline (open circle) is the 5-crop result <strong>0.693</strong>, not 0.635; it lands at 0.699.</p>
     <div class="chart" style="height:388px"><div id="c-levers" style="height:100%"></div></div>
@@ -975,7 +975,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 19 NGRAM ============ -->
 <section class="slide">
   <div class="kicker">One more mode &middot; --ngram</div>
-  <h2 class="h-slide sm" style="margin-bottom:14px">Extend to n-grams.</h2>
+  <h2 class="h-slide sm">Extend to n-grams.</h2>
   <p class="lead" style="margin-bottom:30px">Every tag so far is a single word. Can more <strong>test-time compute</strong> turn it into a grounded <strong>noun phrase</strong> &mdash; no POS tagger, no grammar, no new model?</p>
   <div class="body row" style="gap:44px;align-items:center">
     <div style="flex:.9">
@@ -994,7 +994,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 20 BEAM SEARCH ============ -->
 <section class="slide">
   <div class="kicker">--ngram &middot; mechanics</div>
-  <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over n-gram slots.</h2>
+  <h2 class="h-slide sm">Beam search over n-gram slots.</h2>
   <div class="body" style="justify-content:center;gap:6px">
     <p class="cap" style="font-size:16px;max-width:86ch">Each slot is filled one at a time. At every level the encoder scores the full phrase against the region \( \big(\langle E(\text{phrase}),\text{region}\rangle-\langle E(\text{kitty}),\text{region}\rangle\big) \); the best 4 across <em>all</em> expansions survive. No backtracking &mdash; the winner is read off the final beam.</p>
     <div class="chart" style="height:382px"><svg id="beamtree" class="btree" viewBox="0 0 1080 400" preserveAspectRatio="xMidYMid meet">
@@ -1055,8 +1055,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 21 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
-  <h2 class="h-slide sm" style="margin-bottom:14px">n-gram tagging in action.</h2>
-  <div class="body" style="justify-content:flex-start;gap:12px">
+  <h2 class="h-slide sm">n-gram tagging in action.</h2>
+  <div class="body" style="justify-content:center;gap:12px">
     <div class="gallcol">
       <div class="gallrow">
         <img src="img/photo1.jpg" alt="conference hall">
@@ -1172,7 +1172,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 25 SYNTHESIS ============ -->
 <section class="slide">
   <div class="kicker">Synthesis</div>
-  <h2 class="h-slide sm" style="margin-bottom:20px">A capability the model was never trained for, realized at inference.</h2>
+  <h2 class="h-slide sm">A capability the model was never trained for, realized at inference.</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <p class="cap" style="max-width:80ch">Two talks, one thesis. A frozen encoder holds more capability than its training objective exposes, and you unlock it with <strong>test-time compute</strong>, not more parameters.</p>
     <div class="cards">
