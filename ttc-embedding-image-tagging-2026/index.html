@@ -277,6 +277,14 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .modeline.hq .tg{border-color:var(--accent);color:var(--accent)}
 .modeline.adj .tg{border-color:var(--teal-ink);color:var(--teal-ink)}
 
+/* vertical gallery: photo left, four mode rows right */
+.gallcol{display:flex;flex-direction:column;gap:12px;width:100%}
+.gallrow{display:flex;align-items:center;gap:18px}
+.gallrow>img{width:188px;height:106px;object-fit:cover;border-radius:8px;border:1.2px solid var(--hair2);flex:0 0 auto}
+.gallrow.hero>img{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.galltags{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.galltags .modeline{margin:0}
+
 /* demo tag chips */
 .demorow{display:flex;gap:24px;width:100%;align-items:stretch}
 .democard{flex:1;border:1.2px solid var(--hair2);border-radius:var(--r-card);background:#fff;overflow:hidden;display:flex;flex-direction:column}
@@ -987,53 +995,57 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">--ngram &middot; mechanics</div>
   <h2 class="h-slide sm" style="margin-bottom:16px">Beam search over n-gram slots.</h2>
   <div class="body" style="justify-content:center;gap:6px">
-    <p class="cap" style="font-size:16px;max-width:86ch">Every node is a real phrase, embedded by the frozen model and scored against the noun&rsquo;s patch region: \( s=\langle E(\text{phrase}),\,\text{region}\rangle-\langle E(\text{kitty}),\,\text{region}\rangle \). Beam width 4.</p>
+    <p class="cap" style="font-size:16px;max-width:86ch">Each slot is filled one at a time. At every level the encoder scores the full phrase against the region \( \big(\langle E(\text{phrase}),\text{region}\rangle-\langle E(\text{kitty}),\text{region}\rangle\big) \); the best 4 across <em>all</em> expansions survive. No backtracking &mdash; the winner is read off the final beam.</p>
     <div class="chart" style="height:382px"><svg id="beamtree" class="btree" viewBox="0 0 1080 400" preserveAspectRatio="xMidYMid meet">
-      <text class="lvh" x="30" y="20">THE PHRASE &middot; trigram</text>
-      <text class="lvh" x="330" y="20">FILL SLOT 1 &middot; KEEP B=4</text>
-      <text class="lvh" x="700" y="20">FILL SLOT 2 &middot; THE ENCODER DECIDES</text>
+      <text class="lvh" x="24" y="20">trigram</text>
+      <text class="lvh" x="288" y="20">slot 1 &middot; keep 4</text>
+      <text class="lvh" x="658" y="20">slot 2 &middot; encoder scores each full phrase</text>
+      <!-- phrase template (left), slots fill as the search runs -->
       <g class="lv l0 on">
-        <rect class="bn" x="22" y="182" width="50" height="34" rx="6" stroke-dasharray="5 3"/>
-        <text x="47" y="204" text-anchor="middle" font-size="14">?</text>
-        <rect class="bn" x="76" y="182" width="50" height="34" rx="6" stroke-dasharray="5 3"/>
-        <text x="101" y="204" text-anchor="middle" font-size="14">?</text>
-        <rect class="bn" x="130" y="182" width="64" height="34" rx="6"/>
-        <text x="162" y="204" text-anchor="middle" font-size="13.5">kitty</text>
-        <text x="47" y="232" text-anchor="middle" font-size="10" fill="#0B64DD" font-weight="700">SLOT 2</text>
-        <text x="101" y="232" text-anchor="middle" font-size="10" fill="#0B64DD" font-weight="700">SLOT 1</text>
-        <text x="162" y="232" text-anchor="middle" font-size="10">NOUN</text>
+        <rect class="bn" id="tslot2" x="24" y="182" width="58" height="34" rx="6" stroke-dasharray="5 3"/>
+        <text id="tslot2t" x="53" y="204" text-anchor="middle" font-size="13">?</text>
+        <rect class="bn" id="tslot1" x="86" y="182" width="58" height="34" rx="6" stroke-dasharray="5 3"/>
+        <text id="tslot1t" x="115" y="204" text-anchor="middle" font-size="13">?</text>
+        <rect class="bn" x="148" y="182" width="56" height="34" rx="6"/>
+        <text x="176" y="204" text-anchor="middle" font-size="13">kitty</text>
+        <text x="53" y="232" text-anchor="middle" font-size="10" fill="#0B64DD" font-weight="700">slot 2</text>
+        <text x="115" y="232" text-anchor="middle" font-size="10" fill="#0B64DD" font-weight="700">slot 1</text>
+        <text x="176" y="232" text-anchor="middle" font-size="10">noun</text>
       </g>
+      <!-- level 1: expand root into candidate words, keep top 4 -->
       <g class="lv l1">
-        <path class="ed" d="M194 199 C 250 199, 244 62, 300 62"/>
-        <path class="ed" d="M194 199 C 250 199, 244 128, 300 128"/>
-        <path class="ed" d="M194 199 C 250 199, 244 194, 300 194"/>
-        <path class="ed" d="M194 199 C 250 199, 244 260, 300 260"/>
-        <path class="ed prn" d="M194 199 C 250 199, 244 318, 300 318"/>
-        <path class="ed prn" d="M194 199 C 250 199, 244 372, 300 372"/>
-        <rect class="bn" x="300" y="46" width="196" height="32" rx="7"/><text x="312" y="67" font-size="12.5">couch kitty</text><text class="sc2" x="484" y="67" text-anchor="end">+0.059</text>
-        <rect class="bn" x="300" y="112" width="196" height="32" rx="7"/><text x="312" y="133" font-size="12.5">grey kitty</text><text class="sc2" x="484" y="133" text-anchor="end">+0.050</text>
-        <rect class="bn" x="300" y="178" width="196" height="32" rx="7"/><text x="312" y="199" font-size="12.5">sleeps kitty</text><text class="sc2" x="484" y="199" text-anchor="end">+0.048</text>
-        <rect class="bn" x="300" y="244" width="196" height="32" rx="7"/><text x="312" y="265" font-size="12.5">sofa kitty</text><text class="sc2" x="484" y="265" text-anchor="end">+0.047</text>
-        <rect class="bn prn" x="300" y="302" width="196" height="32" rx="7"/><text class="prntxt" x="312" y="323" font-size="12.5">fleece kitty</text><text class="sc2" x="484" y="323" text-anchor="end" fill="#C2186A">pruned</text>
-        <rect class="bn prn" x="300" y="356" width="196" height="32" rx="7"/><text class="prntxt" x="312" y="377" font-size="12.5">blanket kitty &middot; &hellip;</text><text class="sc2" x="484" y="377" text-anchor="end" fill="#C2186A">pruned</text>
+        <path class="ed" d="M204 199 C 250 199, 244 70, 300 70"/>
+        <path class="ed" d="M204 199 C 250 199, 244 134, 300 134"/>
+        <path class="ed" d="M204 199 C 250 199, 244 198, 300 198"/>
+        <path class="ed" d="M204 199 C 250 199, 244 262, 300 262"/>
+        <path class="ed prn" d="M204 199 C 250 199, 244 322, 300 322"/>
+        <path class="ed prn" d="M204 199 C 250 199, 244 372, 300 372"/>
+        <rect class="bn" x="300" y="54" width="186" height="32" rx="7"/><text x="311" y="75" font-size="12">couch kitty</text><text class="sc2" x="475" y="75" text-anchor="end">+0.059</text>
+        <rect class="bn" x="300" y="118" width="186" height="32" rx="7"/><text x="311" y="139" font-size="12">grey kitty</text><text class="sc2" x="475" y="139" text-anchor="end">+0.050</text>
+        <rect class="bn" x="300" y="182" width="186" height="32" rx="7"/><text x="311" y="203" font-size="12">sleeps kitty</text><text class="sc2" x="475" y="203" text-anchor="end">+0.048</text>
+        <rect class="bn" x="300" y="246" width="186" height="32" rx="7"/><text x="311" y="267" font-size="12">sofa kitty</text><text class="sc2" x="475" y="267" text-anchor="end">+0.047</text>
+        <rect class="bn prn" x="300" y="306" width="186" height="30" rx="7"/><text class="prntxt" x="311" y="326" font-size="12">fleece kitty</text><text class="sc2" x="475" y="326" text-anchor="end" fill="#C2186A">pruned</text>
+        <rect class="bn prn" x="300" y="356" width="186" height="30" rx="7"/><text class="prntxt" x="311" y="376" font-size="12">blanket kitty</text><text class="sc2" x="475" y="376" text-anchor="end" fill="#C2186A">pruned</text>
       </g>
+      <!-- level 2: expand EVERY kept beam, keep the best 4 across all -->
       <g class="lv l2">
-        <path class="ed" d="M496 62 C 583 62, 583 100, 670 100"/>
-        <path class="ed" d="M496 128 C 583 128, 583 153, 670 153"/>
-        <path class="ed prn" d="M496 194 C 583 194, 583 282, 670 282"/>
-        <path class="ed prn" d="M496 260 C 583 260, 583 330, 670 330"/>
-        <rect class="bn" x="670" y="84" width="280" height="34" rx="7"/><text x="682" y="106" font-size="13">sleeping couch kitty</text><text class="sc2" x="938" y="106" text-anchor="end">+0.084</text>
-        <rect class="bn" x="670" y="136" width="280" height="34" rx="7"/><text x="682" y="158" font-size="13">couch grey kitty</text><text class="sc2" x="938" y="158" text-anchor="end">+0.091</text>
-        <text x="682" y="186" font-size="10.5" font-family="-apple-system,sans-serif" font-weight="500">same two words, worse order</text>
-        <rect class="bn prn" x="670" y="266" width="280" height="32" rx="7"/><text class="prntxt" x="682" y="287" font-size="12.5">&hellip; below the beam</text>
-        <rect class="bn prn" x="670" y="314" width="280" height="32" rx="7"/><text class="prntxt" x="682" y="335" font-size="12.5">&hellip; below the beam</text>
+        <path class="ed" d="M486 70 C 560 70, 585 98, 660 98"/>
+        <path class="ed" d="M486 70 C 560 70, 585 144, 660 144"/>
+        <path class="ed" d="M486 134 C 560 134, 585 200, 660 200"/>
+        <path class="ed prn" d="M486 198 C 560 198, 585 264, 660 264"/>
+        <path class="ed prn" d="M486 262 C 560 262, 585 312, 660 312"/>
+        <rect class="bn" x="660" y="82" width="290" height="32" rx="7"/><text x="672" y="102" font-size="12.5">sleeping couch kitty</text><text class="sc2" x="938" y="102" text-anchor="end">+0.084</text>
+        <rect class="bn" x="660" y="128" width="290" height="32" rx="7"/><text x="672" y="148" font-size="12.5">sleeps couch kitty</text><text class="sc2" x="938" y="148" text-anchor="end">+0.084</text>
+        <rect class="bn" x="660" y="184" width="290" height="32" rx="7"/><text x="672" y="204" font-size="12.5">couch grey kitty</text><text class="sc2" x="938" y="204" text-anchor="end">+0.091</text>
+        <rect class="bn prn" x="660" y="248" width="290" height="30" rx="7"/><text x="805" y="267" font-size="12" text-anchor="middle" fill="#C2186A">sleeps &amp; sofa branches: below the beam</text>
       </g>
+      <!-- winner path: root -> couch kitty -> grey couch kitty -->
       <g class="lv lwin">
-        <path class="ed win" d="M194 199 C 250 199, 244 62, 300 62"/>
-        <path class="ed win" d="M496 62 C 583 62, 583 49, 670 49"/>
-        <rect class="bn win" x="670" y="30" width="280" height="38" rx="8"/>
-        <text x="682" y="54" font-size="14" font-weight="800" fill="#0B64DD">grey couch kitty</text>
-        <text class="sc2" x="938" y="54" text-anchor="end" font-weight="800">+0.093</text>
+        <path class="ed win" d="M204 199 C 250 199, 244 70, 300 70"/>
+        <path class="ed win" d="M486 70 C 560 70, 585 49, 660 49"/>
+        <rect class="bn win" x="660" y="32" width="290" height="36" rx="8"/>
+        <text x="672" y="55" font-size="13.5" font-weight="800" fill="#0B64DD">grey couch kitty</text>
+        <text class="sc2" x="938" y="55" text-anchor="end" font-weight="800">+0.093</text>
       </g>
     </svg></div>
     <p class="takeaway" style="font-size:18px">The winning path re-orders its own words: <span class="accent">&ldquo;grey couch kitty&rdquo; beats &ldquo;couch grey kitty&rdquo;</span>. Word order, resolved by an embedding model with no grammar.</p>
@@ -1043,30 +1055,30 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 21 QUALITATIVE ============ -->
 <section class="slide">
   <div class="kicker">Qualitative results</div>
-  <h2 class="h-slide sm" style="margin-bottom:16px">Out-of-distribution photos.</h2>
+  <h2 class="h-slide sm" style="margin-bottom:14px">n-gram tagging in action.</h2>
   <div class="body" style="justify-content:flex-start;gap:12px">
-    <div class="demorow">
-      <div class="democard">
+    <div class="gallcol">
+      <div class="gallrow">
         <img src="img/photo1.jpg" alt="conference hall">
-        <div class="demobody">
+        <div class="galltags">
           <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">onstage</span><span class="tg">attendees</span><span class="tg">livest</span><span class="tg">concert</span><span class="tg">presenter</span></div></div>
           <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">onstage</span><span class="tg">venue</span><span class="tg">ceiling</span><span class="tg">projector</span><span class="tg">theater</span></div></div>
           <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">conference onstage</span><span class="tg">projector attendees</span><span class="tg">attendees livest</span><span class="tg">projector concert</span><span class="tg">projector presenter</span></div></div>
           <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">conference crowd onstage</span><span class="tg">lobby projector attendees</span><span class="tg">projector attendees livest</span><span class="tg">projector lobby concert</span><span class="tg">attendees projector presenter</span></div></div>
         </div>
       </div>
-      <div class="democard hero">
+      <div class="gallrow hero">
         <img src="img/photo3.jpg" alt="porsche interior">
-        <div class="demobody">
+        <div class="galltags">
           <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">driv</span><span class="tg">rims</span><span class="tg">ford</span><span class="tg">traction</span><span class="tg">sidew</span></div></div>
           <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">carro</span><span class="tg">rims</span><span class="tg">windshield</span><span class="tg">steering</span><span class="tg">beach</span></div></div>
           <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">windshield driv</span><span class="tg">windshield rims</span><span class="tg">sail ford</span><span class="tg">windshield traction</span><span class="tg">blue sidew</span></div></div>
           <div class="modeline adj"><span class="mlab">n=3</span><div class="chips"><span class="tg">blackjack windshield driv</span><span class="tg">dealership windshield rims</span><span class="tg">windshield yacht ford</span><span class="tg">yacht sedan traction</span><span class="tg">blue car sidew</span></div></div>
         </div>
       </div>
-      <div class="democard">
+      <div class="gallrow">
         <img src="img/photo2.jpg" alt="expo corridor">
-        <div class="demobody">
+        <div class="galltags">
           <div class="modeline "><span class="mlab">default</span><div class="chips"><span class="tg">attendees</span><span class="tg">passengers</span><span class="tg">protestors</span><span class="tg">migrants</span><span class="tg">crowded</span></div></div>
           <div class="modeline hq"><span class="mlab">crops</span><div class="chips"><span class="tg">attendees</span><span class="tg">commuters</span><span class="tg">demonstrators</span><span class="tg">synagogue</span><span class="tg">crowded</span></div></div>
           <div class="modeline adj"><span class="mlab">n=2</span><div class="chips"><span class="tg">protester attendees</span><span class="tg">demonstrators passengers</span><span class="tg">passengers protestors</span><span class="tg">attendees migrants</span><span class="tg">demonstrators crowded</span></div></div>
@@ -1074,7 +1086,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         </div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:2px;font-size:16px">Single pass, crop re-encoding, beam-searched n-grams. Top-5 per mode, unstaged photos. <span class="accent">Verbatim, unfiltered.</span></p>
+    <p class="takeaway" style="margin-top:6px;font-size:16px">Default, crop re-encoding, beam-searched n-grams. Top-5 per mode, unstaged photos. <span class="accent">Verbatim, unfiltered.</span></p>
   </div>
 </section>
 
@@ -1424,9 +1436,16 @@ window.restartVhist=drawVocabHist;
 window.restartBeam=function(){
   const w=document.getElementById('beamtree'); if(!w)return;
   const lv=[w.querySelector('.l1'),w.querySelector('.l2'),w.querySelector('.lwin')];
+  const s1=w.querySelector('#tslot1t'), s2=w.querySelector('#tslot2t');
+  const b1=w.querySelector('#tslot1'), b2=w.querySelector('#tslot2');
+  const fill=(t,b,txt)=>{t.textContent=txt;t.setAttribute('font-size','11');t.setAttribute('fill','#0B64DD');t.setAttribute('font-weight','700');b.setAttribute('stroke-dasharray','0');b.setAttribute('fill','#E7EEFC');};
+  const clear=(t,b)=>{t.textContent='?';t.setAttribute('font-size','13');t.setAttribute('fill','#1C1E23');t.removeAttribute('font-weight');b.setAttribute('stroke-dasharray','5 3');b.setAttribute('fill','#fff');};
   lv.forEach(e=>e&&e.classList.remove('on'));
-  if(window.matchMedia&&window.matchMedia('print').matches){lv.forEach(e=>e&&e.classList.add('on'));return;}
+  clear(s1,b1); clear(s2,b2);
+  if(window.matchMedia&&window.matchMedia('print').matches){lv.forEach(e=>e&&e.classList.add('on'));fill(s1,b1,'couch');fill(s2,b2,'grey');return;}
   lv.forEach((e,k)=>e&&setTimeout(()=>e.classList.add('on'), 700+k*1100));
+  setTimeout(()=>fill(s1,b1,'couch'), 700+1*1100+200);   // slot 1 = winner's slot-1 (couch)
+  setTimeout(()=>fill(s2,b2,'grey'),  700+2*1100+200);   // slot 2 = winner's slot-2 (grey)
 };
 setTimeout(window.restartBeam, 300);
 function renderAll(){fillResults();drawLadder();drawLevers();drawPareto();drawVocabHist();}

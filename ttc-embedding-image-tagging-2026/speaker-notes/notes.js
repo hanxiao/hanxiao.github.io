@@ -349,29 +349,28 @@ Just the frozen encoder.//
 Let me show you how.`},
 
   { n:20, sec:40, title:"Beam mechanics",
-    note:`Here is the whole search space, drawn as a tree, with real numbers.//
-Top left is the phrase template.
-Two open slots, then the noun, kitty, fixed.
-Slot one fills first, next to the noun.
-Slot two prepends in front.
-The candidates are the region's surviving words.
-And the score of any filled phrase is the encoder's own judgment.
-Embed the phrase, dot it with the region, subtract the bare noun.//
-Depth one. Fill the first slot.
-Couch kitty scores highest. Grey, sleeps, sofa follow.
-We keep the top four branches.
-The pink branches, fleece, blanket, are pruned. Dead subtrees.//
-Depth two. Fill the second slot on each survivor.
-And here is the moment I love.
+    note:`Here is the search space, drawn as a tree, with real numbers.//
+On the left, the phrase template.
+Two empty slots, then the noun, kitty, fixed.
+Watch the slots fill as the search runs.//
+Slot one. Expand the noun into candidate words.
+Couch, grey, sleeps, sofa. Keep the best four.
+Fleece and blanket, pruned.//
+Slot two, and this is the real beam search.
+We expand *every* one of the four survivors.
+The encoder scores each full phrase against the region.
+And the best four across *all* of those expansions survive.//
+Notice where they land.
+Three of the four come from the couch branch.
+One from grey. Sleeps and sofa fall below the beam.
+There is no backtracking. We just read the winner off the final beam.//
 Grey couch kitty, plus point zero nine three.
-Couch grey kitty, *same two words*, plus point zero nine one.
-The encoder prefers the attribute *first*.
-Word order, resolved by an embedding model,
-with no grammar anywhere in the system.`},
+It even beats couch grey kitty. Same words, better order.
+Word order, resolved by an embedding model, with no grammar.`},
 
   { n:21, sec:28, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
-Each card shows four modes, top five each.//
+Each row is one photo, four modes, top five each.//
 Default, the single pass.
 Crops, the fourteen-crop re-encoding.
 And beam-searched n-grams, at two and at three.//
