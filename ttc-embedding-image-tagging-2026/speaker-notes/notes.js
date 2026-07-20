@@ -436,19 +436,19 @@ Invoice, table, signature, per page.//
 The media shape only changes *what counts as a patch*.
 Crops for detail. Frames for time. Pages for documents.`},
 
-  { n:25, sec:34, title:"Synthesis",
-    note:`Let me tie the two talks together.
-One thesis, twice.
-A frozen encoder holds *more capability*
-than its training objective ever exposes.
-And you unlock it with *test-time compute*, not more parameters.//
-In the retrieval talk, that produced more *relevance*
-on the task it was trained for.
-In this talk, it produced an entirely *new task*, tagging,
-that the model was never trained for.//
-But test-time compute only *scales*
-when it supplies the model with *new information*.
-Re-processing a representation that is already good yields *nothing*.`},
+  { n:25, sec:36, title:"The bigger picture",
+    note:`Let me place this in the bigger picture.
+Test-time compute for embedding models.//
+A frozen embedding model exposes only part of what it can do.
+Spend compute at inference, extra passes, algebra over its outputs,
+and you reach the rest. No new parameters.//
+In my AIE San Francisco talk,
+I spent that compute for more *relevance*.
+Better retrieval, on the task the encoder *was* trained for.//
+In this talk, I spent it for a new *capability*.
+Image tagging. A task the encoder was *never* trained for.//
+Same lever, escalating. From quality, to capability.
+And it only pays when the compute feeds the model *new information*.`},
 
   { n:26, sec:26, title:"Close",
     note:`So this is the sentence I want to leave you with.

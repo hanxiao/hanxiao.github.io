@@ -1172,15 +1172,15 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 
 <!-- ============ 25 SYNTHESIS ============ -->
 <section class="slide">
-  <div class="kicker">Synthesis</div>
-  <h2 class="h-slide sm">A capability the model was never trained for, realized at inference.</h2>
-  <div class="body" style="justify-content:center;gap:20px">
-    <p class="cap" style="max-width:80ch">Two talks, one thesis. A frozen encoder holds more capability than its training objective exposes, and you unlock it with <strong>test-time compute</strong>, not more parameters.</p>
+  <div class="kicker">The bigger picture</div>
+  <h2 class="h-slide sm">Test-time compute for embedding models.</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:82ch">A frozen embedding model exposes only part of what it can do. Spending compute at inference &mdash; extra passes, algebra over its outputs &mdash; reaches the rest, with no new parameters. Two talks, one escalation:</p>
     <div class="cards">
-      <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)"><div class="ttl" style="color:var(--teal-ink)">Retrieval talk</div><div class="desc">recombine the geometry for more <strong>relevance</strong> on the task it was trained for.</div></div>
-      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">recombine the geometry for an <strong>emergent new task</strong> it was never trained for: tagging.</div></div>
+      <div class="card" style="border-color:var(--teal-ink);box-shadow:0 0 0 1px var(--teal-ink)"><div class="ttl" style="color:var(--teal-ink)">AIE SF Talk</div><div class="desc">Spend test-time compute for more <strong>relevance</strong>: better retrieval on the task the encoder <em>was</em> trained for.</div></div>
+      <div class="card hero"><div class="ttl accent">This talk</div><div class="desc">Spend test-time compute for a new <strong>capability</strong>: image tagging, a task the encoder was <em>never</em> trained for.</div></div>
     </div>
-    <p class="takeaway">Test-time compute scales only when it <span class="accent">supplies the model with new information</span>. Bootstrapping an already-good representation yields nothing.</p>
+    <p class="takeaway">The same lever, escalating from <span style="color:var(--teal-ink);font-weight:700">quality</span> to <span class="accent">capability</span> &mdash; and it only pays when the compute feeds the model new information.</p>
   </div>
 </section>
 
