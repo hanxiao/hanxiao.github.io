@@ -1236,7 +1236,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 </div>
 
 <script src="data.js?v=12"></script>
-<script src="sync.js?v=1"></script>
+<script src="sync.js?v=2"></script>
 <script>
 const stage=document.getElementById('stage');
 const slides=[...document.querySelectorAll('.slide')];
@@ -1519,9 +1519,18 @@ init();
   if(!new URLSearchParams(location.search).has('follow')) return;
   if(!window.Sync) return;
   var shown=-1, b=document.createElement('div');
-  b.style.cssText='position:fixed;left:12px;bottom:10px;z-index:99;font:600 12px/1 ui-monospace,monospace;color:#0B64DD;background:#fff;border:1px solid rgba(28,30,35,.18);border-radius:6px;padding:6px 10px';
-  b.textContent='waiting for phone'; document.body.appendChild(b);
-  Sync.follow(function(n){ if(n!==shown){ shown=n; if(typeof show==='function') show(n-1); } b.style.display='none'; });
+  b.style.cssText='position:fixed;left:12px;bottom:10px;z-index:99;font:600 12px/1 ui-monospace,monospace;color:#1C1E23;background:#fff;border:1px solid rgba(28,30,35,.18);border-radius:6px;padding:6px 10px;display:flex;align-items:center;gap:7px;transition:opacity .5s';
+  var dot=document.createElement('span'); dot.style.cssText='width:8px;height:8px;border-radius:50%;background:#B7BFC9;display:inline-block;flex:0 0 auto';
+  var txt=document.createElement('span'); txt.textContent='waiting for phone — tap Remote in speaker notes';
+  b.appendChild(dot); b.appendChild(txt); document.body.appendChild(b);
+  var fade;
+  // grey dot = subscribed but nothing received yet; teal dot + slide number = live sync arriving.
+  Sync.follow(function(n){
+    dot.style.background='#0A7B74'; b.style.opacity='1';
+    if(n!==shown){ shown=n; if(typeof show==='function') show(n-1); }
+    txt.textContent='live · phone → slide '+n;
+    clearTimeout(fade); fade=setTimeout(function(){ b.style.opacity='.32'; }, 2500);
+  });
 })();
 </script>
 <script src="vendor/tex-svg.js" id="MathJax-script"></script>

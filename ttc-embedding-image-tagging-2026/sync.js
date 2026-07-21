@@ -9,11 +9,13 @@
    window.Sync = { topic, publish(slide), follow(cb), ensureMqtt() } */
 (function(){
   var qs = new URLSearchParams(location.search);
-  var TOPIC  = qs.get('ch') || 'aie-sf-2026-hxiao-remote-7q3m9k2x';
+  // Deck-specific topic. MUST differ from other decks (the aie-sf-2026 deck uses its own),
+  // otherwise two decks share one channel and their remotes fight over "newest epoch wins".
+  var TOPIC  = qs.get('ch') || 'ttc-img-tagging-2026-hxiao-9f4b7c1e';
   var WORKER = (qs.get('worker') || '').replace(/\/+$/,'');   // '' = Worker channel off
   var MQTT_ON = qs.get('mqtt') !== '0';
   var NTFY = 'https://ntfy.sh';
-  var MQURL = 'wss://broker.emqx.io:8084/mqtt', MQTOP = 'aie-sf-2026/' + TOPIC;
+  var MQURL = 'wss://broker.emqx.io:8084/mqtt', MQTOP = 'ttc-img-tagging-2026/' + TOPIC;
   var mq = null, mqOnMsg = null;
 
   // Each controller session gets a monotonically-increasing epoch. Followers lock onto the
@@ -38,6 +40,16 @@
     post(NTFY + '/' + encodeURIComponent(TOPIC), m, 2);
     if(WORKER) post(WORKER + '/pub', m, 1);
     if(mq && mq.connected){ try{ mq.publish(MQTOP, m); }catch(_){} }
+  }
+
+  /* ---------- reachability probe: POST a harmless s=0 ping (followers ignore s<1) so the
+     phone UI can tell the presenter whether the sync server is reachable on this network. ---- */
+  function ping(cb){
+    try{
+      fetch(NTFY + '/' + encodeURIComponent(TOPIC), {method:'POST', body:pack(0)})
+        .then(function(r){ cb(!!(r && r.ok)); })
+        .catch(function(){ cb(false); });
+    }catch(_){ cb(false); }
   }
 
   /* ---------- follow: subscribe to every channel; cb(slide) on the freshest ---------- */
@@ -109,5 +121,5 @@
     }catch(_){}
   }
 
-  window.Sync = { topic:TOPIC, publish:publish, follow:follow, ensureMqtt:ensureMqtt, takeover:takeover };
+  window.Sync = { topic:TOPIC, publish:publish, follow:follow, ensureMqtt:ensureMqtt, takeover:takeover, ping:ping };
 })();

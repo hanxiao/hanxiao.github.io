@@ -149,7 +149,7 @@ button.skip.on:hover{color:#fff;opacity:.92}
   </section>
 </main>
 <script src="notes.js?v=34"></script>
-<script src="../sync.js?v=1"></script>
+<script src="../sync.js?v=2"></script>
 <script>
 const N = window.NOTES || [];
 const deck = document.getElementById('deck');
@@ -295,8 +295,13 @@ if(isMobile){ try{ deck.src='about:blank'; }catch(_){} }   // phone: don't load 
 (function(){
   const rb=$('remoteBtn'), rh=$('rhint');
   function ui(){ rb.className='remote'+(remoteOn?' on':''); rb.textContent=remoteOn?'📡 LIVE':'📡 Remote'; }
+  const RURL='on the projector open <b>hanxiao.io/ttc-embedding-image-tagging-2026/?follow</b>';
   rb.onclick=()=>{ remoteOn=!remoteOn;
-    if(remoteOn){ if(window.Sync){ Sync.takeover(); Sync.ensureMqtt(); } rh.style.display='block'; rh.innerHTML='📡 Live · on the projector open <b>hanxiao.io/ttc-embedding-image-tagging-2026/?follow</b>'; }
+    if(remoteOn){ if(window.Sync){ Sync.takeover(); Sync.ensureMqtt(); }
+      rh.style.display='block'; rh.innerHTML='📡 checking sync channel…';
+      if(window.Sync&&Sync.ping){ Sync.ping(ok=>{ if(remoteOn) rh.innerHTML=(ok?'📡 Live · channel reachable ✓ · ':'⚠️ this network is blocking the sync server · ')+RURL; }); }
+      else rh.innerHTML='📡 Live · '+RURL;
+    }
     else { rh.style.display='none'; }
     ui(); broadcast(); };
   $('backBig').onclick=()=>go(-1); $('nextBig').onclick=()=>go(1);
