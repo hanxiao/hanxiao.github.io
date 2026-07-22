@@ -247,12 +247,14 @@ The outlier crop is not noise. It *is* the signal.`},
   { n:13, sec:40, title:"One equation",
     note:`Let me now assemble all five steps,
 because the entire tagger is *one scoring function*.//
-First term. The patch evidence.
-Max over the patch rows, minus its prior.
-Family A. Free. Plus point three seven of mAP.//
-Second term. The global context.
+First term. The global context.
 The pooled vector, minus its own prior.
-Also family A. Also free.//
+Family A. Free.//
+Second term. The patch evidence.
+Max over the patch rows, minus its prior.
+Also family A, also free,
+and this is the one that buys us
+plus point three seven of mAP.//
 Third term. The multi-crop max.
 Fourteen fresh forward passes.
 Family B. Fourteen times the cost, plus point zero seven five.//
