@@ -319,7 +319,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .qr-corner img{width:92px;height:92px;display:block}
 .qr-corner .qrlabel{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.01em;line-height:1}
 
-/* compute-type badges (A = deeper pass, B = more passes, C = bootstrap) */
+/* compute-type badges (A = deeper pass, B = more passes, C = calibration) */
 .abc{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;
   font-family:var(--mono);font-size:16px;font-weight:800;flex:0 0 auto;color:#fff;background:var(--accent)}
 .abc.b{background:var(--teal-ink)}
@@ -536,7 +536,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
         <div class="foot" style="color:var(--teal-ink)">new information: acquired from the input</div>
       </div>
       <div class="card foilcard">
-        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Bootstrap</div></div>
+        <div class="abcline" style="margin-bottom:10px"><span class="abc c">C</span><div class="ttl" style="margin:0;color:var(--foil-ink)">Calibration</div></div>
         <div class="desc">Transform the vectors you already have: whitening, propagation, optimal transport. Where most of the training-free literature lives.</div>
         <div class="foot" style="color:var(--foil-ink)">new information: none</div>
       </div>
@@ -553,8 +553,8 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
     <div class="nlist" style="gap:26px">
       <div class="nitem"><div class="n" style="min-width:60px">RQ1</div><div class="t">Can a frozen embedding model become an image tagger through test-time compute alone?
         <span>Prior tagging work pays with training or resources: Tag2Text / RAM / RAM++ train over ~6,400 curated tags; TagCLIP (AAAI&rsquo;24) and PIAA (&ldquo;[CLS] is not enough&rdquo;) are training-free but assume a given class list, on two-tower CLIP plus WordNet or POS tools.</span></div></div>
-      <div class="nitem"><div class="n" style="min-width:60px">RQ2</div><div class="t">If it can: which test-time compute scales its accuracy, bootstrapping or new information?
-        <span>The 2024&ndash;26 literature bets on bootstrapping: whitening (PIAA), label propagation (ZLaP), optimal transport (OTTER), Bayesian adaptation (BCA).</span></div></div>
+      <div class="nitem"><div class="n" style="min-width:60px">RQ2</div><div class="t">If it can: which test-time compute scales its accuracy, calibration or new information?
+        <span>The 2024&ndash;26 literature bets on calibration: whitening (PIAA), label propagation (ZLaP), optimal transport (OTTER), Bayesian adaptation (BCA).</span></div></div>
     </div>
   </div>
 </section>
@@ -948,7 +948,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 <!-- ============ 16 THE LEVERS ============ -->
 <section class="slide">
   <div class="kicker">The experiment</div>
-  <h2 class="h-slide sm">Does bootstrapping scale accuracy at test time?</h2>
+  <h2 class="h-slide sm">Does calibration scale accuracy at test time?</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <p class="cap" style="max-width:80ch;font-size:16px">One example: <strong>OTTER</strong> re-balances scores toward a target class distribution, which only shuffles vectors it already has. Its open circle sits at the 5-crop baseline of <strong>0.693</strong>, and it lands at 0.699.</p>
     <div class="chart" style="height:388px"><div id="c-levers" style="height:100%"></div></div>
@@ -960,9 +960,9 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <div class="kicker">The meta-conclusion</div>
   <h2 class="h-slide sm">Only new information moves accuracy.</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:80ch">Bootstrap methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
+    <p class="cap" style="max-width:80ch">Calibration methods were designed for weakly calibrated, single-label, two-tower CLIP. This encoder's space is already aligned, calibrated, and multi-label: <strong>there is nothing left to recover</strong>.</p>
     <div class="cards">
-      <div class="card foilcard"><div class="ttl" style="display:flex;align-items:center;gap:8px"><span class="abc sm c">C</span>Bootstrap</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
+      <div class="card foilcard"><div class="ttl" style="display:flex;align-items:center;gap:8px"><span class="abc sm c">C</span>Calibration</div><div class="desc">whitening 0.06 &middot; ZLaP 0.14 &middot; EM-Dirichlet 0.17 &middot; OTTER +0.006 over its own base. None improves the pipeline it modifies.</div></div>
       <div class="card hero"><div class="ttl" style="display:flex;align-items:center;gap:8px;color:var(--teal-ink)"><span class="abc sm b">B</span>More passes</div><div class="desc">CWR crops &rarr; mAP 0.710, P@1 0.813. The only intervention that improves results.</div></div>
     </div>
     <p class="takeaway">The ceiling is the 1B model itself. Real test-time compute here means <span class="accent">giving the model more to look at</span>, not re-arranging what it already saw.</p>
@@ -975,7 +975,7 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
   <h2 class="h-slide sm">Accuracy versus test-time compute.</h2>
   <div class="body" style="justify-content:center;gap:8px">
     <div class="chart" style="height:396px"><div id="c-pareto" style="height:100%"></div></div>
-    <p class="takeaway" style="font-size:18px">The frontier is traced by reading more of the pass and re-encoding new views; <span class="accent">bootstrapping sits at the same cost, at or below it</span> (&lt;0.1 ms/img, measured).</p>
+    <p class="takeaway" style="font-size:18px">The frontier is traced by reading more of the pass and re-encoding new views; <span class="accent">calibration sits at the same cost, at or below it</span> (&lt;0.1 ms/img, measured).</p>
   </div>
 </section>
 
@@ -1387,7 +1387,7 @@ function drawLevers(){
   svg.appendChild(txt((L+W-R)/2,H-2,'COCO-150 mAP · open circle = the pipeline the lever modifies, filled = its result',{fs:12,fw:700,anchor:'middle'}));
 }
 
-/* Pareto: measured ms/img (log x) vs mAP; frontier vs bootstrapping cluster */
+/* Pareto: measured ms/img (log x) vs mAP; frontier vs calibration cluster */
 function drawPareto(){
   const W=1080,H=396,L=70,R=40,T=30,B=64;
   const svg=mount('c-pareto',W,H); if(!svg)return;
@@ -1414,7 +1414,7 @@ function drawPareto(){
     const anchor=q.la||'start', dx=q.dx===undefined?11:q.dx, dy=q.dy===undefined?4:q.dy;
     svg.appendChild(txt(X(q.ms)+(q.jx||0)+dx,Y(q.map)+dy,q.name,{fs:12,mono:1,fw:onf?700:500,anchor,fill:col}));
   });
-  svg.appendChild(txt(X(92),Y(0.155),'bootstrapping collapses, same 75 ms:',{fs:12,fw:700,fill:FOIL,anchor:'start'}));
+  svg.appendChild(txt(X(92),Y(0.155),'calibration collapses, same 75 ms:',{fs:12,fw:700,fill:FOIL,anchor:'start'}));
   svg.appendChild(txt(X(92),Y(0.155)+17,'EM-Dirichlet 0.17 · penult. layer 0.16 · ZLaP 0.14 · whitening 0.06',{fs:11.5,mono:1,fill:FOIL,anchor:'start'}));
   svg.appendChild(txt(X(150),Y(0.78),'the frontier: read more of the pass, then re-encode new views',{fs:12.5,fw:700,fill:ACC,anchor:'start'}));
 }

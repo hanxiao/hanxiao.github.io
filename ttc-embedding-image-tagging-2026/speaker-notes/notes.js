@@ -44,9 +44,7 @@ because of the modality gap.
 I never tested it, but I do not think it works.//
 I chose this one because it is our model,
 and because I use it every day.//
-The output.
-One image goes in,
-and we want many labels back,
+So one image goes in, and we want many labels back,
 in an *open* vocabulary,
 not a small predefined set.//
 The constraints.
@@ -69,7 +67,7 @@ Family *B*, more passes.
 You run the same encoder again, on new views.
 Split a document and embed each sentence.
 Crop an image and re-encode each crop.//
-Family *C*, bootstrap.
+Family *C*, calibration.
 You work on the vectors you already have,
 using their statistics.
 Whitening, graph propagation.//
@@ -84,7 +82,7 @@ by test-time compute alone?
 No retraining, no fine-tuning, no head, no classifier.//
 And second, if it can:
 which of the three is the most effective?
-Deeper pass, more passes, or bootstrap?`},
+Deeper pass, more passes, or calibration?`},
 
   { n:6, sec:50, title:"Architecture",
     note:`Now let me open the model up.//
@@ -247,7 +245,7 @@ And with multi-crop,
 *eighty-one percent* precision at one,
 and mAP point seven one.`},
 
-  { n:16, sec:36, title:"Does bootstrapping scale?",
+  { n:16, sec:36, title:"Does calibration scale?",
     note:`So family A and family B both clearly work.//
 Which made me curious about family *C*.
 You already have the vectors.
@@ -255,7 +253,6 @@ Can you exploit their geometry to get more?
 That is where most of the recent literature is.//
 So I implemented all of it,
 and measured it on the same benchmark.//
-Read the chart as a dumbbell.
 The open circle is where the method starts.
 The filled circle is where it ends up.//
 And the answer is no.
@@ -264,13 +261,12 @@ Some collapse completely.`},
 
   { n:17, sec:27, title:"The meta-conclusion",
     note:`So this is the summary of that experiment.//
-Calibration, and I think calibration
-is a better word for it than bootstrap,
-simply does not help on this model.//
+Calibration simply does not help on this model.//
 The reason is that these methods
 were designed for a weakly calibrated,
 single-label, two-tower CLIP.
 This space is already aligned,
+already calibrated,
 and already multi-label.
 There is nothing left to recover.//
 Only new pixels move the number.`},
@@ -313,20 +309,13 @@ Then we expand all four again,
 and keep the best four
 of everything that comes back.
 We stop when the phrase is long enough.//
-Grey couch kitty wins,
-plus point zero nine three.
-And it beats couch grey kitty.
+Grey couch kitty wins, And it beats couch grey kitty.
 Same words, better order,
 decided by an embedding model with no grammar.`},
 
   { n:21, sec:22, title:"Qualitative results",
     note:`And it holds up outside the benchmark.
 Real photos, four modes, top five each.//
-The Porsche is the clearest.
-A single pass gives fragments.
-Crops turn them into real words,
-windshield and steering.
-And the n-grams add the modifiers.//
 Zero annotation, open vocabulary,
 all from the embedding model alone.
 Nothing cherry picked.`},
@@ -346,15 +335,14 @@ Everything comes from going deeper
 on one pass, or running more passes.`},
 
   { n:23, sec:29, title:"Deployment in Omni",
-    note:`And this is not just a Python study.
-I implemented it in Omni,
+    note:`And this is not just a case study.
+I implemented this algorithm in Omni,
 a macOS app for local file search.
 Completely air-gapped, no network,
 written in Swift on MLX.//
 The nice part is that the patch vectors
 already exist for the file's embedding,
 so tagging is one extra matrix multiply.
-About four percent overhead.
 Effectively free.//
 Scan the QR and try it.
 I use it every day.`},
@@ -378,8 +366,8 @@ In this talk, I spent it
 to unlock a new *capability*.
 And I think it is fair to call it new,
 because people do not usually connect
-an omni embedding model to image tagging.//
-This is what I have been working on lately,
+an embedding model to image tagging.//
+Anyway, this is what I have been working on lately,
 and I think there is a lot left here.
 How far can we go
 without ever training the model,
@@ -392,7 +380,6 @@ especially in the era of agentic search.`},
 are all on GitHub, the QR is there.//
 If you find this interesting,
 please follow me on X.//
-Thank you for your attention.
-I would love your questions.`},
+Thank you for your attention.`},
 
 ];
