@@ -249,10 +249,10 @@ The outlier crop is not noise. It *is* the signal.`},
 because the entire tagger is *one scoring function*.//
 First term. The global context.
 The pooled vector, minus its own prior.
-Family A. Free.//
+This is just the model's default output. Free.//
 Second term. The patch evidence.
 Max over the patch rows, minus its prior.
-Also family A, also free,
+This one is family A. Also free,
 and this is the one that buys us
 plus point three seven of mAP.//
 Third term. The multi-crop max.
