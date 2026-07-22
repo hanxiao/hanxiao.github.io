@@ -148,7 +148,7 @@ button.skip.on:hover{color:#fff;opacity:.92}
     <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
   </section>
 </main>
-<script src="notes.js?v=37"></script>
+<script src="notes.js?v=38"></script>
 <script src="../sync.js?v=2"></script>
 <script>
 const N = window.NOTES || [];
@@ -158,7 +158,7 @@ let cur = 0, fontPx = 24, remoteOn = false, userScrollAt = 0;
 const isMobile = window.matchMedia('(max-width:720px)').matches;
 // ---- skipped slides: excluded from nav, pace, and the projected deck ----
 const SKIP_KEY = 'ttc-image-tagging-2026-skip';
-let SKIP = (()=>{ try{ const s=JSON.parse(localStorage.getItem(SKIP_KEY)); if(Array.isArray(s)) return new Set(s); }catch(_){} return new Set([23,24]); })();
+let SKIP = (()=>{ try{ const s=JSON.parse(localStorage.getItem(SKIP_KEY)); if(Array.isArray(s)) return new Set(s); }catch(_){} return new Set(); })();
 const isSkipped = i => SKIP.has(i+1);   // i is 0-based; SKIP holds 1-based slide numbers
 function saveSkip(){ try{ localStorage.setItem(SKIP_KEY, JSON.stringify([...SKIP].sort((a,b)=>a-b))); }catch(_){} }
 function broadcast(){ if(remoteOn && window.Sync && !isSkipped(cur)){ try{ Sync.publish(cur+1); }catch(_){} } }
