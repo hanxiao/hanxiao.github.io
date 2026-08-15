@@ -113,6 +113,38 @@ strong,b{font-weight:700;color:#fff}
 .title .auth .rl{font-size:14.5px;font-weight:300;color:var(--mut);margin-top:3px}
 .title .meta{font-family:var(--mono);font-size:13px;margin-top:16px;color:var(--mut);letter-spacing:.03em}
 
+/* ---------- big claim slides ---------- */
+.claimslide{background:
+  radial-gradient(820px 560px at 50% 44%, rgba(38,198,218,.20), transparent 66%),
+  radial-gradient(620px 460px at 22% 84%, rgba(59,111,240,.14), transparent 62%),
+  linear-gradient(155deg,#0A0C16 0%,#05060C 100%)}
+.bigclaim{font-size:46px;line-height:1.36;font-weight:700;letter-spacing:-.012em;text-align:center;
+  text-wrap:balance;max-width:26ch}
+
+/* ---------- the trade slide ---------- */
+.tradeslide{background:
+  radial-gradient(900px 600px at 50% 40%, rgba(38,198,218,.16), transparent 66%),
+  linear-gradient(155deg,#0A0C16 0%,#05060C 100%)}
+.tradeline{display:flex;align-items:center;justify-content:center;gap:0;width:100%}
+.tspend{flex:0 0 340px;text-align:right;padding-right:12px}
+.tspend .tlbl{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+.tspend .tbig{font-size:52px;font-weight:700;line-height:1.1;letter-spacing:-.015em;color:#fff}
+.tspend .tsub{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.6}
+.tarrow{flex:0 0 180px;display:flex;flex-direction:column-reverse;align-items:center;gap:10px}
+.tarrow .tastem{width:100%;height:2px;position:relative;
+  background:linear-gradient(90deg,rgba(38,198,218,.15),var(--cyan))}
+.tarrow .tastem::after{content:"";position:absolute;right:-1px;top:-6px;border-left:13px solid var(--cyan);
+  border-top:7px solid transparent;border-bottom:7px solid transparent}
+.tarrow .taword{font-size:26px;font-weight:700;color:var(--cyan);letter-spacing:.28em;padding-left:.28em}
+.tget{flex:0 0 400px;display:flex;flex-direction:column;gap:26px;padding-left:26px;
+  border-left:1px solid var(--line)}
+.tgrow{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:4px;align-items:baseline}
+.tgrow .tgn{font-family:var(--mono);font-size:19px;font-weight:800;color:var(--cyan)}
+.tgrow .tgn.gr{color:var(--green)}
+.tgrow .tgt{font-size:36px;font-weight:700;line-height:1.15;color:#fff}
+.tgrow .tgd{grid-column:2;font-size:14.5px;font-weight:300;color:var(--mut);line-height:1.5}
+
 /* ---------- divider ---------- */
 .divider{justify-content:flex-end;padding-bottom:120px;
   background:
@@ -304,9 +336,63 @@ tr.weakrow td{color:var(--mut)}
 
 .closing{align-items:center;justify-content:center;text-align:center;
   background:radial-gradient(700px 520px at 50% 46%, rgba(38,198,218,.16), transparent 64%),linear-gradient(160deg,#08090F,#05060C)}
-.closing img.cloud{width:170px;filter:drop-shadow(0 0 60px rgba(38,198,218,.35))}
-.closing h2{font-size:50px;font-weight:700;letter-spacing:.06em;margin-top:22px}
-.closing .sub{margin:16px auto 0;text-align:center}
+.closing img.cloud{width:140px;filter:drop-shadow(0 0 60px rgba(38,198,218,.35))}
+.closing h2{font-size:44px;font-weight:700;letter-spacing:.06em;margin-top:18px}
+.closing .sub{margin:14px auto 0;text-align:center}
+.qrrow{display:flex;gap:30px;margin-top:30px;justify-content:center}
+.qrc{display:flex;flex-direction:column;align-items:center;gap:8px}
+.qrc img{width:88px;height:88px;display:block;background:#fff;padding:5px;border-radius:7px}
+.qrc .qrtop{font-family:var(--mono);font-size:10.5px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase}
+
+/* ---------- trend rows (2025 vs 2026 loops) ---------- */
+.trendrow{border:1px solid var(--line);border-radius:var(--r-card);padding:13px 18px 15px;
+  display:flex;flex-direction:column;gap:11px;align-items:center;width:100%;background:rgba(18,23,34,.6)}
+.trendh{font-size:17px;font-weight:700;letter-spacing:-.01em;align-self:flex-start;color:var(--ink)}
+.trendh .yr{color:var(--cyan);font-weight:800;font-family:var(--mono)}
+.tflow{display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:nowrap}
+.tb{border:1px solid var(--line2);border-radius:var(--r-box);background:rgba(12,16,32,.9);padding:7px 10px;
+  font-size:12.5px;font-weight:500;white-space:nowrap;text-align:center;line-height:1.05;color:var(--ink2)}
+.tb.pill{border-radius:999px}
+.tb.hl{background:rgba(240,160,48,.16);border-color:var(--amber);color:#FFD79A;font-weight:700}
+.ta{color:var(--cyan);font-weight:800;font-size:14px;padding:0 7px;flex:0 0 auto}
+.tloop{border:1px dashed var(--line2);border-radius:var(--r-card);padding:9px 12px 18px;position:relative;
+  display:flex;align-items:center;gap:0}
+.tloop .tll{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#0A0C16;padding:0 7px;
+  font-family:var(--mono);font-size:9.5px;font-weight:700;white-space:nowrap;color:var(--mut)}
+.tloopsvg{position:absolute;left:0;width:100%;bottom:4px;height:11px;overflow:visible;pointer-events:none}
+.tlooppath{fill:none;stroke:var(--cyan);stroke-width:1.6;stroke-dasharray:6 5;animation:march .9s linear infinite}
+.tlooparr{fill:none;stroke:var(--cyan);stroke-width:1.6}
+.tio2{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--mut)}
+
+/* ---------- synthesis panels ---------- */
+.syn2{display:flex;gap:26px;width:100%}
+.synp{flex:1;border:1px solid var(--line);border-radius:var(--r-card);padding:14px 20px 16px;
+  display:flex;flex-direction:column;gap:9px;background:rgba(18,23,34,.6)}
+.synp svg{width:100%;height:86px;display:block}
+.synh{font-size:16px;font-weight:700;border-top:1px solid var(--line);padding-top:10px;color:var(--ink)}
+.synh .tag{font-family:var(--mono);color:var(--cyan);font-weight:800;margin-right:8px}
+.synrow{font-size:13.5px;line-height:1.45;color:var(--ink2);font-weight:300}
+.synrow b{font-family:var(--mono);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--cyan);display:inline-block;min-width:96px}
+.vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink2)}
+
+/* ---------- product screenshots ---------- */
+.shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
+.shot img{display:block;width:100%;height:auto}
+.shotcap{font-size:12.5px;color:var(--mut);line-height:1.5;font-weight:300}
+.shotcap strong{color:var(--ink2);font-weight:500}
+.flowv{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.fbox.compact{min-height:0;padding:10px}
+.farrv{color:var(--cyan);font-size:18px;font-weight:800;text-align:center;line-height:1}
+.qlist p{font-size:14.5px;line-height:1.5;padding-left:22px;position:relative;margin-bottom:8px;
+  font-weight:300;color:var(--ink2)}
+.qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--cyan);font-weight:800}
+.mlabel{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.qr-corner{position:absolute;top:64px;right:76px;display:flex;flex-direction:column;align-items:flex-end;
+  gap:5px;z-index:6;text-decoration:none}
+.qr-corner .qrtop{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);line-height:1}
+.qr-corner img{width:76px;height:76px;display:block;background:#fff;padding:4px;border-radius:6px}
 
 @media print{
   @page{size:1280px 720px;margin:0}
@@ -320,7 +406,6 @@ tr.weakrow td{color:var(--mut)}
 </head>
 <body>
 <div id="stage">
-
 <!-- ============ 1 TITLE ============ -->
 <section class="slide title">
   <div class="wrap">
@@ -330,8 +415,8 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="txt">
       <div class="kicker">Test-time compute · 检索 · 冻结模型</div>
-      <h1>搜索，<br>就是 <span class="cy">test-time compute</span></h1>
-      <div class="sub">不把模型做大，而是在推理时多花算力。<br>它能换来更高的精度，也能换来一个从没被训练过的新功能。</div>
+      <h1>搜索，<br>是一种 <span class="cy">test-time compute</span></h1>
+      <div class="sub">与其把模型换大，不如在推理这一刻多算几遍。<br>省下来的钱，能买到相关性，也能买到全新的能力。</div>
       <div class="auth">
         <div class="bar"></div>
         <div><div class="nm">肖涵 Han Xiao</div><div class="rl">Elastic AI 副总裁 · Jina AI 创始人</div></div>
@@ -341,91 +426,90 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<!-- ============ 2 ROADMAP ============ -->
+<!-- ============ 2 THE SATURATION ============ -->
 <section class="slide">
-  <div class="kicker">今天的路线</div>
-  <h2 class="h-slide sm">一个观点，两个实验。</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="cards">
-      <div class="card c-mut"><div class="n">00</div><div class="ttl">什么是 test-time compute</div>
-        <div class="dsc">大模型靠「想得更久」变强。先把这件事说清楚。</div></div>
-      <div class="card"><div class="n">01</div><div class="ttl">搜索本来就是 test-time compute</div>
-        <div class="dsc">你搭的每一条检索链路，都是在推理期花算力买相关性。</div>
-        <div class="foot">本次演讲的主线</div></div>
-      <div class="card c-blue"><div class="n">02</div><div class="ttl">拿它换<strong>精度</strong></div>
-        <div class="dsc">让 agent 通宵在一个冻结编码器上搜索程序，144 代。<br>结论出乎意料。</div>
-        <div class="foot">实验一</div></div>
-      <div class="card c-green"><div class="n">03</div><div class="ttl">拿它换<strong>新功能</strong></div>
-        <div class="dsc">一个只会做检索的模型，被推理期计算改造成图像标注器。</div>
-        <div class="foot">实验二</div></div>
-    </div>
-    <p class="takeaway">两个实验都不改一个权重。区别只在于：算力买到的是<span class="cy">更好的旧任务</span>，还是<span class="gr">一个新任务</span>。</p>
-  </div>
-</section>
-
-<!-- ============ 3 TTC DEFINED ============ -->
-<section class="slide">
-  <div class="kicker">00 · 概念</div>
-  <h2 class="h-slide sm">Test-time compute：在推理时多花算力，换一个更好的答案。</h2>
-  <div class="body row" style="gap:38px;align-items:center">
-    <div style="flex:1">
-      <p class="cap">不去训练一个更大的模型，而是让现有模型<strong>对每个请求做更多的工作</strong>，沿着一条平滑的「成本—质量」曲线往上走。</p>
-      <div class="deflist" style="margin-top:18px">
-        <div class="defrow"><div class="tag">Best-of-N</div><div class="dsc">采样很多个候选，挑最好的那个。</div></div>
-        <div class="defrow"><div class="tag">Self-consistency</div><div class="dsc">对多条思维链做多数投票。</div></div>
-        <div class="defrow"><div class="tag">Verifier search</div><div class="dsc">花推理算力，爬一条 Pareto 曲线。</div></div>
-      </div>
-    </div>
-    <div style="flex:1.05">
-      <blockquote class="pull">让一个机器人在一手扑克上多想 <strong>20 秒</strong>，带来的收益，相当于把模型放大 <strong>10 万倍</strong>、并且多训练 10 万倍的时间。<cite>Noam Brown, OpenAI, 2024</cite></blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 4 BUT THAT'S THE LLM STORY ============ -->
-<section class="slide">
-  <div class="kicker">00 · 一个惯性认知</div>
-  <h2 class="h-slide sm">但这一直被讲成大模型的故事。</h2>
+  <div class="kicker">开场</div>
+  <h2 class="h-slide">2026 年了，搜索还有什么可做的？</h2>
   <div class="body" style="justify-content:center;gap:26px">
     <div class="cards">
-      <div class="card c-mut"><div class="ttl">通常的说法</div>
-        <div class="dsc">test-time compute 属于<strong>大型推理模型</strong>：模型要够大，才有「多想一会儿」这个东西可想。小模型没有这个待遇。</div></div>
-      <div class="card"><div class="ttl">但检索这一侧呢</div>
-        <div class="dsc">向量模型只有几百 M 到 1B，一次前向就出一个向量。它<strong>有没有「多想一会儿」的空间</strong>？</div>
-        <div class="foot">这是今天要回答的问题</div></div>
+      <div class="card c-mut"><div class="ttl">模型这边</div>
+        <div class="dsc">榜单上挤满了人，第一名和第十名差几个千分点。<br>换谁家的 embedding，效果都差不多。</div></div>
+      <div class="card c-mut"><div class="ttl">链路这边</div>
+        <div class="dsc">召回、精排、混合检索、查询改写——<br>该有的组件，十年前就都有了。</div></div>
+      <div class="card c-mut"><div class="ttl">于是的结论</div>
+        <div class="dsc">搜索是个成熟行业，剩下的都是工程活。<br>热闹在别处，不在这儿。</div></div>
     </div>
-    <p class="takeaway">先别急着回答小模型行不行。先看清楚一件事：<span class="cy">搜索这件事本身，早就是 test-time compute 了。</span></p>
+    <p class="takeaway">这几个月我一直在想这件事。<br>后来发现，我们可能一直站在一个不太对的角度看它。</p>
   </div>
 </section>
 
-<!-- ============ 5 SECTION 01 ============ -->
-<section class="slide divider">
-  <div class="drow"><div class="num">01</div><div class="vbar"></div><div><h2>搜索就是 test-time compute</h2></div></div>
-  <div class="dsub">你搭的每一条检索链路，都是在推理期用算力买相关性</div>
+<!-- ============ 3 THE CLAIM ============ -->
+<section class="slide claimslide">
+  <div class="kicker">我的答案</div>
+  <div class="body" style="justify-content:center;align-items:center;gap:30px">
+    <div class="bigclaim">搜索，本来就是一种<br><span class="cy">test-time compute</span>。</div>
+    <p class="takeaway" style="max-width:60ch">看清这一点，很多原本觉得做到头了的地方，会重新变得有事可做。</p>
+  </div>
 </section>
 
-<!-- ============ 6 THE REFRAME ============ -->
+<!-- ============ 4 TTC DEFINED ============ -->
 <section class="slide">
-  <div class="kicker">换个角度</div>
-  <h2 class="h-slide sm">你早就在做 test-time compute，只是没这么叫它。</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:74ch">你把训练好的 embedding、reranker、多向量检索、查询扩展，在<strong>推理期串成一条链路</strong>，去把相关性一点点榨出来。你并没有换一个更大的模型，你是在测试时<strong>装配了更多的搜索</strong>。</p>
+  <div class="kicker">先把概念说清楚</div>
+  <h2 class="h-slide sm">什么叫 test-time compute。</h2>
+  <div class="body" style="justify-content:center;gap:24px">
+    <p class="cap" style="max-width:80ch;font-size:17px">一句话：<strong>不去训一个更大的模型，而是让手上这个模型，在回答每个问题时多干一点活。</strong>训练阶段的钱已经花完了，这笔新的开销花在推理这一刻。</p>
     <div class="cards">
-      <div class="card c-mut"><div class="ttl">不 scale 的搜索</div>
-        <div class="dsc">一次关键词匹配。便宜，但大概率不够好。</div></div>
-      <div class="card"><div class="ttl cy">scale 之后的搜索</div>
-        <div class="dsc">embed → 召回 → rerank → 扩展 → 融合。<strong>更多推理，换更多相关性。</strong></div>
-        <div class="foot">这就是一条 test-time compute 曲线</div></div>
+      <div class="card"><div class="ttl">Best-of-N</div>
+        <div class="dsc">一口气采样很多个答案，挑最好的那个交出去。</div></div>
+      <div class="card"><div class="ttl">Self-consistency</div>
+        <div class="dsc">让它把思路想好几遍，哪个答案出现得最多就用哪个。</div></div>
+      <div class="card"><div class="ttl">Verifier search</div>
+        <div class="dsc">拿一个判分器在候选里搜，愿意多花算力，成绩就往上走。</div></div>
     </div>
-    <p class="takeaway">所以真正的问题不是「模型够不够大」，而是<span class="cy">你在推理时装配了多少条链路，以及这笔算力到底划不划算</span>。</p>
+    <p class="takeaway">模型没变，权重一个没动。变的只是<span class="cy">你愿意为这一次回答，多花多少算力</span>。</p>
   </div>
 </section>
 
-<!-- ============ 7 SCORING SPECTRUM ============ -->
+<!-- ============ 5 NOAM BROWN ============ -->
 <section class="slide">
-  <div class="kicker">一个最小的例子</div>
-  <h2 class="h-slide sm">从一次 cosine，到 late interaction，中间全是算力。</h2>
-  <div class="body" style="justify-content:center;gap:20px">
+  <div class="kicker">这笔账有多划算</div>
+  <div class="body" style="justify-content:center;gap:34px">
+    <blockquote class="pull" style="max-width:64ch;font-size:23px">
+      让机器人在一手扑克上多想 <strong>20 秒</strong>，effect 相当于把模型放大 <strong>10 万倍</strong>、再多训 10 万倍的时间。
+      <cite>Noam Brown，OpenAI，2024</cite>
+    </blockquote>
+    <p class="takeaway" style="max-width:66ch">20 秒，换 10 万倍。<br>这个兑换比例一旦成立，问题就从「模型够不够大」，变成了<span class="cy">「你舍不舍得在推理时多花这一点」</span>。</p>
+  </div>
+</section>
+
+<!-- ============ 6 SECTION 01 ============ -->
+<section class="slide divider">
+  <div class="drow"><div class="num">01</div><div class="vbar"></div><div><h2>为什么说搜索就是它</h2></div></div>
+  <div class="dsub">多跑几遍，跑得更深一点，然后看看能换回来什么</div>
+</section>
+
+<!-- ============ 7 WHY SEARCH IS TTC ============ -->
+<section class="slide">
+  <div class="kicker">把搜索拆开看</div>
+  <h2 class="h-slide sm">你搭的每一条检索链路，都是在推理时多算几遍。</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这不就是 test-time compute 吗，只是我们一直管它叫「搭链路」。</p>
+    <div class="cards">
+      <div class="card"><div class="n">A</div><div class="ttl">Multi-pass：多跑几遍</div>
+        <div class="dsc">同一个模型，换个角度再编码一次。把文档切成句子分别算，把图片切成局部分别看。<strong>每一遍都会带回上一遍漏掉的东西。</strong></div></div>
+      <div class="card c-green"><div class="n">B</div><div class="ttl">Deeper pass：跑得更深</div>
+        <div class="dsc">同一次前向，不只取最后那个池化向量，把中间的 patch、token 全都读出来用。<strong>算力几乎没多花，信息多拿了一大截。</strong></div></div>
+      <div class="card c-blue"><div class="n">C</div><div class="ttl">Compose：串起来</div>
+        <div class="dsc">让 agent 自己决定先 grep 还是先 embed，要不要重排，要不要再搜一轮。<strong>链路本身成了推理期的产物。</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 SCORING SPECTRUM ============ -->
+<section class="slide">
+  <div class="kicker">最小的一个例子</div>
+  <h2 class="h-slide sm">从一次 cosine，到 late interaction，中间隔的全是算力。</h2>
+  <div class="body" style="justify-content:center;gap:18px">
     <div class="vsrow">
       <div class="vspanel">
         <div class="vshd">单向量 cosine</div>
@@ -437,8 +521,8 @@ tr.weakrow td{color:var(--mut)}
           <text class="vlbl" x="166" y="86" text-anchor="middle">d</text>
         </svg>
         <div class="vsform">\( \cos(q,\,d) \)</div>
-        <div class="vssub">一篇文档一个向量</div>
-        <div class="vstag">冻结基线</div>
+        <div class="vssub">一篇文档压成一个向量</div>
+        <div class="vstag">起点</div>
       </div>
       <div class="vspanel hero">
         <div class="vshd">句子级 MaxSim</div>
@@ -453,8 +537,8 @@ tr.weakrow td{color:var(--mut)}
           <text class="vlbl" x="54" y="101" text-anchor="middle">q</text>
         </svg>
         <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
-        <div class="vssub">同一个编码器，文档切成句子向量</div>
-        <div class="vstag">这一段就是 test-time compute</div>
+        <div class="vssub">还是那个模型，把文档切成句子各算一遍</div>
+        <div class="vstag">这一步就是 test-time compute</div>
       </div>
       <div class="vspanel">
         <div class="vshd">ColBERT 多向量</div>
@@ -473,42 +557,72 @@ tr.weakrow td{color:var(--mut)}
         </svg>
         <div class="vsform">\( \sum_i \max_j\ \cos(q_i,\,d_j) \)</div>
         <div class="vssub">每个 query token 对全部 doc token 取 max</div>
-        <div class="vstag">需要专门的多向量模型</div>
+        <div class="vstag">得换一个多向量模型</div>
       </div>
     </div>
-    <p class="takeaway">中间那一列很关键：<span class="cy">同一个冻结模型，只是在推理时多算了几遍</span>，就爬到了原本要换模型才有的位置。</p>
+    <p class="takeaway">中间这一列最有意思：<span class="cy">模型一个字节都没改，只是在推理时多算了几遍</span>，就走到了原本得换模型才够得着的位置。</p>
   </div>
 </section>
 
-<!-- ============ 8 THE HINGE: WHAT DO YOU BUY ============ -->
-<section class="slide">
-  <div class="kicker">本场枢纽</div>
-  <h2 class="h-slide sm">那么，这笔推理算力到底能换到什么？</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="cards">
-      <div class="card c-blue"><div class="n">01</div><div class="ttl">换<strong>精度</strong>：同一个任务，做得更好</div>
-        <div class="dsc">任务不变，还是检索。我让一个 agent 通宵在冻结编码器上搜索程序，用 144 代去逼这条曲线的上限。<br><br>看起来它成功了。<strong>然后在没见过的数据上翻车了。</strong></div>
-        <div class="foot">实验一 · 接下来 15 分钟</div></div>
-      <div class="card c-green"><div class="n">02</div><div class="ttl">换<strong>新功能</strong>：一个它从没学过的任务</div>
-        <div class="dsc">同样是冻结的向量模型，这次不求它检索得更准，而是要它做一件<strong>训练时根本不存在的事</strong>：给图片打开放词表的标签。<br><br>这一次，算力真的买到了东西。</div>
-        <div class="foot">实验二 · 之后 12 分钟</div></div>
+<!-- ============ 9 THE MONEY SLIDE ============ -->
+<section class="slide tradeslide">
+  <div class="kicker">这一页请记住</div>
+  <div class="body" style="justify-content:center;align-items:center;gap:0">
+    <div class="tradeline">
+      <div class="tspend">
+        <div class="tlbl">你花出去的</div>
+        <div class="tbig">推理时间</div>
+        <div class="tsub">multi-pass · deeper pass · 更长的 agent 循环</div>
+      </div>
+      <div class="tarrow">
+        <div class="tastem"></div>
+        <div class="taword">买</div>
+      </div>
+      <div class="tget">
+        <div class="tgrow"><span class="tgn">01</span><span class="tgt">相关性</span><span class="tgd">同一个任务，做得更准</span></div>
+        <div class="tgrow"><span class="tgn gr">02</span><span class="tgt">新能力</span><span class="tgd">模型压根没被训练过的事，它也能干</span></div>
+      </div>
     </div>
-    <p class="takeaway">两个实验，同一个问题的两面：<span class="cy">推理期算力的边界在哪里，什么样的算力才真的算数。</span></p>
+    <p class="takeaway" style="margin-top:44px;max-width:70ch;font-size:20px">
+      搜索的天花板，从来不在模型有多大。<br>在于<span class="cy">你舍得为一次查询，花掉多少推理算力</span>。</p>
   </div>
 </section>
 
-<!-- ============ 9 SECTION 02 ============ -->
-<section class="slide divider">
-  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>实验一 · 用算力换精度</h2></div></div>
-  <div class="dsub">让 agent 通宵在一个冻结编码器上搜索程序：144 代，12 个 Pareto 最优解，和一个反转</div>
+<!-- ============ 10 FOUR PROJECTS ============ -->
+<section class="slide">
+  <div class="kicker">接下来</div>
+  <h2 class="h-slide sm">四个项目，都是这句话的注脚。</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <div class="cards">
+      <div class="card c-blue"><div class="n">01</div><div class="ttl">Autoresearch</div>
+        <div class="dsc">让 agent 通宵在一个冻结的编码器上搜程序，144 代。<br>它自己把经典 IR 重新发明了一遍。</div>
+        <div class="foot" style="color:var(--blue2)">买到的是 · 相关性</div></div>
+      <div class="card c-green"><div class="n">02</div><div class="ttl">Image tagging</div>
+        <div class="dsc">一个只会做检索的模型，被推理期的算力改造成了开放词表的图像标注器。</div>
+        <div class="foot" style="color:var(--green)">买到的是 · 新能力</div></div>
+      <div class="card c-amber"><div class="n">03</div><div class="ttl">Dataroom</div>
+        <div class="dsc">用便宜的本地小模型把开放网络啃成一个带引用的 zip，留着贵的 token 干正事。</div>
+        <div class="foot" style="color:var(--amber)">买到的是 · 召回</div></div>
+      <div class="card c-pink"><div class="n">04</div><div class="ttl">Searchbox + KG</div>
+        <div class="dsc">把 agent 关进没有网的盒子里，只能自己现搭链路。再用知识图谱给它出难题。</div>
+        <div class="foot" style="color:var(--pink)">买到的是 · 精度</div></div>
+    </div>
+    <p class="takeaway">四个项目从模型内部一路做到 agent 链路，代码全部开源。</p>
+  </div>
 </section>
 
-<!-- ============ 10 LINEAGE ============ -->
+<!-- ============ 11 SECTION 02 ============ -->
+<section class="slide divider">
+  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>Autoresearch：让 agent 自己去找</h2></div></div>
+  <div class="dsub">冻结一个 239M 的编码器，通宵搜 144 代程序，看看推理期的算力能榨出多少相关性</div>
+</section>
+
+<!-- ============ 12 LINEAGE ============ -->
 <section class="slide">
-  <div class="kicker">先破一个偏见</div>
-  <h2 class="h-slide sm">「小模型没法靠推理变强」——可它们本来就是大模型蒸出来的。</h2>
+  <div class="kicker">一个容易被忽略的事实</div>
+  <h2 class="h-slide sm">今天的小向量模型，都是大模型的孩子。</h2>
   <div class="body" style="gap:16px;justify-content:center">
-    <p class="cap">通常认为 test-time compute 属于大型推理模型，小模型没有提升空间。但今天的向量模型，<strong>包括那些几百 M 能直接部署的</strong>，几乎全是从 LLM 骨干蒸馏或改造而来：</p>
+    <p class="cap">大家默认 test-time compute 是大模型的专利，小模型没这个命。可你看看今天这些能直接上线的向量模型是从哪来的：</p>
     <div class="lin">
       <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
         <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
@@ -519,122 +633,104 @@ tr.weakrow td{color:var(--mut)}
       <div class="linrow"><div class="src">LLaMA</div><div class="arr">→</div><div class="dst">
         <span class="pill">RepLLaMA</span><span class="pill">LLM2Vec</span></div></div>
     </div>
-    <p class="cap">从大语言模型到小型可部署编码器，如今是主流配方，不是例外。</p>
-    <p class="takeaway">如果 test-time compute 住在 LLM 的表示空间里，这些蒸馏出来的编码器<span class="cy">理应继承它</span>。真的继承了吗？</p>
+    <p class="cap">从大语言模型蒸出一个几百 M 的编码器，现在是主流做法，不是个别现象。</p>
+    <p class="takeaway">既然 test-time compute 住在 LLM 的表示空间里，<span class="cy">这些孩子多少该继承一点</span>。那就试试看。</p>
   </div>
 </section>
 
-<!-- ============ 11 THE QUESTION + BANS ============ -->
+<!-- ============ 13 THE RULES ============ -->
 <section class="slide">
-  <div class="kicker">问题</div>
-  <h2 class="h-slide sm">一个冻结的单向量编码器，只靠推理能提升多少？</h2>
+  <div class="kicker">规则先立好</div>
+  <h2 class="h-slide sm">只准动推理，不准动别的。</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div>
-      <span class="chip no">不重训</span><span class="chip no">不引入辅助模型</span><span class="chip no">不学任何新参数</span><span class="chip">只有一个冻结编码器 API</span>
+      <span class="chip no">不重训</span><span class="chip no">不请外援模型</span><span class="chip no">不学任何新参数</span><span class="chip">手上只有一个冻结编码器的 API</span>
     </div>
-    <p class="cap">最近这些检索侧的 test-time 方法，<strong>每一个都至少违反一条</strong>：</p>
+    <p class="cap">规矩定这么死，是因为一松口，结论就没意义了。最近检索圈这些 test-time 方法，<strong>基本上每个都得破一条戒</strong>：</p>
     <div class="deflist" style="max-width:1000px">
-      <div class="defrow"><div class="tag w">HyDE / Query2Doc</div><div class="dsc">查询路径里塞了一个外部 LLM。</div></div>
-      <div class="defrow"><div class="tag w">GQR</div><div class="dsc">需要第二个检索器来做监督。</div></div>
-      <div class="defrow"><div class="tag w">MetaEmbed</div><div class="dsc">在部署时训练了额外参数。</div></div>
+      <div class="defrow"><div class="tag w">HyDE / Query2Doc</div><div class="dsc">查询路径里请了一个 LLM 来写假文档。</div></div>
+      <div class="defrow"><div class="tag w">GQR</div><div class="dsc">得再养一个检索器在旁边做监督。</div></div>
+      <div class="defrow"><div class="tag w">MetaEmbed</div><div class="dsc">上线的时候还得训一批新参数。</div></div>
     </div>
-    <p class="takeaway">这三条我们全禁掉，然后问：<span class="cy">在这么严的约束下，还剩下什么？</span></p>
+    <p class="takeaway">这三条全禁掉。<span class="cy">剩下的空间里，还能变出什么花样？</span></p>
   </div>
 </section>
 
-<!-- ============ 12 AUTORESEARCH ============ -->
+<!-- ============ 14 AUTORESEARCH LOOP ============ -->
 <section class="slide">
-  <div class="kicker">方法</div>
-  <h2 class="h-slide sm">Autoresearch：让 agent 自己去爬这座山。</h2>
+  <div class="kicker">做法</div>
+  <h2 class="h-slide sm">这活我没自己干，我让 agent 通宵去爬这座山。</h2>
   <div class="body" style="justify-content:center;gap:26px">
-    <p class="cap" style="max-width:80ch">agent 自己跑完整个研究循环：<strong>改一个文件 → 跑一次固定预算的短实验 → 指标涨了就留下，没涨就回滚</strong>。然后重复，通宵。本质上就是爬山法，只不过变异算子换成了一个 LLM。</p>
+    <p class="cap" style="max-width:82ch;font-size:17px">流程简单到有点土：<strong>改一个文件，跑一次限定预算的短实验，指标涨了就留着，没涨就回滚</strong>，然后一遍一遍来。说白了就是爬山法，只不过负责「变异」的那一步换成了一个 LLM。</p>
     <div class="flow" style="justify-content:center">
       <div class="step on">改一个文件</div><div class="ar">→</div>
       <div class="step on">跑一次短实验</div><div class="ar">→</div>
-      <div class="step on">更好就留下，否则回滚</div><div class="ar" style="font-size:19px">↻</div>
+      <div class="step on">涨了留，没涨滚</div><div class="ar" style="font-size:19px">↻</div>
     </div>
-    <p class="cap c">整个过程我没有手写任何一个 Python 程序。144 代跑下来，全是 agent 自己写的。</p>
-    <p class="takeaway">这本身也是 test-time compute，只不过花在了<span class="cy">「搜索方法」这一层</span>，而不是「搜索文档」那一层。</p>
+    <p class="cap c">144 代跑下来，那些 Python 程序<strong>没有一行是我写的</strong>。</p>
+    <p class="takeaway">这本身也是一次 test-time compute，只不过算力花在了<span class="cy">「找方法」这一层</span>，而不是「搜文档」那一层。</p>
   </div>
 </section>
 
-<!-- ============ 13 METHOD 4 PARTS ============ -->
+<!-- ============ 15 METHOD 4 PARTS ============ -->
 <section class="slide">
-  <div class="kicker">循环里的四件套</div>
-  <h2 class="h-slide sm">提议者写程序，评估器打分，记忆决定下一步。</h2>
+  <div class="kicker">循环里的四个角色</div>
+  <h2 class="h-slide sm">一个负责出主意，一个负责打分，还有一个负责记账。</h2>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="fboxrow">
-      <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">LLM agent<br>Opus 4.6</div></div>
+      <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">Opus 4.6<br>出主意的那个</div></div>
       <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Program P</div><div class="fd">在 j-v5-nano 上<br>写任意 Python</div></div>
+      <div class="fbox"><div class="fn">Program</div><div class="fd">在冻结编码器上<br>写任意 Python</div></div>
       <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Evaluator</div><div class="fd">ΔnDCG@10<br>14 个任务</div></div>
+      <div class="fbox"><div class="fn">Evaluator</div><div class="fd">14 个任务<br>统一打 ΔnDCG@10</div></div>
       <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL 日志<br>条件化下一次</div></div>
+      <div class="fbox"><div class="fn">Memory</div><div class="fd">一行一代<br>成败都记下来</div></div>
       <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Registry</div><div class="fd">144 个程序<br>全部留档</div></div>
+      <div class="fbox"><div class="fn">Registry</div><div class="fd">144 个程序<br>一个都不删</div></div>
     </div>
-    <div class="loopnote">↻ 记忆回流：每一代都读得到前面所有代的成败与教训</div>
+    <div class="loopnote">↻ 记忆会回流给出主意的那个：它读得到前面每一代干了什么、为什么没成</div>
     <div class="kpis">
-      <div class="kpi k-blue"><div class="v">239M</div><div class="lb">发现阶段用的编码器 jina-embeddings-v5-nano，小而快，循环转得动</div></div>
-      <div class="kpi"><div class="v">14</div><div class="lb">MMTEB Tier-1 任务：法律、金融、长文档、通用</div></div>
-      <div class="kpi k-green"><div class="v">144</div><div class="lb">程序总数，每一代一个，全部记录 Δ、成本、父代、教训</div></div>
+      <div class="kpi k-blue"><div class="v">239M</div><div class="lb">发现阶段的编码器 jina-embeddings-v5-nano，小、快，循环才转得动</div></div>
+      <div class="kpi"><div class="v">14</div><div class="lb">MMTEB Tier-1 任务，法律、金融、长文档、通用都有</div></div>
+      <div class="kpi k-green"><div class="v">144</div><div class="lb">程序总数，每一代的成本、父代、教训全部留档</div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 14 COST DEFINITION ============ -->
+<!-- ============ 16 COST DEFINITION ============ -->
 <section class="slide">
-  <div class="kicker">先把成本定义清楚</div>
-  <h2 class="h-slide sm">成本只有一个数：多跑了几次编码器前向。</h2>
+  <div class="kicker">先说清楚怎么算钱</div>
+  <h2 class="h-slide sm">成本就一个数：比基线多跑了几遍编码器。</h2>
   <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap c" style="font-size:19px">\[ c \;=\; 1 \,+\, \dfrac{\text{额外的前向次数}}{\text{基线前向次数}} \]</p>
+    <p class="cap c" style="font-size:19px">\[ c \;=\; 1 \,+\, \dfrac{\text{多出来的前向次数}}{\text{基线的前向次数}} \]</p>
     <div class="cards">
-      <div class="card"><div class="ttl cy">c = 1 · 零额外前向</div>
-        <div class="dsc"><strong>SoftCentroid</strong>：把已经算出来的 top-k 文档向量求平均，混进 query 里，再打一次分。<br><br><span class="mono" style="color:var(--ink2)">q′ = q + mean(d_emb[top-k])</span><br><br>纯粹是在已有向量上做代数，一次新的前向都没有。</div></div>
-      <div class="card c-pink"><div class="ttl pk">c &gt; 1 · 真的多跑了模型</div>
-        <div class="dsc">把文档切成句子重新编码、把 query 改写后重新编码、多轮反馈再编码——<strong>每一次都要模型真的再跑一遍</strong>。<br><br>本实验里最贵的程序 c = 14.7，也就是十五倍的推理成本。</div></div>
+      <div class="card"><div class="ttl cy">c = 1 · 一次都没多跑</div>
+        <div class="dsc">比如 <strong>SoftCentroid</strong>：把已经算出来的 top-k 文档向量求个平均，掺回 query 里再打一次分。<br><br><span class="mono" style="color:var(--ink2)">q′ = q + mean(d_emb[top-k])</span><br><br>全程只是在已有向量上做代数，编码器一次都没再启动。</div></div>
+      <div class="card c-green"><div class="ttl gr">c &gt; 1 · 模型真的又跑了</div>
+        <div class="dsc">把文档切成句子重新编码，把 query 改写后重新编码，多轮反馈再来一遍——<strong>每一次都得让模型真的再算一遍</strong>。<br><br>这轮里最贵的程序 c = 14.7，相当于十五倍的推理开销。</div></div>
     </div>
-    <p class="takeaway">这个区分是整个实验的关键：<span class="cy">纯代数</span> 和 <span class="pk">真花算力</span>，最后的命运完全不同。</p>
+    <p class="takeaway">这个区分很关键。后面你会看到，<span class="cy">这两类算力买到的东西不一样</span>。</p>
   </div>
 </section>
 
-<!-- ============ 15 TWO RUBRICS ============ -->
+<!-- ============ 17 IN-DOMAIN PARETO ============ -->
 <section class="slide">
-  <div class="kicker">同一个循环，两套评分标准</div>
-  <h2 class="h-slide sm">一套鼓励花算力，一套只认能迁移的东西。</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <div class="cards">
-      <div class="card c-pink"><div class="ttl pk">Compute rubric · 算力标准</div>
-        <div class="dsc">只要<strong>域内</strong>成绩超过此前所有程序就收录。明确鼓励提议者去花更多推理算力。</div>
-        <div class="foot" style="color:var(--pink)">→ 域内的天花板到底能爬多高？</div></div>
-      <div class="card"><div class="ttl cy">Transfer rubric · 迁移标准</div>
-        <div class="dsc">只有当验证集提升、<strong>且没有任何任务退步超过 0.05</strong> 才收录。花算力这件事本身不给任何奖励。</div>
-        <div class="foot">→ 什么东西能在域外站得住？</div></div>
-    </div>
-    <p class="takeaway">两次搜索<span class="cy">都从未见过</span>那 19 个留出任务，也从未见过留出的编码器家族。</p>
-  </div>
-</section>
-
-<!-- ============ 16 IN-DOMAIN PARETO ============ -->
-<section class="slide">
-  <div class="kicker">算力买到了什么 · 域内</div>
-  <h2 class="h-slide sm">被要求花算力，搜索画出了一条漂亮的 Pareto 曲线。</h2>
+  <div class="kicker">第一个结果</div>
+  <h2 class="h-slide sm">放开了让它花算力，曲线爬得很漂亮。</h2>
   <div class="body row" style="gap:30px;align-items:center">
     <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
     <div style="flex:.85" class="stats">
-      <div class="stat"><div class="v">144</div><div class="l">144 代里搜出的程序总数</div></div>
-      <div class="stat"><div class="v pk">12</div><div class="l">Pareto 最优解，成本从 c = 1.2 一直到 14.7</div></div>
-      <p class="cap">域内平均 ΔnDCG@10 从 +0.07 爬到 +0.24。<strong>这看起来就是标准的 test-time compute scaling。</strong></p>
-      <p class="cap" style="color:var(--cyan);font-weight:500">但这只是域内。<br>留出集的结果在下一页。</p>
+      <div class="stat"><div class="v">144</div><div class="l">144 代里搜出来的程序总数</div></div>
+      <div class="stat"><div class="v pk">12</div><div class="l">Pareto 最优的有 12 个，成本从 1.2 倍一直排到 14.7 倍</div></div>
+      <p class="cap">平均 ΔnDCG@10 从 +0.07 一路爬到 +0.24。<strong>这就是一条标准的 test-time compute scaling 曲线</strong>，只不过发生在一个 239M 的冻结小模型上。</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 17 PROGRAM GALLERY ============ -->
+<!-- ============ 18 PROGRAM GALLERY ============ -->
 <section class="slide">
-  <div class="kicker">agent 写出了什么</div>
-  <h2 class="h-slide sm">算力前沿上的十二个程序。</h2>
+  <div class="kicker">它写出来的东西</div>
+  <h2 class="h-slide sm">这十二个程序，没有一个是人设计的。</h2>
   <div class="body" style="justify-content:center;gap:12px">
 <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#26C6DA"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#26C6DA"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -650,71 +746,47 @@ tr.weakrow td{color:var(--mut)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="cap c">每一个都是对同一批冻结向量的免训练重组。成本从左到右递增；而它们带来的提升，下一页会告诉你并没有跟着涨。</p>
+    <p class="cap c">每一个都是对同一批冻结向量的免训练重组：切句子、做 z-score、融多路、拉质心、建图。成本从左往右递增。</p>
   </div>
 </section>
 
-<!-- ============ 18 THE MONEY CHART ============ -->
+<!-- ============ 19 TRANSFER: THE GOOD PART ============ -->
 <section class="slide">
-  <div class="kicker">留出集上的真相</div>
-  <h2 class="h-slide sm">在没见过的编码器上，算力是平的。便宜的结构不是。</h2>
+  <div class="kicker">更值钱的发现</div>
+  <h2 class="h-slide sm">最便宜的那批，反而能搬到别的模型上去。</h2>
   <div class="body row" style="gap:30px">
     <div class="fill" style="flex:1.45">
       <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--pink)"></span>算力标准搜出来的程序</div>
-        <div class="it"><span class="sw" style="background:var(--cyan)"></span>迁移标准搜出来的程序</div>
+        <div class="it"><span class="sw" style="background:var(--pink)"></span>按域内成绩收录的（成本 1.2× → 14.7×）</div>
+        <div class="it"><span class="sw" style="background:var(--cyan)"></span>要求能迁移才收的</div>
       </div>
       <div class="chart" id="c-money"></div>
     </div>
-    <div style="flex:.8" class="stats">
-      <div class="stat"><div class="v pk">14.7×</div><div class="l">最贵的程序花的算力，被一个零额外前向的程序打平</div></div>
-      <div class="stat"><div class="v pk">−0.016</div><div class="l">算力标准在留出集上的合并均值，低于基线</div></div>
-      <div class="stat"><div class="v pk">−0.98</div><div class="l">它最差的单条 query 结果</div></div>
-    </div>
-  </div>
-  <p class="cap" style="margin-top:8px">迁移标准搜出的程序在 <strong>c = 1.0</strong>、零额外前向的情况下，就已经打赢了 <strong>c = 14.7</strong> 那个最贵的算力程序。图里画的是中位数（对 −0.98 这种尾部更稳健），合并均值同样是负的。</p>
-</section>
-
-<!-- ============ 19 HEATMAP ============ -->
-<section class="slide">
-  <div class="kicker">逐格看这条算力前沿</div>
-  <h2 class="h-slide sm">算力大概帮到一半的格子，另一半直接塌了。</h2>
-  <div class="body" style="justify-content:center;gap:12px">
-    <div class="hmframe">
-      <div class="hmyax">
-        <div class="hmyanchor">1.2×<span class="d">便宜</span></div>
-        <div class="hmytitle">算力成本</div>
-        <div class="hmyanchor">14.7×<span class="d">昂贵</span></div>
-      </div>
-      <div class="hmcolwrap">
-        <div class="hmwrap" id="c-heatmap"></div>
-        <div class="hmxax">19 个留出任务 →</div>
-      </div>
-    </div>
-    <div class="row" style="align-items:center;gap:28px;margin-top:2px">
-      <div class="hmleg"><span style="color:var(--pink)">−0.98</span><span class="bar"></span><span style="color:var(--green)">+0.16</span></div>
-      <p class="cap" style="flex:1">每一行是十二个程序之一（按算力成本 1.2× 到 14.7× 排序），每一列是十九个留出任务之一，四个编码器里有三个在发现阶段从未出现过。大约一半的格子是正的（912 格中 485 格），76 个「任务 × 编码器」组合里有 52 个至少在某个程序下有提升——但深粉色的格子能掉到 −0.98，所以合并均值仍然是负的 −0.016。</p>
+    <div style="flex:.85;display:flex;flex-direction:column;gap:16px;justify-content:center">
+      <p class="cap">换一套收录标准：只有在验证集上涨、并且<strong>不把任何一个任务拖下水</strong>，才准进门。</p>
+      <p class="cap">搜出来六个程序，成本全在 <strong>c = 1.0 到 1.5</strong> 之间。最好的那个 <span class="mono cy">Transpose-Consensus</span> 胜率 83.3%，<strong>最差的任务是 0.0000</strong>——一个都没弄坏。</p>
+      <p class="takeaway" style="text-align:left;font-size:17px">真正能带走的东西，<span class="cy">往往不贵</span>。</p>
     </div>
   </div>
 </section>
 
 <!-- ============ 20 TRANSFER TABLE ============ -->
 <section class="slide">
-  <div class="kicker">另一套标准</div>
-  <h2 class="h-slide sm">换个评分标准，搜出了六个便宜且能迁移的程序。</h2>
+  <div class="kicker">六个能带走的程序</div>
+  <h2 class="h-slide sm">便宜、稳、而且换个模型照样管用。</h2>
   <div class="body" style="justify-content:center;gap:16px">
     <table id="t-transfer" style="max-width:1090px;margin:0 auto">
-      <thead><tr><th>程序</th><th>c</th><th>中位数</th><th>胜率</th><th>均值</th><th>最差格</th></tr></thead>
+      <thead><tr><th>程序</th><th>c</th><th>中位数</th><th>胜率</th><th>均值</th><th>最差的那个任务</th></tr></thead>
       <tbody></tbody>
     </table>
-    <p class="takeaway">全部集中在 <span class="cy">c = 1.0 到 1.5</span>，最好的那个（Transpose-Consensus，83.3% 胜率）最差格是 0.0000 —— 一个任务都没被弄坏。<br>对比一下：算力标准那边最贵的程序花到了 <span class="pk">c = 14.7</span>。</p>
+    <p class="takeaway">这些都是<span class="cy">纯粹的向量代数</span>：不训练、不加参数、不请外援，换个编码器复制粘贴就能用。</p>
   </div>
 </section>
 
 <!-- ============ 21 PER-MODEL ============ -->
 <section class="slide">
-  <div class="kicker">它迁移到哪去了</div>
-  <h2 class="h-slide sm">提升最大的，恰恰是发现阶段从没见过的编码器家族。</h2>
+  <div class="kicker">搬到哪儿去了</div>
+  <h2 class="h-slide sm">最有意思的是，它在没见过的模型上涨得最多。</h2>
   <div class="body row" style="gap:30px;align-items:center">
     <div class="fill" style="flex:1.3">
       <div class="legend">
@@ -723,32 +795,18 @@ tr.weakrow td{color:var(--mut)}
       </div>
       <div class="chart" id="c-permodel"></div>
     </div>
-    <div style="flex:.9;display:flex;flex-direction:column;gap:18px">
-      <p class="cap">程序是在 <strong>j-v5-nano</strong> 上发现的。四个编码器上平均 ΔnDCG@10 全为正，而且<strong>在两个从未见过的家族上最大</strong>。</p>
-      <p class="cap">jina 家族上的中位数贴近零，说明提升集中在一条正的长尾里，不是全面普涨。</p>
-      <p class="takeaway" style="text-align:left;font-size:17px">这说明它跟着的是<span class="cy">通用的向量几何</span>，而不是某个模型的怪癖。</p>
+    <div style="flex:.9;display:flex;flex-direction:column;gap:16px">
+      <p class="cap">程序是在 <strong>j-v5-nano</strong> 上搜出来的。四个编码器上平均都是正的，<strong>而在 gemma 和 qwen 这两个完全没参与过发现的家族上，涨得最多</strong>。</p>
+      <p class="cap">这说明它抓住的不是某个模型的怪癖，而是<strong>向量空间本身共有的几何结构</strong>。所以才搬得动。</p>
+      <p class="takeaway" style="text-align:left;font-size:17px">换句话说，这批程序对<span class="cy">你手上那个模型</span>大概率也有效。</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 22 WHY NOT TRAIN A HEAD ============ -->
-<section class="slide">
-  <div class="kicker">一个必须回答的反问</div>
-  <h2 class="h-slide sm">那为什么不干脆训一个 head？</h2>
-  <div class="body row" style="gap:30px;align-items:center">
-    <div class="fill" style="flex:1.3"><div class="chart" id="c-head"></div></div>
-    <div style="flex:.9;display:flex;flex-direction:column;gap:18px">
-      <p class="cap">在同样这 14 个发现任务上训练，线性 head、低秩 head、MLP head 都能把<strong>域内</strong>检索提升 +0.20 到 +0.25 ΔnDCG@10。</p>
-      <p class="cap">但在<strong>每一个</strong>留出编码器上，它们都掉到基线以下。</p>
-      <p class="takeaway" style="text-align:left;font-size:17.5px">同样的数据预算，<span class="pk">加参数不迁移</span>，<span class="cy">重组已有的几何结构才迁移</span>。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 23 REDISCOVERY ============ -->
+<!-- ============ 22 REDISCOVERY ============ -->
 <section class="slide">
   <div class="kicker">它到底找到了什么</div>
-  <h2 class="h-slide sm">反复出现的结构，是经典 IR 在向量空间里被重新推导了一遍。</h2>
+  <h2 class="h-slide sm">兜了一圈，它自己把经典 IR 重新发明了一遍。</h2>
   <div class="body" style="justify-content:center;gap:16px">
 <div class="rgrid">
       <div class="rcell">
@@ -798,37 +856,37 @@ tr.weakrow td{color:var(--mut)}
         <div class="rtext"><div class="rn">Sentence-level MaxSim</div><div class="rk">operationalized from a seeded idea</div><div class="rh">score the best sentence, not the mean</div></div>
       </div>
     </div>
-    <p class="takeaway">agent 没有被喂过这些名字。它<span class="cy">从零把它们重新发明了出来</span>——因为这些结构本来就在几何里。</p>
+    <p class="takeaway">这些名字我一个都没告诉它。<span class="cy">它是从几何里自己摸出来的</span>——因为这些结构本来就长在向量空间里。</p>
   </div>
 </section>
 
-<!-- ============ 24 EXP-1 CONCLUSION ============ -->
+<!-- ============ 23 EXP1 CLOSE ============ -->
 <section class="slide">
-  <div class="kicker">实验一 · 结论</div>
-  <h2 class="h-slide sm">用算力换精度，这条路撞墙了。</h2>
-  <div class="body" style="justify-content:center;gap:24px">
+  <div class="kicker">这一段的收获</div>
+  <h2 class="h-slide sm">一个 239M 的冻结模型，靠推理还能再榨出这么多。</h2>
+  <div class="body" style="justify-content:center;gap:22px">
     <div class="nlist" style="max-width:1010px">
-      <div class="nitem"><div class="n">01</div><div class="t">域内，它完美复现了 test-time compute scaling
-        <span>144 代、12 个 Pareto 最优解、ΔnDCG@10 从 +0.07 爬到 +0.24。曲线漂亮得可以直接放进论文。</span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">域外，这条曲线整个消失了
-        <span>合并均值 −0.016，最差单格 −0.98。花 14.7 倍算力的程序，打不过一个零额外前向的程序。</span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">留下来的是结构，不是算力
-        <span>六个能迁移的程序全在 c = 1.0 到 1.5，而且在没见过的编码器上收益最大。它们是 RRF、Fisher 判别、Rocchio 反馈的再发现。</span></div></div>
+      <div class="nitem"><div class="n">01</div><div class="t">小模型也吃 test-time compute 这一套
+        <span>144 代、12 个 Pareto 最优解，ΔnDCG@10 从 +0.07 爬到 +0.24。这条曲线过去只在大模型身上见过。</span></div></div>
+      <div class="nitem"><div class="n">02</div><div class="t">最划算的那一档，几乎不花额外算力
+        <span>六个能迁移的程序全在 c = 1.0 到 1.5，纯向量代数，换模型即插即用，在陌生编码器上收益还更大。</span></div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">而这些方法，是 agent 自己通宵找出来的
+        <span>RRF、Fisher 判别、Rocchio 反馈、句子级 MaxSim——经典 IR 的老朋友，被它在向量空间里重新推了一遍。</span></div></div>
     </div>
-    <p class="takeaway">在<span class="cy">同一个任务</span>上，推理算力很快就见顶了。<br>那如果我们不要求它做得更好，而是要求它做一件<span class="gr">全新的事</span>呢？</p>
+    <p class="takeaway">这一轮买到的是<span class="bl">相关性</span>。<br>下一个项目我想试试：这笔钱能不能买到<span class="gr">模型压根不会的东西</span>。</p>
   </div>
 </section>
 
-<!-- ============ 25 SECTION 03 ============ -->
+<!-- ============ 24 SECTION 03 ============ -->
 <section class="slide divider">
-  <div class="drow"><div class="num">03</div><div class="vbar" style="background:var(--green)"></div><div><h2>实验二 · 用算力换新功能</h2></div></div>
-  <div class="dsub">同样是冻结的向量模型，这次要它做一件训练时根本不存在的事</div>
+  <div class="drow"><div class="num">03</div><div class="vbar" style="background:var(--green)"></div><div><h2>Image tagging：买一个新能力</h2></div></div>
+  <div class="dsub">一个只会做检索的模型，从来没学过打标签。这次不求它更准，求它会一件新事</div>
 </section>
 
-<!-- ============ 26 RESULT FIRST ============ -->
+<!-- ============ 25 RESULT FIRST ============ -->
 <section class="slide">
   <div class="kicker">先看结果</div>
-  <h2 class="h-slide sm">一个只会做检索的模型，直接吐出了标签。</h2>
+  <h2 class="h-slide sm">这些标签，是一个检索模型吐出来的。</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
       <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain · phoenix · sky · rooftop · location</div></figure>
@@ -841,185 +899,348 @@ tr.weakrow td{color:var(--mut)}
       <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award · forwarding · speaking · defendant · workshop</div></figure>
       <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift · toy · celebration · balloons · cheerful</div></figure>
     </div>
-    <p class="takeaway">没有训练、没有第二个模型、没有词典。这些标签<span class="gr">全部来自推理期计算</span>。</p>
+    <p class="takeaway">没训练、没请第二个模型、没查词典。<span class="gr">全是推理期算出来的。</span>顺带一提，它还是多语言的。</p>
   </div>
 </section>
 
-<!-- ============ 27 PROBLEM SETUP ============ -->
+<!-- ============ 26 SETUP ============ -->
 <section class="slide">
-  <div class="kicker">问题设定</div>
-  <h2 class="h-slide sm">和实验一同样严的约束，但换了一个目标。</h2>
+  <div class="kicker">规则照旧</div>
+  <h2 class="h-slide sm">同样只准动推理，但这次要的是一件新差事。</h2>
   <div class="body" style="justify-content:center;gap:20px">
     <div class="deflist" style="max-width:1040px">
-      <div class="defrow"><div class="tag">given</div><div class="dsc">一个向量模型 <strong>jina-embeddings-v5-omni-nano</strong>（~1B，图文共享 768 维空间），一张图。</div></div>
-      <div class="defrow"><div class="tag">output</div><div class="dsc">图中<strong>每一个</strong>物体的词：多标签、开放词表。</div></div>
-      <div class="defrow"><div class="tag">frozen</div><div class="dsc">全部权重冻结。它是检索编码器，没有标注头、没有分类器，从未为此任务训练过。</div></div>
-      <div class="defrow"><div class="tag">allowed</div><div class="dsc">只允许在模型自身输出上做推理期计算，别的都不行。</div></div>
+      <div class="defrow"><div class="tag">手上有</div><div class="dsc">一个 <strong>jina-embeddings-v5-omni-nano</strong>，大约 1B，图和文共用一个 768 维空间。</div></div>
+      <div class="defrow"><div class="tag">要它干</div><div class="dsc">把图里<strong>每一个</strong>东西都说出来：多标签，而且词表是开放的。</div></div>
+      <div class="defrow"><div class="tag">前提是</div><div class="dsc">权重全冻结。它是个检索编码器，<strong>没有标注头，没有分类器，训练时压根没见过这个任务</strong>。</div></div>
+      <div class="defrow"><div class="tag">只准用</div><div class="dsc">它自己吐出来的那些数，在上面做推理期计算。别的一概不行。</div></div>
     </div>
     <div>
-      <span class="chip no">不训练</span><span class="chip no">不引入第二个模型</span><span class="chip no">不用 WordNet / 词典</span><span class="chip no">不用正则 / 词性标注</span>
+      <span class="chip no">不训练</span><span class="chip no">不请第二个模型</span><span class="chip no">不用 WordNet 和词典</span><span class="chip no">不用正则和词性标注</span>
     </div>
-    <p class="takeaway">注意这次的差别：实验一是<span class="bl">把检索做得更准</span>，实验二是<span class="gr">让检索模型去做它压根不会的事</span>。</p>
+    <p class="takeaway">这次的赌注比上一轮大：上一轮是<span class="bl">把会的事做得更好</span>，这一轮是<span class="gr">让它做一件根本不会的事</span>。</p>
   </div>
 </section>
 
-<!-- ============ 28 COMPUTE MENU ============ -->
+<!-- ============ 27 COMPUTE MENU ============ -->
 <section class="slide">
-  <div class="kicker">一张菜单</div>
-  <h2 class="h-slide sm">对向量模型来说，test-time compute 只有三种花法。</h2>
+  <div class="kicker">算力能怎么花</div>
+  <h2 class="h-slide sm">对一个向量模型来说，无非三种花法。</h2>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
-      <div class="card"><div class="n">A</div><div class="ttl">同一次前向，多做代数</div>
-        <div class="dsc">不再只读池化向量，改读 <strong>patch 级</strong>输出，和 128k 词表逐一打分。计算量几乎不变。</div>
-        <div class="foot">对应实验一里的 c = 1.0</div></div>
-      <div class="card c-green"><div class="n">B</div><div class="ttl">新的视角，新的前向</div>
-        <div class="dsc">把图切成多个 crop <strong>重新编码</strong>，小物体在自己的 crop 里占满画面。计算量线性增长。</div>
-        <div class="foot" style="color:var(--green)">对应实验一里的 c &gt; 1</div></div>
-      <div class="card c-pink"><div class="n">C</div><div class="ttl">对已有特征再加工</div>
-        <div class="dsc">白化、最优传输、图传播、EM……在<strong>同一批像素</strong>上做更重的数学。看起来最「聪明」。</div>
-        <div class="foot" style="color:var(--pink)">实验一里塌掉的那一类</div></div>
+      <div class="card"><div class="n">A</div><div class="ttl">同一次前向，读得更深</div>
+        <div class="dsc">别只拿那个池化完的向量，把 <strong>patch 级</strong>的输出全读出来，挨个跟 12.8 万个词打分。<strong>算力几乎没多花。</strong></div>
+        <div class="foot">对应上一轮的 c = 1.0</div></div>
+      <div class="card c-green"><div class="n">B</div><div class="ttl">换个视角，再跑一遍</div>
+        <div class="dsc">把图切成若干 crop <strong>重新编码</strong>。小东西在自己那张 crop 里能占满整个画面，就不会被忽略了。</div>
+        <div class="foot" style="color:var(--green)">对应上一轮的 c &gt; 1</div></div>
+      <div class="card c-blue"><div class="n">C</div><div class="ttl">在已有结果上再做文章</div>
+        <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
+        <div class="foot" style="color:var(--blue2)">这条我们也全试了</div></div>
     </div>
-    <p class="takeaway">结论提前说：<span class="cy">A 有效</span>，<span class="gr">B 有效</span>，<span class="pk">C 是幻觉</span>。<br>和实验一的结论惊人地一致。</p>
+    <p class="takeaway">剧透一下：<span class="cy">A 和 B 都真给了东西</span>，而且给得比我预想的多。</p>
   </div>
 </section>
 
-<!-- ============ 29 PIPELINE ============ -->
+<!-- ============ 28 PIPELINE ============ -->
 <section class="slide">
-  <div class="kicker">方法</div>
-  <h2 class="h-slide sm">四步，把检索器改造成标注器。</h2>
+  <div class="kicker">四步走</div>
+  <h2 class="h-slide sm">把一个检索器，改装成标注器。</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="flow">
-      <div class="step on">tokenizer 词表 → 标签空间</div><div class="ar">→</div>
-      <div class="step on">patch × 128,260 打分</div><div class="ar">→</div>
-      <div class="step on">减去背景先验 μℓ</div><div class="ar">→</div>
-      <div class="step on">词首 gate + embedding-NMS</div>
+      <div class="step on">词表当标签空间</div><div class="ar">→</div>
+      <div class="step on">每个 patch 打分</div><div class="ar">→</div>
+      <div class="step on">减掉背景先验</div><div class="ar">→</div>
+      <div class="step on">去重取头部</div>
     </div>
     <div class="nlist" style="max-width:1010px">
-      <div class="nitem"><div class="n">01</div><div class="t">词表就是开放标签空间
-        <span>128,260 个 token 全部编码成文本向量。不需要人工标签集，模型认识多少词就有多少候选。</span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">每个 patch 单独打分，再与全局向量融合
-        <span>0.7 × patch-max + 0.3 × global。小物体不再被整图池化稀释——这是 mAP 从 0.264 到 0.635 的来源。</span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">减去每个 token 自己的先验
-        <span>高频 token 天然离所有图都近。减掉 μℓ 之后，右尾才是真正的证据。</span></div></div>
-      <div class="nitem"><div class="n">04</div><div class="t">词首 gate 与向量空间 NMS
-        <span>128,260 → 25,465 候选；再把 kitty/cat/kitten/chatte 这样的同义簇压成一个概念。</span></div></div>
+      <div class="nitem"><div class="n">01</div><div class="t">tokenizer 的词表，直接拿来当标签空间
+        <span>12.8 万个 token 全部编码成文本向量。不用人工整理标签集——模型认识多少词，就有多少个候选标签。开放词表是白送的。</span></div></div>
+      <div class="nitem"><div class="n">02</div><div class="t">每个 patch 单独打分，再跟全局向量融合
+        <span>0.7 × patch-max + 0.3 × global。小物体不再被整张图的池化冲淡，mAP 从 0.264 直接到 0.635。</span></div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">每个词减掉它自己的先验
+        <span>高频词天生跟所有图都沾点边。把 μℓ 减掉之后，剩下的右尾才是真证据。</span></div></div>
+      <div class="nitem"><div class="n">04</div><div class="t">词首过滤，再在向量空间里做 NMS
+        <span>12.8 万压到 2.5 万候选；然后把 kitty / cat / kitten / chatte 这种同义词簇合并成一个概念。</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 30 VOCAB HISTOGRAM ============ -->
+<!-- ============ 29 VOCAB HISTOGRAM ============ -->
 <section class="slide">
-  <div class="kicker">真实分布</div>
-  <h2 class="h-slide sm">12.8 万 token 的得分分布，一步步被整形。</h2>
+  <div class="kicker">这是真实的分布</div>
+  <h2 class="h-slide sm">12.8 万个词的得分，是怎么一步步被整理出来的。</h2>
   <div class="body" style="justify-content:center">
     <div class="chart" id="c-vhist" style="max-width:1090px;margin:0 auto"></div>
   </div>
 </section>
 
-<!-- ============ 31 RESULTS TABLE + LADDER ============ -->
+<!-- ============ 30 LADDER + TABLE ============ -->
 <section class="slide">
   <div class="kicker">COCO-150</div>
-  <h2 class="h-slide sm">精度是被「读得更多」和「看得更多」推上去的。</h2>
+  <h2 class="h-slide sm">读得更深，加上多看几眼，就是这么两级台阶。</h2>
   <div class="body row" style="gap:34px;align-items:center">
     <div class="chart" id="c-ladder" style="flex:0 0 400px"></div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <table id="t-results">
-        <thead><tr><th>method</th><th>P@1</th><th>P@3</th><th>R@5</th><th>mAP</th></tr></thead>
+        <thead><tr><th>做法</th><th>P@1</th><th>P@3</th><th>R@5</th><th>mAP</th></tr></thead>
         <tbody></tbody>
       </table>
-      <p class="cap">全局池化 <span class="pk">0.264</span> → patch 融合 <span class="cy">0.635</span> → 多 crop 重编码 <span class="cy">0.710</span>。<br>A 类贡献 <strong>+0.371</strong>，B 类再贡献 <strong>+0.075</strong>。</p>
+      <p class="cap">只用池化向量是 <span class="pk">0.264</span>；改读 patch 之后 <span class="cy">0.635</span>；再多切几个 crop 重新编码，<span class="cy">0.710</span>。<br><strong>A 类一步就 +0.371，B 类再补 +0.075。</strong>这中间模型一个权重都没动过。</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 32 LEVERS ============ -->
+<!-- ============ 31 LEVERS ============ -->
 <section class="slide">
-  <div class="kicker">全部杠杆</div>
-  <h2 class="h-slide sm">2024–2026 的免训练方法，我们挨个跑了一遍。</h2>
-  <div class="body" style="justify-content:center">
+  <div class="kicker">我们试过的所有招</div>
+  <h2 class="h-slide sm">2024 到 2026 的免训练方法，挨个跑了一遍。</h2>
+  <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
+    <p class="takeaway" style="font-size:17px">能站住的是 <span class="gr">B 类</span>：真的去看新的像素。<span class="cy">A 类</span>把这次前向读透。<br>至于 <span class="bl">C 类</span>那些更花哨的数学——它们的前提是图和文在两个空间里，可这儿本来就是一个空间。</p>
   </div>
 </section>
 
-<!-- ============ 33 PARETO / WHY C FAILS ============ -->
+<!-- ============ 32 TAG PARETO ============ -->
 <section class="slide">
-  <div class="kicker">算力—精度</div>
-  <h2 class="h-slide sm">只有「新像素」能换到精度，「更重的数学」换不到。</h2>
+  <div class="kicker">算力和精度的关系</div>
+  <h2 class="h-slide sm">规律很干净：能带回新信息的算力，才换得到东西。</h2>
   <div class="body" style="justify-content:center;gap:14px">
     <div class="chart" id="c-tagpareto" style="max-width:1090px;margin:0 auto"></div>
-    <p class="takeaway">C 类不是「算得不够多」，是<span class="pk">假设本身不成立</span>：图文本来就在一个空间里，分数早已校准，没有额外信息可挖。</p>
+    <p class="takeaway">75 毫秒读透一次前向，1 秒钟看十五个视角。<span class="cy">这条前沿线上的每一步，都是往系统里灌进了新东西。</span></p>
   </div>
 </section>
 
-<!-- ============ 34 PRODUCTION ============ -->
+<!-- ============ 33 OMNI ============ -->
 <section class="slide">
-  <div class="kicker">落地 · Omni</div>
-  <h2 class="h-slide sm">研究直接变成产品：本机全盘跨模态搜索。</h2>
+  <div class="kicker">已经上线了</div>
+  <h2 class="h-slide sm">这套东西现在跑在我自己的 Mac 上。</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="kpis">
-      <div class="kpi"><div class="v">~4%</div><div class="lb">标注开销：搭在原有 embedding 前向上顺带完成</div></div>
-      <div class="kpi k-blue"><div class="v">0.847</div><div class="lb">HQ 重跑（5-crop CWR）P@1，Swift/bf16 端口，基线 0.773</div></div>
-      <div class="kpi k-green"><div class="v">32 帧</div><div class="lb">视频：每 240s 片段采样，跨空间与时间取 patch-max</div></div>
+      <div class="kpi"><div class="v">~4%</div><div class="lb">打标签的额外开销，搭在原本就要跑的 embedding 前向上顺手完成</div></div>
+      <div class="kpi k-blue"><div class="v">0.847</div><div class="lb">精细模式（5-crop）P@1，Swift/bf16 端口，基线 0.773</div></div>
+      <div class="kpi k-green"><div class="v">32 帧</div><div class="lb">视频每 240 秒采样一次，跨空间和时间一起取 max</div></div>
     </div>
     <div class="cards">
-      <div class="card"><div class="ttl">图片</div><div class="dsc">同一个标签矩阵，索引时顺带产出标签，无需二次前向。</div></div>
-      <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">帧采样后共用同一套 patch 打分逻辑，时间维直接并入 max。</div></div>
-      <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">页面当图处理，OCR 不可用的老档案也能被词检索到。</div></div>
+      <div class="card"><div class="ttl">图片</div><div class="dsc">建索引的时候顺手把标签也产出来，不用第二次前向。</div></div>
+      <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧之后共用同一套 patch 打分逻辑，时间维直接并进 max。</div></div>
+      <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。那些 OCR 认不出来的老档案，现在也能用词搜到了。</div></div>
     </div>
+    <p class="takeaway">从一篇实验记录到一个能用的功能，中间隔的只是<span class="gr">愿不愿意多花那 4% 的算力</span>。</p>
   </div>
 </section>
 
-<!-- ============ 35 SYNTHESIS ============ -->
+<!-- ============ 34 SECTION 04 ============ -->
+<section class="slide divider">
+  <div class="drow"><div class="num">04</div><div class="vbar" style="background:var(--amber)"></div><div><h2>往上一层：让 agent 自己搭链路</h2></div></div>
+  <div class="dsub">前面两个项目都在模型内部。这一层，算力花在了 agent 的循环里</div>
+</section>
+
+<!-- ============ 35 TREND ============ -->
 <section class="slide">
-  <div class="kicker">把两个实验接起来</div>
-  <h2 class="h-slide sm">同一条规律，在两个完全不同的任务上出现了两次。</h2>
+  <div class="kicker">这两年的变化</div>
+  <h2 class="h-slide sm">从 deep research 到长程任务，循环越来越长。</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <div class="cards">
-      <div class="card c-blue"><div class="n">01</div><div class="ttl">换精度：很快见顶</div>
-        <div class="dsc">任务没变，模型已经在这个任务上被训练到位了。<strong>多花的算力大多在重新表述同一批信息</strong>，域内好看，域外崩。<br><br>真正留下来的是 c = 1.0 到 1.5 的那一批廉价结构。</div></div>
-      <div class="card c-green"><div class="n">02</div><div class="ttl">换新功能：真的买到了东西</div>
-        <div class="dsc">任务是新的，模型的几何里有<strong>从没被读出来过的信息</strong>。<br><br>读 patch（A）拿到 +0.371，重新编码新像素（B）再拿 +0.075。</div></div>
+    <div class="trendrow">
+      <div class="trendh"><span class="yr">2025</span> · Deep research</div>
+      <div class="tflow">
+        <span class="tb pill">提问</span><span class="ta">→</span>
+        <div class="tloop"><div class="tll">循环到预算用完</div><span class="tb">搜</span><span class="ta">→</span><span class="tb">读</span><span class="ta">→</span><span class="tb">想</span>
+          <svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">→</span><span class="tb pill">答案</span>
+      </div>
+      <div class="tio2">一个循环，全程都在联网</div>
     </div>
-    <div class="deflist" style="max-width:1040px">
-      <div class="defrow"><div class="tag w">有效的算力</div><div class="dsc">让<strong>新信息</strong>进入系统：被池化丢掉的 patch，被缩放丢掉的像素，被单向量丢掉的句子结构。</div></div>
-      <div class="defrow"><div class="tag w" style="color:var(--pink);border-color:var(--pink)">无效的算力</div><div class="dsc">在<strong>同一批信息</strong>上做更漂亮的数学：白化、最优传输、图传播、EM、可学习 head。</div></div>
+    <div class="trendrow">
+      <div class="trendh"><span class="yr">2026</span> · 长程任务</div>
+      <div class="tflow">
+        <span class="tb pill">提问</span><span class="ta">→</span>
+        <div class="tloop"><div class="tll">调研</div><span class="tb">搜</span><span class="ta">→</span><span class="tb">读</span><span class="ta">→</span><span class="tb">想</span>
+          <svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">→</span><span class="tb hl">dataroom</span><span class="ta">→</span>
+        <div class="tloop"><div class="tll">干活</div><span class="tb">读</span><span class="ta">→</span><span class="tb">跑</span><span class="ta">→</span><span class="tb">写</span>
+          <svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
+        <span class="ta">→</span><span class="tb pill">交付</span>
+      </div>
+      <div class="tio2">前半段联网攒料 · 后半段离线干活，<span class="cy">全程不碰网</span></div>
     </div>
+    <p class="takeaway">调研和干活，该用的 token 不是一种。<span class="am">攒料用便宜的本地小模型，贵的额度留给真正需要它的那一段。</span></p>
   </div>
 </section>
 
-<!-- ============ 36 TAKEAWAY ============ -->
+<!-- ============ 36 DATAROOM ============ -->
 <section class="slide">
-  <div class="kicker">结论</div>
-  <div class="body" style="justify-content:center;gap:30px">
-    <div class="pull" style="max-width:60ch">
-      搜索就是 test-time compute。<strong>能力不在权重里，在你愿意为一次推理花多少算力上。</strong>
-      <cite>—— 但只有换来新信息的算力才算数</cite>
+  <div class="kicker">项目三 · 攒料</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="dataroom repo QR"></a>
+  <h2 class="h-slide sm">dataroom：把开放网络啃成一个 zip。</h2>
+  <div class="body row" style="gap:32px;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+      <p class="cap">给它一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮来，直到把这个题目下能找到的东西全部打包成一个<strong>带引用的 zip</strong>。</p>
+      <p class="cap">这个名字是我创业时留下的习惯——当年给投资人准备 data room，把该看的材料一次性理清楚放进去。现在换成给 agent 准备。</p>
+      <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用本地的 Qwen 27B、35B-A3B 这类便宜模型跑，把昂贵的前沿额度省下来，留给后面真正要动脑子的那一步。</p>
+      <div class="flowv">
+        <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">攒出语料（.zip）</div></div>
+        <div class="farrv">↓</div>
+        <div class="fbox lit compact"><div class="fn">searchbox</div><div class="fd">只从这个 zip 里找答案</div></div>
+      </div>
     </div>
-    <div class="nlist" style="max-width:1010px">
-      <div class="nitem"><div class="n">01</div><div class="t">冻结的小模型里，藏着的东西比你以为的多
-        <span>一个 239M 的编码器能被重组出经典 IR 的全套结构；一个 1B 的检索模型里已经存在一个开放词表标注器。</span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">但算力不是万能药，它只是一个搬运工
-        <span>它能把已有的信息搬到你能用的地方。它搬不来本来就不存在的信息。</span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">所以先问「这笔算力带来了什么新信息」，再问「花多少」
-        <span>没有新信息进来的算力，不管数学多漂亮，域内多好看，都换不到真正的东西。</span></div></div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
+      <div class="shot"><img src="img/dr-hero.png" alt="dataroom 任务面板"></div>
+      <div class="shotcap"><strong>任务实时页面：</strong>覆盖度进度、token 消耗、工具调用分布。停止条件看的是覆盖够不够，不是钱花完没有。</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 37 CLOSING ============ -->
+<!-- ============ 37 SEARCHBOX ============ -->
+<section class="slide">
+  <div class="kicker">项目四 · 断网做题</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="searchbox repo QR"></a>
+  <h2 class="h-slide sm">searchbox：把 agent 关进没有网的盒子里。</h2>
+  <div class="body row" style="gap:32px;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:13px">
+      <p class="cap">丢给它一个 dataroom 的 zip，然后<strong>切断网络</strong>，再问一个问题。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
+      <p class="cap">断网这件事是故意的。<strong>不断网，你永远分不清它是真的在搜，还是网上碰巧有现成答案。</strong>关上门，搜索能力才被逼出来。</p>
+      <div class="mlabel cy">正在研究的几个问题</div>
+      <div class="qlist">
+        <p>它第一个伸手去拿的是哪个工具？</p>
+        <p>是不是 grep 就够了，稠密检索到底在哪些地方才真有用？</p>
+        <p>逼它多花算力，难题上会不会有起色？</p>
+        <p>它搭出来的链路，下次还能不能复用？</p>
+      </div>
+    </div>
+    <div style="flex:1.02;display:flex;flex-direction:column;gap:10px;align-items:center">
+      <img src="img/sb-comic.png" alt="searchbox 示意：一个 zip 递进断网的循环里" style="width:100%;max-width:540px;display:block;border-radius:8px">
+      <div class="shotcap">断网循环，画成漫画就是这样</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 38 KG ============ -->
+<section class="slide">
+  <div class="kicker">项目四 · 出难题的人</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <span class="qrtop">GitHub</span><img src="img/qr-knowledge-graph.png" alt="knowledge-graph repo QR"></a>
+  <h2 class="h-slide sm">knowledge-graph：用知识图谱造多跳问题。</h2>
+  <div class="body row" style="gap:32px;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+      <p class="cap">简单题对研究 agent 搜索毫无用处：<strong>一次 grep 就能命中的问题，什么方法做出来都一样分</strong>。要评测 searchbox，得先有能把它逼出汗的题。</p>
+      <div class="mlabel cy">怎么造</div>
+      <p class="cap">把语料先抽成知识图谱，每条事实是一条 <span class="mono">(主语)-[谓语]-&gt;(宾语)</span> 的边，然后去<strong>走图里最长的那些路径</strong>。这些长链条自然就成了<strong>多跳问题</strong>——没有任何单独一段文字能直接回答。</p>
+      <p class="cap">题目从同一份语料里长出来，所以是<strong>私有的、不可能被背过的评测集</strong>。agent 必须真的把事实一环一环连起来，也就必须真的去花那份推理算力。</p>
+    </div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
+      <div class="shot"><img src="img/kg-hero.png" alt="知识图谱界面"></div>
+      <div class="shotcap"><strong>实时图谱：</strong>每条事实一条边，最长路径视图会把多跳问题直接挑出来。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 39 STACK SYNTHESIS ============ -->
+<section class="slide">
+  <div class="kicker">这三个是一套</div>
+  <h2 class="h-slide sm">攒料、做题、出题，凑成一个能自己跑起来的闭环。</h2>
+  <div class="body" style="justify-content:center;gap:24px">
+    <div class="cards">
+      <div class="card c-amber"><div class="n">01</div><div class="ttl">dataroom · 拉满召回</div>
+        <div class="dsc">便宜的本地 token 把网络啃成一个带引用的 zip。<strong>这一步决定了天花板</strong>——材料里没有的东西，后面谁也变不出来。</div></div>
+      <div class="card c-pink"><div class="n">02</div><div class="ttl">searchbox · 拉满精度</div>
+        <div class="dsc">断网，只给本地工具，逼 agent 在推理期自己组装链路。<strong>这一步决定了你能从材料里捞出多少</strong>。</div></div>
+      <div class="card"><div class="n">03</div><div class="ttl">knowledge-graph · 说了算的裁判</div>
+        <div class="dsc">从同一份语料长出多跳难题。<strong>有了它，前面两步的每一次改动才有得比。</strong></div></div>
+    </div>
+    <p class="takeaway">跟前面两个项目是同一件事，只是换了一层：<span class="cy">那边组装的是向量代数，这边组装的是工具链</span>。都没有把模型换大。</p>
+  </div>
+</section>
+
+<!-- ============ 40 SECTION 05 ============ -->
+<section class="slide divider">
+  <div class="drow"><div class="num">05</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>回到那句话</h2></div></div>
+  <div class="dsub">四个项目跑完，我更相信这个判断了</div>
+</section>
+
+<!-- ============ 41 TWO LEVELS ============ -->
+<section class="slide">
+  <div class="kicker">四个项目，两个层次</div>
+  <h2 class="h-slide sm">一层在模型里面，一层在模型外面。</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <div class="syn2">
+      <div class="synp">
+        <svg viewBox="0 0 240 80" aria-hidden="true">
+          <line class="vconn" x1="30" y1="40" x2="118" y2="20"/><line class="vconn" x1="30" y1="40" x2="118" y2="40"/><line class="vconn" x1="30" y1="40" x2="118" y2="60"/>
+          <line class="vwin" x1="118" y1="20" x2="204" y2="40"/><line class="vwin" x1="118" y1="40" x2="204" y2="40"/><line class="vwin" x1="118" y1="60" x2="204" y2="40"/>
+          <circle class="vd" cx="118" cy="20" r="5"/><circle class="vd" cx="118" cy="40" r="5"/><circle class="vd" cx="118" cy="60" r="5"/>
+          <circle class="vd vpulse pos" cx="206" cy="40" r="7"/>
+          <circle class="vq" cx="30" cy="40" r="7"/>
+          <text class="vlbl" x="30" y="66" text-anchor="middle">q</text><text class="vlbl" x="118" y="13" text-anchor="middle">d</text>
+        </svg>
+        <div class="synh"><span class="tag">A</span>模型内：向量代数</div>
+        <div class="synrow"><b>推理时干的</b>多跑几遍，读得更深</div>
+        <div class="synrow"><b>项目</b>autoresearch · image tagging</div>
+        <div class="synrow"><b>买到的</b>相关性 + 一个全新的能力</div>
+      </div>
+      <div class="synp">
+        <svg viewBox="0 0 240 80" aria-hidden="true">
+          <line class="vwin" x1="46" y1="40" x2="134" y2="18"/><line class="vwin" x1="46" y1="40" x2="134" y2="40"/><line class="vwin" x1="46" y1="40" x2="134" y2="62"/>
+          <rect x="135" y="9" width="66" height="18" rx="4" fill="rgba(18,23,34,.9)" stroke="#3A4256" stroke-width="1.1"/><text class="vtool" x="168" y="22" text-anchor="middle">grep</text>
+          <rect x="135" y="31" width="66" height="18" rx="4" fill="rgba(18,23,34,.9)" stroke="#3A4256" stroke-width="1.1"/><text class="vtool" x="168" y="44" text-anchor="middle">embed</text>
+          <rect x="135" y="53" width="66" height="18" rx="4" fill="rgba(18,23,34,.9)" stroke="#3A4256" stroke-width="1.1"/><text class="vtool" x="168" y="66" text-anchor="middle">rerank</text>
+          <circle class="vq vpulse" cx="34" cy="40" r="8"/>
+          <text class="vlbl" x="34" y="68" text-anchor="middle">agent</text>
+        </svg>
+        <div class="synh"><span class="tag">B</span>模型外：工具链</div>
+        <div class="synrow"><b>推理时干的</b>自己决定先搜什么、再用什么</div>
+        <div class="synrow"><b>项目</b>dataroom · searchbox · knowledge-graph</div>
+        <div class="synrow"><b>买到的</b>召回 + 精度</div>
+      </div>
+    </div>
+    <p class="takeaway">两层，一个赌注：<span class="cy">多花推理算力，而不是换个更大的模型</span>。</p>
+  </div>
+</section>
+
+<!-- ============ 42 HOW TO THINK ABOUT IT ============ -->
+<section class="slide">
+  <div class="kicker">我现在怎么看这件事</div>
+  <h2 class="h-slide sm">三个我自己拿来判断的问题。</h2>
+  <div class="body" style="justify-content:center;gap:22px">
+    <div class="nlist" style="max-width:1030px">
+      <div class="nitem"><div class="n">01</div><div class="t">先问：这次多花的算力，带回了什么新东西？
+        <span>被池化丢掉的 patch，被缩放丢掉的像素，被单向量抹平的句子结构，被一次 grep 漏掉的那几跳。<strong>能说出带回了什么，这笔钱就花得值。</strong></span></div></div>
+      <div class="nitem"><div class="n">02</div><div class="t">再问：最便宜的那一档，是不是已经够了？
+        <span>autoresearch 里最能迁移的程序在 c = 1.0 到 1.5；image tagging 里 A 类一步就吃掉了 +0.371。<strong>先把这次前向读透，往往比再跑十遍划算。</strong></span></div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">最后问：这条链路，能不能让机器自己去找？
+        <span>144 代程序没有一行是我写的。<strong>方法本身也可以是 test-time compute 的产物。</strong></span></div></div>
+    </div>
+    <p class="takeaway">按这三条走，2026 年的搜索<span class="cy">远远没到没事可做的地步</span>。</p>
+  </div>
+</section>
+
+<!-- ============ 43 FINAL CLAIM ============ -->
+<section class="slide claimslide">
+  <div class="kicker">最后一句</div>
+  <div class="body" style="justify-content:center;align-items:center;gap:28px">
+    <div class="bigclaim">搜索是一种 <span class="cy">test-time compute</span>。<br>别急着换更大的模型，<br>先在推理时<span class="cy">多搜一点</span>。</div>
+    <p class="takeaway" style="max-width:62ch;font-size:19px">而且这条链路你都不必自己设计——<br>让 agent 通宵替你找，第二天早上来看结果就行。</p>
+  </div>
+</section>
+
+<!-- ============ 44 CLOSING ============ -->
 <section class="slide closing">
   <img class="cloud" src="img/cloud.png" alt="">
   <h2>THANKS</h2>
-  <div class="sub" style="font-size:17px">肖涵 Han Xiao &nbsp;·&nbsp; Elastic AI 副总裁 &nbsp;·&nbsp; @hxiao &nbsp;·&nbsp; arXiv:2605.11374</div>
-  <div class="qr">
-    <div class="qrtop">github repo</div>
-    <a href="https://github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-repo.png" alt="QR"></a>
+  <div class="sub" style="font-size:17px">肖涵 Han Xiao &nbsp;·&nbsp; Elastic AI 副总裁</div>
+  <div class="sub" style="font-size:15px;color:var(--mut);margin-top:8px">@hxiao &nbsp;·&nbsp; github.com/hanxiao &nbsp;·&nbsp; arXiv:2605.11374</div>
+  <div class="qrrow">
+    <div class="qrc"><div class="qrtop">image tagging</div><img src="img/qr-repo.png" alt=""></div>
+    <div class="qrc"><div class="qrtop">dataroom</div><img src="img/qr-dataroom.png" alt=""></div>
+    <div class="qrc"><div class="qrtop">searchbox</div><img src="img/qr-searchbox.png" alt=""></div>
+    <div class="qrc"><div class="qrtop">knowledge-graph</div><img src="img/qr-knowledge-graph.png" alt=""></div>
   </div>
 </section>
 
 <div id="chrome-src">
   <div class="chrome c-hdr">
-    <div class="ttl"><span class="dot"></span><span>搜索就是 test-time compute</span></div>
+    <div class="ttl"><span class="dot"></span><span>搜索是一种 test-time compute</span></div>
     <div class="logos"><img src="img/logos.png" alt="腾讯云 × Elastic"></div>
   </div>
   <div class="chrome c-foot">
@@ -1030,7 +1251,6 @@ tr.weakrow td{color:var(--mut)}
 </div>
 
 </div>
-
 <script src="data.js?v=1"></script>
 <script>
 const stage=document.getElementById('stage');
@@ -1136,7 +1356,7 @@ function drawMoney(){
   let d='';comp.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
   svg.appendChild(el('path',{d,fill:'none',stroke:PINK,'stroke-width':2.6}));
   comp.forEach(p=>svg.appendChild(el('rect',{x:X(p[0])-4.5,y:Y(p[1])-4.5,width:9,height:9,fill:PINK})));
-  svg.appendChild(txt(X(6),Y(0.0017)+26,'算力标准的中位数从未超过 +0.003',{fs:12.5,fill:PINK,anchor:'middle',fw:600}));
+  svg.appendChild(txt(X(6),Y(0.0017)+26,'贵的那条线一直很平：从 1.2× 到 14.7×，中位数都在 +0.003 上下',{fs:12,fill:PINK,anchor:'middle',fw:600}));
   str.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:6.5,fill:CYAN,stroke:'#05060C','stroke-width':1.6})));
   const best=str[0];
   svg.appendChild(el('line',{x1:X(best[0])+8,y1:Y(best[1])-8,x2:X(best[0])+46,y2:Y(best[1])-30,stroke:CYAN,'stroke-width':1.2}));
@@ -1170,30 +1390,6 @@ function drawPermodel(){
 }
 
 /* 4. learned head */
-function drawHead(){
-  const W=720,H=412,L=78,R=26,T=30,B=66;
-  const svg=mount('c-head',W,H);if(!svg)return;
-  const d=A.head, ymin=-0.078,ymax=0.288;
-  const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B), bw=(W-L-R)/d.length;
-  svg.appendChild(el('rect',{x:L,y:Y(0.25),width:W-R-L,height:Y(0.20)-Y(0.25),fill:'rgba(154,163,181,.10)'}));
-  [0.25,0.20].forEach(v=>svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:MUT,'stroke-width':1.6,'stroke-dasharray':'6 4'})));
-  svg.appendChild(txt(L+12,Y(0.225)+5,'训练 head，域内：+0.20 到 +0.25',{fs:13.5,fw:700,fill:INK}));
-  svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.8}));
-  svg.appendChild(txt(L+12,Y(0)-8,'基线',{fs:12.5,mono:1,fill:MUT}));
-  svg.appendChild(el('line',{x1:L,y1:Y(0.018),x2:W-R,y2:Y(0.018),stroke:CYAN,'stroke-width':2.2,'stroke-dasharray':'2 3'}));
-  svg.appendChild(txt(W-R,Y(0.018)-7,'结构能迁移：gemma 上 +0.018',{fs:12.5,fw:700,fill:CYAN,anchor:'end'}));
-  svg.appendChild(txt((L+W-R)/2,Y(0.115)-4,'域内的这份提升',{fs:15,fw:700,anchor:'middle',fill:INK}));
-  svg.appendChild(txt((L+W-R)/2,Y(0.115)+18,'一个都没迁移过去',{fs:15,fw:700,anchor:'middle',fill:PINK}));
-  svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:H-B,stroke:GRID,'stroke-width':1.5}));
-  [0,0.1,0.2].forEach(v=>svg.appendChild(txt(L-10,Y(v)+5,(v>0?'+':'')+v.toFixed(1),{fs:13,mono:1,anchor:'end',fill:MUT})));
-  ylabel(svg,20,(T+H-B)/2,'ΔnDCG@10',13.5);
-  d.forEach((m,k)=>{
-    const cx=L+bw*k+bw/2, w=42;
-    svg.appendChild(el('rect',{x:cx-w/2,y:Y(0),width:w,height:Y(m.heldout)-Y(0),fill:PINK}));
-    svg.appendChild(txt(cx,Y(m.heldout)+19,'−'+Math.abs(m.heldout).toFixed(3),{fs:13,mono:1,anchor:'middle',fw:700,fill:PINK}));
-    svg.appendChild(txt(cx,H-B+25,m.enc,{fs:13,fw:700,mono:1,anchor:'middle',fill:INK}));
-  });
-}
 
 /* 5. transfer table */
 function fillTransfer(){
@@ -1208,38 +1404,6 @@ function fillTransfer(){
 }
 
 /* 6. cross-model heatmap */
-function drawHeatmap(){
-  const c=document.getElementById('c-heatmap'); if(!c||!A.heatmap) return;
-  c.innerHTML='';
-  const H=A.heatmap, nT=H.tasks.length, nP=H.progs.length, CAP=0.12, BG=[12,16,32];
-  const col=d=>{
-    if(d==null) return '#1A1F2E';
-    const t=Math.min(Math.abs(d)/CAP,1);
-    const to=d>=0?[39,192,138]:[220,60,180];
-    return 'rgb('+to.map((v,k)=>Math.round(BG[k]+(v-BG[k])*t)).join(',')+')';
-  };
-  H.models.forEach((m,mi)=>{
-    const panel=document.createElement('div'); panel.className='hmpanel'+(m.seen==='discovery'?' disc':'');
-    const lab=document.createElement('div'); lab.className='hmlabel';
-    const seenTxt=m.seen==='unseen'?'未见过':(m.seen==='discovery'?'发现阶段':'留出');
-    lab.innerHTML=m.label+'<span class="tag '+(m.seen==='unseen'?'uns':(m.seen==='discovery'?'disc':''))+'">'+seenTxt+'</span>';
-    panel.appendChild(lab);
-    const grid=document.createElement('div'); grid.className='hmgrid';
-    grid.style.gridTemplateColumns='repeat('+nT+',10px)';
-    const G=H.grid[m.key];
-    for(let p=0;p<nP;p++) for(let t=0;t<nT;t++){
-      const v=G[p][t], cell=document.createElement('div'); cell.className='hmcell';
-      cell.style.background=col(v);
-      if(v==null){cell.classList.add('z');}
-      else{
-        cell.style.animationDelay=((v>=0?0:1500)+t*60+p*40+mi*150)+'ms';
-        cell.title=H.progs[p]+' · '+H.tasks[t]+': '+(v>0?'+':'')+v.toFixed(3);
-      }
-      grid.appendChild(cell);
-    }
-    panel.appendChild(grid); c.appendChild(panel);
-  });
-}
 
 /* ===================== EXPERIMENT 2 (window.B) ===================== */
 
@@ -1433,7 +1597,7 @@ function drawVocabHist(){
 window.restartVhist=drawVocabHist;
 
 function renderAll(){
-  drawPareto();drawMoney();drawPermodel();drawHead();drawHeatmap();fillTransfer();
+  drawPareto();drawMoney();drawPermodel();fillTransfer();
   fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
 }
 function init(){
