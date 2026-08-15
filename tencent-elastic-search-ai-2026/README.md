@@ -1,28 +1,52 @@
-# 冻结的向量模型如何靠 test-time compute 学会打标签
+# 搜索就是 test-time compute
 
-腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，18 页，自包含 HTML。
-讲者：肖涵（Han Xiao），Elastic AI 副总裁。
+腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，**37 页 ≈ 35 分钟**（一页一分钟）。
+讲者：肖涵（Han Xiao），Elastic AI 副总裁。自包含 HTML，离线可放。
 
-内容沿用 [`ttc-embedding-image-tagging-2026`](../ttc-embedding-image-tagging-2026/) 的技术架构与全部
-实验数据（COCO-150，80 类闭集），改成中文叙事并压缩到 18 页。
-视觉系统改用大会官方 PPT 模板（`【PPT模板】AI搜索技术大会-内含字体`）：
-
-- 深色底 `#070810`，蓝/青径向光晕
-- 主色：cyan `#26C6DA` / blue `#3B6FF0` / pink `#DC3CB4` / green `#27C08A` / amber `#F0A030`
-- 分隔线 `#2A3040`，正文次级色 `#9AA3B5`（全部取自模板 theme XML 的高频色）
-- 页眉：彩虹云点 + 标题 + 腾讯云/Elastic 联合 logo（模板原图 `image5.png`）
-- 页脚：`Unlock the Power of Search AI`（cyan→magenta 渐变）+ `AI 搜索技术大会`
-- 章节页：大号章节号 + 竖条 + 青色氛围光，左下角锚定
-
-## 字体
-模板要求的思源黑体 CN（Light/Regular/Medium/Bold）+ Inter，已按本 deck 实际用字做子集化，
-自托管在 `fonts/`，全部 5 个 woff2 共约 300KB，离线可用。
-
-重新生成子集（改过文案后需要重跑，否则新字会掉字形）：
+## 叙事主线
+主题是 **test-time compute**，不是某一个实验。顺序刻意排成先立论、再验证：
 
 ```
+00 什么是 test-time compute      (3-4)   ← 取自 aie-sf-2026
+01 搜索本来就是 test-time compute (5-8)   ← 本场论点，含 cosine → MaxSim → ColBERT 那条谱系
+   ↓ 那么这笔算力到底能换到什么？
+02 换精度   autoresearch 实验     (9-24)  ← aie-sf-2026 的内容
+03 换新功能 image tagging 实验    (25-34) ← ttc-embedding-image-tagging-2026 的内容
+   ↓
+   合流：有效的算力 = 带来新信息的算力    (35-37)
+```
+
+两个实验不是并列展示，是**同一个问题的两面**：算力买到的是「更好的旧任务」还是「一个新任务」。
+两边独立得出同一条结论（A/B 类有效、C 类是幻觉），第 35 页把它们接起来。
+
+## 数据
+`data.js` 由两份源文件合并，**变量名之外一个字节都没改**：
+- `window.A` ← `aie-sf-2026/data.js`（144 程序 Pareto、money chart、per-model、learned head、transfer table、912 格 heatmap）
+- `window.B` ← `ttc-embedding-image-tagging-2026/data.js`（COCO-150 四种方法、ladder、11 个杠杆、延迟-精度、词表直方图、Omni 落地）
+
+改数字请回源文件改，然后重新合并，不要直接编辑本目录的 `data.js`。
+
+## 十张图（全部客户端画进 SVG）
+实验一：`drawPareto` 域内 Pareto · `drawMoney` 留出集中位数 vs 成本 · `drawPermodel` 分模型迁移 ·
+`drawHead` 训练 head 对照 · `drawHeatmap` 912 格热力图 · `fillTransfer` 迁移表
+实验二：`fillResults` 结果表 · `drawLadder` 三级台阶 · `drawLevers` 11 个杠杆 delta · `drawTagPareto` 延迟-精度 ·
+`drawVocabHist` 词表分布四阶段动画（打印时定格到第 4 阶段）
+
+## 视觉
+大会官方 PPT 模板（`【PPT模板】AI搜索技术大会-内含字体`）的设计系统，色值取自模板 theme/slide XML 的高频色：
+底 `#070810`，cyan `#26C6DA` / blue `#3B6FF0` / pink `#DC3CB4` / green `#27C08A` / amber `#F0A030`，
+线 `#2A3040`，次级文字 `#9AA3B5`。页眉用模板原图的腾讯云 × Elastic 联合 logo；页脚
+`Unlock the Power of Search AI`（青→品红渐变）+ `AI 搜索技术大会`。
+
+从 aie-sf-2026 借来的向量示意图 SVG 已整体改色适配深色底（`#0B64DD`→`#26C6DA`，`#F04E98`→`#DC3CB4`，`#1C1E23`→`#8FA0BC`）。
+
+## 字体
+模板要求的思源黑体 CN（Light/Regular/Medium/Bold）+ Inter，按本 deck 实际用字子集化，自托管 `fonts/`，共约 450KB。
+
+**改过文案后必须重跑子集化，否则新字会掉字形：**
+```
 source ~/.openclaw/workspace/.venv/bin/activate
-python3 -c "html=open('index.html',encoding='utf-8').read();chars=set(html)|set('0123456789.·×→←—–%「」');open('/tmp/subset-chars.txt','w',encoding='utf-8').write(''.join(sorted(c for c in chars if ord(c)>31)))"
+python3 -c "html=open('index.html',encoding='utf-8').read();chars=set(html)|set('0123456789.·×→←—–%「」↻±≈');open('/tmp/subset-chars.txt','w',encoding='utf-8').write(''.join(sorted(c for c in chars if ord(c)>31)))"
 F='<模板解压路径>/字体'
 for p in "SOURCEHANSANSCN-LIGHT_2.OTF:shs-light" "SOURCEHANSANSCN-REGULAR_4.OTF:shs-regular" \
          "SOURCEHANSANSCN-MEDIUM_2.OTF:shs-medium" "SOURCEHANSANSCN-BOLD_6.OTF:shs-bold" "Inter.ttf:inter"; do
@@ -32,18 +56,12 @@ done
 ```
 
 ## 文件
-- `index.html` — 全部 18 页，直接打开即可，无需服务器和网络
-- `data.js` — 图表数据，逐字取自项目结果文件，无估算值
-- `img/` — 演示图 `grid/g1-g9.jpg`、模板彩虹云 `cloud.png`、联合 logo `logos.png`、`qr-repo.png`
-- `fonts/` — 子集化的思源黑体 CN + Inter
-- `slides.pdf` — 18 页导出版
-
-## 四张图（客户端从 data.js 画进 SVG）
-- 第 8 页 `drawVocabHist` — 12.8 万 token 得分分布的动画：raw → 减先验 → 词首 gate → NMS/top-k，
-  真实 pipeline 输出。打印/PDF 时退化为最后一帧（rAF 探测）
-- 第 11 页 `drawLadder` — mAP 三级台阶 0.264 → 0.635 → 0.710
-- 第 12 页 `drawLevers` — 11 个杠杆的 delta 图，空心圆是各自的基线，实心圆是结果
-- 第 13 页 `drawPareto` — 实测延迟（对数轴）对 mAP，前沿线 vs 校准类方法的塌缩簇
+- `index.html` — 全部 37 页
+- `data.js` — 合并后的两份实验数据
+- `vendor/tex-svg.js` — 自托管 MathJax（公式离线渲染）
+- `img/` — `grid/g1-g9.jpg` 标注示例、模板彩虹云 `cloud.png`、联合 logo `logos.png`、`qr-repo.png`
+- `fonts/` — 子集化字体
+- `slides.pdf` — 37 页导出版
 
 ## 放映
 右/空格/点击 = 下一页，左 = 上一页，`f` = 全屏，`Home`/`End` = 首/末页，`#n` 深链到第 n 页。
@@ -51,7 +69,11 @@ done
 ## 重新导出 PDF
 ```
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless=new --no-pdf-header-footer --virtual-time-budget=9000 \
+  --headless=new --no-pdf-header-footer --virtual-time-budget=12000 \
   --print-to-pdf=slides.pdf "file://$PWD/index.html"
 ```
-页眉/页脚是逐页 clone 进每一页的（fixed 定位在分页打印里只会出现在第一页），首页和末页故意不带。
+页眉/页脚是 JS 逐页 clone 进每个 `.slide` 的（`position:fixed` 在分页打印里只会出现在第 1 页），首页和末页故意不带。
+
+## 两个坑
+1. `.row` 必须显式写 `flex-direction:row`：`.body` 是 column，`.body.row` 会继承成竖排，图表和文字会上下堆叠。
+2. 从别的 deck 搬 HTML 片段时，**对应的 CSS 类也要一起搬**（`.rgrid/.rcell/.rsvg` 漏了一次，整页炸开）。
