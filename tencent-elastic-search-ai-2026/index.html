@@ -235,6 +235,15 @@ strong,b{font-weight:700;color:#fff}
 .nitem .t>span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
 .nitem .t>span span{display:inline;font-size:inherit;margin:0;font-weight:500}
 
+/* ---------- stair bars: relative gain, no numbers ---------- */
+.stair{display:flex;flex-direction:column;gap:13px}
+.stp{display:flex;flex-direction:column;gap:6px}
+.stp .sn{font-size:16px;font-weight:600;color:var(--ink2);display:flex;align-items:center}
+.stp .sb{height:15px;border-radius:4px;display:block}
+.stp .sb.pk{background:linear-gradient(90deg,rgba(220,60,180,.35),var(--pink))}
+.stp .sb.bl{background:linear-gradient(90deg,rgba(94,143,248,.35),var(--blue2))}
+.stp .sb.gr{background:linear-gradient(90deg,rgba(39,192,138,.35),var(--green))}
+
 /* ---------- hot-takes sketch: one point vs one curve ---------- */
 .btsketch{display:flex;flex-direction:row;gap:44px;justify-content:center;align-items:flex-end;margin-top:2px}
 .btp{display:flex;flex-direction:column;align-items:center;gap:5px}
@@ -789,7 +798,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="body" style="justify-content:center;gap:22px">
     <div class="cards">
       <div class="card"><div class="n">01</div><div class="ttl">向量模型的 TTC</div>
-        <div class="dsc">编码器冻住不动，只在推理期把同一批向量重新组合，<strong>域内 ΔnDCG@10 能爬 0.17</strong>。</div>
+        <div class="dsc">编码器冻住不动，<strong>只在推理期把同一批向量重新组合</strong>，相关性就能往上走。</div>
         <div class="foot">换到的是 · 相关性</div></div>
       <div class="card c-blue"><div class="n">02</div><div class="ttl">重排模型的 TTC</div>
         <div class="dsc">召回之后再上一段模型，让候选在同一个上下文里互相比。<strong>极端情况下，索引可以整个删掉。</strong></div>
@@ -902,7 +911,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="row" style="align-items:center;gap:26px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--pink)">−0.12</span><span class="bar"></span><span style="color:var(--green)">+0.16</span></div>
-      <p class="cap" style="flex:1"><strong>76 个「任务 × 编码器」组合里，52 个拿到提升。</strong>而正格比例最高的是右边两块——<span class="gr">gemma-300m 和 qwen3-0.6b 完全没参与过发现，都是 62%</span>。</p>
+      <p class="cap" style="flex:1"><strong>大多数「任务 × 编码器」组合都拿到了提升。</strong>而涨得最好的是右边两块——<span class="gr">gemma-300m 和 qwen3-0.6b 完全没参与过发现</span>。</p>
     </div>
   </div>
 </section>
@@ -912,8 +921,8 @@ tr.weakrow td{color:var(--mut)}
     <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
     <div style="flex:.9" class="stats">
       <div class="stat"><div class="v">144</div><div class="l">搜出来的程序总数，全部是对同一批冻结向量的免训练重组</div></div>
-      <div class="stat"><div class="v pk">12</div><div class="l">落在 Pareto 前沿上，成本从 1.2 倍排到 14.7 倍</div></div>
-      <p class="cap">域内平均 ΔnDCG@10 从 <strong>+0.07 爬到 +0.24</strong>。<strong>这就是一条标准的 test-time compute scaling 曲线</strong>，而它发生在一个 239M 的冻结小模型上。</p>
+      <div class="stat"><div class="v pk">12</div><div class="l">落在 Pareto 前沿上，从最便宜的一档排到最贵的一档</div></div>
+      <p class="cap"><strong>这就是一条标准的 test-time compute scaling 曲线</strong>，而它发生在一个冻结的小模型上：越往右算得越多，精度就越往上走。</p>
     </div>
   </div>
 </section>
@@ -992,8 +1001,7 @@ tr.weakrow td{color:var(--mut)}
       </div>
 
     </div>
-    <p class="takeaway">同样 0.6B 参数，jina-reranker-v3 的 BEIR nDCG@10 是 <span class="cy">61.94</span>，
-      而双塔式的 bge-reranker-v2-m3 是 56.51、Qwen3-Reranker-0.6B 是 56.28。<span class="cy">差距来自让候选互相可见，不是来自更大的模型。</span></p>
+    <p class="takeaway">同样 0.6B 参数，listwise 的 jina-reranker-v3 明显甩开双塔式的 bge-reranker-v2-m3 和 Qwen3-Reranker-0.6B。<span class="cy">差距来自让候选互相可见，不是来自更大的模型。</span></p>
   </div>
 </section>
 
@@ -1110,7 +1118,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
         <div class="foot" style="color:var(--pink)">新信息：没有</div></div>
     </div>
-    <p class="takeaway"><span class="bl">A</span> 换来 +0.371 mAP，<span class="gr">B</span> 再换来 +0.075，<span class="pk">C</span> 一样都没换来。</p>
+    <p class="takeaway"><span class="bl">A</span> 换来一大截，<span class="gr">B</span> 再补一小截，<span class="pk">C</span> 一样都没换来。</p>
   </div>
 </section>
 
@@ -1179,8 +1187,8 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="eqlegend">
       <div class="it"><span style="flex:0 0 21px" aria-hidden="true"></span><div class="tx"><strong>全局上下文</strong>：池化向量减掉自己的背景先验。不额外花钱。</div></div>
-      <div class="it"><span class="abc sm">A</span><div class="tx"><strong>patch 证据 · Deeper pass</strong>：在前向已经产出的那些行上做代数。+0.371 mAP。</div></div>
-      <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>多 crop · More passes</strong>：14 次新的前向，看新的像素。+0.075 mAP。</div></div>
+      <div class="it"><span class="abc sm">A</span><div class="tx"><strong>patch 证据 · Deeper pass</strong>：在前向已经产出的那些行上做代数，不额外花钱。</div></div>
+      <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>多 crop · More passes</strong>：14 次新的前向，看新的像素。</div></div>
     </div>
     <p class="eqpost">然后 \( \ell \in \text{词首过滤后的词表} \rightarrow \text{向量空间 NMS}\,(\tau=0.6) \rightarrow \text{top-}k \)</p>
     <p class="takeaway" style="margin-top:8px">没有分类头，没有 logits，没有学出来的阈值：<span class="cy">三个固定权重、两个背景先验，以及若干次 max</span>。</p>
@@ -1198,14 +1206,15 @@ tr.weakrow td{color:var(--mut)}
 <!-- ============ 30 LADDER + TABLE ============ -->
 <section class="slide" data-title="读得更深，再多看几眼">
   
-  <div class="body row" style="gap:34px;align-items:center">
-    <div class="chart" id="c-ladder" style="flex:0 0 400px"></div>
-    <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <table id="t-results">
-        <thead><tr><th>做法</th><th>P@1</th><th>P@3</th><th>R@5</th><th>mAP</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <p class="cap">只用池化向量是 <span class="pk">0.264</span>；改读 patch 之后 <span class="cy">0.635</span>；再多切几个 crop 重新编码，<span class="cy">0.710</span>。<br><strong><span class="bl">A</span> 一步就 +0.371，<span class="gr">B</span> 再补 +0.075。</strong>这中间模型一个权重都没动过。</p>
+  <div class="body row" style="gap:44px;align-items:center">
+    <div class="chart" id="c-ladder" style="flex:0 0 470px"></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px">
+      <div class="stair">
+        <div class="stp"><span class="sn">只用池化向量</span><span class="sb pk" style="width:26%"></span></div>
+        <div class="stp"><span class="sn"><span class="abc sm">A</span>改读 patch</span><span class="sb bl" style="width:70%"></span></div>
+        <div class="stp"><span class="sn"><span class="abc sm b">B</span>再切几个 crop</span><span class="sb gr" style="width:82%"></span></div>
+      </div>
+      <p class="cap"><strong>一步跨得最大的是 <span class="bl">A</span></strong>：把这次前向已经算出来的 patch 读完整。<span class="gr">B</span> 再去看新的像素，还能再补一段。<br>这中间<strong>模型一个权重都没动过</strong>。</p>
     </div>
   </div>
 </section>
@@ -1581,8 +1590,7 @@ function drawLadder(){
   const svg=mount('c-ladder',W,H); if(!svg)return;
   const d=B.ladder, ymax=0.8, Y=v=>H-B_-(v/ymax)*(H-T-B_), bw=(W-L-R)/d.length;
   [0,0.2,0.4,0.6,0.8].forEach(v=>{
-    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));
-    svg.appendChild(txt(L-9,Y(v)+4,v.toFixed(1),{fs:11.5,mono:1,anchor:'end',fill:MUT}));});
+    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));});
   svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.4}));
   svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:Y(0),stroke:GRID,'stroke-width':1.4}));
   const defs=el('defs',{}); svg.appendChild(defs);
@@ -1596,12 +1604,11 @@ function drawLadder(){
     const g=m.kind==='weak'?'url(#gw)':(m.kind==='win'?'url(#gv)':'url(#gm)');
     const lc=m.kind==='weak'?PINK:(m.kind==='win'?CYAN:BLUE2);
     svg.appendChild(el('rect',{x:cx-w/2,y:Y(m.map),width:w,height:Y(0)-Y(m.map),fill:g,rx:3}));
-    svg.appendChild(txt(cx,Y(m.map)-9,m.map.toFixed(3),{fs:13,mono:1,anchor:'middle',fw:700,fill:lc}));
     const words=m.label.split(' ');
     svg.appendChild(txt(cx,Y(0)+20,words.slice(0,2).join(' '),{fs:10.5,mono:1,anchor:'middle',fw:600,fill:MUT}));
     if(words.length>2) svg.appendChild(txt(cx,Y(0)+34,words.slice(2).join(' '),{fs:10.5,mono:1,anchor:'middle',fw:600,fill:MUT}));
   });
-  ylabel(svg,L-36,(T+Y(0))/2,'mAP',12);
+  ylabel(svg,L-36,(T+Y(0))/2,'精度 →',12);
 }
 
 function fbadge(svg,x,cy,letter,color,sz){
@@ -1620,12 +1627,11 @@ function drawLevers(){
   const forder={B:0,C:1,A:2};
   const d=[...B.levers].sort((a,b)=>forder[a.fam]-forder[b.fam]||(b.to-b.base)-(a.to-a.base));
   const X=v=>L+(v/0.8)*(W-L-R), rowH=(H-T-B_)/d.length;
-  [[0.635,'patch 0.635','end',-6,-18],[0.693,'5-crop 0.693','middle',0,-6],[0.710,'14-crop 0.710','start',6,-18]].forEach(([v,lb,an,dx,dy])=>{
+  [[0.635,'patch','end',-6,-18],[0.693,'5-crop','middle',0,-6],[0.710,'14-crop','start',6,-18]].forEach(([v,lb,an,dx,dy])=>{
     svg.appendChild(el('line',{x1:X(v),y1:T-2,x2:X(v),y2:H-B_,stroke:'rgba(154,163,181,.38)','stroke-width':1.2,'stroke-dasharray':'5 4'}));
     svg.appendChild(txt(X(v)+dx,T+dy,lb,{fs:10.5,mono:1,anchor:an,fw:700,fill:MUT}));});
   [0,0.2,0.4,0.6,0.8].forEach(v=>{
-    svg.appendChild(el('line',{x1:X(v),y1:H-B_,x2:X(v),y2:H-B_+5,stroke:GRID,'stroke-width':1.2}));
-    svg.appendChild(txt(X(v),H-B_+22,v.toFixed(1),{fs:11,mono:1,anchor:'middle',fill:MUT}));});
+    svg.appendChild(el('line',{x1:X(v),y1:H-B_,x2:X(v),y2:H-B_+5,stroke:GRID,'stroke-width':1.2}));});
   svg.appendChild(el('line',{x1:L,y1:H-B_,x2:W-R,y2:H-B_,stroke:GRID,'stroke-width':1.4}));
   d.forEach((m,k)=>{
     const delta=m.to-m.base, cy=T+rowH*k+rowH/2;
@@ -1635,7 +1641,7 @@ function drawLevers(){
     svg.appendChild(el('circle',{cx:xb,cy,r:4.5,fill:'#05060C',stroke:col,'stroke-width':2}));
     svg.appendChild(el('circle',{cx:xt,cy,r:5,fill:col}));
     svg.appendChild(txt(L-12,cy+4,m.name,{fs:12.5,anchor:'end',fw:m.verdict==='win'?700:400,fill:m.verdict==='win'?CYAN:INK}));
-    const vt=(delta>=0?'+':'−')+Math.abs(delta).toFixed(3)+(m.verdict==='win'?'  win':m.verdict==='collapse'?'  collapse':'  flat');
+    const vt=(m.verdict==='win'?'win':m.verdict==='collapse'?'collapse':'flat');
     svg.appendChild(txt(W-R+8,cy+4,vt,{fs:11.5,mono:1,fw:m.verdict==='win'?700:500,
       fill:m.verdict==='win'?CYAN:(m.verdict==='collapse'?PINK:MUT)}));
   });
@@ -1645,7 +1651,7 @@ function drawLevers(){
   if(grp.C&&grp.C.length>1){
     const k0=grp.C[0],k1=grp.C[grp.C.length-1];
     svg.appendChild(el('path',{d:curlyBrace(40,T+rowH*k0+4,T+rowH*(k1+1)-4,14),fill:'none',stroke:PINK,'stroke-width':1.8}));}
-  svg.appendChild(txt((L+W-R)/2,H-2,'COCO-150 mAP · 空心圆 = 该方法所修改的基线，实心圆 = 结果',
+  svg.appendChild(txt((L+W-R)/2,H-2,'空心圆 = 该方法所修改的基线，实心圆 = 结果',
     {fs:11.5,fw:600,anchor:'middle',fill:MUT}));
 }
 
@@ -1655,15 +1661,13 @@ function drawTagPareto(){
   const P=B.pareto, x0=Math.log10(40), x1=Math.log10(1500);
   const X=ms=>L+(Math.log10(ms)-x0)/(x1-x0)*(W-L-R), Y=v=>H-B_-(v/0.8)*(H-T-B_);
   [0,0.2,0.4,0.6,0.8].forEach(v=>{
-    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));
-    svg.appendChild(txt(L-9,Y(v)+4,v.toFixed(1),{fs:11.5,mono:1,anchor:'end',fill:MUT}));});
+    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));});
   svg.appendChild(el('line',{x1:L,y1:H-B_,x2:W-R,y2:H-B_,stroke:GRID,'stroke-width':1.4}));
   svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:H-B_,stroke:GRID,'stroke-width':1.4}));
   [50,75,100,250,500,1000].forEach(v=>{
-    svg.appendChild(el('line',{x1:X(v),y1:H-B_,x2:X(v),y2:H-B_+5,stroke:GRID,'stroke-width':1.2}));
-    svg.appendChild(txt(X(v),H-B_+20,String(v),{fs:11.5,mono:1,anchor:'middle',fill:MUT}));});
-  svg.appendChild(txt((L+W-R)/2,H-8,'实测延迟 ms / 张（对数轴）',{fs:12.5,fw:600,anchor:'middle',fill:MUT}));
-  ylabel(svg,22,(T+H-B_)/2,'COCO-150 mAP',12.5);
+    svg.appendChild(el('line',{x1:X(v),y1:H-B_,x2:X(v),y2:H-B_+5,stroke:GRID,'stroke-width':1.2}));});
+  svg.appendChild(txt((L+W-R)/2,H-8,'每张图的推理算力 →（对数轴）',{fs:12.5,fw:600,anchor:'middle',fill:MUT}));
+  ylabel(svg,22,(T+H-B_)/2,'精度 →',12.5);
   const fr=P.frontier.map(k=>P.points.find(q=>q.name===k));
   svg.appendChild(el('polyline',{points:fr.map(q=>X(q.ms)+','+Y(q.map)).join(' '),fill:'none',
     stroke:CYAN,'stroke-width':2.4,'stroke-dasharray':'7 5','stroke-opacity':.85}));
@@ -1675,8 +1679,8 @@ function drawTagPareto(){
     svg.appendChild(txt(X(q.ms)+(q.jx||0)+(q.dx===undefined?11:q.dx),Y(q.map)+(q.dy===undefined?4:q.dy),
       q.name,{fs:11.5,mono:1,fw:onf?700:500,anchor:q.la||'start',fill:col}));
   });
-  svg.appendChild(txt(X(92),Y(0.155),'同样 75 ms，C 类全面崩塌：',{fs:12,fw:600,fill:PINK}));
-  svg.appendChild(txt(X(92),Y(0.155)+17,'EM-Dirichlet 0.17 · penult. layer 0.16 · ZLaP 0.14 · whitening 0.06',
+  svg.appendChild(txt(X(92),Y(0.155),'同样的算力，C 类全面崩塌：',{fs:12,fw:600,fill:PINK}));
+  svg.appendChild(txt(X(92),Y(0.155)+17,'EM-Dirichlet · penult. layer · ZLaP · whitening',
     {fs:11,mono:1,fill:PINK}));
   svg.appendChild(txt(X(150),Y(0.78),'前沿：先把这次前向读透（A），再去编码新的视角（B）',{fs:12.5,fw:600,fill:CYAN}));
 }
@@ -1767,11 +1771,10 @@ function drawPareto(){
   [0,0.1,0.2].forEach(v=>svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1})));
   svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.5}));
   svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:H-B,stroke:GRID,'stroke-width':1.5}));
-  [0,0.1,0.2].forEach(v=>svg.appendChild(txt(L-10,Y(v)+5,(v>0?'+':'')+v.toFixed(1),{fs:14,mono:1,anchor:'end',fill:MUT})));
   [1,2,4,8,16].forEach(v=>{svg.appendChild(el('line',{x1:X(v),y1:H-B,x2:X(v),y2:H-B+6,stroke:GRID,'stroke-width':1.3}));
     svg.appendChild(txt(X(v),H-B+23,v+'×',{fs:14,mono:1,anchor:'middle',fill:MUT}));});
   svg.appendChild(txt((L+W-R)/2,H-8,'成本比 c（相对基线多跑的前向次数，对数轴）',{fs:14,fw:600,anchor:'middle',fill:MUT}));
-  ylabel(svg,20,(T+H-B)/2,'域内平均 ΔnDCG@10',14);
+  ylabel(svg,20,(T+H-B)/2,'相关性提升 →',14);
   all.forEach(p=>{const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08&&Math.abs(f[1]-p[1])<0.0006); if(isFr)return;
     svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:'#6B7A94','stroke-width':1.6}));});
   let d='';fr.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
@@ -1780,9 +1783,9 @@ function drawPareto(){
   const lx=W-R-196, ly=H-B-56;
   svg.appendChild(el('line',{x1:lx,y1:ly,x2:lx+22,y2:ly,stroke:CYAN,'stroke-width':2.6}));
   svg.appendChild(el('circle',{cx:lx+11,cy:ly,r:5.5,fill:CYAN}));
-  svg.appendChild(txt(lx+30,ly+5,'12 个 Pareto 最优',{fs:13,mono:1,fill:INK}));
+  svg.appendChild(txt(lx+30,ly+5,'Pareto 前沿',{fs:13,mono:1,fill:INK}));
   svg.appendChild(el('circle',{cx:lx+11,cy:ly+22,r:2.6,fill:'none',stroke:'#6B7A94','stroke-width':1.4}));
-  svg.appendChild(txt(lx+30,ly+27,'144 个已搜索',{fs:13,mono:1,fill:MUT}));
+  svg.appendChild(txt(lx+30,ly+27,'其余已搜索程序',{fs:13,mono:1,fill:MUT}));
 }
 
 /* held-out transfer, per encoder family */
@@ -1792,11 +1795,10 @@ function drawPermodel(){
   const d=A.permodel, ymin=-0.001,ymax=0.021;
   const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B), bw=(W-L-R)/d.length;
   [0,0.005,0.01,0.015,0.02].forEach(v=>{
-    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));
-    svg.appendChild(txt(L-10,Y(v)+5,'+'+v.toFixed(3),{fs:13,mono:1,anchor:'end',fill:MUT}));});
+    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));});
   svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.7}));
   svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:Y(0),stroke:GRID,'stroke-width':1.5}));
-  ylabel(svg,16,(T+Y(0))/2,'留出集 ΔnDCG@10',13.5);
+  ylabel(svg,16,(T+Y(0))/2,'留出集提升 →',13.5);
   d.forEach((m,k)=>{
     const cx=L+bw*k+bw/2, w=34, mx=cx-w-4, dx=cx+4;
     svg.appendChild(el('rect',{x:mx,y:Y(m.mean),width:w,height:Y(0)-Y(m.mean),fill:CYAN,rx:2}));

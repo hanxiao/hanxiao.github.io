@@ -397,7 +397,22 @@ buys a better answer, and nothing is retrained.
   its body chunks and the raw engine snippet into the same call, highest score wins,
   `snippet_source` reports which. Same call, so no threshold is needed.
 
-**Perf numbers pulled from the deck (2026-08-16).** Han cut every latency/throughput KPI box: the
+**All metric numbers pulled from the deck (2026-08-16, second pass).** Han extended the cut from
+latency to *every* reported metric: "多少毫秒、BEIR 提升了多少这些指标都可以删掉". Removed: ΔnDCG@10
+0.17 on the four-projects card; 52/76 and 62% on the heatmap; +0.07→+0.24 on the vector pareto;
+BEIR 61.94 / 56.51 / 56.28 on the reranker slide; +0.371 / +0.075 everywhere (three-ways takeaway,
+equation legend, ladder caption); the whole P@1/P@3/R@5/mAP results table; 1.2×/14.7× on the Pareto
+stat. Chart axis tick labels were also stripped — y axes now read 精度 → / 相关性提升 → / 留出集提升 →,
+the levers chart shows win/flat/collapse instead of deltas, and the tag-pareto C-family callout lost
+its four collapse values.
+
+**What stays and why.** The chart *shapes* stay: curves, bar heights, frontier lines, the pink cluster
+at the bottom. This is deliberate and consistent with hot take #04 (a benchmark should report a curve,
+not a point) — the deck shows shape, not scoreboard digits. The results table became three relative
+bars (`.stair`). Structural counts that are not performance metrics stay: 144 programs / 12 on the
+frontier, 128,260 tokens, 131K context, 64 candidates, 100-word chunks.
+
+**Earlier latency-only pass (kept for history).** Han cut every latency/throughput KPI box: the
 143 ms vs 4194 ms slide is gone entirely, and the 271 ms / 0 index, +1.3 ms / 0.847 / 32-frame boxes
 were removed from their slides. Reason: a macro talk, no audience appetite for isolated latency
 numbers, and without a reference point they carry no meaning. The measurements below stay recorded
