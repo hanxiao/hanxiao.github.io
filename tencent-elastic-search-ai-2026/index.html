@@ -434,7 +434,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 2 THE SATURATION ============ -->
-<section class="slide" data-title="2026 年了，搜索还有什么可做的？">
+<section class="slide" data-title="2026 年，搜索还剩什么可做">
   
   <div class="body" style="justify-content:center;gap:26px">
     <div class="cards">
@@ -442,8 +442,8 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">榜单上挤满了人，第一名和第十名差几个千分点。<br>换谁家的 embedding，效果都差不多。</div></div>
       <div class="card c-mut"><div class="ttl">链路这边</div>
         <div class="dsc">召回、精排、混合检索、查询改写——<br>该有的组件，十年前就都有了。</div></div>
-      <div class="card c-mut"><div class="ttl">于是的结论</div>
-        <div class="dsc">搜索是个成熟行业，剩下的都是工程活。<br>热闹在别处，不在这儿。</div></div>
+      <div class="card c-mut"><div class="ttl">于是大家的结论</div>
+        <div class="dsc">搜索是个成熟行业，剩下的都是工程活，<br>值得投入的地方在别的方向上。</div></div>
     </div>
     <p class="takeaway">这几个月我一直在想这件事。<br>后来发现，我们可能一直站在一个不太对的角度看它。</p>
   </div>
@@ -458,7 +458,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 4 TTC DEFINED ============ -->
-<section class="slide" data-title="什么叫 test-time compute。">
+<section class="slide" data-title="什么叫 test-time compute">
   
   <div class="body" style="justify-content:center;gap:24px">
     <p class="cap" style="max-width:80ch;font-size:17px">一句话：<strong>不去训一个更大的模型，而是让手上这个模型，在回答每个问题时多干一点活。</strong>训练阶段的钱已经花完了，这笔新的开销花在推理这一刻。</p>
@@ -492,7 +492,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 7 WHY SEARCH IS TTC ============ -->
-<section class="slide" data-title="你搭的每一条检索链路，都是在推理时多算几遍。">
+<section class="slide" data-title="每一条检索链路都在推理时多算几遍">
   
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这不就是 test-time compute 吗，只是我们一直管它叫「搭链路」。</p>
@@ -508,7 +508,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 8 SCORING SPECTRUM ============ -->
-<section class="slide" data-title="从一次 cosine，到 late interaction，中间隔的全是算力。">
+<section class="slide" data-title="从一次 cosine 到 late interaction">
   
   <div class="body" style="justify-content:center;gap:18px">
     <div class="vsrow">
@@ -589,7 +589,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 10 FOUR PROJECTS ============ -->
-<section class="slide" data-title="四个项目，都是这句话的注脚。">
+<section class="slide" data-title="四个项目，四种花法">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="cards">
@@ -617,7 +617,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ RERANKER ============ -->
-<section class="slide" data-title="双塔各算各的，重排让候选互相比。">
+<section class="slide" data-title="双塔各算各的，重排让候选互相比">
   
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:82ch;font-size:17px">向量检索里，每篇文档的向量是<strong>在别的文档还不存在的时候</strong>就算好的。可文档相关不相关，本来就是比出来的：三段都提到延迟，哪一段真的回答了问题？重排就是为这件事额外花的一次推理。</p>
@@ -637,7 +637,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ IN-PAGE: DELETE THE INDEX ============ -->
-<section class="slide" data-title="如果只有一页文档，那就把索引删掉。">
+<section class="slide" data-title="只有一页文档时，把索引删掉">
   <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="in-page search repo QR"></a>
   
@@ -659,7 +659,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ FUNNEL ============ -->
-<section class="slide" data-title="先粗扫一遍，再把钱花在最后那几十条上。">
+<section class="slide" data-title="先粗扫全库，再精算短名单">
   
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
@@ -684,7 +684,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 25 RESULT FIRST ============ -->
-<section class="slide" data-title="这些标签，是一个检索模型吐出来的。">
+<section class="slide" data-title="这些标签出自一个检索模型">
   
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
@@ -698,12 +698,12 @@ tr.weakrow td{color:var(--mut)}
       <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award · forwarding · speaking · defendant · workshop</div></figure>
       <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift · toy · celebration · balloons · cheerful</div></figure>
     </div>
-    <p class="takeaway">没训练、没请第二个模型、没查词典。<span class="gr">全是推理期算出来的。</span>顺带一提，它还是多语言的。</p>
+    <p class="takeaway">没训练、没请第二个模型、没查词典，<span class="gr">全部由推理期的计算得到</span>，而且天然是多语言的。</p>
   </div>
 </section>
 
 <!-- ============ 26 SETUP ============ -->
-<section class="slide" data-title="同样只准动推理，但这次要的是一件新差事。">
+<section class="slide" data-title="同样只准动推理，这次要一件新差事">
   
   <div class="body" style="justify-content:center;gap:20px">
     <div class="deflist" style="max-width:1040px">
@@ -715,31 +715,31 @@ tr.weakrow td{color:var(--mut)}
     <div>
       <span class="chip no">不训练</span><span class="chip no">不请第二个模型</span><span class="chip no">不用 WordNet 和词典</span><span class="chip no">不用正则和词性标注</span>
     </div>
-    <p class="takeaway">这次的赌注比上一轮大：上一轮是<span class="bl">把会的事做得更好</span>，这一轮是<span class="gr">让它做一件根本不会的事</span>。</p>
+    <p class="takeaway">前面几个项目都是<span class="bl">把它会的事做得更好</span>，这一次是<span class="gr">让它做一件根本不会的事</span>。</p>
   </div>
 </section>
 
 <!-- ============ 27 COMPUTE MENU ============ -->
-<section class="slide" data-title="对一个向量模型来说，无非三种花法。">
+<section class="slide" data-title="向量模型只有三种花法">
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
       <div class="card"><div class="n">A</div><div class="ttl">同一次前向，读得更深</div>
         <div class="dsc">别只拿那个池化完的向量，把 <strong>patch 级</strong>的输出全读出来，挨个跟 12.8 万个词打分。<strong>算力几乎没多花。</strong></div>
-        <div class="foot">对应上一轮的 c = 1.0</div></div>
+        <div class="foot">几乎不额外花钱</div></div>
       <div class="card c-green"><div class="n">B</div><div class="ttl">换个视角，再跑一遍</div>
         <div class="dsc">把图切成若干 crop <strong>重新编码</strong>。小东西在自己那张 crop 里能占满整个画面，就不会被忽略了。</div>
-        <div class="foot" style="color:var(--green)">对应上一轮的 c &gt; 1</div></div>
+        <div class="foot" style="color:var(--green)">算力随视角数线性增长</div></div>
       <div class="card c-blue"><div class="n">C</div><div class="ttl">在已有结果上再做文章</div>
         <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
-        <div class="foot" style="color:var(--blue2)">这条我们也全试了</div></div>
+        <div class="foot" style="color:var(--blue2)">算力全花在数学上</div></div>
     </div>
-    <p class="takeaway">剧透一下：<span class="cy">A 和 B 都真给了东西</span>，而且给得比我预想的多。</p>
+    <p class="takeaway">下面几页逐个看这三种花法各自换回了什么。</p>
   </div>
 </section>
 
 <!-- ============ 28 PIPELINE ============ -->
-<section class="slide" data-title="把一个检索器，改装成标注器。">
+<section class="slide" data-title="把检索器改装成标注器">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="flow">
@@ -762,7 +762,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 29 VOCAB HISTOGRAM ============ -->
-<section class="slide" data-title="12.8 万个词的得分，是怎么一步步被整理出来的。">
+<section class="slide" data-title="12.8 万个词的得分如何被整理出来">
   
   <div class="body" style="justify-content:center">
     <div class="chart" id="c-vhist" style="max-width:1090px;margin:0 auto"></div>
@@ -770,7 +770,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 30 LADDER + TABLE ============ -->
-<section class="slide" data-title="读得更深，加上多看几眼，就是这么两级台阶。">
+<section class="slide" data-title="读得更深，再多看几眼">
   
   <div class="body row" style="gap:34px;align-items:center">
     <div class="chart" id="c-ladder" style="flex:0 0 400px"></div>
@@ -785,7 +785,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 31 LEVERS ============ -->
-<section class="slide" data-title="2024 到 2026 的免训练方法，挨个跑了一遍。">
+<section class="slide" data-title="2024 到 2026 的免训练方法逐个实测">
   
   <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
@@ -794,7 +794,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 32 TAG PARETO ============ -->
-<section class="slide" data-title="规律很干净：能带回新信息的算力，才换得到东西。">
+<section class="slide" data-title="能带回新信息的算力才换得到精度">
   
   <div class="body" style="justify-content:center;gap:14px">
     <div class="chart" id="c-tagpareto" style="max-width:1090px;margin:0 auto"></div>
@@ -803,11 +803,11 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 33 OMNI ============ -->
-<section class="slide" data-title="这套东西现在跑在 Omni 里，一个本地的 macOS 搜索 app。">
+<section class="slide" data-title="这套方法已经跑在 Omni 里">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="kpis">
-      <div class="kpi"><div class="v">~4%</div><div class="lb">打标签的额外开销，搭在原本就要跑的 embedding 前向上顺手完成</div></div>
+      <div class="kpi"><div class="v">+1.3 ms</div><div class="lb">每张图打标签的额外耗时，约为编码成本的 3%，搭在原本就要跑的前向上顺手完成</div></div>
       <div class="kpi k-blue"><div class="v">0.847</div><div class="lb">精细模式（5-crop）P@1，Swift/bf16 端口，基线 0.773</div></div>
       <div class="kpi k-green"><div class="v">32 帧</div><div class="lb">视频每 240 秒采样一次，跨空间和时间一起取 max</div></div>
     </div>
@@ -816,7 +816,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧之后共用同一套 patch 打分逻辑，时间维直接并进 max。</div></div>
       <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。那些 OCR 认不出来的老档案，现在也能用词搜到了。</div></div>
     </div>
-    <p class="takeaway">编码器、索引、存储全在那台存着文件的 Mac 上。<span class="gr">从一篇实验记录到一个能用的功能，中间只隔着那 4% 的算力。</span></p>
+    <p class="takeaway">编码器、索引、存储全在那台存着文件的 Mac 上。<span class="gr">从一篇实验记录到一个能用的功能，中间只隔着这 3% 的算力。</span></p>
   </div>
 </section>
 
@@ -827,7 +827,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 35 TREND ============ -->
-<section class="slide" data-title="从 deep research 到长程任务，循环越来越长。">
+<section class="slide" data-title="从 deep research 到长程任务">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="trendrow">
@@ -858,7 +858,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 36 DATAROOM ============ -->
-<section class="slide" data-title="dataroom：把开放网络啃成一个 zip。">
+<section class="slide" data-title="dataroom：把开放网络啃成一个 zip">
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="dataroom repo QR"></a>
   
@@ -881,7 +881,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 37 SEARCHBOX ============ -->
-<section class="slide" data-title="searchbox：把 agent 关进没有网的盒子里。">
+<section class="slide" data-title="searchbox：把 agent 关进没有网的盒子">
   <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="searchbox repo QR"></a>
   
@@ -905,13 +905,13 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 38 KG ============ -->
-<section class="slide" data-title="knowledge-graph：用知识图谱造多跳问题。">
+<section class="slide" data-title="用知识图谱造多跳难题">
   <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-knowledge-graph.png" alt="knowledge-graph repo QR"></a>
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">简单题对研究 agent 搜索毫无用处：<strong>一次 grep 就能命中的问题，什么方法做出来都一样分</strong>。要评测 searchbox，得先有能把它逼出汗的题。</p>
+      <p class="cap">简单题对研究 agent 搜索毫无用处：<strong>一次 grep 就能命中的问题，什么方法做出来都一样分</strong>。要评测 searchbox，得先有真正需要搜索才能答的题。</p>
       <div class="mlabel cy">怎么造</div>
       <p class="cap">把语料先抽成知识图谱，每条事实是一条 <span class="mono">(主语)-[谓语]-&gt;(宾语)</span> 的边，然后去<strong>走图里最长的那些路径</strong>。这些长链条自然就成了<strong>多跳问题</strong>——没有任何单独一段文字能直接回答。</p>
       <p class="cap">题目从同一份语料里长出来，所以是<strong>私有的、不可能被背过的评测集</strong>。agent 必须真的把事实一环一环连起来，也就必须真的去花那份推理算力。</p>
@@ -924,16 +924,16 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 39 HARNESS ============ -->
-<section class="slide" data-title="dataroom harness：把检索单独拎出来测。">
+<section class="slide" data-title="harness：把检索单独拎出来测">
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
       <p class="cap">前面三个是完整的链路。想知道<strong>检索这一环到底值多少</strong>，得把它单独拎出来：固定一份 Jina 文档语料（210 篇 md 加结构化 json，切成 7777 个 chunk），外面套一个 agent，然后<strong>只给它一个外部工具</strong>。</p>
-      <p class="cap">其余全是 Pi 自带的 read、grep、bash。这样被测的就只有 <span class="mono">search_corpus</span> 这一件事，<strong>功劳跟锅都没地方推</strong>。</p>
+      <p class="cap">其余全是 Pi 自带的 read、grep、bash。这样被测的就只有 <span class="mono">search_corpus</span> 这一件事，<strong>好和坏都只能归给它</strong>。</p>
       <div class="deflist" style="gap:10px">
         <div class="defrow"><div class="tag">命中不是答案</div><div class="dsc" style="font-size:14.5px">返回 <span class="mono">{score, path, lines, text}</span>，agent 得自己回原文把段落读完、再 grep 一遍看还有哪儿提到。</div></div>
         <div class="defrow"><div class="tag">没有 sidecar</div><div class="dsc" style="font-size:14.5px">7777×768 的矩阵直接在扩展里算：加载 117ms，单次检索 4.3ms。少一个要启动、要占端口、会挂掉的服务。</div></div>
-        <div class="defrow"><div class="tag">联网是开关</div><div class="dsc" style="font-size:14.5px">默认关。开了才挂上 search_web 和 read_url，于是“翻书”和“上网”可以分开计分。</div></div>
+        <div class="defrow"><div class="tag">联网是开关</div><div class="dsc" style="font-size:14.5px">默认关。开了才挂上 search_web 和 read_url，于是「翻书」和「上网」可以分开计分。</div></div>
       </div>
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
@@ -944,7 +944,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 40 STACK SYNTHESIS ============ -->
-<section class="slide" data-title="攒料、做题、出题，凑成一个能自己跑起来的闭环。">
+<section class="slide" data-title="攒料、做题、出题，凑成一个闭环">
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
@@ -968,7 +968,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 41 TWO LEVELS ============ -->
-<section class="slide" data-title="一层在模型里面，一层在模型外面。">
+<section class="slide" data-title="一层在模型里面，一层在模型外面">
   
   <!-- five projects, two layers -->
   <div class="body" style="justify-content:center;gap:22px">
@@ -1007,7 +1007,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 42 HOW TO THINK ABOUT IT ============ -->
-<section class="slide" data-title="三个我自己拿来判断的问题。">
+<section class="slide" data-title="我拿来判断的三个问题">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="nlist" style="max-width:1030px">
