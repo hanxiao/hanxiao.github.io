@@ -1,30 +1,34 @@
 # 搜索是一种 test-time compute
 
-腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，**36 页 ≈ 35 分钟**（一页一分钟）。
+腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，**40 页 ≈ 35 分钟**（一页一分钟）。
 讲者：肖涵，Elastic 副总裁。自包含 HTML，离线可放。
 
 ## 结构
 论点先行，四个项目当注脚，最后回来扣题：
 
 ```
-开场   2026 年搜索还有什么可做的        (2)
+开场   2026 年搜索还剩什么可做          (2)
 论断   搜索本来就是一种 test-time compute (3)
 概念   什么叫 TTC + Noam Brown         (4-5)
-论证   为什么搜索算 TTC                (6-8)   multi-pass / deeper pass / compose
-金句页 花推理时间，买相关性 + 买新能力    (9)     ← 全场记忆点
-项目一 重排 / 页内检索 / 两段漏斗  买精度  (11-14)
-项目二 image tagging          买新能力  (15-24)  末页收在 Omni（一句带过）
-项目三 dataroom               买召回    (25-27)
-项目四 searchbox + 知识图谱     买精度    (28-29)
-项目五 dataroom harness        单独拷问检索 (30)
-扣题   两个层次 / 三个判断问题 / 最后一句  (31-36)
+论证   为什么搜索算 TTC                (6-8)
+金句页 花推理时间，买相关性 + 买新能力    (9)
+路线图 四块地方都能花这笔算力            (10)
+02 向量模型的 TTC   Pareto / 十二个程序 / 迁移  (11-14)
+03 重排模型的 TTC   双塔vs listwise / 页内 / 漏斗 (15-18)
+04 用 TTC 换新能力  image tagging          (19-28)
+05 Agentic search 的 TTC  dataroom / searchbox / KG / harness (29-35)
+扣题   两个层次 / 三个判断问题 / 最后一句  (36-40)
 ```
 
 **署名**：封面与尾页只写「肖涵 / Elastic 副总裁」。不写英文名，不写 Jina AI 创始人。
 
-**项目取舍**（2026-08-15 定稿）：**autoresearch 已整段移除**，Han 判断它跟这个命题关系不大。
-模型内一层用重排 / 页内检索 / 两段漏斗 / image tagging；模型外一层用 dataroom / searchbox /
-知识图谱 / harness。Omni 只在 image tagging 末尾提一句落地。
+**内容取舍**（2026-08-15 定稿）：讲 autoresearch **搜出了什么**（Pareto 曲线、十二个程序、
+迁移结果 = aie-sf-2026 的 #17/#18/#20），**不讲它的探索过程**。这三页是「冻结向量模型靠 TTC
+能走多远」的实证，属于命题的一部分。模型外一层用 dataroom / searchbox / 知识图谱 / harness。
+Omni 只在 image tagging 末尾提一句落地。
+
+**正文不写个人感慨**。「这几个月我一直在想」「这活我没自己干」「当年给投资人准备 data room」
+这类第一人称抒发一律删除，只留论点和证据。
 
 **字号**（Han 2026-08-15 指定，单位是 PPT 磅，画布 960×540pt；本 deck stage 是 1280×720px，
 所以 1pt = 1.3333px。改这几处务必换算，不要直接填磅值）：
@@ -107,7 +111,7 @@ done
 以测量文件为准。
 
 ## 文件
-`index.html` 全部 36 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
+`index.html` 全部 40 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
 `img/` 图片与四个项目二维码 · `fonts/` 子集化字体 · `slides.pdf` 导出版
 
 ## 放映
