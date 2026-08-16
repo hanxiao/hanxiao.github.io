@@ -42,9 +42,11 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden;}
   transform-origin:center center;background:var(--bg);overflow:hidden;}
 .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:56px 76px 62px;background:var(--bg);}
 .slide.active{display:flex}
+.slide:not(.title):not(.closing){justify-content:flex-start}
 h1{font-size:58px;line-height:1.05;font-weight:800;letter-spacing:-.022em;max-width:20ch}
 
-.h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;margin-bottom:30px}
+.h-slide{font-size:35px;line-height:1.12;font-weight:750;letter-spacing:-.018em;max-width:33ch;
+  margin-top:84px;margin-bottom:30px;flex:none}
 .h-slide.sm{font-size:33px}
 .sub{font-size:21px;line-height:1.42;font-weight:430;max-width:60ch}
 .mono{font-family:var(--mono)}
@@ -67,7 +69,7 @@ strong,b{font-weight:700}
 .title .auth .rl,.closing .auth .rl{font-size:18px;font-weight:450;margin-top:2px}
 .title .meta,.closing .meta{font-family:var(--mono);font-size:14px;margin-top:16px;letter-spacing:.03em}
 
-.body{display:flex;flex-direction:column;min-height:0;justify-content:center}
+.body{display:flex;flex-direction:column;min-height:0;flex:1;justify-content:center}
 .row{display:flex;flex-direction:row;gap:34px;align-items:stretch}
 .cap{font-size:18px;line-height:1.45;font-weight:440;max-width:88ch}
 .cap .mono{font-size:14px}
@@ -143,10 +145,11 @@ table.bt td.pendcell{position:relative;background:repeating-linear-gradient(135d
   border-bottom:1px solid var(--hair)}
 table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px solid var(--foil);height:13px}
 
-.xgrid{display:grid;grid-template-columns:170px repeat(3,1fr);gap:10px;width:100%}
+.xgrid{display:grid;grid-template-columns:200px repeat(3,1fr);gap:10px;width:100%}
 .xgrid .hd{font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
   padding:8px 4px;border-bottom:2px solid var(--rule)}
-.xgrid .rl{font-family:var(--mono);font-size:13px;font-weight:700;display:flex;align-items:center}
+.xgrid .rl{font-family:var(--mono);font-size:13px;font-weight:700;display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;gap:2px;white-space:nowrap}
 .xgrid .cell{border:1.2px solid var(--hair2);border-radius:var(--r-box);background:#fff;padding:11px 13px;
   font-size:14px;line-height:1.34;font-weight:450}
 .xgrid .cell.lit{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
@@ -179,7 +182,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 2 THE REPLACEMENT DECISION ============ -->
 <section class="slide">
   <h2 class="h-slide sm">The replacement decision</h2>
-  <div class="body" style="justify-content:center;gap:26px">
+  <div class="body" style="justify-content:flex-start;gap:26px">
     <p class="cap" style="max-width:94ch">Qwen3.8 was released last week and has been widely promoted since. For agentic search on my own hardware I serve <strong>Qwen3.6-35B-A3B</strong> by default, and I have spent months tuning how it is served. The public reception of a new model does not tell me whether to replace it.</p>
     <div class="pull" style="font-size:23px">In agentic search over my own documents, how much better is <strong>Qwen3.8-27B</strong> than <strong>Qwen3.6-35B-A3B</strong>?
       <cite>the question this evaluation answers</cite></div>
@@ -189,8 +192,8 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 
 <!-- ============ 3 THE TWO BACKENDS ============ -->
 <section class="slide">
-  <h2 class="h-slide sm" style="margin-bottom:18px">The two serving backends</h2>
-  <div class="body" style="justify-content:center;gap:12px">
+  <h2 class="h-slide sm">The two serving backends</h2>
+  <div class="body" style="justify-content:flex-start;gap:12px">
     <div class="row" style="gap:26px;align-items:stretch">
 
       <div class="repocol">
@@ -226,7 +229,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 4 DATAROOM AND SEARCHBOX ============ -->
 <section class="slide">
   <h2 class="h-slide sm">dataroom and searchbox</h2>
-  <div class="body" style="justify-content:center;gap:20px">
+  <div class="body" style="justify-content:flex-start;gap:20px">
     <div class="row" style="gap:28px;align-items:stretch">
 
       <div class="projcol">
@@ -256,7 +259,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 5 THE PRIVATE CORPUS ============ -->
 <section class="slide">
   <h2 class="h-slide sm">The private corpus</h2>
-  <div class="body" style="justify-content:center;gap:20px">
+  <div class="body" style="justify-content:flex-start;gap:20px">
     <div class="row" style="gap:32px;align-items:center">
       <div style="flex:1.05;min-width:0">
         <table class="bt" id="t-corpus">
@@ -279,7 +282,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 6 VERIFIER CONSTRUCTION ============ -->
 <section class="slide">
   <h2 class="h-slide sm">Verifier construction</h2>
-  <div class="body" style="justify-content:center;gap:22px">
+  <div class="body" style="justify-content:flex-start;gap:22px">
     <div class="flow">
       <div class="fbox"><div class="fn">Corpus</div><div class="fd">207-file snapshot<br>of the same material</div></div>
       <div class="farr">&rarr;</div>
@@ -302,19 +305,19 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 7 EVALUATION DESIGN ============ -->
 <section class="slide">
   <h2 class="h-slide sm">Evaluation design</h2>
-  <div class="body" style="justify-content:center;gap:20px">
+  <div class="body" style="justify-content:flex-start;gap:20px">
     <div class="xgrid">
       <div class="hd"></div>
       <div class="hd">Closed-book</div>
       <div class="hd">Single-shot BM25</div>
       <div class="hd">Agentic BM25, 4 rounds</div>
 
-      <div class="rl">Qwen3.8-27B<br><span style="font-weight:500">104,192 ctx</span></div>
+      <div class="rl"><span>Qwen3.8-27B</span><span style="font-weight:500">104,192 ctx</span></div>
       <div class="cell">control that removes items answerable from memory</div>
       <div class="cell">top-5 passages, one shot</div>
       <div class="cell lit">the condition under test</div>
 
-      <div class="rl">Qwen3.6-35B-A3B<br><span style="font-weight:500">56,320 ctx</span></div>
+      <div class="rl"><span>Qwen3.6-35B-A3B</span><span style="font-weight:500">56,320 ctx</span></div>
       <div class="cell">control, same corpus</div>
       <div class="cell">top-5 passages, one shot</div>
       <div class="cell lit">the incumbent</div>
