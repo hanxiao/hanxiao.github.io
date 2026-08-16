@@ -25,11 +25,11 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=5") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=5") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=5") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=5") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=5") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=6") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=6") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=6") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=6") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=6") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
@@ -474,6 +474,39 @@ tr.weakrow td{color:var(--mut)}
   animation:march 1.1s linear infinite}
 .win{fill:rgba(39,192,138,.22);stroke:var(--green);stroke-width:1.4}
 @media print{.ck{animation:none;opacity:1}.rerank{animation:none}}
+
+
+/* ---------- tagger pipeline lanes + scoring equation (ported from the tagging deck) ---------- */
+.lane{display:flex;flex-direction:column;gap:9px;width:100%}
+.lane .lhd{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;color:var(--cyan)}
+.lane .lhd::after{content:"";flex:1;height:1px;background:var(--line)}
+.flow2{display:flex;align-items:stretch;gap:0;width:100%}
+.flow2 .fbox{flex:1;border:1.2px solid var(--line2);border-radius:var(--r-box);background:rgba(18,23,34,.92);
+  padding:11px 10px;text-align:center;display:flex;flex-direction:column;gap:3px;justify-content:center;min-height:0}
+.flow2 .fbox .fn{font-size:15px;font-weight:700;line-height:1.16;color:var(--ink)}
+.flow2 .fbox .fd{font-family:var(--mono);font-size:11.5px;font-weight:500;line-height:1.28;color:var(--mut)}
+.flow2 .fbox.lit{background:rgba(38,198,218,.16);border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan)}
+.flow2 .fbox.lit .fd{color:#BFEFF6}
+.flow2 .fbox.dark{background:rgba(39,192,138,.14);border-color:var(--green)}
+.flow2 .fbox.dark .fd{color:#9FE6C8}
+.flow2 .fbox.bbox{border-color:var(--green);border-width:1.6px;background:rgba(39,192,138,.10)}
+.flow2 .farr{color:var(--cyan);font-size:19px;font-weight:800;padding:0 8px;flex:0 0 auto;
+  display:flex;align-items:center}
+.abc{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:6px;
+  font-family:var(--mono);font-size:12px;font-weight:800;flex:0 0 auto;color:#05060C;background:var(--cyan);
+  margin-right:6px;vertical-align:middle}
+.abc.b{background:var(--green)}
+.eqwrap{font-size:23px;text-align:center;margin:2px 0 6px;color:var(--ink)}
+.eqlegend{display:flex;gap:26px;justify-content:center;margin-top:12px}
+.eqlegend .it{display:flex;gap:11px;align-items:flex-start;max-width:32ch}
+.eqlegend .it .tx{font-size:17.3px;line-height:1.45;font-weight:300;text-align:left;color:var(--mut)}
+.eqlegend .it .tx strong{font-weight:500;color:var(--ink2)}
+.eqpost{font-size:17.3px;text-align:center;margin-top:12px;color:var(--ink2)}
+.xconn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.xconn .dline{stroke:var(--cyan);stroke-width:2;fill:none;stroke-dasharray:6 4;animation:march 1s linear infinite}
+.xconn .dhead{stroke:var(--cyan);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media print{.xconn .dline{animation:none}}
 
 /* ---------- product screenshots ---------- */
 .shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
@@ -1024,25 +1057,69 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 28 PIPELINE ============ -->
-<section class="slide" data-title="把检索器改装成标注器">
-  
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="flow">
-      <div class="step on">词表当标签空间</div><div class="ar">→</div>
-      <div class="step on">每个 patch 打分</div><div class="ar">→</div>
-      <div class="step on">减掉背景先验</div><div class="ar">→</div>
-      <div class="step on">去重取头部</div>
+<section class="slide" data-title="离线备好词表，每张图只跑一次前向">
+  <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
+    <path class="dline" d="M652 300 V 322 H 548 V 334"/><path class="dhead" d="M542 334 L548 342 L554 334"/>
+    <path class="dline" d="M877 300 V 322 H 745 V 334"/><path class="dhead" d="M739 334 L745 342 L751 334"/>
+    <path class="dline" d="M1104 300 V 322 H 941 V 334"/><path class="dhead" d="M935 334 L941 342 L947 334"/>
+  </svg>
+  <div class="body" style="justify-content:center;gap:24px">
+    <div class="lane">
+      <div class="lhd">离线，只做一次</div>
+      <div class="flow2">
+        <div class="fbox compact"><div class="fn">tokenizer 词表</div><div class="fd">128,260 tokens</div></div>
+        <div class="farr">→</div>
+        <div class="fbox compact"><div class="fn">encode_text</div><div class="fd">同一个冻结模型</div></div>
+        <div class="farr">→</div>
+        <div class="fbox compact"><div class="fn">标签矩阵 E</div><div class="fd">128,260 × 768</div></div>
+        <div style="flex:0 0 22px"></div>
+        <div class="fbox compact"><div class="fn">背景先验 μ</div><div class="fd">来自中性图片</div></div>
+        <div style="flex:0 0 22px"></div>
+        <div class="fbox compact"><div class="fn">词首过滤</div><div class="fd">→ 25,465 个词</div></div>
+      </div>
     </div>
-    <div class="nlist" style="max-width:1010px">
-      <div class="nitem"><div class="n">01</div><div class="t">tokenizer 的词表，直接拿来当标签空间
-        <span>12.8 万个 token 全部编码成文本向量。不用人工整理标签集——模型认识多少词，就有多少个候选标签，开放词表不需要额外代价。</span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">每个 patch 单独打分，再跟全局向量融合
-        <span>0.7 × patch-max + 0.3 × global。小物体不再被整张图的池化冲淡，mAP 从 0.264 直接到 0.635。</span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">每个词减掉它自己的先验
-        <span>高频词与任何一张图的相似度都偏高。减掉 μℓ 之后，剩下的右尾才是真正的证据。</span></div></div>
-      <div class="nitem"><div class="n">04</div><div class="t">词首过滤，再在向量空间里做 NMS
-        <span>12.8 万压到 2.5 万候选；然后把 kitty / cat / kitten / chatte 这种同义词簇合并成一个概念。</span></div></div>
+    <div class="lane">
+      <div class="lhd">每张图</div>
+      <div class="flow2">
+        <div class="fbox compact"><div class="fn">图片</div><div class="fd">一次冻结前向</div></div>
+        <div class="farr">→</div>
+        <div class="fbox compact"><div class="fn">P, g</div><div class="fd">patch + 全局</div></div>
+        <div class="farr">→</div>
+        <div class="fbox lit compact"><div class="fn"><span class="abc sm">A</span>与 E 打分</div><div class="fd">patch-max 融合全局</div></div>
+        <div class="farr">→</div>
+        <div class="fbox compact"><div class="fn">减去 μ</div><div class="fd">去掉基频偏置</div></div>
+        <div class="farr">→</div>
+        <div class="fbox compact"><div class="fn">过滤 + NMS</div><div class="fd">合并同义词</div></div>
+        <div class="farr">→</div>
+        <div class="fbox dark compact"><div class="fn">top-k 标签</div><div class="fd">kitty · cosy · paw</div></div>
+      </div>
+      <div class="flow2" style="justify-content:flex-start;gap:0;margin-top:4px">
+        <div style="flex:0 0 150px"></div>
+        <div class="fbox compact bbox" style="flex:0 0 auto;padding:10px 16px">
+          <div class="fn"><span class="abc sm b">B</span>--hq：14 个 crop → 同一个模型 → 逐标签取 max</div>
+          <div class="fd">以权重 1.3 加进总分</div>
+        </div>
+        <div class="farr" style="color:var(--green)">↗</div>
+      </div>
     </div>
+    <p class="takeaway">每一个方框，要么是那个冻结模型，要么就是普通算术。<span class="cy">A 把同一次前向读得更透</span>，<span class="gr">B 在新像素上重跑</span>。</p>
+  </div>
+</section>
+
+<section class="slide" data-title="整个标注器，就是一个打分函数">
+  <div class="body" style="justify-content:center;gap:10px">
+    <div class="eqwrap">
+      \[ S(\ell)\;=\;\underbrace{0.3\,\Big(\langle g,\,e_\ell\rangle-\mu^{g}_\ell\Big)}_{\textbf{全局上下文}}
+      \;+\;\underbrace{0.7\,\Big(\max_{p\in P}\langle p,\,e_\ell\rangle-\mu_\ell\Big)}_{\textbf{patch 证据}}
+      \;+\;\underbrace{1.3\,\Big(\max_{c=1..14}\, s_\ell(\mathrm{crop}_c)-\mu_\ell\Big)}_{\textbf{多 crop 重编码}} \]
+    </div>
+    <div class="eqlegend">
+      <div class="it"><span style="flex:0 0 21px" aria-hidden="true"></span><div class="tx"><strong>全局上下文</strong>：池化向量减掉自己的背景先验。不额外花钱。</div></div>
+      <div class="it"><span class="abc sm">A</span><div class="tx"><strong>patch 证据</strong>：在前向已经产出的那些行上做代数。不额外花钱，+0.371 mAP。</div></div>
+      <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>多 crop</strong>：14 次新的前向，看新的像素。14 倍成本，+0.075 mAP。</div></div>
+    </div>
+    <p class="eqpost">然后 \( \ell \in \text{词首过滤后的词表} \rightarrow \text{向量空间 NMS}\,(\tau=0.6) \rightarrow \text{top-}k \)</p>
+    <p class="takeaway" style="margin-top:8px">没有分类头，没有 logits，没有学出来的阈值：<span class="cy">三个固定权重、两个背景先验，以及若干次 max</span>。</p>
   </div>
 </section>
 
@@ -1341,7 +1418,7 @@ tr.weakrow td{color:var(--mut)}
 </div>
 
 </div>
-<script src="data.js?v=5"></script>
+<script src="data.js?v=6"></script>
 <script>
 const stage=document.getElementById('stage');
 const slides=[...document.querySelectorAll('.slide')];

@@ -406,3 +406,30 @@ buys a better answer, and nothing is retrained.
 
 Section order is now: 1-bit scan into exact rescoring, then listwise reranking (with in-page
 search as its limit case), then snippet selection.
+
+---
+
+## 12. Tagger pipeline and scoring equation (2026-08-15)
+
+Replaced the hand-written four-step list with the two slides Han pointed at:
+`ttc-embedding-image-tagging-2026` #7 (pipeline) and #13 (the scoring function).
+
+**#7, the two-lane pipeline.** Offline lane: tokenizer vocab 128,260 → encode_text with the same
+frozen tower → label matrix E (128,260 × 768), plus the background prior μ from neutral images and
+the word-start gate down to 25,465 words. Per-image lane: one frozen forward → P, g → score
+against E → subtract μ → gate + NMS → top-k. The dashed connectors from the offline lane down into
+the per-image lane are ported too, since they carry the point that the expensive part is done once.
+The B box (14 crops, per-label max, weight 1.3) hangs off the scoring step.
+
+**#13, the scoring function.** This is the slide that makes the whole method auditable, which is
+why it is worth a page:
+
+S(ℓ) = 0.3(⟨g,e_ℓ⟩ − μᵍ_ℓ) + 0.7(max_p⟨p,e_ℓ⟩ − μ_ℓ) + 1.3(max_c s_ℓ(crop_c) − μ_ℓ)
+
+with the three terms labelled global context / patch evidence (A, free, +0.371 mAP) / multi-crop
+re-encode (B, 14 forwards, +0.075 mAP), then word-gated vocabulary → embedding-NMS (τ=0.6) → top-k.
+No head, no logits, no learned threshold: three fixed weights, two background priors, and max
+operations over frozen-model outputs.
+
+Both were restyled for the dark template (the source deck is on a white Elastic palette): boxes
+become dark panels with cyan/green accents, the A and B badges keep their meaning across the deck.
