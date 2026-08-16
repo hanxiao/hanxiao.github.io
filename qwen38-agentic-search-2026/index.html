@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evaluating Qwen3.8 agentic search on a private verifier · Han Xiao</title>
-<meta name="description" content="A private 207-document corpus, a verifier built and audited on-premises, and an agentic search model served on one NVIDIA L4. Talk by Han Xiao, Elastic.">
+<title>Qwen3.8 Agentic Search Evaluation on Private Data · Han Xiao</title>
+<meta name="description" content="Head to head: Qwen3.8-27B against Qwen3.6-35B-A3B for agentic search over a private corpus, on one NVIDIA L4. Talk by Han Xiao, Elastic.">
 <meta name="author" content="Han Xiao">
 <link rel="canonical" href="https://hanxiao.io/qwen38-agentic-search-2026/">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="%230B64DD"/><text x="16" y="23" font-family="monospace" font-size="19" font-weight="bold" fill="white" text-anchor="middle">Q</text></svg>'>
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Han Xiao">
 <meta property="og:url" content="https://hanxiao.io/qwen38-agentic-search-2026/">
-<meta property="og:title" content="Evaluating Qwen3.8 agentic search on a private verifier">
+<meta property="og:title" content="Qwen3.8 Agentic Search Evaluation on Private Data">
 <meta property="og:description" content="Private data, private verifier, no data leaves the premises.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@hxiao">
 <meta name="twitter:creator" content="@hxiao">
-<meta name="twitter:title" content="Evaluating Qwen3.8 agentic search on a private verifier">
+<meta name="twitter:title" content="Qwen3.8 Agentic Search Evaluation on Private Data">
 <meta name="twitter:description" content="Private data, private verifier, no data leaves the premises.">
 <script>
 window.MathJax = {
@@ -463,6 +463,33 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .xconn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 @media print{.dline{animation:none}}
 
+/* ---------- repo / project comparison columns (slides 3 and 4) ---------- */
+.repocol{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.repohd{display:flex;align-items:center;gap:12px}
+.repottl{font-family:var(--mono);font-size:16px;font-weight:800;letter-spacing:.02em;color:var(--accent);flex:1;min-width:0}
+.repocol.alt .repottl{color:var(--teal-ink)}
+.qrmini{flex:0 0 auto;display:block;text-decoration:none}
+.qrmini img{width:46px;height:46px;display:block}
+.repocol .shot img{width:100%;height:auto;display:block}
+.projcol .shot img{width:100%;height:150px;object-fit:cover;object-position:top left;display:block}
+.repometa{font-family:var(--mono);font-size:10.5px;line-height:1.4;font-weight:500}
+.repostats{display:flex;gap:18px;margin-top:1px}
+.repostats .rs{display:flex;flex-direction:column;gap:2px}
+.repostats .rv{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;color:var(--accent)}
+.repostats .rv.alt{color:var(--teal-ink)}
+.repostats .rl{font-size:11.5px;font-weight:460;line-height:1.25;max-width:22ch}
+.repofoot{font-size:12px;line-height:1.4;font-weight:450;border-top:1px solid var(--hair);padding-top:8px;margin-top:auto}
+.l4note{display:flex;gap:18px;align-items:flex-start;border:1.4px solid var(--accent);border-radius:var(--r-card);
+  background:var(--accent-soft);padding:11px 16px;width:100%}
+.l4hd{font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--accent);flex:0 0 132px;padding-top:2px}
+.l4body{font-size:12.5px;line-height:1.42;font-weight:450;flex:1}
+.l4hi{font-family:var(--mono);font-weight:700;color:var(--accent)}
+.projcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:11px}
+.projcol .shot img{height:196px;object-fit:contain;object-position:center;background:#fff}
+.projdesc{font-size:16px;line-height:1.42;font-weight:450;flex:1}
+.projlink{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);border-top:1px solid var(--hair);padding-top:9px}
+
 @media print{
   @page{size:1280px 720px;margin:0}
   html,body{background:#fff;height:auto;overflow:visible}
@@ -553,8 +580,8 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 <!-- ============ 1 TITLE ============ -->
 <section class="slide title">
   <div class="kicker">Private data · Private verifier · On-premises</div>
-  <h1>Evaluating <span class="accent">Qwen3.8</span><br>agentic search on a<br>private verifier</h1>
-  <div class="sub">No data leaves the premises. The corpus, the verifier, the solver and the judge all run on hardware you already own.</div>
+  <h1><span class="accent">Qwen3.8</span> Agentic Search<br>Evaluation on Private Data</h1>
+  <div class="sub">Private data, private verifier, no data leaves the premises. Head to head against the model I actually use.</div>
   <div class="auth">
     <div class="nm">Han Xiao</div>
     <div class="rl">VP of AI, Elastic</div>
@@ -566,46 +593,125 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 2 WHY EVALUATION IS HARD ============ -->
+<!-- ============ 2 WHY THIS EVALUATION ============ -->
 <section class="slide">
-  <div class="kicker">The measurement problem</div>
-  <h2 class="h-slide sm">A public benchmark stops measuring search once the corpus is public.</h2>
+  <div class="kicker">Why I am running this</div>
+  <h2 class="h-slide sm">Qwen3.8 landed last week and my timeline has already decided it is better.</h2>
   <div class="body" style="justify-content:center;gap:26px">
-    <div class="nlist" style="gap:22px">
-      <div class="nitem"><div class="n">1</div><div class="t">The answer may already be in the weights.
-        <span>A model that recites a HotpotQA answer without retrieving anything scores the same as a model that searched well. The score no longer separates recall from search.</span></div></div>
-      <div class="nitem"><div class="n">2</div><div class="t">The scaffold is what is actually being scored.
-        <span>An agentic system is a model plus tools plus a loop. Once a public set is saturated, the reported gain belongs to the scaffold, and nothing in the score says which part moved.</span></div></div>
-      <div class="nitem"><div class="n">3</div><div class="t">The corpus you care about is not in any benchmark.
-        <span>The retrieval you deploy runs over your documents, in your vocabulary, with your entity names. No public set contains them.</span></div></div>
-    </div>
-    <p class="takeaway">If you want to know whether a model searches <span class="accent">your</span> corpus well, the benchmark has to be built on <span class="accent">your</span> corpus.</p>
+    <p class="cap" style="max-width:94ch">I have a default. For agentic search on my own hardware I reach for <strong>Qwen3.6-35B-A3B</strong>, and I have spent months tuning how it is served. A new model arrives, the hype arrives with it, and neither tells me whether to switch.</p>
+    <div class="pull" style="font-size:23px">In agentic search, how much better is <strong>Qwen3.8-27B</strong> than <strong>Qwen3.6-35B-A3B</strong>, the model I currently like most and use by default?
+      <cite>the entire question this deck exists to answer</cite></div>
+    <p class="cap" style="max-width:94ch">That framing matters. This is not a solo evaluation of a new model against a leaderboard. It is a replacement decision between two specific backends I have both already deployed, measured, and pushed to the wall of the same cheap GPU.</p>
+    <p class="takeaway">And I cannot answer it from a public benchmark, because the corpus I care about is <span class="accent">mine</span>.</p>
   </div>
 </section>
 
-<!-- ============ 3 PRIVATE DATA FORCES LOCAL ============ -->
+<!-- ============ 3 THE TWO BACKENDS ============ -->
 <section class="slide">
-  <div class="kicker">The constraint</div>
-  <h2 class="h-slide sm">Private data closes the API route for every stage, not just the solver.</h2>
-  <div class="body" style="justify-content:center;gap:24px">
-    <div class="deflist" style="max-width:1030px">
-      <div class="defrow"><div class="tag sm">construction</div><div class="dsc">reading every document to mine facts sends the whole corpus through the model.</div></div>
-      <div class="defrow"><div class="tag sm">auditing</div><div class="dsc">checking whether an evidence span states its claim sends the span and the source.</div></div>
-      <div class="defrow"><div class="tag sm">solving</div><div class="dsc">the agent under test reads passages, so its context is the corpus.</div></div>
-      <div class="defrow"><div class="tag sm">judging</div><div class="dsc">equivalence grading sees the gold answer and the model answer.</div></div>
+  <div class="kicker">The two backends under test</div>
+  <h2 class="h-slide sm" style="margin-bottom:16px">Both already pushed to the measured wall of one L4.</h2>
+  <div class="body" style="justify-content:center;gap:10px">
+    <div class="row" style="gap:26px;align-items:stretch">
+
+      <div class="repocol">
+        <div class="repohd">
+          <div class="repottl">Qwen3.6-35B-A3B-MTP</div>
+          <a class="qrmini" href="https://github.com/hanxiao/Qwen3.6-35B-A3B-MTP-L4" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-q36.png" alt="QR code to the Qwen3.6 serving repository"></a>
+        </div>
+        <div class="shot"><img src="img/repo-q36.png" alt="GitHub landing page of the Qwen3.6-35B-A3B-MTP-L4 repository"></div>
+        <div class="repometa">sparse MoE &middot; 35B total, ~3B active &middot; 8 of 256 experts per token &middot; UD-Q4_K_XL ~21.3 GiB resident &middot; MTP head baked in</div>
+        <div class="repostats">
+          <div class="rs"><span class="rv">91&ndash;99</span><span class="rl">tok/s decode, chat min to math max</span></div>
+          <div class="rs"><span class="rv">56,320</span><span class="rl">token context</span></div>
+        </div>
+        <div class="repofoot">+45% over the 63 tok/s out-of-the-box config, lossless. Raw ceiling ~73 tok/s ECC-off; MTP multiplies it 1.27 to 1.37x. Two lossless wins: full GPU residency of all experts (+28%), ECC off (+10%).</div>
+      </div>
+
+      <div class="repocol alt">
+        <div class="repohd">
+          <div class="repottl">Qwen3.8-27B-UD-Q4_K_XL</div>
+          <a class="qrmini" href="https://github.com/hanxiao/Qwen3.8-27B-UD-Q4_K_XL-L4" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-serving.png" alt="QR code to the Qwen3.8 serving repository"></a>
+        </div>
+        <div class="shot"><img src="img/repo-q38.png" alt="GitHub landing page of the Qwen3.8-27B-UD-Q4_K_XL-L4 repository"></div>
+        <div class="repometa">dense-class, hybrid attention &middot; 64 layers, <span class="mono">full_attention_interval</span> 4, so 16 hold a KV cache &middot; native MTP head &middot; positions to 262,144</div>
+        <div class="repostats">
+          <div class="rs"><span class="rv alt">23</span><span class="rl">tok/s decode</span></div>
+          <div class="rs"><span class="rv alt">104,192</span><span class="rl">token context, binary-searched ceiling</span></div>
+        </div>
+        <div class="repofoot">At 98% of the window, a 101,815-token prompt held 24.88 tok/s decode and 278 tok/s prefill, VRAM peak 24,082 MiB. Prefill 95 to 114 tok/s short, 278 at 102K. Bandwidth bound puts plain decode at ~16.8 tok/s; the rest is speculation.</div>
+      </div>
+
     </div>
-    <p class="cap" style="max-width:88ch">Any one of these on a hosted endpoint puts the corpus outside the premises. So the whole loop is local, and local means a budget GPU rather than a cluster: the study behind this deck ran on single NVIDIA L4 cards with no API spend.</p>
-    <p class="takeaway">The evaluation and the thing evaluated share one constraint: <span class="accent">everything runs on hardware you own</span>.</p>
+    <div class="l4note">
+      <div class="l4hd">Why an L4 at all</div>
+      <div class="l4body">24 GB, 72 W, ~300 GB/s, about <strong>$0.24/hr spot</strong> on a g2-standard-8. Both repos are the result of pushing that one cheap card near its measured wall, and at 91 to 99 tok/s the 35B-A3B side is genuinely comfortable in a real agentic loop. <span class="l4hi">~92-100 tok/s at 56K against 23 tok/s at 104K</span> is the throughput-versus-window trade the evaluation has to pay for. Measured 2026-08-14.</div>
+    </div>
   </div>
 </section>
 
-<!-- ============ 4 WHAT THE VERIFIER IS ============ -->
+<!-- ============ 4 WHERE THE PRIVATE VERIFIER COMES FROM ============ -->
 <section class="slide">
-  <div class="kicker">The verifier</div>
-  <h2 class="h-slide sm">A verifier mined out of the corpus itself.</h2>
+  <div class="kicker">Where the private data comes from</div>
+  <h2 class="h-slide sm">Two systems, one to build the box and one to lock a model inside it.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <div class="row" style="gap:28px;align-items:stretch">
+
+      <div class="projcol">
+        <div class="repohd">
+          <div class="repottl">dataroom</div>
+          <a class="qrmini" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-dataroom-repo.png" alt="QR code to the dataroom repository"></a>
+        </div>
+        <div class="shot"><img src="img/banner-dataroom.png" alt="dataroom banner"></div>
+        <p class="projdesc">A local model in a Pi harness loops search, read and write until it has built a comprehensive, fully cited dataroom on disk: a <span class="mono">.zip</span> you hand to the next model.</p>
+        <div class="projlink">dataroom.hanxiao.io</div>
+      </div>
+
+      <div class="projcol">
+        <div class="repohd">
+          <div class="repottl">searchbox</div>
+          <a class="qrmini" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img src="img/qr-searchbox.png" alt="QR code to the searchbox repository"></a>
+        </div>
+        <div class="shot"><img src="img/banner-searchbox.png" alt="searchbox banner"></div>
+        <p class="projdesc">Locks a local Qwen in an <strong>airgapped</strong> loop with one <span class="mono">.zip</span> dataroom and no web, so it can only answer from what is in the box.</p>
+        <div class="projlink">hanxiao.io/searchbox</div>
+      </div>
+
+    </div>
+    <p class="takeaway">One builds the private corpus. The other guarantees the model cannot cheat its way around it.</p>
+  </div>
+</section>
+
+<!-- ============ 5 WHAT THE PRIVATE CORPUS IS ============ -->
+<section class="slide">
+  <div class="kicker">The corpus</div>
+  <h2 class="h-slide sm">Six years of my own papers, plus everything the website says.</h2>
+  <div class="body" style="justify-content:center;gap:20px">
+    <div class="row" style="gap:32px;align-items:center">
+      <div style="flex:1.05;min-width:0">
+        <table class="bt" id="t-corpus">
+          <thead><tr><th>Group</th><th>Files</th><th>Detail</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="note" style="margin-top:10px">Snapshot 2026-08-13. 218 files total.</p>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:15px">
+        <div class="strip" style="flex-direction:column">
+          <div class="sc"><div class="sv">7,777</div><div class="sl">chunks indexed over 210 documents, median 91 units, longest 195 units at 2.1 KB</div></div>
+          <div class="sc"><div class="sv">768</div><div class="sl">dimensions, jina-embeddings-v5-text-nano, L2-normalized</div></div>
+        </div>
+        <p class="cap" style="font-size:16px">Papers and blog posts overlap by design: each major model has both a paper and a release blog, with different framing. That overlap is what makes multi-hop questions possible at all.</p>
+        <p class="note" style="color:var(--foil-ink);line-height:1.55">Two snapshots, stated separately. The ten audited graphs in the next section were built over an <strong>earlier 207-file snapshot</strong> of this same corpus. The 218-file snapshot above is what the agentic harness indexes today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ 6 HOW THE VERIFIER IS BUILT ============ -->
+<section class="slide">
+  <div class="kicker">Building the verifier</div>
+  <h2 class="h-slide sm">Questions mined out of the corpus, not written by hand.</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="flow">
-      <div class="fbox"><div class="fn">Corpus</div><div class="fd">207 documents<br>~5.8 MB</div></div>
+      <div class="fbox"><div class="fn">Corpus</div><div class="fd">207-file snapshot<br>of the same material</div></div>
       <div class="farr">&rarr;</div>
       <div class="fbox"><div class="fn">Knowledge graph</div><div class="fd">local model extracts<br>grounded triples</div></div>
       <div class="farr">&rarr;</div>
@@ -615,15 +721,14 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
     </div>
     <p class="cap" style="max-width:92ch">A path of length <span class="mono">k</span> is a chain of <span class="mono">k</span> corpus-grounded facts, so path length is the difficulty knob. The question names the starting entity and hides the bridges, so a solver has to discover them rather than look one thing up.</p>
     <div class="strip">
-      <div class="sc"><div class="sv">207</div><div class="sl">documents in the corpus, one organisation's engineering blog</div></div>
-      <div class="sc"><div class="sv">10</div><div class="sl">graphs built over that same corpus by the same local model</div></div>
+      <div class="sc"><div class="sv">207</div><div class="sl">documents in the snapshot these graphs were built over</div></div>
+      <div class="sc"><div class="sv">10</div><div class="sl">graphs built over that corpus by the same local model</div></div>
       <div class="sc"><div class="sv">18,615</div><div class="sl">edges audited, every edge of every graph, no sampling</div></div>
       <div class="sc"><div class="sv">40</div><div class="sl">questions sampled per graph for the solver ladder</div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 5 THE ACCEPTANCE PROBLEM ============ -->
 <section class="slide">
   <div class="kicker">The acceptance problem</div>
   <h2 class="h-slide sm">Nobody vouches for a benchmark nobody wrote.</h2>
@@ -651,7 +756,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 6 TWO AXES ============ -->
+<!-- ============ 7 TWO AXES ============ -->
 <section class="slide">
   <div class="kicker">Groundedness, decomposed</div>
   <h2 class="h-slide sm">One word, two properties.</h2>
@@ -673,7 +778,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 7 THE INVERSION ============ -->
+<!-- ============ 8 THE INVERSION ============ -->
 <section class="slide">
   <div class="kicker">Audit result &middot; 18,615 edges</div>
   <h2 class="h-slide sm">The two axes invert at the extremes.</h2>
@@ -692,7 +797,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 8 USABLE(Q) ============ -->
+<!-- ============ 9 USABLE(Q) ============ -->
 <section class="slide">
   <div class="kicker">Fitness for purpose</div>
   <h2 class="h-slide sm">A question is worth having when memory cannot answer it and the corpus can.</h2>
@@ -706,7 +811,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 9 SOLVER LADDER ============ -->
+<!-- ============ 10 SOLVER LADDER ============ -->
 <section class="slide">
   <div class="kicker">The solver ladder</div>
   <h2 class="h-slide sm">Three conditions over one corpus.</h2>
@@ -721,7 +826,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 10 CORRELATION RESULT ============ -->
+<!-- ============ 11 CORRELATION RESULT ============ -->
 <section class="slide">
   <div class="kicker">Does acceptance predict usability</div>
   <h2 class="h-slide sm">The most widely used check ranks the artifacts close to inversely.</h2>
@@ -742,7 +847,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 11 WHAT THIS BUYS ============ -->
+<!-- ============ 12 WHAT THIS BUYS ============ -->
 <section class="slide">
   <div class="kicker">What the verifier is for</div>
   <h2 class="h-slide sm">A question set whose difficulty is a property of the corpus.</h2>
@@ -768,7 +873,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 12 THE HARNESS ============ -->
+<!-- ============ 13 THE HARNESS ============ -->
 <section class="slide">
   <div class="kicker">The harness</div>
   <h2 class="h-slide sm">One agent, one external tool, no scaffold to credit.</h2>
@@ -800,7 +905,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 13 THE TOOL SURFACE ============ -->
+<!-- ============ 14 THE TOOL SURFACE ============ -->
 <section class="slide">
   <div class="kicker">The tool under test</div>
   <h2 class="h-slide sm">A hit is a starting point, not an answer.</h2>
@@ -819,87 +924,53 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 14 THE MODEL UNDER TEST ============ -->
+<!-- ============ 15 THE TRADE, SIDE BY SIDE ============ -->
 <section class="slide">
-  <div class="kicker">The model under test</div>
-  <a class="qr-corner" href="https://github.com/hanxiao/Qwen3.8-27B-UD-Q4_K_XL-L4" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-    <div class="qrtop">serving repo</div>
-    <img src="img/qr-serving.png" alt="QR code to the serving repository">
-  </a>
-  <h2 class="h-slide sm">Qwen3.8-27B is practical on a 24 GB card because three layers in four hold no KV cache.</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="deflist" style="max-width:960px">
-      <div class="defrow"><div class="tag sm">architecture</div><div class="dsc">64 layers, <span class="mono">full_attention_interval</span> 4. Sixteen layers maintain a KV cache; the remaining 48 use linear attention.</div></div>
-      <div class="defrow"><div class="tag sm">draft head</div><div class="dsc">a native MTP head, <span class="mono">mtp_num_hidden_layers</span> 1, used for self-speculative decoding.</div></div>
-      <div class="defrow"><div class="tag sm">quantization</div><div class="dsc">Unsloth Dynamic v3.0 <span class="mono">UD-Q4_K_XL</span>, 17.92 GB of weights resident.</div></div>
-      <div class="defrow"><div class="tag sm">positions</div><div class="dsc">the model supports up to 262,144; the card is what decides where it actually stops.</div></div>
+  <div class="kicker">The trade the evaluation has to pay for</div>
+  <h2 class="h-slide sm">Four times the throughput, or twice the window.</h2>
+  <div class="body" style="justify-content:center;gap:18px">
+    <div class="row" style="gap:30px;align-items:center">
+      <div style="flex:1;min-width:0">
+        <table class="bt" id="t-head2head">
+          <thead><tr><th>Measured on one L4</th><th>3.6-35B-A3B</th><th>3.8-27B</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="note" style="margin-top:10px">Greedy, cache disabled, decode only. Measured 2026-08-14.</p>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+        <p class="cap" style="font-size:17px">An agentic search loop spends its budget re-reading. Every round appends tool output and re-prefills a growing prefix, so the window bounds how many rounds fit before compaction starts discarding evidence, and decode speed bounds how long the whole thing takes.</p>
+        <div class="pull" style="font-size:18px">The sparse model gives you <strong>four times the tokens per second</strong>. The dense-class model gives you <strong>nearly twice the window</strong> to spend them in.</div>
+        <p class="cap" style="font-size:17px">The bandwidth arithmetic explains the floor, not the winner. 17.9 GB of weights at 300 GB/s bounds plain decode at about 16.8 tok/s on the 3.8; everything above that on either row is the MTP draft head, and speculative decoding is lossless by construction.</p>
+      </div>
     </div>
-    <p class="cap" style="max-width:94ch">Context costs roughly a quarter of what it costs on a conventional dense model of this size, which is the whole reason a 27B-class model is being considered for an agentic loop on one budget GPU.</p>
+    <p class="takeaway">Which side of that trade wins on multi-hop retrieval is <span class="accent">an empirical question</span>, and it is the one this experiment asks.</p>
   </div>
 </section>
 
-<!-- ============ 15 WHAT ONE L4 BUYS: CONTEXT ============ -->
+<!-- ============ 16 THE CONTEXT CEILING ============ -->
 <section class="slide">
   <div class="kicker">Serving &middot; measured</div>
-  <h2 class="h-slide sm">The context ceiling is 104,192 tokens, found by binary search and confirmed under load.</h2>
+  <h2 class="h-slide sm">Both ceilings are the card's, found by binary search and confirmed under load.</h2>
   <div class="body" style="justify-content:center;gap:16px">
     <div class="row" style="gap:34px;align-items:center">
       <div style="flex:.95;min-width:0">
         <table class="bt" id="t-vram">
-          <thead><tr><th>--ctx-size</th><th>VRAM used</th><th>Free</th></tr></thead>
+          <thead><tr><th>3.8 --ctx-size</th><th>VRAM used</th><th>Free</th></tr></thead>
           <tbody></tbody>
         </table>
         <p class="note" style="margin-top:10px">24,570 MiB device. Weights are 17.9 GB at every setting.</p>
       </div>
-      <div style="flex:1;display:flex;flex-direction:column;gap:15px">
+      <div style="flex:1;display:flex;flex-direction:column;gap:14px">
         <p class="cap" style="font-size:17px">A context counts as working only when the server both reaches <span class="mono">/health</span> and completes a generation. llama.cpp allocates the KV cache at load time while some compute buffers are sized on the first decode, so a context that loads can still fail under traffic.</p>
         <div class="pull" style="font-size:18px">A <strong>101,815-token</strong> prompt filling 98% of the window returned a correct answer at 24.88 tok/s decode and 278 tok/s prefill.
           <cite>VRAM peaked at 24,082 MiB, container stayed healthy</cite></div>
-        <p class="note">Binary search to a tolerance of 256 tokens. ECC off returns about 1 GB, and the configuration does not fit without it.</p>
+        <p class="cap" style="font-size:17px">The 35B-A3B ceiling is set the same way and lands at <strong>56,320</strong>, first OOM at 57,344, also at ~98% VRAM. On both cards ECC off is the precondition that makes the top setting fit at all.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 16 WHAT ONE L4 BUYS: THROUGHPUT ============ -->
-<section class="slide">
-  <div class="kicker">Serving &middot; measured</div>
-  <h2 class="h-slide sm">Twenty-three tokens a second, and the arithmetic says why.</h2>
-  <div class="body" style="justify-content:center;gap:16px">
-    <div class="row" style="gap:30px;align-items:center">
-      <div style="flex:1;min-width:0">
-        <table class="bt" id="t-serving">
-          <thead><tr><th>Workload</th><th>Decode tok/s</th><th>MTP accept.</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;gap:15px">
-        <p class="cap" style="font-size:17px">The L4 provides 300 GB/s. Reading 17.9 GB of weights once per token bounds plain autoregressive decode at about <strong>16.8 tok/s</strong>. Everything above that line is the MTP draft head.</p>
-        <p class="cap" style="font-size:17px">Speculative decoding is lossless by construction, and 40 arithmetic problems with known ground truth score 40/40 with and without it.</p>
-        <p class="cap" style="font-size:17px">The sparse alternative on the same card is much faster: Qwen3.6-35B-A3B sustains <strong>92 to 100 tok/s</strong> at a 56,320-token context, because it activates roughly 3B parameters per token.</p>
-        <p class="note" style="color:var(--foil-ink)">Greedy, cache disabled, 256 output tokens, decode only, averaged over two runs.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 17 WHAT THE BUDGET MEANS FOR AN AGENT ============ -->
-<section class="slide">
-  <div class="kicker">Reading the two numbers together</div>
-  <h2 class="h-slide sm">An agentic turn is mostly prefill, and prefill is what the window pays for.</h2>
-  <div class="body" style="justify-content:center;gap:24px">
-    <div class="strip">
-      <div class="sc"><div class="sv">104,192</div><div class="sl">token context on the model under test, the measured card ceiling</div></div>
-      <div class="sc"><div class="sv">56,320</div><div class="sl">token context on the 35B-A3B alternative, on the same class of card</div></div>
-      <div class="sc"><div class="sv ink">23</div><div class="sl">tok/s decode, versus 92 to 100 for the sparse alternative</div></div>
-      <div class="sc"><div class="sv ink">278</div><div class="sl">tok/s prefill at 102K, where cost amortises over a long batch</div></div>
-    </div>
-    <p class="cap" style="max-width:96ch">An agentic search loop spends its budget re-reading: each round appends tool output and re-prefills a growing prefix. The window bounds how many rounds fit before compaction starts discarding evidence, and decode speed bounds how long the whole thing takes. The two models sit on opposite sides of that trade, which is exactly why the comparison is worth running rather than reasoning about.</p>
-    <p class="takeaway">Whether the longer window or the faster decode wins on this verifier is <span class="accent">an empirical question</span>, and it is the one this experiment asks.</p>
-  </div>
-</section>
-
-<!-- ============ 18 EXPERIMENT DESIGN ============ -->
+<!-- ============ 17 EXPERIMENT DESIGN ============ -->
 <section class="slide">
   <div class="kicker">Experiment design</div>
   <h2 class="h-slide sm">Two axes, held fixed everywhere else.</h2>
@@ -933,7 +1004,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 19 SCORING ============ -->
+<!-- ============ 18 SCORING ============ -->
 <section class="slide">
   <div class="kicker">How the agentic condition is scored</div>
   <h2 class="h-slide sm">Accuracy per turn, against two different budgets.</h2>
@@ -948,7 +1019,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 20 THE PENDING TABLE ============ -->
+<!-- ============ 19 THE PENDING TABLE ============ -->
 <section class="slide">
   <div class="kicker">Results</div>
   <h2 class="h-slide sm">The table exists. The cells do not.</h2>
@@ -969,7 +1040,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 21 WHAT EACH OUTCOME WOULD MEAN ============ -->
+<!-- ============ 20 WHAT EACH OUTCOME WOULD MEAN ============ -->
 <section class="slide">
   <div class="kicker">Reading the result before it exists</div>
   <h2 class="h-slide sm">Three outcomes, three different conclusions.</h2>
@@ -995,7 +1066,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 22 LIMITS ============ -->
+<!-- ============ 21 LIMITS ============ -->
 <section class="slide">
   <div class="kicker">What the result will not say</div>
   <h2 class="h-slide sm">The instrument bounds the claim.</h2>
@@ -1010,7 +1081,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
   </div>
 </section>
 
-<!-- ============ 23 CLOSE ============ -->
+<!-- ============ 22 CLOSE ============ -->
 <section class="slide closing">
   <h1>A benchmark you built yourself<br>is only worth what <span class="hl">a measurement<br>of its purpose</span> says it is.</h1>
   <div class="auth" style="margin-top:34px">
@@ -1025,7 +1096,7 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
 </section>
 
 <div id="chrome">
-  <div class="l">Evaluating Qwen3.8 agentic search on a private verifier</div>
+  <div class="l">Qwen3.8 Agentic Search Evaluation on Private Data</div>
   <div class="r"><a class="hx" href="https://x.com/hxiao" target="_blank" rel="noopener" onclick="event.stopPropagation()">X: @hxiao</a><span id="pg">1 / 23</span></div>
 </div>
 
@@ -1118,17 +1189,6 @@ function fillCorr(){
   });
 }
 
-/* serving throughput table */
-function fillServing(){
-  const tb=document.querySelector('#t-serving tbody'); if(!tb)return; tb.innerHTML='';
-  DATA.serving.forEach((m,k)=>{
-    const tr=document.createElement('tr');
-    if(k===0) tr.className='hero';
-    tr.innerHTML='<td>'+m.w+'</td><td><span class="num">'+m.tps.toFixed(2)+'</span></td><td><span class="num">'+m.acc.toFixed(3)+'</span></td>';
-    tb.appendChild(tr);
-  });
-}
-
 /* VRAM against context */
 function fillVram(){
   const tb=document.querySelector('#t-vram tbody'); if(!tb)return; tb.innerHTML='';
@@ -1161,7 +1221,49 @@ function fillPending(){
   tb.appendChild(tr);
 }
 
-function renderAll(){drawAxes();fillCorr();fillServing();fillVram();fillPending();}
+/* head-to-head serving comparison. Both columns measured, different sources. */
+function fillHead2Head(){
+  const tb=document.querySelector('#t-head2head tbody'); if(!tb)return; tb.innerHTML='';
+  const a3b=DATA.a3b.map(x=>x.tps), q38=DATA.serving.map(x=>x.tps);
+  const rng=v=>Math.min(...v).toFixed(1)+' to '+Math.max(...v).toFixed(1);
+  const rows=[
+    ['Decode tok/s, by workload', rng(a3b), rng(q38), 'a'],
+    ['Context, measured ceiling', '56,320', '104,192', 'b'],
+    ['Weights resident', '~21.3 GiB', '17.92 GB', ''],
+    ['Active params per token', '~3B of 35B', 'dense-class 27B', ''],
+    ['KV-cache layers', 'all, heavy GQA', '16 of 64', ''],
+    ['Speculation', 'MTP 1.27-1.37x', 'MTP, native head', '']
+  ];
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    if(r[3]==='a') tr.className='hero';
+    tr.innerHTML='<td>'+r[0]+'</td><td><span class="num">'+r[1]+'</span></td><td><span class="num">'+r[2]+'</span></td>';
+    tb.appendChild(tr);
+  });
+}
+
+/* corpus manifest, from corpus/meta.json (218 files, snapshot 2026-08-13) */
+function fillCorpus(){
+  const tb=document.querySelector('#t-corpus tbody'); if(!tb)return; tb.innerHTML='';
+  const rows=[
+    ['papers', 20, 'six years of published work, 2023-07 to 2026-07'],
+    ['model-cards', 29, 'one spec sheet per released model'],
+    ['blog', 161, 'tech 104 / press 28 / insights 14 / events 8 / kb 7'],
+    ['api', 3, 'OpenAPI spec, usage guide, model selection guide'],
+    ['faq', 2, '163 question-answer pairs over 14 sources'],
+    ['site', 2, '27 page namespaces, 2,297 English strings'],
+    ['legal', 1, 'terms, privacy, security, DPA']
+  ];
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    if(r[0]==='papers') tr.className='hero';
+    tr.innerHTML='<td>'+r[0]+'</td><td><span class="num">'+r[1]+'</span></td>'+
+      '<td style="text-align:left;font-size:13.5px">'+r[2]+'</td>';
+    tb.appendChild(tr);
+  });
+}
+
+function renderAll(){drawAxes();fillCorr();fillVram();fillPending();fillHead2Head();fillCorpus();}
 
 function init(){
   fit(); requestAnimationFrame(fit);
