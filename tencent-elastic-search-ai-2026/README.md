@@ -111,7 +111,7 @@ done
 以测量文件为准。
 
 ## 文件
-`index.html` 全部 43 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
+`index.html` 全部 42 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
 `img/` 图片与四个项目二维码 · `fonts/` 子集化字体 · `slides.pdf` 导出版
 
 ## 放映

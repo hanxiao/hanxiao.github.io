@@ -397,6 +397,12 @@ buys a better answer, and nothing is retrained.
   its body chunks and the raw engine snippet into the same call, highest score wins,
   `snippet_source` reports which. Same call, so no threshold is needed.
 
+**Perf numbers pulled from the deck (2026-08-16).** Han cut every latency/throughput KPI box: the
+143 ms vs 4194 ms slide is gone entirely, and the 271 ms / 0 index, +1.3 ms / 0.847 / 32-frame boxes
+were removed from their slides. Reason: a macro talk, no audience appetite for isolated latency
+numbers, and without a reference point they carry no meaning. The measurements below stay recorded
+here as provenance, but must not be put back on a slide without asking.
+
 **Numbers used, each with its condition:**
 | number | condition |
 | --- | --- |
