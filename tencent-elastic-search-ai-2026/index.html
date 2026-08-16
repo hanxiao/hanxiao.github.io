@@ -656,7 +656,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">一个只会做检索的模型，被推理期的算力改造成了开放词表的标注器。</div>
         <div class="foot" style="color:var(--green)">买到的是 · 新能力</div></div>
       <div class="card c-amber"><div class="n">03</div><div class="ttl">Dataroom</div>
-        <div class="dsc">用便宜的本地小模型把开放网络啃成一个带引用的 zip，留着贵的 token 干正事。</div>
+        <div class="dsc">用便宜的本地小模型把互联网上相关的内容下成一个带引用的 zip，留着贵的 token 干正事。</div>
         <div class="foot" style="color:var(--amber)">买到的是 · 召回</div></div>
       <div class="card c-pink"><div class="n">04</div><div class="ttl">Searchbox + 知识图谱</div>
         <div class="dsc">把 agent 关进没有网的盒子里，只能自己现搭链路。再用知识图谱给它出多跳难题。</div>
@@ -994,17 +994,17 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 36 DATAROOM ============ -->
-<section class="slide" data-title="dataroom：把开放网络啃成一个 zip">
+<section class="slide" data-title="dataroom：把互联网下成一个 zip">
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="dataroom repo QR"></a>
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">给它一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮来，直到把这个题目下能找到的东西全部打包成一个<strong>带引用的 zip</strong>。</p>
+      <p class="cap">给它一个题目和一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮地把互联网上跟这个题目相关的内容<strong>下成一个带引用的 zip</strong>。</p>
       <p class="cap">这个名字是我创业时留下的习惯——当年给投资人准备 data room，把该看的材料一次性理清楚放进去。现在换成给 agent 准备。</p>
       <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用自己部署的 Qwen3.6-35B-A3B、Qwen3.8-27B 跑，把昂贵的前沿额度省下来，留给后面真正需要判断力的那一步。</p>
       <div class="flowv">
-        <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">攒出语料（.zip）</div></div>
+        <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">下成语料（.zip）</div></div>
         <div class="farrv">↓</div>
         <div class="fbox lit compact"><div class="fn">searchbox</div><div class="fd">只从这个 zip 里找答案</div></div>
       </div>
@@ -1085,7 +1085,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
       <div class="card c-amber"><div class="n">01</div><div class="ttl">dataroom · 拉满召回</div>
-        <div class="dsc">便宜的本地 token 把网络啃成一个带引用的 zip。<strong>这一步决定了天花板</strong>——材料里没有的东西，后面谁也变不出来。</div></div>
+        <div class="dsc">便宜的本地 token 把互联网下成一个带引用的 zip。<strong>这一步决定了天花板</strong>——材料里没有的东西，后面谁也变不出来。</div></div>
       <div class="card c-pink"><div class="n">02</div><div class="ttl">searchbox · 拉满精度</div>
         <div class="dsc">断网，只给本地工具，逼 agent 在推理期自己组装链路。<strong>这一步决定了你能从材料里捞出多少</strong>。</div></div>
       <div class="card"><div class="n">03</div><div class="ttl">知识图谱 · 说了算的裁判</div>
