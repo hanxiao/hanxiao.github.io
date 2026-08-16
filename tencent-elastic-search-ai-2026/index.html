@@ -595,7 +595,6 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-mut"><div class="ttl">于是大家的结论</div>
         <div class="dsc">搜索是个成熟行业，剩下的都是工程活，<br>值得投入的地方在别的方向上。</div></div>
     </div>
-    <p class="takeaway">或者，坚持做训练，<span class="cy">把训练做得更重</span>。</p>
   </div>
 </section>
 
@@ -603,14 +602,12 @@ tr.weakrow td{color:var(--mut)}
 <section class="slide claimslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:30px">
     <div class="bigclaim">搜索，本来就是一种<br><span class="cy">test-time compute</span>。</div>
-    <p class="takeaway" style="max-width:60ch">这条轴上还有大量空间，而它跟模型规模无关。</p>
   </div>
 </section>
 
 <!-- ============ 3b THE GPU QUESTION ============ -->
 <section class="slide claimslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:30px">
-    <p class="takeaway" style="max-width:64ch">test-time compute，说的是同一笔算力花在哪一端。</p>
     <div class="bigclaim">给你一块 GPU，<br>你把它花在<span class="cy">训练时</span>，<br>还是<span class="cy">推理时</span>？</div>
   </div>
 </section>
@@ -628,7 +625,6 @@ tr.weakrow td{color:var(--mut)}
       <div class="card"><div class="ttl">Verifier search</div>
         <div class="dsc">用一个判分器在候选里搜索，投入的算力越多，结果越好。</div></div>
     </div>
-    <p class="takeaway">模型没变，权重一个没动。变的只是<span class="cy">你愿意为这一次回答，多花多少算力</span>。</p>
   </div>
 </section>
 
@@ -809,7 +805,6 @@ tr.weakrow td{color:var(--mut)}
         <div class="vstag">需要专门的多向量模型</div>
       </div>
     </div>
-    <p class="takeaway">中间这一列<span class="cy">没有换模型，只是在推理时多算了几遍</span>，效果却接近右边那种需要专门多向量模型的做法。</p>
   </div>
 </section>
 
@@ -829,7 +824,6 @@ tr.weakrow td{color:var(--mut)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="cap c">全部是对同一批冻结向量的重新组合，成本从左往右递增。</p>
   </div>
 </section>
 
@@ -962,7 +956,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/inpage-ui.png" alt="页内问答，答案在原文里高亮"></div>
-      <div class="shotcap"><strong>提问，答案在原页面里点亮。</strong>问题里没有一个实词出现在它找到的那句话里。</div>
+      <div class="shotcap">问题里没有一个实词出现在它找到的那句话里。</div>
     </div>
   </div>
 </section>
@@ -1040,7 +1034,6 @@ tr.weakrow td{color:var(--mut)}
       <div class="kpi k-green"><div class="v">72%</div><div class="lb">两种 snippet 确有差异的 18 组里，正文块胜出的比例</div></div>
       <div class="kpi k-blue"><div class="v">36%</div><div class="lb">改按固定句数切块时，某中文维基页面被整块丢弃的比例。按大小切，句子覆盖率回到 100%</div></div>
     </div>
-    <p class="takeaway">多花的是<span class="cy">读正文 + 切块 + 一次 listwise</span> 的钱，换回来的是<span class="cy">真正回答了问题的那一段</span>。</p>
   </div>
 </section>
 
@@ -1091,7 +1084,6 @@ tr.weakrow td{color:var(--mut)}
     <div>
       <span class="chip no">不训练</span><span class="chip no">不请第二个模型</span><span class="chip no">不用 WordNet 和词典</span><span class="chip no">不用正则和词性标注</span>
     </div>
-    <p class="takeaway">前面几个项目都是<span class="bl">把它会的事做得更好</span>，这一次是<span class="gr">让它做一件根本不会的事</span>。</p>
   </div>
 </section>
 
@@ -1160,7 +1152,6 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr" style="color:var(--green)">↗</div>
       </div>
     </div>
-    <p class="takeaway">每一个方框，不是那个冻结模型，就是普通算术。</p>
   </div>
 </section>
 
@@ -1375,7 +1366,6 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独衡量检索</div>
         <div class="dsc">固定语料，只留一个检索工具。<strong>把链路里那一环的贡献单拎出来看。</strong></div></div>
     </div>
-    <p class="takeaway">跟前面几个项目是同一件事，只是换了一层：<span class="cy">那边组装的是模型阶段，这边组装的是工具链</span>。都没有把模型换大。</p>
   </div>
 </section>
 
