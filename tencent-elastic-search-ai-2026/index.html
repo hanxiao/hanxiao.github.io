@@ -864,17 +864,14 @@ tr.weakrow td{color:var(--mut)}
 
 <section class="slide" data-title="扫描读副本，精确向量只读短名单">
   <div class="body row" style="gap:30px;align-items:center">
-    <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:12px">
+      <div class="shot"><img src="img/omni-ui.jpg" alt="Omni 搜「porsche sports car」，一个列表里同时出 PDF、HTML、XML、代码、Markdown 和照片"></div>
       <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
       <div class="shotcap">副本只有精确向量的十六分之一宽；青色是一次查询真正读到的部分。</div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">Omni 里没有 ANN 索引，一次查询要扫全库。建一个图索引，光链接就要每行 256 字节，四百万 chunk 时是 0.95 GB，<strong>接近查询要扫的矩阵的三倍</strong>，而且持续编辑的语料会不断让它失效。</p>
       <p class="cap">所以同一个空间存两份：<strong>扫描读 1 bit 副本，精确向量只有短名单才碰</strong>。粗排分数只决定谁进短名单，不必准，只要短名单够宽；<strong>最终排序由精确重算说了算</strong>。候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
-      <div class="kpis" style="flex-direction:column;gap:12px">
-        <div class="kpi k-green"><div class="v">1.76×</div><div class="lb">50 万行时相对全量精扫的加速，M3 Pro 14 核</div></div>
-        <div class="kpi"><div class="v">9.7 ms</div><div class="lb">文本查询 p50，M3 Ultra，真实个人文件库</div></div>
-      </div>
     </div>
   </div>
 </section>
