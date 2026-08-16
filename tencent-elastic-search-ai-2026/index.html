@@ -232,12 +232,13 @@ strong,b{font-weight:700;color:#fff}
 .nitem{display:flex;gap:18px;align-items:flex-start}
 .nitem .n{font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan);min-width:38px;line-height:1.25}
 .nitem .t{font-size:17.3px;font-weight:500;line-height:1.5}
-.nitem .t span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
+.nitem .t>span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
+.nitem .t>span span{display:inline;font-size:inherit;margin:0;font-weight:500}
 
 /* ---------- hot-takes sketch: one point vs one curve ---------- */
-.btsketch{display:flex;flex-direction:row;gap:54px;justify-content:center;align-items:flex-end;margin-top:8px}
-.btp{display:flex;flex-direction:column;align-items:center;gap:7px}
-.btp svg{width:330px;height:156px;display:block}
+.btsketch{display:flex;flex-direction:row;gap:44px;justify-content:center;align-items:flex-end;margin-top:2px}
+.btp{display:flex;flex-direction:column;align-items:center;gap:5px}
+.btp svg{width:264px;height:108px;display:block}
 .btax{stroke:var(--line2);stroke-width:1.4}
 .btax2{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--mut)}
 .btdot.bad{fill:var(--pink)}
@@ -1429,11 +1430,13 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:20px">
     <div class="nlist" style="max-width:1140px">
-      <div class="nitem"><div class="n">01</div><div class="t">test-time compute 是一种思维，不是一项技术。
+      <div class="nitem"><div class="n">01</div><div class="t">2026 不是做搜索最好的一年，也不是最差的一年。
+        <span><span class="gr">最好是 2025</span>，deep search / deep research 兴起，一提大模型落地就是它俩。<span class="pk">最差是 2024</span>，所有人都去做 RAG，觉得传统检索和 reranker 没用了。<strong>2026 注意力转向 long-horizon task，搜索的比重被稀释了</strong>——但大模型不盯着这块，反而给我们留出了发挥的空间。</span></div></div>
+      <div class="nitem"><div class="n">02</div><div class="t">test-time compute 是一种思维，不是一项技术。
         <span>遇到做不好的事情，先别急着去凑数据、去换更大的模型。<strong>先问一句：这件事能不能在推理时解决。</strong></span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">test-time scaling 不等于 training-free。
+      <div class="nitem"><div class="n">03</div><div class="t">test-time scaling 不等于 training-free。
         <span>两件事是正交的：一个说推理时花多少算力，一个说权重动不动。<strong>最强的 TTC 恰恰是训出来的</strong>——listwise 重排得先把模型训成能在一个 context 里比候选，long thinking 得先用 RL 训出来。<strong>冻结模型只是最省的那种做法，不是定义。</strong></span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">今天的搜索模型和 benchmark，几乎都没把 test-time compute 算进去。
+      <div class="nitem"><div class="n">04</div><div class="t">今天的搜索模型和 benchmark，几乎都没把 test-time compute 算进去。
         <span>榜单上一个模型就一个分数，默认大家都只允许算一遍。<strong>应该报的是一条曲线：横轴推理预算，纵轴精度，看它在这个平面上往哪儿爬。</strong>一个点测不出 test-time scaling。</span></div></div>
     </div>
     <div class="btsketch">
