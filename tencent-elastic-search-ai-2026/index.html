@@ -25,11 +25,11 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=3") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=3") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=3") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=3") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=3") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
@@ -477,7 +477,6 @@ tr.weakrow td{color:var(--mut)}
       <img class="cloud" src="img/cloud.png" alt="">
     </div>
     <div class="txt">
-      <div class="kicker">Test-time compute · 检索 · 冻结模型</div>
       <h1>搜索，是一种<br><span class="cy">test-time compute</span></h1>
       <div class="auth">
         <div class="bar"></div>
@@ -500,7 +499,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-mut"><div class="ttl">于是大家的结论</div>
         <div class="dsc">搜索是个成熟行业，剩下的都是工程活，<br>值得投入的地方在别的方向上。</div></div>
     </div>
-    <p class="takeaway">这四条都还能走，但它们指向同一个方向：<span class="cy">把训练做得更重</span>。</p>
+    <p class="takeaway">或者，坚持做训练，<span class="cy">把训练做得更重</span>。</p>
   </div>
 </section>
 
@@ -660,7 +659,6 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">算力花在 agent 的循环里：自己决定先搜什么、用什么工具、要不要再来一轮。</div>
         <div class="foot" style="color:var(--amber)">换到的是 · 召回 + 精度</div></div>
     </div>
-    <p class="takeaway">从模型内部一直到 agent 链路，<span class="cy">每一层都有同一笔账可算</span>。代码全部开源。</p>
   </div>
 </section>
 
@@ -1205,7 +1203,7 @@ tr.weakrow td{color:var(--mut)}
 </div>
 
 </div>
-<script src="data.js?v=1"></script>
+<script src="data.js?v=3"></script>
 <script>
 const stage=document.getElementById('stage');
 const slides=[...document.querySelectorAll('.slide')];

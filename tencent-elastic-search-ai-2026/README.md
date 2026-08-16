@@ -128,3 +128,19 @@ done
 ## 坑
 1. `.row` 必须显式 `flex-direction:row`：`.body` 是 column，`.body.row` 会继承成竖排。
 2. 从别的 deck 搬 HTML 片段，**对应 CSS 类要一起搬**（`.rgrid/.rcell/.rsvg`、`.trendrow`、`.synp` 都踩过）。
+
+## 缓存陷阱（踩过一次）
+
+`data.js` 和 `fonts/*.woff2` 都带 `?v=N` 查询串，**改了内容就必须把 N 加一**。
+
+Cloudflare 对这些静态资源发 `cache-control: max-age=14400`（4 小时）。2026-08-15 出过一次事故：
+`data.js?v=1` 的版本号从建站起没动过，而中途有一版 `data.js` 删掉了 `window.A`。后来 `window.A`
+恢复了，但边缘缓存还在发那份删掉的副本，于是线上第 12、14 页的图表**画不出来，显示为空**，
+本地 PDF 却完全正常——这种「本地对、线上空」的现象基本就是它。
+
+排查命令：
+```
+curl -s -D- -o /dev/null "https://hanxiao.io/tencent-elastic-search-ai-2026/data.js?v=N" \
+  | grep -iE "cf-cache-status|age:|cache-control"
+node -e "global.window={};require('./data.js');console.log(Object.keys(window.A))"
+```
