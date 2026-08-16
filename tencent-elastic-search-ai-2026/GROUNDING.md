@@ -311,3 +311,34 @@ broke `qr-repo.png` outright — it stopped decoding while still looking fine to
 `Image.NEAREST` for QR codes, and re-run `zbarimg` on every file after any resize. OpenCV's
 `QRCodeDetector` is not a valid check here: it fails on all of these because of the logo in the
 centre, so a negative from it means nothing. `zbarimg` reads them.
+
+---
+
+## 9. Reranking section rebuilt (2026-08-15)
+
+Three changes Han asked for, and what each is grounded in.
+
+**Section title.** "最熟的那笔算力：重排" did not parse. Now "重排：最熟悉的 test-time scaling",
+which is also the pairing the closing slide lands on.
+
+**Bi-encoder vs listwise, side by side.** The advantage was asserted in prose before; it is now
+drawn. Left panel: query and four documents encoded separately, a dashed wall between them
+labelled 互不可见, four independent cosines. Right panel: query plus up to 64 documents inside one
+131K context box, animated attention arcs between the documents, score read from each document's
+last token. The asymmetry is the argument, so it has to be visible, not described. Source for the
+mechanism: `~/Documents/jina-reranker-v3/README.md` and arXiv:2509.25085 ("last but not late
+interaction", causal self-attention between query and documents within the same context window,
+contextual embeddings from the last token of each document, up to 64 documents in 131K).
+
+**The Hadamard rotation is now animated rather than asserted.** Split into its own slide before
+the funnel. Two bar charts of the same 32-coordinate unit vector: spiky on the left, flat on the
+right. The right one is not drawn by hand, it is the **real Walsh-Hadamard transform** of the left
+one computed in the page, so the demo cannot drift from the claim. Verified in node: norm 1.000000
+before and after (orthogonality holds, which is why no inner product and no ranking changes), and
+peak-to-RMS falls 4.00 to 1.47, which is exactly the "spreading what any one dimension carries
+across all of them" the paper describes. Storage side keeps 1 bit per coordinate, query side keeps
+four bit planes; that split now has a card each.
+
+The funnel slide keeps the figure and the measured numbers, and picks up the paper's reason for
+having no ANN index at all: a graph index at degree 32 stores 256 bytes of links per vector, which
+is 0.95 GB at four million chunks, close to three times the matrix a query scans.

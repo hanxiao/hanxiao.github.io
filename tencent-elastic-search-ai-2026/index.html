@@ -390,6 +390,55 @@ tr.weakrow td{color:var(--mut)}
   color:var(--cyan);display:inline-block;min-width:96px}
 .vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink2)}
 
+
+/* ---------- bi-encoder vs listwise, side by side ---------- */
+.archrow{display:flex;gap:24px;width:100%;align-items:stretch}
+.archp{flex:1;border:1px solid var(--line);border-radius:var(--r-card);padding:14px 16px 15px;
+  background:rgba(18,23,34,.6);display:flex;flex-direction:column;gap:10px}
+.archp.hero{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan);background:rgba(38,198,218,.07)}
+.archh{font-size:17.3px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.archtag{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mut);border:1px solid var(--line2);border-radius:999px;padding:2px 9px}
+.archtag.on{color:var(--cyan);border-color:var(--cyan);background:rgba(38,198,218,.12)}
+.archp svg{width:100%;height:auto;display:block}
+.archn{font-size:17.3px;line-height:1.55;font-weight:300;color:var(--mut)}
+.archn strong{font-weight:500;color:var(--ink2)}
+.qbox{fill:rgba(38,198,218,.18);stroke:var(--cyan);stroke-width:1.3}
+.dbox{fill:rgba(18,23,34,.95);stroke:#5A6478;stroke-width:1.2}
+.dbox.on{fill:rgba(59,111,240,.20);stroke:var(--blue2);stroke-width:1.3}
+.bxt{font-family:var(--mono);font-size:12px;font-weight:600;fill:var(--ink2)}
+.axl{font-family:var(--mono);font-size:10.5px;font-weight:600;fill:var(--mut)}
+.axr{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--mut)}
+.lnk{stroke:#5A6478;stroke-width:1.2}
+.wall{stroke:var(--pink);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
+.wallt{font-family:var(--mono);font-size:10.5px;font-weight:700;fill:var(--pink)}
+.ctx{fill:rgba(38,198,218,.05);stroke:var(--cyan);stroke-width:1.2;stroke-dasharray:6 4}
+.ctxt{font-family:var(--mono);font-size:11px;font-weight:700;fill:var(--cyan)}
+.ctxb{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--cyan)}
+.attn path{fill:none;stroke:var(--cyan);stroke-width:1.3;stroke-opacity:.85;
+  stroke-dasharray:4 4;animation:attnflow 1.4s linear infinite}
+@keyframes attnflow{to{stroke-dashoffset:-16}}
+@media print{.attn path{animation:none}}
+
+
+/* ---------- Hadamard rotation: spiky coordinates -> flat coordinates ---------- */
+.rotrow{display:flex;align-items:center;gap:18px;width:100%}
+.rotp{flex:1;border:1px solid var(--line);border-radius:var(--r-card);padding:12px 14px 13px;
+  background:rgba(18,23,34,.6);display:flex;flex-direction:column;gap:8px}
+.rotp.hero{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan);background:rgba(38,198,218,.07)}
+.roth{font-size:17.3px;font-weight:700;color:var(--ink)}
+.rotsvg{width:100%;height:auto;display:block}
+.rotn{font-size:17.3px;line-height:1.5;font-weight:300;color:var(--mut)}
+.rotn strong{font-weight:500;color:var(--ink2)}
+.rotmid{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.rotop{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--cyan);line-height:1.35}
+.rotarrow{font-size:30px;font-weight:800;color:var(--cyan);line-height:1}
+.rotnote{font-family:var(--mono);font-size:11.5px;line-height:1.5;color:var(--mut)}
+.rax{stroke:rgba(154,163,181,.45);stroke-width:1.2}
+.rcap{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--mut)}
+.rbar{fill:#5E8FF8}
+.rbar.pos{fill:var(--cyan)}
+
 /* ---------- product screenshots ---------- */
 .shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
 .shot img{display:block;width:100%;height:auto}
@@ -619,25 +668,70 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ SECTION 02 ============ -->
 <section class="slide divider" data-title="">
-  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>最熟的那笔算力：重排</h2></div></div>
-  <div class="dsub">召回给你一堆候选，重排再花一次钱，把它们放在一起比一遍</div>
+  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>重排：最熟悉的 test-time scaling</h2></div></div>
+  <div class="dsub">召回给你一堆候选，重排再花一次算力，把它们放在一起比一遍</div>
 </section>
 
 <!-- ============ RERANKER ============ -->
-<section class="slide" data-title="双塔各算各的，重排让候选互相比">
-  
-  <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:82ch;font-size:17px">向量检索里，每篇文档的向量是<strong>在别的文档还不存在的时候</strong>就算好的。可文档相关不相关，本来就是比出来的：三段都提到延迟，哪一段真的回答了问题？重排就是为这件事额外花的一次推理。</p>
-    <div class="cards">
-      <div class="card c-mut"><div class="ttl">召回阶段</div>
-        <div class="dsc">每篇文档一个向量，离线算好。<strong>便宜，能扫全库，但每篇都是盲评。</strong></div></div>
-      <div class="card"><div class="ttl cy">重排阶段</div>
-        <div class="dsc">query 和最多 64 篇候选塞进同一个 131K 上下文，跨文档做自注意力，在每篇的最后一个 token 上读出分数。<strong>每篇都是在跟对手比。</strong></div>
-        <div class="foot">jina-reranker-v3，0.6B</div></div>
+<section class="slide" data-title="双塔各算各的，listwise 让候选互相比">
+  <div class="body" style="justify-content:center;gap:16px">
+    <div class="archrow">
+
+      <div class="archp">
+        <div class="archh">双塔 bi-encoder<span class="archtag">召回</span></div>
+        <svg viewBox="0 0 300 168" aria-hidden="true">
+          <text class="axl" x="16" y="16">query</text>
+          <rect class="qbox" x="12" y="24" width="62" height="26" rx="5"/>
+          <text class="bxt" x="43" y="41" text-anchor="middle">q</text>
+          <text class="axl" x="150" y="16">每篇文档单独编码</text>
+          <rect class="dbox" x="150" y="24" width="62" height="22" rx="5"/><text class="bxt" x="181" y="39" text-anchor="middle">d₁</text>
+          <rect class="dbox" x="150" y="54" width="62" height="22" rx="5"/><text class="bxt" x="181" y="69" text-anchor="middle">d₂</text>
+          <rect class="dbox" x="150" y="84" width="62" height="22" rx="5"/><text class="bxt" x="181" y="99" text-anchor="middle">d₃</text>
+          <rect class="dbox" x="150" y="114" width="62" height="22" rx="5"/><text class="bxt" x="181" y="129" text-anchor="middle">d₄</text>
+          <line class="lnk" x1="74" y1="37" x2="150" y2="35"/>
+          <line class="lnk" x1="74" y1="37" x2="150" y2="65"/>
+          <line class="lnk" x1="74" y1="37" x2="150" y2="95"/>
+          <line class="lnk" x1="74" y1="37" x2="150" y2="125"/>
+          <path class="wall" d="M124 20 L124 150"/>
+          <text class="wallt" x="119" y="160" text-anchor="middle">互不可见</text>
+          <text class="axr" x="288" y="39" text-anchor="end">cos</text>
+          <text class="axr" x="288" y="69" text-anchor="end">cos</text>
+          <text class="axr" x="288" y="99" text-anchor="end">cos</text>
+          <text class="axr" x="288" y="129" text-anchor="end">cos</text>
+        </svg>
+        <div class="archn">每篇文档的向量，是<strong>在别的文档还不存在的时候</strong>就算好的。四篇各打各的分，谁也没见过谁。便宜，能扫全库。</div>
+      </div>
+
+      <div class="archp hero">
+        <div class="archh">listwise 重排<span class="archtag on">精排</span></div>
+        <svg viewBox="0 0 300 168" aria-hidden="true">
+          <rect class="ctx" x="10" y="14" width="280" height="124" rx="8"/>
+          <text class="ctxt" x="150" y="30" text-anchor="middle">同一个 131K 上下文</text>
+          <rect class="qbox" x="22" y="44" width="48" height="24" rx="5"/><text class="bxt" x="46" y="60" text-anchor="middle">q</text>
+          <rect class="dbox on" x="92" y="44" width="44" height="24" rx="5"/><text class="bxt" x="114" y="60" text-anchor="middle">d₁</text>
+          <rect class="dbox on" x="146" y="44" width="44" height="24" rx="5"/><text class="bxt" x="168" y="60" text-anchor="middle">d₂</text>
+          <rect class="dbox on" x="200" y="44" width="44" height="24" rx="5"/><text class="bxt" x="222" y="60" text-anchor="middle">d₃</text>
+          <rect class="dbox on" x="92" y="86" width="44" height="24" rx="5"/><text class="bxt" x="114" y="102" text-anchor="middle">d₄</text>
+          <rect class="dbox on" x="146" y="86" width="44" height="24" rx="5"/><text class="bxt" x="168" y="102" text-anchor="middle">…</text>
+          <rect class="dbox on" x="200" y="86" width="44" height="24" rx="5"/><text class="bxt" x="222" y="102" text-anchor="middle">d₆₄</text>
+          <g class="attn">
+            <path d="M114 68 C 132 78 150 78 168 68"/>
+            <path d="M168 68 C 186 78 204 78 222 68"/>
+            <path d="M114 68 C 150 92 186 92 222 68"/>
+            <path d="M114 86 C 132 76 150 76 168 86"/>
+            <path d="M168 86 C 186 76 204 76 222 86"/>
+            <path d="M70 56 C 84 62 84 74 92 92"/>
+          </g>
+          <text class="ctxb" x="150" y="130" text-anchor="middle">跨文档自注意力</text>
+          <text class="axr" x="150" y="158" text-anchor="middle">分数读自每篇的最后一个 token</text>
+        </svg>
+        <div class="archn">query 和最多 64 篇候选<strong>塞进同一个上下文</strong>，彼此可见。三段都提到延迟时，模型能判断哪一段真的回答了问题。</div>
+      </div>
+
     </div>
     <div class="kpis">
-      <div class="kpi"><div class="v">61.94</div><div class="lb">BEIR nDCG@10。同样 0.6B 的 bge-reranker-v2-m3 是 56.51，Qwen3-Reranker-0.6B 是 56.28</div></div>
-      <div class="kpi k-blue"><div class="v">0.6B</div><div class="lb">比生成式的 listwise 重排小一个数量级，却拿到更好的 BEIR</div></div>
+      <div class="kpi"><div class="v">61.94</div><div class="lb">BEIR nDCG@10。同为 0.6B 的 bge-reranker-v2-m3 是 56.51，Qwen3-Reranker-0.6B 是 56.28</div></div>
+      <div class="kpi k-blue"><div class="v">0.6B</div><div class="lb">比生成式 listwise 重排小一个数量级，BEIR 反而更高</div></div>
       <div class="kpi k-green"><div class="v">64 篇</div><div class="lb">一次调用里同时参与比较的候选数量</div></div>
     </div>
   </div>
@@ -666,17 +760,51 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ FUNNEL ============ -->
-<section class="slide" data-title="1 bit 扫全库，精确向量只读短名单">
-  
+<section class="slide" data-title="为什么 1 bit 就够：先把信息摊平">
+  <div class="body" style="justify-content:center;gap:14px">
+    <div class="rotrow">
+      <div class="rotp">
+        <div class="roth">原始坐标</div>
+        <svg class="rotsvg" viewBox="0 0 260 132" aria-hidden="true">
+          <line class="rax" x1="14" y1="66" x2="248" y2="66"/>
+          <g id="barsA"></g>
+          <text class="rcap" x="131" y="126" text-anchor="middle">少数几维扛着大部分信息</text>
+        </svg>
+        <div class="rotn">取符号会把大维度的优势整个丢掉。</div>
+      </div>
+      <div class="rotmid">
+        <div class="rotop">随机 Hadamard 旋转</div>
+        <div class="rotarrow">→</div>
+        <div class="rotnote">正交变换<br>内积不变<br><span class="cy">排序不变</span></div>
+      </div>
+      <div class="rotp hero">
+        <div class="roth">旋转之后</div>
+        <svg class="rotsvg" viewBox="0 0 260 132" aria-hidden="true">
+          <line class="rax" x1="14" y1="66" x2="248" y2="66"/>
+          <g id="barsB"></g>
+          <text class="rcap" x="131" y="126" text-anchor="middle">每一维扛的信息量都差不多</text>
+        </svg>
+        <div class="rotn">这时候<strong>每维只留一个符号位</strong>，损失才是可控的。</div>
+      </div>
+    </div>
+    <div class="row" style="gap:22px;align-items:stretch">
+      <div class="card" style="flex:1"><div class="ttl cy">存储侧：1 bit</div>
+        <div class="dsc">只保留每个坐标的符号，一行 <span class="mono">d/8</span> 字节，对 bf16 的 <span class="mono">2d</span> 正好<strong>十六分之一</strong>。编码器输出是单位向量，符号码不带尺度也不带偏置，所以这个比例是精确的。</div></div>
+      <div class="card c-blue" style="flex:1"><div class="ttl bl">查询侧：4 bit</div>
+        <div class="dsc">查询不压到 1 bit，旋转后拆成<strong>四个位平面</strong>。Metal kernel 把一行的打分变成固定几次 popcount，精度留在查询这边。</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="扫描读副本，精确向量只读短名单">
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
       <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
       <div class="shotcap">条宽是每行的字节数，条高是行数：副本只有精确向量的十六分之一宽。青色标出一次查询真正读了什么——副本全读，精确向量只读短名单那一段。</div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">Omni 里没有 ANN 索引，一次查询要扫全库。所以同一个空间存两份：<strong>一份只保留每个坐标符号的 1 bit 副本，扫描读它</strong>；精确向量只有短名单才碰。一行 <span class="mono">d/8</span> 字节对 bf16 的 <span class="mono">2d</span>，正好十六分之一。</p>
-      <p class="cap">取符号之前先做一次随机 Hadamard 旋转。旋转是正交的，<strong>不改变任何内积，也就不改变排序</strong>，只是把每一维携带的信息摊平到所有维度上，1 bit 才够用。查询侧不压到 1 bit：旋转后拆成<strong>四个位平面</strong>，Metal kernel 用几次 popcount 给一行打分。</p>
-      <p class="cap">粗排分数只决定谁进短名单，所以它不必准，只要短名单够宽。<strong>最终排序由精确重算说了算，成本只跟短名单长度成正比。</strong>候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
+      <p class="cap">Omni 里没有 ANN 索引，一次查询要扫全库。建一个图索引，光链接就要每行 256 字节，四百万 chunk 时是 0.95 GB，<strong>接近查询要扫的矩阵的三倍</strong>，而且持续编辑的语料会不断让它失效。</p>
+      <p class="cap">所以同一个空间存两份：<strong>扫描读 1 bit 副本，精确向量只有短名单才碰</strong>。粗排分数只决定谁进短名单，不必准，只要短名单够宽；<strong>最终排序由精确重算说了算</strong>。候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
       <div class="kpis" style="flex-direction:column;gap:12px">
         <div class="kpi k-green"><div class="v">1.76×</div><div class="lb">50 万行时相对全量精扫的加速，M3 Pro 14 核</div></div>
         <div class="kpi"><div class="v">9.7 ms</div><div class="lb">文本查询 p50，M3 Ultra，真实个人文件库</div></div>
@@ -1321,8 +1449,45 @@ function drawVocabHist(){
 }
 window.restartVhist=drawVocabHist;
 
+
+/* Hadamard rotation demo: the same vector, before and after an orthogonal rotation.
+   Left bars are drawn from a spiky spectrum, right bars from its rotated version.
+   Both carry identical norm, which is the point: the rotation moves information
+   between coordinates without changing any inner product. */
+function drawRotation(){
+  const A=document.getElementById('barsA'), B=document.getElementById('barsB');
+  if(!A||!B) return;
+  const N=32, W=260, L=14, R=12, MID=66, span=(W-L-R)/N;
+  // a deliberately spiky vector: a few coordinates hold most of the energy
+  const spiky=[]; let seed=7;
+  const rnd=()=>{seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff;};
+  for(let i=0;i<N;i++){
+    const heavy = (i===5||i===18);
+    spiky.push(heavy ? 1.0 : (rnd()-0.5)*0.02);
+  }
+  // normalise, then apply a real Walsh-Hadamard transform (orthogonal, scaled 1/sqrt(N))
+  const norm=v=>{const n=Math.hypot(...v); return v.map(x=>x/n);};
+  const wht=v=>{const a=v.slice(); for(let len=1;len<N;len<<=1){
+      for(let i=0;i<N;i+=len<<1) for(let j=i;j<i+len;j++){
+        const x=a[j],y=a[j+len]; a[j]=x+y; a[j+len]=x-y; }}
+    return a.map(x=>x/Math.sqrt(N));};
+  const before=norm(spiky), after=wht(before);
+  const draw=(g,vals,cls)=>{
+    g.innerHTML='';
+    const peak=Math.max(...vals.map(Math.abs));
+    vals.forEach((v,i)=>{
+      const h=Math.abs(v)/peak*46, x=L+i*span;
+      const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',x.toFixed(2)); r.setAttribute('width',Math.max(1.5,span-1.6).toFixed(2));
+      r.setAttribute('y',(v>=0?MID-h:MID).toFixed(2)); r.setAttribute('height',Math.max(0.8,h).toFixed(2));
+      r.setAttribute('class','rbar'+cls); g.appendChild(r);
+    });
+  };
+  draw(A,before,''); draw(B,after,' pos');
+}
+
 function renderAll(){
-  fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
+  drawRotation();fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
 }
 function init(){
   fit(); requestAnimationFrame(fit);
