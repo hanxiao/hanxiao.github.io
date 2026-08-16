@@ -155,3 +155,47 @@ From `~/Documents/omni-odi2026/paper/STYLE.md`, the rules that bind slide prose:
 
 Applied to a talk rather than a paper, the operative reading is: state the finding, not the search
 for it; every claim carries its condition; and if a sentence has to be decoded, delete it.
+
+---
+
+## 5. Sweep round two (2026-08-15, after autoresearch was cut)
+
+autoresearch / embedding-ttc / arXiv:2605.11374 is **out of the talk**. The evidence below
+replaces it, and it is stronger for this thesis because every item is a stage someone actually
+ships in a search system.
+
+### Reranking as the canonical test-time spend
+`~/Documents/jina-reranker-v3/README.md`, arXiv:2509.25085. 0.6B, "last but not late" interaction:
+query plus up to 64 documents in one 131K context, causal self-attention across all of them, score
+read from each document's last token. BEIR nDCG@10 **61.94**, against bge-reranker-v2-m3 (same
+0.6B) 56.51 and Qwen3-Reranker-0.6B 56.28. MIRACL 66.83, MKQA 67.84, CoIR 63.28.
+The point for the talk: a bi-encoder scores each document *blind to the others* because its vector
+was computed before the others existed. Reranking is the extra inference that lets candidates be
+compared.
+
+### Deleting the index when the corpus is one page
+`~/Documents/jina-reranker-v3.5-in-page-search/`, model arXiv:2607.18152. The inverse trade, and
+the sharpest slide in the set. An index amortizes over many queries; a single page view never
+amortizes it. So drop the index and spend one listwise pass over the whole document.
+**271 ms** for 104 sentences / 52 chunks / ~3.5K tokens, one request, M3 Ultra via MLX.
+345-sentence page: 1.35 s cold, 1.09 s prefetched, ranking unchanged.
+Assets: `docs/img/ui-top1.png` (used), plus pipeline.png, ui-prefetch.png, ui-wikipedia.png.
+
+### The two-stage funnel in Omni
+`~/Documents/omni-odi2026/paper/main.tex` sec:funnel; `~/Documents/omni-macos/Sources/OmniKit/VectorStore.swift`.
+Scan a 4-bit quantized replica, take top-C, rescore that shortlist exactly in bf16. Final scores
+are exact either way and cost tracks the shortlist, not the corpus. Candidate set is
+`min(4096, max(1024, topK*32))`. Funnel speedup vs exhaustive scan at 500k rows: **1.76×** on
+M3 Pro 14c, 1.73× on M2 10c (`~/Documents/omni-odi2026/data/measurements.md`). Text query p50
+**9.7 ms** on M3 Ultra over a real personal corpus. Figure: `figures/funnel.png` (used).
+
+### Correction to a number already in the deck
+The tagging overhead was written as "~4%". The measurement file
+(`~/Documents/omni-odi2026/data/measurements.md`) records **+1.29 / +1.52 ms per image, about 3%
+of embed cost**, and the ODI paper gives the per-machine range as −5.4% to +2.4% with no machine
+separating it from noise. Use the measurement file, not the older slide.
+
+### Deliberately left out
+Multi-vector late interaction demo (`hanxiao.github.io/topk-jina-v4-multivec`) and the BoF /
+EMNLP tutorial decks: Han judged the first too thin to carry a slide, and the tutorials are
+landscape surveys rather than evidence for this claim.

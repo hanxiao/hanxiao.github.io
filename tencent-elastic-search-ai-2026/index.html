@@ -56,10 +56,11 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden}
 /* ---------- chrome ---------- */
 .chrome{position:absolute;z-index:5;pointer-events:none}
 .c-hdr{left:76px;right:76px;top:26px;display:flex;justify-content:space-between;align-items:center}
-.c-hdr .ttl{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:400;color:var(--ink2);letter-spacing:.01em}
-.c-hdr .ttl .dot{width:15px;height:15px;border-radius:50%;flex:0 0 auto;
-  background:conic-gradient(from 200deg,#3B6FF0,#26C6DA,#27C08A,#F0A030,#DC3CB4,#3B6FF0)}
-.c-hdr .logos img{height:22px;display:block;opacity:.95}
+/* Han's spec is in PPT points on a 960x540pt canvas; this stage is 1280x720px,
+   so 1pt = 1.3333px. Header title 22pt = 29.3px. */
+.c-hdr .ttl{display:flex;align-items:center;gap:12px;font-size:29.3px;font-weight:400;color:var(--ink2);letter-spacing:.01em}
+.c-hdr .ttl .mark{height:36px;width:auto;display:block;flex:0 0 auto}
+.c-hdr .logos img{height:28px;display:block;opacity:.95}
 .c-foot{right:76px;bottom:24px;text-align:right;line-height:1.25}
 .c-foot .en{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;
   background:linear-gradient(90deg,#26C6DA,#DC3CB4);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -73,7 +74,8 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden}
 .kicker{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
   color:var(--cyan);display:flex;align-items:center;gap:11px;margin-bottom:20px}
 .kicker::before{content:"";width:24px;height:2.5px;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:2px}
-h1{font-size:50px;line-height:1.18;font-weight:700;letter-spacing:-.01em;max-width:22ch}
+/* title slide scale set by Han in points: 55 / 32 / 20 */
+h1{font-size:73.3px;line-height:1.18;font-weight:700;letter-spacing:-.015em;max-width:none;white-space:nowrap}
 .h-slide{font-size:31px;line-height:1.26;font-weight:700;letter-spacing:-.005em;max-width:48ch;
   margin-bottom:22px;text-wrap:balance}
 .h-slide.sm{font-size:28px}
@@ -94,24 +96,24 @@ strong,b{font-weight:700;color:#fff}
 /* ---------- title ---------- */
 .title{padding:0;justify-content:center}
 .title .wrap{display:flex;height:100%;align-items:center}
-.title .art{width:42%;position:relative;height:100%;display:flex;align-items:center;justify-content:center}
-.title .art img.cloud{width:280px;filter:drop-shadow(0 0 70px rgba(38,198,218,.35))}
+.title .art{width:32%;position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.title .art img.cloud{width:250px;position:relative;z-index:2;filter:drop-shadow(0 0 70px rgba(38,198,218,.35))}
 .title .art .orb{position:absolute;border-radius:50%}
-.title .art .o1{width:118px;height:118px;left:15%;top:20%;background:radial-gradient(circle at 35% 30%,#16303a,#0a1420);box-shadow:0 0 40px rgba(38,198,218,.20)}
-.title .art .o2{width:84px;height:84px;left:60%;bottom:16%;background:radial-gradient(circle at 35% 30%,#2a1130,#12060f);box-shadow:0 0 42px rgba(220,60,180,.28)}
-.title .art .ring{position:absolute;left:21%;bottom:26%;width:68px;height:68px;border-radius:50%;
+.title .art .o1{width:104px;height:104px;left:8%;top:16%;background:radial-gradient(circle at 35% 30%,#16303a,#0a1420);box-shadow:0 0 40px rgba(38,198,218,.20)}
+.title .art .o2{width:74px;height:74px;left:62%;bottom:13%;background:radial-gradient(circle at 35% 30%,#2a1130,#12060f);box-shadow:0 0 42px rgba(220,60,180,.28)}
+.title .art .ring{position:absolute;left:12%;bottom:22%;width:68px;height:68px;border-radius:50%;
   border:2px solid rgba(240,160,48,.55);border-right-color:transparent;border-bottom-color:transparent;transform:rotate(28deg)}
-.title .art .star{position:absolute;right:15%;top:22%;width:22px;height:22px;
+.title .art .star{position:absolute;right:8%;top:18%;width:22px;height:22px;
   background:conic-gradient(from 0deg,transparent 0 8%,#fff 10%,transparent 12% 38%,#fff 40%,transparent 42% 63%,#fff 65%,transparent 67% 88%,#fff 90%,transparent 92%);
   -webkit-mask:radial-gradient(circle,#000 40%,transparent 72%);mask:radial-gradient(circle,#000 40%,transparent 72%);opacity:.85}
-.title .txt{width:58%;padding:0 76px 0 6px}
+.title .txt{width:68%;padding:0 64px 0 0}
 .title h1{margin:14px 0 0}
-.title .sub{margin-top:18px;font-size:18px}
-.title .auth{margin-top:34px;display:flex;align-items:center;gap:14px}
-.title .auth .bar{width:3px;height:52px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--blue))}
-.title .auth .nm{font-size:21px;font-weight:700}
-.title .auth .rl{font-size:14.5px;font-weight:300;color:var(--mut);margin-top:3px}
-.title .meta{font-family:var(--mono);font-size:13px;margin-top:16px;color:var(--mut);letter-spacing:.03em}
+.title .sub{margin-top:22px;font-size:42.7px;line-height:1.42;font-weight:300;max-width:30ch}
+.title .auth{margin-top:40px;display:flex;align-items:center;gap:15px}
+.title .auth .bar{width:3px;height:58px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--blue))}
+.title .auth .nm{font-size:26.7px;font-weight:700;line-height:1.25}
+.title .auth .rl{font-size:26.7px;font-weight:300;color:var(--mut);margin-top:4px;line-height:1.25}
+.title .meta{font-family:var(--mono);font-size:16px;margin-top:20px;color:var(--mut);letter-spacing:.03em}
 
 /* ---------- big claim slides ---------- */
 .claimslide{background:
@@ -388,7 +390,7 @@ tr.weakrow td{color:var(--mut)}
   font-weight:300;color:var(--ink2)}
 .qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--cyan);font-weight:800}
 .mlabel{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.qr-corner{position:absolute;top:64px;right:76px;display:flex;flex-direction:column;align-items:flex-end;
+.qr-corner{position:absolute;top:96px;right:76px;display:flex;flex-direction:column;align-items:flex-end;
   gap:5px;z-index:6;text-decoration:none}
 .qr-corner .qrtop{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
   text-transform:uppercase;color:var(--mut);line-height:1}
@@ -415,8 +417,8 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="txt">
       <div class="kicker">Test-time compute · 检索 · 冻结模型</div>
-      <h1>搜索，<br>是一种 <span class="cy">test-time compute</span></h1>
-      <div class="sub">与其把模型换大，不如在推理这一刻多算几遍。<br>省下来的钱，能买到相关性，也能买到全新的能力。</div>
+      <h1>搜索，是一种<br><span class="cy">test-time compute</span></h1>
+      <div class="sub">与其把模型换大，不如在推理这一刻多算几遍</div>
       <div class="auth">
         <div class="bar"></div>
         <div><div class="nm">肖涵</div><div class="rl">Elastic 副总裁</div></div>
@@ -594,11 +596,11 @@ tr.weakrow td{color:var(--mut)}
   <h2 class="h-slide sm">四个项目，都是这句话的注脚。</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="cards">
-      <div class="card c-blue"><div class="n">01</div><div class="ttl">Autoresearch</div>
-        <div class="dsc">让 agent 通宵在一个冻结的编码器上搜程序，144 代。<br>它自己把经典 IR 重新发明了一遍。</div>
-        <div class="foot" style="color:var(--blue2)">买到的是 · 相关性</div></div>
-      <div class="card c-green"><div class="n">02</div><div class="ttl">Image tagging</div>
-        <div class="dsc">一个只会做检索的模型，被推理期的算力改造成了开放词表的图像标注器。</div>
+      <div class="card c-blue"><div class="n">01</div><div class="ttl">重排与页内检索</div>
+        <div class="dsc">召回之后再上一个模型，把候选放在一起互相比。极端情况下，索引干脆可以不要。</div>
+        <div class="foot" style="color:var(--blue2)">买到的是 · 精度</div></div>
+      <div class="card c-green"><div class="n">02</div><div class="ttl">图像标注</div>
+        <div class="dsc">一个只会做检索的模型，被推理期的算力改造成了开放词表的标注器。</div>
         <div class="foot" style="color:var(--green)">买到的是 · 新能力</div></div>
       <div class="card c-amber"><div class="n">03</div><div class="ttl">Dataroom</div>
         <div class="dsc">用便宜的本地小模型把开放网络啃成一个带引用的 zip，留着贵的 token 干正事。</div>
@@ -611,269 +613,73 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<!-- ============ 11 SECTION 02 ============ -->
+<!-- ============ SECTION 02 ============ -->
 <section class="slide divider">
-  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>Autoresearch：让 agent 自己去找</h2></div></div>
-  <div class="dsub">冻结一个 239M 的编码器，通宵搜 144 代程序，看看推理期的算力能榨出多少相关性</div>
+  <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>最熟的那笔算力：重排</h2></div></div>
+  <div class="dsub">召回给你一堆候选，重排再花一次钱，把它们放在一起比一遍</div>
 </section>
 
-<!-- ============ 12 LINEAGE ============ -->
+<!-- ============ RERANKER ============ -->
 <section class="slide">
-  <div class="kicker">一个容易被忽略的事实</div>
-  <h2 class="h-slide sm">今天的小向量模型，都是大模型的孩子。</h2>
-  <div class="body" style="gap:16px;justify-content:center">
-    <p class="cap">大家默认 test-time compute 是大模型的专利，小模型没这个命。可你看看今天这些能直接上线的向量模型是从哪来的：</p>
-    <div class="lin">
-      <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">→</div><div class="dst">
-        <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
-      <div class="linrow"><div class="src">Qwen3</div><div class="arr">→</div><div class="dst">
-        <span class="pill">qwen3-embed</span><span class="pill">jina-embeddings-v5</span></div></div>
-      <div class="linrow"><div class="src">Gemma 3</div><div class="arr">→</div><div class="dst">
-        <span class="pill">EmbeddingGemma</span></div></div>
-      <div class="linrow"><div class="src">LLaMA</div><div class="arr">→</div><div class="dst">
-        <span class="pill">RepLLaMA</span><span class="pill">LLM2Vec</span></div></div>
-    </div>
-    <p class="cap">从大语言模型蒸出一个几百 M 的编码器，现在是主流做法，不是个别现象。</p>
-    <p class="takeaway">既然 test-time compute 住在 LLM 的表示空间里，<span class="cy">这些孩子多少该继承一点</span>。那就试试看。</p>
-  </div>
-</section>
-
-<!-- ============ 13 THE RULES ============ -->
-<section class="slide">
-  <div class="kicker">规则先立好</div>
-  <h2 class="h-slide sm">只准动推理，不准动别的。</h2>
+  <div class="kicker">第二段模型</div>
+  <h2 class="h-slide sm">双塔各算各的，重排让候选互相比。</h2>
   <div class="body" style="justify-content:center;gap:22px">
-    <div>
-      <span class="chip no">不重训</span><span class="chip no">不请外援模型</span><span class="chip no">不学任何新参数</span><span class="chip">手上只有一个冻结编码器的 API</span>
-    </div>
-    <p class="cap">规矩定这么死，是因为一松口，结论就没意义了。最近检索圈这些 test-time 方法，<strong>基本上每个都得破一条戒</strong>：</p>
-    <div class="deflist" style="max-width:1000px">
-      <div class="defrow"><div class="tag w">HyDE / Query2Doc</div><div class="dsc">查询路径里请了一个 LLM 来写假文档。</div></div>
-      <div class="defrow"><div class="tag w">GQR</div><div class="dsc">得再养一个检索器在旁边做监督。</div></div>
-      <div class="defrow"><div class="tag w">MetaEmbed</div><div class="dsc">上线的时候还得训一批新参数。</div></div>
-    </div>
-    <p class="takeaway">这三条全禁掉。<span class="cy">剩下的空间里，还能变出什么花样？</span></p>
-  </div>
-</section>
-
-<!-- ============ 14 AUTORESEARCH LOOP ============ -->
-<section class="slide">
-  <div class="kicker">做法</div>
-  <h2 class="h-slide sm">这活我没自己干，我让 agent 通宵去爬这座山。</h2>
-  <div class="body" style="justify-content:center;gap:26px">
-    <p class="cap" style="max-width:82ch;font-size:17px">流程简单到有点土：<strong>改一个文件，跑一次限定预算的短实验，指标涨了就留着，没涨就回滚</strong>，然后一遍一遍来。说白了就是爬山法，只不过负责「变异」的那一步换成了一个 LLM。</p>
-    <div class="flow" style="justify-content:center">
-      <div class="step on">改一个文件</div><div class="ar">→</div>
-      <div class="step on">跑一次短实验</div><div class="ar">→</div>
-      <div class="step on">涨了留，没涨滚</div><div class="ar" style="font-size:19px">↻</div>
-    </div>
-    <p class="cap c">144 代跑下来，那些 Python 程序<strong>没有一行是我写的</strong>。</p>
-    <p class="takeaway">这本身也是一次 test-time compute，只不过算力花在了<span class="cy">「找方法」这一层</span>，而不是「搜文档」那一层。</p>
-  </div>
-</section>
-
-<!-- ============ 15 METHOD 4 PARTS ============ -->
-<section class="slide">
-  <div class="kicker">循环里的四个角色</div>
-  <h2 class="h-slide sm">一个负责出主意，一个负责打分，还有一个负责记账。</h2>
-  <div class="body" style="justify-content:center;gap:24px">
-    <div class="fboxrow">
-      <div class="fbox lit"><div class="fn">Proposer</div><div class="fd">Opus 4.6<br>出主意的那个</div></div>
-      <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Program</div><div class="fd">在冻结编码器上<br>写任意 Python</div></div>
-      <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Evaluator</div><div class="fd">14 个任务<br>统一打 ΔnDCG@10</div></div>
-      <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Memory</div><div class="fd">一行一代<br>成败都记下来</div></div>
-      <div class="farr">→</div>
-      <div class="fbox"><div class="fn">Registry</div><div class="fd">144 个程序<br>一个都不删</div></div>
-    </div>
-    <div class="loopnote">↻ 记忆会回流给出主意的那个：它读得到前面每一代干了什么、为什么没成</div>
-    <div class="kpis">
-      <div class="kpi k-blue"><div class="v">239M</div><div class="lb">发现阶段的编码器 jina-embeddings-v5-nano，小、快，循环才转得动</div></div>
-      <div class="kpi"><div class="v">14</div><div class="lb">MMTEB Tier-1 任务，法律、金融、长文档、通用都有</div></div>
-      <div class="kpi k-green"><div class="v">144</div><div class="lb">程序总数，每一代的成本、父代、教训全部留档</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 16 COST DEFINITION ============ -->
-<section class="slide">
-  <div class="kicker">先说清楚怎么算钱</div>
-  <h2 class="h-slide sm">成本就一个数：比基线多跑了几遍编码器。</h2>
-  <div class="body" style="justify-content:center;gap:24px">
-    <p class="cap c" style="font-size:19px">\[ c \;=\; 1 \,+\, \dfrac{\text{多出来的前向次数}}{\text{基线的前向次数}} \]</p>
+    <p class="cap" style="max-width:82ch;font-size:17px">向量检索里，每篇文档的向量是<strong>在别的文档还不存在的时候</strong>就算好的。可文档相关不相关，本来就是比出来的：三段都提到延迟，哪一段真的回答了问题？重排就是为这件事额外花的一次推理。</p>
     <div class="cards">
-      <div class="card"><div class="ttl cy">c = 1 · 一次都没多跑</div>
-        <div class="dsc">比如 <strong>SoftCentroid</strong>：把已经算出来的 top-k 文档向量求个平均，掺回 query 里再打一次分。<br><br><span class="mono" style="color:var(--ink2)">q′ = q + mean(d_emb[top-k])</span><br><br>全程只是在已有向量上做代数，编码器一次都没再启动。</div></div>
-      <div class="card c-green"><div class="ttl gr">c &gt; 1 · 模型真的又跑了</div>
-        <div class="dsc">把文档切成句子重新编码，把 query 改写后重新编码，多轮反馈再来一遍——<strong>每一次都得让模型真的再算一遍</strong>。<br><br>这轮里最贵的程序 c = 14.7，相当于十五倍的推理开销。</div></div>
+      <div class="card c-mut"><div class="ttl">召回阶段</div>
+        <div class="dsc">每篇文档一个向量，离线算好。<strong>便宜，能扫全库，但每篇都是盲评。</strong></div></div>
+      <div class="card"><div class="ttl cy">重排阶段</div>
+        <div class="dsc">query 和最多 64 篇候选塞进同一个 131K 上下文，跨文档做自注意力，在每篇的最后一个 token 上读出分数。<strong>每篇都是在跟对手比。</strong></div>
+        <div class="foot">jina-reranker-v3，0.6B</div></div>
     </div>
-    <p class="takeaway">这个区分很关键。后面你会看到，<span class="cy">这两类算力买到的东西不一样</span>。</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">61.94</div><div class="lb">BEIR nDCG@10。同样 0.6B 的 bge-reranker-v2-m3 是 56.51，Qwen3-Reranker-0.6B 是 56.28</div></div>
+      <div class="kpi k-blue"><div class="v">0.6B</div><div class="lb">比生成式的 listwise 重排小一个数量级，却拿到更好的 BEIR</div></div>
+      <div class="kpi k-green"><div class="v">64 篇</div><div class="lb">一次调用里同时参与比较的候选数量</div></div>
+    </div>
   </div>
 </section>
 
-<!-- ============ 17 IN-DOMAIN PARETO ============ -->
+<!-- ============ IN-PAGE: DELETE THE INDEX ============ -->
 <section class="slide">
-  <div class="kicker">第一个结果</div>
-  <h2 class="h-slide sm">放开了让它花算力，曲线爬得很漂亮。</h2>
+  <div class="kicker">把这个思路推到头</div>
+  <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="in-page search repo QR"></a>
+  <h2 class="h-slide sm">如果只有一页文档，那就把索引删掉。</h2>
   <div class="body row" style="gap:30px;align-items:center">
-    <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
-    <div style="flex:.85" class="stats">
-      <div class="stat"><div class="v">144</div><div class="l">144 代里搜出来的程序总数</div></div>
-      <div class="stat"><div class="v pk">12</div><div class="l">Pareto 最优的有 12 个，成本从 1.2 倍一直排到 14.7 倍</div></div>
-      <p class="cap">平均 ΔnDCG@10 从 +0.07 一路爬到 +0.24。<strong>这就是一条标准的 test-time compute scaling 曲线</strong>，只不过发生在一个 239M 的冻结小模型上。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 18 PROGRAM GALLERY ============ -->
-<section class="slide">
-  <div class="kicker">它写出来的东西</div>
-  <h2 class="h-slide sm">这十二个程序，没有一个是人设计的。</h2>
-  <div class="body" style="justify-content:center;gap:12px">
-<div class="pgrid">
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#26C6DA"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#26C6DA"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="30"/><line class="vconn" x1="40" y1="60" x2="150" y2="90"/><line class="vwin" x1="40" y1="60" x2="164" y2="60"/><circle class="vd" cx="150" cy="30" r="4"/><circle class="vd" cx="164" cy="60" r="6"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="81" text-anchor="middle">q</text></svg><div class="pname">SentMaxSim <span class="pcost">c=2.2</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="38"/><line class="vwin" x1="40" y1="60" x2="150" y2="84"/><circle class="vd" cx="150" cy="38" r="6"/><circle class="vd" cx="172" cy="30" r="3.5"/><circle class="vd" cx="172" cy="46" r="3.5"/><circle class="vd" cx="150" cy="84" r="6" class="vpulse"/><circle class="vd" cx="172" cy="76" r="3.5"/><circle class="vd" cx="172" cy="92" r="3.5"/><line class="vconn" x1="150" y1="38" x2="172" y2="30"/><line class="vconn" x1="150" y1="38" x2="172" y2="46"/><line class="vconn" x1="150" y1="84" x2="172" y2="76"/><line class="vconn" x1="150" y1="84" x2="172" y2="92"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">AdaptGranularity <span class="pcost">c=2.7</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="24"/><line class="vconn" x1="40" y1="60" x2="156" y2="42"/><line class="vwin" x1="40" y1="60" x2="164" y2="60"/><line class="vconn" x1="40" y1="60" x2="156" y2="80"/><line class="vconn" x1="40" y1="60" x2="150" y2="98"/><circle class="vd" cx="150" cy="24" r="3.5"/><circle class="vd" cx="156" cy="42" r="4.2"/><circle class="vd vpulse" cx="164" cy="60" r="5"/><circle class="vd" cx="156" cy="80" r="5.6"/><circle class="vd" cx="150" cy="98" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">CoverageTriple <span class="pcost">c=3.7</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="108" y2="30"/><line class="vconn" x1="40" y1="60" x2="108" y2="48"/><line class="vconn" x1="40" y1="60" x2="108" y2="72"/><line class="vconn" x1="40" y1="60" x2="108" y2="90"/><line class="vwin" x1="108" y1="30" x2="178" y2="60"/><line class="vwin" x1="108" y1="48" x2="178" y2="60"/><line class="vwin" x1="108" y1="72" x2="178" y2="60"/><line class="vwin" x1="108" y1="90" x2="178" y2="60"/><circle class="vd" cx="108" cy="30" r="4"/><circle class="vd" cx="108" cy="48" r="4"/><circle class="vd" cx="108" cy="72" r="4"/><circle class="vd" cx="108" cy="90" r="4"/><circle class="vd vpulse" cx="178" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="108" y="20" text-anchor="middle">d</text><text class="vlbl" x="108" y="104" text-anchor="middle">l</text></svg><div class="pname">LexicalHybridRRF <span class="pcost">c=3.9</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vsingle" x1="34" y1="60" x2="62" y2="60"/><polygon points="62,60 56,56 56,64" fill="#26C6DA"/><line class="vsingle" x1="74" y1="60" x2="102" y2="60"/><polygon points="102,60 96,56 96,64" fill="#26C6DA"/><line class="vwin" x1="114" y1="60" x2="160" y2="40"/><line class="vwin" x1="114" y1="60" x2="166" y2="60"/><line class="vwin" x1="114" y1="60" x2="160" y2="82"/><circle class="vd" cx="162" cy="40" r="4.5"/><circle class="vd" cx="170" cy="60" r="6" class="vpulse"/><circle class="vd" cx="162" cy="82" r="4.5"/><circle class="vq" cx="34" cy="60" r="6.5"/><circle class="vq" cx="68" cy="60" r="6.5"/><circle class="vq" cx="108" cy="60" r="6.5"/><text class="vlbl" x="34" y="80" text-anchor="middle">q</text><text class="vlbl" x="68" y="80" text-anchor="middle">q1</text><text class="vlbl" x="108" y="80" text-anchor="middle">q2</text></svg><div class="pname">CrossRoundRRF <span class="pcost">c=3.9</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="40"/><line class="vconn" x1="40" y1="60" x2="150" y2="80"/><line class="vwin" x1="40" y1="60" x2="120" y2="52"/><line class="vwin" x1="40" y1="60" x2="186" y2="98"/><circle class="vd" cx="150" cy="40" r="4"/><circle class="vd" cx="150" cy="80" r="4"/><circle class="vd vpulse" cx="120" cy="52" r="6"/><circle class="vd vpulse" cx="186" cy="98" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="120" y="40" text-anchor="middle">+</text><text class="vlbl" x="186" y="84" text-anchor="middle">~</text></svg><div class="pname">DiverseDualCtx <span class="pcost">c=5.6</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="170" y1="28" x2="120" y2="60"/><line class="vconn" x1="180" y1="58" x2="120" y2="60"/><line class="vconn" x1="172" y1="88" x2="120" y2="60"/><circle class="vd" cx="170" cy="28" r="4.5"/><circle class="vd" cx="180" cy="58" r="5"/><circle class="vd" cx="172" cy="88" r="4.5"/><circle class="vd" cx="146" cy="96" r="4.5"/><circle class="vd vpulse" cx="120" cy="60" r="3.5" fill="#26C6DA"/><line class="vwin" x1="113" y1="60" x2="40" y2="60"/><circle class="vq" cx="34" cy="60" r="6.5"/><text class="vlbl" x="34" y="80" text-anchor="middle">q</text><text class="vlbl" x="120" y="44" text-anchor="middle">c</text></svg><div class="pname">ConsensusRocchio <span class="pcost">c=6.4</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="92"/><line class="vwin" x1="40" y1="60" x2="160" y2="32"/><polygon points="186,92 174,86 174,98" fill="#DC3CB4"/><line class="vconn" x1="150" y1="92" x2="176" y2="92"/><circle class="vd vpulse" cx="160" cy="32" r="5.5"/><circle class="vd" cx="150" cy="92" r="4.5" fill="#DC3CB4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text fill="#26C6DA" x="172" y="24">+</text><text fill="#DC3CB4" x="138" y="96">-</text></svg><div class="pname">NegContrastive <span class="pcost">c=7.2</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="34"/><line class="vconn" x1="40" y1="60" x2="150" y2="86"/><line class="vwin" x1="40" y1="60" x2="160" y2="60"/><circle class="vd vpulse" cx="160" cy="60" r="6" fill="#26C6DA"/><polygon points="160,38 156,46 164,46" fill="#26C6DA"/><circle class="vd" cx="150" cy="34" r="4.5"/><polygon points="166,30 162,30 164,26" fill="#8FA0BC"/><circle class="vd" cx="150" cy="86" r="4.5"/><polygon points="162,90 166,90 164,94" fill="#8FA0BC"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">MomentumProg <span class="pcost">c=9.8</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
-    </div>
-    <p class="cap c">每一个都是对同一批冻结向量的免训练重组：切句子、做 z-score、融多路、拉质心、建图。成本从左往右递增。</p>
-  </div>
-</section>
-
-<!-- ============ 19 TRANSFER: THE GOOD PART ============ -->
-<section class="slide">
-  <div class="kicker">更值钱的发现</div>
-  <h2 class="h-slide sm">最便宜的那批，反而能搬到别的模型上去。</h2>
-  <div class="body row" style="gap:30px">
-    <div class="fill" style="flex:1.45">
-      <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--pink)"></span>按域内成绩收录的（成本 1.2× → 14.7×）</div>
-        <div class="it"><span class="sw" style="background:var(--cyan)"></span>要求能迁移才收的</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:13px">
+      <p class="cap">常规做法是把每个 chunk 都embed、存向量、再 ANN 查回来。但<strong>索引是靠很多次查询摊薄成本的，而一页文档只活在这一次浏览里</strong>。为它建索引，比直接跑一遍前向还贵。</p>
+      <p class="cap">所以这里反过来：<strong>把整页塞进一次 listwise 前向</strong>，答案直接以 <span class="mono">&lt;mark&gt;</span> 标回原文，页面自己的 CSS、表格、图都不动。</p>
+      <div class="kpis" style="gap:14px">
+        <div class="kpi"><div class="v">271 ms</div><div class="lb">104 句 / 52 chunk / 约 3.5K token，一次请求，M3 Ultra</div></div>
+        <div class="kpi k-green"><div class="v">0</div><div class="lb">索引、向量库、chunk 数据库，一个都不需要</div></div>
       </div>
-      <div class="chart" id="c-money"></div>
+      <p class="takeaway" style="text-align:left;font-size:16.5px">一百万篇的时候你当然还要第一段召回。<span class="cy">而只有一页的时候，该删掉的恰恰是召回。</span></p>
     </div>
-    <div style="flex:.85;display:flex;flex-direction:column;gap:16px;justify-content:center">
-      <p class="cap">换一套收录标准：只有在验证集上涨、并且<strong>不把任何一个任务拖下水</strong>，才准进门。</p>
-      <p class="cap">搜出来六个程序，成本全在 <strong>c = 1.0 到 1.5</strong> 之间。最好的那个 <span class="mono cy">Transpose-Consensus</span> 胜率 83.3%，<strong>最差的任务是 0.0000</strong>——一个都没弄坏。</p>
-      <p class="takeaway" style="text-align:left;font-size:17px">真正能带走的东西，<span class="cy">往往不贵</span>。</p>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
+      <div class="shot"><img src="img/inpage-ui.png" alt="页内问答，答案在原文里高亮"></div>
+      <div class="shotcap"><strong>提问，答案在原页面里点亮。</strong>问题里没有一个实词出现在它找到的那句话里。</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 20 TRANSFER TABLE ============ -->
+<!-- ============ FUNNEL ============ -->
 <section class="slide">
-  <div class="kicker">六个能带走的程序</div>
-  <h2 class="h-slide sm">便宜、稳、而且换个模型照样管用。</h2>
-  <div class="body" style="justify-content:center;gap:16px">
-    <table id="t-transfer" style="max-width:1090px;margin:0 auto">
-      <thead><tr><th>程序</th><th>c</th><th>中位数</th><th>胜率</th><th>均值</th><th>最差的那个任务</th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <p class="takeaway">这些都是<span class="cy">纯粹的向量代数</span>：不训练、不加参数、不请外援，换个编码器复制粘贴就能用。</p>
-  </div>
-</section>
-
-<!-- ============ 21 PER-MODEL ============ -->
-<section class="slide">
-  <div class="kicker">搬到哪儿去了</div>
-  <h2 class="h-slide sm">最有意思的是，它在没见过的模型上涨得最多。</h2>
+  <div class="kicker">同一笔账，换个花法</div>
+  <h2 class="h-slide sm">先粗扫一遍，再把钱花在最后那几十条上。</h2>
   <div class="body row" style="gap:30px;align-items:center">
-    <div class="fill" style="flex:1.3">
-      <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--cyan)"></span>均值</div>
-        <div class="it"><span class="sw" style="background:var(--green)"></span>中位数</div>
-      </div>
-      <div class="chart" id="c-permodel"></div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
+      <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
+      <div class="shotcap">粗排在 4 bit 的副本上扫全库，精排只在候选集上用 bf16 重算。</div>
     </div>
-    <div style="flex:.9;display:flex;flex-direction:column;gap:16px">
-      <p class="cap">程序是在 <strong>j-v5-nano</strong> 上搜出来的。四个编码器上平均都是正的，<strong>而在 gemma 和 qwen 这两个完全没参与过发现的家族上，涨得最多</strong>。</p>
-      <p class="cap">这说明它抓住的不是某个模型的怪癖，而是<strong>向量空间本身共有的几何结构</strong>。所以才搬得动。</p>
-      <p class="takeaway" style="text-align:left;font-size:17px">换句话说，这批程序对<span class="cy">你手上那个模型</span>大概率也有效。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 22 REDISCOVERY ============ -->
-<section class="slide">
-  <div class="kicker">它到底找到了什么</div>
-  <h2 class="h-slide sm">兜了一圈，它自己把经典 IR 重新发明了一遍。</h2>
-  <div class="body" style="justify-content:center;gap:16px">
-<div class="rgrid">
-      <div class="rcell">
-        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
-          <line class="vconn" x1="36" y1="60" x2="100" y2="36"/><line class="vconn" x1="36" y1="60" x2="100" y2="84"/>
-          <circle class="vd" cx="100" cy="30" r="4"/><circle class="vd" cx="100" cy="46" r="4"/>
-          <circle class="vd" cx="100" cy="74" r="4"/><circle class="vd" cx="100" cy="90" r="4"/>
-          <line class="vwin" x1="112" y1="38" x2="178" y2="60"/><line class="vwin" x1="112" y1="82" x2="178" y2="60"/>
-          <circle class="vd vpulse pos" cx="182" cy="60" r="6.5"/>
-          <circle class="vq" cx="36" cy="60" r="6.5"/>
-          <text class="vlbl" x="36" y="80" text-anchor="middle">q</text>
-          <text class="vlbl" x="92" y="22" text-anchor="middle">A</text><text class="vlbl" x="92" y="106" text-anchor="middle">B</text>
-        </svg>
-        <div class="rtext"><div class="rn">Reciprocal Rank Fusion</div><div class="rk">rediscovered, not seeded</div><div class="rh">fuse two rankings into one consensus</div></div>
-      </div>
-      <div class="rcell">
-        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
-          <circle class="vd pos" cx="150" cy="30" r="5"/><circle class="vd pos" cx="170" cy="26" r="4"/><circle class="vd pos" cx="162" cy="42" r="4"/>
-          <circle class="vd neg" cx="150" cy="92" r="5"/><circle class="vd neg" cx="170" cy="96" r="4"/><circle class="vd neg" cx="162" cy="80" r="4"/>
-          <line class="vsingle" x1="104" y1="92" x2="104" y2="36"/><polygon points="104,28 99,40 109,40" fill="#26C6DA"/>
-          <line class="vwin" x1="124" y1="61" x2="196" y2="61"/>
-          <circle class="vq vpulse" cx="40" cy="60" r="6.5"/>
-          <text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="104" y="108" text-anchor="middle">w</text>
-          <text class="vlbl pos" x="188" y="32" text-anchor="middle">+</text><text class="vlbl neg" x="188" y="104" text-anchor="middle">&minus;</text>
-        </svg>
-        <div class="rtext"><div class="rn">Fisher Linear Discriminant</div><div class="rk">rediscovered, not seeded</div><div class="rh">the axis that best separates relevant from not</div></div>
-      </div>
-      <div class="rcell">
-        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
-          <circle class="vd" cx="158" cy="32" r="4.5"/><circle class="vd" cx="174" cy="48" r="4.5"/><circle class="vd" cx="156" cy="64" r="4.5"/>
-          <line class="vconn" x1="150" y1="48" x2="158" y2="32"/><line class="vconn" x1="150" y1="48" x2="174" y2="48"/><line class="vconn" x1="150" y1="48" x2="156" y2="64"/>
-          <circle class="vd vpulse pos" cx="150" cy="48" r="5.5"/>
-          <line class="vwin" x1="40" y1="74" x2="136" y2="54"/><polygon points="143,52 131,50 134,60" fill="#26C6DA"/>
-          <circle class="vq" cx="40" cy="74" r="6.5"/>
-          <text class="vlbl" x="40" y="94" text-anchor="middle">q</text><text class="vlbl pos" x="150" y="32" text-anchor="middle">c</text>
-        </svg>
-        <div class="rtext"><div class="rn">Rocchio Pseudo-Relevance Feedback</div><div class="rk">operationalized from a seeded idea</div><div class="rh">pull the query toward the relevant centroid</div></div>
-      </div>
-      <div class="rcell">
-        <svg class="rsvg" viewBox="0 0 210 120" aria-hidden="true">
-          <line class="vconn" x1="40" y1="60" x2="146" y2="32"/><line class="vwin" x1="40" y1="60" x2="154" y2="60"/><line class="vconn" x1="40" y1="60" x2="146" y2="88"/>
-          <circle class="vd" cx="146" cy="32" r="4.5"/><circle class="vd vpulse pos" cx="156" cy="60" r="6.5"/><circle class="vd" cx="146" cy="88" r="4.5"/>
-          <line class="vconn" x1="174" y1="26" x2="180" y2="26"/><line class="vconn" x1="180" y1="26" x2="180" y2="94"/><line class="vconn" x1="174" y1="94" x2="180" y2="94"/>
-          <circle class="vq" cx="40" cy="60" r="6.5"/>
-          <text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="192" y="64" text-anchor="middle">d</text><text class="vlbl pos" x="150" y="50" text-anchor="middle">max</text>
-        </svg>
-        <div class="rtext"><div class="rn">Sentence-level MaxSim</div><div class="rk">operationalized from a seeded idea</div><div class="rh">score the best sentence, not the mean</div></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+      <p class="cap">这是 Omni 里的做法：<strong>用一份 4 bit 量化的副本在 GPU 上扫一遍</strong>，取出 top-C，再对这个短名单用 bf16 精确重算一次。</p>
+      <p class="cap">最终分数两条路都是精确的，<strong>而成本只跟短名单的长度成正比，跟库多大没关系</strong>。候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
+      <div class="kpis" style="flex-direction:column;gap:12px">
+        <div class="kpi k-green"><div class="v">1.76×</div><div class="lb">50 万行时相对全量精扫的加速，M3 Pro 14 核</div></div>
+        <div class="kpi"><div class="v">9.7 ms</div><div class="lb">文本查询 p50，M3 Ultra，真实个人文件库</div></div>
       </div>
     </div>
-    <p class="takeaway">这些名字我一个都没告诉它。<span class="cy">它是从几何里自己摸出来的</span>——因为这些结构本来就长在向量空间里。</p>
-  </div>
-</section>
-
-<!-- ============ 23 EXP1 CLOSE ============ -->
-<section class="slide">
-  <div class="kicker">这一段的收获</div>
-  <h2 class="h-slide sm">一个 239M 的冻结模型，靠推理还能再榨出这么多。</h2>
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="nlist" style="max-width:1010px">
-      <div class="nitem"><div class="n">01</div><div class="t">小模型也吃 test-time compute 这一套
-        <span>144 代、12 个 Pareto 最优解，ΔnDCG@10 从 +0.07 爬到 +0.24。这条曲线过去只在大模型身上见过。</span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">最划算的那一档，几乎不花额外算力
-        <span>六个能迁移的程序全在 c = 1.0 到 1.5，纯向量代数，换模型即插即用，在陌生编码器上收益还更大。</span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">而这些方法，是 agent 自己通宵找出来的
-        <span>RRF、Fisher 判别、Rocchio 反馈、句子级 MaxSim——经典 IR 的老朋友，被它在向量空间里重新推了一遍。</span></div></div>
-    </div>
-    <p class="takeaway">这一轮买到的是<span class="bl">相关性</span>。<br>下一个项目我想试试：这笔钱能不能买到<span class="gr">模型压根不会的东西</span>。</p>
   </div>
 </section>
 
@@ -1172,7 +978,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独拷问检索</div>
         <div class="dsc">固定语料，只留一个检索工具。<strong>把链路里那一环的贡献单拎出来看。</strong></div></div>
     </div>
-    <p class="takeaway">跟前面两个项目是同一件事，只是换了一层：<span class="cy">那边组装的是向量代数，这边组装的是工具链</span>。都没有把模型换大。</p>
+    <p class="takeaway">跟前面几个项目是同一件事，只是换了一层：<span class="cy">那边组装的是模型阶段，这边组装的是工具链</span>。都没有把模型换大。</p>
   </div>
 </section>
 
@@ -1198,10 +1004,10 @@ tr.weakrow td{color:var(--mut)}
           <circle class="vq" cx="30" cy="40" r="7"/>
           <text class="vlbl" x="30" y="66" text-anchor="middle">q</text><text class="vlbl" x="118" y="13" text-anchor="middle">d</text>
         </svg>
-        <div class="synh"><span class="tag">A</span>模型内：向量代数</div>
-        <div class="synrow"><b>推理时干的</b>多跑几遍，读得更深</div>
-        <div class="synrow"><b>项目</b>autoresearch · image tagging</div>
-        <div class="synrow"><b>买到的</b>相关性 + 一个全新的能力</div>
+        <div class="synh"><span class="tag">A</span>模型内：多算几遍</div>
+        <div class="synrow"><b>推理时干的</b>加一段模型，或把这次前向读透</div>
+        <div class="synrow"><b>项目</b>重排 · 页内检索 · 两段漏斗 · 图像标注</div>
+        <div class="synrow"><b>买到的</b>精度 + 一个全新的能力</div>
       </div>
       <div class="synp">
         <svg viewBox="0 0 240 80" aria-hidden="true">
@@ -1231,9 +1037,9 @@ tr.weakrow td{color:var(--mut)}
       <div class="nitem"><div class="n">01</div><div class="t">先问：这次多花的算力，带回了什么新东西？
         <span>被池化丢掉的 patch，被缩放丢掉的像素，被单向量抹平的句子结构，被一次 grep 漏掉的那几跳。<strong>能说出带回了什么，这笔钱就花得值。</strong></span></div></div>
       <div class="nitem"><div class="n">02</div><div class="t">再问：最便宜的那一档，是不是已经够了？
-        <span>autoresearch 里最能迁移的程序在 c = 1.0 到 1.5；image tagging 里 A 类一步就吃掉了 +0.371。<strong>先把这次前向读透，往往比再跑十遍划算。</strong></span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">最后问：这条链路，能不能让机器自己去找？
-        <span>144 代程序没有一行是我写的。<strong>方法本身也可以是 test-time compute 的产物。</strong></span></div></div>
+        <span>图像标注里，光是把这次前向读透就吃掉了 +0.371 mAP，之后十五倍的算力只再添 +0.075。<strong>先把手上这次算完的东西读干净，往往比再跑十遍划算。</strong></span></div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">最后问：这笔算力，该花在哪一段？
+        <span>一页文档就别建索引，一百万篇就老实做召回；攒料用便宜的本地 token，判断留给贵的。<strong>同样一笔钱，花错地方就是白花。</strong></span></div></div>
     </div>
     <p class="takeaway">按这三条走，2026 年的搜索<span class="cy">远远没到没事可做的地步</span>。</p>
   </div>
@@ -1244,7 +1050,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="kicker">最后一句</div>
   <div class="body" style="justify-content:center;align-items:center;gap:28px">
     <div class="bigclaim">搜索是一种 <span class="cy">test-time compute</span>。<br>别急着换更大的模型，<br>先在推理时<span class="cy">多搜一点</span>。</div>
-    <p class="takeaway" style="max-width:62ch;font-size:19px">而且这条链路你都不必自己设计——<br>让 agent 通宵替你找，第二天早上来看结果就行。</p>
+    <p class="takeaway" style="max-width:62ch;font-size:19px">这条路我走了几个月，<br>越走越觉得它宽。</p>
   </div>
 </section>
 
@@ -1264,7 +1070,7 @@ tr.weakrow td{color:var(--mut)}
 
 <div id="chrome-src">
   <div class="chrome c-hdr">
-    <div class="ttl"><span class="dot"></span><span>搜索是一种 test-time compute</span></div>
+    <div class="ttl"><img class="mark" src="img/cloud-mark.png" alt=""><span>搜索是一种 test-time compute</span></div>
     <div class="logos"><img src="img/logos.png" alt="腾讯云 × Elastic"></div>
   </div>
   <div class="chrome c-foot">
@@ -1329,107 +1135,15 @@ function mount(id,w,h){const c=document.getElementById(id);if(!c)return null;c.i
 function ylabel(svg,x,ymid,s,fs){const t=txt(x,ymid,s,{fs:fs||12.5,fw:600,anchor:'middle',fill:MUT});
   t.setAttribute('transform',`rotate(-90 ${x} ${ymid})`);svg.appendChild(t);}
 
-/* ===================== EXPERIMENT 1 (window.A) ===================== */
 
-/* 1. in-domain Pareto scatter */
-function drawPareto(){
-  const W=730,H=420,L=72,R=22,T=22,B=58;
-  const svg=mount('c-pareto',W,H);if(!svg)return;
-  const all=A.paretoAll, fr=A.paretoFrontier;
-  const xmin=Math.log10(0.95),xmax=Math.log10(18), ymin=-0.03,ymax=0.27;
-  const X=v=>L+(Math.log10(v)-xmin)/(xmax-xmin)*(W-L-R);
-  const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B);
-  [0,0.1,0.2].forEach(v=>svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1})));
-  svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.5}));
-  svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:H-B,stroke:GRID,'stroke-width':1.5}));
-  [0,0.1,0.2].forEach(v=>svg.appendChild(txt(L-10,Y(v)+5,(v>0?'+':'')+v.toFixed(1),{fs:14,mono:1,anchor:'end',fill:MUT})));
-  [1,2,4,8,16].forEach(v=>{svg.appendChild(el('line',{x1:X(v),y1:H-B,x2:X(v),y2:H-B+6,stroke:GRID,'stroke-width':1.3}));
-    svg.appendChild(txt(X(v),H-B+23,v+'×',{fs:14,mono:1,anchor:'middle',fill:MUT}));});
-  svg.appendChild(txt((L+W-R)/2,H-8,'成本比 c（相对基线的前向次数，对数轴）',{fs:14,fw:600,anchor:'middle',fill:MUT}));
-  ylabel(svg,20,(T+H-B)/2,'域内平均 ΔnDCG@10',14);
-  all.forEach(p=>{const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08&&Math.abs(f[1]-p[1])<0.0006); if(isFr)return;
-    svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:'#6B7A94','stroke-width':1.6}));});
-  let d='';fr.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
-  svg.appendChild(el('path',{d,fill:'none',stroke:PINK,'stroke-width':2.6,'stroke-linejoin':'round'}));
-  fr.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:5.5,fill:PINK,stroke:'#05060C','stroke-width':1.4})));
-  const lx=W-R-196, ly=H-B-56;
-  svg.appendChild(el('line',{x1:lx,y1:ly,x2:lx+22,y2:ly,stroke:PINK,'stroke-width':2.6}));
-  svg.appendChild(el('circle',{cx:lx+11,cy:ly,r:5.5,fill:PINK}));
-  svg.appendChild(txt(lx+30,ly+5,'12 个 Pareto 最优',{fs:13,mono:1,fill:INK}));
-  svg.appendChild(el('circle',{cx:lx+11,cy:ly+22,r:2.6,fill:'none',stroke:'#6B7A94','stroke-width':1.4}));
-  svg.appendChild(txt(lx+30,ly+27,'144 个已搜索',{fs:13,mono:1,fill:MUT}));
-}
 
-/* 2. money chart: held-out median vs cost */
-function drawMoney(){
-  const W=720,H=410,L=100,R=128,T=24,B=58;
-  const svg=mount('c-money',W,H);if(!svg)return;
-  const comp=A.moneyCompute, str=A.moneyStructure;
-  const xmin=Math.log10(0.92),xmax=Math.log10(16.5), ymin=-0.0045,ymax=0.0072;
-  const X=v=>L+(Math.log10(v)-xmin)/(xmax-xmin)*(W-L-R);
-  const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B);
-  svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.7,'stroke-dasharray':'7 5'}));
-  svg.appendChild(txt(W-R+8,Y(0)+5,'基线',{fs:13,mono:1,fill:MUT}));
-  svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:H-B,stroke:GRID,'stroke-width':1.5}));
-  [-0.004,-0.002,0,0.002,0.004,0.006].forEach(v=>
-    svg.appendChild(txt(L-10,Y(v)+5,(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(3),{fs:13,mono:1,anchor:'end',fill:MUT})));
-  [1,2,4,8,14.7].forEach(v=>{svg.appendChild(el('line',{x1:X(v),y1:H-B,x2:X(v),y2:H-B+6,stroke:GRID,'stroke-width':1.3}));
-    svg.appendChild(txt(X(v),H-B+22,(v===14.7?'14.7':v)+'×',{fs:13,mono:1,anchor:'middle',fill:MUT}));});
-  svg.appendChild(txt((L+W-R)/2,H-8,'test-time compute（成本比 c，对数轴）',{fs:14,fw:600,anchor:'middle',fill:MUT}));
-  ylabel(svg,16,(T+H-B)/2,'留出集中位数 ΔnDCG@10',13.5);
-  let d='';comp.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
-  svg.appendChild(el('path',{d,fill:'none',stroke:PINK,'stroke-width':2.6}));
-  comp.forEach(p=>svg.appendChild(el('rect',{x:X(p[0])-4.5,y:Y(p[1])-4.5,width:9,height:9,fill:PINK})));
-  svg.appendChild(txt(X(6),Y(0.0017)+26,'贵的那条线一直很平：从 1.2× 到 14.7×，中位数都在 +0.003 上下',{fs:12,fill:PINK,anchor:'middle',fw:600}));
-  str.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:6.5,fill:CYAN,stroke:'#05060C','stroke-width':1.6})));
-  const best=str[0];
-  svg.appendChild(el('line',{x1:X(best[0])+8,y1:Y(best[1])-8,x2:X(best[0])+46,y2:Y(best[1])-30,stroke:CYAN,'stroke-width':1.2}));
-  svg.appendChild(txt(X(best[0])+50,Y(best[1])-34,'c = 1.0，零额外前向',{fs:13.5,fw:700,fill:CYAN}));
-  svg.appendChild(txt(X(best[0])+50,Y(best[1])-17,'中位数 +0.0051 · 68% 胜率',{fs:12.5,mono:1,fill:INK}));
-}
-
-/* 3. per-model grouped bars */
-function drawPermodel(){
-  const W=720,H=412,L=96,R=24,T=26,B=82;
-  const svg=mount('c-permodel',W,H);if(!svg)return;
-  const d=A.permodel, ymin=-0.001,ymax=0.021;
-  const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B), bw=(W-L-R)/d.length;
-  [0,0.005,0.01,0.015,0.02].forEach(v=>{
-    svg.appendChild(el('line',{x1:L,y1:Y(v),x2:W-R,y2:Y(v),stroke:FAINT,'stroke-width':1}));
-    svg.appendChild(txt(L-10,Y(v)+5,'+'+v.toFixed(3),{fs:13,mono:1,anchor:'end',fill:MUT}));});
-  svg.appendChild(el('line',{x1:L,y1:Y(0),x2:W-R,y2:Y(0),stroke:GRID,'stroke-width':1.7}));
-  svg.appendChild(el('line',{x1:L,y1:T,x2:L,y2:Y(0),stroke:GRID,'stroke-width':1.5}));
-  ylabel(svg,16,(T+Y(0))/2,'留出集 ΔnDCG@10',13.5);
-  d.forEach((m,k)=>{
-    const cx=L+bw*k+bw/2, w=34, mx=cx-w-4, dx=cx+4;
-    svg.appendChild(el('rect',{x:mx,y:Y(m.mean),width:w,height:Y(0)-Y(m.mean),fill:CYAN,rx:2}));
-    svg.appendChild(txt(mx+w/2,Y(m.mean)-8,'+'+m.mean.toFixed(3),{fs:13,mono:1,anchor:'middle',fw:700,fill:CYAN}));
-    if(m.median>0.0005) svg.appendChild(el('rect',{x:dx,y:Y(m.median),width:w,height:Y(0)-Y(m.median),fill:GREEN,rx:2}));
-    else svg.appendChild(el('rect',{x:dx,y:Y(0)-4,width:w,height:4,fill:GREEN}));
-    svg.appendChild(txt(dx+w/2,(m.median>0.0005?Y(m.median):Y(0))-8,'+'+m.median.toFixed(3),{fs:12,mono:1,anchor:'middle',fw:700,fill:GREEN}));
-    svg.appendChild(txt(cx,Y(0)+25,m.model,{fs:13,fw:700,mono:1,anchor:'middle',fill:INK}));
-    if(m.tag)svg.appendChild(txt(cx,Y(0)+43,'('+(m.tag==='discovery'?'发现阶段':m.tag==='unseen'?'未见过':m.tag==='unseen, capped'?'未见过, capped':m.tag)+')',
-      {fs:12,mono:1,anchor:'middle',fw:600,fill:m.tag.indexOf('unseen')===0?PINK:MUT}));
-  });
-}
 
 /* 4. learned head */
 
-/* 5. transfer table */
-function fillTransfer(){
-  const tb=document.querySelector('#t-transfer tbody');if(!tb)return;tb.innerHTML='';
-  const fmt=(v,s=4)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(s);
-  A.transferTable.forEach(r=>{
-    const tr=document.createElement('tr'); if(r[6])tr.className='hero';
-    [r[0],r[1].toFixed(2),fmt(r[2]),(r[3]*100).toFixed(1)+'%',fmt(r[4]),fmt(r[5])].forEach((c,k)=>{
-      const td=document.createElement('td'); td.innerHTML=k?'<span class="num">'+c+'</span>':c; tr.appendChild(td);});
-    tb.appendChild(tr);
-  });
-}
 
 /* 6. cross-model heatmap */
 
-/* ===================== EXPERIMENT 2 (window.B) ===================== */
+/* ===================== image tagging charts (window.B) ===================== */
 
 function fillResults(){
   const tb=document.querySelector('#t-results tbody'); if(!tb)return; tb.innerHTML='';
@@ -1621,7 +1335,6 @@ function drawVocabHist(){
 window.restartVhist=drawVocabHist;
 
 function renderAll(){
-  drawPareto();drawMoney();drawPermodel();fillTransfer();
   fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
 }
 function init(){
