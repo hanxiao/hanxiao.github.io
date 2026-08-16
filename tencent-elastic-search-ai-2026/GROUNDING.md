@@ -369,3 +369,40 @@ program. The headline is the last two columns: the two families that never took 
 have the *highest* share of positive cells. That is the transfer claim, shown per cell.
 
 Colour scale capped at ±0.12 so the per-cell structure is legible; the legend states the cap.
+
+---
+
+## 11. Third reranking example: snippet selection (2026-08-15)
+
+Sources, both read in full:
+- `jina-ai/serp-api` README, section 深度搜索：正文级 snippet（`meta=deep`）. Private repo, fetched
+  with `gh api repos/jina-ai/serp-api/readme`.
+- `jina-ai/MCP` README, section "What is the difference between `search_web` and `search_web_deep`".
+
+**Why it belongs in the reranking section.** `search_web` returns the snippet the engine picked,
+about 20 words, often just the head of the page or a keyword-bearing fragment. `search_web_deep`
+spends more inference: read each page via Reader, split the body into ~100-word passages at
+sentence boundaries, then score **every passage from every page in one listwise
+`jina-reranker-v3.5` call**. Same shape as the other two examples: extra inference at query time
+buys a better answer, and nothing is retrained.
+
+**The two design points worth a slide each, both from serp-api:**
+- *One pooled call, not one per page.* Listwise scores are only comparable inside one context. Per
+  page calls give trustworthy within-page order and near-arbitrary cross-page order: measured on 4
+  real queries, per-page ordering never matched the pooled ordering (0/4), top-1 matched 2/4,
+  Kendall tau 0.00 to 0.33. Pooling also drops the call count from N+1 to 1.
+- *Let both snippet kinds compete.* Body extraction sometimes loses to the engine snippet (grabs a
+  subheading, picks the question instead of the answer on StackOverflow). So each url enters both
+  its body chunks and the raw engine snippet into the same call, highest score wins,
+  `snippet_source` reports which. Same call, so no threshold is needed.
+
+**Numbers used, each with its condition:**
+| number | condition |
+| --- | --- |
+| 143 ms vs 4194 ms (~29x) | median for one call over a 53-chunk page, jina-reranker-v3.5 vs jina-reranker-v2-base-multilingual |
+| 72% | body chunk wins, among the 18 pairs where the two snippets actually differed |
+| 36% | share of chunks discarded on one Chinese Wikipedia page when splitting by fixed sentence count; size-based splitting restores sentence coverage to 100% |
+| 0.471-0.889 vs 0.480-0.742 | body-wins vs body-loses score ranges over 30 real (query, url) pairs, nearly fully overlapping, which is why there is no threshold constant |
+
+Section order is now: 1-bit scan into exact rescoring, then listwise reranking (with in-page
+search as its limit case), then snippet selection.
