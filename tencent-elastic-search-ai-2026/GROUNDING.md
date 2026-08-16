@@ -425,6 +425,35 @@ inside a dashed cyan marching box labelled TEST-TIME COMPUTE, which is the whole
 
 ---
 
+## 11b. A/B/C family naming, fixed deck-wide (2026-08-16)
+
+**The bug Han caught.** Slide 8 defined A = Multi-pass, B = Deeper pass, C = Compose. Slide 24 defined
+A = read deeper, B = new viewpoint, C = act on existing results. A and B were swapped between the two,
+and C meant two different things. Downstream slides (equation legend, ladder caption, levers chart)
+inherited slide 24's meaning, so slide 8 was the odd one out.
+
+**Authoritative source** is the original tagging deck `ttc-embedding-image-tagging-2026/index.html`
+(slide "How test-time scaling works on frozen embedding models"), which the levers/pareto data in
+`data.js` is keyed to via its `fam` field:
+
+| family | name | what enters the computation | colour |
+| --- | --- | --- | --- |
+| A | Deeper pass | reclaimed from inside the pass you already ran | blue (`--blue2`) |
+| B | More passes | newly acquired from the input | green |
+| C | Calibration | nothing new | pink |
+
+Slide 8 was rewritten to match, and the badge colours (`.abc`, `.abc.b`, `.abc.c`) plus the pipeline's
+A box (`.fbox.alit`) now follow the same mapping. "Compose" (agent assembles the chain) is not a
+fourth family; it is the outer layer covered by section 05, and is now a pointer sentence on slide 8.
+
+**Recursion on the tagger pipeline.** The `--ngram` mode from the repo README was missing from the
+pipeline slide: it takes the patch region where a tag fires, and lets the gated vocabulary compete
+*only there*, i.e. the same scoring function called again on a sub-region. Added as a dashed green
+B-family box plus a green marching feedback edge from `top-k 标签` back to the scoring box, labelled
+递归. Source: README section 7 (patch-local n-grams) and the mermaid edge `POST -.->|optional --ngram| ADJ`.
+
+---
+
 ## 12. Tagger pipeline and scoring equation (2026-08-15)
 
 Replaced the hand-written four-step list with the two slides Han pointed at:

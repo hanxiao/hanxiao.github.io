@@ -550,16 +550,20 @@ tr.weakrow td{color:var(--mut)}
 .flow2 .fbox .fn{font-size:15px;font-weight:700;line-height:1.16;color:var(--ink)}
 .flow2 .fbox .fd{font-family:var(--mono);font-size:11.5px;font-weight:500;line-height:1.28;color:var(--mut)}
 .flow2 .fbox.lit{background:rgba(38,198,218,.16);border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan)}
+.flow2 .fbox.alit{background:rgba(94,143,248,.16);border-color:var(--blue2);box-shadow:0 0 0 1px var(--blue2)}
+.flow2 .fbox.alit .fd{color:#C6D6FF}
 .flow2 .fbox.lit .fd{color:#BFEFF6}
 .flow2 .fbox.dark{background:rgba(39,192,138,.14);border-color:var(--green)}
 .flow2 .fbox.dark .fd{color:#9FE6C8}
 .flow2 .fbox.bbox{border-color:var(--green);border-width:1.6px;background:rgba(39,192,138,.10)}
+.flow2 .fbox.rbox{border-color:var(--green);border-width:1.6px;border-style:dashed;background:rgba(39,192,138,.07)}
 .flow2 .farr{color:var(--cyan);font-size:19px;font-weight:800;padding:0 8px;flex:0 0 auto;
   display:flex;align-items:center}
 .abc{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:6px;
-  font-family:var(--mono);font-size:12px;font-weight:800;flex:0 0 auto;color:#05060C;background:var(--cyan);
+  font-family:var(--mono);font-size:12px;font-weight:800;flex:0 0 auto;color:#05060C;background:var(--blue2);
   margin-right:6px;vertical-align:middle}
 .abc.b{background:var(--green)}
+.abc.c{background:var(--pink)}
 .eqwrap{font-size:23px;text-align:center;margin:2px 0 6px;color:var(--ink)}
 .eqlegend{display:flex;gap:26px;justify-content:center;margin-top:12px}
 .eqlegend .it{display:flex;gap:11px;align-items:flex-start;max-width:32ch}
@@ -569,7 +573,10 @@ tr.weakrow td{color:var(--mut)}
 .xconn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .xconn .dline{stroke:var(--cyan);stroke-width:2;fill:none;stroke-dasharray:6 4;animation:march 1s linear infinite}
 .xconn .dhead{stroke:var(--cyan);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-@media print{.xconn .dline{animation:none}}
+.xconn .gline{stroke:var(--green);stroke-width:2;fill:none;stroke-dasharray:6 4;animation:march 1s linear infinite}
+.xconn .ghead{stroke:var(--green);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.xconn .gtxt{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--green)}
+@media print{.xconn .dline,.xconn .gline{animation:none}}
 
 /* ---------- product screenshots ---------- */
 .shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
@@ -693,13 +700,14 @@ tr.weakrow td{color:var(--mut)}
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这就是 test-time compute，只是我们一直管它叫「搭链路」。</p>
     <div class="cards">
-      <div class="card"><div class="n">A</div><div class="ttl">Multi-pass：多跑几遍</div>
-        <div class="dsc">同一个模型，换个角度再编码一次。把文档切成句子分别算，把图片切成局部分别看。<strong>每一遍都会带回上一遍漏掉的东西。</strong></div></div>
-      <div class="card c-green"><div class="n">B</div><div class="ttl">Deeper pass：跑得更深</div>
-        <div class="dsc">同一次前向，不只取最后那个池化向量，把中间的 patch、token 全都读出来用。<strong>算力几乎没多花，信息多拿了一大截。</strong></div></div>
-      <div class="card c-blue"><div class="n">C</div><div class="ttl">Compose：串起来</div>
-        <div class="dsc">让 agent 自己决定先 grep 还是先 embed，要不要重排，要不要再搜一轮。<strong>链路本身成了推理期的产物。</strong></div></div>
+      <div class="card c-blue"><div class="n">A</div><div class="ttl">Deeper pass：把这次前向读透</div>
+        <div class="dsc">同一次前向，不只取最后那个池化向量，把中间的 patch、token 全读出来用。<strong>新信息：从这次前向里抄回来的。</strong></div></div>
+      <div class="card c-green"><div class="n">B</div><div class="ttl">More passes：再跑几遍</div>
+        <div class="dsc">同一个冻结模型，换新的视角再编码一次。把文档切成句子，把图片切成 crop。<strong>新信息：从输入里新拿到的。</strong></div></div>
+      <div class="card c-pink"><div class="n">C</div><div class="ttl">Calibration：只变换已有的向量</div>
+        <div class="dsc">白化、图传播、最优传输、EM——在<strong>同一批数</strong>上做更花哨的数学。免训练文献大部分在这一类。<strong>新信息：没有。</strong></div></div>
     </div>
+    <p class="cap c">三类用的是同一个冻结模型，区别只在<span class="cy">什么东西进了这次计算</span>。外面还有一层：让 agent 自己把这些串成链路（第 05 章）。</p>
   </div>
 </section>
 
@@ -1076,17 +1084,17 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
-      <div class="card"><div class="n">A</div><div class="ttl">同一次前向，读得更深</div>
-        <div class="dsc">别只拿那个池化完的向量，把 <strong>patch 级</strong>的输出全读出来，挨个跟 12.8 万个词打分。<strong>算力几乎没多花。</strong></div>
-        <div class="foot">几乎不额外花钱</div></div>
-      <div class="card c-green"><div class="n">B</div><div class="ttl">换个视角，再跑一遍</div>
+      <div class="card c-blue"><div class="n">A</div><div class="ttl">Deeper pass：同一次前向，读得更深</div>
+        <div class="dsc">别只拿那个池化完的向量，把 <strong>patch 级</strong>的输出全读出来，挨个跟 12.8 万个词打分。</div>
+        <div class="foot" style="color:var(--blue2)">新信息：从这次前向里抄回来</div></div>
+      <div class="card c-green"><div class="n">B</div><div class="ttl">More passes：换个视角，再跑一遍</div>
         <div class="dsc">把图切成若干 crop <strong>重新编码</strong>。小物体在自己那张 crop 里占满画面，不再被整图的池化冲淡。</div>
-        <div class="foot" style="color:var(--green)">算力随视角数线性增长</div></div>
-      <div class="card c-blue"><div class="n">C</div><div class="ttl">在已有结果上再做文章</div>
+        <div class="foot" style="color:var(--green)">新信息：从输入里新拿到</div></div>
+      <div class="card c-pink"><div class="n">C</div><div class="ttl">Calibration：在已有结果上做文章</div>
         <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
-        <div class="foot" style="color:var(--blue2)">算力全花在数学上</div></div>
+        <div class="foot" style="color:var(--pink)">新信息：没有</div></div>
     </div>
-    <p class="takeaway"><span class="cy">A 读得更深</span>换来 +0.371 mAP，<span class="gr">B 看新的像素</span>再换来 +0.075。</p>
+    <p class="takeaway"><span class="bl">A</span> 换来 +0.371 mAP，<span class="gr">B</span> 再换来 +0.075，<span class="pk">C</span> 一样都没换来。</p>
   </div>
 </section>
 
@@ -1096,6 +1104,9 @@ tr.weakrow td{color:var(--mut)}
     <path class="dline" d="M653 331 V 342 H 543 V 372"/><path class="dhead" d="M537 372 L543 380 L549 372"/>
     <path class="dline" d="M878 331 V 342 H 737 V 372"/><path class="dhead" d="M731 372 L737 380 L743 372"/>
     <path class="dline" d="M1103 331 V 342 H 931 V 372"/><path class="dhead" d="M925 372 L931 380 L937 372"/>
+    <path class="gline" d="M422 454 V 443"/><path class="ghead" d="M416 443 L422 435 L428 443"/>
+    <path class="gline" d="M1124 441 V 533 H 544 V 449"/><path class="ghead" d="M538 449 L544 441 L550 449"/>
+    <text class="gtxt" x="834" y="528" text-anchor="middle">递归：标签命中的 patch 区域 → 同一个打分函数再跑一遍</text>
   </svg>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="lane">
@@ -1119,7 +1130,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr">→</div>
         <div class="fbox compact"><div class="fn">P, g</div><div class="fd">patch + 全局</div></div>
         <div class="farr">→</div>
-        <div class="fbox lit compact"><div class="fn"><span class="abc sm">A</span>与 E 打分</div><div class="fd">patch-max 融合全局</div></div>
+        <div class="fbox alit compact"><div class="fn"><span class="abc sm">A</span>与 E 打分</div><div class="fd">patch-max 融合全局</div></div>
         <div class="farr">→</div>
         <div class="fbox compact"><div class="fn">减去 μ</div><div class="fd">去掉基频偏置</div></div>
         <div class="farr">→</div>
@@ -1133,7 +1144,11 @@ tr.weakrow td{color:var(--mut)}
           <div class="fn"><span class="abc sm b">B</span>--hq：14 个 crop → 同一个模型 → 逐标签取 max</div>
           <div class="fd">以权重 1.3 加进总分</div>
         </div>
-        <div class="farr" style="color:var(--green)">↗</div>
+        <div style="flex:0 0 26px"></div>
+        <div class="fbox compact rbox" style="flex:0 0 auto;padding:10px 16px">
+          <div class="fn"><span class="abc sm b">B</span>--ngram：词表在那块区域重跑一遍</div>
+          <div class="fd">grey couch kitty</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1148,8 +1163,8 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="eqlegend">
       <div class="it"><span style="flex:0 0 21px" aria-hidden="true"></span><div class="tx"><strong>全局上下文</strong>：池化向量减掉自己的背景先验。不额外花钱。</div></div>
-      <div class="it"><span class="abc sm">A</span><div class="tx"><strong>patch 证据</strong>：在前向已经产出的那些行上做代数。不额外花钱，+0.371 mAP。</div></div>
-      <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>多 crop</strong>：14 次新的前向，看新的像素。14 倍成本，+0.075 mAP。</div></div>
+      <div class="it"><span class="abc sm">A</span><div class="tx"><strong>patch 证据 · Deeper pass</strong>：在前向已经产出的那些行上做代数。+0.371 mAP。</div></div>
+      <div class="it"><span class="abc sm b">B</span><div class="tx"><strong>多 crop · More passes</strong>：14 次新的前向，看新的像素。+0.075 mAP。</div></div>
     </div>
     <p class="eqpost">然后 \( \ell \in \text{词首过滤后的词表} \rightarrow \text{向量空间 NMS}\,(\tau=0.6) \rightarrow \text{top-}k \)</p>
     <p class="takeaway" style="margin-top:8px">没有分类头，没有 logits，没有学出来的阈值：<span class="cy">三个固定权重、两个背景先验，以及若干次 max</span>。</p>
@@ -1174,7 +1189,7 @@ tr.weakrow td{color:var(--mut)}
         <thead><tr><th>做法</th><th>P@1</th><th>P@3</th><th>R@5</th><th>mAP</th></tr></thead>
         <tbody></tbody>
       </table>
-      <p class="cap">只用池化向量是 <span class="pk">0.264</span>；改读 patch 之后 <span class="cy">0.635</span>；再多切几个 crop 重新编码，<span class="cy">0.710</span>。<br><strong>A 类一步就 +0.371，B 类再补 +0.075。</strong>这中间模型一个权重都没动过。</p>
+      <p class="cap">只用池化向量是 <span class="pk">0.264</span>；改读 patch 之后 <span class="cy">0.635</span>；再多切几个 crop 重新编码，<span class="cy">0.710</span>。<br><strong><span class="bl">A</span> 一步就 +0.371，<span class="gr">B</span> 再补 +0.075。</strong>这中间模型一个权重都没动过。</p>
     </div>
   </div>
 </section>
@@ -1184,7 +1199,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
-    <p class="takeaway" style="font-size:17px">能站住的只有 <span class="gr">B 类</span>。<span class="bl">C 类</span>那些数学假定图和文在两个空间里，可这儿本来就是一个空间。</p>
+    <p class="takeaway" style="font-size:17px">能站住的只有 <span class="gr">B</span>。<span class="pk">C</span> 那些数学假定图和文在两个空间里，可这儿本来就是一个空间。</p>
   </div>
 </section>
 
