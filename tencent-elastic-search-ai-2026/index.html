@@ -177,14 +177,14 @@ strong,b{font-weight:700;color:#fff}
 .msarrow .mstem::after{content:"";position:absolute;right:-1px;top:-6px;border-left:13px solid var(--cyan);
   border-top:7px solid transparent;border-bottom:7px solid transparent}
 .msarrow .msword{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
-.msbuy{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:34px;margin-top:6px}
-.msbuy .bt{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--mut)}
-.msbuy .bi{display:flex;align-items:baseline;gap:10px}
-.msbuy .bi .bn{font-family:var(--mono);font-size:15px;font-weight:800;color:var(--cyan)}
-.msbuy .bi .bn.gr{color:var(--green)}
-.msbuy .bi .bk{font-size:23px;font-weight:700;color:#fff}
-.msbuy .bi .bd{font-size:14.5px;font-weight:300;color:var(--mut)}
+.msbuy{display:flex;flex-direction:row;align-items:stretch;justify-content:center;gap:18px;width:100%}
+.msbuy .bbox{flex:1 1 0;display:flex;flex-direction:row;align-items:center;gap:22px;
+  padding:20px 24px;border:1px solid var(--line);border-radius:var(--r-card);background:rgba(12,16,32,.45)}
+.msbuy .bbox svg{flex:0 0 176px;height:98px}
+.msbuy .bk{font-size:26px;font-weight:700;color:#fff;line-height:1.2}
+.msbuy .bd{font-size:15px;font-weight:300;color:var(--mut);line-height:1.5;margin-top:4px}
+.msbuy .bcoin{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
+.msbuy .bbox.g .bcoin{color:var(--green)}
 
 /* ---------- divider ---------- */
 .divider{justify-content:flex-end;padding-bottom:120px;
@@ -735,9 +735,8 @@ tr.weakrow td{color:var(--mut)}
     <div class="msrow">
       <div class="mspanel old">
         <div class="mslbl">一直以来</div>
-        <div class="msbig">推理时间是<br>模型的一个属性</div>
-        <div class="msdsc">延迟写在 SLA 里：召回几毫秒、精排几十毫秒，超了就不能上线。在这个固定的时间里，又快又准。</div>
-        <div class="msdsc"><strong>时间不参与交易。</strong>想要更准，只能回去换一个更大、或者训得更好的模型。</div>
+        <div class="msbig">推理时间是<br>模型的<span style="white-space:nowrap">一个属性</span></div>
+        <div class="msdsc">延迟写在 SLA 里，超了就上不了线。<strong>它不参与交易</strong>——想更准，只能回去换个更大的模型。</div>
       </div>
       <div class="msarrow">
         <div class="msword">改写成</div>
@@ -745,18 +744,44 @@ tr.weakrow td{color:var(--mut)}
       </div>
       <div class="mspanel now">
         <div class="mslbl">这个 talk 里</div>
-        <div class="msbig">推理时间是<br>一种<span class="cy">可以花的钱</span></div>
-        <div class="msq">模型不换、权重不动，只把时间预算从 10ms 提到 100ms——它能不能做得更好？</div>
-        <div class="msdsc">一旦时间变成可以单拿出来的预算，它就能被定价、被比价、被分配。<strong>接下来整场都在回答一件事：这笔钱买得到什么。</strong></div>
+        <div class="msbig">推理时间是<br>一种<span class="cy">货币</span></div>
+        <div class="msq">模型不换、权重不动，只把预算从 10ms 提到 100ms，它能买到什么？</div>
       </div>
     </div>
     <div class="msbuy">
-      <span class="bt">它买得到</span>
-      <span class="bi"><span class="bn">01</span><span class="bk">相关性</span><span class="bd">同一个任务，做得更准</span></span>
-      <span class="bi"><span class="bn gr">02</span><span class="bk">新能力</span><span class="bd">压根没被训练过的事，它也能干</span></span>
+      <div class="bbox">
+        <svg viewBox="0 0 132 74" aria-hidden="true">
+          <text class="vlbl" x="2" y="12" style="font-size:10px;fill:#9AA3B5">before</text>
+          <rect x="2" y="18" width="38" height="7" rx="3.5" fill="#3A4256"/>
+          <rect x="2" y="30" width="46" height="7" rx="3.5" fill="#3A4256"/>
+          <rect x="2" y="42" width="30" height="7" rx="3.5" fill="#26C6DA"/>
+          <rect x="2" y="54" width="42" height="7" rx="3.5" fill="#3A4256"/>
+          <path d="M60 40 h14" stroke="#26C6DA" stroke-width="1.8"/>
+          <polygon points="78,40 70,36 70,44" fill="#26C6DA"/>
+          <text class="vlbl" x="90" y="12" style="font-size:10px;fill:#26C6DA">after</text>
+          <rect x="90" y="18" width="30" height="7" rx="3.5" fill="#26C6DA"/>
+          <rect x="90" y="30" width="46" height="7" rx="3.5" fill="#3A4256"/>
+          <rect x="90" y="42" width="38" height="7" rx="3.5" fill="#3A4256"/>
+          <rect x="90" y="54" width="42" height="7" rx="3.5" fill="#3A4256"/>
+        </svg>
+        <div><div class="bcoin">买到</div><div class="bk">相关性</div><div class="bd">同一个任务，排得更准</div></div>
+      </div>
+      <div class="bbox g">
+        <svg viewBox="0 0 132 74" aria-hidden="true">
+          <rect x="4" y="22" width="34" height="30" rx="5" fill="none" stroke="#6B7A94" stroke-width="1.6"/>
+          <text x="21" y="41" text-anchor="middle" style="font-size:9px;fill:#9AA3B5;font-family:ui-monospace,monospace">冻结</text>
+          <path d="M44 37 h16" stroke="#27C08A" stroke-width="1.8"/>
+          <polygon points="64,37 56,33 56,41" fill="#27C08A"/>
+          <rect x="70" y="12" width="56" height="14" rx="7" fill="none" stroke="#27C08A" stroke-width="1.4"/>
+          <text x="98" y="22" text-anchor="middle" style="font-size:8.5px;fill:#27C08A;font-family:ui-monospace,monospace">tagging</text>
+          <rect x="70" y="30" width="56" height="14" rx="7" fill="none" stroke="#27C08A" stroke-width="1.4"/>
+          <text x="98" y="40" text-anchor="middle" style="font-size:8.5px;fill:#27C08A;font-family:ui-monospace,monospace">captioning</text>
+          <rect x="70" y="48" width="56" height="14" rx="7" fill="none" stroke="#27C08A" stroke-width="1.4"/>
+          <text x="98" y="58" text-anchor="middle" style="font-size:8.5px;fill:#27C08A;font-family:ui-monospace,monospace">agent 循环</text>
+        </svg>
+        <div><div class="bcoin">买到</div><div class="bk">新能力</div><div class="bd">压根没被训练过的事</div></div>
+      </div>
     </div>
-    <p class="takeaway" style="max-width:70ch;font-size:20px">
-      搜索的上限不取决于模型有多大，<br>而取决于<span class="cy">你愿意为一次查询付出多少推理算力</span>。</p>
   </div>
 </section>
 
@@ -803,7 +828,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="cap c">切句子、z-score 归一、多路融合、质心偏移、构图传播，全部是对同一批冻结向量的重新组合。成本从左往右递增。</p>
+    <p class="cap c">全部是对同一批冻结向量的重新组合，成本从左往右递增。</p>
   </div>
 </section>
 
@@ -822,7 +847,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="row" style="align-items:center;gap:26px;margin-top:2px">
       <div class="hmleg"><span style="color:var(--pink)">−0.12</span><span class="bar"></span><span style="color:var(--green)">+0.16</span></div>
-      <p class="cap" style="flex:1">每行是十二个程序之一，每列是十九个留出任务之一，四个编码器里三个在发现阶段从未出现。<strong>76 个「任务 × 编码器」组合里，有 52 个至少在某个程序下拿到了提升。</strong>更有意思的是右边两块：<span class="gr">gemma-300m 和 qwen3-0.6b 这两个完全没参与过发现的家族，正格比例反而最高，都是 62%</span>。</p>
+      <p class="cap" style="flex:1"><strong>76 个「任务 × 编码器」组合里，52 个拿到提升。</strong>而正格比例最高的是右边两块——<span class="gr">gemma-300m 和 qwen3-0.6b 完全没参与过发现，都是 62%</span>。</p>
     </div>
   </div>
 </section>
@@ -846,7 +871,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
       <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
-      <div class="shotcap">条宽是每行的字节数，条高是行数：副本只有精确向量的十六分之一宽。青色标出一次查询真正读了什么——副本全读，精确向量只读短名单那一段。</div>
+      <div class="shotcap">副本只有精确向量的十六分之一宽；青色是一次查询真正读到的部分。</div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">Omni 里没有 ANN 索引，一次查询要扫全库。建一个图索引，光链接就要每行 256 字节，四百万 chunk 时是 0.95 GB，<strong>接近查询要扫的矩阵的三倍</strong>，而且持续编辑的语料会不断让它失效。</p>
@@ -1134,7 +1159,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr" style="color:var(--green)">↗</div>
       </div>
     </div>
-    <p class="takeaway">每一个方框，不是那个冻结模型，就是普通算术。<span class="cy">A 把同一次前向读得更透</span>，<span class="gr">B 在新的像素上重新编码</span>。</p>
+    <p class="takeaway">每一个方框，不是那个冻结模型，就是普通算术。</p>
   </div>
 </section>
 
@@ -1183,7 +1208,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
-    <p class="takeaway" style="font-size:17px">能站住的是 <span class="gr">B 类</span>：真的去看新的像素。<span class="cy">A 类</span>把这次前向读透。<br>至于 <span class="bl">C 类</span>那些更花哨的数学——它们的前提是图和文在两个空间里，可这儿本来就是一个空间。</p>
+    <p class="takeaway" style="font-size:17px">能站住的只有 <span class="gr">B 类</span>。<span class="bl">C 类</span>那些数学假定图和文在两个空间里，可这儿本来就是一个空间。</p>
   </div>
 </section>
 
@@ -1192,7 +1217,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:14px">
     <div class="chart" id="c-tagpareto" style="max-width:1090px;margin:0 auto"></div>
-    <p class="takeaway">75 毫秒把一次前向读透，1 秒钟看十五个视角。<span class="cy">前沿线上的每一步，都让模型读到了上一步没读到的信息。</span></p>
+    <p class="takeaway">75 毫秒读透一次前向，1 秒看十五个视角。<span class="cy">前沿上的每一步都带回了新信息。</span></p>
   </div>
 </section>
 
@@ -1210,7 +1235,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧后共用同一套 patch 打分逻辑，时间维并入同一次 max。</div></div>
       <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。OCR 无法识别的扫描件，也能用词检索到。</div></div>
     </div>
-    <p class="takeaway">编码器、索引、存储全在那台存着文件的 Mac 上。<span class="gr">从一篇实验记录到一个能用的功能，中间只隔着这 3% 的算力。</span></p>
+    <p class="takeaway">全跑在那台存着文件的 Mac 上。<span class="gr">从实验记录到能用的功能，中间只隔着这 3% 的算力。</span></p>
   </div>
 </section>
 
@@ -1268,7 +1293,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/dr-hero.png" alt="dataroom 任务面板"></div>
-      <div class="shotcap"><strong>任务实时页面：</strong>覆盖度进度、token 消耗、工具调用分布。停止条件是覆盖度达标，而不是预算耗尽。</div>
+      <div class="shotcap">停止条件是覆盖度达标，不是预算耗尽。</div>
     </div>
   </div>
 </section>
@@ -1292,8 +1317,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.02;display:flex;flex-direction:column;gap:10px;align-items:center">
       <img src="img/sb-comic.png" alt="searchbox 示意：一个 zip 递进断网的循环里" style="width:100%;max-width:540px;display:block;border-radius:8px">
-      <div class="shotcap">断网循环，画成漫画就是这样</div>
-    </div>
+          </div>
   </div>
 </section>
 
@@ -1311,7 +1335,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/kg-hero.png" alt="知识图谱界面"></div>
-      <div class="shotcap"><strong>实时图谱：</strong>每条事实一条边，最长路径视图会把多跳问题直接挑出来。</div>
+      <div class="shotcap">每条事实一条边，最长路径就是多跳题。</div>
     </div>
   </div>
 </section>
@@ -1331,7 +1355,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/harness-ui.png" alt="dataroom harness 运行界面"></div>
-      <div class="shotcap"><strong>跑完一轮的样子：</strong>思考流、每一次工具调用及其参数、上下文占用、自动压缩、每段花了多少秒，全部流式开着。</div>
+      <div class="shotcap">思考流、工具调用、上下文占用、每段耗时，全部流式开着。</div>
     </div>
   </div>
 </section>
