@@ -469,7 +469,7 @@ tr.weakrow td{color:var(--mut)}
 
 /* ---------- snippet selection: engine snippet vs pooled listwise ---------- */
 .snipwrap{display:flex;gap:22px;width:100%;align-items:stretch}
-.snipcol{flex:1;border:1px solid var(--line);border-radius:var(--r-card);padding:13px 15px 14px;
+.snipcol{flex:1;border:1px solid var(--line);border-radius:var(--r-card);padding:16px 18px 10px;
   background:rgba(18,23,34,.6);display:flex;flex-direction:column;gap:9px}
 .snipcol.hero{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan);background:rgba(38,198,218,.07)}
 .sniph{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink);display:flex;
@@ -480,6 +480,16 @@ tr.weakrow td{color:var(--mut)}
 .snipsvg{width:100%;height:auto;display:block}
 .snipn{font-size:17.3px;line-height:1.5;font-weight:300;color:var(--mut)}
 .snipn strong{font-weight:500;color:var(--ink2)}
+.sar.flow{stroke-dasharray:5 4;animation:march 1s linear infinite}
+.sar.amb{stroke:var(--amber)}
+.sar.gr{stroke:var(--green)}
+.sfade{animation:sfade 2.6s ease-in-out infinite}
+@keyframes sfade{0%,100%{opacity:.35}50%{opacity:.75}}
+.win.glow{animation:wglow 2.2s ease-in-out infinite}
+@keyframes wglow{0%,100%{filter:none}50%{filter:drop-shadow(0 0 5px rgba(39,192,138,.85))}}
+.ckwin{fill:rgba(39,192,138,.5);stroke:var(--green);stroke-width:1.2;animation:ckwin 2.6s ease-in-out infinite}
+@keyframes ckwin{0%,100%{opacity:.5}45%{opacity:1}}
+@media print{.sar.flow{animation:none}.sfade{animation:none;opacity:.6}.win.glow{animation:none}.ckwin{animation:none;opacity:1}}
 .sq{fill:rgba(38,198,218,.18);stroke:var(--cyan);stroke-width:1.2}
 .sbox{fill:rgba(18,23,34,.95);stroke:#5A6478;stroke-width:1.1}
 .sbox.dim{fill:rgba(90,100,120,.18);stroke:#5A6478;stroke-dasharray:3 2}
@@ -964,62 +974,72 @@ tr.weakrow td{color:var(--mut)}
 
       <div class="snipcol">
         <div class="sniph">search_web<span class="sniptag">引擎自带 snippet</span></div>
-        <svg class="snipsvg" viewBox="0 0 300 96" aria-hidden="true">
-          <rect class="sq" x="10" y="30" width="54" height="26" rx="5"/>
-          <text class="sxt" x="37" y="47" text-anchor="middle">query</text>
-          <path class="sar" d="M66 43 L96 43"/>
-          <rect class="sbox" x="98" y="30" width="70" height="26" rx="5"/>
-          <text class="sxt" x="133" y="47" text-anchor="middle">搜索引擎</text>
-          <path class="sar" d="M170 43 L200 43"/>
-          <rect class="sbox dim" x="202" y="24" width="88" height="16" rx="3"/>
-          <rect class="sbox dim" x="202" y="44" width="88" height="16" rx="3"/>
-          <text class="stiny" x="246" y="36" text-anchor="middle">~20 词片段</text>
-          <text class="stiny" x="246" y="56" text-anchor="middle">~20 词片段</text>
-          <text class="snote" x="150" y="82" text-anchor="middle">页面开头，或者只是命中了关键词</text>
+        <svg class="snipsvg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect class="sq" x="12" y="66" width="58" height="32" rx="6"/>
+          <text class="sxt" x="41" y="86" text-anchor="middle">query</text>
+          <path class="sar flow" d="M72 82 L108 82"/>
+          <rect class="sbox" x="110" y="66" width="76" height="32" rx="6"/>
+          <text class="sxt" x="148" y="86" text-anchor="middle">搜索引擎</text>
+          <path class="sar flow" d="M188 82 L216 60"/>
+          <path class="sar flow" d="M188 82 L216 82"/>
+          <path class="sar flow" d="M188 82 L216 104"/>
+          <g class="sfade">
+            <rect class="sbox dim" x="218" y="50" width="70" height="20" rx="3"/>
+            <rect class="sbox dim" x="218" y="72" width="70" height="20" rx="3"/>
+            <rect class="sbox dim" x="218" y="94" width="70" height="20" rx="3"/>
+            <text class="stiny" x="253" y="63" text-anchor="middle">~20 词片段</text>
+            <text class="stiny" x="253" y="85" text-anchor="middle">~20 词片段</text>
+            <text class="stiny" x="253" y="107" text-anchor="middle">~20 词片段</text>
+          </g>
+          <text class="snote" x="288" y="134" text-anchor="end">页面开头，或只是命中了关键词</text>
+          <path class="sar" d="M253 118 L253 126" style="stroke:var(--pink);stroke-dasharray:2 2"/>
+          <g class="sfade">
+            <rect class="sbox dim" x="218" y="28" width="70" height="20" rx="3"/>
+            <text class="stiny" x="253" y="41" text-anchor="middle">~20 词片段</text>
+          </g>
+          <path class="sar flow" d="M188 82 L216 38"/>
         </svg>
-        <div class="snipn">引擎挑的那一段，通常是<strong>页面开头或含关键词的碎片</strong>，未必回答了问题。</div>
       </div>
 
       <div class="snipcol hero">
         <div class="sniph">search_web_deep<span class="sniptag on">正文级 snippet</span></div>
-        <svg class="snipsvg" viewBox="0 0 300 96" aria-hidden="true">
-          <rect class="sq" x="6" y="30" width="40" height="26" rx="5"/>
-          <text class="sxt" x="26" y="47" text-anchor="middle">query</text>
-          <path class="sar" d="M48 43 L64 43"/>
-          <rect class="sbox" x="66" y="30" width="44" height="26" rx="5"/>
-          <text class="sxt2" x="88" y="47" text-anchor="middle">Reader</text>
-          <path class="sar" d="M112 43 L126 43"/>
+        <svg class="snipsvg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect class="sq" x="4" y="66" width="38" height="32" rx="6"/>
+          <text class="sxt" x="23" y="86" text-anchor="middle">query</text>
+          <path class="sar flow" d="M44 82 L62 82"/>
+          <rect class="sbox" x="64" y="66" width="42" height="32" rx="6"/>
+          <text class="sxt2" x="85" y="86" text-anchor="middle">Reader</text>
+          <path class="sar flow" d="M108 82 L124 82"/>
           <g class="chunks">
-            <rect class="ck" x="128" y="16" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="144" y="16" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="128" y="29" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="144" y="29" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="128" y="42" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="144" y="42" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="128" y="55" width="13" height="9" rx="1.5"/>
-            <rect class="ck" x="144" y="55" width="13" height="9" rx="1.5"/>
-            <rect class="ck serp" x="128" y="68" width="29" height="9" rx="1.5"/>
+            <rect class="ck" x="126" y="28" width="16" height="12" rx="2"/>
+            <rect class="ck" x="145" y="28" width="16" height="12" rx="2"/>
+            <rect class="ck" x="126" y="45" width="16" height="12" rx="2"/>
+            <rect class="ck" x="145" y="45" width="16" height="12" rx="2"/>
+            <rect class="ck" x="126" y="62" width="16" height="12" rx="2"/>
+            <rect class="ck" x="145" y="62" width="16" height="12" rx="2"/>
+            <rect class="ck" x="126" y="79" width="16" height="12" rx="2"/>
+            <rect class="ck" x="145" y="79" width="16" height="12" rx="2"/>
           </g>
-          <text class="stiny" x="142" y="12" text-anchor="middle">所有页面切成 ~100 词的块</text>
-          <text class="stiny serpt" x="142" y="85" text-anchor="middle">引擎 snippet 也作为候选入场</text>
-          <path class="sar" d="M162 43 L178 43"/>
-          <rect class="rerank" x="180" y="18" width="58" height="52" rx="6"/>
-          <text class="sxt2" x="209" y="40" text-anchor="middle">listwise</text>
-          <text class="sxt2" x="209" y="54" text-anchor="middle">一次调用</text>
-          <path class="sar" d="M240 43 L256 43"/>
-          <rect class="win" x="258" y="30" width="36" height="26" rx="5"/>
-          <text class="sxt" x="276" y="47" text-anchor="middle">最佳</text>
+          <rect class="ck serp" x="126" y="98" width="35" height="12" rx="2"/>
+          <text class="stiny" x="143" y="22" text-anchor="middle">所有页面切成 ~100 词的块</text>
+          <text class="stiny serpt" x="143" y="122" text-anchor="middle">引擎 snippet 也作为候选入场</text>
+          <path class="sar flow" d="M164 46 L184 62"/>
+          <path class="sar flow" d="M164 71 L184 76"/>
+          <path class="sar flow" d="M164 88 L184 90"/>
+          <path class="sar flow amb" d="M164 104 L184 104"/>
+          <rect class="rerank" x="186" y="40" width="58" height="84" rx="7"/>
+          <text class="sxt2" x="215" y="52" text-anchor="middle">listwise 一次调用</text>
+          <rect class="ckwin" x="194" y="60" width="42" height="10" rx="2"/>
+          <rect class="ck" x="194" y="74" width="42" height="10" rx="2" style="opacity:.5"/>
+          <rect class="ck serp" x="194" y="88" width="42" height="10" rx="2" style="opacity:.5"/>
+          <rect class="ck" x="194" y="102" width="42" height="10" rx="2" style="opacity:.5"/>
+          <path class="sar flow gr" d="M240 65 L262 78"/>
+          <rect class="win glow" x="264" y="66" width="32" height="32" rx="6"/>
+          <text class="sxt" x="280" y="86" text-anchor="middle">最佳</text>
+          <text class="stiny" x="280" y="110" text-anchor="middle" style="fill:#27C08A">跨页直接比</text>
         </svg>
-        <div class="snipn">读正文、切块，<strong>所有页面的所有块进同一次 listwise 调用</strong>。任何一页的任何一段，都能直接压过另一页的段落。</div>
       </div>
 
-    </div>
-
-    <div class="row" style="gap:20px;align-items:stretch">
-      <div class="card" style="flex:1"><div class="ttl cy">为什么必须放在一次调用里</div>
-        <div class="dsc">listwise 的分数<strong>只在同一个 context 内可比</strong>。每页各调一次，页内名次可信，跨页排序几乎是任意的：4 个真实 query 实测，逐页排序与合并排序<strong>没有一次完全一致</strong>，Kendall tau 只有 0.00 到 0.33。合成一次，调用数还从 N+1 降到 1。</div></div>
-      <div class="card c-green" style="flex:1"><div class="ttl gr">让两种 snippet 同场竞争</div>
-        <div class="dsc">正文抽取有时反而更差——只抓到小标题，或在 StackOverflow 上选中了提问而不是回答。所以每个 url <strong>同时</strong>投入「正文块」和「引擎原始 snippet」两个候选，谁分高用谁。<strong>同一次调用里比，所以不需要阈值</strong>。</div></div>
     </div>
   </div>
 </section>
