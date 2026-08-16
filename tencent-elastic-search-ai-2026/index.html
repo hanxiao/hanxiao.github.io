@@ -25,11 +25,11 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=6") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=6") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=6") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=6") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=6") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=7") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=7") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=7") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=7") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=7") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
@@ -576,7 +576,7 @@ tr.weakrow td{color:var(--mut)}
 <section class="slide claimslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:30px">
     <div class="bigclaim">搜索，本来就是一种<br><span class="cy">test-time compute</span>。</div>
-    <p class="takeaway" style="max-width:60ch">看清这一点，很多原本觉得做到头了的地方，会重新变得有事可做。</p>
+    <p class="takeaway" style="max-width:60ch">这条轴上还有大量空间，而它跟模型规模无关。</p>
   </div>
 </section>
 
@@ -645,8 +645,8 @@ tr.weakrow td{color:var(--mut)}
           <text class="vlbl" x="166" y="86" text-anchor="middle">d</text>
         </svg>
         <div class="vsform">\( \cos(q,\,d) \)</div>
-        <div class="vssub">一篇文档压成一个向量</div>
-        <div class="vstag">起点</div>
+        <div class="vssub">一篇文档压缩成一个向量</div>
+        <div class="vstag">最省算力的做法</div>
       </div>
       <div class="vspanel hero">
         <div class="vshd">句子级 MaxSim</div>
@@ -662,7 +662,7 @@ tr.weakrow td{color:var(--mut)}
         </svg>
         <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
         <div class="vssub">还是那个模型，把文档切成句子各算一遍</div>
-        <div class="vstag">这一步就是 test-time compute</div>
+        <div class="vstag">同一个模型，多算几遍</div>
       </div>
       <div class="vspanel">
         <div class="vshd">ColBERT 多向量</div>
@@ -681,10 +681,10 @@ tr.weakrow td{color:var(--mut)}
         </svg>
         <div class="vsform">\( \sum_i \max_j\ \cos(q_i,\,d_j) \)</div>
         <div class="vssub">每个 query token 对全部 doc token 取 max</div>
-        <div class="vstag">得换一个多向量模型</div>
+        <div class="vstag">需要专门的多向量模型</div>
       </div>
     </div>
-    <p class="takeaway">中间这一列最有意思：<span class="cy">模型一个字节都没改，只是在推理时多算了几遍</span>，就走到了原本得换模型才够得着的位置。</p>
+    <p class="takeaway">中间这一列<span class="cy">没有换模型，只是在推理时多算了几遍</span>，效果却接近右边那种需要专门多向量模型的做法。</p>
   </div>
 </section>
 
@@ -716,7 +716,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="body" style="justify-content:center;gap:22px">
     <div class="cards">
       <div class="card"><div class="n">01</div><div class="ttl">向量模型的 TTC</div>
-        <div class="dsc">编码器冻住不动，只在推理期把同一批向量重新组合。<strong>能走多远，我们让 agent 搜了一遍。</strong></div>
+        <div class="dsc">编码器冻住不动，只在推理期把同一批向量重新组合，<strong>域内 ΔnDCG@10 能爬 0.17</strong>。</div>
         <div class="foot">换到的是 · 相关性</div></div>
       <div class="card c-blue"><div class="n">02</div><div class="ttl">重排模型的 TTC</div>
         <div class="dsc">召回之后再上一段模型，让候选在同一个上下文里互相比。<strong>极端情况下，索引可以整个删掉。</strong></div>
@@ -725,7 +725,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">同样冻结的模型，这次不求它更准，<strong>而是让它做一件训练时根本不存在的任务</strong>。</div>
         <div class="foot" style="color:var(--green)">换到的是 · 新能力</div></div>
       <div class="card c-amber"><div class="n">04</div><div class="ttl">Agentic search 的 TTC</div>
-        <div class="dsc">算力花在 agent 的循环里：自己决定先搜什么、用什么工具、要不要再来一轮。</div>
+        <div class="dsc">算力花在 agent 的循环里，由它自己决定先搜什么、用哪个工具、要不要再来一轮。</div>
         <div class="foot" style="color:var(--amber)">换到的是 · 召回 + 精度</div></div>
     </div>
   </div>
@@ -764,7 +764,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-    <p class="cap c">切句子、做 z-score、融多路、拉质心、建图——全部是对同一批冻结向量的重新组合。成本从左往右递增。</p>
+    <p class="cap c">切句子、z-score 归一、多路融合、质心偏移、构图传播，全部是对同一批冻结向量的重新组合。成本从左往右递增。</p>
   </div>
 </section>
 
@@ -798,9 +798,9 @@ tr.weakrow td{color:var(--mut)}
       <div class="chart" id="c-permodel"></div>
     </div>
     <div style="flex:.95;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">换一套收录标准：只有在验证集上涨、<strong>并且不把任何一个任务拖下水</strong>，才准进门。搜出来六个程序，成本全在 <strong>c = 1.0 到 1.5</strong>。</p>
-      <p class="cap">最好的那个 <span class="mono cy">Transpose-Consensus</span> 胜率 83.3%，<strong>最差的任务是 0.0000</strong>，一个都没弄坏。</p>
-      <p class="cap">程序是在 j-v5-nano 上搜出来的，<strong>而在 gemma 和 qwen 这两个完全没参与过发现的家族上涨得最多</strong>。它抓住的是向量空间共有的几何结构，不是某个模型的怪癖。</p>
+      <p class="cap">换一套收录标准：只有在验证集上涨、<strong>并且不让任何一个任务退步</strong>，才准进门。搜出来六个程序，成本全在 <strong>c = 1.0 到 1.5</strong>。</p>
+      <p class="cap">最好的那个 <span class="mono cy">Transpose-Consensus</span> 胜率 83.3%，<strong>最差的任务是 0.0000</strong>，没有一个任务退步。</p>
+      <p class="cap">程序是在 j-v5-nano 上搜出来的，<strong>而在 gemma 和 qwen 这两个完全没参与过发现的家族上涨得最多</strong>。它依赖的是向量空间共有的几何结构，而不是某个模型的特有性质。</p>
     </div>
   </div>
 </section>
@@ -880,10 +880,12 @@ tr.weakrow td{color:var(--mut)}
           <text class="ctxb" x="150" y="130" text-anchor="middle">跨文档自注意力</text>
           <text class="axr" x="150" y="158" text-anchor="middle">分数读自每篇的最后一个 token</text>
         </svg>
-        <div class="archn">query 和最多 64 篇候选<strong>塞进同一个上下文</strong>，彼此可见。三段都提到延迟时，模型能判断哪一段真的回答了问题。</div>
+        <div class="archn">query 和最多 64 篇候选<strong>放进同一个上下文</strong>，彼此可见。三段都提到延迟时，模型能判断哪一段真的回答了问题。</div>
       </div>
 
     </div>
+    <p class="takeaway">同样 0.6B 参数，jina-reranker-v3 的 BEIR nDCG@10 是 <span class="cy">61.94</span>，
+      而双塔式的 bge-reranker-v2-m3 是 56.51、Qwen3-Reranker-0.6B 是 56.28。<span class="cy">差距来自让候选互相可见，不是来自更大的模型。</span></p>
   </div>
 </section>
 
@@ -899,7 +901,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="kpi"><div class="v">271 ms</div><div class="lb">104 句 / 52 chunk / 约 3.5K token，一次请求，M3 Ultra</div></div>
         <div class="kpi k-green"><div class="v">0</div><div class="lb">索引、向量库、chunk 数据库，一个都不需要</div></div>
       </div>
-      <p class="takeaway" style="text-align:left;font-size:16.5px">一百万篇的时候你当然还要第一段召回。<span class="cy">而只有一页的时候，该删掉的恰恰是召回。</span></p>
+      <p class="takeaway" style="text-align:left;font-size:16.5px">一百万篇文档仍然需要第一段召回。<span class="cy">而只有一页的时候，该删掉的正是召回这一段。</span></p>
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/inpage-ui.png" alt="页内问答，答案在原文里高亮"></div>
@@ -1052,7 +1054,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
         <div class="foot" style="color:var(--blue2)">算力全花在数学上</div></div>
     </div>
-    <p class="takeaway">下面几页逐个看这三种花法各自换回了什么。</p>
+    <p class="takeaway"><span class="cy">A 读得更深</span>换来 +0.371 mAP，<span class="gr">B 看新的像素</span>再换来 +0.075。</p>
   </div>
 </section>
 
@@ -1065,7 +1067,7 @@ tr.weakrow td{color:var(--mut)}
   </svg>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="lane">
-      <div class="lhd">离线，只做一次</div>
+      <div class="lhd">离线，只算一次</div>
       <div class="flow2">
         <div class="fbox compact"><div class="fn">tokenizer 词表</div><div class="fd">128,260 tokens</div></div>
         <div class="farr">→</div>
@@ -1102,7 +1104,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr" style="color:var(--green)">↗</div>
       </div>
     </div>
-    <p class="takeaway">每一个方框，要么是那个冻结模型，要么就是普通算术。<span class="cy">A 把同一次前向读得更透</span>，<span class="gr">B 在新像素上重跑</span>。</p>
+    <p class="takeaway">每一个方框，不是那个冻结模型，就是普通算术。<span class="cy">A 把同一次前向读得更透</span>，<span class="gr">B 在新的像素上重新编码</span>。</p>
   </div>
 </section>
 
@@ -1160,7 +1162,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:14px">
     <div class="chart" id="c-tagpareto" style="max-width:1090px;margin:0 auto"></div>
-    <p class="takeaway">75 毫秒读透一次前向，1 秒钟看十五个视角。<span class="cy">这条前沿线上的每一步，都是往系统里灌进了新东西。</span></p>
+    <p class="takeaway">75 毫秒把一次前向读透，1 秒钟看十五个视角。<span class="cy">前沿线上的每一步，都让模型读到了上一步没读到的信息。</span></p>
   </div>
 </section>
 
@@ -1169,14 +1171,14 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="kpis">
-      <div class="kpi"><div class="v">+1.3 ms</div><div class="lb">每张图打标签的额外耗时，约为编码成本的 3%，搭在原本就要跑的前向上顺手完成</div></div>
+      <div class="kpi"><div class="v">+1.3 ms</div><div class="lb">每张图打标签的额外耗时，约为编码成本的 3%，与原本就要跑的前向共用一次计算</div></div>
       <div class="kpi k-blue"><div class="v">0.847</div><div class="lb">精细模式（5-crop）P@1，Swift/bf16 端口，基线 0.773</div></div>
       <div class="kpi k-green"><div class="v">32 帧</div><div class="lb">视频每 240 秒采样一次，跨空间和时间一起取 max</div></div>
     </div>
     <div class="cards">
-      <div class="card"><div class="ttl">图片</div><div class="dsc">建索引的时候顺手把标签也产出来，不用第二次前向。</div></div>
-      <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧之后共用同一套 patch 打分逻辑，时间维直接并进 max。</div></div>
-      <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。那些 OCR 认不出来的老档案，现在也能用词搜到了。</div></div>
+      <div class="card"><div class="ttl">图片</div><div class="dsc">建索引时一并产出标签，不需要第二次前向。</div></div>
+      <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧后共用同一套 patch 打分逻辑，时间维并入同一次 max。</div></div>
+      <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。OCR 无法识别的扫描件，也能用词检索到。</div></div>
     </div>
     <p class="takeaway">编码器、索引、存储全在那台存着文件的 Mac 上。<span class="gr">从一篇实验记录到一个能用的功能，中间只隔着这 3% 的算力。</span></p>
   </div>
@@ -1213,9 +1215,9 @@ tr.weakrow td{color:var(--mut)}
           <svg class="tloopsvg" viewBox="0 0 200 12" preserveAspectRatio="none"><path class="tlooppath" vector-effect="non-scaling-stroke" d="M 165 1 L 165 8 L 34 8 L 34 2"/><path class="tlooparr" vector-effect="non-scaling-stroke" d="M 31 6 L 34 1 L 37 6"/></svg></div>
         <span class="ta">→</span><span class="tb pill">交付</span>
       </div>
-      <div class="tio2">前半段联网攒料 · 后半段离线干活，<span class="cy">全程不碰网</span></div>
+      <div class="tio2">前半段联网收集材料，后半段离线完成任务，<span class="cy">全程不再联网</span></div>
     </div>
-    <p class="takeaway">调研和干活，该用的 token 不是一种。<span class="am">攒料用便宜的本地小模型，贵的额度留给真正需要它的那一段。</span></p>
+    <p class="takeaway">调研和执行需要的不是同一种 token。<span class="am">收集材料用便宜的本地模型，昂贵的额度留给真正需要判断力的那一段。</span></p>
   </div>
 </section>
 
@@ -1226,7 +1228,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">给它一个题目和一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮地把互联网上跟这个题目相关的内容<strong>下成一个带引用的 zip</strong>。</p>
+      <p class="cap">给它一个题目和一个 token 预算，它<strong>搜、读、写</strong>循环推进，把互联网上跟这个题目相关的内容<strong>下成一个带引用的 zip</strong>。</p>
             <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用自己部署的 Qwen3.6-35B-A3B、Qwen3.8-27B 跑，把昂贵的前沿额度省下来，留给后面真正需要判断力的那一步。</p>
       <div class="flowv">
         <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">下成语料（.zip）</div></div>
@@ -1236,7 +1238,7 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
       <div class="shot"><img src="img/dr-hero.png" alt="dataroom 任务面板"></div>
-      <div class="shotcap"><strong>任务实时页面：</strong>覆盖度进度、token 消耗、工具调用分布。停止条件看的是覆盖够不够，不是钱花完没有。</div>
+      <div class="shotcap"><strong>任务实时页面：</strong>覆盖度进度、token 消耗、工具调用分布。停止条件是覆盖度达标，而不是预算耗尽。</div>
     </div>
   </div>
 </section>
@@ -1248,13 +1250,13 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
-      <p class="cap">丢给它一个 dataroom 的 zip，然后<strong>切断网络</strong>，再问一个问题。自己部署的 Qwen3.6-35B-A3B 在里面跑。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
+      <p class="cap">给它一个 dataroom 的 zip，<strong>切断网络</strong>，再问一个问题。自己部署的 Qwen3.6-35B-A3B 在里面跑。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
       <p class="cap">断网这件事是故意的。<strong>不断网，就分不清它是真的在检索，还是网上碰巧有现成答案。</strong></p>
       <div class="mlabel cy">正在研究的几个问题</div>
       <div class="qlist">
-        <p>它第一个伸手去拿的是哪个工具？</p>
+        <p>它最先调用的是哪个工具？</p>
         <p>是不是 grep 就够了，稠密检索到底在哪些地方才真有用？</p>
-        <p>逼它多花算力，难题上会不会有起色？</p>
+        <p>提高算力预算，难题上的正确率会不会上升？</p>
         <p>它搭出来的链路，下次还能不能复用？</p>
       </div>
     </div>
@@ -1290,10 +1292,10 @@ tr.weakrow td{color:var(--mut)}
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
       <p class="cap">前面三个是完整的链路。想知道<strong>检索这一环到底值多少</strong>，得把它单独拎出来：固定一份 Jina 文档语料（210 篇 md 加结构化 json，切成 7777 个 chunk），外面套一个 agent，然后<strong>只给它一个外部工具</strong>。</p>
-      <p class="cap">其余全是 Pi 自带的 read、grep、bash。这样被测的就只有 <span class="mono">search_corpus</span> 这一件事，<strong>好和坏都只能归给它</strong>。</p>
+      <p class="cap">其余全是 Pi 自带的 read、grep、bash。这样被测的就只有 <span class="mono">search_corpus</span> 这一件事，<strong>结果的好坏只能归因于它</strong>。</p>
       <div class="deflist" style="gap:10px">
         <div class="defrow"><div class="tag">命中不是答案</div><div class="dsc" style="font-size:14.5px">返回 <span class="mono">{score, path, lines, text}</span>，agent 得自己回原文把段落读完、再 grep 一遍看还有哪儿提到。</div></div>
-        <div class="defrow"><div class="tag">没有 sidecar</div><div class="dsc" style="font-size:14.5px">7777×768 的矩阵直接在扩展里算：加载 117ms，单次检索 4.3ms。少一个要启动、要占端口、会挂掉的服务。</div></div>
+        <div class="defrow"><div class="tag">没有 sidecar</div><div class="dsc" style="font-size:14.5px">7777×768 的矩阵直接在扩展里算：加载 117ms，单次检索 4.3ms。少一个需要启动、占用端口、可能失效的服务。</div></div>
         <div class="defrow"><div class="tag">联网是开关</div><div class="dsc" style="font-size:14.5px">默认关。开了才挂上 search_web 和 read_url，于是「翻书」和「上网」可以分开计分。</div></div>
       </div>
     </div>
@@ -1309,12 +1311,12 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
-      <div class="card c-amber"><div class="n">01</div><div class="ttl">dataroom · 拉满召回</div>
+      <div class="card c-amber"><div class="n">01</div><div class="ttl">dataroom · 把召回做满</div>
         <div class="dsc">便宜的本地 token 把互联网下成一个带引用的 zip。<strong>这一步决定了天花板</strong>——材料里没有的东西，后面谁也变不出来。</div></div>
-      <div class="card c-pink"><div class="n">02</div><div class="ttl">searchbox · 拉满精度</div>
-        <div class="dsc">断网，只给本地工具，逼 agent 在推理期自己组装链路。<strong>这一步决定了你能从材料里捞出多少</strong>。</div></div>
-      <div class="card"><div class="n">03</div><div class="ttl">知识图谱 · 说了算的裁判</div>
-        <div class="dsc">从同一份语料长出多跳难题。<strong>有了它，前面两步的每一次改动才有得比。</strong></div></div>
+      <div class="card c-pink"><div class="n">02</div><div class="ttl">searchbox · 把精度做满</div>
+        <div class="dsc">断网，只给本地工具，让 agent 在推理期自己组装链路。<strong>这一步决定了能从材料里取出多少</strong>。</div></div>
+      <div class="card"><div class="n">03</div><div class="ttl">知识图谱 · 评测基准</div>
+        <div class="dsc">从同一份语料生成多跳难题。<strong>前面两步的每一次改动，都靠它来衡量。</strong></div></div>
       <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独衡量检索</div>
         <div class="dsc">固定语料，只留一个检索工具。<strong>把链路里那一环的贡献单拎出来看。</strong></div></div>
     </div>
@@ -1325,7 +1327,7 @@ tr.weakrow td{color:var(--mut)}
 <!-- ============ 40 SECTION 05 ============ -->
 <section class="slide divider" data-title="">
   <div class="drow"><div class="num">06</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>回到那句话</h2></div></div>
-  <div class="dsub">这几个项目跑完，我更相信这个判断了</div>
+  <div class="dsub">四块地方，同一笔账</div>
 </section>
 
 <!-- ============ 41 TWO LEVELS ============ -->
@@ -1373,11 +1375,11 @@ tr.weakrow td{color:var(--mut)}
   <div class="body" style="justify-content:center;gap:22px">
     <div class="nlist" style="max-width:1030px">
       <div class="nitem"><div class="n">01</div><div class="t">这次多花的算力，带回了什么新信息？
-        <span>被池化丢掉的 patch，被缩放丢掉的像素，被单向量抹平的句子结构，被一次 grep 漏掉的那几跳。<strong>能说出带回了什么，这笔钱就花得值。</strong></span></div></div>
+        <span>被池化丢掉的 patch，被缩放丢掉的像素，被单向量抹平的句子结构，被一次 grep 漏掉的那几跳。<strong>说得出带回了什么，这笔算力就花得值。</strong></span></div></div>
       <div class="nitem"><div class="n">02</div><div class="t">最便宜的那一档，是不是已经够了？
-        <span>图像标注里，光是把这次前向读透就吃掉了 +0.371 mAP，之后十五倍的算力只再添 +0.075。<strong>先把手上这次算完的东西读干净，往往比再跑十遍划算。</strong></span></div></div>
+        <span>图像标注里，光是把这次前向读透就吃掉了 +0.371 mAP，之后十五倍的算力只再添 +0.075。<strong>先把这一次前向的输出读完整，通常比再跑十遍更划算。</strong></span></div></div>
       <div class="nitem"><div class="n">03</div><div class="t">这笔算力，该花在链路的哪一段？
-        <span>一页文档不必建索引，一百万篇仍然需要第一段召回；攒料用便宜的本地 token，判断留给昂贵的模型。<strong>同样一笔钱，花错地方就是白花。</strong></span></div></div>
+        <span>一页文档不必建索引，一百万篇仍然需要第一段召回；攒料用便宜的本地 token，判断留给昂贵的模型。<strong>同一笔算力，花在不同环节，回报差很多。</strong></span></div></div>
     </div>
     <p class="takeaway">按这三条走，2026 年的搜索<span class="cy">远远没到没事可做的地步</span>。</p>
   </div>
@@ -1418,7 +1420,7 @@ tr.weakrow td{color:var(--mut)}
 </div>
 
 </div>
-<script src="data.js?v=6"></script>
+<script src="data.js?v=7"></script>
 <script>
 const stage=document.getElementById('stage');
 const slides=[...document.querySelectorAll('.slide')];

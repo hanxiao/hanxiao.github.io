@@ -433,3 +433,30 @@ operations over frozen-model outputs.
 
 Both were restyled for the dark template (the source deck is on a white Elastic palette): boxes
 become dark panels with cyan/green accents, the A and B badges keep their meaning across the deck.
+
+---
+
+## 13. Full STYLE.md pass over all 44 slides (2026-08-15)
+
+Re-read STYLE.md, then audited every line of copy. 40 edits. What was actually wrong:
+
+**Process narrative (§4.1).** "能走多远，我们让 agent 搜了一遍" narrated the exploration instead
+of stating the result; now it gives the number (域内 ΔnDCG@10 爬 0.17). Divider 06 read
+"这几个项目跑完，我更相信这个判断了", a diary line, now "四块地方，同一笔账". Slide 25 ended with
+"下面几页逐个看…", pure navigation, now states the two measured contributions.
+
+**Riddle metaphors (§2.2).** "会重新变得有事可做" → "这条轴上还有大量空间，而它跟模型规模无关".
+"往系统里灌进了新东西" → "让模型读到了上一步没读到的信息". "走到了原本得换模型才够得着的位置" →
+names what it matches. "说了算的裁判" → "评测基准".
+
+**Casual idiom (§2.4).** 拖下水 → 让任务退步; 弄坏 → 退步; 怪癖 → 特有性质; 拉满 → 做满;
+捞出 → 取出; 伸手去拿 → 最先调用; 会挂掉 → 可能失效; 白花 → 回报差很多; 顺手 → 共用一次计算;
+逼 agent → 让 agent; 拍脑袋 → removed; 攒料/干活 → 收集材料/执行.
+
+**Vague or dangling (§2.1, §3).** "起点" → "最省算力的做法"; "得换一个多向量模型" → "需要专门的
+多向量模型"; "停止条件看的是覆盖够不够，不是钱花完没有" → "覆盖度达标，而不是预算耗尽".
+
+**A number that went missing.** Removing the three KPI blocks from the bi-encoder slide (as asked)
+also removed the only hard evidence in the reranking section. BEIR 61.94 vs 56.51 vs 56.28 is now
+one sentence under the diagram, which keeps the page uncluttered and keeps the claim grounded.
+Re-checked every other figure is still present after the edit pass.
