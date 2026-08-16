@@ -1,6 +1,6 @@
 # Qwen3.8-27B Agentic Search Eval on Private Data
 
-Talk deck by Han Xiao (VP of AI, Elastic). 8 slides, ~7 minutes.
+Talk deck by Han Xiao (VP of AI, Elastic). 6 slides, ~5 minutes.
 Self-contained HTML, Elastic brand palette, projector-tuned (high contrast).
 Built in the same style/engine as [`ttc-embedding-image-tagging-2026-slides`](https://github.com/hanxiao/ttc-embedding-image-tagging-2026-slides).
 
@@ -89,6 +89,6 @@ Projector rule: no grey or dim ink anywhere.
 Register: academic throughout, no emojis, no em dashes, no blog-tone headings, no kicker lines,
 one heading convention (a noun phrase naming what the slide contains).
 
-## Slide map (8)
-1 Title · 2 The replacement decision · 3 The two serving backends · 4 dataroom and searchbox ·
-5 The private corpus · 6 Verifier construction · 7 Evaluation design · 8 Close.
+## Slide map (6)
+1 Title · 2 The two serving backends · 3 dataroom and searchbox · 4 The private corpus ·
+5 Verifier construction · 6 Close.

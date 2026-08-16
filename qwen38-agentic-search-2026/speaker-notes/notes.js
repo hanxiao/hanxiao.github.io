@@ -1,7 +1,7 @@
 /* Speaker notes for qwen38-agentic-search-2026. window.NOTES[i] = {n, sec, title, note}
    Teleprompter script. Every line is a COMPLETE, natural sentence you read aloud.
    Annotations:  line break = breathe / pause   *word* = stress it   // = a longer beat
-   No dashes. Keep 1:1 with index.html (8 slides).
+   No dashes. Keep 1:1 with index.html (6 slides).
 
    Every number spoken here is measured: the two serving repository READMEs, the corpus
    manifest at snapshot 2026-08-13, and the audit over the 207-file snapshot. Do not
@@ -18,26 +18,7 @@ over a benchmark built out of my own documents.//
 Everything you will see on the hardware side is measured on one card,
 and the corpus never leaves the premises.`},
 
-  { n:2, sec:55, title:"The replacement decision",
-    note:`Here is where this came from.//
-Qwen three point eight came out *last week*,
-and it has been promoted very hard since.//
-Meanwhile I have a default.
-For agentic search on my own hardware
-I serve Qwen three point six, thirty five B A three B,
-and I have spent *months* tuning how it is served.//
-So the question is narrow, and it is on the slide.
-In agentic search over my own documents,
-how much better is three point eight
-than the model I serve today?//
-This is a replacement decision
-between two backends I have already deployed and measured
-on the same card.//
-A public leaderboard cannot answer it,
-because the documents I search are private,
-so the evaluation has to be built out of them.`},
-
-  { n:3, sec:75, title:"The two serving backends",
+  { n:2, sec:75, title:"The two serving backends",
     note:`These are the two backends.//
 On the left, thirty five B A three B.
 Sparse mixture of experts.
@@ -82,7 +63,7 @@ the left-hand side is genuinely comfortable in a real loop.
 That is the trade:
 four times the throughput, or nearly twice the window.`},
 
-  { n:4, sec:50, title:"dataroom and searchbox",
+  { n:3, sec:50, title:"dataroom and searchbox",
     note:`Two systems do the work here, and both are open.//
 dataroom is the corpus stage.
 A local model runs search, read and write in a loop
@@ -97,7 +78,7 @@ So dataroom builds the private corpus,
 and searchbox is the loop
 the two models are compared inside.`},
 
-  { n:5, sec:50, title:"The private corpus",
+  { n:4, sec:50, title:"The private corpus",
     note:`This is what is in the box.//
 Two hundred and eighteen files,
 snapshot the thirteenth of August.//
@@ -124,7 +105,7 @@ Each released model has both a paper and a release post,
 framed differently.
 That is what makes a multi-hop question possible at all.`},
 
-  { n:6, sec:60, title:"Verifier construction",
+  { n:5, sec:60, title:"Verifier construction",
     note:`Here is how the questions are made.//
 Take the corpus.
 A local model extracts grounded triples into a knowledge graph.
@@ -152,37 +133,7 @@ two hundred and seven files of the same material.
 The two hundred and eighteen file snapshot
 is what the agentic harness indexes today.`},
 
-  { n:7, sec:55, title:"Evaluation design",
-    note:`And this is the experiment.//
-Two rows, two models.
-Three columns, three conditions.//
-Closed-book is the control.
-It removes anything answerable from parametric memory.//
-Single-shot BM25 gives the model top five passages, one shot.//
-Agentic BM25 is the condition under test:
-the model issues its own queries,
-up to four rounds, before it answers.//
-Everything else is held fixed.
-Same corpus, same question set, same retrieval index,
-same grading, same four-round cap.
-The agent runs in the airgapped loop
-with one retrieval tool over the embeddings and the chunks,
-plus stock file access.
-Only the served model changes across rows.//
-Scoring is per turn, not just at the end.
-The answer the model holds at the end of each turn
-is captured and graded by the same local judge.//
-So accuracy is reported twice:
-against turn index, and against
-cumulative fresh-prefill input tokens.
-Turns are what a person reads.
-Fresh-prefill tokens are what the GPU pays.//
-A model with a longer window
-can spend more tokens per turn,
-so those two axes can rank the models differently,
-and both are reported.`},
-
-  { n:8, sec:25, title:"Close",
+  { n:6, sec:25, title:"Close",
     note:`To close.//
 A private corpus, a private verifier,
 and one low-budget GPU
