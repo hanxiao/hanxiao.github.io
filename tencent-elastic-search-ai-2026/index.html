@@ -159,6 +159,33 @@ strong,b{font-weight:700;color:#fff}
 .tgrow .tgt{font-size:36px;font-weight:700;line-height:1.15;color:#fff}
 .tgrow .tgd{grid-column:2;font-size:14.5px;font-weight:300;color:var(--mut);line-height:1.5}
 
+/* ---------- mindset shift (time: constraint -> currency) ---------- */
+.msrow{display:flex;flex-direction:row;align-items:stretch;justify-content:center;gap:0;width:100%}
+.mspanel{flex:1 1 0;padding:26px 28px;border:1px solid var(--line);border-radius:var(--r-card);
+  display:flex;flex-direction:column;gap:12px;background:rgba(12,16,32,.45)}
+.mspanel.old{opacity:.62}
+.mspanel.now{border-color:rgba(38,198,218,.55);background:rgba(38,198,218,.07)}
+.mspanel .mslbl{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut)}
+.mspanel.now .mslbl{color:var(--cyan)}
+.mspanel .msbig{font-size:37px;font-weight:700;line-height:1.14;letter-spacing:-.015em;color:#fff}
+.mspanel .msdsc{font-size:16px;font-weight:300;line-height:1.6;color:var(--ink2)}
+.mspanel .msq{font-size:17px;font-weight:500;line-height:1.55;color:#fff}
+.msarrow{flex:0 0 132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.msarrow .mstem{width:78%;height:2px;position:relative;
+  background:linear-gradient(90deg,rgba(38,198,218,.15),var(--cyan))}
+.msarrow .mstem::after{content:"";position:absolute;right:-1px;top:-6px;border-left:13px solid var(--cyan);
+  border-top:7px solid transparent;border-bottom:7px solid transparent}
+.msarrow .msword{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
+.msbuy{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:34px;margin-top:6px}
+.msbuy .bt{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut)}
+.msbuy .bi{display:flex;align-items:baseline;gap:10px}
+.msbuy .bi .bn{font-family:var(--mono);font-size:15px;font-weight:800;color:var(--cyan)}
+.msbuy .bi .bn.gr{color:var(--green)}
+.msbuy .bi .bk{font-size:23px;font-weight:700;color:#fff}
+.msbuy .bi .bd{font-size:14.5px;font-weight:300;color:var(--mut)}
+
 /* ---------- divider ---------- */
 .divider{justify-content:flex-end;padding-bottom:120px;
   background:
@@ -703,24 +730,32 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 9 THE MONEY SLIDE ============ -->
-<section class="slide tradeslide" data-title="">
-  <div class="body" style="justify-content:center;align-items:center;gap:0">
-    <div class="tradeline">
-      <div class="tspend">
-        <div class="tlbl">你花出去的</div>
-        <div class="tbig">推理时间</div>
-        <div class="tsub">multi-pass · deeper pass · 更长的 agent 循环</div>
+<section class="slide tradeslide" data-title="推理时间，从约束变成货币">
+  <div class="body" style="justify-content:center;align-items:center;gap:30px">
+    <div class="msrow">
+      <div class="mspanel old">
+        <div class="mslbl">一直以来</div>
+        <div class="msbig">推理时间是<br>模型的一个属性</div>
+        <div class="msdsc">延迟写在 SLA 里：召回几毫秒、精排几十毫秒，超了就不能上线。在这个固定的时间里，又快又准。</div>
+        <div class="msdsc"><strong>时间不参与交易。</strong>想要更准，只能回去换一个更大、或者训得更好的模型。</div>
       </div>
-      <div class="tarrow">
-        <div class="tastem"></div>
-        <div class="taword">买</div>
+      <div class="msarrow">
+        <div class="msword">改写成</div>
+        <div class="mstem"></div>
       </div>
-      <div class="tget">
-        <div class="tgrow"><span class="tgn">01</span><span class="tgt">相关性</span><span class="tgd">同一个任务，做得更准</span></div>
-        <div class="tgrow"><span class="tgn gr">02</span><span class="tgt">新能力</span><span class="tgd">模型压根没被训练过的事，它也能干</span></div>
+      <div class="mspanel now">
+        <div class="mslbl">这个 talk 里</div>
+        <div class="msbig">推理时间是<br>一种<span class="cy">可以花的钱</span></div>
+        <div class="msq">模型不换、权重不动，只把时间预算从 10ms 提到 100ms——它能不能做得更好？</div>
+        <div class="msdsc">一旦时间变成可以单拿出来的预算，它就能被定价、被比价、被分配。<strong>接下来整场都在回答一件事：这笔钱买得到什么。</strong></div>
       </div>
     </div>
-    <p class="takeaway" style="margin-top:44px;max-width:70ch;font-size:20px">
+    <div class="msbuy">
+      <span class="bt">它买得到</span>
+      <span class="bi"><span class="bn">01</span><span class="bk">相关性</span><span class="bd">同一个任务，做得更准</span></span>
+      <span class="bi"><span class="bn gr">02</span><span class="bk">新能力</span><span class="bd">压根没被训练过的事，它也能干</span></span>
+    </div>
+    <p class="takeaway" style="max-width:70ch;font-size:20px">
       搜索的上限不取决于模型有多大，<br>而取决于<span class="cy">你愿意为一次查询付出多少推理算力</span>。</p>
   </div>
 </section>
