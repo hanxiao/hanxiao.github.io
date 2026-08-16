@@ -271,3 +271,18 @@ its text line box and the whole header rode up ~3px. Fixed by pinning the header
 42px height and line-height. Re-measured: the cloud sits at y=22 on all 35 chromed pages, and a
 pixel diff of the cloud region and the logo region between a titled slide and a divider is now
 under the antialiasing floor (max 27 and 5 grey levels, zero pixels past threshold).
+
+### The figure image was stale too
+`figures/funnel.png` on disk was built 2026-08-04 and still rendered "4-bit replica" with
+`d/2 bytes each`. `figures/funnel.tex` was updated 2026-08-12 to "1-bit replica" and `d/8`.
+The deck had been shipping the old raster. Rebuilt from the current `.tex`:
+
+```
+cd /tmp && mkdir fnl && cd fnl
+cat > f5.tex   # article class, paperwidth=20cm paperheight=8cm, tikz + arrows.meta,
+               # \input the repo's figures/funnel.tex
+/Library/TeX/texbin/pdflatex -interaction=nonstopmode f5.tex
+pdftoppm -png -r 400 f5.pdf k     # then autocrop to the ink bbox with Pillow
+```
+Note: `standalone` document class fails on this machine (its preview hook errors), so the wrapper
+uses `article` with a fixed small paper size and the raster is cropped to the ink bounding box.
