@@ -607,12 +607,18 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 5 NOAM BROWN ============ -->
 <section class="slide">
-  <div class="body" style="justify-content:center;gap:34px">
-    <blockquote class="pull" style="max-width:64ch;font-size:23px">
-      让机器人在一手扑克上多想 <strong>20 秒</strong>，effect 相当于把模型放大 <strong>10 万倍</strong>、再多训 10 万倍的时间。
-      <cite>Noam Brown，OpenAI，2024</cite>
-    </blockquote>
-    <p class="takeaway" style="max-width:66ch">20 秒，换 10 万倍。<br>这个兑换比例一旦成立，问题就从「模型够不够大」，变成了<span class="cy">「你舍不舍得在推理时多花这一点」</span>。</p>
+  <div class="body row" style="flex-direction:row;justify-content:center;align-items:center;gap:34px">
+    <div style="flex:1;display:flex;flex-direction:column;gap:24px">
+      <blockquote class="pull" style="font-size:22px">
+        让机器人在一手扑克上多想 <strong>20 秒</strong>，effect 相当于把模型放大 <strong>10 万倍</strong>、再多训 10 万倍的时间。
+        <cite>Noam Brown，OpenAI，2024</cite>
+      </blockquote>
+      <p class="takeaway" style="text-align:left">20 秒，换 10 万倍。<br>这个兑换比例一旦成立，问题就从「模型够不够大」，变成了<span class="cy">「你舍不舍得在推理时多花这一点」</span>。</p>
+    </div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:12px">
+      <div class="shot" style="background:#fff"><img src="img/secbench-multiagent.jpg" alt="SEC-Bench Pro：1 / 4 / 16 个 agent 的分数对延迟与成本曲线"></div>
+      <p class="cap">两年后的同一条曲线，OpenAI 在 SEC-Bench Pro 上把它重画了一遍：<strong>模型不变，只把 agent 从 1 个加到 16 个</strong>，分数随延迟和成本单调往上爬。</p>
+    </div>
   </div>
 </section>
 
@@ -1398,7 +1404,7 @@ tr.weakrow td{color:var(--mut)}
 
 <div id="chrome-src">
   <div class="chrome c-hdr">
-    <div class="ttl"><img class="mark" src="img/cloud-mark.png" alt=""><span>搜索是一种 test-time compute</span></div>
+    <div class="ttl"><img class="mark" src="img/cloud-mark.png" alt=""><span>搜索，即 test-time compute</span></div>
     <div class="logos"><img src="img/logos.png" alt="腾讯云 × Elastic"></div>
   </div>
   <div class="chrome c-foot">
