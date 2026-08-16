@@ -199,3 +199,36 @@ separating it from noise. Use the measurement file, not the older slide.
 Multi-vector late interaction demo (`hanxiao.github.io/topk-jina-v4-multivec`) and the BoF /
 EMNLP tutorial decks: Han judged the first too thin to carry a slide, and the tutorials are
 landscape surveys rather than evidence for this claim.
+
+---
+
+## 6. Per-slide fact check (2026-08-15, third pass)
+
+Every claim on every slide re-verified against a source, local or online. Result of that pass:
+
+**Verified against source, unchanged**
+- Noam Brown, 20 s of poker thinking ≈ 100,000× model scale and 100,000× training. Confirmed
+  online across TED AI Conference coverage and Reuters, 2024.
+- jina-reranker-v3: BEIR 61.94, bge-reranker-v2-m3 56.51, Qwen3-Reranker-0.6B 56.28, 64 documents
+  in a 131K context. `~/Documents/jina-reranker-v3/README.md`, arXiv:2509.25085.
+- In-page search: 104 sentences / 52 chunks / ~3.5K tokens / 271 ms on M3 Ultra; 345-sentence page
+  1.35 s cold vs 1.09 s prefetched. `~/Documents/jina-reranker-v3.5-in-page-search/README.md`,
+  model arXiv:2607.18152 (title and BEIR 63.20 confirmed online).
+- Funnel: 1.76× at 500k rows on M3 Pro 14c, text query p50 9.7 ms on M3 Ultra.
+  `~/Documents/omni-odi2026/data/measurements.md` lines 262 / 311.
+- Image tagging ladder 0.264 → 0.635 → 0.710, latency 75 ms / 1016 ms, Omni HQ P@1 0.847 vs 0.773.
+  `data.js`, matching the source repo's eval output.
+- Vocabulary 128,260 tokens gated to 25,465 words. Source repo README pipeline diagram.
+- Searchbox tool list (grep, embed, rerank, similarity, cluster, select_diverse) and the airgap
+  rationale. `dataroom/repos/searchbox/README.md`.
+- Harness: 210 md documents, 7777 chunks, one external tool, 117 ms load / 4.3 ms per search.
+  `dataroom/repos/jina-dataroom-harness/README.md`.
+
+**Corrected in this pass**
+- The closing slide still cited **arXiv:2605.11374**. That is the autoresearch paper, which was
+  cut from the talk; no remaining slide draws on it. Replaced with hanxiao.io.
+- "Qwen 27B、35B-A3B" was loose. The deployment serves `Qwen3.6-35B-A3B-Q4KXL-MTP` (default) and
+  `Qwen3.8-27B-UD-Q4KXL-MTP`; the slide now names them properly.
+- Searchbox did not say which model runs inside the box. It is the same self-hosted
+  Qwen3.6-35B-A3B; now stated.
+- The closing QR row was missing in-page search even though it has its own slide. Added.

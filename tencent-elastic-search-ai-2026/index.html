@@ -346,9 +346,9 @@ tr.weakrow td{color:var(--mut)}
 .closing img.cloud{width:140px;filter:drop-shadow(0 0 60px rgba(38,198,218,.35))}
 .closing h2{font-size:44px;font-weight:700;letter-spacing:.06em;margin-top:18px}
 .closing .sub{margin:14px auto 0;text-align:center}
-.qrrow{display:flex;gap:30px;margin-top:30px;justify-content:center}
+.qrrow{display:flex;gap:26px;margin-top:28px;justify-content:center}
 .qrc{display:flex;flex-direction:column;align-items:center;gap:8px}
-.qrc img{width:88px;height:88px;display:block;background:#fff;padding:5px;border-radius:7px}
+.qrc img{width:82px;height:82px;display:block;background:#fff;padding:5px;border-radius:7px}
 .qrc .qrtop{font-family:var(--mono);font-size:10.5px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase}
 
 /* ---------- trend rows (2025 vs 2026 loops) ---------- */
@@ -450,7 +450,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 3 THE CLAIM ============ -->
-<section class="slide claimslide">
+<section class="slide claimslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:30px">
     <div class="bigclaim">搜索，本来就是一种<br><span class="cy">test-time compute</span>。</div>
     <p class="takeaway" style="max-width:60ch">看清这一点，很多原本觉得做到头了的地方，会重新变得有事可做。</p>
@@ -464,11 +464,11 @@ tr.weakrow td{color:var(--mut)}
     <p class="cap" style="max-width:80ch;font-size:17px">一句话：<strong>不去训一个更大的模型，而是让手上这个模型，在回答每个问题时多干一点活。</strong>训练阶段的钱已经花完了，这笔新的开销花在推理这一刻。</p>
     <div class="cards">
       <div class="card"><div class="ttl">Best-of-N</div>
-        <div class="dsc">一口气采样很多个答案，挑最好的那个交出去。</div></div>
+        <div class="dsc">采样多个候选答案，选出其中最好的一个。</div></div>
       <div class="card"><div class="ttl">Self-consistency</div>
-        <div class="dsc">让它把思路想好几遍，哪个答案出现得最多就用哪个。</div></div>
+        <div class="dsc">让模型把推理过程走多遍，取出现次数最多的答案。</div></div>
       <div class="card"><div class="ttl">Verifier search</div>
-        <div class="dsc">拿一个判分器在候选里搜，愿意多花算力，成绩就往上走。</div></div>
+        <div class="dsc">用一个判分器在候选里搜索，投入的算力越多，结果越好。</div></div>
     </div>
     <p class="takeaway">模型没变，权重一个没动。变的只是<span class="cy">你愿意为这一次回答，多花多少算力</span>。</p>
   </div>
@@ -495,7 +495,7 @@ tr.weakrow td{color:var(--mut)}
 <section class="slide" data-title="每一条检索链路都在推理时多算几遍">
   
   <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这不就是 test-time compute 吗，只是我们一直管它叫「搭链路」。</p>
+    <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这就是 test-time compute，只是我们一直管它叫「搭链路」。</p>
     <div class="cards">
       <div class="card"><div class="n">A</div><div class="ttl">Multi-pass：多跑几遍</div>
         <div class="dsc">同一个模型，换个角度再编码一次。把文档切成句子分别算，把图片切成局部分别看。<strong>每一遍都会带回上一遍漏掉的东西。</strong></div></div>
@@ -566,7 +566,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 9 THE MONEY SLIDE ============ -->
-<section class="slide tradeslide">
+<section class="slide tradeslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:0">
     <div class="tradeline">
       <div class="tspend">
@@ -584,7 +584,7 @@ tr.weakrow td{color:var(--mut)}
       </div>
     </div>
     <p class="takeaway" style="margin-top:44px;max-width:70ch;font-size:20px">
-      搜索的天花板，从来不在模型有多大。<br>在于<span class="cy">你舍得为一次查询，花掉多少推理算力</span>。</p>
+      搜索的上限不取决于模型有多大，<br>而取决于<span class="cy">你愿意为一次查询付出多少推理算力</span>。</p>
   </div>
 </section>
 
@@ -643,7 +643,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
-      <p class="cap">常规做法是把每个 chunk 都embed、存向量、再 ANN 查回来。但<strong>索引是靠很多次查询摊薄成本的，而一页文档只活在这一次浏览里</strong>。为它建索引，比直接跑一遍前向还贵。</p>
+      <p class="cap">常规做法是把每个 chunk 都 embed、存向量、再用 ANN 查回来。但<strong>索引是靠很多次查询摊薄成本的，而一页文档只活在这一次浏览里</strong>。为它建索引，比直接跑一遍前向还贵。</p>
       <p class="cap">所以这里反过来：<strong>把整页塞进一次 listwise 前向</strong>，答案直接以 <span class="mono">&lt;mark&gt;</span> 标回原文，页面自己的 CSS、表格、图都不动。</p>
       <div class="kpis" style="gap:14px">
         <div class="kpi"><div class="v">271 ms</div><div class="lb">104 句 / 52 chunk / 约 3.5K token，一次请求，M3 Ultra</div></div>
@@ -728,7 +728,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">别只拿那个池化完的向量，把 <strong>patch 级</strong>的输出全读出来，挨个跟 12.8 万个词打分。<strong>算力几乎没多花。</strong></div>
         <div class="foot">几乎不额外花钱</div></div>
       <div class="card c-green"><div class="n">B</div><div class="ttl">换个视角，再跑一遍</div>
-        <div class="dsc">把图切成若干 crop <strong>重新编码</strong>。小东西在自己那张 crop 里能占满整个画面，就不会被忽略了。</div>
+        <div class="dsc">把图切成若干 crop <strong>重新编码</strong>。小物体在自己那张 crop 里占满画面，不再被整图的池化冲淡。</div>
         <div class="foot" style="color:var(--green)">算力随视角数线性增长</div></div>
       <div class="card c-blue"><div class="n">C</div><div class="ttl">在已有结果上再做文章</div>
         <div class="dsc">白化、最优传输、图传播、EM——在<strong>同一批像素</strong>上做更花哨的数学。</div>
@@ -750,11 +750,11 @@ tr.weakrow td{color:var(--mut)}
     </div>
     <div class="nlist" style="max-width:1010px">
       <div class="nitem"><div class="n">01</div><div class="t">tokenizer 的词表，直接拿来当标签空间
-        <span>12.8 万个 token 全部编码成文本向量。不用人工整理标签集——模型认识多少词，就有多少个候选标签。开放词表是白送的。</span></div></div>
+        <span>12.8 万个 token 全部编码成文本向量。不用人工整理标签集——模型认识多少词，就有多少个候选标签，开放词表不需要额外代价。</span></div></div>
       <div class="nitem"><div class="n">02</div><div class="t">每个 patch 单独打分，再跟全局向量融合
         <span>0.7 × patch-max + 0.3 × global。小物体不再被整张图的池化冲淡，mAP 从 0.264 直接到 0.635。</span></div></div>
       <div class="nitem"><div class="n">03</div><div class="t">每个词减掉它自己的先验
-        <span>高频词天生跟所有图都沾点边。把 μℓ 减掉之后，剩下的右尾才是真证据。</span></div></div>
+        <span>高频词与任何一张图的相似度都偏高。减掉 μℓ 之后，剩下的右尾才是真正的证据。</span></div></div>
       <div class="nitem"><div class="n">04</div><div class="t">词首过滤，再在向量空间里做 NMS
         <span>12.8 万压到 2.5 万候选；然后把 kitty / cat / kitten / chatte 这种同义词簇合并成一个概念。</span></div></div>
     </div>
@@ -866,7 +866,7 @@ tr.weakrow td{color:var(--mut)}
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">给它一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮来，直到把这个题目下能找到的东西全部打包成一个<strong>带引用的 zip</strong>。</p>
       <p class="cap">这个名字是我创业时留下的习惯——当年给投资人准备 data room，把该看的材料一次性理清楚放进去。现在换成给 agent 准备。</p>
-      <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用本地的 Qwen 27B、35B-A3B 这类便宜模型跑，把昂贵的前沿额度省下来，留给后面真正要动脑子的那一步。</p>
+      <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用自己部署的 Qwen3.6-35B-A3B、Qwen3.8-27B 跑，把昂贵的前沿额度省下来，留给后面真正需要判断力的那一步。</p>
       <div class="flowv">
         <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">攒出语料（.zip）</div></div>
         <div class="farrv">↓</div>
@@ -887,8 +887,8 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
-      <p class="cap">丢给它一个 dataroom 的 zip，然后<strong>切断网络</strong>，再问一个问题。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
-      <p class="cap">断网这件事是故意的。<strong>不断网，你永远分不清它是真的在搜，还是网上碰巧有现成答案。</strong>关上门，搜索能力才被逼出来。</p>
+      <p class="cap">丢给它一个 dataroom 的 zip，然后<strong>切断网络</strong>，再问一个问题。自己部署的 Qwen3.6-35B-A3B 在里面跑。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
+      <p class="cap">断网这件事是故意的。<strong>不断网，就分不清它是真的在检索，还是网上碰巧有现成答案。</strong></p>
       <div class="mlabel cy">正在研究的几个问题</div>
       <div class="qlist">
         <p>它第一个伸手去拿的是哪个工具？</p>
@@ -954,7 +954,7 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">断网，只给本地工具，逼 agent 在推理期自己组装链路。<strong>这一步决定了你能从材料里捞出多少</strong>。</div></div>
       <div class="card"><div class="n">03</div><div class="ttl">知识图谱 · 说了算的裁判</div>
         <div class="dsc">从同一份语料长出多跳难题。<strong>有了它，前面两步的每一次改动才有得比。</strong></div></div>
-      <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独拷问检索</div>
+      <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独衡量检索</div>
         <div class="dsc">固定语料，只留一个检索工具。<strong>把链路里那一环的贡献单拎出来看。</strong></div></div>
     </div>
     <p class="takeaway">跟前面几个项目是同一件事，只是换了一层：<span class="cy">那边组装的是模型阶段，这边组装的是工具链</span>。都没有把模型换大。</p>
@@ -1016,17 +1016,17 @@ tr.weakrow td{color:var(--mut)}
       <div class="nitem"><div class="n">02</div><div class="t">再问：最便宜的那一档，是不是已经够了？
         <span>图像标注里，光是把这次前向读透就吃掉了 +0.371 mAP，之后十五倍的算力只再添 +0.075。<strong>先把手上这次算完的东西读干净，往往比再跑十遍划算。</strong></span></div></div>
       <div class="nitem"><div class="n">03</div><div class="t">最后问：这笔算力，该花在哪一段？
-        <span>一页文档就别建索引，一百万篇就老实做召回；攒料用便宜的本地 token，判断留给贵的。<strong>同样一笔钱，花错地方就是白花。</strong></span></div></div>
+        <span>一页文档不必建索引，一百万篇仍然需要第一段召回；攒料用便宜的本地 token，判断留给昂贵的模型。<strong>同样一笔钱，花错地方就是白花。</strong></span></div></div>
     </div>
     <p class="takeaway">按这三条走，2026 年的搜索<span class="cy">远远没到没事可做的地步</span>。</p>
   </div>
 </section>
 
 <!-- ============ 43 FINAL CLAIM ============ -->
-<section class="slide claimslide">
+<section class="slide claimslide" data-title="">
   <div class="body" style="justify-content:center;align-items:center;gap:28px">
     <div class="bigclaim">搜索是一种 <span class="cy">test-time compute</span>。<br>别急着换更大的模型，<br>先在推理时<span class="cy">多搜一点</span>。</div>
-    <p class="takeaway" style="max-width:62ch;font-size:19px">这条路我走了几个月，<br>越走越觉得它宽。</p>
+    <p class="takeaway" style="max-width:62ch;font-size:19px">这几个月我一直在这条路上，<br>它比我想的要宽。</p>
   </div>
 </section>
 
@@ -1035,8 +1035,9 @@ tr.weakrow td{color:var(--mut)}
   <img class="cloud" src="img/cloud.png" alt="">
   <h2>THANKS</h2>
   <div class="sub" style="font-size:17px">肖涵 &nbsp;·&nbsp; Elastic 副总裁</div>
-  <div class="sub" style="font-size:15px;color:var(--mut);margin-top:8px">@hxiao &nbsp;·&nbsp; github.com/hanxiao &nbsp;·&nbsp; arXiv:2605.11374</div>
+  <div class="sub" style="font-size:15px;color:var(--mut);margin-top:8px">@hxiao &nbsp;·&nbsp; github.com/hanxiao &nbsp;·&nbsp; hanxiao.io</div>
   <div class="qrrow">
+    <div class="qrc"><div class="qrtop">in-page search</div><img src="img/qr-inpage.png" alt=""></div>
     <div class="qrc"><div class="qrtop">image tagging</div><img src="img/qr-repo.png" alt=""></div>
     <div class="qrc"><div class="qrtop">dataroom</div><img src="img/qr-dataroom.png" alt=""></div>
     <div class="qrc"><div class="qrtop">searchbox</div><img src="img/qr-searchbox.png" alt=""></div>
