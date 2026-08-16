@@ -232,3 +232,42 @@ Every claim on every slide re-verified against a source, local or online. Result
 - Searchbox did not say which model runs inside the box. It is the same self-hosted
   Qwen3.6-35B-A3B; now stated.
 - The closing QR row was missing in-page search even though it has its own slide. Added.
+
+---
+
+## 7. Fourth pass (2026-08-15): funnel mechanism corrected, header aligned
+
+### The funnel slide was describing the wrong tier
+It said "用一份 4 bit 量化的副本在 GPU 上扫一遍". That is wrong on both counts, and the figure
+was being captioned to match the wrong story. From `~/Documents/omni-odi2026/paper/main.tex`
+sec:funnel (same text in `short.tex`):
+
+- The store keeps **a one-bit replica** and the exact vectors. **The scan reads the one-bit
+  replica.** A row costs `d/8` bytes against `2d` for bf16, a ratio of exactly sixteen, and that
+  ratio is exact because the encoder output is a unit vector, so a sign code carries no scale,
+  no bias and no per-row side data.
+- One bit per coordinate works because of two things: the text towers are trained with a global
+  orthogonal regularizer (akram2026jinav5text), and a **randomized Hadamard transform**
+  (zandieh2025turboquant) is applied to a row before its signs are taken. The transform is
+  orthogonal, so it changes no inner product and therefore no ranking; it only changes the basis
+  the signs are taken in.
+- **Four bits is the query side, not the store.** Only the stored side is reduced to one bit
+  (gao2024rabitq); the rotated query is decomposed into four bit planes, and a Metal kernel scores
+  a row as a fixed number of population counts over its code and those planes.
+- The coarse tier does not need to be accurate: it only decides which rows enter the shortlist.
+  Exact rescoring fixes the order.
+- The replica is not unconditional: it is adopted when the exact matrix would claim more than a
+  quarter of the memory cap, and past a row count calibrated for accelerator width. A small index
+  on a large machine keeps no replica and scans the exact vectors.
+
+The figure caption now states what the figure actually encodes: bar width is bytes per row, bar
+height is rows, and the accent marks what one query reads.
+
+### Header alignment
+Measured, not eyeballed. Rendered all 36 pages and located the cloud mark's bounding box in the
+top strip of each. Slides whose header title is empty (claim, trade, section dividers) had the
+mark at y=19 while every titled slide had it at y=22: with no text in the row, the flex row lost
+its text line box and the whole header rode up ~3px. Fixed by pinning the header row to a fixed
+42px height and line-height. Re-measured: the cloud sits at y=22 on all 35 chromed pages, and a
+pixel diff of the cloud region and the logo region between a titled slide and a divider is now
+under the antialiasing floor (max 27 and 5 grey levels, zero pixels past threshold).

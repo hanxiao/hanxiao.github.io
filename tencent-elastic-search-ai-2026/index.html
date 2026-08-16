@@ -59,9 +59,13 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden}
 /* Han's spec is in PPT points on a 960x540pt canvas; this stage is 1280x720px,
    so 1pt = 1.3333px. Header title 22pt = 29.3px. */
 .c-hdr{gap:24px}
+/* Fixed row height: without it, a slide whose title is empty loses the text line
+   box and the cloud mark rides ~4px higher than on every other slide. */
+.c-hdr{min-height:42px}
 .c-hdr .ttl{display:flex;align-items:center;gap:12px;font-size:29.3px;font-weight:400;color:var(--ink);
-  letter-spacing:.005em;min-width:0;flex:1}
-.c-hdr .ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  letter-spacing:.005em;min-width:0;flex:1;height:42px;line-height:42px}
+.c-hdr .ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:42px}
+.c-hdr .logos{display:flex;align-items:center;height:42px}
 .c-hdr .ttl .mark{height:36px;width:auto;display:block;flex:0 0 auto}
 .c-hdr .logos img{height:28px;display:block;opacity:.95}
 .c-foot{right:76px;bottom:24px;text-align:right;line-height:1.25}
@@ -118,6 +122,9 @@ strong,b{font-weight:700;color:#fff}
 .title .auth .bar{width:3px;height:58px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--blue))}
 .title .auth .nm{font-size:26.7px;font-weight:700;line-height:1.25}
 .title .auth .rl{font-size:26.7px;font-weight:300;color:var(--mut);margin-top:4px;line-height:1.25}
+.title .auth .wxqr{margin-left:34px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.title .auth .wxqr img{width:104px;height:104px;display:block;background:#fff;padding:5px;border-radius:8px}
+.title .auth .wxqr span{font-size:15px;color:var(--mut);letter-spacing:.08em}
 .title .meta{font-family:var(--mono);font-size:16px;margin-top:20px;color:var(--mut);letter-spacing:.03em}
 
 /* ---------- big claim slides ---------- */
@@ -427,8 +434,8 @@ tr.weakrow td{color:var(--mut)}
       <div class="auth">
         <div class="bar"></div>
         <div><div class="nm">肖涵</div><div class="rl">Elastic 副总裁</div></div>
+        <div class="wxqr"><img src="img/qr-wechat.png" alt="微信"><span>微信</span></div>
       </div>
-      <div class="meta">@hxiao &nbsp;·&nbsp; hanxiao.io</div>
     </div>
   </div>
 </section>
@@ -659,16 +666,17 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ FUNNEL ============ -->
-<section class="slide" data-title="先粗扫全库，再精算短名单">
+<section class="slide" data-title="1 bit 扫全库，精确向量只读短名单">
   
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
       <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
-      <div class="shotcap">粗排在 4 bit 的副本上扫全库，精排只在候选集上用 bf16 重算。</div>
+      <div class="shotcap">条宽是每行的字节数，条高是行数：副本只有精确向量的十六分之一宽。青色标出一次查询真正读了什么——副本全读，精确向量只读短名单那一段。</div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-      <p class="cap">这是 Omni 里的做法：<strong>用一份 4 bit 量化的副本在 GPU 上扫一遍</strong>，取出 top-C，再对这个短名单用 bf16 精确重算一次。</p>
-      <p class="cap">最终分数两条路都是精确的，<strong>而成本只跟短名单的长度成正比，跟库多大没关系</strong>。候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
+      <p class="cap">Omni 里没有 ANN 索引，一次查询要扫全库。所以同一个空间存两份：<strong>一份只保留每个坐标符号的 1 bit 副本，扫描读它</strong>；精确向量只有短名单才碰。一行 <span class="mono">d/8</span> 字节对 bf16 的 <span class="mono">2d</span>，正好十六分之一。</p>
+      <p class="cap">取符号之前先做一次随机 Hadamard 旋转。旋转是正交的，<strong>不改变任何内积，也就不改变排序</strong>，只是把每一维携带的信息摊平到所有维度上，1 bit 才够用。查询侧不压到 1 bit：旋转后拆成<strong>四个位平面</strong>，Metal kernel 用几次 popcount 给一行打分。</p>
+      <p class="cap">粗排分数只决定谁进短名单，所以它不必准，只要短名单够宽。<strong>最终排序由精确重算说了算，成本只跟短名单长度成正比。</strong>候选集是 <span class="mono">min(4096, max(1024, topK×32))</span>。</p>
       <div class="kpis" style="flex-direction:column;gap:12px">
         <div class="kpi k-green"><div class="v">1.76×</div><div class="lb">50 万行时相对全量精扫的加速，M3 Pro 14 核</div></div>
         <div class="kpi"><div class="v">9.7 ms</div><div class="lb">文本查询 p50，M3 Ultra，真实个人文件库</div></div>
@@ -1035,8 +1043,8 @@ tr.weakrow td{color:var(--mut)}
   <img class="cloud" src="img/cloud.png" alt="">
   <h2>THANKS</h2>
   <div class="sub" style="font-size:17px">肖涵 &nbsp;·&nbsp; Elastic 副总裁</div>
-  <div class="sub" style="font-size:15px;color:var(--mut);margin-top:8px">@hxiao &nbsp;·&nbsp; github.com/hanxiao &nbsp;·&nbsp; hanxiao.io</div>
   <div class="qrrow">
+    <div class="qrc wx"><div class="qrtop">微信</div><img src="img/qr-wechat.png" alt=""></div>
     <div class="qrc"><div class="qrtop">in-page search</div><img src="img/qr-inpage.png" alt=""></div>
     <div class="qrc"><div class="qrtop">image tagging</div><img src="img/qr-repo.png" alt=""></div>
     <div class="qrc"><div class="qrtop">dataroom</div><img src="img/qr-dataroom.png" alt=""></div>
