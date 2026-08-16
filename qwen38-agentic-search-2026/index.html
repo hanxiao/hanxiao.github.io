@@ -127,12 +127,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .repostats .rv.alt{color:var(--teal-ink)}
 .repostats .rl{font-size:11.5px;font-weight:460;line-height:1.25;max-width:22ch}
 .repofoot{font-size:12px;line-height:1.4;font-weight:450;border-top:1px solid var(--hair);padding-top:8px;margin-top:auto}
-.l4note{display:flex;gap:18px;align-items:flex-start;border:1.4px solid var(--accent);border-radius:var(--r-card);
-  background:var(--accent-soft);padding:11px 16px;width:100%}
-.l4hd{font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--accent);flex:0 0 132px;padding-top:2px}
-.l4body{font-size:12.5px;line-height:1.42;font-weight:450;flex:1}
-.l4hi{font-family:var(--mono);font-weight:700;color:var(--accent)}
 .projcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:11px}
 .projcol .shot img{height:196px;object-fit:contain;object-position:center;background:#fff}
 .projdesc{font-size:16px;line-height:1.42;font-weight:450;flex:1}
@@ -229,10 +223,6 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
         <div class="repofoot">At 98% of the window a 101,815-token prompt returned a correct answer at 24.88 tok/s decode and 278 tok/s prefill, with VRAM peaking at 24,082 MiB. Short-prompt prefill runs 95 to 114 tok/s. Reading 17.9 GB of weights at 300 GB/s bounds plain decode at ~16.8 tok/s, and speculation supplies the rest.</div>
       </div>
 
-    </div>
-    <div class="l4note">
-      <div class="l4hd">One L4</div>
-      <div class="l4body">24 GB, 72 W, ~300 GB/s, about <strong>$0.24/hr spot</strong> on a g2-standard-8. Both repositories push that one low-budget card to its measured wall, and at 91 to 99 tok/s the 35B-A3B side is comfortable inside a real agentic loop. <span class="l4hi">92 to 99 tok/s at 56K against 23 tok/s at 104K</span> is the throughput and window trade this evaluation resolves. Measured 2026-08-14.</div>
     </div>
   </div>
 </section>
