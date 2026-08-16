@@ -454,6 +454,28 @@ B-family box plus a green marching feedback edge from `top-k 标签` back to the
 
 ---
 
+## 11c. Closing slide became 几个暴论 (2026-08-16)
+
+Han replaced the old "three questions to judge a spend of inference compute" checklist with three
+hot takes, dictated verbatim:
+
+1. **TTC is a mindset, not a technique.** When something underperforms, do not reach for more data or
+   a bigger model first; ask whether it can be solved at inference time.
+2. **test-time scaling ≠ training-free.** The two axes are orthogonal: one is how much compute you
+   spend at inference, the other is whether weights move. The strongest TTC is trained for — listwise
+   reranking needs a model trained to compare candidates inside one context, long thinking needs RL.
+   A frozen model is the cheapest way to do TTC, not the definition of it. This pre-empts the
+   "so you just freeze a model and fiddle with it" objection.
+3. **Search models and benchmarks do not account for TTC.** A leaderboard reports one number per
+   model, implicitly one forward pass. It should report a curve: x = inference budget, y = accuracy,
+   and where the model sits on that plane. One point cannot measure test-time scaling.
+
+Point 3 carries a two-panel sketch (`.btsketch`): a lone pink dot with no x-axis meaning ("今天：一个
+点") versus a marching cyan curve rising over an inference-budget axis ("应该：一条曲线"). Han asked
+for exactly these three and said more may follow.
+
+---
+
 ## 12. Tagger pipeline and scoring equation (2026-08-15)
 
 Replaced the hand-written four-step list with the two slides Han pointed at:

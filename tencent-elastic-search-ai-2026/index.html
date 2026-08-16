@@ -234,6 +234,21 @@ strong,b{font-weight:700;color:#fff}
 .nitem .t{font-size:17.3px;font-weight:500;line-height:1.5}
 .nitem .t span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
 
+/* ---------- hot-takes sketch: one point vs one curve ---------- */
+.btsketch{display:flex;flex-direction:row;gap:54px;justify-content:center;align-items:flex-end;margin-top:8px}
+.btp{display:flex;flex-direction:column;align-items:center;gap:7px}
+.btp svg{width:330px;height:156px;display:block}
+.btax{stroke:var(--line2);stroke-width:1.4}
+.btax2{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--mut)}
+.btdot.bad{fill:var(--pink)}
+.btdot.ok{fill:var(--cyan)}
+.bttx{font-family:var(--mono);font-size:11.5px;font-weight:700}
+.bttx.bad{fill:var(--pink)}
+.btcv{fill:none;stroke:var(--cyan);stroke-width:2.2;stroke-dasharray:6 4;animation:march 1.1s linear infinite}
+.btl{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em}
+.btl.bad{color:var(--pink)} .btl.ok{color:var(--cyan)}
+@media print{.btcv{animation:none}}
+
 .pull{font-size:20px;line-height:1.5;font-weight:500;border-left:3px solid var(--cyan);padding-left:22px}
 .pull strong{color:var(--cyan);font-weight:700}
 .pull cite{display:block;margin-top:14px;font-family:var(--mono);font-size:13px;font-weight:600;
@@ -1410,18 +1425,43 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 42 HOW TO THINK ABOUT IT ============ -->
-<section class="slide" data-title="判断一笔推理算力的三个问题">
+<section class="slide" data-title="几个暴论">
   
-  <div class="body" style="justify-content:center;gap:22px">
-    <div class="nlist" style="max-width:1030px">
-      <div class="nitem"><div class="n">01</div><div class="t">这次多花的算力，带回了什么新信息？
-        <span>被池化丢掉的 patch，被缩放丢掉的像素，被单向量抹平的句子结构，被一次 grep 漏掉的那几跳。<strong>说得出带回了什么，这笔算力就花得值。</strong></span></div></div>
-      <div class="nitem"><div class="n">02</div><div class="t">最便宜的那一档，是不是已经够了？
-        <span>图像标注里，光是把这次前向读透就吃掉了 +0.371 mAP，之后十五倍的算力只再添 +0.075。<strong>先把这一次前向的输出读完整，通常比再跑十遍更划算。</strong></span></div></div>
-      <div class="nitem"><div class="n">03</div><div class="t">这笔算力，该花在链路的哪一段？
-        <span>一页文档不必建索引，一百万篇仍然需要第一段召回；攒料用便宜的本地 token，判断留给昂贵的模型。<strong>同一笔算力，花在不同环节，回报差很多。</strong></span></div></div>
+  <div class="body" style="justify-content:center;gap:20px">
+    <div class="nlist" style="max-width:1140px">
+      <div class="nitem"><div class="n">01</div><div class="t">test-time compute 是一种思维，不是一项技术。
+        <span>遇到做不好的事情，先别急着去凑数据、去换更大的模型。<strong>先问一句：这件事能不能在推理时解决。</strong></span></div></div>
+      <div class="nitem"><div class="n">02</div><div class="t">test-time scaling 不等于 training-free。
+        <span>两件事是正交的：一个说推理时花多少算力，一个说权重动不动。<strong>最强的 TTC 恰恰是训出来的</strong>——listwise 重排得先把模型训成能在一个 context 里比候选，long thinking 得先用 RL 训出来。<strong>冻结模型只是最省的那种做法，不是定义。</strong></span></div></div>
+      <div class="nitem"><div class="n">03</div><div class="t">今天的搜索模型和 benchmark，几乎都没把 test-time compute 算进去。
+        <span>榜单上一个模型就一个分数，默认大家都只允许算一遍。<strong>应该报的是一条曲线：横轴推理预算，纵轴精度，看它在这个平面上往哪儿爬。</strong>一个点测不出 test-time scaling。</span></div></div>
     </div>
-    <p class="takeaway">按这三条走，2026 年的搜索<span class="cy">远远没到没事可做的地步</span>。</p>
+    <div class="btsketch">
+      <div class="btp">
+        <svg viewBox="0 0 250 118" aria-hidden="true">
+          <line class="btax" x1="34" y1="96" x2="236" y2="96"/>
+          <line class="btax" x1="34" y1="14" x2="34" y2="96"/>
+          <circle class="btdot bad" cx="135" cy="56" r="6"/>
+          <text class="bttx bad" x="148" y="52">nDCG 0.62</text>
+          <text class="btax2" x="135" y="112" text-anchor="middle">（不报算力）</text>
+        </svg>
+        <div class="btl bad">今天：一个点</div>
+      </div>
+      <div class="btp">
+        <svg viewBox="0 0 250 118" aria-hidden="true">
+          <line class="btax" x1="34" y1="96" x2="236" y2="96"/>
+          <line class="btax" x1="34" y1="14" x2="34" y2="96"/>
+          <path class="btcv" d="M52 84 C 96 84, 108 40, 150 32 S 206 24, 226 22"/>
+          <circle class="btdot ok" cx="52" cy="84" r="4"/>
+          <circle class="btdot ok" cx="104" cy="56" r="4"/>
+          <circle class="btdot ok" cx="150" cy="32" r="4"/>
+          <circle class="btdot ok" cx="226" cy="22" r="4"/>
+          <text class="btax2" x="135" y="112" text-anchor="middle">推理预算 →</text>
+          <text class="btax2 rot" x="22" y="55" text-anchor="middle" transform="rotate(-90 22 55)">精度</text>
+        </svg>
+        <div class="btl ok">应该：一条曲线</div>
+      </div>
+    </div>
   </div>
 </section>
 
