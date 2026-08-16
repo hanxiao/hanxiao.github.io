@@ -1,7 +1,7 @@
 # 搜索是一种 test-time compute
 
-腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，**44 页 ≈ 35 分钟**（一页一分钟）。
-讲者：肖涵（Han Xiao），Elastic AI 副总裁。自包含 HTML，离线可放。
+腾讯云 × Elastic「AI 搜索技术大会」演讲 deck，**45 页 ≈ 35 分钟**（一页一分钟）。
+讲者：肖涵，Elastic 副总裁。自包含 HTML，离线可放。
 
 ## 结构
 论点先行，四个项目当注脚，最后回来扣题：
@@ -13,11 +13,18 @@
 论证   为什么搜索算 TTC               (6-8)   multi-pass / deeper pass / compose
 金句页 花推理时间，买相关性 + 买新能力   (9)     ← 全场记忆点
 项目一 autoresearch    买相关性        (11-23)
-项目二 image tagging   买新能力        (24-33)
+项目二 image tagging   买新能力        (24-33)  末页收在 Omni（一句带过）
 项目三 dataroom        买召回          (34-36)
-项目四 searchbox + KG  买精度          (37-39)
-扣题   两个层次 / 三个判断问题 / 最后一句 (40-43)
+项目四 searchbox + 知识图谱 买精度      (37-38)
+项目五 dataroom harness 单独拷问检索    (39)
+扣题   两个层次 / 三个判断问题 / 最后一句 (40-44)
 ```
+
+**署名**：封面与尾页只写「肖涵 / Elastic 副总裁」。不写英文名，不写 Jina AI 创始人。
+
+**项目取舍**（2026-08-15 定）：autoresearch 和 image tagging 是最典型的两个 TTC 例子；
+dataroom、searchbox、知识图谱、dataroom harness 是 agent 层的四个；Omni 只在 image tagging
+末尾提一句落地，不单独展开。多向量 late interaction 和 in-page search 不进这个 deck。
 
 **结论一律走正向**：讲每个项目「成立的那部分」和它带来的东西，不做负面归纳。
 （比如迁移那一段的说法是「最便宜的那批反而能搬走」，不是「贵的失败了」。）
@@ -61,7 +68,7 @@ done
 避免「四个论断指向同一个结论」这类翻译腔和排比式总结。写完念一遍，念着别扭就改。
 
 ## 文件
-`index.html` 全部 44 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
+`index.html` 全部 45 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
 `img/` 图片与四个项目二维码 · `fonts/` 子集化字体 · `slides.pdf` 导出版
 
 ## 放映

@@ -419,7 +419,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="sub">与其把模型换大，不如在推理这一刻多算几遍。<br>省下来的钱，能买到相关性，也能买到全新的能力。</div>
       <div class="auth">
         <div class="bar"></div>
-        <div><div class="nm">肖涵 Han Xiao</div><div class="rl">Elastic AI 副总裁 · Jina AI 创始人</div></div>
+        <div><div class="nm">肖涵</div><div class="rl">Elastic 副总裁</div></div>
       </div>
       <div class="meta">@hxiao &nbsp;·&nbsp; hanxiao.io</div>
     </div>
@@ -603,11 +603,11 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-amber"><div class="n">03</div><div class="ttl">Dataroom</div>
         <div class="dsc">用便宜的本地小模型把开放网络啃成一个带引用的 zip，留着贵的 token 干正事。</div>
         <div class="foot" style="color:var(--amber)">买到的是 · 召回</div></div>
-      <div class="card c-pink"><div class="n">04</div><div class="ttl">Searchbox + KG</div>
-        <div class="dsc">把 agent 关进没有网的盒子里，只能自己现搭链路。再用知识图谱给它出难题。</div>
+      <div class="card c-pink"><div class="n">04</div><div class="ttl">Searchbox + 知识图谱</div>
+        <div class="dsc">把 agent 关进没有网的盒子里，只能自己现搭链路。再用知识图谱给它出多跳难题。</div>
         <div class="foot" style="color:var(--pink)">买到的是 · 精度</div></div>
     </div>
-    <p class="takeaway">四个项目从模型内部一路做到 agent 链路，代码全部开源。</p>
+    <p class="takeaway">从模型内部一直做到 agent 链路，代码全部开源。</p>
   </div>
 </section>
 
@@ -1013,7 +1013,7 @@ tr.weakrow td{color:var(--mut)}
 <!-- ============ 33 OMNI ============ -->
 <section class="slide">
   <div class="kicker">已经上线了</div>
-  <h2 class="h-slide sm">这套东西现在跑在我自己的 Mac 上。</h2>
+  <h2 class="h-slide sm">这套东西现在跑在 Omni 里，一个本地的 macOS 搜索 app。</h2>
   <div class="body" style="justify-content:center;gap:22px">
     <div class="kpis">
       <div class="kpi"><div class="v">~4%</div><div class="lb">打标签的额外开销，搭在原本就要跑的 embedding 前向上顺手完成</div></div>
@@ -1025,7 +1025,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-blue"><div class="ttl">视频</div><div class="dsc">抽帧之后共用同一套 patch 打分逻辑，时间维直接并进 max。</div></div>
       <div class="card c-green"><div class="ttl">扫描版 PDF</div><div class="dsc">当图片处理。那些 OCR 认不出来的老档案，现在也能用词搜到了。</div></div>
     </div>
-    <p class="takeaway">从一篇实验记录到一个能用的功能，中间隔的只是<span class="gr">愿不愿意多花那 4% 的算力</span>。</p>
+    <p class="takeaway">编码器、索引、存储全在那台存着文件的 Mac 上。<span class="gr">从一篇实验记录到一个能用的功能，中间只隔着那 4% 的算力。</span></p>
   </div>
 </section>
 
@@ -1136,9 +1136,30 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<!-- ============ 39 STACK SYNTHESIS ============ -->
+<!-- ============ 39 HARNESS ============ -->
 <section class="slide">
-  <div class="kicker">这三个是一套</div>
+  <div class="kicker">正在做的一个</div>
+  <h2 class="h-slide sm">dataroom harness：把检索单独拎出来测。</h2>
+  <div class="body row" style="gap:32px;align-items:center">
+    <div style="flex:1;display:flex;flex-direction:column;gap:13px">
+      <p class="cap">前面三个是完整的链路。想知道<strong>检索这一环到底值多少</strong>，得把它单独拎出来：固定一份 Jina 文档语料（210 篇 md 加结构化 json，切成 7777 个 chunk），外面套一个 agent，然后<strong>只给它一个外部工具</strong>。</p>
+      <p class="cap">其余全是 Pi 自带的 read、grep、bash。这样被测的就只有 <span class="mono">search_corpus</span> 这一件事，<strong>功劳跟锅都没地方推</strong>。</p>
+      <div class="deflist" style="gap:10px">
+        <div class="defrow"><div class="tag">命中不是答案</div><div class="dsc" style="font-size:14.5px">返回 <span class="mono">{score, path, lines, text}</span>，agent 得自己回原文把段落读完、再 grep 一遍看还有哪儿提到。</div></div>
+        <div class="defrow"><div class="tag">没有 sidecar</div><div class="dsc" style="font-size:14.5px">7777×768 的矩阵直接在扩展里算：加载 117ms，单次检索 4.3ms。少一个要启动、要占端口、会挂掉的服务。</div></div>
+        <div class="defrow"><div class="tag">联网是开关</div><div class="dsc" style="font-size:14.5px">默认关。开了才挂上 search_web 和 read_url，于是“翻书”和“上网”可以分开计分。</div></div>
+      </div>
+    </div>
+    <div style="flex:1.05;display:flex;flex-direction:column;gap:9px">
+      <div class="shot"><img src="img/harness-ui.png" alt="dataroom harness 运行界面"></div>
+      <div class="shotcap"><strong>跑完一轮的样子：</strong>思考流、每一次工具调用及其参数、上下文占用、自动压缩、每段花了多少秒，全部流式开着。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 40 STACK SYNTHESIS ============ -->
+<section class="slide">
+  <div class="kicker">这几个是一套</div>
   <h2 class="h-slide sm">攒料、做题、出题，凑成一个能自己跑起来的闭环。</h2>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
@@ -1146,8 +1167,10 @@ tr.weakrow td{color:var(--mut)}
         <div class="dsc">便宜的本地 token 把网络啃成一个带引用的 zip。<strong>这一步决定了天花板</strong>——材料里没有的东西，后面谁也变不出来。</div></div>
       <div class="card c-pink"><div class="n">02</div><div class="ttl">searchbox · 拉满精度</div>
         <div class="dsc">断网，只给本地工具，逼 agent 在推理期自己组装链路。<strong>这一步决定了你能从材料里捞出多少</strong>。</div></div>
-      <div class="card"><div class="n">03</div><div class="ttl">knowledge-graph · 说了算的裁判</div>
+      <div class="card"><div class="n">03</div><div class="ttl">知识图谱 · 说了算的裁判</div>
         <div class="dsc">从同一份语料长出多跳难题。<strong>有了它，前面两步的每一次改动才有得比。</strong></div></div>
+      <div class="card c-blue"><div class="n">04</div><div class="ttl">harness · 单独拷问检索</div>
+        <div class="dsc">固定语料，只留一个检索工具。<strong>把链路里那一环的贡献单拎出来看。</strong></div></div>
     </div>
     <p class="takeaway">跟前面两个项目是同一件事，只是换了一层：<span class="cy">那边组装的是向量代数，这边组装的是工具链</span>。都没有把模型换大。</p>
   </div>
@@ -1156,13 +1179,14 @@ tr.weakrow td{color:var(--mut)}
 <!-- ============ 40 SECTION 05 ============ -->
 <section class="slide divider">
   <div class="drow"><div class="num">05</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>回到那句话</h2></div></div>
-  <div class="dsub">四个项目跑完，我更相信这个判断了</div>
+  <div class="dsub">这几个项目跑完，我更相信这个判断了</div>
 </section>
 
 <!-- ============ 41 TWO LEVELS ============ -->
 <section class="slide">
-  <div class="kicker">四个项目，两个层次</div>
+  <div class="kicker">五个项目，两个层次</div>
   <h2 class="h-slide sm">一层在模型里面，一层在模型外面。</h2>
+  <!-- five projects, two layers -->
   <div class="body" style="justify-content:center;gap:22px">
     <div class="syn2">
       <div class="synp">
@@ -1190,7 +1214,7 @@ tr.weakrow td{color:var(--mut)}
         </svg>
         <div class="synh"><span class="tag">B</span>模型外：工具链</div>
         <div class="synrow"><b>推理时干的</b>自己决定先搜什么、再用什么</div>
-        <div class="synrow"><b>项目</b>dataroom · searchbox · knowledge-graph</div>
+        <div class="synrow"><b>项目</b>dataroom · searchbox · 知识图谱 · harness</div>
         <div class="synrow"><b>买到的</b>召回 + 精度</div>
       </div>
     </div>
@@ -1228,7 +1252,7 @@ tr.weakrow td{color:var(--mut)}
 <section class="slide closing">
   <img class="cloud" src="img/cloud.png" alt="">
   <h2>THANKS</h2>
-  <div class="sub" style="font-size:17px">肖涵 Han Xiao &nbsp;·&nbsp; Elastic AI 副总裁</div>
+  <div class="sub" style="font-size:17px">肖涵 &nbsp;·&nbsp; Elastic 副总裁</div>
   <div class="sub" style="font-size:15px;color:var(--mut);margin-top:8px">@hxiao &nbsp;·&nbsp; github.com/hanxiao &nbsp;·&nbsp; arXiv:2605.11374</div>
   <div class="qrrow">
     <div class="qrc"><div class="qrtop">image tagging</div><img src="img/qr-repo.png" alt=""></div>
