@@ -671,63 +671,6 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<!-- ============ 8 SCORING SPECTRUM ============ -->
-<section class="slide" data-title="从一次 cosine 到 late interaction">
-  
-  <div class="body" style="justify-content:center;gap:18px">
-    <div class="vsrow">
-      <div class="vspanel">
-        <div class="vshd">单向量 cosine</div>
-        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
-          <line class="vsingle" x1="54" y1="80" x2="166" y2="64"></line>
-          <circle class="vq" cx="54" cy="80" r="6.5"></circle>
-          <circle class="vd" cx="166" cy="64" r="6.5"></circle>
-          <text class="vlbl" x="54" y="101" text-anchor="middle">q</text>
-          <text class="vlbl" x="166" y="86" text-anchor="middle">d</text>
-        </svg>
-        <div class="vsform">\( \cos(q,\,d) \)</div>
-        <div class="vssub">一篇文档压缩成一个向量</div>
-        <div class="vstag">最省算力的做法</div>
-      </div>
-      <div class="vspanel hero">
-        <div class="vshd">句子级 MaxSim</div>
-        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
-          <line class="vconn" x1="54" y1="80" x2="164" y2="38"></line>
-          <line class="vwin" x1="54" y1="80" x2="170" y2="76"></line>
-          <line class="vconn" x1="54" y1="80" x2="164" y2="116"></line>
-          <circle class="vq" cx="54" cy="80" r="6.5"></circle>
-          <circle class="vd" cx="164" cy="38" r="5"></circle>
-          <circle class="vd vpulse" cx="170" cy="76" r="6.5"></circle>
-          <circle class="vd" cx="164" cy="116" r="5"></circle>
-          <text class="vlbl" x="54" y="101" text-anchor="middle">q</text>
-        </svg>
-        <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
-        <div class="vssub">还是那个模型，把文档切成句子各算一遍</div>
-        <div class="vstag">同一个模型，多算几遍</div>
-      </div>
-      <div class="vspanel">
-        <div class="vshd">ColBERT 多向量</div>
-        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
-          <line class="vconn" x1="46" y1="46" x2="160" y2="40"></line>
-          <line class="vconn" x1="46" y1="80" x2="166" y2="76"></line>
-          <line class="vconn" x1="46" y1="114" x2="160" y2="112"></line>
-          <line class="vconn" x1="46" y1="46" x2="166" y2="76"></line>
-          <line class="vconn" x1="46" y1="114" x2="166" y2="76"></line>
-          <circle class="vq" cx="46" cy="46" r="5"></circle>
-          <circle class="vq" cx="46" cy="80" r="5"></circle>
-          <circle class="vq" cx="46" cy="114" r="5"></circle>
-          <circle class="vd" cx="160" cy="40" r="5"></circle>
-          <circle class="vd" cx="166" cy="76" r="5"></circle>
-          <circle class="vd" cx="160" cy="112" r="5"></circle>
-        </svg>
-        <div class="vsform">\( \sum_i \max_j\ \cos(q_i,\,d_j) \)</div>
-        <div class="vssub">每个 query token 对全部 doc token 取 max</div>
-        <div class="vstag">需要专门的多向量模型</div>
-      </div>
-    </div>
-    <p class="takeaway">中间这一列<span class="cy">没有换模型，只是在推理时多算了几遍</span>，效果却接近右边那种需要专门多向量模型的做法。</p>
-  </div>
-</section>
 
 <!-- ============ 9 THE MONEY SLIDE ============ -->
 <section class="slide tradeslide" data-title="推理时间，从约束变成货币">
@@ -811,6 +754,64 @@ tr.weakrow td{color:var(--mut)}
   <div class="dsub">编码器冻住不动，只在推理期重新组合它已经算出来的东西</div>
 </section>
 
+
+<!-- ============ 8 SCORING SPECTRUM ============ -->
+<section class="slide" data-title="从一次 cosine 到 late interaction">
+  
+  <div class="body" style="justify-content:center;gap:18px">
+    <div class="vsrow">
+      <div class="vspanel">
+        <div class="vshd">单向量 cosine</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line class="vsingle" x1="54" y1="80" x2="166" y2="64"></line>
+          <circle class="vq" cx="54" cy="80" r="6.5"></circle>
+          <circle class="vd" cx="166" cy="64" r="6.5"></circle>
+          <text class="vlbl" x="54" y="101" text-anchor="middle">q</text>
+          <text class="vlbl" x="166" y="86" text-anchor="middle">d</text>
+        </svg>
+        <div class="vsform">\( \cos(q,\,d) \)</div>
+        <div class="vssub">一篇文档压缩成一个向量</div>
+        <div class="vstag">最省算力的做法</div>
+      </div>
+      <div class="vspanel hero">
+        <div class="vshd">句子级 MaxSim</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line class="vconn" x1="54" y1="80" x2="164" y2="38"></line>
+          <line class="vwin" x1="54" y1="80" x2="170" y2="76"></line>
+          <line class="vconn" x1="54" y1="80" x2="164" y2="116"></line>
+          <circle class="vq" cx="54" cy="80" r="6.5"></circle>
+          <circle class="vd" cx="164" cy="38" r="5"></circle>
+          <circle class="vd vpulse" cx="170" cy="76" r="6.5"></circle>
+          <circle class="vd" cx="164" cy="116" r="5"></circle>
+          <text class="vlbl" x="54" y="101" text-anchor="middle">q</text>
+        </svg>
+        <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
+        <div class="vssub">还是那个模型，把文档切成句子各算一遍</div>
+        <div class="vstag">同一个模型，多算几遍</div>
+      </div>
+      <div class="vspanel">
+        <div class="vshd">ColBERT 多向量</div>
+        <svg class="vsspace" viewBox="0 0 220 150" aria-hidden="true">
+          <line class="vconn" x1="46" y1="46" x2="160" y2="40"></line>
+          <line class="vconn" x1="46" y1="80" x2="166" y2="76"></line>
+          <line class="vconn" x1="46" y1="114" x2="160" y2="112"></line>
+          <line class="vconn" x1="46" y1="46" x2="166" y2="76"></line>
+          <line class="vconn" x1="46" y1="114" x2="166" y2="76"></line>
+          <circle class="vq" cx="46" cy="46" r="5"></circle>
+          <circle class="vq" cx="46" cy="80" r="5"></circle>
+          <circle class="vq" cx="46" cy="114" r="5"></circle>
+          <circle class="vd" cx="160" cy="40" r="5"></circle>
+          <circle class="vd" cx="166" cy="76" r="5"></circle>
+          <circle class="vd" cx="160" cy="112" r="5"></circle>
+        </svg>
+        <div class="vsform">\( \sum_i \max_j\ \cos(q_i,\,d_j) \)</div>
+        <div class="vssub">每个 query token 对全部 doc token 取 max</div>
+        <div class="vstag">需要专门的多向量模型</div>
+      </div>
+    </div>
+    <p class="takeaway">中间这一列<span class="cy">没有换模型，只是在推理时多算了几遍</span>，效果却接近右边那种需要专门多向量模型的做法。</p>
+  </div>
+</section>
 
 <section class="slide" data-title="这十二个程序，没有一个是人设计的">
   <div class="body" style="justify-content:center;gap:12px">
