@@ -286,3 +286,28 @@ pdftoppm -png -r 400 f5.pdf k     # then autocrop to the ink bbox with Pillow
 ```
 Note: `standalone` document class fails on this machine (its preview hook errors), so the wrapper
 uses `article` with a fixed small paper size and the raster is cropped to the ink bounding box.
+
+---
+
+## 8. QR codes (2026-08-15)
+
+Han's personal WeChat QR was supplied directly. Cropped out of the contact card (the avatar,
+name and footer text dropped), padded to a square with a quiet zone, and normalised with every
+other QR in the deck to **720x720**.
+
+All six decode. Verified with `zbarimg`, not by eye:
+
+| file | decodes to |
+| --- | --- |
+| `qr-wechat.png` | `https://u.wechat.com/MLfXlZhyqjktXA0BFqc61AA?s=2` |
+| `qr-inpage.png` | `github.com/hanxiao/jina-reranker-v3.5-in-page-search` |
+| `qr-repo.png` | `github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging` |
+| `qr-dataroom.png` | `github.com/hanxiao/dataroom` |
+| `qr-searchbox.png` | `github.com/hanxiao/searchbox` |
+| `qr-knowledge-graph.png` | `github.com/hanxiao/knowledge-graph-extractor` |
+
+**Resampling trap, hit and fixed:** rescaling a QR with `Image.LANCZOS` blurs the module edges and
+broke `qr-repo.png` outright — it stopped decoding while still looking fine to the eye. Use
+`Image.NEAREST` for QR codes, and re-run `zbarimg` on every file after any resize. OpenCV's
+`QRCodeDetector` is not a valid check here: it fails on all of these because of the logo in the
+centre, so a negative from it means nothing. `zbarimg` reads them.
