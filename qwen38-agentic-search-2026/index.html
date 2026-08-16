@@ -125,7 +125,6 @@ table.bt tr.weakrow td:first-child{color:var(--foil-ink)}
 .repostats .rv{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;color:var(--accent)}
 .repostats .rv.alt{color:var(--teal-ink)}
 .repostats .rl{font-size:11.5px;font-weight:460;line-height:1.25;max-width:22ch}
-.repofoot{font-size:12px;line-height:1.4;font-weight:450;border-top:1px solid var(--hair);padding-top:8px;margin-top:auto}
 .projcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:11px}
 .projcol .shot img{height:196px;object-fit:contain;object-position:center;background:#fff}
 .projdesc{font-size:16px;line-height:1.42;font-weight:450;flex:1}
@@ -205,7 +204,6 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
           <div class="rs"><span class="rv">91&ndash;99</span><span class="rl">tok/s decode, chat minimum to math maximum</span></div>
           <div class="rs"><span class="rv">56,320</span><span class="rl">token context</span></div>
         </div>
-        <div class="repofoot">Per workload: prose 92.5, code 93.0, json 92.0, chat 90.6, math 98.8, translation 91.7, summarization 93.1 tok/s. That is 45% over the 63 tok/s out-of-the-box configuration, with full GPU residency of the experts and ECC off. Raw ceiling ~73 tok/s, which MTP multiplies 1.27 to 1.37 times.</div>
       </div>
 
       <div class="repocol alt">
@@ -219,7 +217,6 @@ table.bt td.pendcell .ph{display:inline-block;min-width:52px;border-bottom:1.6px
           <div class="rs"><span class="rv alt">23</span><span class="rl">tok/s decode, binary-searched ceiling</span></div>
           <div class="rs"><span class="rv alt">104,192</span><span class="rl">token context, the largest the card serves at this quantization</span></div>
         </div>
-        <div class="repofoot">At 98% of the window a 101,815-token prompt returned a correct answer at 24.88 tok/s decode and 278 tok/s prefill, with VRAM peaking at 24,082 MiB. Short-prompt prefill runs 95 to 114 tok/s. Reading 17.9 GB of weights at 300 GB/s bounds plain decode at ~16.8 tok/s, and speculation supplies the rest.</div>
       </div>
 
     </div>
