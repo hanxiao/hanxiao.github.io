@@ -25,11 +25,11 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=3") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=3") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=3") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=3") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=3") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=4") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=4") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=4") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=4") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=4") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
@@ -699,6 +699,26 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
+<section class="slide" data-title="逐格看：换个模型家族，它照样管用">
+  <div class="body" style="justify-content:center;gap:14px">
+    <div class="hmframe">
+      <div class="hmyax">
+        <div class="hmyanchor">1.2×<span class="d">便宜</span></div>
+        <div class="hmytitle">算力成本</div>
+        <div class="hmyanchor">14.7×<span class="d">昂贵</span></div>
+      </div>
+      <div class="hmcolwrap">
+        <div class="hmwrap" id="c-heatmap"></div>
+        <div class="hmxax">19 个留出任务 →</div>
+      </div>
+    </div>
+    <div class="row" style="align-items:center;gap:26px;margin-top:2px">
+      <div class="hmleg"><span style="color:var(--pink)">−0.12</span><span class="bar"></span><span style="color:var(--green)">+0.16</span></div>
+      <p class="cap" style="flex:1">每行是十二个程序之一，每列是十九个留出任务之一，四个编码器里三个在发现阶段从未出现。<strong>76 个「任务 × 编码器」组合里，有 52 个至少在某个程序下拿到了提升。</strong>更有意思的是右边两块：<span class="gr">gemma-300m 和 qwen3-0.6b 这两个完全没参与过发现的家族，正格比例反而最高，都是 62%</span>。</p>
+    </div>
+  </div>
+</section>
+
 <section class="slide" data-title="真正能搬走的，是最便宜的那一批">
   <div class="body row" style="gap:30px;align-items:center">
     <div class="fill" style="flex:1.3">
@@ -1203,7 +1223,7 @@ tr.weakrow td{color:var(--mut)}
 </div>
 
 </div>
-<script src="data.js?v=3"></script>
+<script src="data.js?v=4"></script>
 <script>
 const stage=document.getElementById('stage');
 const slides=[...document.querySelectorAll('.slide')];
@@ -1516,8 +1536,45 @@ function drawPermodel(){
   });
 }
 
+
+/* cross-encoder transfer heatmap: 12 programs x 19 held-out tasks, four encoders */
+function drawHeatmap(){
+  const c=document.getElementById('c-heatmap'); if(!c||!A.heatmap) return;
+  c.innerHTML='';
+  const H=A.heatmap, nT=H.tasks.length, nP=H.progs.length, CAP=0.12, BG=[12,16,32];
+  const col=d=>{
+    if(d==null) return '#1A1F2E';
+    const t=Math.min(Math.abs(d)/CAP,1);
+    const to=d>=0?[39,192,138]:[220,60,180];
+    return 'rgb('+to.map((v,k)=>Math.round(BG[k]+(v-BG[k])*t)).join(',')+')';
+  };
+  H.models.forEach((m,mi)=>{
+    const panel=document.createElement('div');
+    const unseen=(m.seen==='unseen');
+    panel.className='hmpanel'+(unseen?' disc':'');
+    const lab=document.createElement('div'); lab.className='hmlabel';
+    const seenTxt=unseen?'未见过':(m.seen==='discovery'?'发现阶段':'留出');
+    lab.innerHTML=(m.label||m.key)+'<span class="tag '+(unseen?'disc':'')+'">'+seenTxt+'</span>';
+    panel.appendChild(lab);
+    const grid=document.createElement('div'); grid.className='hmgrid';
+    grid.style.gridTemplateColumns='repeat('+nT+',10px)';
+    const G=H.grid[m.key];
+    for(let p=0;p<nP;p++) for(let t=0;t<nT;t++){
+      const v=G[p][t], cell=document.createElement('div'); cell.className='hmcell';
+      cell.style.background=col(v);
+      if(v==null) cell.classList.add('z');
+      else{
+        cell.style.animationDelay=((v>=0?0:1500)+t*60+p*40+mi*150)+'ms';
+        cell.title=H.progs[p]+' · '+H.tasks[t]+': '+(v>0?'+':'')+v.toFixed(3);
+      }
+      grid.appendChild(cell);
+    }
+    panel.appendChild(grid); c.appendChild(panel);
+  });
+}
+
 function renderAll(){
-  drawPareto();drawPermodel();fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
+  drawPareto();drawPermodel();drawHeatmap();fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
 }
 function init(){
   fit(); requestAnimationFrame(fit);

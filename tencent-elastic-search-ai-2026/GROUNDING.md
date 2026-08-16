@@ -342,3 +342,30 @@ four bit planes; that split now has a card each.
 The funnel slide keeps the figure and the measured numbers, and picks up the paper's reason for
 having no ANN index at all: a graph index at degree 32 stores 256 bytes of links per vector, which
 is 0.95 GB at four million chunks, close to three times the matrix a query scans.
+
+---
+
+## 10. The cross-encoder heatmap, reframed positive (2026-08-15)
+
+aie-sf-2026 #20 was still missing. Ported it, and rewrote the reading of it.
+
+The original English slide led with the failure: "Compute helps about half the cells, and
+collapses the rest", pooled mean negative at −0.016, deep-pink cells to −0.98. That framing was
+right for the paper's honest accounting but it is not what this talk is arguing, and Han's rule
+is no negative framing.
+
+What the same grid supports, verified by recomputing from `A.heatmap` rather than repeating the
+old caption:
+
+| encoder | seen in discovery | positive cells | best cell |
+| --- | --- | --- | --- |
+| j-v5-nano | yes | 108/228 (47%) | +0.129 |
+| j-v5-small | no | 95/228 (42%) | +0.116 |
+| gemma-300m | never | **141/228 (62%)** | +0.143 |
+| qwen3-0.6b | never | **141/228 (62%)** | +0.156 |
+
+Totals: 485 of 912 cells positive, and 52 of the 76 task-encoder pairs improve under at least one
+program. The headline is the last two columns: the two families that never took part in discovery
+have the *highest* share of positive cells. That is the transfer claim, shown per cell.
+
+Colour scale capped at ±0.12 so the per-cell structure is legible; the legend states the cap.
