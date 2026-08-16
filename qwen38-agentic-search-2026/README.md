@@ -38,8 +38,10 @@ Slides awaiting measurement: **17, 18, 19, 20**. The speaker notes say so out lo
   comments. Nothing in it is estimated.
 - `vendor/tex-svg.js` - self-hosted MathJax (SVG output), so the usable(q) equation renders offline.
 - `img/` - five QR codes (this deck, both serving repos, dataroom, searchbox), two GitHub README
-  screenshots captured headless and cropped to the top 470px, and the dataroom / searchbox banners
-  copied from those repos. No imagery from the previous talk.
+  screenshots captured headless and cropped to the top 470px, the dataroom / searchbox banners
+  copied from those repos, and `og.png`, the social card rendered from slide 1 itself (regenerate
+  it with a 1200x630 headless screenshot of `#1` whenever the title changes). No imagery from the
+  previous talk.
 - `slides.pdf` - 23-page export for sharing.
 - `speaker-notes/` - the teleprompter/presenter page. `index.html` is the presenter UI (timer +
   pace meter); it shows the deck in an `<iframe src="../index.html">`, so the slides are NEVER
@@ -59,7 +61,7 @@ The slides live in exactly one file, `index.html`. The presenter page embeds it 
 there is only ever ONE slide version. `speaker-notes/notes.js` is the only parallel artifact: 23
 entries, one per slide. When you edit a slide's facts, numbers, order, or count, update the matching
 `notes.js` entry in the same pass. Cloudflare edge-caches `notes.js`, so after editing it bump the
-cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=1).
+cache-bust version in the presenter page (`<script src="notes.js?v=N">`, currently v=2).
 
 ## Present
 Open `index.html`, then: Right/Space/click = next, Left = previous, `f` = fullscreen,
