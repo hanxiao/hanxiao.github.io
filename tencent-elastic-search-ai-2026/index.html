@@ -482,6 +482,31 @@ tr.weakrow td{color:var(--mut)}
 .snipn{font-size:17.3px;line-height:1.5;font-weight:300;color:var(--mut)}
 .snipn strong{font-weight:500;color:var(--ink2)}
 .sar.flow{stroke-dasharray:5 4;animation:march 1s linear infinite}
+/* ---------- deep-snippet waterfall ---------- */
+.wfwrap{display:flex;flex-direction:row;gap:26px;width:100%;align-items:stretch;height:512px}
+.wfleft{flex:0 0 41%;display:flex;flex-direction:column;gap:9px;min-height:0}
+.wfleft .shot{flex:1;min-height:0;overflow:hidden;position:relative;background:#fff}
+.wfleft .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.wfleft .shotcap{font-size:15px;line-height:1.45}
+.wfright{flex:1;display:flex;flex-direction:column;gap:0;position:relative;justify-content:center}
+.wfstep{display:flex;flex-direction:row;align-items:center;gap:12px;padding:8px 13px;
+  border:1px solid var(--line2);border-radius:var(--r-box);background:rgba(18,23,34,.92)}
+.wfstep .wn{font-family:var(--mono);font-size:11px;font-weight:800;color:var(--mut);flex:0 0 16px}
+.wfstep .wt{font-size:15.5px;font-weight:700;line-height:1.2;color:var(--ink)}
+.wfstep .wd{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--mut);margin-left:auto;
+  text-align:right;line-height:1.3;white-space:nowrap}
+.wfarr{height:15px;display:flex;align-items:center;justify-content:center;color:var(--cyan);
+  font-size:13px;font-weight:800;line-height:1}
+.wfttc{border:1.6px dashed var(--cyan);border-radius:var(--r-card);padding:11px 12px 12px;
+  background:rgba(38,198,218,.07);display:flex;flex-direction:column;gap:0;position:relative;
+  animation:march 1.2s linear infinite}
+.wfttc .wflbl{position:absolute;top:-9px;left:14px;background:#080A13;padding:0 8px;
+  font-family:var(--mono);font-size:10.5px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--cyan)}
+.wfttc .wfstep{border-color:var(--cyan);background:rgba(38,198,218,.11)}
+.wfstep.win{border-color:var(--green);background:rgba(39,192,138,.12)}
+.wfstep.win .wt{color:#fff}
+@media print{.wfttc{animation:none}}
 .sar.amb{stroke:var(--amber)}
 .sar.gr{stroke:var(--green)}
 .sfade{animation:sfade 2.6s ease-in-out infinite}
@@ -971,74 +996,30 @@ tr.weakrow td{color:var(--mut)}
 
 <section class="slide" data-title="搜索引擎给的那 20 个词，往往没回答问题">
   <div class="body" style="justify-content:center;gap:16px">
-    <div class="snipwrap">
+    <div class="wfwrap">
 
-      <div class="snipcol">
+      <div class="wfleft">
         <div class="sniph">search_web<span class="sniptag">引擎自带 snippet</span></div>
-        <svg class="snipsvg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect class="sq" x="12" y="66" width="58" height="32" rx="6"/>
-          <text class="sxt" x="41" y="86" text-anchor="middle">query</text>
-          <path class="sar flow" d="M72 82 L108 82"/>
-          <rect class="sbox" x="110" y="66" width="76" height="32" rx="6"/>
-          <text class="sxt" x="148" y="86" text-anchor="middle">搜索引擎</text>
-          <path class="sar flow" d="M188 82 L216 60"/>
-          <path class="sar flow" d="M188 82 L216 82"/>
-          <path class="sar flow" d="M188 82 L216 104"/>
-          <g class="sfade">
-            <rect class="sbox dim" x="218" y="50" width="70" height="20" rx="3"/>
-            <rect class="sbox dim" x="218" y="72" width="70" height="20" rx="3"/>
-            <rect class="sbox dim" x="218" y="94" width="70" height="20" rx="3"/>
-            <text class="stiny" x="253" y="63" text-anchor="middle">~20 词片段</text>
-            <text class="stiny" x="253" y="85" text-anchor="middle">~20 词片段</text>
-            <text class="stiny" x="253" y="107" text-anchor="middle">~20 词片段</text>
-          </g>
-          <text class="snote" x="288" y="134" text-anchor="end">页面开头，或只是命中了关键词</text>
-          <path class="sar" d="M253 118 L253 126" style="stroke:var(--pink);stroke-dasharray:2 2"/>
-          <g class="sfade">
-            <rect class="sbox dim" x="218" y="28" width="70" height="20" rx="3"/>
-            <text class="stiny" x="253" y="41" text-anchor="middle">~20 词片段</text>
-          </g>
-          <path class="sar flow" d="M188 82 L216 38"/>
-        </svg>
+        <div class="shot"><img src="img/serp-google.jpg" alt="Google 搜「tencent elastic」的结果页，每条下面是引擎选的 ~20 词 snippet"></div>
+        <div class="shotcap">每条下面那行就是引擎选的 snippet。</div>
       </div>
 
-      <div class="snipcol hero">
-        <div class="sniph">search_web_deep<span class="sniptag on">正文级 snippet</span></div>
-        <svg class="snipsvg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect class="sq" x="4" y="66" width="38" height="32" rx="6"/>
-          <text class="sxt" x="23" y="86" text-anchor="middle">query</text>
-          <path class="sar flow" d="M44 82 L62 82"/>
-          <rect class="sbox" x="64" y="66" width="42" height="32" rx="6"/>
-          <text class="sxt2" x="85" y="86" text-anchor="middle">Reader</text>
-          <path class="sar flow" d="M108 82 L124 82"/>
-          <g class="chunks">
-            <rect class="ck" x="126" y="28" width="16" height="12" rx="2"/>
-            <rect class="ck" x="145" y="28" width="16" height="12" rx="2"/>
-            <rect class="ck" x="126" y="45" width="16" height="12" rx="2"/>
-            <rect class="ck" x="145" y="45" width="16" height="12" rx="2"/>
-            <rect class="ck" x="126" y="62" width="16" height="12" rx="2"/>
-            <rect class="ck" x="145" y="62" width="16" height="12" rx="2"/>
-            <rect class="ck" x="126" y="79" width="16" height="12" rx="2"/>
-            <rect class="ck" x="145" y="79" width="16" height="12" rx="2"/>
-          </g>
-          <rect class="ck serp" x="126" y="98" width="35" height="12" rx="2"/>
-          <text class="stiny" x="143" y="22" text-anchor="middle">所有页面切成 ~100 词的块</text>
-          <text class="stiny serpt" x="143" y="122" text-anchor="middle">引擎 snippet 也作为候选入场</text>
-          <path class="sar flow" d="M164 46 L184 62"/>
-          <path class="sar flow" d="M164 71 L184 76"/>
-          <path class="sar flow" d="M164 88 L184 90"/>
-          <path class="sar flow amb" d="M164 104 L184 104"/>
-          <rect class="rerank" x="186" y="40" width="58" height="84" rx="7"/>
-          <text class="sxt2" x="215" y="52" text-anchor="middle">listwise 一次调用</text>
-          <rect class="ckwin" x="194" y="60" width="42" height="10" rx="2"/>
-          <rect class="ck" x="194" y="74" width="42" height="10" rx="2" style="opacity:.5"/>
-          <rect class="ck serp" x="194" y="88" width="42" height="10" rx="2" style="opacity:.5"/>
-          <rect class="ck" x="194" y="102" width="42" height="10" rx="2" style="opacity:.5"/>
-          <path class="sar flow gr" d="M240 65 L262 78"/>
-          <rect class="win glow" x="264" y="66" width="32" height="32" rx="6"/>
-          <text class="sxt" x="280" y="86" text-anchor="middle">最佳</text>
-          <text class="stiny" x="280" y="110" text-anchor="middle" style="fill:#27C08A">跨页直接比</text>
-        </svg>
+      <div class="wfright">
+        <div class="sniph" style="margin-bottom:9px">search_web_deep<span class="sniptag on">meta=deep</span></div>
+        <div class="wfstep"><span class="wn">01</span><span class="wt">拿 SERP 候选</span><span class="wd">read_num=20</span></div>
+        <div class="wfarr">↓</div>
+        <div class="wfttc">
+          <div class="wflbl">test-time compute</div>
+          <div class="wfstep"><span class="wn cy">02</span><span class="wt">Reader 并发读正文</span><span class="wd">按需派发 · 没有 barrier</span></div>
+          <div class="wfarr">↓</div>
+          <div class="wfstep"><span class="wn cy">03</span><span class="wt">句子边界切块</span><span class="wd">100 词 · 重叠 25</span></div>
+          <div class="wfarr">↓</div>
+          <div class="wfstep"><span class="wn cy">04</span><span class="wt">所有页的所有块 + 引擎 snippet</span><span class="wd">入同一个候选池</span></div>
+          <div class="wfarr">↓</div>
+          <div class="wfstep"><span class="wn cy">05</span><span class="wt">一次 listwise 打分</span><span class="wd">jina-reranker-v3.5 · 143ms</span></div>
+        </div>
+        <div class="wfarr">↓</div>
+        <div class="wfstep win"><span class="wn gr">06</span><span class="wt">每个 url 取最高分那一块</span><span class="wd">跨页同尺度，不需阈值</span></div>
       </div>
 
     </div>

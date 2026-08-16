@@ -408,6 +408,15 @@ buys a better answer, and nothing is retrained.
 Section order is now: 1-bit scan into exact rescoring, then listwise reranking (with in-page
 search as its limit case), then snippet selection.
 
+**Slide layout (2026-08-16).** Left is a real Google SERP for `tencent elastic` (`img/serp-google.jpg`,
+captured from the live page at 820px width, `udm=14` so no AI Overview), so the audience sees what an
+engine snippet actually is. Right is the `meta=deep` pipeline as a six-step waterfall taken from the
+serp-api README: 01 take SERP candidates (`read_num=20`), 02 Reader reads bodies concurrently
+(dispatched on demand, no barrier), 03 split at sentence boundaries (100 words, overlap 25), 04 all
+chunks from all pages plus the engine snippet enter one candidate pool, 05 one listwise
+`jina-reranker-v3.5` call (143 ms), 06 each url keeps its highest-scoring chunk. Steps 02-05 sit
+inside a dashed cyan marching box labelled TEST-TIME COMPUTE, which is the whole point of the slide.
+
 ---
 
 ## 12. Tagger pipeline and scoring equation (2026-08-15)
