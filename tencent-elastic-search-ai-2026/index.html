@@ -46,7 +46,7 @@ html,body{height:100%;background:#000}
 body{font-family:var(--sans);color:var(--ink);overflow:hidden}
 #stage{position:fixed;left:50%;top:50%;width:1280px;height:720px;transform:translate(-50%,-50%);
   transform-origin:center center;background:var(--bg);overflow:hidden}
-.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:74px 76px 62px;
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:104px 76px 62px;
   background:
     radial-gradient(1100px 620px at 22% 8%, rgba(59,111,240,.16), transparent 62%),
     radial-gradient(900px 600px at 88% 92%, rgba(38,198,218,.10), transparent 60%),
@@ -58,7 +58,10 @@ body{font-family:var(--sans);color:var(--ink);overflow:hidden}
 .c-hdr{left:76px;right:76px;top:26px;display:flex;justify-content:space-between;align-items:center}
 /* Han's spec is in PPT points on a 960x540pt canvas; this stage is 1280x720px,
    so 1pt = 1.3333px. Header title 22pt = 29.3px. */
-.c-hdr .ttl{display:flex;align-items:center;gap:12px;font-size:29.3px;font-weight:400;color:var(--ink2);letter-spacing:.01em}
+.c-hdr{gap:24px}
+.c-hdr .ttl{display:flex;align-items:center;gap:12px;font-size:29.3px;font-weight:400;color:var(--ink);
+  letter-spacing:.005em;min-width:0;flex:1}
+.c-hdr .ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .c-hdr .ttl .mark{height:36px;width:auto;display:block;flex:0 0 auto}
 .c-hdr .logos img{height:28px;display:block;opacity:.95}
 .c-foot{right:76px;bottom:24px;text-align:right;line-height:1.25}
@@ -80,14 +83,15 @@ h1{font-size:73.3px;line-height:1.18;font-weight:700;letter-spacing:-.015em;max-
   margin-bottom:22px;text-wrap:balance}
 .h-slide.sm{font-size:28px}
 .sub{font-size:19px;line-height:1.5;font-weight:300;color:var(--ink2);max-width:56ch}
-.lead{font-size:17px;line-height:1.55;font-weight:300;color:var(--ink2);max-width:64ch}
-.cap{font-size:15.5px;line-height:1.6;font-weight:300;color:var(--ink2);max-width:92ch}
+.lead{font-size:17.3px;line-height:1.62;font-weight:300;color:var(--ink2);max-width:64ch}
+/* content-slide body copy is a single size: 13pt = 17.3px */
+.cap{font-size:17.3px;line-height:1.62;font-weight:300;color:var(--ink2);max-width:88ch}
 .cap.c{text-align:center;margin:0 auto}
 .mono{font-family:var(--mono)}
 .mut{color:var(--mut)}
 .cy{color:var(--cyan)} .bl{color:var(--blue2)} .pk{color:var(--pink)} .gr{color:var(--green)} .am{color:var(--amber)}
 strong,b{font-weight:700;color:#fff}
-.takeaway{font-size:18.5px;line-height:1.5;font-weight:500;text-align:center;text-wrap:balance;
+.takeaway{font-size:17.3px;line-height:1.6;font-weight:500;text-align:center;text-wrap:balance;
   max-width:72ch;margin:0 auto;color:var(--ink)}
 .body{flex:1;display:flex;flex-direction:column;min-height:0;justify-content:center}
 .row{display:flex;flex-direction:row;gap:28px;align-items:stretch}
@@ -95,6 +99,7 @@ strong,b{font-weight:700;color:#fff}
 
 /* ---------- title ---------- */
 .title{padding:0;justify-content:center}
+.divider{padding-top:74px}
 .title .wrap{display:flex;height:100%;align-items:center}
 .title .art{width:32%;position:relative;height:100%;display:flex;align-items:center;justify-content:center}
 .title .art img.cloud{width:250px;position:relative;z-index:2;filter:drop-shadow(0 0 70px rgba(38,198,218,.35))}
@@ -171,10 +176,10 @@ strong,b{font-weight:700;color:#fff}
 .card .n{font-family:var(--mono);font-size:28px;font-weight:800;color:var(--cyan);line-height:1;margin-bottom:10px}
 .card.c-blue .n{color:var(--blue2)} .card.c-pink .n{color:var(--pink)}
 .card.c-green .n{color:var(--green)} .card.c-amber .n{color:var(--amber)} .card.c-mut .n{color:var(--mut)}
-.card .ttl{font-size:16.5px;font-weight:700;margin-bottom:8px;line-height:1.32}
-.card .dsc{font-size:13.5px;font-weight:300;line-height:1.6;color:var(--mut)}
+.card .ttl{font-size:17.3px;font-weight:700;margin-bottom:9px;line-height:1.4}
+.card .dsc{font-size:17.3px;font-weight:300;line-height:1.6;color:var(--mut)}
 .card .dsc strong{font-weight:500;color:var(--ink2)}
-.card .foot{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--cyan)}
+.card .foot{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--cyan)}
 .card.c-mut .foot{color:var(--mut)}
 
 .deflist{display:flex;flex-direction:column;gap:14px}
@@ -182,9 +187,9 @@ strong,b{font-weight:700;color:#fff}
 .defrow .tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--cyan);min-width:150px;border-left:2px solid var(--cyan);padding-left:12px}
 .defrow .tag.w{min-width:196px}
-.defrow .dsc{font-size:16px;font-weight:300;line-height:1.5;color:var(--ink2)}
+.defrow .dsc{font-size:17.3px;font-weight:300;line-height:1.55;color:var(--ink2)}
 
-.chip{display:inline-block;font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.03em;
+.chip{display:inline-block;font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.03em;
   border:1px solid var(--line2);border-radius:999px;padding:6px 14px;margin:0 8px 8px 0;color:var(--ink2);
   background:rgba(38,198,218,.06)}
 .chip.no{border-color:rgba(220,60,180,.45);color:#F49BDE;background:rgba(220,60,180,.07)}
@@ -192,8 +197,8 @@ strong,b{font-weight:700;color:#fff}
 .nlist{display:flex;flex-direction:column;gap:14px}
 .nitem{display:flex;gap:18px;align-items:flex-start}
 .nitem .n{font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan);min-width:38px;line-height:1.25}
-.nitem .t{font-size:17.5px;font-weight:500;line-height:1.4}
-.nitem .t span{display:block;font-size:14.5px;font-weight:300;color:var(--mut);margin-top:4px;line-height:1.55}
+.nitem .t{font-size:17.3px;font-weight:500;line-height:1.5}
+.nitem .t span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
 
 .pull{font-size:20px;line-height:1.5;font-weight:500;border-left:3px solid var(--cyan);padding-left:22px}
 .pull strong{color:var(--cyan);font-weight:700}
@@ -208,14 +213,14 @@ strong,b{font-weight:700;color:#fff}
 .kpi.k-pink::before{background:var(--pink)} .kpi.k-green::before{background:var(--green)} .kpi.k-blue::before{background:var(--blue)}
 .kpi .v{font-family:var(--mono);font-size:34px;font-weight:800;color:var(--cyan);line-height:1}
 .kpi.k-pink .v{color:var(--pink)} .kpi.k-green .v{color:var(--green)} .kpi.k-blue .v{color:var(--blue2)}
-.kpi .lb{font-size:13px;font-weight:300;color:var(--mut);margin-top:8px;line-height:1.5}
+.kpi .lb{font-size:17.3px;font-weight:300;color:var(--mut);margin-top:9px;line-height:1.5}
 .stats{display:flex;flex-direction:column;gap:20px}
 .stat .v{font-family:var(--mono);font-size:40px;font-weight:800;line-height:1;color:var(--cyan)}
 .stat .v.pk{color:var(--pink)} .stat .v.gr{color:var(--green)}
-.stat .l{font-size:13.5px;font-weight:300;color:var(--mut);margin-top:8px;line-height:1.5;max-width:30ch}
+.stat .l{font-size:17.3px;font-weight:300;color:var(--mut);margin-top:9px;line-height:1.5;max-width:26ch}
 
 /* ---------- table ---------- */
-table{border-collapse:collapse;width:100%;font-size:14.5px}
+table{border-collapse:collapse;width:100%;font-size:16px}
 th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--mut);text-align:right;padding:0 12px 9px;border-bottom:1px solid var(--line2)}
 th:first-child{text-align:left}
@@ -230,7 +235,7 @@ tr.weakrow td{color:var(--mut)}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .tcell{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#0A0C14}
 .tcell img{width:100%;height:118px;object-fit:cover;display:block;opacity:.95}
-.tcell .tc{position:absolute;left:0;right:0;bottom:0;padding:6px 9px;font-family:var(--mono);font-size:10px;
+.tcell .tc{position:absolute;left:0;right:0;bottom:0;padding:7px 10px;font-family:var(--mono);font-size:11.5px;
   color:#DFF6FA;background:linear-gradient(180deg,rgba(5,8,16,0),rgba(5,8,16,.92) 46%);letter-spacing:.01em}
 
 /* ---------- flow ---------- */
@@ -373,7 +378,7 @@ tr.weakrow td{color:var(--mut)}
 .synp svg{width:100%;height:86px;display:block}
 .synh{font-size:16px;font-weight:700;border-top:1px solid var(--line);padding-top:10px;color:var(--ink)}
 .synh .tag{font-family:var(--mono);color:var(--cyan);font-weight:800;margin-right:8px}
-.synrow{font-size:13.5px;line-height:1.45;color:var(--ink2);font-weight:300}
+.synrow{font-size:17.3px;line-height:1.5;color:var(--ink2);font-weight:300}
 .synrow b{font-family:var(--mono);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   color:var(--cyan);display:inline-block;min-width:96px}
 .vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink2)}
@@ -381,12 +386,12 @@ tr.weakrow td{color:var(--mut)}
 /* ---------- product screenshots ---------- */
 .shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
 .shot img{display:block;width:100%;height:auto}
-.shotcap{font-size:12.5px;color:var(--mut);line-height:1.5;font-weight:300}
+.shotcap{font-size:17.3px;color:var(--mut);line-height:1.5;font-weight:300}
 .shotcap strong{color:var(--ink2);font-weight:500}
 .flowv{display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .fbox.compact{min-height:0;padding:10px}
 .farrv{color:var(--cyan);font-size:18px;font-weight:800;text-align:center;line-height:1}
-.qlist p{font-size:14.5px;line-height:1.5;padding-left:22px;position:relative;margin-bottom:8px;
+.qlist p{font-size:17.3px;line-height:1.55;padding-left:24px;position:relative;margin-bottom:9px;
   font-weight:300;color:var(--ink2)}
 .qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--cyan);font-weight:800}
 .mlabel{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
@@ -429,9 +434,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 2 THE SATURATION ============ -->
-<section class="slide">
-  <div class="kicker">开场</div>
-  <h2 class="h-slide">2026 年了，搜索还有什么可做的？</h2>
+<section class="slide" data-title="2026 年了，搜索还有什么可做的？">
+  
   <div class="body" style="justify-content:center;gap:26px">
     <div class="cards">
       <div class="card c-mut"><div class="ttl">模型这边</div>
@@ -447,7 +451,6 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 3 THE CLAIM ============ -->
 <section class="slide claimslide">
-  <div class="kicker">我的答案</div>
   <div class="body" style="justify-content:center;align-items:center;gap:30px">
     <div class="bigclaim">搜索，本来就是一种<br><span class="cy">test-time compute</span>。</div>
     <p class="takeaway" style="max-width:60ch">看清这一点，很多原本觉得做到头了的地方，会重新变得有事可做。</p>
@@ -455,9 +458,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 4 TTC DEFINED ============ -->
-<section class="slide">
-  <div class="kicker">先把概念说清楚</div>
-  <h2 class="h-slide sm">什么叫 test-time compute。</h2>
+<section class="slide" data-title="什么叫 test-time compute。">
+  
   <div class="body" style="justify-content:center;gap:24px">
     <p class="cap" style="max-width:80ch;font-size:17px">一句话：<strong>不去训一个更大的模型，而是让手上这个模型，在回答每个问题时多干一点活。</strong>训练阶段的钱已经花完了，这笔新的开销花在推理这一刻。</p>
     <div class="cards">
@@ -474,7 +476,6 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 5 NOAM BROWN ============ -->
 <section class="slide">
-  <div class="kicker">这笔账有多划算</div>
   <div class="body" style="justify-content:center;gap:34px">
     <blockquote class="pull" style="max-width:64ch;font-size:23px">
       让机器人在一手扑克上多想 <strong>20 秒</strong>，effect 相当于把模型放大 <strong>10 万倍</strong>、再多训 10 万倍的时间。
@@ -485,15 +486,14 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 6 SECTION 01 ============ -->
-<section class="slide divider">
+<section class="slide divider" data-title="">
   <div class="drow"><div class="num">01</div><div class="vbar"></div><div><h2>为什么说搜索就是它</h2></div></div>
   <div class="dsub">多跑几遍，跑得更深一点，然后看看能换回来什么</div>
 </section>
 
 <!-- ============ 7 WHY SEARCH IS TTC ============ -->
-<section class="slide">
-  <div class="kicker">把搜索拆开看</div>
-  <h2 class="h-slide sm">你搭的每一条检索链路，都是在推理时多算几遍。</h2>
+<section class="slide" data-title="你搭的每一条检索链路，都是在推理时多算几遍。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这不就是 test-time compute 吗，只是我们一直管它叫「搭链路」。</p>
     <div class="cards">
@@ -508,9 +508,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 8 SCORING SPECTRUM ============ -->
-<section class="slide">
-  <div class="kicker">最小的一个例子</div>
-  <h2 class="h-slide sm">从一次 cosine，到 late interaction，中间隔的全是算力。</h2>
+<section class="slide" data-title="从一次 cosine，到 late interaction，中间隔的全是算力。">
+  
   <div class="body" style="justify-content:center;gap:18px">
     <div class="vsrow">
       <div class="vspanel">
@@ -568,7 +567,6 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 9 THE MONEY SLIDE ============ -->
 <section class="slide tradeslide">
-  <div class="kicker">这一页请记住</div>
   <div class="body" style="justify-content:center;align-items:center;gap:0">
     <div class="tradeline">
       <div class="tspend">
@@ -591,9 +589,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 10 FOUR PROJECTS ============ -->
-<section class="slide">
-  <div class="kicker">接下来</div>
-  <h2 class="h-slide sm">四个项目，都是这句话的注脚。</h2>
+<section class="slide" data-title="四个项目，都是这句话的注脚。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <div class="cards">
       <div class="card c-blue"><div class="n">01</div><div class="ttl">重排与页内检索</div>
@@ -614,15 +611,14 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ SECTION 02 ============ -->
-<section class="slide divider">
+<section class="slide divider" data-title="">
   <div class="drow"><div class="num">02</div><div class="vbar" style="background:var(--blue)"></div><div><h2>最熟的那笔算力：重排</h2></div></div>
   <div class="dsub">召回给你一堆候选，重排再花一次钱，把它们放在一起比一遍</div>
 </section>
 
 <!-- ============ RERANKER ============ -->
-<section class="slide">
-  <div class="kicker">第二段模型</div>
-  <h2 class="h-slide sm">双塔各算各的，重排让候选互相比。</h2>
+<section class="slide" data-title="双塔各算各的，重排让候选互相比。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <p class="cap" style="max-width:82ch;font-size:17px">向量检索里，每篇文档的向量是<strong>在别的文档还不存在的时候</strong>就算好的。可文档相关不相关，本来就是比出来的：三段都提到延迟，哪一段真的回答了问题？重排就是为这件事额外花的一次推理。</p>
     <div class="cards">
@@ -641,11 +637,10 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ IN-PAGE: DELETE THE INDEX ============ -->
-<section class="slide">
-  <div class="kicker">把这个思路推到头</div>
+<section class="slide" data-title="如果只有一页文档，那就把索引删掉。">
   <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="in-page search repo QR"></a>
-  <h2 class="h-slide sm">如果只有一页文档，那就把索引删掉。</h2>
+  
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
       <p class="cap">常规做法是把每个 chunk 都embed、存向量、再 ANN 查回来。但<strong>索引是靠很多次查询摊薄成本的，而一页文档只活在这一次浏览里</strong>。为它建索引，比直接跑一遍前向还贵。</p>
@@ -664,9 +659,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ FUNNEL ============ -->
-<section class="slide">
-  <div class="kicker">同一笔账，换个花法</div>
-  <h2 class="h-slide sm">先粗扫一遍，再把钱花在最后那几十条上。</h2>
+<section class="slide" data-title="先粗扫一遍，再把钱花在最后那几十条上。">
+  
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:10px">
       <div class="shot" style="padding:14px;background:#fff"><img src="img/funnel.png" alt="两段式重排漏斗"></div>
@@ -684,15 +678,14 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 24 SECTION 03 ============ -->
-<section class="slide divider">
+<section class="slide divider" data-title="">
   <div class="drow"><div class="num">03</div><div class="vbar" style="background:var(--green)"></div><div><h2>Image tagging：买一个新能力</h2></div></div>
   <div class="dsub">一个只会做检索的模型，从来没学过打标签。这次不求它更准，求它会一件新事</div>
 </section>
 
 <!-- ============ 25 RESULT FIRST ============ -->
-<section class="slide">
-  <div class="kicker">先看结果</div>
-  <h2 class="h-slide sm">这些标签，是一个检索模型吐出来的。</h2>
+<section class="slide" data-title="这些标签，是一个检索模型吐出来的。">
+  
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
       <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain · phoenix · sky · rooftop · location</div></figure>
@@ -710,9 +703,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 26 SETUP ============ -->
-<section class="slide">
-  <div class="kicker">规则照旧</div>
-  <h2 class="h-slide sm">同样只准动推理，但这次要的是一件新差事。</h2>
+<section class="slide" data-title="同样只准动推理，但这次要的是一件新差事。">
+  
   <div class="body" style="justify-content:center;gap:20px">
     <div class="deflist" style="max-width:1040px">
       <div class="defrow"><div class="tag">手上有</div><div class="dsc">一个 <strong>jina-embeddings-v5-omni-nano</strong>，大约 1B，图和文共用一个 768 维空间。</div></div>
@@ -728,9 +720,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 27 COMPUTE MENU ============ -->
-<section class="slide">
-  <div class="kicker">算力能怎么花</div>
-  <h2 class="h-slide sm">对一个向量模型来说，无非三种花法。</h2>
+<section class="slide" data-title="对一个向量模型来说，无非三种花法。">
+  
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
       <div class="card"><div class="n">A</div><div class="ttl">同一次前向，读得更深</div>
@@ -748,9 +739,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 28 PIPELINE ============ -->
-<section class="slide">
-  <div class="kicker">四步走</div>
-  <h2 class="h-slide sm">把一个检索器，改装成标注器。</h2>
+<section class="slide" data-title="把一个检索器，改装成标注器。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <div class="flow">
       <div class="step on">词表当标签空间</div><div class="ar">→</div>
@@ -772,18 +762,16 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 29 VOCAB HISTOGRAM ============ -->
-<section class="slide">
-  <div class="kicker">这是真实的分布</div>
-  <h2 class="h-slide sm">12.8 万个词的得分，是怎么一步步被整理出来的。</h2>
+<section class="slide" data-title="12.8 万个词的得分，是怎么一步步被整理出来的。">
+  
   <div class="body" style="justify-content:center">
     <div class="chart" id="c-vhist" style="max-width:1090px;margin:0 auto"></div>
   </div>
 </section>
 
 <!-- ============ 30 LADDER + TABLE ============ -->
-<section class="slide">
-  <div class="kicker">COCO-150</div>
-  <h2 class="h-slide sm">读得更深，加上多看几眼，就是这么两级台阶。</h2>
+<section class="slide" data-title="读得更深，加上多看几眼，就是这么两级台阶。">
+  
   <div class="body row" style="gap:34px;align-items:center">
     <div class="chart" id="c-ladder" style="flex:0 0 400px"></div>
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
@@ -797,9 +785,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 31 LEVERS ============ -->
-<section class="slide">
-  <div class="kicker">我们试过的所有招</div>
-  <h2 class="h-slide sm">2024 到 2026 的免训练方法，挨个跑了一遍。</h2>
+<section class="slide" data-title="2024 到 2026 的免训练方法，挨个跑了一遍。">
+  
   <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
     <p class="takeaway" style="font-size:17px">能站住的是 <span class="gr">B 类</span>：真的去看新的像素。<span class="cy">A 类</span>把这次前向读透。<br>至于 <span class="bl">C 类</span>那些更花哨的数学——它们的前提是图和文在两个空间里，可这儿本来就是一个空间。</p>
@@ -807,9 +794,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 32 TAG PARETO ============ -->
-<section class="slide">
-  <div class="kicker">算力和精度的关系</div>
-  <h2 class="h-slide sm">规律很干净：能带回新信息的算力，才换得到东西。</h2>
+<section class="slide" data-title="规律很干净：能带回新信息的算力，才换得到东西。">
+  
   <div class="body" style="justify-content:center;gap:14px">
     <div class="chart" id="c-tagpareto" style="max-width:1090px;margin:0 auto"></div>
     <p class="takeaway">75 毫秒读透一次前向，1 秒钟看十五个视角。<span class="cy">这条前沿线上的每一步，都是往系统里灌进了新东西。</span></p>
@@ -817,9 +803,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 33 OMNI ============ -->
-<section class="slide">
-  <div class="kicker">已经上线了</div>
-  <h2 class="h-slide sm">这套东西现在跑在 Omni 里，一个本地的 macOS 搜索 app。</h2>
+<section class="slide" data-title="这套东西现在跑在 Omni 里，一个本地的 macOS 搜索 app。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <div class="kpis">
       <div class="kpi"><div class="v">~4%</div><div class="lb">打标签的额外开销，搭在原本就要跑的 embedding 前向上顺手完成</div></div>
@@ -836,15 +821,14 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 34 SECTION 04 ============ -->
-<section class="slide divider">
+<section class="slide divider" data-title="">
   <div class="drow"><div class="num">04</div><div class="vbar" style="background:var(--amber)"></div><div><h2>往上一层：让 agent 自己搭链路</h2></div></div>
   <div class="dsub">前面两个项目都在模型内部。这一层，算力花在了 agent 的循环里</div>
 </section>
 
 <!-- ============ 35 TREND ============ -->
-<section class="slide">
-  <div class="kicker">这两年的变化</div>
-  <h2 class="h-slide sm">从 deep research 到长程任务，循环越来越长。</h2>
+<section class="slide" data-title="从 deep research 到长程任务，循环越来越长。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <div class="trendrow">
       <div class="trendh"><span class="yr">2025</span> · Deep research</div>
@@ -874,11 +858,10 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 36 DATAROOM ============ -->
-<section class="slide">
-  <div class="kicker">项目三 · 攒料</div>
+<section class="slide" data-title="dataroom：把开放网络啃成一个 zip。">
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="dataroom repo QR"></a>
-  <h2 class="h-slide sm">dataroom：把开放网络啃成一个 zip。</h2>
+  
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">给它一个 token 预算，它就开始<strong>搜、读、写</strong>，一轮一轮来，直到把这个题目下能找到的东西全部打包成一个<strong>带引用的 zip</strong>。</p>
@@ -898,11 +881,10 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 37 SEARCHBOX ============ -->
-<section class="slide">
-  <div class="kicker">项目四 · 断网做题</div>
+<section class="slide" data-title="searchbox：把 agent 关进没有网的盒子里。">
   <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="searchbox repo QR"></a>
-  <h2 class="h-slide sm">searchbox：把 agent 关进没有网的盒子里。</h2>
+  
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
       <p class="cap">丢给它一个 dataroom 的 zip，然后<strong>切断网络</strong>，再问一个问题。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
@@ -923,11 +905,10 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 38 KG ============ -->
-<section class="slide">
-  <div class="kicker">项目四 · 出难题的人</div>
+<section class="slide" data-title="knowledge-graph：用知识图谱造多跳问题。">
   <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-knowledge-graph.png" alt="knowledge-graph repo QR"></a>
-  <h2 class="h-slide sm">knowledge-graph：用知识图谱造多跳问题。</h2>
+  
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">简单题对研究 agent 搜索毫无用处：<strong>一次 grep 就能命中的问题，什么方法做出来都一样分</strong>。要评测 searchbox，得先有能把它逼出汗的题。</p>
@@ -943,9 +924,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 39 HARNESS ============ -->
-<section class="slide">
-  <div class="kicker">正在做的一个</div>
-  <h2 class="h-slide sm">dataroom harness：把检索单独拎出来测。</h2>
+<section class="slide" data-title="dataroom harness：把检索单独拎出来测。">
+  
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
       <p class="cap">前面三个是完整的链路。想知道<strong>检索这一环到底值多少</strong>，得把它单独拎出来：固定一份 Jina 文档语料（210 篇 md 加结构化 json，切成 7777 个 chunk），外面套一个 agent，然后<strong>只给它一个外部工具</strong>。</p>
@@ -964,9 +944,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 40 STACK SYNTHESIS ============ -->
-<section class="slide">
-  <div class="kicker">这几个是一套</div>
-  <h2 class="h-slide sm">攒料、做题、出题，凑成一个能自己跑起来的闭环。</h2>
+<section class="slide" data-title="攒料、做题、出题，凑成一个能自己跑起来的闭环。">
+  
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
       <div class="card c-amber"><div class="n">01</div><div class="ttl">dataroom · 拉满召回</div>
@@ -983,15 +962,14 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 40 SECTION 05 ============ -->
-<section class="slide divider">
+<section class="slide divider" data-title="">
   <div class="drow"><div class="num">05</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>回到那句话</h2></div></div>
   <div class="dsub">这几个项目跑完，我更相信这个判断了</div>
 </section>
 
 <!-- ============ 41 TWO LEVELS ============ -->
-<section class="slide">
-  <div class="kicker">五个项目，两个层次</div>
-  <h2 class="h-slide sm">一层在模型里面，一层在模型外面。</h2>
+<section class="slide" data-title="一层在模型里面，一层在模型外面。">
+  
   <!-- five projects, two layers -->
   <div class="body" style="justify-content:center;gap:22px">
     <div class="syn2">
@@ -1029,9 +1007,8 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 42 HOW TO THINK ABOUT IT ============ -->
-<section class="slide">
-  <div class="kicker">我现在怎么看这件事</div>
-  <h2 class="h-slide sm">三个我自己拿来判断的问题。</h2>
+<section class="slide" data-title="三个我自己拿来判断的问题。">
+  
   <div class="body" style="justify-content:center;gap:22px">
     <div class="nlist" style="max-width:1030px">
       <div class="nitem"><div class="n">01</div><div class="t">先问：这次多花的算力，带回了什么新东西？
@@ -1047,7 +1024,6 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 43 FINAL CLAIM ============ -->
 <section class="slide claimslide">
-  <div class="kicker">最后一句</div>
   <div class="body" style="justify-content:center;align-items:center;gap:28px">
     <div class="bigclaim">搜索是一种 <span class="cy">test-time compute</span>。<br>别急着换更大的模型，<br>先在推理时<span class="cy">多搜一点</span>。</div>
     <p class="takeaway" style="max-width:62ch;font-size:19px">这条路我走了几个月，<br>越走越觉得它宽。</p>
@@ -1094,6 +1070,9 @@ const slides=[...document.querySelectorAll('.slide')];
     tpl.forEach(t=>{
       const c=t.cloneNode(true);
       const p=c.querySelector('.pgn'); if(p) p.textContent=(k+1)+' / '+slides.length;
+      // each content slide puts its own single title in the header
+      const h=c.querySelector('.ttl span');
+      if(h){ const own=s.getAttribute('data-title'); if(own!==null) h.textContent=own; }
       s.appendChild(c);
     });
   });
