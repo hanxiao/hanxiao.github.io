@@ -303,6 +303,7 @@ All six decode. Verified with `zbarimg`, not by eye:
 | `qr-inpage.png` | `github.com/hanxiao/jina-reranker-v3.5-in-page-search` |
 | `qr-repo.png` | `github.com/hanxiao/jina-v5-omni-nano-test-time-image-tagging` |
 | `qr-dataroom.png` | `github.com/hanxiao/dataroom` |
+| `qr-omni.png` | `github.com/hanxiao/omni-macos` |
 | `qr-searchbox.png` | `github.com/hanxiao/searchbox` |
 | `qr-knowledge-graph.png` | `github.com/hanxiao/knowledge-graph-extractor` |
 
