@@ -25,11 +25,11 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=7") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=7") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=7") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=7") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=7") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=8") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=8") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=8") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=8") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=8") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
@@ -652,7 +652,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 2 THE SATURATION ============ -->
-<section class="slide" data-title="2026 年，搜索还剩什么可做">
+<section class="slide" data-title="训练侧已经卷平，推理侧的账没人算过">
   
   <div class="body" style="justify-content:center;gap:26px">
     <div class="cards">
@@ -681,7 +681,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 4 TTC DEFINED ============ -->
-<section class="slide" data-title="什么叫 test-time compute">
+<section class="slide" data-title="把新增的算力，挪到回答问题的那一刻">
   
   <div class="body" style="justify-content:center;gap:24px">
     <p class="cap" style="max-width:80ch;font-size:17px">一句话：<strong>不去训一个更大的模型，而是让手上这个模型，在回答每个问题时多干一点活。</strong>训练阶段的钱已经花完了，这笔新的开销花在推理这一刻。</p>
@@ -697,7 +697,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 5 NOAM BROWN ============ -->
-<section class="slide">
+<section class="slide" data-title="多想二十秒，抵得上把模型放大十万倍">
   <div class="body row" style="flex-direction:row;justify-content:center;align-items:center;gap:34px">
     <div style="flex:1;display:flex;flex-direction:column;gap:24px">
       <blockquote class="pull" style="font-size:22px">
@@ -715,7 +715,7 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 6 SECTION 01 ============ -->
 <section class="slide divider" data-title="">
-  <div class="drow"><div class="num">01</div><div class="vbar"></div><div><h2>为什么说搜索就是 TTC</h2></div></div>
+  <div class="drow"><div class="num">01</div><div class="vbar"></div><div><h2>搜索本来就在推理时花算力</h2></div></div>
   <div class="dsub">多跑几遍，跑得更深一点，然后看看能换回来什么</div>
 </section>
 
@@ -806,7 +806,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="card c-green"><div class="n">03</div><div class="ttl">用 TTC 换新能力</div>
         <div class="dsc">同样冻结的模型，这次不求它更准，<strong>而是让它做一件训练时根本不存在的任务</strong>。</div>
         <div class="foot" style="color:var(--green)">换到的是 · 新能力</div></div>
-      <div class="card c-amber"><div class="n">04</div><div class="ttl">Agentic search 的 TTC</div>
+      <div class="card c-amber"><div class="n">04</div><div class="ttl">模型之外的 TTC</div>
         <div class="dsc">算力花在 agent 的循环里，由它自己决定先搜什么、用哪个工具、要不要再来一轮。</div>
         <div class="foot" style="color:var(--amber)">换到的是 · 召回 + 精度</div></div>
     </div>
@@ -821,7 +821,7 @@ tr.weakrow td{color:var(--mut)}
 
 
 <!-- ============ 8 SCORING SPECTRUM ============ -->
-<section class="slide" data-title="从一次 cosine 到 late interaction">
+<section class="slide" data-title="打分算几遍，本身就是一条算力刻度">
   
   <div class="body" style="justify-content:center;gap:18px">
     <div class="vsrow">
@@ -877,7 +877,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="这十二个程序，没有一个是人设计的">
+<section class="slide" data-title="同一批向量，十二档越算越准的组合">
   <div class="body" style="justify-content:center;gap:12px">
 <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#26C6DA"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#26C6DA"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -896,7 +896,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="逐格看：换个模型家族，它照样管用">
+<section class="slide" data-title="换个编码器，这笔推理算力照样有效">
   <div class="body" style="justify-content:center;gap:14px">
     <div class="hmframe">
       <div class="hmyax">
@@ -916,7 +916,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="放开算力，域内画出一条干净的 Pareto 曲线">
+<section class="slide" data-title="算力放开，冻结模型也有 scaling 曲线">
   <div class="body row" style="gap:30px;align-items:center">
     <div class="fill" style="flex:1.5"><div class="chart" id="c-pareto"></div></div>
     <div style="flex:.9" class="stats">
@@ -927,11 +927,11 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 <section class="slide divider" data-title="">
-  <div class="drow"><div class="num">03</div><div class="vbar" style="background:var(--blue)"></div><div><h2>重排：最直接的 test-time scaling</h2></div></div>
+  <div class="drow"><div class="num">03</div><div class="vbar" style="background:var(--blue)"></div><div><h2>重排是最直接的 test-time scaling</h2></div></div>
   <div class="dsub">召回给你一堆候选，重排再花一次算力，把它们放在一起比一遍</div>
 </section>
 
-<section class="slide" data-title="扫描读副本，精确向量只读短名单">
+<section class="slide" data-title="算力花在重算，不花在建索引">
   <div class="body row" style="gap:30px;align-items:center">
     <div style="flex:1.05;display:flex;flex-direction:column;gap:12px">
       <div class="shot"><img src="img/omni-ui.jpg" alt="Omni 搜「porsche sports car」，一个列表里同时出 PDF、HTML、XML、代码、Markdown 和照片"></div>
@@ -945,7 +945,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="双塔各算各的，listwise 让候选互相比">
+<section class="slide" data-title="再花一次前向，让候选互相可见">
   <div class="body" style="justify-content:center;gap:16px">
     <div class="archrow">
 
@@ -1005,7 +1005,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="只有一页文档时，把索引删掉">
+<section class="slide" data-title="一页文档，多算一遍比建索引更划算">
   <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="in-page search repo QR"></a>
   
@@ -1022,7 +1022,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="搜索引擎给的那 20 个词，往往没回答问题">
+<section class="slide" data-title="引擎给的二十个词不够，就自己再读一遍">
   <div class="body" style="justify-content:center;gap:16px">
     <div class="wfwrap">
 
@@ -1069,7 +1069,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 25 RESULT FIRST ============ -->
-<section class="slide" data-title="这些标签出自一个检索模型">
+<section class="slide" data-title="这些标签，全是推理期算出来的">
   
   <div class="body" style="justify-content:center;gap:14px">
     <div class="tgrid">
@@ -1104,7 +1104,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 27 COMPUTE MENU ============ -->
-<section class="slide" data-title="向量模型只有三种花法">
+<section class="slide" data-title="这笔推理算力，只有三种花法">
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
@@ -1123,7 +1123,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 28 PIPELINE ============ -->
-<section class="slide" data-title="离线备好词表，每张图只跑一次前向">
+<section class="slide" data-title="贵的那部分移到离线，推理时只留一次前向">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
     <path class="dline" d="M653 331 V 342 H 543 V 372"/><path class="dhead" d="M537 372 L543 380 L549 372"/>
     <path class="dline" d="M878 331 V 342 H 737 V 372"/><path class="dhead" d="M731 372 L737 380 L743 372"/>
@@ -1178,7 +1178,7 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<section class="slide" data-title="整个标注器，就是一个打分函数">
+<section class="slide" data-title="整个新能力，就是推理时的一个打分函数">
   <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
     <path class="dline" d="M971 234 V 176 H 152 V 222"/><path class="dhead" d="M146 214 L152 224 L158 214"/>
     <text class="gtxt" x="580" y="166" text-anchor="middle" style="fill:var(--cyan)">递归：同一个打分函数，把每个 crop 当成一张新图再跑一遍</text>
@@ -1200,7 +1200,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 29 VOCAB HISTOGRAM ============ -->
-<section class="slide" data-title="12.8 万个词的得分如何被整理出来">
+<section class="slide" data-title="12.8 万个词的得分，压成几个标签">
   
   <div class="body" style="justify-content:center">
     <div class="chart" id="c-vhist" style="max-width:1090px;margin:0 auto"></div>
@@ -1208,7 +1208,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 30 LADDER + TABLE ============ -->
-<section class="slide" data-title="读得更深，再多看几眼">
+<section class="slide" data-title="算力每加一档，精度就上一台阶">
   
   <div class="body row" style="gap:44px;align-items:center">
     <div class="chart" id="c-ladder" style="flex:0 0 470px"></div>
@@ -1224,7 +1224,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 31 LEVERS ============ -->
-<section class="slide" data-title="2024 到 2026 的免训练方法逐个实测">
+<section class="slide" data-title="十一种推理期技巧，逐个实测">
   
   <div class="body" style="justify-content:center;gap:12px">
     <div class="chart" id="c-levers" style="max-width:1000px;margin:0 auto"></div>
@@ -1243,12 +1243,12 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 34 SECTION 04 ============ -->
 <section class="slide divider" data-title="">
-  <div class="drow"><div class="num">05</div><div class="vbar" style="background:var(--amber)"></div><div><h2>Agentic search 里的 test-time compute</h2></div></div>
+  <div class="drow"><div class="num">05</div><div class="vbar" style="background:var(--amber)"></div><div><h2>模型之外的 test-time compute</h2></div></div>
   <div class="dsub">前面几个项目都在模型内部。这一层，算力花在了 agent 的循环里</div>
 </section>
 
 <!-- ============ 35 TREND ============ -->
-<section class="slide" data-title="从 deep research 到长程任务">
+<section class="slide" data-title="推理算力开始分成调研和执行两段">
   
   <div class="body" style="justify-content:center;gap:22px">
     <div class="trendrow">
@@ -1279,7 +1279,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 36 DATAROOM ============ -->
-<section class="slide" data-title="dataroom：把互联网下成一个 zip">
+<section class="slide" data-title="用便宜的 token 把互联网下成一个 zip">
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="dataroom repo QR"></a>
   
@@ -1301,7 +1301,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 37 SEARCHBOX ============ -->
-<section class="slide" data-title="searchbox：把 agent 关进没有网的盒子">
+<section class="slide" data-title="断网之后，只能在推理时自己搭链路">
   <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="searchbox repo QR"></a>
   
@@ -1324,7 +1324,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 38 KG ============ -->
-<section class="slide" data-title="用知识图谱造多跳难题">
+<section class="slide" data-title="多跳难题，逼它真的多搜几轮">
   <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-knowledge-graph.png" alt="knowledge-graph repo QR"></a>
   
@@ -1343,7 +1343,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 39 HARNESS ============ -->
-<section class="slide" data-title="harness：把检索单独拎出来测">
+<section class="slide" data-title="把检索单拎出来，量它值多少算力">
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
@@ -1363,7 +1363,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 40 STACK SYNTHESIS ============ -->
-<section class="slide" data-title="攒料、做题、出题，凑成一个闭环">
+<section class="slide" data-title="召回、精度、出题、计量，凑成一个闭环">
   
   <div class="body" style="justify-content:center;gap:24px">
     <div class="cards">
@@ -1381,12 +1381,12 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 40 SECTION 05 ============ -->
 <section class="slide divider" data-title="">
-  <div class="drow"><div class="num">06</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>回到那句话</h2></div></div>
+  <div class="drow"><div class="num">06</div><div class="vbar" style="background:var(--cyan)"></div><div><h2>推理算力这笔账，合起来看</h2></div></div>
   <div class="dsub">四块地方，同一笔账</div>
 </section>
 
 <!-- ============ 41 TWO LEVELS ============ -->
-<section class="slide" data-title="一层在模型里面，一层在模型外面">
+<section class="slide" data-title="推理算力，一层花在模型里，一层花在模型外">
   
   <!-- five projects, two layers -->
   <div class="body" style="justify-content:center;gap:22px">
@@ -1425,7 +1425,7 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <!-- ============ 42 HOW TO THINK ABOUT IT ============ -->
-<section class="slide" data-title="几个暴论">
+<section class="slide" data-title="关于 test-time compute 的几个暴论">
   
   <div class="body" style="justify-content:center;gap:20px">
     <div class="nlist" style="max-width:1140px">
