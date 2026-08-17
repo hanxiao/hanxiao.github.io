@@ -406,6 +406,12 @@ stat. Chart axis tick labels were also stripped — y axes now read 精度 → /
 the levers chart shows win/flat/collapse instead of deltas, and the tag-pareto C-family callout lost
 its four collapse values.
 
+**Omni slide deleted (2026-08-16).** The "这套方法已经跑在 Omni 里" slide (image / video / scanned-PDF
+cards plus the Omni UI shot) was cut whole on Han's instruction. The image-tagging section now ends on
+the tag-pareto chart and goes straight into section 05. `img/omni-ui.jpg` is still referenced by the
+1-bit scan slide, so the asset stays. The section-05 divider subtitle said "前面两个项目都在模型内部",
+which was already wrong (four projects sit inside the model); changed to "前面几个项目".
+
 **What stays and why.** The chart *shapes* stay: curves, bar heights, frontier lines, the pink cluster
 at the bottom. This is deliberate and consistent with hot take #04 (a benchmark should report a curve,
 not a point) — the deck shows shape, not scoreboard digits. The results table became three relative
