@@ -1179,6 +1179,10 @@ tr.weakrow td{color:var(--mut)}
 </section>
 
 <section class="slide" data-title="整个标注器，就是一个打分函数">
+  <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
+    <path class="dline" d="M971 234 V 176 H 152 V 222"/><path class="dhead" d="M146 214 L152 224 L158 214"/>
+    <text class="gtxt" x="580" y="166" text-anchor="middle" style="fill:var(--cyan)">递归：同一个打分函数，把每个 crop 当成一张新图再跑一遍</text>
+  </svg>
   <div class="body" style="justify-content:center;gap:10px">
     <div class="eqwrap">
       \[ S(\ell)\;=\;\underbrace{0.3\,\Big(\langle g,\,e_\ell\rangle-\mu^{g}_\ell\Big)}_{\textbf{全局上下文}}
