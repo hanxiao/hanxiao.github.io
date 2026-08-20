@@ -12,13 +12,12 @@
 概念   什么叫 TTC + Noam Brown         (4-5)
 论证   为什么搜索算 TTC                (6-7)
 金句页 花推理时间，买相关性 + 买新能力    (8)
-三类   Deeper pass / More passes / Calibration (9)
-路线图 四块地方都能花这笔算力            (10)
-02 向量模型的 TTC   Pareto / 十二个程序 / 迁移  (11-14)
-03 重排模型的 TTC   双塔vs listwise / 页内 / 漏斗 (15-18)
-04 用 TTC 换新能力  image tagging          (19-28)
-05 Agentic search 的 TTC  dataroom / searchbox / KG / harness (29-35)
-扣题   两个层次 / 三个判断问题 / 最后一句  (36-40)
+路线图 四块地方都能花这笔算力            (9)
+02 向量模型的 TTC   Pareto / 十二个程序 / 迁移  (10-13)
+03 重排模型的 TTC   双塔vs listwise / 页内 / 漏斗 (14-17)
+04 用 TTC 换新能力  image tagging          (18-27)
+05 Agentic search 的 TTC  dataroom / searchbox / KG / harness (28-34)
+扣题   两个层次 / 三个判断问题 / 最后一句  (35-40)
 ```
 
 **署名**：封面与尾页只写「肖涵 / Elastic 副总裁」。不写英文名，不写 Jina AI 创始人。
@@ -119,7 +118,7 @@ done
 以测量文件为准。
 
 ## 文件
-`index.html` 全部 41 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
+`index.html` 全部 40 页 · `data.js` 合并数据 · `vendor/tex-svg.js` 自托管 MathJax ·
 `img/` 图片与四个项目二维码 · `fonts/` 子集化字体 · `slides.pdf` 导出版
 
 ## 放映

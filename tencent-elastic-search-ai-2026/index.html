@@ -775,24 +775,6 @@ tr.weakrow td{color:var(--mut)}
   </div>
 </section>
 
-<!-- ============ 9 WHY SEARCH IS TTC ============ -->
-<section class="slide" data-title="每一条检索链路都在推理时多算几遍">
-  
-  <div class="body" style="justify-content:center;gap:22px">
-    <p class="cap" style="max-width:82ch;font-size:17px">向量召回一遍，精排再来一遍，查询改写之后又是一遍，多路结果还要融合。这些环节没有一个是在训练阶段完成的，<strong>全都发生在用户按下回车之后</strong>。这就是 test-time compute，只是我们一直管它叫「搭链路」。</p>
-    <div class="cards">
-      <div class="card c-blue"><div class="n">A</div><div class="ttl">Deeper pass：把这次前向读透</div>
-        <div class="dsc">同一次前向，不只取最后那个池化向量，把中间的 patch、token 全读出来用。<strong>新信息：从这次前向里抄回来的。</strong></div></div>
-      <div class="card c-green"><div class="n">B</div><div class="ttl">More passes：再跑几遍</div>
-        <div class="dsc">同一个冻结模型，换新的视角再编码一次。把文档切成句子，把图片切成 crop。<strong>新信息：从输入里新拿到的。</strong></div></div>
-      <div class="card c-pink"><div class="n">C</div><div class="ttl">Calibration：只变换已有的向量</div>
-        <div class="dsc">白化、图传播、最优传输、EM——在<strong>同一批数</strong>上做更花哨的数学。免训练文献大部分在这一类。<strong>新信息：没有。</strong></div></div>
-    </div>
-    <p class="cap c">三类用的是同一个冻结模型，区别只在<span class="cy">什么东西进了这次计算</span>。外面还有一层：让 agent 自己把这些串成链路（第 05 章）。</p>
-  </div>
-</section>
-
-
 <!-- ============ 10 FOUR PROJECTS ============ -->
 <section class="slide" data-title="四块地方，都能花这笔算力">
   <div class="body" style="justify-content:center;gap:22px">
