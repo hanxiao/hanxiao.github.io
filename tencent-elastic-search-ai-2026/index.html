@@ -1261,7 +1261,7 @@ tr.weakrow td{color:var(--mut)}
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:14px">
       <p class="cap">给它一个题目和一个 token 预算，它<strong>搜、读、写</strong>循环推进，把互联网上跟这个题目相关的内容<strong>下成一个带引用的 zip</strong>。</p>
-            <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用自己部署的 Qwen3.6-35B-A3B、Qwen3.8-27B 跑，把昂贵的前沿额度省下来，留给后面真正需要判断力的那一步。</p>
+            <p class="cap"><strong>关键是 token 的账</strong>：探索阶段用自己部署的本地小模型跑，把昂贵的前沿额度省下来，留给后面真正需要判断力的那一步。</p>
       <div class="flowv">
         <div class="fbox compact"><div class="fn">dataroom</div><div class="fd">下成语料（.zip）</div></div>
         <div class="farrv">↓</div>
@@ -1282,7 +1282,7 @@ tr.weakrow td{color:var(--mut)}
   
   <div class="body row" style="gap:32px;align-items:center">
     <div style="flex:1;display:flex;flex-direction:column;gap:13px">
-      <p class="cap">给它一个 dataroom 的 zip，<strong>切断网络</strong>，再问一个问题。自己部署的 Qwen3.6-35B-A3B 在里面跑。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
+      <p class="cap">给它一个 dataroom 的 zip，<strong>切断网络</strong>，再问一个问题。自己部署的本地小模型在里面跑。它想答上来，只能<strong>用手边的本地工具现搭一条链路</strong>——grep、embed、rerank、相似度、聚类、选多样性。</p>
       <p class="cap">断网这件事是故意的。<strong>不断网，就分不清它是真的在检索，还是网上碰巧有现成答案。</strong></p>
       <div class="mlabel cy">正在研究的几个问题</div>
       <div class="qlist">
