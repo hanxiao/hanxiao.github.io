@@ -25,16 +25,16 @@ window.MathJax = {
 </script>
 <style>
 /* ---------- fonts: 大会模板指定的思源黑体 CN + Inter，已按用字子集化 ---------- */
-@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=8") format("woff2");font-weight:300;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=8") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=8") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=8") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=8") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-light.woff2?v=9") format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-regular.woff2?v=9") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-medium.woff2?v=9") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"SHSans";src:url("fonts/shs-bold.woff2?v=9") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"InterDeck";src:url("fonts/inter.woff2?v=9") format("woff2");font-weight:100 900;font-display:swap}
 
 :root{
   --bg:#070810; --bg2:#0C1020; --panel:#121722; --panel2:#0E1220;
   --line:#2A3040; --line2:#3A4256;
-  --ink:#FFFFFF; --ink2:#E8ECF4; --mut:#9AA3B5;
+  --ink:#FFFFFF; --ink2:#F2F5FA; --mut:#C6CEDC;
   --cyan:#26C6DA; --blue:#3B6FF0; --blue2:#5E8FF8;
   --pink:#DC3CB4; --green:#27C08A; --amber:#F0A030;
   --r-card:10px; --r-box:6px;
@@ -86,10 +86,10 @@ h1{font-size:73.3px;line-height:1.18;font-weight:700;letter-spacing:-.015em;max-
 .h-slide{font-size:31px;line-height:1.26;font-weight:700;letter-spacing:-.005em;max-width:48ch;
   margin-bottom:22px;text-wrap:balance}
 .h-slide.sm{font-size:28px}
-.sub{font-size:19px;line-height:1.5;font-weight:300;color:var(--ink2);max-width:56ch}
-.lead{font-size:17.3px;line-height:1.62;font-weight:300;color:var(--ink2);max-width:64ch}
+.sub{font-size:19px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:56ch}
+.lead{font-size:17.3px;line-height:1.62;font-weight:400;color:var(--ink2);max-width:64ch}
 /* content-slide body copy is a single size: 13pt = 17.3px */
-.cap{font-size:17.3px;line-height:1.62;font-weight:300;color:var(--ink2);max-width:88ch}
+.cap{font-size:17.3px;line-height:1.62;font-weight:400;color:var(--ink2);max-width:88ch}
 .cap.c{text-align:center;margin:0 auto}
 .mono{font-family:var(--mono)}
 .mut{color:var(--mut)}
@@ -121,7 +121,7 @@ strong,b{font-weight:700;color:#fff}
 .title .auth{margin-top:40px;display:flex;align-items:center;gap:15px}
 .title .auth .bar{width:3px;height:58px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--blue))}
 .title .auth .nm{font-size:26.7px;font-weight:700;line-height:1.25}
-.title .auth .rl{font-size:26.7px;font-weight:300;color:var(--mut);margin-top:4px;line-height:1.25}
+.title .auth .rl{font-size:26.7px;font-weight:400;color:var(--mut);margin-top:4px;line-height:1.25}
 .title .auth .wxqr{margin-left:34px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .title .auth .wxqr img{width:104px;height:104px;display:block;background:#fff;padding:5px;border-radius:8px}
 .title .auth .wxqr span{font-size:15px;color:var(--mut);letter-spacing:.08em}
@@ -157,19 +157,19 @@ strong,b{font-weight:700;color:#fff}
 .tgrow .tgn{font-family:var(--mono);font-size:19px;font-weight:800;color:var(--cyan)}
 .tgrow .tgn.gr{color:var(--green)}
 .tgrow .tgt{font-size:36px;font-weight:700;line-height:1.15;color:#fff}
-.tgrow .tgd{grid-column:2;font-size:14.5px;font-weight:300;color:var(--mut);line-height:1.5}
+.tgrow .tgd{grid-column:2;font-size:14.5px;font-weight:400;color:var(--mut);line-height:1.5}
 
 /* ---------- mindset shift (time: constraint -> currency) ---------- */
 .msrow{display:flex;flex-direction:row;align-items:stretch;justify-content:center;gap:0;width:100%}
 .mspanel{flex:1 1 0;padding:26px 28px;border:1px solid var(--line);border-radius:var(--r-card);
   display:flex;flex-direction:column;gap:12px;background:rgba(12,16,32,.45)}
-.mspanel.old{opacity:.62}
+.mspanel.old{opacity:.78}
 .mspanel.now{border-color:rgba(38,198,218,.55);background:rgba(38,198,218,.07)}
 .mspanel .mslbl{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.16em;
   text-transform:uppercase;color:var(--mut)}
 .mspanel.now .mslbl{color:var(--cyan)}
 .mspanel .msbig{font-size:37px;font-weight:700;line-height:1.14;letter-spacing:-.015em;color:#fff}
-.mspanel .msdsc{font-size:16px;font-weight:300;line-height:1.6;color:var(--ink2)}
+.mspanel .msdsc{font-size:16px;font-weight:400;line-height:1.6;color:var(--ink2)}
 .mspanel .msq{font-size:17px;font-weight:500;line-height:1.55;color:#fff}
 .msarrow{flex:0 0 132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
 .msarrow .mstem{width:78%;height:2px;position:relative;
@@ -182,7 +182,7 @@ strong,b{font-weight:700;color:#fff}
   padding:20px 24px;border:1px solid var(--line);border-radius:var(--r-card);background:rgba(12,16,32,.45)}
 .msbuy .bbox svg{flex:0 0 176px;height:98px}
 .msbuy .bk{font-size:26px;font-weight:700;color:#fff;line-height:1.2}
-.msbuy .bd{font-size:15px;font-weight:300;color:var(--mut);line-height:1.5;margin-top:4px}
+.msbuy .bd{font-size:15px;font-weight:400;color:var(--mut);line-height:1.5;margin-top:4px}
 .msbuy .bcoin{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
 .msbuy .bbox.g .bcoin{color:var(--green)}
 
@@ -196,7 +196,7 @@ strong,b{font-weight:700;color:#fff}
 .divider .drow{display:flex;align-items:center;gap:26px}
 .divider .vbar{width:3px;height:74px;background:var(--cyan);border-radius:2px}
 .divider h2{font-size:42px;font-weight:700;letter-spacing:-.01em}
-.divider .dsub{margin-top:16px;font-size:16px;font-weight:300;color:var(--ink2);max-width:64ch}
+.divider .dsub{margin-top:16px;font-size:16px;font-weight:400;color:var(--ink2);max-width:64ch}
 
 /* ---------- cards ---------- */
 .cards{display:flex;gap:20px}
@@ -211,7 +211,7 @@ strong,b{font-weight:700;color:#fff}
 .card.c-blue .n{color:var(--blue2)} .card.c-pink .n{color:var(--pink)}
 .card.c-green .n{color:var(--green)} .card.c-amber .n{color:var(--amber)} .card.c-mut .n{color:var(--mut)}
 .card .ttl{font-size:17.3px;font-weight:700;margin-bottom:9px;line-height:1.4}
-.card .dsc{font-size:17.3px;font-weight:300;line-height:1.6;color:var(--mut)}
+.card .dsc{font-size:17.3px;font-weight:400;line-height:1.6;color:var(--mut)}
 .card .dsc strong{font-weight:500;color:var(--ink2)}
 .card .foot{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--cyan)}
 .card.c-mut .foot{color:var(--mut)}
@@ -221,7 +221,7 @@ strong,b{font-weight:700;color:#fff}
 .defrow .tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--cyan);min-width:150px;border-left:2px solid var(--cyan);padding-left:12px}
 .defrow .tag.w{min-width:196px}
-.defrow .dsc{font-size:17.3px;font-weight:300;line-height:1.55;color:var(--ink2)}
+.defrow .dsc{font-size:17.3px;font-weight:400;line-height:1.55;color:var(--ink2)}
 
 .chip{display:inline-block;font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.03em;
   border:1px solid var(--line2);border-radius:999px;padding:6px 14px;margin:0 8px 8px 0;color:var(--ink2);
@@ -232,7 +232,7 @@ strong,b{font-weight:700;color:#fff}
 .nitem{display:flex;gap:18px;align-items:flex-start}
 .nitem .n{font-family:var(--mono);font-size:18px;font-weight:800;color:var(--cyan);min-width:38px;line-height:1.25}
 .nitem .t{font-size:17.3px;font-weight:500;line-height:1.5}
-.nitem .t>span{display:block;font-size:17.3px;font-weight:300;color:var(--mut);margin-top:5px;line-height:1.6}
+.nitem .t>span{display:block;font-size:17.3px;font-weight:400;color:var(--mut);margin-top:5px;line-height:1.6}
 .nitem .t>span span{display:inline;font-size:inherit;margin:0;font-weight:500}
 
 /* ---------- stair bars: relative gain, no numbers ---------- */
@@ -272,18 +272,18 @@ strong,b{font-weight:700;color:#fff}
 .kpi.k-pink::before{background:var(--pink)} .kpi.k-green::before{background:var(--green)} .kpi.k-blue::before{background:var(--blue)}
 .kpi .v{font-family:var(--mono);font-size:34px;font-weight:800;color:var(--cyan);line-height:1}
 .kpi.k-pink .v{color:var(--pink)} .kpi.k-green .v{color:var(--green)} .kpi.k-blue .v{color:var(--blue2)}
-.kpi .lb{font-size:17.3px;font-weight:300;color:var(--mut);margin-top:9px;line-height:1.5}
+.kpi .lb{font-size:17.3px;font-weight:400;color:var(--mut);margin-top:9px;line-height:1.5}
 .stats{display:flex;flex-direction:column;gap:20px}
 .stat .v{font-family:var(--mono);font-size:40px;font-weight:800;line-height:1;color:var(--cyan)}
 .stat .v.pk{color:var(--pink)} .stat .v.gr{color:var(--green)}
-.stat .l{font-size:17.3px;font-weight:300;color:var(--mut);margin-top:9px;line-height:1.5;max-width:26ch}
+.stat .l{font-size:17.3px;font-weight:400;color:var(--mut);margin-top:9px;line-height:1.5;max-width:26ch}
 
 /* ---------- table ---------- */
 table{border-collapse:collapse;width:100%;font-size:16px}
 th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--mut);text-align:right;padding:0 12px 9px;border-bottom:1px solid var(--line2)}
 th:first-child{text-align:left}
-td{padding:9px 12px;border-bottom:1px solid rgba(42,48,64,.6);text-align:right;font-weight:300;color:var(--ink2)}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,48,64,.6);text-align:right;font-weight:400;color:var(--ink2)}
 td:first-child{text-align:left;font-weight:400;color:var(--ink)}
 td .num{font-family:var(--mono);font-weight:500}
 tr.hero td{color:#fff;font-weight:500;background:rgba(38,198,218,.09)}
@@ -327,14 +327,14 @@ tr.weakrow td{color:var(--mut)}
 .vshd{font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--ink2)}
 .vsspace{width:100%;height:152px;border:1px solid var(--line);border-radius:var(--r-card);background:rgba(12,16,32,.7)}
 .vsform{font-size:15.5px;min-height:22px;color:var(--ink)}
-.vssub{font-size:13px;line-height:1.45;font-weight:300;color:var(--mut);max-width:30ch}
+.vssub{font-size:13px;line-height:1.45;font-weight:400;color:var(--mut);max-width:30ch}
 .vstag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--mut)}
 .vspanel.hero .vsspace{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan)}
 .vspanel.hero .vstag{color:var(--cyan)}
 .vq{fill:var(--cyan)}
-.vd{fill:#8FA0BC}
+.vd{fill:#B4C0D4}
 .vlbl{font-family:var(--mono);font-size:13px;font-weight:700;fill:var(--ink2)}
-.vconn{fill:none;stroke:#6B7A94;stroke-width:1.6}
+.vconn{fill:none;stroke:#93A0B8;stroke-width:1.6}
 .vwin{fill:none;stroke:var(--cyan);stroke-width:1.8;stroke-dasharray:6 5;animation:march 1s linear infinite}
 .vsingle{fill:none;stroke:var(--cyan);stroke-width:2.6}
 .vpulse{transform-box:fill-box;transform-origin:center;animation:vpulse 1.5s ease-in-out infinite}
@@ -352,7 +352,7 @@ tr.weakrow td{color:var(--mut)}
 .rcell .rn{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1.2;color:var(--ink)}
 .rcell .rk{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--cyan);text-transform:uppercase;
   letter-spacing:.04em;margin-top:5px}
-.rcell .rh{font-size:12.5px;font-weight:300;color:var(--mut);margin-top:7px;line-height:1.4}
+.rcell .rh{font-size:12.5px;font-weight:400;color:var(--mut);margin-top:7px;line-height:1.4}
 .vd.pos{fill:var(--cyan)} .vd.neg{fill:var(--pink)}
 .vlbl.pos{fill:var(--cyan)} .vlbl.neg{fill:var(--pink)}
 
@@ -438,7 +438,7 @@ tr.weakrow td{color:var(--mut)}
 .synp svg{width:100%;height:86px;display:block}
 .synh{font-size:16px;font-weight:700;border-top:1px solid var(--line);padding-top:10px;color:var(--ink)}
 .synh .tag{font-family:var(--mono);color:var(--cyan);font-weight:800;margin-right:8px}
-.synrow{font-size:17.3px;line-height:1.5;color:var(--ink2);font-weight:300}
+.synrow{font-size:17.3px;line-height:1.5;color:var(--ink2);font-weight:400}
 .synrow b{font-family:var(--mono);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   color:var(--cyan);display:inline-block;min-width:96px}
 .vtool{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--ink2)}
@@ -454,15 +454,15 @@ tr.weakrow td{color:var(--mut)}
   color:var(--mut);border:1px solid var(--line2);border-radius:999px;padding:2px 9px}
 .archtag.on{color:var(--cyan);border-color:var(--cyan);background:rgba(38,198,218,.12)}
 .archp svg{width:100%;height:auto;display:block}
-.archn{font-size:17.3px;line-height:1.55;font-weight:300;color:var(--mut)}
+.archn{font-size:17.3px;line-height:1.55;font-weight:400;color:var(--mut)}
 .archn strong{font-weight:500;color:var(--ink2)}
 .qbox{fill:rgba(38,198,218,.18);stroke:var(--cyan);stroke-width:1.3}
-.dbox{fill:rgba(18,23,34,.95);stroke:#5A6478;stroke-width:1.2}
+.dbox{fill:rgba(18,23,34,.95);stroke:#7C879C;stroke-width:1.2}
 .dbox.on{fill:rgba(59,111,240,.20);stroke:var(--blue2);stroke-width:1.3}
 .bxt{font-family:var(--mono);font-size:12px;font-weight:600;fill:var(--ink2)}
 .axl{font-family:var(--mono);font-size:10.5px;font-weight:600;fill:var(--mut)}
 .axr{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--mut)}
-.lnk{stroke:#5A6478;stroke-width:1.2}
+.lnk{stroke:#7C879C;stroke-width:1.2}
 .wall{stroke:var(--pink);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
 .wallt{font-family:var(--mono);font-size:10.5px;font-weight:700;fill:var(--pink)}
 .ctx{fill:rgba(38,198,218,.05);stroke:var(--cyan);stroke-width:1.2;stroke-dasharray:6 4}
@@ -481,7 +481,7 @@ tr.weakrow td{color:var(--mut)}
 .rotp.hero{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan);background:rgba(38,198,218,.07)}
 .roth{font-size:17.3px;font-weight:700;color:var(--ink)}
 .rotsvg{width:100%;height:auto;display:block}
-.rotn{font-size:17.3px;line-height:1.5;font-weight:300;color:var(--mut)}
+.rotn{font-size:17.3px;line-height:1.5;font-weight:400;color:var(--mut)}
 .rotn strong{font-weight:500;color:var(--ink2)}
 .rotmid{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
 .rotop{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--cyan);line-height:1.35}
@@ -504,7 +504,7 @@ tr.weakrow td{color:var(--mut)}
   border:1px solid var(--line2);border-radius:999px;padding:2px 9px}
 .sniptag.on{color:var(--cyan);border-color:var(--cyan);background:rgba(38,198,218,.12)}
 .snipsvg{width:100%;height:auto;display:block}
-.snipn{font-size:17.3px;line-height:1.5;font-weight:300;color:var(--mut)}
+.snipn{font-size:17.3px;line-height:1.5;font-weight:400;color:var(--mut)}
 .snipn strong{font-weight:500;color:var(--ink2)}
 .sar.flow{stroke-dasharray:5 4;animation:march 1s linear infinite}
 /* ---------- deep-snippet waterfall ---------- */
@@ -535,15 +535,15 @@ tr.weakrow td{color:var(--mut)}
 .sar.amb{stroke:var(--amber)}
 .sar.gr{stroke:var(--green)}
 .sfade{animation:sfade 2.6s ease-in-out infinite}
-@keyframes sfade{0%,100%{opacity:.35}50%{opacity:.75}}
+@keyframes sfade{0%,100%{opacity:.55}50%{opacity:.9}}
 .win.glow{animation:wglow 2.2s ease-in-out infinite}
 @keyframes wglow{0%,100%{filter:none}50%{filter:drop-shadow(0 0 5px rgba(39,192,138,.85))}}
 .ckwin{fill:rgba(39,192,138,.5);stroke:var(--green);stroke-width:1.2;animation:ckwin 2.6s ease-in-out infinite}
 @keyframes ckwin{0%,100%{opacity:.5}45%{opacity:1}}
-@media print{.sar.flow{animation:none}.sfade{animation:none;opacity:.6}.win.glow{animation:none}.ckwin{animation:none;opacity:1}}
+@media print{.sar.flow{animation:none}.sfade{animation:none;opacity:.8}.win.glow{animation:none}.ckwin{animation:none;opacity:1}}
 .sq{fill:rgba(38,198,218,.18);stroke:var(--cyan);stroke-width:1.2}
-.sbox{fill:rgba(18,23,34,.95);stroke:#5A6478;stroke-width:1.1}
-.sbox.dim{fill:rgba(90,100,120,.18);stroke:#5A6478;stroke-dasharray:3 2}
+.sbox{fill:rgba(18,23,34,.95);stroke:#7C879C;stroke-width:1.1}
+.sbox.dim{fill:rgba(90,100,120,.18);stroke:#7C879C;stroke-dasharray:3 2}
 .sxt{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--ink2)}
 .sxt2{font-family:var(--mono);font-size:9px;font-weight:600;fill:var(--ink2)}
 .stiny{font-family:var(--mono);font-size:7.5px;font-weight:600;fill:var(--mut)}
@@ -592,7 +592,7 @@ tr.weakrow td{color:var(--mut)}
 .eqwrap{font-size:23px;text-align:center;margin:2px 0 6px;color:var(--ink)}
 .eqlegend{display:flex;gap:26px;justify-content:center;margin-top:12px}
 .eqlegend .it{display:flex;gap:11px;align-items:flex-start;max-width:32ch}
-.eqlegend .it .tx{font-size:17.3px;line-height:1.45;font-weight:300;text-align:left;color:var(--mut)}
+.eqlegend .it .tx{font-size:17.3px;line-height:1.45;font-weight:400;text-align:left;color:var(--mut)}
 .eqlegend .it .tx strong{font-weight:500;color:var(--ink2)}
 .eqpost{font-size:17.3px;text-align:center;margin-top:12px;color:var(--ink2)}
 .xconn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
@@ -606,13 +606,13 @@ tr.weakrow td{color:var(--mut)}
 /* ---------- product screenshots ---------- */
 .shot{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:rgba(12,16,32,.7)}
 .shot img{display:block;width:100%;height:auto}
-.shotcap{font-size:17.3px;color:var(--mut);line-height:1.5;font-weight:300}
+.shotcap{font-size:17.3px;color:var(--mut);line-height:1.5;font-weight:400}
 .shotcap strong{color:var(--ink2);font-weight:500}
 .flowv{display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .fbox.compact{min-height:0;padding:10px}
 .farrv{color:var(--cyan);font-size:18px;font-weight:800;text-align:center;line-height:1}
 .qlist p{font-size:17.3px;line-height:1.55;padding-left:24px;position:relative;margin-bottom:9px;
-  font-weight:300;color:var(--ink2)}
+  font-weight:400;color:var(--ink2)}
 .qlist p::before{content:"\2192";position:absolute;left:0;top:0;color:var(--cyan);font-weight:800}
 .mlabel{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .qr-corner{position:absolute;top:96px;right:76px;display:flex;flex-direction:column;align-items:flex-end;
@@ -759,7 +759,7 @@ tr.weakrow td{color:var(--mut)}
     <div class="msbuy">
       <div class="bbox">
         <svg viewBox="0 0 132 74" aria-hidden="true">
-          <text class="vlbl" x="2" y="12" style="font-size:10px;fill:#9AA3B5">before</text>
+          <text class="vlbl" x="2" y="12" style="font-size:10px;fill:#C6CEDC">before</text>
           <rect x="2" y="18" width="38" height="7" rx="3.5" fill="#3A4256"/>
           <rect x="2" y="30" width="46" height="7" rx="3.5" fill="#3A4256"/>
           <rect x="2" y="42" width="30" height="7" rx="3.5" fill="#26C6DA"/>
@@ -776,8 +776,8 @@ tr.weakrow td{color:var(--mut)}
       </div>
       <div class="bbox g">
         <svg viewBox="0 0 132 74" aria-hidden="true">
-          <rect x="4" y="22" width="34" height="30" rx="5" fill="none" stroke="#6B7A94" stroke-width="1.6"/>
-          <text x="21" y="41" text-anchor="middle" style="font-size:9px;fill:#9AA3B5;font-family:ui-monospace,monospace">冻结</text>
+          <rect x="4" y="22" width="34" height="30" rx="5" fill="none" stroke="#93A0B8" stroke-width="1.6"/>
+          <text x="21" y="41" text-anchor="middle" style="font-size:9px;fill:#C6CEDC;font-family:ui-monospace,monospace">冻结</text>
           <path d="M44 37 h16" stroke="#27C08A" stroke-width="1.8"/>
           <polygon points="64,37 56,33 56,41" fill="#27C08A"/>
           <rect x="70" y="12" width="56" height="14" rx="7" fill="none" stroke="#27C08A" stroke-width="1.4"/>
@@ -889,7 +889,7 @@ tr.weakrow td{color:var(--mut)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="40"/><line class="vconn" x1="40" y1="60" x2="150" y2="80"/><line class="vwin" x1="40" y1="60" x2="120" y2="52"/><line class="vwin" x1="40" y1="60" x2="186" y2="98"/><circle class="vd" cx="150" cy="40" r="4"/><circle class="vd" cx="150" cy="80" r="4"/><circle class="vd vpulse" cx="120" cy="52" r="6"/><circle class="vd vpulse" cx="186" cy="98" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text class="vlbl" x="120" y="40" text-anchor="middle">+</text><text class="vlbl" x="186" y="84" text-anchor="middle">~</text></svg><div class="pname">DiverseDualCtx <span class="pcost">c=5.6</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="170" y1="28" x2="120" y2="60"/><line class="vconn" x1="180" y1="58" x2="120" y2="60"/><line class="vconn" x1="172" y1="88" x2="120" y2="60"/><circle class="vd" cx="170" cy="28" r="4.5"/><circle class="vd" cx="180" cy="58" r="5"/><circle class="vd" cx="172" cy="88" r="4.5"/><circle class="vd" cx="146" cy="96" r="4.5"/><circle class="vd vpulse" cx="120" cy="60" r="3.5" fill="#26C6DA"/><line class="vwin" x1="113" y1="60" x2="40" y2="60"/><circle class="vq" cx="34" cy="60" r="6.5"/><text class="vlbl" x="34" y="80" text-anchor="middle">q</text><text class="vlbl" x="120" y="44" text-anchor="middle">c</text></svg><div class="pname">ConsensusRocchio <span class="pcost">c=6.4</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="92"/><line class="vwin" x1="40" y1="60" x2="160" y2="32"/><polygon points="186,92 174,86 174,98" fill="#DC3CB4"/><line class="vconn" x1="150" y1="92" x2="176" y2="92"/><circle class="vd vpulse" cx="160" cy="32" r="5.5"/><circle class="vd" cx="150" cy="92" r="4.5" fill="#DC3CB4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text><text fill="#26C6DA" x="172" y="24">+</text><text fill="#DC3CB4" x="138" y="96">-</text></svg><div class="pname">NegContrastive <span class="pcost">c=7.2</span></div></div>
-      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="34"/><line class="vconn" x1="40" y1="60" x2="150" y2="86"/><line class="vwin" x1="40" y1="60" x2="160" y2="60"/><circle class="vd vpulse" cx="160" cy="60" r="6" fill="#26C6DA"/><polygon points="160,38 156,46 164,46" fill="#26C6DA"/><circle class="vd" cx="150" cy="34" r="4.5"/><polygon points="166,30 162,30 164,26" fill="#8FA0BC"/><circle class="vd" cx="150" cy="86" r="4.5"/><polygon points="162,90 166,90 164,94" fill="#8FA0BC"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">MomentumProg <span class="pcost">c=9.8</span></div></div>
+      <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="34"/><line class="vconn" x1="40" y1="60" x2="150" y2="86"/><line class="vwin" x1="40" y1="60" x2="160" y2="60"/><circle class="vd vpulse" cx="160" cy="60" r="6" fill="#26C6DA"/><polygon points="160,38 156,46 164,46" fill="#26C6DA"/><circle class="vd" cx="150" cy="34" r="4.5"/><polygon points="166,30 162,30 164,26" fill="#B4C0D4"/><circle class="vd" cx="150" cy="86" r="4.5"/><polygon points="162,90 166,90 164,94" fill="#B4C0D4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">MomentumProg <span class="pcost">c=9.8</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
@@ -1124,14 +1124,7 @@ tr.weakrow td{color:var(--mut)}
 
 <!-- ============ 28 PIPELINE ============ -->
 <section class="slide" data-title="贵的那部分移到离线，推理时只留一次前向">
-  <svg class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true">
-    <path class="dline" d="M653 331 V 342 H 543 V 372"/><path class="dhead" d="M537 372 L543 380 L549 372"/>
-    <path class="dline" d="M878 331 V 342 H 737 V 372"/><path class="dhead" d="M731 372 L737 380 L743 372"/>
-    <path class="dline" d="M1103 331 V 342 H 931 V 372"/><path class="dhead" d="M925 372 L931 380 L937 372"/>
-    <path class="gline" d="M540 454 V 443"/><path class="ghead" d="M534 443 L540 435 L546 443"/>
-    <path class="gline" d="M1124 441 V 500 H 956"/><path class="ghead" d="M956 494 L948 500 L956 506"/>
-    <text class="gtxt" x="1124" y="540" text-anchor="end">递归：命中标签的 patch 区域，用同一个打分函数再跑一遍</text>
-  </svg>
+  <svg id="pipe-conn" class="xconn" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"></svg>
   <div class="body" style="justify-content:center;gap:24px">
     <div class="lane">
       <div class="lhd">离线，只算一次</div>
@@ -1140,11 +1133,11 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr">→</div>
         <div class="fbox compact"><div class="fn">encode_text</div><div class="fd">同一个冻结模型</div></div>
         <div class="farr">→</div>
-        <div class="fbox compact"><div class="fn">标签矩阵 E</div><div class="fd">128,260 × 768</div></div>
+        <div class="fbox compact" data-pc="E"><div class="fn">标签矩阵 E</div><div class="fd">128,260 × 768</div></div>
         <div style="flex:0 0 22px"></div>
-        <div class="fbox compact"><div class="fn">背景先验 μ</div><div class="fd">来自中性图片</div></div>
+        <div class="fbox compact" data-pc="mu"><div class="fn">背景先验 μ</div><div class="fd">来自中性图片</div></div>
         <div style="flex:0 0 22px"></div>
-        <div class="fbox compact"><div class="fn">词首过滤</div><div class="fd">→ 25,465 个词</div></div>
+        <div class="fbox compact" data-pc="voc"><div class="fn">词首过滤</div><div class="fd">→ 25,465 个词</div></div>
       </div>
     </div>
     <div class="lane">
@@ -1154,22 +1147,22 @@ tr.weakrow td{color:var(--mut)}
         <div class="farr">→</div>
         <div class="fbox compact"><div class="fn">P, g</div><div class="fd">patch + 全局</div></div>
         <div class="farr">→</div>
-        <div class="fbox alit compact"><div class="fn"><span class="abc sm">A</span>与 E 打分</div><div class="fd">patch-max 融合全局</div></div>
+        <div class="fbox alit compact" data-pc="score"><div class="fn"><span class="abc sm">A</span>与 E 打分</div><div class="fd">patch-max 融合全局</div></div>
         <div class="farr">→</div>
-        <div class="fbox compact"><div class="fn">减去 μ</div><div class="fd">去掉基频偏置</div></div>
+        <div class="fbox compact" data-pc="submu"><div class="fn">减去 μ</div><div class="fd">去掉基频偏置</div></div>
         <div class="farr">→</div>
-        <div class="fbox compact"><div class="fn">过滤 + NMS</div><div class="fd">合并同义词</div></div>
+        <div class="fbox compact" data-pc="nms"><div class="fn">过滤 + NMS</div><div class="fd">合并同义词</div></div>
         <div class="farr">→</div>
-        <div class="fbox dark compact"><div class="fn">top-k 标签</div><div class="fd">kitty · cosy · paw</div></div>
+        <div class="fbox dark compact" data-pc="topk"><div class="fn">top-k 标签</div><div class="fd">kitty · cosy · paw</div></div>
       </div>
       <div class="flow2" style="justify-content:flex-start;gap:0;margin-top:4px">
         <div style="flex:0 0 150px"></div>
-        <div class="fbox compact bbox" style="flex:0 0 auto;padding:10px 16px">
+        <div class="fbox compact bbox" data-pc="hq" style="flex:0 0 auto;padding:10px 16px">
           <div class="fn"><span class="abc sm b">B</span>--hq：14 个 crop → 同一个模型 → 逐标签取 max</div>
           <div class="fd">以权重 1.3 加进总分</div>
         </div>
         <div style="flex:0 0 26px"></div>
-        <div class="fbox compact rbox" style="flex:0 0 auto;padding:10px 16px">
+        <div class="fbox compact rbox" data-pc="ngram" style="flex:0 0 auto;padding:10px 16px">
           <div class="fn"><span class="abc sm b">B</span>--ngram：词表在那块区域重跑一遍</div>
           <div class="fd">同一个打分函数 · grey couch kitty</div>
         </div>
@@ -1530,6 +1523,7 @@ function fit(){
   stage.style.transform=`translate(-50%,-50%) scale(${s})`;
 }
 ['resize','orientationchange','load','pageshow'].forEach(ev=>window.addEventListener(ev,fit));
+window.addEventListener('resize',()=>{try{drawPipeConn();}catch(e){}});
 if(window.visualViewport) window.visualViewport.addEventListener('resize',fit);
 window.addEventListener('keydown',e=>{
   if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){show(i+1);e.preventDefault();}
@@ -1541,8 +1535,8 @@ stage.addEventListener('click',e=>{ if(e.clientX<window.innerWidth*0.32) show(i-
 
 /* ---------------- SVG toolkit (dark theme) ---------------- */
 const SVGNS='http://www.w3.org/2000/svg';
-const INK='#E8ECF4', MUT='#9AA3B5', CYAN='#26C6DA', BLUE='#3B6FF0', BLUE2='#5E8FF8',
-      PINK='#DC3CB4', GREEN='#27C08A', GRID='rgba(154,163,181,.30)', FAINT='rgba(154,163,181,.13)';
+const INK='#F2F5FA', MUT='#C6CEDC', CYAN='#26C6DA', BLUE='#3B6FF0', BLUE2='#5E8FF8',
+      PINK='#DC3CB4', GREEN='#27C08A', GRID='rgba(198,206,220,.36)', FAINT='rgba(198,206,220,.18)';
 function el(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
 const F_SANS='"SHSans","InterDeck","PingFang SC",sans-serif', F_MONO='"InterDeck","SF Mono",ui-monospace,Menlo,monospace';
 function txt(x,y,s,o={}){const t=el('text',{x,y,'font-family':o.mono?F_MONO:F_SANS,
@@ -1766,7 +1760,7 @@ function drawPareto(){
   svg.appendChild(txt((L+W-R)/2,H-8,'成本比 c（相对基线多跑的前向次数，对数轴）',{fs:14,fw:600,anchor:'middle',fill:MUT}));
   ylabel(svg,20,(T+H-B)/2,'相关性提升 →',14);
   all.forEach(p=>{const isFr=fr.some(f=>Math.abs(f[0]-p[0])<0.08&&Math.abs(f[1]-p[1])<0.0006); if(isFr)return;
-    svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:'#6B7A94','stroke-width':1.6}));});
+    svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:2.8,fill:'none',stroke:'#93A0B8','stroke-width':1.6}));});
   let d='';fr.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+' '+Y(p[1])+' ';});
   svg.appendChild(el('path',{d,fill:'none',stroke:CYAN,'stroke-width':2.6,'stroke-linejoin':'round'}));
   fr.forEach(p=>svg.appendChild(el('circle',{cx:X(p[0]),cy:Y(p[1]),r:5.5,fill:CYAN,stroke:'#05060C','stroke-width':1.4})));
@@ -1774,7 +1768,7 @@ function drawPareto(){
   svg.appendChild(el('line',{x1:lx,y1:ly,x2:lx+22,y2:ly,stroke:CYAN,'stroke-width':2.6}));
   svg.appendChild(el('circle',{cx:lx+11,cy:ly,r:5.5,fill:CYAN}));
   svg.appendChild(txt(lx+30,ly+5,'Pareto 前沿',{fs:13,mono:1,fill:INK}));
-  svg.appendChild(el('circle',{cx:lx+11,cy:ly+22,r:2.6,fill:'none',stroke:'#6B7A94','stroke-width':1.4}));
+  svg.appendChild(el('circle',{cx:lx+11,cy:ly+22,r:2.6,fill:'none',stroke:'#93A0B8','stroke-width':1.4}));
   svg.appendChild(txt(lx+30,ly+27,'其余已搜索程序',{fs:13,mono:1,fill:MUT}));
 }
 
@@ -1839,8 +1833,54 @@ function drawHeatmap(){
   });
 }
 
+
+/* ---- slide 25 pipeline connectors: measured from the DOM, so they stay
+   attached even when the subsetted webfont fails to load and boxes reflow.
+   Chrome/Safari/Firefox all resolve getBoundingClientRect the same way; we
+   divide out the stage scale so coordinates land back in the 1280x720 space. ---- */
+function drawPipeConn(){
+  const svg=document.getElementById('pipe-conn'); if(!svg) return;
+  const sc=(stage.getBoundingClientRect().width/1280)||1;
+  const org=stage.getBoundingClientRect();
+  const slide=svg.closest('.slide');
+  const wasHidden=!slide.classList.contains('active');
+  if(wasHidden){slide.style.visibility='hidden';slide.style.display='flex';}
+  const box=k=>{const e=slide.querySelector('[data-pc="'+k+'"]'); if(!e) return null;
+    const r=e.getBoundingClientRect();
+    return {l:(r.left-org.left)/sc, r:(r.right-org.left)/sc, t:(r.top-org.top)/sc,
+            b:(r.bottom-org.top)/sc, cx:(r.left+r.right-2*org.left)/(2*sc),
+            cy:(r.top+r.bottom-2*org.top)/(2*sc)};};
+  const B={}; ['E','mu','voc','score','submu','nms','topk','hq','ngram'].forEach(k=>B[k]=box(k));
+  if(wasHidden){slide.style.display='';slide.style.visibility='';}
+  if(Object.values(B).some(v=>!v)) return;
+  const P=[];
+  const dn=(x1,y1,x2,y2,cls)=>{ // down-elbow: from bottom of src, across, down into top of dst
+    const mid=y1+(y2-y1)/2;
+    P.push('<path class="'+cls+'line" d="M'+x1.toFixed(1)+' '+y1.toFixed(1)+' V '+mid.toFixed(1)+
+           ' H '+x2.toFixed(1)+' V '+y2.toFixed(1)+'"/>');
+    P.push('<path class="'+cls+'head" d="M'+(x2-6).toFixed(1)+' '+y2.toFixed(1)+' L '+x2.toFixed(1)+' '+
+           (y2+8).toFixed(1)+' L '+(x2+6).toFixed(1)+' '+y2.toFixed(1)+'"/>');
+  };
+  dn(B.E.cx,  B.E.b,  B.score.cx, B.score.t, 'd');
+  dn(B.mu.cx, B.mu.b,  B.submu.cx, B.submu.t, 'd');
+  dn(B.voc.cx,B.voc.b, B.nms.cx,   B.nms.t,   'd');
+  // hq -> back up into the scoring box
+  const hx=B.score.cx;
+  P.push('<path class="gline" d="M'+hx.toFixed(1)+' '+B.hq.t.toFixed(1)+' V '+(B.score.b+2).toFixed(1)+'"/>');
+  P.push('<path class="ghead" d="M'+(hx-6).toFixed(1)+' '+(B.score.b+2).toFixed(1)+' L '+hx.toFixed(1)+' '+
+         (B.score.b-6).toFixed(1)+' L '+(hx+6).toFixed(1)+' '+(B.score.b+2).toFixed(1)+'"/>');
+  // top-k -> down -> left into the ngram box
+  const ty=B.ngram.cy, tx=B.topk.cx;
+  P.push('<path class="gline" d="M'+tx.toFixed(1)+' '+B.topk.b.toFixed(1)+' V '+ty.toFixed(1)+' H '+
+         (B.ngram.r+8).toFixed(1)+'"/>');
+  P.push('<path class="ghead" d="M'+(B.ngram.r+8).toFixed(1)+' '+(ty-6).toFixed(1)+' L '+B.ngram.r.toFixed(1)+
+         ' '+ty.toFixed(1)+' L '+(B.ngram.r+8).toFixed(1)+' '+(ty+6).toFixed(1)+'"/>');
+  P.push('<text class="gtxt" x="'+tx.toFixed(1)+'" y="'+(B.ngram.b+34).toFixed(1)+
+         '" text-anchor="end">递归：命中标签的 patch 区域，用同一个打分函数再跑一遍</text>');
+  svg.innerHTML=P.join('');
+}
 function renderAll(){
-  drawPareto();drawPermodel();drawHeatmap();fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();
+  drawPareto();drawPermodel();drawHeatmap();fillResults();drawLadder();drawLevers();drawTagPareto();drawVocabHist();drawPipeConn();
 }
 function init(){
   fit(); requestAnimationFrame(fit);
