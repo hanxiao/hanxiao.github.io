@@ -1,0 +1,11 @@
+{
+ "communities": [
+  {
+   "id": "hacker-news",
+   "name": "Hacker News",
+   "url": "https://news.ycombinator.com",
+   "logo": "logos/hacker-news.png",
+   "blurb": "Y Combinator's front page — where official model launches, papers, and releases get their first big audience"
+  }
+ ]
+}

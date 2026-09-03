@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US × CN × EU Open-Weight Models Knowledge Graph · Han Xiao</title>
+<meta name="description" content="Interactive knowledge graph of who adopts, hosts and post-trains open-weight models across the US, China and the EU. Every edge carries original-source evidence URLs. Data snapshot 2026-09-02.">
+<meta name="author" content="Han Xiao">
+<meta name="keywords" content="open-weight models, open source LLM, DeepSeek, Qwen, Kimi, Llama, Mistral, US China AI, model adoption, knowledge graph">
+<link rel="canonical" href="https://hanxiao.io/us-china-open-weights-2026/">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="%230B64DD"/><text x="16" y="23" font-family="monospace" font-size="19" font-weight="bold" fill="white" text-anchor="middle">G</text></svg>'>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Han Xiao">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://hanxiao.io/us-china-open-weights-2026/">
+<meta property="og:title" content="US × CN × EU Open-Weight Models Knowledge Graph">
+<meta property="og:description" content="Who adopts, who hosts, who post-trains. An evidence-backed graph of open-weight model adoption across the US, China and the EU.">
+<meta property="og:image" content="https://hanxiao.io/us-china-open-weights-2026/img/og.png">
+<meta property="og:image:secure_url" content="https://hanxiao.io/us-china-open-weights-2026/img/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Force-directed knowledge graph linking Chinese open-weight models to US industry adopters">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hxiao">
+<meta name="twitter:creator" content="@hxiao">
+<meta name="twitter:title" content="US × CN × EU Open-Weight Models Knowledge Graph">
+<meta name="twitter:description" content="Who adopts, who hosts, who post-trains. An evidence-backed graph of open-weight model adoption across the US, China and the EU.">
+<meta name="twitter:image" content="https://hanxiao.io/us-china-open-weights-2026/img/og.png">
+<meta name="twitter:image:alt" content="Force-directed knowledge graph linking Chinese open-weight models to US industry adopters">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dataset","name":"US x CN x EU Open-Weight Models Knowledge Graph","description":"Interactive, evidence-backed knowledge graph of open-weight model adoption: which companies use, host or post-train which open-weight models across the US, China and the EU.","url":"https://hanxiao.io/us-china-open-weights-2026/","image":"https://hanxiao.io/us-china-open-weights-2026/img/og.png","dateModified":"2026-09-02","license":"https://hanxiao.io/","creator":{"@type":"Person","name":"Han Xiao","url":"https://hanxiao.io/about/","sameAs":["https://x.com/hxiao","https://github.com/hanxiao"]},"keywords":["open-weight models","LLM adoption","DeepSeek","Qwen","knowledge graph"]}
+</script>
+<link rel="stylesheet" href="style.css">
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/force-graph.min.js"></script>
+</head>
+<body>
+<header class="nav">
+  <div class="nav-title">US × CN × EU Open-Weight Models <span class="nav-sub">knowledge graph · who adopts, who hosts, who post-trains · data 2026-09-02</span></div>
+  <div class="nav-stats" id="stats"></div>
+  <div class="nav-actions">
+    <button id="btn-cn" class="btn" title="Show only edges touching Chinese open-weight models">CN models only</button>
+    <button id="btn-reset" class="btn">Reset view</button>
+  </div>
+</header>
+
+<div class="layout">
+  <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle side panel" title="Toggle side panel">‹</button>
+  <aside class="sidebar">
+    <section>
+      <label class="side-label" for="search">search</label>
+      <input id="search" type="text" placeholder="company or model…  · / to focus · Enter jumps to the biggest match" autocomplete="off" spellcheck="false">
+    </section>
+
+    <section>
+      <div class="side-label">region</div>
+      <div id="f-region" class="checks"></div>
+    </section>
+
+    <section>
+      <div class="side-label">model origin</div>
+      <div id="f-origin" class="checks"></div>
+    </section>
+
+    <section>
+      <div class="side-label">connection type</div>
+      <div id="f-kind" class="checks"></div>
+    </section>
+
+    <section>
+      <div class="side-label">usage <em>none = all</em></div>
+      <div id="f-usage" class="checks"></div>
+    </section>
+
+    <section>
+      <div class="side-label">confidence</div>
+      <div id="f-conf" class="checks"></div>
+    </section>
+
+    <section class="toggles">
+      <label class="check"><input type="checkbox" id="t-noedge"><span>companies without model edges</span></label>
+      <label class="check"><input type="checkbox" id="t-obsolete"><span>show obsolete models <em>hidden by default</em></span></label>
+    </section>
+
+    <section>
+      <div class="side-label">legend</div>
+      <div class="legend">
+        <div><span class="sw sw-company"></span> company · circle · logo</div>
+        <div><span class="sw sw-model"></span> model · square · logo</div>
+        <div><span class="sw sw-community"></span> community · circle · logo</div>
+        <div><span class="sw sw-ring"></span> region / provider ring</div>
+        <div><span class="sw sw-cn"></span> Chinese open-weight</div>
+        <div><span class="sw sw-usopen"></span> US open-weight</div>
+        <div><span class="sw sw-usclosed"></span> US closed frontier</div>
+        <div><span class="sw sw-euopen"></span> EU open-weight</div>
+        <div><span class="sw sw-euclosed"></span> EU closed</div>
+        <div><span class="sw sw-inhouse"></span> in-house</div>
+        <div><span class="sw sw-undisc"></span> undisclosed</div>
+        <div class="legend-link"><span class="ll"></span> uses / hosted · arrow at company</div>
+        <div class="legend-link"><span class="ll dashed"></span> distilled-from / based-on</div>
+        <div class="legend-link"><span class="ll dotted"></span> official post on a community · arrow at community</div>
+        <div class="legend-note">a node lives in exactly one circle. US circle nests model providers top-left + industry bottom-right; CN and EU are single circles; providers orbit inside their ring. line opacity = confidence. obsolete models, marked †, hidden by default.</div>
+      </div>
+    </section>
+
+    <section class="foot">
+      <div class="side-label">click any node for evidence</div>
+      <button id="btn-export" class="btn export" title="Download the visible view as JSON · companies, models, connections + evidence URLs">download visible data</button>
+      <div class="foot-note">every edge carries original-source URLs · force-directed layout that settles into a gentle perpetual drift<br>data: companies.json · models.json · connections.json · communities.json · open-weights-adoption.json</div>
+    </section>
+  </aside>
+
+  <main class="stage">
+    <div id="graph"></div>
+    <div class="graph-overlay">
+      <button id="g-fit" class="gbadge" title="Zoom to fit">fit</button>
+      <button id="g-nodelabels" class="gbadge on" title="Toggle node labels">node labels</button>
+      <button id="g-edgelabels" class="gbadge" title="Toggle edge labels · visible when zoomed in">edge labels</button>
+    </div>
+    <div id="hovercard" class="hovercard" hidden></div>
+    <aside id="panel" class="panel" hidden>
+      <button id="panel-close" class="btn">✕</button>
+      <div id="panel-body"></div>
+    </aside>
+  </main>
+</div>
+
+<script src="app.js?v=7"></script>
+</body>
+</html>

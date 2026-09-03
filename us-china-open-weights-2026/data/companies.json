@@ -1,0 +1,3980 @@
+{
+  "companies": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "logo": "logos/openai.png",
+      "website": "https://openai.com",
+      "hq": "San Francisco, CA",
+      "founded": 2015,
+      "employees": "~3,500",
+      "revenue": "~$13B run-rate (2026 est.)",
+      "valuation": "~$500B (2025 round, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Frontier closed models (GPT family) + open-weight gpt-oss. No use of Chinese open models.",
+      "sources": [
+        "https://openai.com/index/harvey",
+        "https://docs.together.ai/docs/serverless/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "logo": "logos/anthropic.png",
+      "website": "https://www.anthropic.com",
+      "hq": "San Francisco, CA",
+      "founded": 2021,
+      "employees": "~1,500",
+      "revenue": "~$5B (FY2025, est.)",
+      "valuation": "~$300B (2025-26, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Claude family (closed). No use of Chinese open models. 2026-08-31: $35B 6-year compute deal with Nvidia-backed Lambda (Bloomberg), adding Texas (Hut 8 Beacon Point, 1 GW) capacity.",
+      "sources": [
+        "https://www.anthropic.com",
+        "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-and-Anthropic-partner-to-help-customers-build-AI-powered-applications-accelerate-time-to-value-and-apply-trusted-AI-to-critical-industries/default.aspx",
+        "https://www.bloomberg.com/news/articles/2026-08-31/anthropic-seals-35-billion-cloud-deal-with-nvidia-backed-lambda"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "google",
+      "name": "Google (Alphabet)",
+      "logo": "logos/google.png",
+      "website": "https://www.google.com",
+      "hq": "Mountain View, CA",
+      "founded": 1998,
+      "employees": "~182,000",
+      "revenue": "~$350B (FY2024)",
+      "valuation": "Public (NYSE: GOOGL)",
+      "listing": [
+        "nyse:GOOGL"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:GOOGL",
+        "bay_area"
+      ],
+      "ai_stance": "Gemini (closed) + Gemma (open). Sells Gemini/Vertex to US enterprises (Lowe's, Home Depot, CVS). No live use of Chinese open models (K3 hosting in talks with Moonshot — up-to-30%-revenue-share negotiations, Reuters 2026-08-26; not live as of 2026-09-02, see W1).",
+      "sources": [
+        "https://cloud.google.com/blog/topics/customers/cool-stuff-google-cloud-customers-built-monthly-round-up-may-2025",
+        "https://huggingface.co/google"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "logo": "logos/meta.png",
+      "website": "https://www.meta.com",
+      "hq": "Menlo Park, CA",
+      "founded": 2004,
+      "employees": "~74,000",
+      "revenue": "~$164B (FY2024)",
+      "valuation": "Public (NASDAQ: META)",
+      "listing": [
+        "nasdaq:META"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:META",
+        "bay_area"
+      ],
+      "ai_stance": "Llama family (open weights) — the most-adopted US open model; used by Goldman, Wells Fargo, and as base for DeepSeek's R1 distills. 2026: Muse family added — Glimmer 30B (open weights, Apache 2.0, 2026-08-10; runs on a single consumer GPU; HF/Ollama) and the closed Spark flagship (1.3 released 2026-09-02; open-weights release on the roadmap — watchlist W0).",
+      "sources": [
+        "https://ai.meta.com/blog/meta-llama-3",
+        "https://ai.meta.com/blog/llama-usage-doubled-may-through-july-2024"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "logo": "logos/microsoft.png",
+      "website": "https://www.microsoft.com",
+      "hq": "Redmond, WA",
+      "founded": 1975,
+      "employees": "~228,000",
+      "revenue": "~$245B (FY2024)",
+      "valuation": "Public (NASDAQ: MSFT)",
+      "listing": [
+        "nasdaq:MSFT"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:MSFT"
+      ],
+      "ai_stance": "Sells DeepSeek (R1, V4) on Azure AI Foundry — first major US cloud to host a Chinese open model. Copilot now offers Kimi K2.7 (first open-weight model in Copilot, GA 2026-07-01) and Kimi K3 (GA 2026-08-06, $3/$15 per M). Kimi K2 detected in its own stack (tech-detection). Phi (open). Kimi K3 also on Microsoft Foundry via Fireworks (2026-07-28).",
+      "sources": [
+        "https://azure.microsoft.com/en-us/blog/deepseek-r1-is-now-available-on-azure-ai-foundry-and-github",
+        "https://ai.azure.com/catalog/models/DeepSeek-V4-Pro",
+        "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/deepseek",
+        "https://theirstack.com/en/technology/kimi-k2",
+        "https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/introducing-kimi-k3-through-fireworks-ai-on-microsoft-foundry/4540187"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "xai",
+      "name": "xAI",
+      "logo": "logos/xai.png",
+      "website": "https://x.ai",
+      "hq": "Palo Alto, CA",
+      "founded": 2023,
+      "employees": "~1,200",
+      "revenue": "$3.2B FY2025 (SpaceX IPO filing, 2026-05)",
+      "valuation": "~$75B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Grok (closed). No use of Chinese open models.",
+      "sources": [
+        "https://x.ai",
+        "https://finance.yahoo.com/sectors/technology/articles/xai-burned-6-4b-last-222608682.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "logo": "logos/apple.png",
+      "website": "https://www.apple.com",
+      "hq": "Cupertino, CA",
+      "founded": 1976,
+      "employees": "~165,000",
+      "revenue": "~$391B (FY2024)",
+      "valuation": "Public (NASDAQ: AAPL)",
+      "listing": [
+        "nasdaq:AAPL"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:AAPL",
+        "bay_area"
+      ],
+      "ai_stance": "Apple Foundation Models (closed, on-device). WWDC26 Core AI framework ships pre-converted open-weight models INCLUDING Qwen (Chinese) + Mistral in apple/coreai-models — production on-device use of a Chinese open model.",
+      "sources": [
+        "https://github.com/apple/coreai-models",
+        "https://developer.apple.com/videos/play/wwdc2026/326",
+        "https://avinashsangle.com/blog/apple-core-ai-on-device-inference-guide",
+        "https://machinelearning.apple.com/research/apple-foundation-models-2025-updates"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon (AWS)",
+      "logo": "logos/amazon.png",
+      "website": "https://www.amazon.com",
+      "hq": "Seattle, WA",
+      "founded": 1994,
+      "employees": "~1.5M",
+      "revenue": "~$638B (FY2024)",
+      "valuation": "Public (NASDAQ: AMZN)",
+      "listing": [
+        "nasdaq:AMZN"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:AMZN"
+      ],
+      "ai_stance": "Amazon Bedrock hosts DeepSeek R1 / V3.1 / V3.2 (fully managed) AND Qwen3 — first hyperscaler cloud with a Chinese open model in its model shop. Kimi K3: official AWS deployment guide (SageMaker HyperPod / EKS, 2026-07-30); Bedrock K3 hosting in talks (up to 30% revenue share, Reuters 2026-08-26; not live as of 2026-09-02).",
+      "sources": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-deepseek.html",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-deepseek-deepseek-v3-2.html",
+        "https://www.aboutamazon.com/news/aws/alibaba-qwen3-deepseek-v3-amazon-bedrock",
+        "https://aws.amazon.com/blogs/machine-learning/deploying-kimi-k3-on-amazon-sagemaker-hyperpod-and-amazon-eks"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "logo": "logos/nvidia.png",
+      "website": "https://www.nvidia.com",
+      "hq": "Santa Clara, CA",
+      "founded": 1993,
+      "employees": "~37,000",
+      "revenue": "~$130B (FY2025)",
+      "valuation": "Public (NASDAQ: NVDA)",
+      "listing": [
+        "nasdaq:NVDA"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:NVDA",
+        "bay_area",
+        "chip"
+      ],
+      "ai_stance": "First-party DeepSeek support: TensorRT-LLM optimization guides, nvidia/DeepSeek-V3.2-NVFP4 weights, SLM fine-tuning (NeMo). Co-developing clinical model with Abridge (WSJ 2026-06). CNBC (2026-08-27): Nvidia is bolstering support for Chinese open models (hardware optimization for DeepSeek and Qwen) while warning that potential U.S. restrictions on \"third-party applications and models built on open-source foundation models originating in China\" — apps built on DeepSeek, Qwen or Kimi — could have a material impact on its business. Llama-Nemotron (LN-Nano 8B / LN-Super 49B / LN-Ultra 253B, 2025-05): SFT on \"reasoning traces from strong teachers such as DeepSeek-R1\" - \"distill reasoning behavior from strong teacher models like DeepSeek-R1\" (arXiv 2505.00949, NVIDIA Open Model License) - the registry's first documented US-company distillation from a Chinese open-weight model (c362).",
+      "sources": [
+        "https://nvidia.github.io/TensorRT-LLM/blogs/tech_blog/blog1_Pushing_Latency_Boundaries_Optimizing_DeepSeek-R1_Performance_on_NVIDIA_B200_GPUs.html",
+        "https://github.com/NVIDIA/TensorRT-LLM/blob/main/docs/source/deployment-guide/deployment-guide-for-deepseek-r1-on-trtllm.md",
+        "https://huggingface.co/nvidia/DeepSeek-V3.2-NVFP4",
+        "https://www.cnbc.com/2026/08/27/nvidia-chinese-ai-models.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "logo": "logos/oracle.png",
+      "website": "https://www.oracle.com",
+      "hq": "Austin, TX",
+      "founded": 1977,
+      "employees": "~130,000+",
+      "revenue": "~$44B (FY2024)",
+      "valuation": "Public (NYSE: ORCL)",
+      "listing": [
+        "nyse:ORCL"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:ORCL"
+      ],
+      "ai_stance": "OCI Generative AI supports import of DeepSeek V4 Flash / V4 Pro / V4-Flash-0731 from Hugging Face (Open Model Engine) — production hosting of Chinese open models.",
+      "sources": [
+        "https://docs.oracle.com/iaas/releasenotes/generative-ai/deepseek-v4.htm",
+        "https://docs.oracle.com/en-us/iaas/Content/generative-ai/imported-deepseek-models.htm",
+        "https://docs.oracle.com/iaas/releasenotes/generative-ai/deepseek-v4-flash-0731.htm"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "coreweave",
+      "name": "CoreWeave",
+      "logo": "logos/coreweave.png",
+      "website": "https://www.coreweave.com",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~1,500 (est.)",
+      "revenue": "~$5.5B (FY2025, est.)",
+      "valuation": "Public (NASDAQ: CRWV)",
+      "listing": [
+        "nasdaq:CRWV"
+      ],
+      "tags": [
+        "nasdaq:CRWV",
+        "bay_area",
+        "cloud",
+        "ipo_2025"
+      ],
+      "ai_stance": "GPU cloud; serverless inference team working on Qwen 3.8 (public X, 2026-08); hosts Qwen3.8 27B for OpenRouter. GPU infrastructure behind DeepSeek-class training.",
+      "sources": [
+        "https://x.com/CoreWeave/status/2088347680166785176",
+        "https://openrouter.ai/provider/coreweave"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "together-ai",
+      "name": "Together AI",
+      "logo": "logos/together-ai.png",
+      "website": "https://www.together.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~300 (est.)",
+      "revenue": "~$200M (2025, est.)",
+      "valuation": "~$3.3B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "Inference API hosts Kimi K3 + K2.7-Code, GLM-5/5.1/5.2/5.3/5.3-Flash, DeepSeek-V4, Qwen3.8-2.4T-A95B and gpt-oss-120b side by side — Chinese open models are core catalog.",
+      "sources": [
+        "https://docs.together.ai/docs/serverless/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "fireworks-ai",
+      "name": "Fireworks AI",
+      "logo": "logos/fireworks-ai.png",
+      "website": "https://fireworks.ai",
+      "hq": "Redwood City, CA",
+      "founded": 2023,
+      "employees": "~200 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$1.2B (2024, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "DeepSeek V4 (Flash + Pro) live on Fireworks — inference for Chinese open models is a headline product. Also runs Multi-LoRA training + serving on Kimi K3 (Serverless Training, 2026-07).",
+      "sources": [
+        "https://fireworks.ai/deepseek",
+        "https://fireworks.ai/models/fireworks/deepseek-v4-flash",
+        "https://fireworks.ai/models/fireworks/deepseek-v4-pro",
+        "https://fireworks.ai/blog/K3-LoRA-Training"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "baseten",
+      "name": "Baseten",
+      "logo": "logos/baseten.png",
+      "website": "https://www.baseten.co",
+      "hq": "Palo Alto, CA",
+      "founded": 2019,
+      "employees": "~150 (est.)",
+      "revenue": "~$50M (2025, est.)",
+      "valuation": "~$500M (2024, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "Hosts the full CN open frontier in catalog: DeepSeek V4-Flash-0731, Moonshot Kimi K2.6/K2.7/K3, Qwen3.8-27B, GLM-5.2/5.3/5.3-Flash. Also fine-tuned Qwen-7B with DeepSeek R1 CoT (DeepSeek-R1-Qwen-7B) — a US company's model built on a Chinese base.",
+      "sources": [
+        "https://www.baseten.co/library/deepseek-r1-qwen-7b",
+        "https://huggingface.co/inference/models",
+        "https://www.linkedin.com/posts/clinebot_more-choice-for-cline-users-you-can-now-activity-7361457598853734402-vvyP"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "logo": "logos/replicate.png",
+      "website": "https://replicate.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~150 (est.)",
+      "revenue": "~$50M (2025, est.)",
+      "valuation": "~$550M (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "Runs deepseek-ai/deepseek-r1 via its API (537k+ runs at publish) — DeepSeek in the default catalog.",
+      "sources": [
+        "https://replicate.com/deepseek-ai/deepseek-r1",
+        "https://replicate.com/deepseek-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cerebras",
+      "name": "Cerebras Systems",
+      "logo": "logos/cerebras.png",
+      "website": "https://www.cerebras.ai",
+      "hq": "Santa Clara, CA",
+      "founded": 2016,
+      "employees": "~700 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$8.3B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "chip"
+      ],
+      "ai_stance": "Launched 'world's fastest DeepSeek-R1-Distill-Llama-70B inference' (1,500+ tok/s) on Cerebras Cloud — production hosting. 2026: GLM 5/5.1 and Kimi K2.6 on Dedicated Endpoints (2026-04-27), Step 3.5/3.7 Flash (2026-06-01); GLM-4.7 serverless (deprecation 2026-08-17). Notably no DeepSeek V4.",
+      "sources": [
+        "https://www.cerebras.ai/press-release/cerebras-launches-worlds-fastest-deepseek-r1-distill-llama-70b-inference"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "logo": "logos/groq.png",
+      "website": "https://groq.com",
+      "hq": "Mountain View, CA",
+      "founded": 2016,
+      "employees": "~600 (est.)",
+      "revenue": "~$50M (2025, est.)",
+      "valuation": "~$6.9B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "chip"
+      ],
+      "ai_stance": "DeepSeek-R1-Distill-Llama-70B is a production model on GroqCloud; Qwen3-32B also served (via HF Inference listing). 2026-08: now also serves Qwen3.8-27B and MiniMax M2.7 (console docs). Still no DeepSeek V4 / Kimi K3.",
+      "sources": [
+        "https://console.groq.com/docs/model/deepseek-r1-distill-llama-70b",
+        "https://console.groq.com/docs/models",
+        "https://huggingface.co/inference/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "sambanova",
+      "name": "SambaNova Systems",
+      "logo": "logos/sambanova.png",
+      "website": "https://sambanova.ai",
+      "hq": "Redwood City, CA",
+      "founded": 2017,
+      "employees": "~500 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$1.4B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "chip"
+      ],
+      "ai_stance": "DeepSeek-V3.1 and DeepSeek-V3.1-Terminus live on SambaCloud at 200+ tok/s — Chinese open models are a flagship workload. SambaCloud also serves MiniMax M3 + M2.7 (api.sambanova.ai model list, 2026-09).",
+      "sources": [
+        "https://sambanova.ai/blog/deepseek-v3.1-is-live-on-sambacloud",
+        "https://sambanova.ai/blog/start-building-with-the-fastest-deepseek-v3.1-terminus"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "logo": "logos/cloudflare.png",
+      "website": "https://www.cloudflare.com",
+      "hq": "San Francisco, CA (HQ: Austin, TX)",
+      "founded": 2009,
+      "employees": "~3,500",
+      "revenue": "~$1.9B (FY2024)",
+      "valuation": "Public (NASDAQ: NET)",
+      "listing": [
+        "nasdaq:NET"
+      ],
+      "tags": [
+        "nasdaq:NET",
+        "cloud"
+      ],
+      "ai_stance": "Workers AI (edge inference) hosts Qwen 3.8 27B, Qwen3-30B-A3B-FP8 and DeepSeek-R1-Distill-Qwen-32B — Chinese open models at the edge, in production. Hosts Kimi K3 on Workers AI / AI Gateway (1M ctx, $3.00 per M input, per Cloudflare docs 2026-08).",
+      "sources": [
+        "https://developers.cloudflare.com/workers-ai/models",
+        "https://developers.cloudflare.com/workers-ai/models/qwen3.8-27b",
+        "https://developers.cloudflare.com/workers-ai/models/qwen3-30b-a3b-fp8",
+        "https://developers.cloudflare.com/workers-ai/models/deepseek-r1-distill-qwen-32b",
+        "https://developers.cloudflare.com/ai/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "logo": "logos/openrouter.png",
+      "website": "https://openrouter.ai",
+      "hq": "New York, NY",
+      "founded": 2023,
+      "employees": "~30 (est.)",
+      "revenue": "~$160M annualized (2026-08, Sacra est.); $50M end-2025",
+      "valuation": "$1.3B (2026-05-26 Series B, $113M, CapitalG)",
+      "listing": [
+        "startup"
+      ],
+      "tags": [
+        "cloud"
+      ],
+      "ai_stance": "US company (OpenRouter, Inc., 169 Madison Ave, NYC). Unified API over 500+ models; 20+ providers serve DeepSeek models on OpenRouter (incl. Kimi K3, Qwen3.8 27B/2.4T/Max, DeepSeek-V4-Pro-0813, GLM-5.3). GLM-5.3-Flash ran free as stealth 'ox-alpha' for ~a week (2026-08).",
+      "sources": [
+        "https://openrouter.ai/terms",
+        "https://openrouter.ai/about",
+        "https://www.reddit.com/r/LocalLLaMA/comments/1vo9k39/less_than_a_month_kimi_k3_qwen38",
+        "https://sacra.com/c/openrouter",
+        "https://openrouter.ai/blog/announcements/series-b"
+      ],
+      "region": "us",
+      "replace": {
+        "valuation": [
+          "$1.3B (2026-05-26 Series B, $113M, CapitalG)",
+          "private (VC, est. <$1B)"
+        ]
+      }
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "logo": "logos/modal.png",
+      "website": "https://modal.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~200 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$1B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "Serverless compute; official docs examples for serving DeepSeek V3 / V4 / V4-Flash and Kimi-K2 — tooling that makes Chinese open models turnkey in the US.",
+      "sources": [
+        "https://modal.com/docs/examples/very_large_models",
+        "https://modal.com/docs/examples/deepseek_v4",
+        "https://modal.com/docs/examples/deepseek_v4_flash"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "databricks",
+      "name": "Databricks",
+      "logo": "logos/databricks.png",
+      "website": "https://www.databricks.com",
+      "hq": "San Francisco, CA",
+      "founded": 2013,
+      "employees": "~12,500",
+      "revenue": "~$4.4B (FY2025, est.)",
+      "valuation": "~$62B (2025); IPO filed",
+      "listing": [
+        "ipo_2025"
+      ],
+      "tags": [
+        "bay_area",
+        "cloud",
+        "ipo_2025"
+      ],
+      "ai_stance": "'DeepSeek R1 on Databricks' (official blog, 2025-01-31) — first-party deployment guide; community deploys of R1-Distill-Qwen on its stack. Kimi K3 on Databricks through Unity AI Gateway (2026-08-06): US-hosting on the Foundation Model API with native access for AWS and GCP workspaces.",
+      "sources": [
+        "https://www.databricks.com/blog/deepseek-r1-databricks",
+        "https://www.databricksters.com/p/deploying-deepseek-r1-distill-qwen",
+        "https://www.databricks.com/blog/kimi-k3-moonshot-ai-now-available-databricks-through-unity-ai-gateway"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "intel",
+      "name": "Intel",
+      "logo": "logos/intel.png",
+      "website": "https://www.intel.com",
+      "hq": "Santa Clara, CA",
+      "founded": 1968,
+      "employees": "~44,000+",
+      "revenue": "~$53B (FY2024)",
+      "valuation": "Public (NASDAQ: INTC)",
+      "listing": [
+        "nasdaq:INTC"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:INTC",
+        "bay_area",
+        "chip"
+      ],
+      "ai_stance": "Official guides for deploying DeepSeek models on Intel Gaudi (vLLM) and DeepSeek-R1-Distill chatbots on AWS Xeon — DeepSeek on x86/Intel silicon.",
+      "sources": [
+        "https://community.intel.com/t5/Blogs/Tech-Innovation/Artificial-Intelligence-AI/Deploying-Deepseek-models-on-Intel-Gaudi-accelerators-using-vLLM/post/1718771",
+        "https://www.intel.com/content/www/us/en/developer/articles/guide/deploy-a-deepseek-r1-distill-chatbot-on-aws-xeon.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "qualcomm",
+      "name": "Qualcomm",
+      "logo": "logos/qualcomm.png",
+      "website": "https://www.qualcomm.com",
+      "hq": "San Diego, CA",
+      "founded": 1985,
+      "employees": "~40,000",
+      "revenue": "~$39B (FY2024)",
+      "valuation": "Public (NASDAQ: QCOM)",
+      "listing": [
+        "nasdaq:QCOM"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:QCOM",
+        "chip"
+      ],
+      "ai_stance": "Qualcomm AI Hub ships Qwen2-7B-Instruct and Qwen3-4B (and other Qwen variants) optimized for on-device Snapdragon — Chinese open models inside US phones. Acquisition of Modular (Modula language + ModelRun inference platform) for ~$3.9B all-stock announced 2026-06-24 and COMPLETED 2026-07-29 — a 'silicon-agnostic compute layer' for the Dragonfly data-center roadmap; Modular is now a wholly owned subsidiary.",
+      "sources": [
+        "https://aihub.qualcomm.com/models/qwen2_7b_instruct",
+        "https://aihub.qualcomm.com/models/qwen3_4b",
+        "https://aihub.qualcomm.com/en-US"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "wandb",
+      "name": "Weights & Biases",
+      "logo": "logos/wandb.png",
+      "website": "https://wandb.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2016,
+      "employees": "~400 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$800M (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "dev_tools"
+      ],
+      "ai_stance": "W&B Inference serves DeepSeek V4-Pro (1.6T MoE) and DeepSeek V3-0324 — Chinese open models as first-class inference products.",
+      "sources": [
+        "https://docs.wandb.ai/inference/models",
+        "https://wandb.ai/site/inference/deepseek-models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "langchain",
+      "name": "LangChain",
+      "logo": "logos/langchain.png",
+      "website": "https://www.langchain.com",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~150 (est.)",
+      "revenue": "~$30M (2025, est.)",
+      "valuation": "~$1.25B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "dev_tools"
+      ],
+      "ai_stance": "First-class ChatDeepSeek integration (official docs + langchain-deepseek package) — the default framework path for Chinese open models in US apps.",
+      "sources": [
+        "https://docs.langchain.com/oss/python/integrations/chat/deepseek",
+        "https://docs.langchain.com/oss/python/integrations/providers/deepseek",
+        "https://reference.langchain.com/python/langchain-deepseek"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "logo": "logos/huggingface.png",
+      "website": "https://huggingface.co",
+      "hq": "New York, NY",
+      "founded": 2016,
+      "employees": "~500 (est.)",
+      "revenue": "~$100M (2025, est.)",
+      "valuation": "~$5B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "cloud"
+      ],
+      "ai_stance": "US company (HF Inc.). Inference Providers resell DeepSeek, Qwen, Kimi K2.6 and GLM-5.2 via US providers (Baseten, DeepInfra, Groq, Novita, NScale...) — the de-facto open-model marketplace.",
+      "sources": [
+        "https://huggingface.co/inference/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "lambda",
+      "name": "Lambda",
+      "logo": "logos/lambda.png",
+      "website": "https://lambda.ai",
+      "hq": "New York, NY",
+      "founded": 2016,
+      "employees": "~400 (est.)",
+      "revenue": "~$200M (2025, est.)",
+      "valuation": "~$12B (2026-09, in talks for up to $3B; up from ~$1.7B 2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "cloud"
+      ],
+      "ai_stance": "GPU cloud (HPC + inference). LLM index / inference catalog hosts Chinese open-weight models: DeepSeek-V4-Pro, Kimi K2.6/K3, GLM-5.2, MiniMax M3, Step-3.7-Flash, Tencent Hunyuan Hy3 (2026-07). 2026-08-31: $35B 6-year compute pact with Anthropic (Bloomberg) — Nvidia-backed capacity incl. Hut 8's 1 GW Beacon Point campus (TX).",
+      "sources": [
+        "https://lambda.ai/inference-models",
+        "https://lambda.ai/",
+        "https://www.bloomberg.com/news/articles/2026-08-31/anthropic-seals-35-billion-cloud-deal-with-nvidia-backed-lambda"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "doordash",
+      "name": "DoorDash",
+      "logo": "logos/doordash.png",
+      "website": "https://www.doordash.com",
+      "hq": "San Francisco, CA",
+      "founded": 2013,
+      "employees": "~11,000",
+      "revenue": "~$11.3B (FY2024)",
+      "valuation": "Public (NASDAQ: DASH)",
+      "listing": [
+        "nasdaq:DASH"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:DASH",
+        "bay_area"
+      ],
+      "ai_stance": "TESTED/USED Moonshot AI's Kimi K2.6 (Chinese open model) on its codebase — now subject to a US House inquiry (letters to DoorDash, 2026-07-31). The clearest US Fortune-500 production touch of a Chinese open model.",
+      "sources": [
+        "https://www.cnbc.com/2026/07/31/us-lawmakers-doordash-chinese-ai-models.html",
+        "https://www.scmp.com/news/china/diplomacy/article/3362616/us-lawmakers-investigate-doordashs-use-moonshot-ais-kimi-k26-model",
+        "https://www.yahoo.com/news/politics/articles/house-lawmakers-are-pressing-doordash-to-explain-its-use-of-a-chinese-ai-model-172446213.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "goldman-sachs",
+      "name": "Goldman Sachs",
+      "logo": "logos/goldman-sachs.png",
+      "website": "https://www.goldmansachs.com",
+      "hq": "New York, NY",
+      "founded": 1838,
+      "employees": "~48,000",
+      "revenue": "~$46B net (FY2024)",
+      "valuation": "Public (NYSE: GS)",
+      "listing": [
+        "nyse:GS"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:GS",
+        "finance"
+      ],
+      "ai_stance": "GS AI Platform runs Meta Llama (per Meta's usage report 2024-08) — US open model, not Chinese.",
+      "sources": [
+        "https://ai.meta.com/blog/llama-usage-doubled-may-through-july-2024",
+        "https://www.reuters.com/technology/artificial-intelligence/meta-says-its-llama-ai-models-being-used-by-banks-tech-companies-2024-08-29",
+        "https://www.finextra.com/newsarticle/44650/goldman-nomura-tap-meta-llama-ai-models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "jpmorgan",
+      "name": "JPMorgan Chase",
+      "logo": "logos/jpmorgan.png",
+      "website": "https://www.jpmorgan.com",
+      "hq": "New York, NY",
+      "founded": 1799,
+      "employees": "~300,000",
+      "revenue": "~$177B (FY2024)",
+      "valuation": "Public (NYSE: JPM)",
+      "listing": [
+        "nyse:JPM"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:JPM",
+        "finance"
+      ],
+      "ai_stance": "LLM Suite (2023→) routes ~250k employees to OpenAI and Anthropic models — closed US frontier, model-agnostic gateway.",
+      "sources": [
+        "https://aimagazine.com/news/jpmorgan-openai-anthropic-evolving-banking-operations",
+        "https://www.jpmorganchase.com/about/technology/blog/llmsuite-ab-award"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "bank-of-america",
+      "name": "Bank of America",
+      "logo": "logos/bank-of-america.png",
+      "website": "https://www.bankofamerica.com",
+      "hq": "Charlotte, NC",
+      "founded": 1784,
+      "employees": "~220,000+",
+      "revenue": "~$125B (FY2024)",
+      "valuation": "Public (NYSE: BAC)",
+      "listing": [
+        "nyse:BAC"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:BAC",
+        "finance"
+      ],
+      "ai_stance": "Runs 270+ AI models; agentic AI strategy across the bank (2025-11 CIO Dive; BofA newsroom 2025-04). No specific LLM vendor named in public sources.",
+      "sources": [
+        "https://www.ciodive.com/news/bank-of-america-AI-agents-strategy-compliance/805178",
+        "https://www.aol.com/finance/bank-america-goes-controversial-tech-210300705.html",
+        "https://newsroom.bankofamerica.com/content/newsroom/press-releases/2025/04/ai-adoption-by-bofa-s-global-workforce-improves-productivity--cl.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "wells-fargo",
+      "name": "Wells Fargo",
+      "logo": "logos/wells-fargo.png",
+      "website": "https://www.wellsfargo.com",
+      "hq": "San Francisco, CA",
+      "founded": 1816,
+      "employees": "~265,000",
+      "revenue": "~$83B (FY2024)",
+      "valuation": "Public (NASDAQ: WFC)",
+      "listing": [
+        "nasdaq:WFC"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:WFC",
+        "bay_area",
+        "finance"
+      ],
+      "ai_stance": "'Open-source LLM apps in production, using Llama 2 and others' (CIO, 2024) — US open model. Fargo assistant built on Google Dialogflow/PaLM (Gemini lineage).",
+      "sources": [
+        "https://www.techdogs.com/tech-news/td-newsdesk/wells-fargos-ai-powered-assistant-fargo-surpasses-20-million-interactions",
+        "https://venturebeat.com/business/wells-fargos-google-llm-driven-assistant-may-reach-100-million-interactions-per-year",
+        "https://www.linkedin.com/posts/marshallmatt_wells-fargos-assistant-powered-by-googles-activity-7151639002700210176-xR9j"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "visa",
+      "name": "Visa",
+      "logo": "logos/visa.png",
+      "website": "https://www.visa.com",
+      "hq": "San Francisco, CA",
+      "founded": 1958,
+      "employees": "~30,000",
+      "revenue": "~$36B net (FY2024)",
+      "valuation": "Public (NYSE: V)",
+      "listing": [
+        "nyse:V"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:V",
+        "bay_area",
+        "finance"
+      ],
+      "ai_stance": "Strategic partnership with OpenAI (2026-06) to build AI-commerce infrastructure (agents making purchases). Closed US frontier.",
+      "sources": [
+        "https://corporate.visa.com/en/sites/visa-perspectives/innovation/visa-openai-partnership.html",
+        "https://www.bloomberg.com/news/articles/2026-06-10/openai-visa-team-up-to-let-ai-agents-make-purchases-online"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "mastercard",
+      "name": "Mastercard",
+      "logo": "logos/mastercard.png",
+      "website": "https://www.mastercard.com",
+      "hq": "Purchase, NY",
+      "founded": 1966,
+      "employees": "~28,000",
+      "revenue": "~$31B (FY2024)",
+      "valuation": "Public (NYSE: MA)",
+      "listing": [
+        "nyse:MA"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:MA",
+        "finance"
+      ],
+      "ai_stance": "Developing its own next-gen generative AI engine (payments data, 'thinking' cycles) — in-house, not Chinese.",
+      "sources": [
+        "https://www.mastercard.com/us/en/news-and-trends/stories/2026/mastercard-new-generative-ai-model.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "unitedhealth",
+      "name": "UnitedHealth Group / Optum",
+      "logo": "logos/unitedhealth.png",
+      "website": "https://www.unitedhealthgroup.com",
+      "hq": "Minneapolis, MN",
+      "founded": 1985,
+      "employees": "~250,000+",
+      "revenue": "~$373B (FY2024)",
+      "valuation": "Public (NYSE: UNH)",
+      "listing": [
+        "nyse:UNH"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:UNH",
+        "healthcare"
+      ],
+      "ai_stance": "Optum + Microsoft partnership (2026-03) for AI claims/reimbursement — Azure/OpenAI stack.",
+      "sources": [
+        "https://www.healthcarefinancenews.com/news/optum-real-microsoft-partner-ai-claims-and-reimbursement"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cvs-health",
+      "name": "CVS Health",
+      "logo": "logos/cvs-health.png",
+      "website": "https://www.cvshealth.com",
+      "hq": "Woonsocket, RI",
+      "founded": 1993,
+      "employees": "~300,000+",
+      "revenue": "~$357B (FY2024)",
+      "valuation": "Public (NYSE: CVS)",
+      "listing": [
+        "nyse:CVS"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:CVS",
+        "healthcare"
+      ],
+      "ai_stance": "Strategic partnership with Google Cloud (2026-03) to launch an AI-native consumer healthcare platform — Gemini/Vertex stack.",
+      "sources": [
+        "https://www.cvshealth.com/news/company-news/cvs-health-and-google-cloud-announce-new-strategic-partnership.html",
+        "https://www.forbes.com/sites/brucejapsen/2026/03/05/cvs-health-and-google-launch-ai-business-to-personalize-healthcare"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "att",
+      "name": "AT&T",
+      "logo": "logos/att.png",
+      "website": "https://www.att.com",
+      "hq": "Dallas, TX",
+      "founded": 1885,
+      "employees": "~60,000",
+      "revenue": "~$114B (FY2024)",
+      "valuation": "Public (NYSE: T)",
+      "listing": [
+        "nyse:T"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:T",
+        "telecom"
+      ],
+      "ai_stance": "Fine-tunes small language models (NVIDIA NeMo) for code review & call-center tasks; reports ~84% cost reduction with small fine-tuned models. Base: in-house/SLM (open base family undisclosed in sources found).",
+      "sources": [
+        "https://developer.nvidia.com/blog/fine-tuning-small-language-models-to-optimize-code-review-accuracy",
+        "https://www.nvidia.com/en-us/case-studies/att-drives-ai-agents-with-nemo"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "t-mobile",
+      "name": "T-Mobile US",
+      "logo": "logos/t-mobile.png",
+      "website": "https://www.t-mobile.com",
+      "hq": "Denver, CO",
+      "founded": 1994,
+      "employees": "~95,000",
+      "revenue": "~$74B (FY2024)",
+      "valuation": "Public (NASDAQ: TM)",
+      "listing": [
+        "nasdaq:TM"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:TM",
+        "telecom"
+      ],
+      "ai_stance": "Partnership with OpenAI (2024-09, 'IntentCX') — OpenAI models for consumer AI features.",
+      "sources": [
+        "https://www.t-mobile.com/news/business/t-mobile-launches-intentcx-with-openai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "comcast",
+      "name": "Comcast (Xfinity)",
+      "logo": "logos/comcast.png",
+      "website": "https://www.comcast.com",
+      "hq": "San Francisco, CA (HQ since 2023; formerly Philadelphia)",
+      "founded": 1943,
+      "employees": "~240,000",
+      "revenue": "~$137B (FY2024)",
+      "valuation": "Public (NASDAQ: CMCSA)",
+      "listing": [
+        "nasdaq:CMCSA"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:CMCSA",
+        "bay_area",
+        "telecom"
+      ],
+      "ai_stance": "'Ask Me Anything' (AMA): production LLM agent-assist for customer service, described in arXiv paper (2024). Base LLM not named in abstract; treated as undisclosed.",
+      "sources": [
+        "https://arxiv.org/abs/2405.00801"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "lowes",
+      "name": "Lowe's",
+      "logo": "logos/lowes.png",
+      "website": "https://www.lowes.com",
+      "hq": "Mooresville, NC",
+      "founded": 1939,
+      "employees": "~185,000 (incl. seasonal)",
+      "revenue": "~$84B (FY2024)",
+      "valuation": "Public (NASDAQ: LOW)",
+      "listing": [
+        "nasdaq:LOW"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:LOW",
+        "retail"
+      ],
+      "ai_stance": "Mylow AI shopping assistant built on Google Cloud (Vertex AI) — Gemini stack.",
+      "sources": [
+        "https://cloud.google.com/blog/topics/customers/cool-stuff-google-cloud-customers-built-monthly-round-up-may-2025",
+        "https://www.lowes.com/l/about/ai-at-lowes"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "home-depot",
+      "name": "The Home Depot",
+      "logo": "logos/home-depot.png",
+      "website": "https://www.homedepot.com",
+      "hq": "Atlanta, GA",
+      "founded": 1961,
+      "employees": "~460,000+",
+      "revenue": "~$156B (FY2024)",
+      "valuation": "Public (NASDAQ: HD)",
+      "listing": [
+        "nasdaq:HD"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:HD",
+        "retail"
+      ],
+      "ai_stance": "Magic Apron: proprietary in-house generative-AI suite (2025-03) + agentic AI tools launched with Google Cloud (2026-01).",
+      "sources": [
+        "https://ir.homedepot.com/news-releases/2025/03-06-2025-130241718",
+        "https://corporate.homedepot.com/news/partnerships/home-depot-and-google-cloud-launch-agentic-ai-tools-help-customers-and-associates"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "uber",
+      "name": "Uber",
+      "logo": "logos/uber.png",
+      "website": "https://www.uber.com",
+      "hq": "San Francisco, CA",
+      "founded": 2009,
+      "employees": "~35,000+",
+      "revenue": "~$42B (FY2024)",
+      "valuation": "Public (NASDAQ: UBER)",
+      "listing": [
+        "nasdaq:UBER"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:UBER",
+        "bay_area",
+        "logistics"
+      ],
+      "ai_stance": "'Uber uses OpenAI to power AI assistants and voice features' (official case study, 2026-05).",
+      "sources": [
+        "https://openai.com/index/uber"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "logo": "logos/netflix.png",
+      "website": "https://www.netflix.com",
+      "hq": "Los Gatos, CA",
+      "founded": 1997,
+      "employees": "~14,000",
+      "revenue": "~$41B (FY2024)",
+      "valuation": "Public (NASDAQ: NFLX)",
+      "listing": [
+        "nasdaq:NFLX"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:NFLX",
+        "bay_area",
+        "media"
+      ],
+      "ai_stance": "Runs a fully in-house LLM serving stack in production (Netflix TechBlog, 2026-07) — 'we run the full stack ourselves, from model deployment through inference.' Model families not named in excerpt.",
+      "sources": [
+        "https://netflixtechblog.com/in-house-llm-serving-at-netflix-a5a8e799ea2c"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "duolingo",
+      "name": "Duolingo",
+      "logo": "logos/duolingo.png",
+      "website": "https://www.duolingo.com",
+      "hq": "Pittsburgh, PA (founded in SF, 2011)",
+      "founded": 2011,
+      "employees": "~1,500",
+      "revenue": "~$682M (FY2024)",
+      "valuation": "Public (NASDAQ: DUOL)",
+      "listing": [
+        "nasdaq:DUOL"
+      ],
+      "tags": [
+        "nasdaq:DUOL"
+      ],
+      "ai_stance": "Birdbrain: in-house model family (est. 2020) for difficulty/retention; LLMs used for lesson generation.",
+      "sources": [
+        "https://blog.duolingo.com/learning-how-to-help-you-learn-introducing-birdbrain",
+        "https://blog.duolingo.com/large-language-model-duolingo-lessons"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "salesforce",
+      "name": "Salesforce",
+      "logo": "logos/salesforce.png",
+      "website": "https://www.salesforce.com",
+      "hq": "San Francisco, CA",
+      "founded": 1999,
+      "employees": "~20,000",
+      "revenue": "~$35.6B (FY2024)",
+      "valuation": "Public (NYSE: CRM)",
+      "listing": [
+        "nyse:CRM"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:CRM",
+        "bay_area"
+      ],
+      "ai_stance": "Agentforce: OpenAI as default LLM provider + Anthropic models selectable; 'Bring Your Own Model' supports open models. Deep OpenAI/Anthropic partnership (2025-10).",
+      "sources": [
+        "https://www.salesforce.com/news/press-releases/2025/10/14/openai-partnership-expansion-announcement",
+        "https://help.salesforce.com/s/articleView?id=release-notes.rn_einstein_agentforce_anthropic.htm&language=en_US&release=256&type=5",
+        "https://siliconangle.com/2025-10-14/salesforce-introduces-new-openai-anthropic-integrations"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "servicenow",
+      "name": "ServiceNow",
+      "logo": "logos/servicenow.png",
+      "website": "https://www.servicenow.com",
+      "hq": "Santa Clara, CA",
+      "founded": 2004,
+      "employees": "~25,000",
+      "revenue": "~$11.5B (FY2024)",
+      "valuation": "Public (NASDAQ: NOW)",
+      "listing": [
+        "nasdaq:NOW"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:NOW",
+        "bay_area"
+      ],
+      "ai_stance": "Multi-year Anthropic partnership (2026-01) embedding Claude in AI-driven workflows; Now Assist also runs third-party models (OEM).",
+      "sources": [
+        "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-and-Anthropic-partner-to-help-customers-build-AI-powered-applications-accelerate-time-to-value-and-apply-trusted-AI-to-critical-industries/default.aspx",
+        "https://www.forbes.com/sites/moorinsights/2026/02/04/servicenow-deepens-ai-platform-strategy-with-anthropic-partnership",
+        "https://www.servicenow.com/community/servicenow-otto-articles/new-versions-of-servicenow-integrated-third-party-models/ta-p/3515656"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "adobe",
+      "name": "Adobe",
+      "logo": "logos/adobe.png",
+      "website": "https://www.adobe.com",
+      "hq": "San Jose, CA",
+      "founded": 1982,
+      "employees": "~8,500",
+      "revenue": "~$19.7B (FY2024)",
+      "valuation": "Public (NASDAQ: ADBE)",
+      "listing": [
+        "nasdaq:ADBE"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nasdaq:ADBE",
+        "bay_area"
+      ],
+      "ai_stance": "Firefly (in-house, image) + new Firefly Assistant built with Anthropic Claude (2026-04); Claude can drive 50+ Adobe tools.",
+      "sources": [
+        "https://news.adobe.com/news/2026/04/adobe-new-creative-agent",
+        "https://www.cnet.com/tech/services-and-software/adobe-firefly-assistant-anthropic-claude-news",
+        "https://arstechnica.com/ai/2026/04/adobe-takes-creative-cloud-into-claude-code-esque-territory"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "anduril",
+      "name": "Anduril Industries",
+      "logo": "logos/anduril.png",
+      "website": "https://www.anduril.com",
+      "hq": "Santa Barbara / San Diego, CA",
+      "founded": 2017,
+      "employees": "~10,000+ (2026 est.)",
+      "revenue": "~$7.5B (2025 est.)",
+      "valuation": "~$30B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "defense"
+      ],
+      "ai_stance": "Partnership with OpenAI (2024-12) to advance US AI leadership in defense. Closed US frontier.",
+      "sources": [
+        "https://www.anduril.com/news/anduril-partners-with-openai-to-advance-u-s-artificial-intelligence-leadership-and-protect-u-s"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir Technologies",
+      "logo": "logos/palantir.png",
+      "website": "https://www.palantir.com",
+      "hq": "Denver, CO",
+      "founded": 2004,
+      "employees": "~3,500",
+      "revenue": "~$1.5B (FY2024)",
+      "valuation": "Public (NASDAQ: PLTR)",
+      "listing": [
+        "nasdaq:PLTR"
+      ],
+      "tags": [
+        "nasdaq:PLTR",
+        "defense"
+      ],
+      "ai_stance": "AIP platform is model-agnostic: 'supports a wide range of LLMs' (official docs) — OpenAI, Anthropic and open-weight models on Foundry.",
+      "sources": [
+        "https://palantir.com/docs/foundry/aip/supported-llms"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cognition",
+      "name": "Cognition (Devin)",
+      "logo": "logos/cognition.png",
+      "website": "https://cognition.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~200 (est.)",
+      "revenue": "~$200M (2025, est.)",
+      "valuation": "~$10.2B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Devin runs on Anthropic Claude (Sonnet 4.5→Sonnet 5) for complex coding; also built SWE-1.5, an open-weight code model (HF). Windsurf (now Devin Desktop) offers Kimi 2.5/2.6 as selectable models (official changelog + community, 2026).",
+      "sources": [
+        "https://cognition.com/blog/devin-agent-preview-sonnet-4-5",
+        "https://devin.ai/blog/claude-sonnet-5-lessons-from-10-billion-tokens",
+        "https://cognition.com/blog/swe-1-5",
+        "https://x.com/cognition/status/1983662836896448756"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "anysphere",
+      "name": "Anysphere (Cursor)",
+      "logo": "logos/anysphere.png",
+      "website": "https://www.cursor.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~300 (est.)",
+      "revenue": "~$4B ARR (May 2026)",
+      "valuation": "Acquired by SpaceX (deal effective 2026-08-14; all-stock ~$60B, largest startup acquisition ever; last independent valuation $9.9B)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area"
+      ],
+      "ai_stance": "Multi-model: GPT (5.4/5.6), Claude (Sonnet 5), Gemini, Grok 4.6 (2026-08) and Kimi K3 (in Cursor, 2026-07-27). Composer 2 (2026-03) is built on Kimi K2.5 - undisclosed at launch. Subject of a US congressional probe into Chinese model use (2026-07). Now a SpaceX subsidiary (deal effective 2026-08-14; SpaceXAI partnership began April 2026). OpenAI announced 2026-08-28 that it will wind down Cursor's model access effective 2026-11-12 ('trust and safety'; OpenAI models serve ~5% of Cursor usage) — the first major-model-provider cutoff of a major coding agent driven by an ownership change. OpenAI decision post (2026-08-29): 'we notified SpaceX that we intend to wind down our contract'; press frames the rationale as Musk's contract-violation history plus AI-distillation fear.",
+      "sources": [
+        "https://www.cursor.com",
+        "https://forum.cursor.com/t/gpt-5-4-out-now/153744",
+        "https://forum.cursor.com/t/claude-sonnet-5-now-available/164463",
+        "https://x.com/cursor_ai/status/2081848014444876166",
+        "https://futurex.capital/ai-lab/reports/ai-coding-consolidation-2026",
+        "https://cursor.com/blog/joining-spacex",
+        "https://www.bloomberg.com/news/articles/2026-08-14/spacex-completes-its-60-billion-cursor-acquisition",
+        "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "harvey",
+      "name": "Harvey AI",
+      "logo": "logos/harvey.png",
+      "website": "https://www.harvey.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~300 (est.)",
+      "revenue": "~$200M ARR (2025, est.)",
+      "valuation": "~$5B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "(1) Custom legal model trained jointly with OpenAI (frontier, closed). (2) Separate program fine-tuning open-source legal LLMs for small/law-firm clients — the open-source path is their 2026 strategy; base family now known: Harvey Tenet (2026-08-20), their first post-trained legal model, is post-trained on a Kimi K3 base with Fireworks research (undisclosed at launch; documented Fortune 2026-08-27).",
+      "sources": [
+        "https://openai.com/index/harvey",
+        "https://www.harvey.ai/blog/post-training-update-harvey-tenet",
+        "https://www.artificiallawyer.com/2026/06/18/harvey-trains-open-source-models-to-encode-law-firm-workflows"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "abridge",
+      "name": "Abridge",
+      "logo": "logos/abridge.png",
+      "website": "https://www.abridge.com",
+      "hq": "San Francisco, CA",
+      "founded": 2020,
+      "employees": "~400 (est.)",
+      "revenue": "~$250M ARR (2026, est.)",
+      "valuation": "~$5.3B (2026)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "healthcare"
+      ],
+      "ai_stance": "Ambient clinical documentation on OpenAI GPT models (GPT-5.5 early access, 2026-04; GPT models for nursing, 2026-05). Clinical model co-development with NVIDIA. No Chinese open models.",
+      "sources": [
+        "https://www.wsj.com/cio-journal/nvidia-is-developing-an-ai-healthcare-model-with-startup-abridge-6db38c1b",
+        "https://www.abridge.com/blog/open-ai-gpt-5-5",
+        "https://www.abridge.com/blog/scaling-open-ai-gpt-models-nursing"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "sierra",
+      "name": "Sierra",
+      "logo": "logos/sierra.png",
+      "website": "https://sierra.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2021,
+      "employees": "~500 (est.)",
+      "revenue": "~$200M ARR (2025, est.)",
+      "valuation": "~$10B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "'Our foundation models come from Anthropic, Google and OpenAI' (CEO, LangChain podcast 2026-06) — closed US frontier only.",
+      "sources": [
+        "https://www.forbes.com/sites/richardnieva/2025-11-05/sierra-bret-taylor-clay-bavor"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "perplexity-ai",
+      "name": "Perplexity AI",
+      "logo": "logos/perplexity.png",
+      "website": "https://www.perplexity.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~400 (est. 2026)",
+      "revenue": "~$500M ARR (2026-04)",
+      "valuation": "private — est. ~$40B+ (2026-09 secondary trades ~$60-70/share); IPO planned 2028 (CNBC 2026-06-08)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "cloud",
+        "consumer",
+        "dev_tools"
+      ],
+      "ai_stance": "AI search (Sonar) + Router API (private preview). Now SELF-HOSTS Chinese open frontier on its own infra: DeepSeek V4-Flash-0731, Kimi K3, GLM-5.2/5.3 ('the perplexity/ prefix reflects who serves the model, not who created it'). HISTORICAL: ran DeepSeek R1 in the search engine Jan 2025 ('R1 is the new Sonar'), replaced with in-house Feb 2025.",
+      "sources": [
+        "https://x.com/perplexity_ai/status/1883913343854923989",
+        "https://www.forbes.com/sites/davidbrailer/2025/01/28/perplexity-swaps-out-gpt-4-for-deepseeks-r1-in-its-ai-powered-search-engine",
+        "https://docs.perplexity.ai/docs/router/models.md",
+        "https://www.cnbc.com/2026/06/09/perplexity-ipo-2028-as-anthropic-openai-prepare-listings.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "writer",
+      "name": "Writer",
+      "logo": "logos/writer.png",
+      "website": "https://www.writer.com",
+      "hq": "San Francisco, CA",
+      "founded": 2018,
+      "employees": "~300 (est.)",
+      "revenue": "~$50M ARR (2025, est.)",
+      "valuation": "~$1.15B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Palmyra: in-house family of open-weight LLMs (MedFin etc., 2024-07), also available on AWS Bedrock. Built on undisclosed base.",
+      "sources": [
+        "https://writer.com/engineering/palmyra-med-fin-models",
+        "https://aws.amazon.com/bedrock/writer/"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "logo": "logos/elevenlabs.png",
+      "website": "https://elevenlabs.io",
+      "hq": "New York, NY (founded in SF)",
+      "founded": 2022,
+      "employees": "~300 (est.)",
+      "revenue": "~$100M ARR (2025, est.)",
+      "valuation": "~$6.5B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn"
+      ],
+      "ai_stance": "In-house TTS/voice models; 'in-house' models for enterprise.",
+      "sources": [
+        "https://elevenlabs.io"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "logo": "logos/notion.png",
+      "website": "https://www.notion.com",
+      "hq": "San Francisco, CA",
+      "founded": 2012,
+      "employees": "~800 (est.)",
+      "revenue": "~$200M ARR (2025, est.)",
+      "valuation": "~$10B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "AI features built on OpenAI (GPT-4/4o → GPT-5.4; Notion 3.1 runs on GPT-5.4; Notion's Codex agent announced on OpenAI blog, 2026-03).",
+      "sources": [
+        "https://www.notion.com/releases/2024-06-18",
+        "https://www.notion.com/releases/2026-03-06",
+        "https://openai.com/index/notion"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "logo": "logos/figma.png",
+      "website": "https://www.figma.com",
+      "hq": "San Francisco, CA",
+      "founded": 2016,
+      "employees": "~1,300 (est.)",
+      "revenue": "~$350M ARR (2025, est.)",
+      "valuation": "~$12.1B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "AI features run on Anthropic Claude (official blog, 2026-02).",
+      "sources": [
+        "https://www.figma.com/blog/introducing-claude-code-to-figma"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "logo": "logos/vercel.png",
+      "website": "https://vercel.com",
+      "hq": "San Francisco, CA",
+      "founded": 2021,
+      "employees": "~700 (est.)",
+      "revenue": "~$200M ARR (2025, est.)",
+      "valuation": "~$11.1B (2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "v0 composite models are built on top of Anthropic Claude (Sonnet 3.7/4).",
+      "sources": [
+        "https://vercel.com/blog/v0-composite-model-family"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "suno",
+      "name": "Suno",
+      "logo": "logos/suno.png",
+      "website": "https://suno.com",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~100 (est.)",
+      "revenue": "~$50M ARR (2025, est.)",
+      "valuation": "~$2.5B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "In-house music-generation models (v4+); model stack undisclosed.",
+      "sources": [
+        "https://suno.com"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "runway",
+      "name": "Runway",
+      "logo": "logos/runway.png",
+      "website": "https://runwayml.com",
+      "hq": "New York, NY (founded in LA/SF)",
+      "founded": 2018,
+      "employees": "~500 (est.)",
+      "revenue": "~$150M ARR (2025, est.)",
+      "valuation": "~$3.5B (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn"
+      ],
+      "ai_stance": "In-house video models (Gen-1/Gen-3/Gen-4) — 'state-of-the-art text-to-video' research in-house.",
+      "sources": [
+        "https://runway.com/research"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "midjourney",
+      "name": "Midjourney",
+      "logo": "logos/midjourney.png",
+      "website": "https://www.midjourney.com",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "~100 (est.)",
+      "revenue": "~$50M (2025, est.)",
+      "valuation": "~$1B+ (2025, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "In-house image models (v6/v7); stack undisclosed.",
+      "sources": [
+        "https://www.midjourney.com"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "airbnb",
+      "name": "Airbnb",
+      "logo": "logos/airbnb.png",
+      "website": "https://www.airbnb.com",
+      "hq": "San Francisco, CA",
+      "founded": 2008,
+      "employees": "~11,000+",
+      "revenue": "~$11.4B (FY2024)",
+      "valuation": "Public (NASDAQ: ABNB)",
+      "listing": [
+        "nasdaq:ABNB"
+      ],
+      "tags": [
+        "nasdaq:ABNB",
+        "bay_area"
+      ],
+      "ai_stance": "AI customer-service / booking assistant (2025-2026): built on 13 LLMs including Alibaba's Qwen - \"relying a lot on Alibaba's Qwen model ... fast and cheap\" (Chesky, Oct 2025). Subject of House committee letter (2026-04-29) on Chinese model use.",
+      "sources": [
+        "https://www.airbnb.com/help/article/3594",
+        "https://www.customerexperiencedive.com/news/airbnb-ai-assistant-resolves-customer-inquiries/819734",
+        "https://www.latimes.com/business/story/2025-10-21/chesky-says-openai-tools-not-ready-for-chatgpt-tie-up-with-airbnb-app",
+        "https://www.nextgov.com/artificial-intelligence/2026/04/house-panels-probe-airbnb-anysphere-over-use-chinese-ai-models/413207"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "opaquesystems",
+      "name": "Opaque Systems",
+      "logo": "logos/opaquesystems.png",
+      "website": "https://www.opaque.co",
+      "hq": "San Francisco, CA",
+      "founded": 2017,
+      "employees": "~100 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "$300M (2026-02 Series B, $24M; $55.5M total raised)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area"
+      ],
+      "ai_stance": "Confidential AI platform — hardware-secure inference/RAG for customer workloads (Azure partner). Model-agnostic; no first-party LLM documented.",
+      "sources": [
+        "https://www.opaque.co",
+        "https://learn.microsoft.com/en-us/azure/confidential-computing/partner-pages/opaque",
+        "https://www.opaque.co/resources/articles/opaque-raises-24m-series-b-at-300m-valuation-to-advance-confidential-ai-for-the-enterprise"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "delfina",
+      "name": "Delfina",
+      "logo": "logos/delfina.png",
+      "website": "https://www.delfina.com",
+      "hq": "Palo Alto, CA",
+      "founded": 2021,
+      "employees": "~150 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (~$22M total raised; Series A $17M, 2025-01)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area"
+      ],
+      "ai_stance": "AI-powered maternal healthcare platform (predictive analytics + tailored interventions; $17M raise, 2025). Not an LLM user in public sources.",
+      "sources": [
+        "https://www.delfina.com",
+        "https://www.delfina.com/",
+        "https://femwealth.substack.com/p/delfina-raises-17m-for-its-maternal",
+        "https://www.delfina.com/resource/delfina-raises-17m-to-revolutionize-maternal-health-with-ai-powered-care"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "atroposhealth",
+      "name": "Atropos Health",
+      "logo": "logos/atroposhealth.png",
+      "website": "https://www.atroposhealth.com",
+      "hq": "Menlo Park, CA",
+      "founded": 2021,
+      "employees": "~200 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed ($53.8M total raised; Series B $33M, 2024-05)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area",
+        "healthcare"
+      ],
+      "ai_stance": "Clinical evidence AI on Google Cloud + Gemini (RWE study generation and summaries; Google customer case study). No Chinese open models.",
+      "sources": [
+        "https://www.atroposhealth.com",
+        "https://cloud.google.com/customers/atroposhealth",
+        "https://www.atroposhealth.com/series-b"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "vijil",
+      "name": "Vijil",
+      "logo": "logos/vijil.png",
+      "website": "https://www.vijil.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~100 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed ($23M total raised; Series A $17M, 2025-11, BrightMind)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area"
+      ],
+      "ai_stance": "AI-agent trust / LLM-security infrastructure (model-agnostic; runs Mozilla garak to evaluate LLMs). No first-party model adoption documented.",
+      "sources": [
+        "https://www.vijil.ai",
+        "https://vijil.ai/company",
+        "https://www.businesswire.com/news/home/20251125902087/en/Vijil-Raises-%2417-Million-to-Make-AI-Agents-Resilient-Named-a-Gartner-Cool-Vendor"
+      ],
+      "region": "us",
+      "replace": {
+        "founded": [
+          2023,
+          2020
+        ]
+      }
+    },
+    {
+      "id": "ferrumhealth",
+      "name": "Ferrum Health",
+      "logo": "logos/ferrumhealth.png",
+      "website": "https://www.ferrumhealth.com",
+      "hq": "San Francisco, CA",
+      "founded": 2020,
+      "employees": "~150 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed ($31M total raised; Series A $16M, 2024-09)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area",
+        "healthcare"
+      ],
+      "ai_stance": "Ambient clinical AI (CB Insights AI 100, 2025); runs a foundation-model evaluation program (2026); no specific model disclosed.",
+      "sources": [
+        "https://www.cbinsights.com/research/report/artificial-intelligence-top-startups-2025",
+        "https://ferrumhealth.com/series-a-funding"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "quantum-systems",
+      "name": "Quantum Systems",
+      "logo": "logos/quantum-systems.png",
+      "website": "https://quantum-systems.com",
+      "hq": "Austin, TX",
+      "founded": 2020,
+      "employees": "~300 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (defense; private)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "defense"
+      ],
+      "ai_stance": "Autonomous defense systems (Vector AI) with in-house autonomy stack. No LLM adoption documented.",
+      "sources": [
+        "https://www.cbinsights.com/research/report/artificial-intelligence-top-startups-2025",
+        "https://quantum-systems.com/vector-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "wayve",
+      "name": "Wayve",
+      "logo": "logos/wayve.png",
+      "website": "https://wayve.ai",
+      "hq": "San Francisco, CA / London, UK",
+      "founded": 2017,
+      "employees": "~700 (est.)",
+      "revenue": "~$200M (2025, est.)",
+      "valuation": "~$5B (2025, est.)",
+      "listing": [
+        "cb_insights_ai100_2025"
+      ],
+      "tags": [
+        "cb_insights_ai100_2025",
+        "bay_area"
+      ],
+      "ai_stance": "End-to-end autonomous driving on in-house foundation models (Wayve AI Driver / AV2.0; GAIA world model, 2023). No Chinese open models.",
+      "sources": [
+        "https://wayve.ai",
+        "https://www.cbinsights.com/research/report/artificial-intelligence-top-startups-2025"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "tanagram",
+      "name": "Tanagram",
+      "logo": "logos/tanagram.png",
+      "website": "https://www.tanagram.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2024,
+      "employees": "5",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (early stage)",
+      "listing": [
+        "startup"
+      ],
+      "tags": [
+        "dev_tools"
+      ],
+      "ai_stance": "Kimi K2 detected in its tech stack (TechStack.ai detection, 2026) — likely hosted via an inference API rather than direct.",
+      "sources": [
+        "https://theirstack.com/en/technology/kimi-k2",
+        "https://www.tanagram.ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "semgrep",
+      "name": "Semgrep",
+      "logo": "logos/semgrep.png",
+      "website": "https://semgrep.dev",
+      "hq": "Boston, MA",
+      "founded": 2017,
+      "employees": "~250 (est.)",
+      "revenue": "~$30M (est.)",
+      "valuation": "VC-backed (est. $1B+)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "security"
+      ],
+      "ai_stance": "Runs open models against its own cyber benchmarks: GLM 5.2 beat Claude Code on IDOR detection (39% vs 32% F1) at ~$0.17 per vulnerability (2026-06-28).",
+      "sources": [
+        "https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "unsloth",
+      "name": "Unsloth",
+      "logo": "logos/unsloth.png",
+      "website": "https://www.unsloth.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~20 (est.)",
+      "revenue": "~$10M (est.)",
+      "valuation": "VC-backed",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "fine_tuning",
+        "quantization",
+        "bay_area"
+      ],
+      "ai_stance": "Fine-tuning/quantization tooling; publishes local-run guides and GGUF/NVFP4 quants of Chinese open models (GLM-5.2/5.3, DeepSeek-V4-Flash-0731/Vision, Qwen3.8-27B — 9.3M downloads, Qwen3.8-Flash-Next).",
+      "sources": [
+        "https://unsloth.ai/docs/models/glm-5.2",
+        "https://huggingface.co/unsloth/DeepSeek-V4-Flash-Vision-Exp-GGUF"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "replit",
+      "name": "Replit",
+      "logo": "logos/replit.png",
+      "website": "https://replit.com",
+      "hq": "San Francisco, CA",
+      "founded": 2021,
+      "employees": "~500 (est.)",
+      "revenue": "~$200M ARR (2026, est.)",
+      "valuation": "~$30B (2025 round, est.)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "devtools"
+      ],
+      "ai_stance": "Model-agnostic agent platform: Replit Design (2026-07-29) offers Claude, GPT-5, Gemini, Kimi and GLM side by side.",
+      "sources": [
+        "https://replit.com/blog/introducing-replit-design"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "lindy-ai",
+      "name": "Lindy AI",
+      "logo": "logos/lindy-ai.png",
+      "website": "https://www.lindy.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~100 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "VC-backed (est. ~$500M)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "ai_assistant",
+        "bay_area"
+      ],
+      "ai_stance": "AI-assistant platform; moved from Anthropic's models to DeepSeek, cutting inference costs by 90% (reported 2026-07).",
+      "sources": [
+        "https://www.tradingview.com/news/gurufocus:b6ff3bba6094b:0-china-ai-models-capture-63-of-u-s-openrouter-usage-as-xi-pushes-global-rules"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "tootbooks",
+      "name": "Toot Books",
+      "logo": "logos/tootbooks.png",
+      "website": "https://toot-books.com",
+      "hq": "Twickenham, England (Vineyard Finance Ltd, England & Wales no. 16963228)",
+      "founded": 2026,
+      "employees": "<10 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "bootstrapped (est.)",
+      "listing": [
+        "startup"
+      ],
+      "tags": [
+        "accounting",
+        "startup"
+      ],
+      "ai_stance": "Accounting startup that benchmarked GLM 5.2 on VAT processing: 'nearly as accurate as a human book keeper' (2026-07-09).",
+      "sources": [
+        "https://toot-books.com/blog/glm-5-2-vat-benchmark",
+        "https://find-and-update.company-information.service.gov.uk/company/16963228",
+        "https://toot-books.pages.dev/terms"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "logo": "logos/ollama.png",
+      "website": "https://ollama.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~30 (est.)",
+      "revenue": "~$10M (est.)",
+      "valuation": "VC-backed (est. $1B+, 2025)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "local_inference",
+        "cloud"
+      ],
+      "ai_stance": "Local LLM runtime + cloud model library. Ships Chinese open frontier as first-class ':cloud' models (hosted in the United States and Europe, zero data retention): GLM-5.3, DeepSeek V4-Flash, Kimi K3, Qwen3.8 27B (12 variants).",
+      "sources": [
+        "https://ollama.com/library/glm-5.3",
+        "https://ollama.com/library/deepseek-v4-flash",
+        "https://ollama.com/library/kimi-k3",
+        "https://ollama.com/library/qwen3.8"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "deepinfra",
+      "name": "DeepInfra",
+      "logo": "logos/deepinfra.png",
+      "website": "https://deepinfra.com",
+      "hq": "San Jose, CA",
+      "founded": 2016,
+      "employees": "~150 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "~$1B+ (2026, est.; post-$107M Series B)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "cloud",
+        "inference"
+      ],
+      "ai_stance": "Purpose-built inference cloud; $107M Series B (2026-05, NVIDIA-backed). Full Chinese open frontier in catalog: DeepSeek V4 (Flash/Pro), Kimi K3/K2.7/K2.6, GLM-5/5.1/5.2/5.3-Flash, Qwen3.8 (27B/2.4T/Max), MiniMax M2→M3.",
+      "sources": [
+        "https://deepinfra.com/models",
+        "https://deepinfra.com/series-b"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "lm-studio",
+      "name": "LM Studio",
+      "logo": "logos/lm-studio.png",
+      "website": "https://lmstudio.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~25 (est.)",
+      "revenue": "~$5M (est.)",
+      "valuation": "VC-backed",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "local_inference",
+        "dev_tools"
+      ],
+      "ai_stance": "Local LLM desktop runtime. Official 'lmstudio-community' HF org publishes MLX (4–8 bit) and GGUF builds of Chinese open frontier — Qwen3.8-27B (12+ variants, millions of downloads) and DeepSeek V4-Flash-0731 — making them first-class in the app.",
+      "sources": [
+        "https://huggingface.co/lmstudio-community/Qwen3.8-27B-MLX-4bit",
+        "https://huggingface.co/lmstudio-community/DeepSeek-V4-Flash-0731-GGUF"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "red-hat",
+      "name": "Red Hat",
+      "logo": "logos/red-hat.png",
+      "website": "https://www.redhat.com",
+      "hq": "Raleigh, NC",
+      "founded": 1993,
+      "employees": "~30,000 (IBM subsidiary)",
+      "revenue": "part of IBM",
+      "valuation": "public (IBM subsidiary)",
+      "listing": [
+        "public"
+      ],
+      "tags": [
+        "enterprise",
+        "ibm"
+      ],
+      "ai_stance": "Red Hat AI publishes enterprise NVFP4 quantizations of Chinese open frontier — GLM-5.3-Flash-NVFP4 on Hugging Face (13K downloads/mo) for on-prem deployment on NVIDIA hardware.",
+      "sources": [
+        "https://huggingface.co/RedHatAI/GLM-5.3-Flash-NVFP4"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "puter",
+      "name": "Puter",
+      "logo": "logos/puter.png",
+      "website": "https://puter.com",
+      "hq": "San Francisco, CA",
+      "founded": 2021,
+      "employees": "~30 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "VC-backed",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "dev_tools",
+        "cloud"
+      ],
+      "ai_stance": "'Cloud in your browser' platform; Puter.js exposes Chinese open frontier to web developers with zero setup — Z.ai GLM models (GLM 5.3, 5.3 Flash, 5.2 Fast) as first-class AI providers in the SDK.",
+      "sources": [
+        "https://developer.puter.com/ai/z-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "logo": "logos/cline.png",
+      "website": "https://cline.bot",
+      "hq": "San Francisco, CA",
+      "founded": 2024,
+      "employees": "~20 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "VC-backed",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "dev_tools"
+      ],
+      "ai_stance": "Open-source AI coding agent (VS Code + CLI). Z.ai GLM-5.3-Flash documented as working 'out of the box' in Cline with a free tier (1.3M tokens) and native Z.ai provider support.",
+      "sources": [
+        "https://z.ai/blog/glm-5.3-flash",
+        "https://www.facebook.com/codewithtoushif/posts/glm-53-flash-is-free-in-cline-get-13m-tokens-and-build-your-projects-with-this-p/122140589025007948"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "opencode",
+      "name": "OpenCode",
+      "logo": "logos/opencode.png",
+      "website": "https://opencode.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2025,
+      "employees": "~20 (est.)",
+      "revenue": "open source (SST)",
+      "valuation": "VC-backed (SST)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "dev_tools"
+      ],
+      "ai_stance": "Open-source terminal AI coding agent (opencode.ai; GitHub anomalyco). Its OpenCode Zen hosting service curates the full CN frontier: DeepSeek V4 Pro/Flash, Kimi K3/K2.7/K2.6/K2.5, GLM 5/5.1/5.2, MiniMax M3/M2.7/M2.5, Qwen3.5–3.7 Max/Plus. GLM-5.3-Flash was anonymously tested on OpenCode as 'ox-alpha' before its 2026-08-26 reveal; offers free access to DeepSeek V4-Flash.",
+      "sources": [
+        "https://opencode.ai/docs/zen/",
+        "https://z.ai/blog/glm-5.3-flash",
+        "https://github.com/anomalyco/opencode"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "novita",
+      "name": "Novita AI",
+      "logo": "logos/novita.png",
+      "website": "https://novita.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~30 (est.)",
+      "revenue": "~$1.1M ARR (est. 2025)",
+      "valuation": "VC-backed",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "cloud",
+        "inference"
+      ],
+      "ai_stance": "US GPU cloud + inference API (200+ models). The full Chinese open frontier is core catalog: DeepSeek V4 (Flash/Flash-0731/Flash-Vision-Exp/Pro/Pro-0813), Qwen3.5→3.8 (incl. 2.4T-A95B, Max, Flash), GLM 4.5→5.3 (incl. Flash), Kimi K2→K3 (incl. K2.7 Code), MiniMax M1→M3.",
+      "sources": [
+        "https://novita.ai/models"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "venice",
+      "name": "Venice",
+      "logo": "logos/venice.png",
+      "website": "https://venice.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~100 (est.)",
+      "revenue": "~$70M annualized (2026-07)",
+      "valuation": "$1B (2026-07)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "inference",
+        "privacy"
+      ],
+      "ai_stance": "Privacy-first AI platform (200+ models, client-side encryption, uncensored). 3M+ active users, 1.7M API calls/day; $65M Series A at $1B (2026-07-01, Dragonfly + Coinbase Ventures). Runs uncensored open-weight models in its own data centers and routes to OpenAI/Anthropic. Hosts Kimi K3 ($1.75/$5.50 per M) and Qwen3.8-2.4T-A95B ($2.50/$7.50).",
+      "sources": [
+        "https://www.briefs.co/news/privacy-centric-ai-startup-venice-achieves-unicorn-status-wi",
+        "https://venice.ai/venice-api"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "reka",
+      "name": "Reka AI",
+      "logo": "logos/reka.png",
+      "website": "https://reka.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2022,
+      "employees": "50-85 (est. 2026)",
+      "revenue": "~$10.9M ARR (2025, GetLatka est.)",
+      "valuation": "$1B (2025-07)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "bay_area",
+        "ai_lab"
+      ],
+      "ai_stance": "Natively multimodal model family (Spark, Edge, Flash, Core) for security, media and defense, with low-cost inference infrastructure. API hosts Kimi K3 (fp8, 2026-08-31 census). $110M Series B at $1B (2025-07-22, Nvidia + Snowflake).",
+      "sources": [
+        "https://siliconangle.com/2025-07-22/multimodal-ai-startup-reka-ai-raises-110m-1b-valuation",
+        "https://reka.ai/",
+        "https://getlatka.com/companies/reka.ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "sail-research",
+      "name": "Sail Research",
+      "logo": "logos/sail-research.png",
+      "website": "https://sailresearch.com",
+      "hq": "US (unverified)",
+      "founded": 2026,
+      "employees": "11-50 (LinkedIn 2026)",
+      "revenue": "undisclosed",
+      "valuation": "$450M (2026-06-25; $80M seed + Series A, Kleiner Perkins + Sequoio)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "inference",
+        "agents"
+      ],
+      "ai_stance": "Inference infrastructure for long-horizon agents — \"most cost-efficient API for the best open-source models\" (claims ~10x lower cost per token). Hosts Kimi K3 in fp4 (974,842 ctx, 2026-08-31 census); OpenAI/Anthropic-compatible API. Founders: CEO Sudarshan Kamath + co-founder Samir Menon (ex-Apple); raised $80M seed + Series A (seed led by Sequoia, Series A led by Kleiner Perkins, 2026-06-24/25).",
+      "sources": [
+        "https://sailresearch.com/",
+        "https://simplify.jobs/c/Sail-Research",
+        "https://fortune.com/2026/06/25/exclusive-sail-apple-kleiner-perkins-gpu-token-nvdia-sequoia-80-million",
+        "https://sailresearch.com/blog/sail-raises-80m"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "makora",
+      "name": "Makora",
+      "logo": "logos/makora.png",
+      "website": "https://www.makora.com",
+      "hq": "US (unverified)",
+      "founded": 2024,
+      "employees": "undisclosed (seed stage)",
+      "revenue": "undisclosed",
+      "valuation": "private",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "inference"
+      ],
+      "ai_stance": "AI inference + GPU performance-optimization platform. Launched Makora Inference 2026-07 (up to 5x throughput, 70% lower TTFT claimed). Cheapest Kimi K3 endpoint ($2.55/$12.75 per M, 2026-08-31 census); also hosts GLM-5.3-Flash (OpenRouter) and Qwen3.6-35B-A3B-MixFP4.",
+      "sources": [
+        "https://www.makora.com/blog/makora-inference",
+        "https://artificialanalysis.ai/leaderboards/providers",
+        "https://tech.cornell.edu/news/makora"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "logo": "logos/walmart.png",
+      "website": "https://www.walmart.com",
+      "hq": "Bentonville, AR",
+      "founded": 1962,
+      "employees": "~2.1M",
+      "revenue": "~$681B (FY2025)",
+      "valuation": "Public (NYSE: WMT)",
+      "listing": [
+        "f500",
+        "nyse"
+      ],
+      "tags": [
+        "f500",
+        "retail"
+      ],
+      "ai_stance": "In-house retail-specific LLM family \"Wallaby\" (announced 2024-10-09), trained on decades of Walmart data and designed to be combined with other LLMs; purpose-built agentic AI across retail operations. No Chinese open-weight usage found.",
+      "sources": [
+        "https://corporate.walmart.com/news/2024-10-09/walmart-reveals-plan-for-scaling-artificial-intelligence-generative-ai-augmented-reality-and-immersive-commerce-experiences",
+        "https://venturebeat.com/orchestration/walmart-bets-on-multiple-ai-models-with-new-wallaby-llm"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "ibm",
+      "name": "IBM",
+      "logo": "logos/ibm.png",
+      "website": "https://www.ibm.com",
+      "hq": "Armonk, NY",
+      "founded": 1911,
+      "employees": "~260,000 (2025 est.)",
+      "revenue": "~$64B (FY2025)",
+      "valuation": "Public (NYSE: IBM)",
+      "listing": [
+        "fortune500_2025",
+        "nyse:IBM"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:IBM",
+        "enterprise",
+        "software"
+      ],
+      "ai_stance": "watsonx.ai platform: own open-weight Granite family + Meta Llama + Mistral + third-party frontier models via Model Gateway (announced IBM Think 2025-05: OpenAI GPT, Anthropic Claude, Google, NVIDIA NIMs). No Chinese open-weight models in the watsonx catalog.",
+      "sources": [
+        "https://www.ibm.com/products/watsonx-ai/foundation-models",
+        "https://www.ibm.com/new/announcements/watsonx-ai-model-gateway-in-public-preview",
+        "https://heidloff.net/article/ibm-think-2025-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "morgan-stanley",
+      "name": "Morgan Stanley",
+      "logo": "logos/morgan-stanley.png",
+      "website": "https://www.morganstanley.com",
+      "hq": "New York, NY",
+      "founded": 1935,
+      "employees": "~35,000 (2025 est.)",
+      "revenue": "~$19B net revenue (FY2024)",
+      "valuation": "Public (NYSE: MS)",
+      "listing": [
+        "fortune500_2025",
+        "nyse:MS"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:MS",
+        "finance"
+      ],
+      "ai_stance": "Deep OpenAI partnership (since spring 2023): AI @ Morgan Stanley Assistant — internal advisor chatbot on GPT models (98%+ of advisor teams active per OpenAI, 2026), AI @ MS Debrief (meeting notes, 2024-06), AskResearchGPT (MS Research, 2024-10). No Chinese open-weight usage found.",
+      "sources": [
+        "https://openai.com/index/morgan-stanley",
+        "https://www.morganstanley.com/press-releases/ai-at-morgan-stanley-debrief-launch",
+        "https://www.cnbc.com/2023/09/18/morgan-stanley-chatgpt-financial-advisors.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "citigroup",
+      "name": "Citigroup",
+      "logo": "logos/citigroup.png",
+      "website": "https://www.citigroup.com",
+      "hq": "New York, NY",
+      "founded": 1998,
+      "employees": "~230,000 (2025 est.)",
+      "revenue": "~$82B (FY2024)",
+      "valuation": "Public (NYSE: C)",
+      "listing": [
+        "fortune500_2025",
+        "nyse:C"
+      ],
+      "tags": [
+        "fortune500_2025",
+        "nyse:C",
+        "finance"
+      ],
+      "ai_stance": "In-house-first generative AI: \"Agent Assist\" — first generative-AI customer-service tool for US Personal Banking, piloting in credit cards (2025-04, CEO Jane Fraser); several generative-AI tools furnished to employees (2024-12, per CIO). $5B technology investment planned 2026-2028 (2026-06). No Chinese open-weight usage found.",
+      "sources": [
+        "https://www.ciodive.com/news/citigroup-data-compliance-modernization-generative-ai/745683",
+        "https://finance.yahoo.com/technology/ai/articles/citigroup-bets-big-ai-drive-132900606.html",
+        "https://www.reuters.com/technology/citigroup-raises-ai-capex-revenue-forecasts-amid-rapid-enterprise-adoption-2026-03-10"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "glean",
+      "name": "Glean",
+      "logo": "logos/glean.png",
+      "website": "https://www.glean.com",
+      "hq": "San Francisco, CA",
+      "founded": 2018,
+      "employees": "~1,000 (est.)",
+      "revenue": "~$300M+ ARR (2026-05, est.)",
+      "valuation": "$7.2B (2025-06 round; $768M raised 2026-08)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "dev_tools"
+      ],
+      "ai_stance": "Model-agnostic enterprise AI (search, assistant, agents): routes to both Anthropic Claude and OpenAI GPT models (\"Glean is model agnostic and uses both Anthropic and OpenAI\", company blog 2026-02); customers can choose 30+ open and proprietary models (2026-06). No Chinese open-weight usage found.",
+      "sources": [
+        "https://www.glean.com/blog/enterprise-search-evaluation-2026",
+        "https://www.reuters.com/technology/ai-company-glean-hits-72-billion-valuation-latest-funding-round-2025-06-10",
+        "https://www.turingpost.com/p/glean",
+        "https://www.saasrise.com/deals/glean-raises-768m-to-expand-its-enterprise-search-platform-857bac1a-8a6c-493b-be3e-96836f03d49e"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "openevidence",
+      "name": "OpenEvidence",
+      "logo": "logos/openevidence.png",
+      "website": "https://www.openevidence.com",
+      "hq": "Miami, FL",
+      "founded": 2022,
+      "employees": "Hundreds (est.)",
+      "revenue": ">$100M (2025, company — CNBC); ~$300M annualized (2026-07, Sacra est.)",
+      "valuation": "$12B (2026-01-21 Series D, $250M)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "healthcare"
+      ],
+      "ai_stance": "Medical knowledge platform (\"ChatGPT for doctors\"), used by ~40% of US physicians (2026-01). Proprietary RAG layer over frontier LLMs — \"multi-AI model platform\" (2026-01); in-house DeepConsult clinical agent (2026). Underlying LLMs undisclosed; no Chinese open-weight usage found. Evaluated in Nature (2026-06): general-purpose LLM tools vs specialized medical LLMs.",
+      "sources": [
+        "https://www.cnbc.com/2026/01/21/openevidence-chatgpt-for-doctors-doubles-valuation-to-12-billion.html",
+        "https://www.fiercehealthcare.com/ai-and-machine-learning/openevidence-clinches-250m-series-d-rapidly-growing-its-reach-doctors",
+        "https://www.nature.com/articles/s41591-026-04431-5",
+        "https://www.openevidence.com/",
+        "https://sacra.com/c/openevidence"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "scale-ai",
+      "name": "Scale AI",
+      "logo": "logos/scale-ai.png",
+      "website": "https://scale.com",
+      "hq": "San Francisco, CA",
+      "founded": 2015,
+      "employees": "~2,000 (est.)",
+      "revenue": "~$2B (2025, est.; $870M 2024)",
+      "valuation": "~$29B (2026-07)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Data layer (labeling, evals, \"data foundry\") behind frontier labs and the US DoD; model-agnostic across model families. In-house SEAL labeling models. Meta owns 49% ($14.3B stake, 2025-06). No proprietary model stack, no Chinese open-weight usage found.",
+      "sources": [
+        "https://www.turingpost.com/p/scaleai",
+        "https://www.bloomberg.com/news/articles/2025-04-02/scale-ai-expects-to-more-than-double-sales-to-2-billion-in-2025",
+        "https://en.wikipedia.org/wiki/Scale_AI"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "snowflake",
+      "name": "Snowflake",
+      "logo": "logos/snowflake.png",
+      "website": "https://www.snowflake.com",
+      "hq": "San Francisco, CA",
+      "founded": 2012,
+      "employees": "~10,000 (est.)",
+      "revenue": "$4.47B (FY2026, ended 2026-01-31)",
+      "valuation": "Public (NYSE: SNOW)",
+      "listing": [
+        "nyse:SNOW"
+      ],
+      "tags": [
+        "nyse:SNOW",
+        "bay_area",
+        "cloud"
+      ],
+      "ai_stance": "Cortex AI data-cloud hosts frontier models natively: Anthropic Claude, Meta Llama, Mistral Large 2 (product docs), plus an OpenAI partnership (2026-02) — \"OpenAI, Anthropic, Google Cloud, Meta and Mistral AI natively available in Cortex AI.\" In-house open-source Arctic LLM family (2024-04). No Chinese open-weight usage found.",
+      "sources": [
+        "https://www.snowflake.com/en/product/features/cortex",
+        "https://www.techtarget.com/data-technologies/news/366638535/Snowflake-launches-new-AI-tools-unveils-OpenAI-partnership",
+        "https://www.snowflake.com/en/news/press-releases/snowflake-reports-financial-results-for-the-fourth-quarter-and-full-year-of-fiscal-2026"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "shield-ai",
+      "name": "Shield AI",
+      "logo": "logos/shield-ai.png",
+      "website": "https://shield.ai",
+      "hq": "San Diego, CA",
+      "founded": 2018,
+      "employees": "~3,000 (est.)",
+      "revenue": ">$540M projected (2026, per company)",
+      "valuation": "$12.7B post-money (2026-03-26 Series G, $1.5B)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "defense"
+      ],
+      "ai_stance": "In-house autonomy stack: Hivemind / Blue UAS foundation models for counter-UAS and air combat; Hivemind Enterprise developer platform. No third-party LLM usage public; no Chinese open-weight usage found.",
+      "sources": [
+        "https://shield.ai/shield-ai-to-acquire-software-simulation-company-aechelon-and-raise-2b-at-12-7b-valuation",
+        "https://fortune.com/2026/03/26/shield-ai-revenue-series-g-funding-12-billion-valuation"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "physical-intelligence",
+      "name": "Physical Intelligence",
+      "logo": "logos/physical-intelligence.png",
+      "website": "https://www.pi.website",
+      "hq": "San Francisco, CA",
+      "founded": 2024,
+      "employees": "~100 (est.)",
+      "revenue": "undisclosed",
+      "valuation": "$5.6B (2025-11); $11B+ in talks (2026-03)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "In-house π robotic foundation model family (vision-language-action); π0.7 (2026-04-16) \"steerable model with emergent capabilities.\" Trains from scratch on cross-embodiment robot data; no third-party LLM usage public; no Chinese open-weight usage found.",
+      "sources": [
+        "https://www.pi.website/",
+        "https://www.pymnts.com/news/artificial-intelligence/2026/physical-intelligence-seeks-1-billion-as-robotics-interest-grows"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "decagon",
+      "name": "Decagon",
+      "logo": "logos/decagon.png",
+      "website": "https://decagon.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~300 (est.)",
+      "revenue": "~$100M annualized (2026-07, Sacra est.); $44M end-2025",
+      "valuation": "$4.5B (2026-01-27 Series D, $250M, Coatue + Index)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Autonomous customer-service agents (chat/email/voice/SMS) on OpenAI / Anthropic / Cohere foundation models (2026-07 profile); in-house AOP layer — Agent Operating Procedures, plain-language instructions compiled to executable logic. Marquee enterprise support customers. No Chinese open-weight usage found.",
+      "sources": [
+        "https://decagon.ai/blog/series-d-announcement",
+        "https://sacra.com/c/decagon",
+        "https://www.getmacha.com/blog/decagon-ai-complete-guide"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "cresta",
+      "name": "Cresta",
+      "logo": "logos/cresta.png",
+      "website": "https://cresta.com",
+      "hq": "Palo Alto, CA",
+      "founded": 2017,
+      "employees": "500+",
+      "revenue": "~$100M ARR (2026-04, est. Sacra)",
+      "valuation": "$1.6B (2024-11 Series D, $125M)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Enterprise CX AI platform — autonomous AI Agents + real-time Agent Assist + Conversation Intelligence, unified on in-house Opera no-code orchestration/model layer. Stanford AI Lab spinout (2017; Thrun, Enam, Shi; CEO Ping Wu, ex-Google CCAI). First CX-AI provider with ISO/IEC 42001. Named in CB Insights AI 100. Customers: Verizon, Cox, Alaska/United Airlines, CVS, Hilton. No Chinese open-weight usage found.",
+      "sources": [
+        "https://cresta.com/llm-info",
+        "https://cresta.com/press/cresta-closes-125m-series-d-to-accelerate-adoption-of-human-centric-ai-in-the-contact-center",
+        "https://tracxn.com/d/companies/cresta/__zjnOFlJnDhCAGTJryVLQ5Ii0rzodJMQK9LHhrDYCZkk"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "hippocratic",
+      "name": "Hippocratic AI",
+      "logo": "logos/hippocratic.png",
+      "website": "https://hippocraticai.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~200 (est.)",
+      "revenue": "undisclosed (third-party est.: ~$15.8M ARR 2025 GetLatka; ~$28.6M 2026 RocketReach)",
+      "valuation": "$3.5B (2025-11-03 Series C, $126M, Avenir Growth; $404M total)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area",
+        "healthcare"
+      ],
+      "ai_stance": "Clinically safe generative AI agents for healthcare (voice + text). Constellation voice platform runs 30+ specialized (in-house/distilled) models with routing and caching instead of per-query frontier calls (cost >$100/hr otherwise); company claims outperformance of major frontier models on critical medical tasks and safety. No Chinese open-weight usage found. Adoption: 2,000+ customers, ~50% of the largest 100 US hospital systems (Fortune, 2026-08).",
+      "sources": [
+        "https://hippocraticai.com/hippocratic-ai-announces-series-c-funding-126-million",
+        "https://hippocraticai.com/constellation",
+        "https://siliconangle.com/2025/11/03/hippocratic-ais-valuation-soars-3-5b-raising-126m-new-funding",
+        "https://getlatka.com/companies/hippocraticai.com"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "evenup",
+      "name": "EvenUp",
+      "logo": "logos/evenup.png",
+      "website": "https://www.evenuplaw.com",
+      "hq": "San Francisco, CA",
+      "founded": 2019,
+      "employees": "~500 (est.)",
+      "revenue": "ARR ~$75M (2026-09, CFO; ~$55M 2026-07; ~$50M 2026-06); earlier third-party estimate ~$110M (2024, GetLatka) inconsistent with company-reported trajectory",
+      "valuation": "$2B+ (2025-10-07 Series E, $150M; $385M total)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "unicorn",
+        "bay_area"
+      ],
+      "ai_stance": "Proactive AI platform for personal-injury law (pre-litigation \"PLAAS\"); platform powered by in-house AI models trained on personal-injury case data (Reuters, 2025-10); 200,000+ cases resolved, $10B+ recovered (2025-10). AI agents now handle 70%+ of intake work (Fortune, 2026-08). No Chinese open-weight usage found.",
+      "sources": [
+        "https://www.evenuplaw.com/blog/evenup-2b-valuation",
+        "https://www.reuters.com/legal/legalindustry/investors-pour-cash-into-ai-startups-plaintiffs-lawyers-2025-10-07",
+        "https://news.crunchbase.com/ai/defense-legal-tech-venture-funding-ip-theo",
+        "https://getlatka.com/companies/evenuplaw.com"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/morph.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (YC; early stage)",
+      "listing": [
+        "private"
+      ],
+      "id": "morph",
+      "name": "Morph",
+      "website": "https://www.morphllm.com",
+      "hq": "San Francisco, CA",
+      "founded": 2025,
+      "employees": "3 (2026, YC profile)",
+      "tags": [
+        "inference",
+        "bay_area",
+        "yc"
+      ],
+      "ai_stance": "Inference layer for coding agents (\"Inference Built for Agents\", morphllm.com). Serves Kimi K3 (incl. a \"Morph Fast\" variant) and GLM-5.3 as OpenRouter providers (2026-09-01 census). No in-house frontier model; YC-backed (crunchbase legal name \"AutoInfra Inc.\", founder Tejas Bhakta).",
+      "sources": [
+        "https://www.ycombinator.com/companies/morph",
+        "https://www.morphllm.com",
+        "https://openrouter.ai/moonshotai/kimi-k3"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/wafer.png",
+      "revenue": "undisclosed",
+      "valuation": "$200M+ (2026-09-01, The Information: acquisition offer)",
+      "listing": [
+        "private"
+      ],
+      "id": "wafer",
+      "name": "Wafer",
+      "website": "https://www.herdora.com",
+      "hq": "San Francisco, CA",
+      "founded": 2025,
+      "employees": "~10 (YC company page, 2026)",
+      "tags": [
+        "inference",
+        "bay_area",
+        "yc"
+      ],
+      "ai_stance": "\"Continual Inference\" — \"the fastest inference for open models. Wafer learns how your workload…\" (herdora.com). Serves Kimi K3 and GLM-5.3 as OpenRouter providers (2026-09-01 census). YC-backed. The Information (2026-09-01): an inference provider using non-NVIDIA chips received an acquisition offer at a valuation above $200M.",
+      "sources": [
+        "https://www.herdora.com/",
+        "https://openrouter.ai/moonshotai/kimi-k3",
+        "https://www.theinformation.com"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/parasail.png",
+      "revenue": "undisclosed (30% MoM growth + 500B tokens/day claimed, 2026-04)",
+      "valuation": "$32M Series A (2026-04)",
+      "listing": [
+        "private"
+      ],
+      "id": "parasail",
+      "name": "Parasail",
+      "website": "https://www.parasail.io",
+      "hq": "US (city not disclosed)",
+      "founded": 2024,
+      "employees": "undisclosed",
+      "tags": [
+        "inference"
+      ],
+      "ai_stance": "\"The Inference Cloud for AI-native startups\" — pay-per-token \"AI Supercloud\" for open models (parasail.io). 500B tokens/day (2026-04, CEO Mike Henry, ex-Groq cloud builder, TechCrunch 2026-04-15). Hosts Kimi K3, GLM-5.3, DeepSeek V4 Pro/Flash and Qwen3.8-27B as OpenRouter providers (2026-09-01 census).",
+      "sources": [
+        "https://techcrunch.com/2026/04/15/parasail-raises-32m-to-feed-tokenmaxxing-ai-developers",
+        "https://www.parasail.io/"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/friendli-ai.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (seed extension $20M, 2025-08, Capstone)",
+      "listing": [
+        "private"
+      ],
+      "id": "friendli-ai",
+      "name": "FriendliAI",
+      "website": "https://friendli.ai",
+      "hq": "San Francisco, CA (Seoul R&D hub)",
+      "founded": 2021,
+      "employees": "~65 (Tracxn 2026-07)",
+      "tags": [
+        "inference"
+      ],
+      "ai_stance": "\"The Frontier AI Inference Cloud\" — \"the fastest inference cloud for agents\" (friendli.ai). Founded by Byung-Gon Chun (Seoul National University); SF + Seoul. Serves GLM-5.3 as an OpenRouter provider (2026-09-01 census).",
+      "sources": [
+        "https://friendli.ai/",
+        "https://openrouter.ai/z-ai/glm-5.3",
+        "https://friendli.ai/blog/friendliai-raises-20m-in-seed-extension-round"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/atlascloud.png",
+      "revenue": "~$50M in 4 months (2026, Inc.)",
+      "valuation": "bootstrapped — no outside investment (Inc. 2026-06)",
+      "listing": [
+        "private"
+      ],
+      "id": "atlascloud",
+      "name": "Atlas Cloud",
+      "website": "https://www.atlascloud.ai",
+      "hq": "New York, NY",
+      "founded": 2024,
+      "employees": "11-50 (Crunchbase)",
+      "tags": [
+        "inference",
+        "cloud"
+      ],
+      "ai_stance": "\"The world's first full-modal inference platform\" — AI cloud positioned for high-trust industries, 400+ models behind one API (atlascloud.ai). DeepSeek-centric: hosts DeepSeek V4 Pro/Flash as OpenRouter providers (2026-09-01 census). Atlas Cloud AI LLC (New York).",
+      "sources": [
+        "https://www.atlascloud.ai/",
+        "https://openrouter.ai/deepseek/deepseek-v4-pro",
+        "https://www.inc.com/diana-bocco/ai-startup-venture-capital-vc-50-million-atlas-cloud/91366933"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/gmicloud.png",
+      "revenue": "ARR >$500M (2026-07, 8x YoY)",
+      "valuation": "Public (NASDAQ: GMIT)",
+      "listing": [
+        "nasdaq:GMIT"
+      ],
+      "id": "gmicloud",
+      "name": "GMI Cloud",
+      "website": "https://www.gmicloud.ai",
+      "hq": "Atlanta, GA",
+      "founded": 2009,
+      "employees": "~132 (Tracxn 2026-06)",
+      "tags": [
+        "inference",
+        "cloud",
+        "listed"
+      ],
+      "ai_stance": "GPU cloud + serverless AI inference platform (gmicloud.ai); NASDAQ: GMIT. \"Live ARR… grew 8x\" from GPU capacity in production (company blog, 2026-07). Serves GLM-5.3 and DeepSeek V4 Pro/Flash as OpenRouter providers (2026-09-01 census).",
+      "sources": [
+        "https://www.gmicloud.ai/en/blog/gmi-cloud-secures-8x-arr-growth-as-global-ai-infrastructure-footprint-expands",
+        "https://www.gmicloud.ai"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/ionstream.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (part of TRG Data Centers / NETdepot ecosystem)",
+      "listing": [
+        "private"
+      ],
+      "id": "ionstream",
+      "name": "ionstream",
+      "website": "https://ionstream.ai",
+      "hq": "Spring, TX",
+      "founded": 2023,
+      "employees": "51-200 (Crunchbase)",
+      "tags": [
+        "inference",
+        "cloud"
+      ],
+      "ai_stance": "Bare-metal GPU cloud (B200/H200/L40S) — \"Bare-metal GPU cloud for AI\" (ionstream.ai); founded by NETdepot/TRG co-founder (Spring, TX). Serves DeepSeek V4 Pro (fp4) and Qwen3.8-27B as OpenRouter providers (2026-09-01 census; V4 Pro at 15 tok/s, slowest of the 17 providers in the 2026-08-31 census).",
+      "sources": [
+        "https://ionstream.ai",
+        "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/digitalocean.png",
+      "revenue": "~$900M (FY2025)",
+      "valuation": "Public (NYSE: DOCN)",
+      "listing": [
+        "nyse:DOCN"
+      ],
+      "id": "digitalocean",
+      "name": "DigitalOcean",
+      "website": "https://www.digitalocean.com",
+      "hq": "New York, NY",
+      "founded": 2012,
+      "employees": "~3,000",
+      "tags": [
+        "cloud",
+        "listed",
+        "inference"
+      ],
+      "ai_stance": "Cloud platform (NYSE: DOCN); AI platform (D1 GPUs + managed inference). OpenRouter census (2026-08-31): cheapest DeepSeek V4 Pro input at $0.87 per M tokens. Serves Kimi K3, GLM-5.3 and DeepSeek V4 Pro/Flash as OpenRouter providers (2026-09-01 census).",
+      "sources": [
+        "https://www.digitalocean.com",
+        "https://openrouter.ai/moonshotai/kimi-k3",
+        "https://openrouter.ai/deepseek/deepseek-v4-pro"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/io-net.png",
+      "revenue": ">$20M annualized on-chain (2025-10)",
+      "valuation": "$30M Series A (2024-09)",
+      "listing": [
+        "private"
+      ],
+      "id": "io-net",
+      "name": "io.net",
+      "website": "https://io.net",
+      "hq": "San Francisco, CA",
+      "founded": 2019,
+      "employees": "51-200 (LinkedIn 2026)",
+      "tags": [
+        "inference",
+        "depin",
+        "bay_area"
+      ],
+      "ai_stance": "Decentralized GPU network, \"The Internet of GPUs\" (io.net); AI inference endpoint at ai.io.net. Serves GLM-5.3 (+Flash) and Qwen3.8-27B as OpenRouter providers (2026-09-01 census).",
+      "sources": [
+        "https://io.net",
+        "https://openrouter.ai/z-ai/glm-5.3"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/akashml.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (Akash Network ecosystem)",
+      "listing": [
+        "private"
+      ],
+      "id": "akashml",
+      "name": "AkashML",
+      "website": "https://akashml.com",
+      "hq": "San Francisco, CA (Akash Network)",
+      "founded": 2021,
+      "employees": "undisclosed",
+      "tags": [
+        "inference",
+        "depin",
+        "bay_area"
+      ],
+      "ai_stance": "Managed inference on the Akash Network decentralized supercloud (akashml.com; 1.7B tokens/day, Q1 2026 report). Serves GLM-5.3 (census price floor $1.17/$3.96 per M tokens, 2026-08-31) and Qwen3.8-27B as OpenRouter providers (2026-09-01 census).",
+      "sources": [
+        "https://akashml.com",
+        "https://openrouter.ai/z-ai/glm-5.3"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/decart.png",
+      "revenue": "undisclosed",
+      "valuation": "$3.2B (est., StartupHub); ~$6B Anthropic acquisition talks (2026-08)",
+      "listing": [
+        "private"
+      ],
+      "id": "decart",
+      "name": "Decart",
+      "website": "https://decart.ai",
+      "hq": "San Francisco, CA + Tel Aviv, IL",
+      "founded": 2023,
+      "employees": "~100 (89 IL / 17 US, 2026-08)",
+      "tags": [
+        "ai-lab",
+        "bay_area",
+        "video"
+      ],
+      "ai_stance": "AI research lab for real-time video and world models (Sequoia + Benchmark; emerged from stealth with $21M). Serves GLM-5.3 as an OpenRouter provider (2026-09-01 census). JPost (2026-08): Decart reportedly in acquisition talks with Anthropic at ~$6B.",
+      "sources": [
+        "https://decart.ai",
+        "https://openrouter.ai/z-ai/glm-5.3"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "logo": "logos/deepseek.png",
+      "website": "deepseek.com",
+      "hq": "Shenzhen, CN",
+      "founded": 2023,
+      "employees": "~150 (2025)",
+      "revenue": "Jan–Jul 2026: ~¥475M (~$70.7M), ~10x full-year 2025 (The Information 2026-08-25/26); API gross margin ~83% (reported 2026-08-26); historically subsidized by High-Flyer Capital",
+      "valuation": "Round 1 (first external, closed 2026-06-16): >50B yuan (~$7.4B) at >$50B valuation; “unusual deal structure” — investor capital goes into an LP managed by CEO Liang Wenfeng, preserving founder control (The Information/Reuters 2026-06-15/16). Round 2: ~$7.4B at ~$74B pre-money, near close (WSJ/FT 2026-08-27/28; paused 2026-07-25, resumed 2026-08-04); 2027 IPO talk (market observers: H1 2027)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "chinese_llm",
+        "open_weights"
+      ],
+      "ai_stance": "Chinese open-weight frontier lab. DeepSeek-R1 (2025-01) triggered the global cost shock; V3.2/V4 (2025-2026) are top-3 open models. Funding: first external round closed 2026-06-16 (>50B yuan / ~$7.4B at >$50B valuation; “unusual” LP structure — investor capital goes to an LP managed by CEO Liang Wenfeng, preserving founder control; The Information/Reuters 2026-06-15/16). Round 2 (~$7.4B at ~$74B pre-money): paused 2026-07-25 (Bloomberg: founder frustration over leaked US-China tech-competition comments), resumed 2026-08-04 (Caijing), near close (WSJ/FT 2026-08-27/28); investors reportedly incl. CATL, Monolith, Shixiang + Tencent, NetEase, JD.com (Caixin 2026-08-28). Preparing a China IPO (reported 2026-07; market observers: H1 2027). In-house inference-chip project (Reuters 2026-07): recruiting chip-design engineers to cut dependence on Nvidia and Huawei; V4 architecture adapted to Huawei Ascend; V4 Pro pricing tied to Ascend 950 scale availability. From 2026-08-17: V4 Pro/Flash API prices raised 50–1,100% with peak/off-peak tiers. DeepSeek Harness (dsh): open-source agent harness, developer preview 2026-09-02 — 'everything is a plugin' architecture on the Cordis runtime (paper: 'A Programming Paradigm for Spatiotemporal Composability'); MIT; npx @deepseek-ai/dsh. Financials (The Information 2026-08-25): revenue $70.7M through July 2026 (10× vs 2025); API gross margin 82.9% vs 44.6% overall.",
+      "sources": [
+        "https://www.reuters.com/world/china/chinas-deepseek-considers-new-fundraising-after-first-round-ft-reports-2026-07-14",
+        "https://www.turingpost.com/p/llms-in-china",
+        "https://www.theinformation.com/articles/deepseeks-revenue-reaches-70-million-july-tenfold-jump-2025",
+        "https://github.com/deepseek-ai/deepseek-harness"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "alibaba",
+      "name": "Alibaba (Tongyi / Alibaba Cloud)",
+      "logo": "logos/alibaba.png",
+      "website": "alibabacloud.com",
+      "hq": "Hangzhou, CN",
+      "founded": 1999,
+      "employees": "~190,000",
+      "revenue": "~$135B (FY2025 group)",
+      "valuation": "Public (HKEX: 9988; NYSE: BABA)",
+      "listing": [
+        "hkex:9988",
+        "nyse:BABA"
+      ],
+      "tags": [
+        "big_tech",
+        "chinese_llm"
+      ],
+      "ai_stance": "Qwen family — the most-adopted Chinese open-weight line (Qwen3, Qwen3.8-27B, Qwen3.8-2.4T MoE). Distributed via Alibaba Cloud, Hugging Face and every major US/EU inference cloud.",
+      "sources": [
+        "https://huggingface.co/Qwen",
+        "https://www.turingpost.com/p/llms-in-china"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "moonshot",
+      "name": "Moonshot AI (Kimi)",
+      "logo": "logos/moonshot.png",
+      "website": "moonshot.cn",
+      "hq": "Beijing, CN",
+      "founded": 2023,
+      "employees": "~500 (2025)",
+      "revenue": "ARR ~$300M (reported 2026-08; ~117x at the $35B round — ainvest 2026-09-02)",
+      "valuation": "$35B (July 2026, $3.5B round closed; Bloomberg 2026-07-29 — ~8x the ~$4.3B end-2025 mark); raising again at up to $50B ahead of a planned year-end-2026 HK listing (reported 2026-09-02, ainvest); confidentially filed with HKEX 2026-09-02 (reported), targeting up-to-$50B pre-IPO raise",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "chinese_llm"
+      ],
+      "ai_stance": "Kimi line (K2.5 / K2.6 / K2.7, K3, 2026). K2.6 is the subject of the 2026-07 US House inquiry (DoorDash). K3 called a 'second DeepSeek shock'. $3.5B round at $35B valuation closed late July 2026 (Bloomberg 2026-07-29; originally targeted $1–2B); Alibaba among backers (ainvest 2026-09-02); HK IPO planned near year-end 2026 (reported). Confidentially filed an A1 application with HKEX 2026-09-02 (reported, odaily/futunn/biggo), targeting up-to-$50B pre-IPO raise; valuation path: ~$4.3B end-2025 → >$20B May 2026 → $35B July 2026. K3 launch demand: new subscriptions paused 2026-07-20 (GPU capacity near ceiling; official Kimi X post, TechNode first). ~20,000 Nvidia Hopper chips via agreement with Alibaba (Bloomberg, via techwireasia 2026-08-31). K3.1 reportedly imminent — reported as a minor K3 iteration focused on inference speed + agent capabilities (social-media rumors since late July; not released as of 2026-09-02 — futunn 2026-09-02; HK/Korean media). US clouds (2026-08): in talks with Microsoft/Amazon/Google over hosting K3 on Azure/AWS/Google Cloud, seeking up to 30% of K3-service revenue (Reuters 2026-08-26/27; 'Kimi model royalty' framework, futunn 2026-08-31); K3 already live on Azure via Foundry/Fireworks (07-28), in the AWS deployment guide (07-30), and US-hosted on Databricks (08-06); no signed agreement as of 2026-09-02.",
+      "sources": [
+        "https://www.cnbc.com/2026/07/31/us-lawmakers-doordash-chinese-ai-models.html",
+        "https://www.scmp.com/news/china/diplomacy/article/3362616/us-lawmakers-investigate-doordashs-use-moonshot-ais-kimi-k26-model",
+        "https://www.bloomberg.com/news/articles/2026-07-29/china-s-moonshot-ai-passes-funding-goal-to-hit-35-billion-value",
+        "https://www.ainvest.com/news/moonshot-ipo-sets-china-ai-multiple-alibaba-hedges-ai-minimax-2609",
+        "https://odaily.news/en/article/269005"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "zai",
+      "name": "Z.ai (Zhipu AI)",
+      "logo": "logos/zai.png",
+      "website": "z.ai",
+      "hq": "Beijing, CN",
+      "founded": 2019,
+      "employees": "~300 (2025)",
+      "revenue": "H1 2026: ¥953.9M (~$142M), +399.7% YoY (reported 2026-09-01, stock +~10%); API/MaaS ¥825M (27x YoY); ARR ~$1.6B by late Aug 2026 (ainvest)",
+      "valuation": "Public (HKEX: 02513); IPO January 2026 ($558M raised — first of China's \"AI tigers\" to list, TIME 2026-08-27); market cap ~$62B (late Aug 2026; ~$127B June peak, ~60% below it)",
+      "listing": [
+        "hkg:02513"
+      ],
+      "tags": [
+        "chinese_llm"
+      ],
+      "ai_stance": "GLM line. GLM-5 / GLM-5.2 top open-model intelligence indexes (AA Intelligence Index, 2026). GLM-5.3-Flash stealth 'Ox Alpha' release (2026-08-20→27; MIT, weights on HF): Z.ai claims the entire free-preview traffic was served on a cluster of ~100,000 Chinese-made AI chips with no NVIDIA hardware (CNBC 2026-08-27, stock +8%); Bloomberg (2026-08-26): Ox Alpha 'rivals DeepSeek'. H1 2026 results (2026-09-01): revenue ¥954M (+400% YoY), MaaS 27x.",
+      "sources": [
+        "https://www.turingpost.com/p/llms-in-china",
+        "https://www.cnbc.com/2026/08/27/zai-shares-surge-new-ai-model-using-chinese-chips.html",
+        "https://www.investing.com/news/stock-market-news/zai-shares-rise-after-firsthalf-revenue-jumps-nearly-400-4883488",
+        "https://www.ainvest.com/news/moonshot-ipo-sets-china-ai-multiple-alibaba-hedges-ai-minimax-2609"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "logo": "logos/minimax.png",
+      "website": "minimax.io",
+      "hq": "Shanghai, CN",
+      "founded": 2021,
+      "employees": "~500 (2025)",
+      "revenue": "ARR ~$800M (ainvest est., 2026-08)",
+      "valuation": "Public (HKEX: 0100); IPO 2026-01-09 (HK$165 offer price, HK$4.8B / ~$619M raised; first day +109% to close HK$345 — CNBC/SCMP 2026-01-09); market cap ~$13.5B (late Aug 2026)",
+      "listing": [
+        "hkg:0100"
+      ],
+      "tags": [
+        "chinese_llm"
+      ],
+      "ai_stance": "MiniMax M1 / M2.7 / M3 (2025-2026). M3: first open model to combine coding + 1M context + native multimodality (2026-06). M3 launch (2026-06) underwhelmed — stock -15% on release day; ~45% of shares became tradable at the July 2026 lock-up expiry; M3 Pro called 'make-or-break'; down ~75% from its March 2026 worth (ainvest 2026-09-02).",
+      "sources": [
+        "https://www.turingpost.com/p/llms-in-china",
+        "https://www.cnbc.com/2026/01/09/minimax-hong-kong-ipo-ai-tigers-zhipu.html",
+        "https://www.scmp.com/business/banking-finance/article/3339251/chinese-ai-start-minimax-shines-hong-kong-ipo-debut",
+        "https://www.ainvest.com/news/moonshot-ipo-sets-china-ai-multiple-alibaba-hedges-ai-minimax-2609"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "stepfun",
+      "name": "StepFun (Jinjiu Technology)",
+      "logo": "logos/stepfun.png",
+      "website": "stepfun.com",
+      "hq": "Shanghai, CN",
+      "founded": 2023,
+      "employees": "~200 (2025)",
+      "revenue": "n/a",
+      "valuation": "n/a",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "chinese_llm"
+      ],
+      "ai_stance": "Step-3.5 / 3.7 Flash open-weight line (2025-2026).",
+      "sources": [
+        "https://www.turingpost.com/p/llms-in-china"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "tencent",
+      "name": "Tencent (Hunyuan)",
+      "logo": "logos/tencent.png",
+      "website": "tencent.com",
+      "hq": "Shenzhen, CN",
+      "founded": 1998,
+      "employees": "~105,000",
+      "revenue": "~$660B (FY2025 group)",
+      "valuation": "Public (HKEX: 0700; NASDAQ: TCEHY)",
+      "listing": [
+        "hkex:0700",
+        "nasdaq:TCEHY"
+      ],
+      "tags": [
+        "big_tech",
+        "chinese_llm"
+      ],
+      "ai_stance": "Hunyuan line (Hunyuan-Large, Hy3, Hy4 preview); primarily in-house use + Tencent Cloud distribution. Hy4 preview (770B/49B MoE, 2026-08-27) open-weight Apache 2.0; also on OpenRouter since 2026-08-28.",
+      "sources": [
+        "https://www.turingpost.com/p/llms-in-china"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "01ai",
+      "name": "01.AI",
+      "logo": "logos/01ai.png",
+      "website": "01.ai",
+      "hq": "Beijing, CN",
+      "founded": 2018,
+      "employees": "~100 (2025)",
+      "revenue": "n/a",
+      "valuation": "n/a",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "chinese_llm"
+      ],
+      "ai_stance": "Yi line was a major 2024 open model. Pretraining stopped 2025-03; pivoted to enterprise AI solutions (Yi now legacy).",
+      "sources": [
+        "https://en.wikipedia.org/wiki/01.AI"
+      ],
+      "region": "cn"
+    },
+    {
+      "id": "nous-research",
+      "name": "Nous Research",
+      "logo": "logos/nous-research.png",
+      "website": "nousresearch.com",
+      "hq": "Remote, US",
+      "founded": 2023,
+      "employees": "~50 (2025)",
+      "revenue": "n/a",
+      "valuation": "~$1.5B (2026 round, reported)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "open_models"
+      ],
+      "ai_stance": "Open-model lab. Hermes 4 (2025-08) — 70B fine-tune of Llama 3.1; Psyche and other open projects.",
+      "sources": [
+        "https://github.com/nousresearch"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "mistral-ai",
+      "name": "Mistral AI",
+      "logo": "logos/mistral-ai.png",
+      "website": "mistral.ai",
+      "hq": "Paris, FR",
+      "founded": 2023,
+      "employees": "~500 (2025)",
+      "revenue": "n/a",
+      "valuation": "~$14B (2026 round, reported)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "eu_frontier",
+        "open_weights"
+      ],
+      "ai_stance": "EU frontier lab with a fully in-house family: Mistral Large 3 (675B MoE, Apache-2.0, 2025-12), Medium 3, Codestral, Ministral, Magistral. Trained on EU sovereign infra (Stargate EU, Paris DC). Chinese open-weight hosting: GLM-5.2 served on OpenRouter (EU-hosted endpoint, edge c353, 2026-09-02 re-census) — first Chinese model on a Mistral-hosted endpoint; the 'EU model = Chinese wrapper' thesis about EU model weights still does not hold (hosting ≠ lineage).",
+      "sources": [
+        "https://mistral.ai/news/mistral-3",
+        "https://www.ibm.com/new/announcements/mistral-large-3-now-available-on-ibm-watsonx",
+        "https://openrouter.ai/z-ai/glm-5.2"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "aleph-alpha",
+      "name": "Aleph Alpha",
+      "logo": "logos/aleph-alpha.png",
+      "website": "aleph-alpha.com",
+      "hq": "Munich, DE",
+      "founded": 2021,
+      "employees": "~200 (2024)",
+      "revenue": "n/a",
+      "valuation": "n/a",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "eu_obsolete"
+      ],
+      "ai_stance": "Early German frontier lab (Jamba, Luminis). LLM program ended 2025; pivoted to enterprise AI consulting. Acquired by Cohere (2026-04) after Schwarz Group's €600M investment.",
+      "sources": [
+        "https://www.european.cloud/2025/10/aleph-alpha-no-longer-promising"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "bigscience",
+      "name": "BigScience (EU consortium)",
+      "logo": "logos/bigscience.png",
+      "website": "bigscience-workshop.github.io",
+      "hq": "Paris, FR (consortium)",
+      "founded": 2020,
+      "employees": "183 institutions, 2,000+ contributors (2022)",
+      "revenue": "n/a",
+      "valuation": null,
+      "listing": [],
+      "tags": [
+        "eu_consortium"
+      ],
+      "ai_stance": "EU open-science consortium behind BLOOM (176B, 2022). Project completed; wound down after 2023.",
+      "sources": [
+        "https://huggingface.co/bigscience"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "sap",
+      "name": "SAP",
+      "logo": "logos/sap.png",
+      "website": "sap.com",
+      "hq": "Walldorf, DE",
+      "founded": 1972,
+      "employees": "~100,000",
+      "revenue": "~$39B (FY2025)",
+      "valuation": "Public (Xetra: 1SAP; NYSE: SAP)",
+      "listing": [
+        "xtra:1SAP",
+        "nyse:SAP"
+      ],
+      "tags": [
+        "enterprise",
+        "eu"
+      ],
+      "ai_stance": "Joule copilot = mix of third-party foundation models (OpenAI, Anthropic Claude on Bedrock, Gemini, Llama, Mistral) plus in-house fine-tunes (Codestral base for Joule for Developers, 2025).",
+      "sources": [
+        "https://www.sap.com/products/artificial-intelligence/joule-for-developers.html",
+        "https://aws.amazon.com/blogs/awsforsap/accelerating-sap-consulting-projects-with-sap-joule-using-anthropic-claude-models-on-amazon-bedrock"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "deepl",
+      "name": "DeepL",
+      "logo": "logos/deepl.png",
+      "website": "deepl.com",
+      "hq": "Cologne, DE",
+      "founded": 2017,
+      "employees": "~350 (2025)",
+      "revenue": "n/a",
+      "valuation": "~$1.5B (2024 round, reported)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "eu",
+        "enterprise"
+      ],
+      "ai_stance": "In-house translation LLMs (no public foundation model). DeepL Agent (2025-09) for enterprise document workflows.",
+      "sources": [
+        "https://www.prnewswire.com/news-releases/deepl-unveils-real-time-spoken-translation-breaking-the-next-language-barrier-with-voice-to-voice-302744002.html"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "deutsche-telekom",
+      "name": "Deutsche Telekom (T-Systems)",
+      "logo": "logos/deutsche-telekom.png",
+      "website": "telekom.com",
+      "hq": "Bonn, DE",
+      "founded": 1880,
+      "employees": "~200,000",
+      "revenue": "~€86B (FY2025)",
+      "valuation": "Public (Xetra: DTG; NYSE: DTE)",
+      "listing": [
+        "xtra:DTG",
+        "nyse:DTE"
+      ],
+      "tags": [
+        "telecom",
+        "eu"
+      ],
+      "ai_stance": "T-Systems AI Foundation Services: DeepSeek R1 preconfigured for RAG + fine-tuning (2025-02). OpenAI partnership (2025-12). Industrial AI Cloud with NVIDIA in Berlin (2026).",
+      "sources": [
+        "https://www.telekom.com/en/media/mediacenter"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "nebius",
+      "name": "Nebius Group",
+      "logo": "logos/nebius.png",
+      "website": "nebius.com",
+      "hq": "Amsterdam, NL",
+      "founded": 2018,
+      "employees": "~4,000 (2025)",
+      "revenue": "~$0.7B (2025)",
+      "valuation": "Public (NASDAQ: NBIS)",
+      "listing": [
+        "nasdaq:NBIS"
+      ],
+      "tags": [
+        "ai_cloud",
+        "eu"
+      ],
+      "ai_stance": "Ex-Yandex AI cloud with EU + US data residency. Token Factory (2025-12) hosts 60+ open models incl. Kimi, DeepSeek, Qwen.",
+      "sources": [
+        "https://www.hpcwire.com/off-the-wire/nebius-launches-token-factory-to-deliver-production-ai-inference-at-scale"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "scaleway",
+      "name": "Scaleway",
+      "logo": "logos/scaleway.png",
+      "website": "scaleway.com",
+      "hq": "Clamart (Paris), FR",
+      "founded": 2011,
+      "employees": "~1,000 (2025)",
+      "revenue": "~€150M (2025)",
+      "valuation": "Public (EURONEXT: SCW)",
+      "listing": [
+        "euronext:SCW"
+      ],
+      "tags": [
+        "sovereign_cloud",
+        "eu"
+      ],
+      "ai_stance": "French sovereign cloud. Generative APIs catalog (2026-08): DeepSeek V4 Flash, Qwen3.5/3.6, GLM-5.2, Llama 3.3 — EU hosting of Chinese open-weight models.",
+      "sources": [
+        "https://www.scaleway.com/en"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "ovhcloud",
+      "name": "OVHcloud",
+      "logo": "logos/ovhcloud.png",
+      "website": "ovhcloud.com",
+      "hq": "Gravelines, FR",
+      "founded": 1999,
+      "employees": "~5,000 (2025)",
+      "revenue": "~€1B (2025)",
+      "valuation": "Public (EURONEXT: OVH)",
+      "listing": [
+        "euronext:OVH"
+      ],
+      "tags": [
+        "sovereign_cloud",
+        "eu"
+      ],
+      "ai_stance": "AI Endpoints (2025-04): serverless inference catalog, 40+ open models — DeepSeek R1, Qwen3.x, Llama 3.1/3.3 — with GDPR/sovereignty positioning.",
+      "sources": [
+        "https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "ionos",
+      "name": "IONOS (United Internet)",
+      "logo": "logos/ionos.png",
+      "website": "ionos.com",
+      "hq": "Karlsruhe, DE",
+      "founded": 1988,
+      "employees": "~6,000 (2025)",
+      "revenue": "~€2.2B (2025)",
+      "valuation": "Public (Xetra: 8W5)",
+      "listing": [
+        "xtra:8W5"
+      ],
+      "tags": [
+        "hosting",
+        "eu"
+      ],
+      "ai_stance": "IONOS AI Model Hub: Llama, Mistral, DeepSeek, Qwen3.5 hosted on EU-resident GPUs (2026).",
+      "sources": [
+        "https://docs.ionos.com/cloud/ai/ai-model-hub/models"
+      ],
+      "region": "eu"
+    },
+    {
+      "logo": "logos/crusoe.png",
+      "revenue": "~$276M (2024, Sacra est.); ~$1B projected (2025)",
+      "valuation": "Series E $1.375B initial close (2025-09)",
+      "listing": [
+        "private"
+      ],
+      "id": "crusoe",
+      "name": "Crusoe",
+      "website": "https://www.crusoe.ai",
+      "hq": "The Woodlands, TX",
+      "founded": 2018,
+      "employees": "~700 (2026)",
+      "tags": [
+        "inference",
+        "cloud"
+      ],
+      "ai_stance": "\"The energy-first AI factory company\" (crusoe.ai): Texas AI data centers — $15B Abilene joint venture with Blue Owl Capital + Primary Digital Infrastructure (2025-05, phase 2), 1 GW Childress campus with Lancium (2026-07), $600M raise (WSJ 2024-12). \"Managed inference for open models, low latency\" (crusoe.ai/cloud/managed-inference; serverless fine-tuning + self-serve inference deployments, 2026-07). Serves GLM-5.2 and Kimi K2.6 as OpenRouter providers (2026-09-02 endpoints census; GLM-5.2 at $1.40/$4.40 per M, K2.6 at $0.70/$3.50).",
+      "sources": [
+        "https://www.crusoe.ai/",
+        "https://www.crusoe.ai/cloud/managed-inference",
+        "https://www.crusoe.ai/resources/newsroom/crusoe-blue-owl-capital-and-primary-digital-infrastructure-enter-joint-venture",
+        "https://www.crusoe.ai/resources/newsroom/crusoe-and-lancium-announce-1-gigawatt-ai-data-center-campus-in-childress-texas",
+        "https://www.wsj.com/livecoverage/stock-market-today-dow-sp500-nasdaq-live-12-12-2024/card/data-center-startup-crusoe-raises-600-million-wWsEXb587gkHIF2fY77m",
+        "https://openrouter.ai/z-ai/glm-5.2",
+        "https://openrouter.ai/moonshotai/kimi-k2.6",
+        "https://www.crusoe.ai/about/company",
+        "https://www.rainmakersecurities.com/company-profiles/crusoe-pre-ipo"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/mara.png",
+      "revenue": "$907.1M (FY2025, 10-K)",
+      "valuation": "public (NASDAQ: MARA)",
+      "listing": [
+        "nasdaq:MARA"
+      ],
+      "id": "mara",
+      "name": "MARA Holdings (MARA AI)",
+      "website": "https://www.mara.com",
+      "hq": "Dallas, TX",
+      "founded": 2011,
+      "employees": "~266 full-time (2025-12-31, 10-K)",
+      "tags": [
+        "cloud",
+        "listed",
+        "inference"
+      ],
+      "ai_stance": "Digital-asset miner (NASDAQ: MARA) pivoting to AI inference (\"MARA AI\"): \"MARA Inference Dashboard\" — OpenAI-compatible API at cloud.mara.com; deployed AI inference racks + compute at its North Central Texas data center (2025-11); 1.8 GW energy capacity flexed between Bitcoin mining and AI inference (2025-11); Granbury (Hood County, TX) advanced data center (maragranbury.com); 200 MW Garden City (Matagorda County, TX) acquisition (2026-08). Serves MiniMax-M2.7 as an OpenRouter provider (2026-09-02 census; $0.24/$0.96 per M tokens).",
+      "sources": [
+        "https://www.mara.com/posts/powering-the-inference-era-of-ai",
+        "https://cloud.mara.com/",
+        "https://openrouter.ai/provider/mara",
+        "https://www.linkedin.com/posts/maraholdings_we-deployed-ai-inference-racks-and-compute-activity-7391473325623111680-xzfH",
+        "https://www.maragranbury.com/",
+        "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "thomson-reuters",
+      "name": "Thomson Reuters",
+      "logo": "logos/thomson-reuters.png",
+      "website": "https://www.thomsonreuters.com",
+      "hq": "London, UK (US offices: East Brunswick, NJ; New York; Chicago; NASDAQ: TRI)",
+      "founded": 2008,
+      "employees": "~30,000 (2025)",
+      "revenue": "~$7.5B (FY2025)",
+      "valuation": "Public (NASDAQ: TRI)",
+      "listing": [
+        "nasdaq:TRI"
+      ],
+      "tags": [
+        "legal_tech",
+        "nasdaq:TRI"
+      ],
+      "ai_stance": "DISGUISE CASE: first proprietary LLM Thomson-1 (2026-08-24, $40m talent+compute) built on \"Snowdon\" — a Qwen3.5 (Alibaba) model \"realigning\"-adapted with Imperial College over months. Official announcement says only \"a strong open-source foundation\"; CTO Joel Hron named Qwen in an interview: \"There's nothing that necessarily ties us to Qwen.\" Deploys in CoCounsel Legal document review (previously Claude); CoCounsel stays multi-model (Anthropic partnership expanded May 2026). Small open-weight variant (Thomson-1.0-Small, 35B) on Hugging Face (academic/non-commercial). Trained on Westlaw / Practical Law / Checkpoint / Reuters content.",
+      "sources": [
+        "https://thenextweb.com/news/thomson-reuters-thomson-model-qwen-claude-cocounsel",
+        "https://www.businessinsider.com/thomson-reuters-builds-ai-model-rely-less-on-anthropic-2026-8",
+        "https://fortune.com/2026/08/27/chinese-open-source-ai-is-starting-to-win-over-u-s-businesses",
+        "https://www.thomsonreuters.com/content/dam/ewp-m/documents/thomsonreuters/en/pdf/reports/thomson-technical-report.pdf"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "thinking-machines",
+      "name": "Thinking Machines Lab",
+      "logo": "logos/thinking-machines.png",
+      "website": "https://thinkingmachines.ai",
+      "hq": "Menlo Park, CA",
+      "founded": 2024,
+      "employees": "undisclosed (small lab)",
+      "revenue": "undisclosed",
+      "valuation": "$12B (2025 seed, $2B raised — FT); $50B talks reported (Nov 2025)",
+      "listing": [
+        "unicorn"
+      ],
+      "tags": [
+        "ai_lab",
+        "bay_area"
+      ],
+      "ai_stance": "US frontier lab founded 2024 by ex-OpenAI CTO Mira Murati. Released the Tinker fine-tuning API (2025) and Inkling (2026-07-15) — its first model: a 975B MoE (41B active) multimodal open-weights model \"trained from scratch\" (OpenMDW-1.1), the leading US open-weights model and a direct counterpoint to Qwen/K3/GLM. No Chinese open-weight usage found. Strategic partnership with NVIDIA (2026-03).",
+      "sources": [
+        "https://thinkingmachines.ai/news/introducing-inkling",
+        "https://huggingface.co/blog/thinkingmachines-inkling",
+        "https://en.wikipedia.org/wiki/Thinking_Machines_Lab",
+        "https://www.bloomberg.com/news/articles/2025-11-13/murati-s-thinking-machines-in-funding-talks-at-50-billion-value"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/relace.png",
+      "revenue": "undisclosed",
+      "valuation": "$23M Series A (2025-10, a16z-led)",
+      "listing": [
+        "private"
+      ],
+      "id": "relace",
+      "name": "Relace",
+      "website": "https://relace.ai",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "7 (YC profile, 2025-10)",
+      "tags": [
+        "ai-lab",
+        "bay_area",
+        "inference"
+      ],
+      "ai_stance": "AI models + infrastructure for coding agents (relace.ai): Relace Search / Compact code models, hosted API + fine-tuning platform. Hosted inference for open-weight models: cheapest DeepSeek V4 Flash provider on OpenRouter (2026-08, \"sustainably serving almost 2x cheaper than anyone else\" — cofounder Eitan Borgnia, X 2026-08-24; also live on Vercel AI Gateway). YC W23; a16z-led $23M Series A (2025-10).",
+      "sources": [
+        "https://relace.ai",
+        "https://a16z.com/announcement/investing-in-relace",
+        "https://pitchbook.com/profiles/company/756849-70",
+        "https://openrouter.ai/deepseek/deepseek-v4-flash-0731"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/modular.png",
+      "revenue": "undisclosed",
+      "valuation": "Acquired by Qualcomm (announced 2026-06-24, deal completed 2026-07-29; all-stock ~$3.9B; last independent valuation $1.6B, 2025-09)",
+      "listing": [
+        "private"
+      ],
+      "id": "modular",
+      "name": "Modular",
+      "website": "https://www.modular.com",
+      "hq": "San Francisco, CA",
+      "founded": 2023,
+      "employees": "~378 (Tracxn, 2026-07)",
+      "tags": [
+        "ai-lab",
+        "bay_area",
+        "inference"
+      ],
+      "ai_stance": "AI inference software 'from kernel to cloud' (modular.com): Modula language + ModelRun inference platform serving frontier open-weights across GPUs, CPUs and ASICs — on OpenRouter as 'ModelRun [by Modular]' (2026-09-02: MiniMax M3 FP4 at ~93 tok/s, Kimi K2.7-Code FP4; zero-retention, does not train on prompts). Founded 2023 in San Francisco by ex-Databricks AI chief David Luan; $250M raised in September 2025 at a $1.6B valuation. **Qualcomm's all-stock acquisition worth ~$3.9B (up to 19.2M shares) was announced 2026-06-24 and COMPLETED 2026-07-29** (Qualcomm press release) — a 'silicon-agnostic compute layer' for its Dragonfly data-center roadmap; Modular now a wholly owned Qualcomm subsidiary (operating entity unchanged, ModelRun still listed on OpenRouter).",
+      "sources": [
+        "https://www.modular.com",
+        "https://www.reuters.com/technology/artificial-intelligence/modular-raises-250-million-ai-inference-2025-09-24/",
+        "https://www.qualcomm.com/news/releases/2026/06/qualcomm-to-acquire-modular",
+        "https://openrouter.ai/minimax/minimax-m3",
+        "https://tracxn.com/d/companies/modular/__v6grqENb3KuN2nmevHs51M-dfarA_JO12Y_E7MZ0364",
+        "https://www.qualcomm.com/news/releases/2026/07/qualcomm-completes-acquisition-of-modular"
+      ],
+      "region": "us"
+    },
+    {
+      "logo": "logos/inceptron.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed",
+      "listing": [
+        "private"
+      ],
+      "id": "inceptron",
+      "name": "Inceptron",
+      "website": "https://www.inceptron.io",
+      "hq": "Lund, SE",
+      "founded": 2021,
+      "employees": "~20 (2026, Pitchbook)",
+      "tags": [
+        "inference",
+        "eu"
+      ],
+      "ai_stance": "European AI infrastructure provider (Inceptron AB, inceptron.io): AI inference platform for open-weights — deploy/optimize/scale models in production with a proprietary inference compiler (graph fusion, kernel auto-tuning, memory planning) and versioned endpoints. Data centers in Finland (Helsinki) / Paris / Skåne, PUE 1.13. On OpenRouter (2026-09-02 census): DeepSeek V4 Flash (FP4), GLM-5.2 + GLM-5.3 (FP4), Kimi K2.6 + K2.7-Code (INT4). ~20 employees (Pitchbook); early stage — Execution Ventures 'startups to watch' (2026-03).",
+      "sources": [
+        "https://www.inceptron.io",
+        "https://pitchbook.com/profiles/company/194789-42",
+        "https://openrouter.ai/moonshotai/kimi-k2.6"
+      ],
+      "region": "eu"
+    },
+    {
+      "logo": "logos/nextbit.png",
+      "revenue": "undisclosed",
+      "valuation": "undisclosed (private; Zaragoza, ES)",
+      "listing": [
+        "private"
+      ],
+      "id": "nextbit",
+      "name": "NextBit (Nextbit256)",
+      "website": "https://www.nextbit256.com",
+      "hq": "Zaragoza, ES",
+      "founded": 2021,
+      "employees": "undisclosed",
+      "tags": [
+        "inference",
+        "eu",
+        "sovereign_cloud"
+      ],
+      "ai_stance": "Sovereign AI inference infrastructure in Europe (nextbit256.com): 100% renewable data-center infrastructure for AI (Zaragoza), RGPD + AI-Act compliant, OpenAI/Anthropic-compatible API; serverless inference also sold on AWS Marketplace (purchasable with AWS credits), plus dedicated inference on its own Spanish hardware. On OpenRouter since 2025-06 ('inferencia IA soberana'): DeepSeek V4 Flash + V4 Pro (FP8) and GLM-5.3-Flash (FP8) (2026-09-02 census). Part of Lanzadera (Juan Roig); backed by Angels Capital; co-founders incl. Pedro Flames (ex-Ahorro Bank CEO).",
+      "sources": [
+        "https://www.nextbit256.com",
+        "https://es.linkedin.com/company/nextbit256",
+        "https://es.linkedin.com/in/pedro-flames-87305310",
+        "https://openrouter.ai/deepseek/deepseek-v4-flash-0731",
+        "https://opper.ai/blog/nextbit-partnership"
+      ],
+      "region": "eu"
+    },
+    {
+      "id": "spacex",
+      "name": "SpaceX",
+      "website": "https://www.spacex.com",
+      "hq": "Hawthorne, CA",
+      "region": "us",
+      "listing": [
+        "nasdaq:SPCX"
+      ],
+      "valuation": "Public (NASDAQ: SPCX); IPO 2026-06-12 — $75B raised at $135/share, the largest IPO in history; valuation ~$1.8T",
+      "revenue": "undisclosed (first public quarterly earnings ~2026-08; stock -13% on the print, WSJ)",
+      "employees": "undisclosed",
+      "founded": 2002,
+      "tags": [
+        "nasdaq:SPCX",
+        "aerospace",
+        "ai-parent"
+      ],
+      "logo": "logos/spacex.png",
+      "ai_stance": "Parent of Anysphere (Cursor): closed the ~$60B all-stock acquisition of Anysphere on 2026-08-14 (largest startup acquisition ever; formal agreement 2026-06-16; the process began in April 2026 as a 'partnership with SpaceXAI to accelerate our model training efforts' — Cursor blog 2026-08-14). Post-acquisition, OpenAI announced (2026-08-28) it will wind down Cursor's model access effective 2026-11-12 (citing 'trust and safety'; OpenAI models serve ~5% of Cursor usage).",
+      "sources": [
+        "https://cursor.com/blog/joining-spacex",
+        "https://www.bloomberg.com/news/articles/2026-08-14/spacex-completes-its-60-billion-cursor-acquisition",
+        "https://www.nasdaq.com/newsroom/spacex-ipo-rocket-company-launches-historic-ipo",
+        "https://www.cnbc.com/quotes/SPCX",
+        "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex"
+      ]
+    },
+    {
+      "id": "gsa",
+      "name": "General Services Administration",
+      "logo": "logos/gsa.png",
+      "website": "https://www.gsa.gov",
+      "hq": "Washington, D.C.",
+      "founded": 1953,
+      "employees": "~2,300",
+      "revenue": "— (funded by federal appropriations)",
+      "valuation": "US federal agency (independent establishment)",
+      "listing": [
+        "government"
+      ],
+      "tags": [
+        "government",
+        "federal",
+        "washington_dc"
+      ],
+      "ai_stance": "GSA–Meta OneGov initiative (2025-09-22): Llama models offered free and approved for use across all federal agencies — the first federal, procurement-level clearance for a US open-weight model. No Chinese open models in use.",
+      "sources": [
+        "https://www.gsa.gov/about-gsa/newsroom/news-releases/gsa-meta-collaborate-on-ai-adoption-09222025",
+        "https://www.reuters.com/world/us/metas-ai-system-llama-approved-use-by-us-government-agencies-2025-09-22",
+        "https://fedscoop.com/meta-gsa-deal-general-services-administration-llama-model-ai-artificial-intelligence"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "fda",
+      "name": "Food and Drug Administration",
+      "logo": "logos/fda.png",
+      "website": "https://www.fda.gov",
+      "hq": "Silver Spring, MD",
+      "founded": 1930,
+      "employees": "~12,000",
+      "revenue": "— (funded by federal appropriations)",
+      "valuation": "US federal agency (HHS)",
+      "listing": [
+        "government"
+      ],
+      "tags": [
+        "government",
+        "federal",
+        "regulator",
+        "healthcare"
+      ],
+      "ai_stance": "Launched Elsa (2025-06-02): an agency-wide generative-AI / LLM tool targeting high-priority inspections, built on AWS FedRAMP-High GovCloud; base LLM not publicly named. No Chinese open models in use.",
+      "sources": [
+        "https://www.fda.gov/news-events/press-announcements/fda-launches-agency-wide-ai-tool-optimize-performance-american-people",
+        "https://www.azmed.co/news-post/your-next-submission-will-be-judged-by-elsa-fda-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "nasa",
+      "name": "National Aeronautics and Space Administration",
+      "logo": "logos/nasa.png",
+      "website": "https://www.nasa.gov",
+      "hq": "Washington, D.C.",
+      "founded": 1958,
+      "employees": "~18,000",
+      "revenue": "— (funded by federal appropriations)",
+      "valuation": "US federal agency",
+      "listing": [
+        "government"
+      ],
+      "tags": [
+        "government",
+        "federal",
+        "aerospace"
+      ],
+      "ai_stance": "Space Llama (JPL, 2025-04): a Llama model trained in collaboration with Meta for space-mission use (A2E2). No Chinese open models in use.",
+      "sources": [
+        "https://about.fb.com/news/2025/04/space-llama-metas-open-source-ai-model-heading-into-orbit",
+        "https://www.boozallen.com/insights/space/large-language-models-in-space-and-beyond.html"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "us-air-force",
+      "name": "United States Air Force",
+      "logo": "logos/us-air-force.png",
+      "website": "https://www.airforce.com",
+      "hq": "Washington, D.C.",
+      "founded": 1947,
+      "employees": "~230,000 active duty",
+      "revenue": "— (US Department of Defense)",
+      "valuation": "US military branch (DoD)",
+      "listing": [
+        "government"
+      ],
+      "tags": [
+        "government",
+        "defense",
+        "military"
+      ],
+      "ai_stance": "AFRL experiments with LLMs in a secure, role-tailored sandbox (2025-04); DoD has issued GenAI usage guidance. No Chinese open models in use.",
+      "sources": [
+        "https://www.afrl.af.mil/News/Article-Display/Article/4145940/tailoring-generative-ai-a-secure-sandbox-and-the-need-for-role-specific-trainin"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "blackrock",
+      "name": "BlackRock",
+      "logo": "logos/blackrock.png",
+      "website": "https://www.blackrock.com",
+      "hq": "New York, NY",
+      "founded": 1988,
+      "employees": "~15,500",
+      "revenue": "~$11.1B (FY2024)",
+      "valuation": "Public (NYSE: BLK)",
+      "listing": [
+        "nyse:BLK",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:BLK",
+        "fortune500_2025",
+        "finance",
+        "asset_management"
+      ],
+      "ai_stance": "GenAI/LLM features on Aladdin (announced 2023-12, rolled out 2024): LLM-based data extraction for staff and institutional clients. No Chinese open models in use.",
+      "sources": [
+        "https://www.finextra.com/newsarticle/43412/blackrock-rolls-out-genai-to-staff-and-clients",
+        "https://fintech.global/2023/12/11/blackrock-to-begin-genai-implementation-in-january-2024"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "allstate",
+      "name": "Allstate",
+      "logo": "logos/allstate.png",
+      "website": "https://www.allstate.com",
+      "hq": "Northbrook, IL",
+      "founded": 1931,
+      "employees": "~35,000",
+      "revenue": "~$30B (FY2024)",
+      "valuation": "Public (NYSE: ALL)",
+      "listing": [
+        "nyse:ALL",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:ALL",
+        "fortune500_2025",
+        "insurance"
+      ],
+      "ai_stance": "OpenAI GPT models draft the majority of ~50,000 claims-related customer emails per day (WSJ 2025-02-10); ~23,000 claims reps use the AI-drafted communications. Building its own agentic LLM ALLIE (2026-08). No Chinese open models in use.",
+      "sources": [
+        "https://www.wsj.com/articles/turns-out-ai-is-more-empathetic-than-allstates-insurance-reps-cf5f7c98",
+        "https://www.theregister.com/offbeat/2025/02/13/insurance-giant-finds-claims-rep-that-gives-a-damn-its-ai/1001154"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "capital-one",
+      "name": "Capital One",
+      "logo": "logos/capital-one.png",
+      "website": "https://www.capitalone.com",
+      "hq": "McLean, VA",
+      "founded": 1994,
+      "employees": "~26,000",
+      "revenue": "~$64B (FY2024)",
+      "valuation": "Public (NYSE: COF)",
+      "listing": [
+        "nyse:COF",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:COF",
+        "fortune500_2025",
+        "finance",
+        "banking"
+      ],
+      "ai_stance": "Scaling AI adoption on its cloud infrastructure (CIO Dive 2025-06); agentic AI and internal AI factories for customer service and internal work (2026). No Chinese open models in use.",
+      "sources": [
+        "https://www.ciodive.com/news/banking-ai-tech-lloyds-natwest-truist-evident-insights/750366"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "truist",
+      "name": "Truist",
+      "logo": "logos/truist.png",
+      "website": "https://www.truist.com",
+      "hq": "Charlotte, NC",
+      "founded": 2018,
+      "employees": "~35,000",
+      "revenue": "~$26B (FY2024)",
+      "valuation": "Public (NASDAQ: TFC)",
+      "listing": [
+        "nasdaq:TFC",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nasdaq:TFC",
+        "fortune500_2025",
+        "finance",
+        "banking"
+      ],
+      "ai_stance": "Client Pulse: AI + analytics layer for client engagement (American Banker 2025 Innovation of the Year award category); in-house AI build. No Chinese open models in use.",
+      "sources": [
+        "https://www.arizent.com/news/jpmorganchases-llm-suite-wins-american-bankers-2025-innovation-of-the-year-award-grand-prize",
+        "https://www.ciodive.com/news/banking-ai-tech-lloyds-natwest-truist-evident-insights/750366"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "jane-street",
+      "name": "Jane Street",
+      "logo": "logos/jane-street.png",
+      "website": "https://www.janestreet.com",
+      "hq": "New York, NY",
+      "founded": 1998,
+      "employees": "~1,400",
+      "revenue": "undisclosed (~$20.5B assets)",
+      "valuation": "Private (hedge fund)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "private",
+        "finance",
+        "trading"
+      ],
+      "ai_stance": "In-house AI/ML and LLM research for trading; committed ~$6B to CoreWeave's AI cloud plus a $1B equity investment (2026-04-15). No Chinese open models in use.",
+      "sources": [
+        "https://www.coreweave.com/news/jane-street-signs-6-billion-ai-cloud-agreement-with-coreweave",
+        "https://www.reuters.com/legal/transactional/jane-street-signs-6-billion-ai-cloud-deal-with-coreweave-boosts-stake-2026-04-15"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "citadel-securities",
+      "name": "Citadel Securities",
+      "logo": "logos/citadel-securities.png",
+      "website": "https://www.citadelsecurities.com",
+      "hq": "New York, NY",
+      "founded": 2001,
+      "employees": "~4,000",
+      "revenue": "undisclosed (~$400B notional traded per day)",
+      "valuation": "Private (market maker)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "private",
+        "finance",
+        "trading"
+      ],
+      "ai_stance": "AI/ML-driven execution and quant research at cloud scale (Google Cloud partnership); ~$400B notional traded per day. No Chinese open models in use.",
+      "sources": [
+        "https://cloud.google.com/transform/citadel-securities-reimagine-quantitative-reseach-cloud-scale-speed"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "two-sigma",
+      "name": "Two Sigma",
+      "logo": "logos/two-sigma.png",
+      "website": "https://www.twosigma.com",
+      "hq": "New York, NY",
+      "founded": 2001,
+      "employees": "~1,000",
+      "revenue": "undisclosed (quant fund)",
+      "valuation": "Private (quant fund)",
+      "listing": [
+        "private"
+      ],
+      "tags": [
+        "private",
+        "finance",
+        "quant"
+      ],
+      "ai_stance": "Quant AI/ML research since 2001; PhD fellowship program explicitly on the AI/ML frontier; LLM-for-finance thought leadership (2024 Cornell Quant Conf. panel). No Chinese open models in use.",
+      "sources": [
+        "https://www.twosigma.com/graduate-students/phd-fellowships",
+        "https://dro-lopes.medium.com/chatgpt-and-the-future-of-ai-in-finance-eebd0cf6ff3f"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "lockheed-martin",
+      "name": "Lockheed Martin",
+      "logo": "logos/lockheed-martin.png",
+      "website": "https://www.lockheedmartin.com",
+      "hq": "Bethesda, MD",
+      "founded": 1995,
+      "employees": "~115,000",
+      "revenue": "~$71.2B (FY2024)",
+      "valuation": "Public (NYSE: LMT)",
+      "listing": [
+        "nyse:LMT",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:LMT",
+        "fortune500_2025",
+        "defense"
+      ],
+      "ai_stance": "Incorporated Meta's Llama into its AI Factory (2024-11-04, Meta partnership): code generation, data analysis, and national-security use cases. No Chinese open models in use.",
+      "sources": [
+        "https://about.fb.com/news/2024/11/open-source-ai-america-global-security",
+        "https://www.theguardian.com/technology/2024/nov/05/meta-allows-national-security-defense-contractors-use-llama-ai"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "mayo-clinic",
+      "name": "Mayo Clinic",
+      "logo": "logos/mayo-clinic.png",
+      "website": "https://www.mayoclinic.org",
+      "hq": "Rochester, MN",
+      "founded": 1864,
+      "employees": "~25,000",
+      "revenue": "~$25B (FY2024)",
+      "valuation": "Nonprofit (tax-exempt medical institution)",
+      "listing": [
+        "nonprofit"
+      ],
+      "tags": [
+        "nonprofit",
+        "healthcare"
+      ],
+      "ai_stance": "RadOnc-GPT (2024-05): Llama 2-based LLM for radiation oncology, co-developed with Meta; LLM safety and clinical NLP research. No Chinese open models in use.",
+      "sources": [
+        "https://ai.meta.com/blog/radonc-gpt-meta-llama-2-mayo-clinic",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11762383"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "ups",
+      "name": "UPS",
+      "logo": "logos/ups.png",
+      "website": "https://www.ups.com",
+      "hq": "Atlanta, GA",
+      "founded": 1906,
+      "employees": "~430,000",
+      "revenue": "~$102B (FY2024)",
+      "valuation": "Public (NYSE: UPS)",
+      "listing": [
+        "nyse:UPS",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:UPS",
+        "fortune500_2025",
+        "logistics"
+      ],
+      "ai_stance": "Scaling AI + automation across its network (2026-06-18 press release): AI/ML sorting cut labor hours by ~10%; generative AI for internal and customer-facing work. No Chinese open models in use.",
+      "sources": [
+        "https://about.ups.com/us/en/newsroom/press-releases/innovation-driven/proof-over-promises--ups-s-bold-ai-initiatives-enhance-products-.html",
+        "https://www.traxtech.com/ai-in-supply-chain/ups-deploys-ai-automation-to-replace-43000-workers"
+      ],
+      "region": "us"
+    },
+    {
+      "id": "verizon",
+      "name": "Verizon",
+      "logo": "logos/verizon.png",
+      "website": "https://www.verizon.com",
+      "hq": "New York, NY",
+      "founded": 2000,
+      "employees": "~102,000",
+      "revenue": "~$132B (FY2024)",
+      "valuation": "Public (NYSE: VZ)",
+      "listing": [
+        "nyse:VZ",
+        "fortune500_2025"
+      ],
+      "tags": [
+        "nyse:VZ",
+        "fortune500_2025",
+        "telecom"
+      ],
+      "ai_stance": "Google Cloud strategic partnership (2026-08-24): Gemini Enterprise for customer experience and unified enterprise data, scaling AI. Closed US frontier. No Chinese open models in use.",
+      "sources": [
+        "https://www.googlecloudpresscorner.com/2026-08-24-Google-Cloud-Announces-Strategic-Partnership-with-Verizon-to-Scale-Enterprise-AI",
+        "https://www.verizon.com/about/news/verizon-unveils-ai-strategy-power-next-gen-ai-demands"
+      ],
+      "region": "us"
+    }
+  ]
+}
