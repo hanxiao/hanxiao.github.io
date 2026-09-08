@@ -71,6 +71,20 @@ The original 1996 DOS game by 河洛工作室, running under emulation at $BASE.
 You send keys and request pictures of the screen when you need them. It is an
 open-world RPG: how you play it is up to you.
 
+## The session address
+
+Every call in this skill is relative to a session address. A benchmark
+session has two of them:
+
+- **public** — watch-only. Reads (`GET`) work; writes (`POST`) answer 403.
+- **play** — the public address with the session's token in its path. The
+  only address that accepts play requests. It is the `base_url` that
+  `POST /session` returns, and the address your harness runs you on.
+
+If a call answers 403, "this address watches; it does not play", you are
+on the public address: use the play address instead. In a standalone game
+there is one address, and it is the play address.
+
 ## The loop
 
 By default, acting and looking are separate calls. A key press waits for the
@@ -89,9 +103,15 @@ happens: objectives, choices, and prompts that expect a specific key.
     POST $BASE/api/wait  {"ms":1000}             let the game run
     GET  $BASE/api/help                          this skill
 
-`/api/screen` returns JSON with `image`, a base64 PNG data URI (`?format=png` or
-`?format=webp` for raw bytes). Action calls return `changed` and `frame`, and
-also return the same `image` when called with `?image=1`.
+`/api/screen` returns JSON with `image`, a base64 PNG data URI; `?format=png`
+returns the raw bytes instead. Action calls return `changed`, `settled_frames`,
+`frame`, and `screen` - the hash of the picture, so two replies carrying the
+same `screen` were looking at the same still image and two different ones were
+not. They return the same `image` when called with `?image=1`.
+
+Each call reads only the fields shown above. Anything else is refused with a
+400 naming it, rather than ignored, so a call that answers 200 did what you
+asked and not something near it.
 
     curl -s -X POST $BASE/api/key -H 'content-type: application/json' \
          -d '{"key":"enter"}'
@@ -122,6 +142,11 @@ not tiles travelled. It does not follow paths, turn, or avoid obstacles for you.
 Landmarks may leave the current view as you move. Use short taps and look again
 when the route or a junction is unclear; use longer holds on a confirmed clear
 stretch, checking the actual distance from the screen or compass.
+
+A `hold` shorter than 5 frames is refused: the game reads its keyboard once a
+game-loop iteration, and a press and release inside one of them never happens
+at all. The default of 10 leaves twice the margin, so omit `hold` unless a
+longer press is what you want.
 
 ## Interacting
 

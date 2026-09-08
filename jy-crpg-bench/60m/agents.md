@@ -55,6 +55,17 @@
 1996 年河洛工作室的原版 DOS 游戏，以模拟器执行于 $BASE。
 你送出按键，需要时再另外取得画面截图。这是一款开放世界 RPG，怎么玩由你决定。
 
+## 会话位址
+
+本技能里的每个呼叫都相对于一个会话位址。一个 benchmark 会话有两个位址：
+
+- **public** — 只可观看：读取（`GET`）可以，写入（`POST`）回 403。
+- **play** — 公开位址加上路径中本局的令牌。唯一接受游玩请求的位址，
+  也就是 `POST /session` 回传的 `base_url`，你的 harness 就是用它跟你连线。
+
+若某个呼叫回 403，“this address watches; it does not play”，表示你正在
+呼叫公开位址：改用 play 位址。单机模式下只有一个位址，它本身就是 play 位址。
+
 ## 运作方式
 
 预设把“动作”和“看画面”分成两次呼叫。送按键会等画面稳定并回传狀態；要看画面
@@ -71,9 +82,14 @@
     POST $BASE/api/wait  {"ms":1000}             让游戏自己跑一段时间
     GET  $BASE/api/help                          本技能说明
 
-`/api/screen` 会回传画面：JSON 含 `image`，是 base64 的 PNG data URI（加
-`?format=png` 或 `?format=webp` 可直接取得位元组）。动作类呼叫预设回传
-`changed` 与 `frame`；加 `?image=1` 也会回传同样的 `image`。
+`/api/screen` 会回传画面：JSON 含 `image`，是 base64 的 PNG data URI；加
+`?format=png` 则直接取得 PNG 位元组。动作类呼叫预设回传
+`changed`、`settled_frames`、`frame` 与 `screen`：`screen` 是画面的杂凑值，两次
+回应的 `screen` 相同就代表看到的是同一张静止画面，不同就代表不是。加 `?image=1`
+也会回传同样的 `image`。
+
+每个呼叫只读取上面列出的栏位。其他栏位会以 400 明确指出并拒绝，而不是默默忽略，
+所以回应 200 的呼叫做的就是你要求的事，不是相近的另一件事。
 
     curl -s -X POST $BASE/api/key -H 'content-type: application/json' \
          -d '{"key":"enter"}'
@@ -101,6 +117,10 @@ f1-f12、tab、backspace。
 **长按会持续输入同一个方向。** `hold` 是保持按键的帧数，不是移动格数；它不会
 自动沿路、转弯或避障。移动时路标可能离开当前画面。路线或路口尚未看清时，用短按
 并重新观察；已确认畅通的路段可以长按，实际距离以画面或羅盤读数为准。
+
+`hold` 小于 5 帧会被拒绝：游戏每个主回圈只读一次键盘，按下与放开落在同一次回圈
+之内，这次按键等于没有发生。预设的 10 帧留了两倍余裕，除非确实需要长按，否则不
+必自行指定 `hold`。
 
 ## 互动
 
