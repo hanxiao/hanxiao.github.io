@@ -1,23 +1,229 @@
-<!doctype html>
-<html lang="en">
+#!/usr/bin/env python3
+"""Render the catalogue page in both languages from one template.
+
+Chinese is the default at /, English at /en/. Two hand-maintained copies of a
+page drift within a week, so there is one template and a strings table.
+
+    python3 site/build.py
+"""
+import pathlib
+import json
+import re
+
+HERE = pathlib.Path(__file__).resolve().parent
+
+ZH = {
+    "lang": "zh-Hans", "other": "EN", "other_href": "en/", "home": ".",
+    "url": "https://hanxiao.io/jy-crpg-bench/",
+    "locale": "zh_CN", "locale_alt": "en_US",
+    "blurb": "面向前沿智能体的长程 CRPG 基准。每个模型一局，默认四小时，全程录像。",
+    "tagline": "面向前沿智能体的长程 CRPG 基准",
+    "oneline": "读 %U%，照着玩。",
+    "base": "https://hanxiao.io/jy-crpg-bench/",
+    "playtime": "总游玩时长",
+    "opts": [(240, "4 小时"), (20, "20 分钟"), (60, "1 小时"),
+             (480, "8 小时"), (1440, "24 小时")],
+    "view": "查看", "raw": "原始档",
+    "copy": "复制", "copied": "已复制",
+    "stats": ["正在进行", "已完成", "模型", "累计游玩"],
+    "sort": "排序", "runs": "局", "run1": "局",
+    "loading": "载入中", "empty": "还没有记录", "gone": "读不到记录",
+    "backend": "后端", "backend_down": "后端无法连线",
+    "grid": "网格", "list": "列表", "asc": "递增", "desc": "递减",
+    "cols": {"started": "时间",
+             "meaningful": "画面变化决策", "oscillation": "来回打转",
+             "actions": "决策调用", "aps": "决策/秒", "exit_acts": "首次全黑代理",
+             "ttfa": "首次动作", "gap_p50": "思考 p50", "gap_p95": "思考 p95",
+             "distinct_keys": "按键种类", "reads": "看画面", "played": "游玩",
+             "usage_total": "token 用量", "reason": "结束原因"},
+    "agent": "模型", "video": "视频", "novideo": "无视频",
+    "full": "已完成", "idle": "中途停摆", "never": "从未出手", "err": "失败",
+    "publish_err": "录像或发布失败",
+    "keyspace": "按键分布",
+    "live": "正在进行", "watch": "观看", "back": "返回", "watching": "只读",
+    "running": "进行中", "log": "动作记录", "hist": "按键分布",
+    "explored": "画面变化决策", "progress": "画面变化 vs 决策调用",
+    "board": "排行榜", "b_rank": "排名", "b_model": "模型", "b_runs": "局数",
+    "b_overview": "行为", "b_speed": "速度", "b_effort": "投入", "b_rely": "稳定性",
+    "b_score": "画面变化决策率", "b_aps": "决策/秒", "b_acts": "决策调用",
+    "b_think": "思考 p50 / p95", "b_keys": "按键种类", "b_ttfa": "首次动作",
+    "b_done": "已完成", "b_err": "错误", "b_played": "游玩",
+    "b_edition": "版本", "b_runs_n": "总局数", "b_updated": "最近更新",
+    "b_engine": "引擎",
+    "b_how": "每个分数都来自真实运行未经修改的 1996 年原版游戏，没有模型评审。"
+             "全部由我们自己跑出，没有厂商自报。",
+    "b_ci": "区间为按独立决策假设计算的 95% Wilson 参考区间；同局决策存在相关性，不能据此推断跨局模型差异。",
+    "b_thin": "旧记录若未保存原始变化次数，则从已保存比例近似还原；未测记录不计入比例分母。",
+    "b_base": "基线",
+    "b_nocost": "成本不进入排行：token 用量由运行它的 harness 代上报（计费侧数据，不是模型自报），见各局记录。",
+    "b_usage": "token 用量", "b_usage_unit": "tokens", "b_usage_turn": "轮",
+    "b_usage_think": "思考强度",
+    "b_n_speed": "更快不等于更好：基线排在最前，是因为它不思考。",
+    "b_n_effort": "决策调用更多不等于更好：基线排在最前，是因为它从不停下来看。",
+    "b_n_rely": "请求错误次数尚未统计；旧记录的零值也是占位值，不能据此判断零错误。",
+    "b_front": "取舍", "b_mact": "画面变化决策数",
+    "b_scenes": "黑屏分段", "b_reach": "走出的距离",
+    "b_exit": "首次全黑代理", "b_map": "大地图", "m_map": "踏上大地图",
+    "b_n_exit": "首次出门目前以第一次检测到全黑画面的决策调用数与时间作为代理信号；"
+                "全黑本身不能证明原因。画面变化决策率只比较相邻决策结果，不是统一环境步数。"
+                "大地图使用出生地出口外标定的参照指纹判定。",
+    "b_ladder": "进度", "b_more": "其余数据", "b_reads": "看屏/决策",
+    "b_inputs": "决策 · 提交键数 · 请求按住帧",
+    "m_act": "出手", "m_move": "画面有反应", "m_item": "拿到东西",
+    "m_exp": "拿到经验", "m_level": "升到 2 级",
+    "m_party": "有人入队", "m_book": "拿到秘笈", "m_compass": "拿到罗盘",
+    "b_books": "秘笈", "b_party": "队伍",
+    "b_n_ladder": "八个可验证里程碑，除了第一个之外全部读自游戏自己的存档与角色数值。"
+                  "它们展示取得的成果，不假定所有里程碑都必须按同一顺序发生。"
+                  "空心的一格表示那一局跑的时候还没开始统计这项，不是没做到。",
+    "b_progress": "养成", "b_level": "等级", "b_char": "等级 · 武功 · 物品", "b_exp": "经验",
+    "b_skills": "武功", "b_items": "物品种类",
+    "b_n_progress": "游戏自己的角色数值与公共背包，直接从机器里读出来，不是从画面上猜的。"
+                    "等级和经验反映角色养成，不能单凭等级判断是否离开开场。",
+    "b_explore": "探索",
+    "b_axis_s": "黑屏分段数",
+    "b_pre": "走出的距离目前不统计：读取角色坐标要把存档重新载入正在运行的机器，会把它弄崩。没测到就显示为空，不会写成 0。",
+    "b_n_explore": "黑屏分段数是初始画面加检测到全黑画面的次数，只是代理信号，不识别实际场景。"
+                   "距离是从每段入口走出去的最远步数并逐段累加，只取最大值，来回踱步加不上去。",
+    "b_axis_q": "画面变化决策率", "b_axis_t": "画面变化决策数",
+    "b_n_front": "画面变化决策率单看会奖励“少做少错”，变化决策数单看会奖励乱按。"
+                 "连线上的模型，没有其他模型在两项上都不低于它且至少一项更高。",
+    "b_dom": "被超过",
+    "replay": "回放", "download": "下载 MP4", "speed": "倍速",
+    "prevact": "上一个动作", "nextact": "下一个动作", "playpause": "播放/暂停",
+    "held": "按住", "loading2": "载入回放",
+    "uptime": "已进行", "nolog": "还没有决策",
+    "left": "剩余", "waiting": "等待画面", "dropped": "连接中断，重试中",
+    "over": "已结束",
+}
+
+EN = {
+    "lang": "en", "other": "中文", "other_href": "../", "home": ".",
+    "url": "https://hanxiao.io/jy-crpg-bench/en/",
+    "locale": "en_US", "locale_alt": "zh_CN",
+    "blurb": "A long-horizon CRPG benchmark for frontier agents. "
+             "One run per model, four hours by default, recorded.",
+    "tagline": "A long-horizon CRPG benchmark for frontier agents",
+    "oneline": "Read %U% and play it.",
+    "base": "https://hanxiao.io/jy-crpg-bench/en/",
+    "playtime": "total playtime",
+    "opts": [(240, "4 hours"), (20, "20 min"), (60, "1 hour"),
+             (480, "8 hours"), (1440, "24 hours")],
+    "view": "view", "raw": "raw",
+    "copy": "copy", "copied": "copied",
+    "stats": ["live", "runs", "models", "played"],
+    "sort": "sort", "runs": "runs", "run1": "run",
+    "loading": "loading", "empty": "no runs yet", "gone": "catalogue unavailable",
+    "backend": "backend", "backend_down": "backend unreachable",
+    "grid": "grid", "list": "list", "asc": "ascending", "desc": "descending",
+    "cols": {"started": "when",
+             "meaningful": "screen-changing decisions", "oscillation": "oscillation",
+             "actions": "decision calls", "aps": "decisions/s", "exit_acts": "first-black proxy",
+             "ttfa": "1st action", "gap_p50": "think p50", "gap_p95": "think p95",
+             "distinct_keys": "key space", "reads": "screens", "played": "played",
+             "usage_total": "tokens", "reason": "ended by"},
+    "agent": "agent", "video": "video", "novideo": "no video",
+    "full": "finished", "idle": "went idle", "never": "never started",
+    "err": "error", "publish_err": "recording or publication error", "keyspace": "action space",
+    "live": "live now", "watch": "watch", "back": "back", "watching": "read-only",
+    "running": "running", "log": "action log", "hist": "key distribution",
+    "explored": "screen-changing", "progress": "screen changes vs decisions",
+    "board": "leaderboard", "b_rank": "rank", "b_model": "model", "b_runs": "runs",
+    "b_overview": "behaviour", "b_speed": "speed", "b_effort": "effort",
+    "b_rely": "reliability",
+    "b_score": "screen-changing decision ratio", "b_aps": "decisions/s", "b_acts": "decision calls",
+    "b_think": "think p50 / p95", "b_keys": "key variety", "b_ttfa": "1st action",
+    "b_done": "finished", "b_err": "errors", "b_played": "played",
+    "b_edition": "edition", "b_runs_n": "total runs", "b_updated": "updated",
+    "b_engine": "engine",
+    "b_how": "Every score comes from really running the unmodified 1996 game. "
+             "No model judges another. All runs executed here, none vendor-reported.",
+    "b_ci": "Intervals are 95% Wilson references assuming independent decisions. "
+            "Decisions within a run are correlated, so these do not establish "
+            "model differences across runs.",
+    "b_thin": "Older records without raw change counts are approximated from "
+              "their saved ratios; unmeasured records do not enter the denominator.",
+    "b_base": "baseline",
+    "b_nocost": "Cost is not a ranking axis: token usage is reported by the harness "
+                "that ran the model (the provider's meter, not the model's claim), "
+                "and shown on the run record.",
+    "b_usage": "token usage", "b_usage_unit": "tokens", "b_usage_turn": "turns",
+    "b_usage_think": "thinking",
+    "b_n_speed": "Faster is not better: the baseline leads because it does not think.",
+    "b_n_effort": "More decision calls is not better: the baseline leads because it never "
+                  "stops to look.",
+    "b_n_rely": "Request errors are not counted. Historical zero values were "
+                "placeholders and do not establish an error-free run.",
+    "b_front": "trade-off", "b_mact": "screen-changing decisions",
+    "b_scenes": "black-frame segments", "b_reach": "ground covered",
+    "b_exit": "first-black proxy", "b_map": "world map", "m_map": "reached the world map",
+    "b_n_exit": "First exit currently uses the first decision that detects a fully "
+                "black frame as a proxy; black alone does not establish its cause. "
+                "The screen-changing ratio compares adjacent decision results, not "
+                "uniform environment steps. The world-map flag matches a reference "
+                "fingerprint calibrated just outside the spawn exit.",
+    "b_ladder": "progress", "b_more": "more", "b_reads": "looks / decision",
+    "b_inputs": "decisions · submitted keys · requested held frames",
+    "m_act": "acted", "m_move": "screen responded", "m_item": "picked something up",
+    "m_exp": "gained experience", "m_level": "reached level 2",
+    "m_party": "recruited a companion", "m_book": "holds one of the fourteen",
+    "m_compass": "holds the compass",
+    "b_books": "books", "b_party": "party",
+    "b_n_ladder": "Eight verifiable milestones. All but the first are the "
+                  "game's own numbers, read from its save and its character "
+                  "records rather than inferred from the picture. They show "
+                  "what a run achieved without assuming every milestone must "
+                  "occur in one order. A hollow rung means that run predates "
+                  "the measurement, not that it failed.",
+    "b_progress": "character", "b_level": "level", "b_char": "level · skills · items", "b_exp": "exp",
+    "b_skills": "skills", "b_items": "item types",
+    "b_n_progress": "The game's own character and shared-inventory values, read "
+                    "from the machine rather than guessed from the picture. Level "
+                    "and experience describe character growth; level alone does not "
+                    "establish whether a run left the opening.",
+    "b_explore": "exploration",
+    "b_axis_s": "black-frame segments",
+    "b_pre": "Ground covered is not being recorded: reading the character's "
+             "position meant reloading a savestate into the running machine, "
+             "which crashed it. Unmeasured shows as a dash, never as a zero.",
+    "b_n_explore": "Black-frame segments are the initial frame plus detected fully "
+                   "black frames. This is a proxy and does not identify actual scenes. "
+                   "Ground covered keeps the furthest displacement per segment, so "
+                   "pacing back and forth cannot add to it.",
+    "b_axis_q": "screen-changing decision ratio",
+    "b_axis_t": "screen-changing decisions",
+    "b_n_front": "The ratio alone rewards doing very little; the count alone rewards "
+                 "mashing keys. No other model matches or exceeds a model on the "
+                 "line on both measures while improving at least one.",
+    "b_dom": "beaten",
+    "replay": "replay", "download": "download MP4", "speed": "speed",
+    "prevact": "previous action", "nextact": "next action", "playpause": "play/pause",
+    "held": "held", "loading2": "loading replay",
+    "uptime": "elapsed", "nolog": "no decisions yet",
+    "left": "left", "waiting": "waiting for the first frame",
+    "dropped": "disconnected, retrying", "over": "this run has ended",
+}
+
+TEMPLATE = r"""<!doctype html>
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>jy-crpg-bench</title>
-<meta name="description" content="A long-horizon CRPG benchmark for frontier agents. One run per model, four hours by default, recorded.">
+<meta name="description" content="{blurb}">
 <meta name="theme-color" content="#f7f8fa">
-<link rel="canonical" href="https://hanxiao.io/jy-crpg-bench/en/">
+<link rel="canonical" href="{url}">
 <link rel="alternate" hreflang="zh-Hans" href="https://hanxiao.io/jy-crpg-bench/">
 <link rel="alternate" hreflang="en" href="https://hanxiao.io/jy-crpg-bench/en/">
 <link rel="alternate" hreflang="x-default" href="https://hanxiao.io/jy-crpg-bench/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="hanxiao.io">
-<meta property="og:url" content="https://hanxiao.io/jy-crpg-bench/en/">
+<meta property="og:url" content="{url}">
 <meta property="og:title" content="jy-crpg-bench">
-<meta property="og:description" content="A long-horizon CRPG benchmark for frontier agents. One run per model, four hours by default, recorded.">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:description" content="{blurb}">
+<meta property="og:locale" content="{locale}">
+<meta property="og:locale:alternate" content="{locale_alt}">
 <meta property="og:image" content="https://hanxiao.io/jy-crpg-bench/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -26,16 +232,16 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="jy-crpg-bench">
-<meta name="twitter:description" content="A long-horizon CRPG benchmark for frontier agents. One run per model, four hours by default, recorded.">
+<meta name="twitter:description" content="{blurb}">
 <meta name="twitter:image" content="https://hanxiao.io/jy-crpg-bench/og.png">
 <meta name="twitter:image:alt" content="jy-crpg-bench: a long-horizon CRPG benchmark for frontier agents">
-<meta name="build" content="0b1b734da026">
+<meta name="build" content="{build}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>⚔️</text></svg>">
 <style>
-  :root {
+  :root {{
     --bg: #fafafa;  --panel: #fff;   --ink: #0a0a0a;  --dim: #737373;
     --line: #e5e5e5; --edge: #0a0a0a; --accent: #1b4dd8; --ok: #15803d;
     --warn: #a16207; --bad: #b91c1c;
@@ -43,268 +249,268 @@
     --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC",
             "Noto Sans TC", "Microsoft JhengHei", Helvetica, sans-serif;
-  }
-  * { box-sizing: border-box; }
+  }}
+  * {{ box-sizing: border-box; }}
   /* a display rule beats the hidden attribute, which left the canvas painting
      a black band above the replay video */
-  [hidden] { display: none !important; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.6 var(--sans);
-         -webkit-font-smoothing: antialiased; }
-  a { color: inherit; text-decoration: none; border-bottom: 1px solid #c9d2de; }
-  a:hover { border-color: var(--ink); }
-  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px;
-                   border-radius: 4px; }
-  button, select { font-variant-numeric: tabular-nums; }
-  svg { display: block; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  [hidden] {{ display: none !important; }}
+  html {{ -webkit-text-size-adjust: 100%; }}
+  body {{ margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.6 var(--sans);
+         -webkit-font-smoothing: antialiased; }}
+  a {{ color: inherit; text-decoration: none; border-bottom: 1px solid #c9d2de; }}
+  a:hover {{ border-color: var(--ink); }}
+  :focus-visible {{ outline: 2px solid var(--ink); outline-offset: 2px;
+                   border-radius: 4px; }}
+  button, select {{ font-variant-numeric: tabular-nums; }}
+  svg {{ display: block; }}
+  .wrap {{ max-width: 1120px; margin: 0 auto; padding: 0 24px; }}
+  .mono {{ font-family: var(--mono); font-variant-numeric: tabular-nums; }}
 
   /* ---------- top ---------- */
-  .ico { display: inline-flex; align-items: center; justify-content: center;
+  .ico {{ display: inline-flex; align-items: center; justify-content: center;
          width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 6px;
-         background: var(--panel); color: var(--ink); cursor: pointer; padding: 0; }
-  .ico:hover { border-color: #c2c9d4; }
-  .ico[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-  a.ico { border: 1px solid var(--line); }
-  a.ico:hover { border-color: #c2c9d4; }
-  .lang { font-family: var(--mono); font-size: 12px; padding: 0 10px; width: auto;
-          height: 30px; }
+         background: var(--panel); color: var(--ink); cursor: pointer; padding: 0; }}
+  .ico:hover {{ border-color: #c2c9d4; }}
+  .ico[aria-pressed="true"] {{ background: var(--ink); color: #fff; border-color: var(--ink); }}
+  a.ico {{ border: 1px solid var(--line); }}
+  a.ico:hover {{ border-color: #c2c9d4; }}
+  .lang {{ font-family: var(--mono); font-size: 12px; padding: 0 10px; width: auto;
+          height: 30px; }}
 
-  header { padding: 18px 0 26px; }
-  .top { display: flex; align-items: center; gap: 16px; min-height: 30px; }
-  .acts { margin-left: auto; display: flex; gap: 8px; flex: none; }
-  .hero { text-align: center; padding: 30px 0 0; }
-  h1 { margin: 0; font-size: 20px; font-weight: 400; line-height: 1.3; }
+  header {{ padding: 18px 0 26px; }}
+  .top {{ display: flex; align-items: center; gap: 16px; min-height: 30px; }}
+  .acts {{ margin-left: auto; display: flex; gap: 8px; flex: none; }}
+  .hero {{ text-align: center; padding: 30px 0 0; }}
+  h1 {{ margin: 0; font-size: 20px; font-weight: 400; line-height: 1.3; }}
   /* Pixelify Sans has real lowercase; Silkscreen renders as caps, which fought
      the lowercase project name used everywhere else. Latin only either way, so
      the game's own name keeps the system face - the same split the banner uses,
      which reads as deliberate rather than as a missing glyph. */
-  h1 .px { font-family: "Pixelify Sans", ui-monospace, monospace; font-weight: 700;
-           font-size: 25px; letter-spacing: -.2px; }
-  .tagline { margin: 10px auto 0; color: var(--dim); max-width: 60ch; font-size: 14px; }
-  .oneline { margin: 22px auto 0; max-width: 820px; display: flex; align-items: stretch;
+  h1 .px {{ font-family: "Pixelify Sans", ui-monospace, monospace; font-weight: 700;
+           font-size: 25px; letter-spacing: -.2px; }}
+  .tagline {{ margin: 10px auto 0; color: var(--dim); max-width: 60ch; font-size: 14px; }}
+  .oneline {{ margin: 22px auto 0; max-width: 820px; display: flex; align-items: stretch;
              background: var(--panel); border: 1px solid var(--edge); border-radius: 7px;
-             box-shadow: 0 1px 2px rgba(10,10,10,.05); overflow: hidden; }
-  .mins { border: 0; border-right: 1px solid var(--edge); border-radius: 0;
+             box-shadow: 0 1px 2px rgba(10,10,10,.05); overflow: hidden; }}
+  .mins {{ border: 0; border-right: 1px solid var(--edge); border-radius: 0;
           background: #f2f4f7; padding: 0 12px; height: auto; flex: none; align-self: stretch;
-          font: 12px var(--mono); color: var(--ink); cursor: pointer; }
-  .mins:hover { background: #e8ebf0; }
+          font: 12px var(--mono); color: var(--ink); cursor: pointer; }}
+  .mins:hover {{ background: #e8ebf0; }}
   /* One line, never wrapped and never scrolled: the type shrinks to fit the
      box instead, so the whole thing the reader is meant to copy is always
      visible at a glance. Sized by fitOne() below. */
-  .oneline code { flex: 1; min-width: 0; padding: 12px 14px; font-family: var(--mono);
+  .oneline code {{ flex: 1; min-width: 0; padding: 12px 14px; font-family: var(--mono);
                   font-size: 13px; text-align: left; white-space: nowrap;
-                  overflow: hidden; line-height: 1.45; }
-  .oneline button { border: 0; border-left: 1px solid var(--edge); background: #f2f4f7;
+                  overflow: hidden; line-height: 1.45; }}
+  .oneline button {{ border: 0; border-left: 1px solid var(--edge); background: #f2f4f7;
                     color: var(--ink); cursor: pointer; padding: 0 14px; gap: 7px;
-                    display: flex; align-items: center; font: 12px var(--mono); }
-  .oneline button:hover { background: #e8ebf0; }
-  .oneline button.done { color: var(--ok); }
-  .rules { display: flex; align-items: center; gap: 13px; }
-  .rules div { display: flex; align-items: center; gap: 5px; cursor: default;
-               white-space: nowrap; }
-  .rules svg { color: #a3a3a3; flex: none; width: 12px; height: 12px; }
-  .rules b { font-family: var(--mono); font-size: 12px; font-weight: 500;
-             letter-spacing: -.2px; color: var(--dim); }
-  #stats .pulse { width: 5px; height: 5px; box-shadow: 0 0 0 2px rgba(22,121,74,.14); }
+                    display: flex; align-items: center; font: 12px var(--mono); }}
+  .oneline button:hover {{ background: #e8ebf0; }}
+  .oneline button.done {{ color: var(--ok); }}
+  .rules {{ display: flex; align-items: center; gap: 13px; }}
+  .rules div {{ display: flex; align-items: center; gap: 5px; cursor: default;
+               white-space: nowrap; }}
+  .rules svg {{ color: #a3a3a3; flex: none; width: 12px; height: 12px; }}
+  .rules b {{ font-family: var(--mono); font-size: 12px; font-weight: 500;
+             letter-spacing: -.2px; color: var(--dim); }}
+  #stats .pulse {{ width: 5px; height: 5px; box-shadow: 0 0 0 2px rgba(22,121,74,.14); }}
 
   /* ---------- controls ---------- */
-  .bar { display: flex; align-items: center; gap: 8px; padding: 26px 0 14px; }
-  .seg { display: flex; }
-  .seg .ico { border-radius: 0; margin-left: -1px; }
-  .seg .ico:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
-  .seg .ico:last-child { border-radius: 0 6px 6px 0; }
-  select { height: 30px; border: 1px solid var(--line); border-radius: 6px;
+  .bar {{ display: flex; align-items: center; gap: 8px; padding: 26px 0 14px; }}
+  .seg {{ display: flex; }}
+  .seg .ico {{ border-radius: 0; margin-left: -1px; }}
+  .seg .ico:first-child {{ border-radius: 6px 0 0 6px; margin-left: 0; }}
+  .seg .ico:last-child {{ border-radius: 0 6px 6px 0; }}
+  select {{ height: 30px; border: 1px solid var(--line); border-radius: 6px;
            background: var(--panel); color: var(--ink); font: 12px var(--mono);
-           padding: 0 8px; }
-  .n { margin-left: auto; color: var(--dim); font: 12px var(--mono); }
-  main { padding-bottom: 64px; }
+           padding: 0 8px; }}
+  .n {{ margin-left: auto; color: var(--dim); font: 12px var(--mono); }}
+  main {{ padding-bottom: 64px; }}
 
   /* ---------- grid ---------- */
-  .grid { display: grid; gap: 16px;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-          overflow: hidden; }
-  .clip { display: block; border: 0; }
-  .card video, .none { width: 100%; display: block; background: #eef0f3;
-                       image-rendering: pixelated; aspect-ratio: 320/232; }
-  .none { display: grid; place-items: center; color: var(--dim);
-          font: 11px var(--mono); }
-  .cmeta { padding: 11px 13px 13px; border-top: 1px solid var(--line); }
-  .status { margin-bottom: 5px; }
-  .who { display: flex; align-items: center; gap: 7px; font-family: var(--mono);
-         font-weight: 600; font-size: 13.5px; word-break: break-all; }
-  .who span { min-width: 0; overflow: hidden; text-overflow: ellipsis;
-              white-space: nowrap; }
+  .grid {{ display: grid; gap: 16px;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }}
+  .card {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+          overflow: hidden; }}
+  .clip {{ display: block; border: 0; }}
+  .card video, .none {{ width: 100%; display: block; background: #eef0f3;
+                       image-rendering: pixelated; aspect-ratio: 320/232; }}
+  .none {{ display: grid; place-items: center; color: var(--dim);
+          font: 11px var(--mono); }}
+  .cmeta {{ padding: 11px 13px 13px; border-top: 1px solid var(--line); }}
+  .status {{ margin-bottom: 5px; }}
+  .who {{ display: flex; align-items: center; gap: 7px; font-family: var(--mono);
+         font-weight: 600; font-size: 13.5px; word-break: break-all; }}
+  .who span {{ min-width: 0; overflow: hidden; text-overflow: ellipsis;
+              white-space: nowrap; }}
   /* The lab mark takes the name's colour. It is laid out as a sibling of the
      name rather than sitting inside it: these containers set
      word-break: break-all for long model names, and Chrome will take a break
      between a replaced element and text on the strength of that even under
      white-space: nowrap, which put the mark on its own line. */
-  .vend { width: 13px; height: 13px; flex: none; }
-  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .vend {{ width: 13px; height: 13px; flex: none; }}
+  .sprite {{ position: absolute; width: 0; height: 0; overflow: hidden; }}
 
   /* ---------- leaderboard ---------- */
-  #board { margin: 46px 0 0; padding-bottom: 8px; }
-  .bh { font: 600 15px var(--mono); margin: 0 0 12px; }
-  .prov { display: flex; flex-wrap: wrap; gap: 0 26px; padding: 11px 14px;
-          border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
-  .prov u { display: block; text-decoration: none; color: var(--dim);
-            font: 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; }
-  .prov b { font: 500 12px var(--mono); }
-  .bhow { color: var(--dim); font-size: 12px; line-height: 1.55; margin: 9px 2px 16px; }
-  .bviews { margin-bottom: 12px; }
-  .bviews button { font: 500 12px var(--mono); padding: 5px 11px; border: 0;
+  #board {{ margin: 46px 0 0; padding-bottom: 8px; }}
+  .bh {{ font: 600 15px var(--mono); margin: 0 0 12px; }}
+  .prov {{ display: flex; flex-wrap: wrap; gap: 0 26px; padding: 11px 14px;
+          border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }}
+  .prov u {{ display: block; text-decoration: none; color: var(--dim);
+            font: 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; }}
+  .prov b {{ font: 500 12px var(--mono); }}
+  .bhow {{ color: var(--dim); font-size: 12px; line-height: 1.55; margin: 9px 2px 16px; }}
+  .bviews {{ margin-bottom: 12px; }}
+  .bviews button {{ font: 500 12px var(--mono); padding: 5px 11px; border: 0;
                    background: none; color: var(--dim); border-radius: 6px;
-                   cursor: pointer; }
-  .bviews button[aria-pressed="true"] { background: var(--panel); color: var(--ink);
-                                        box-shadow: 0 1px 2px rgba(0,0,0,.06); }
-  .brow { display: grid; grid-template-columns: 54px minmax(0,1fr) 168px repeat(2, 106px);
+                   cursor: pointer; }}
+  .bviews button[aria-pressed="true"] {{ background: var(--panel); color: var(--ink);
+                                        box-shadow: 0 1px 2px rgba(0,0,0,.06); }}
+  .brow {{ display: grid; grid-template-columns: 54px minmax(0,1fr) 168px repeat(2, 106px);
           align-items: center; gap: 12px; padding: 10px 12px;
-          border-bottom: 1px solid var(--line); }
-  .brow.hd { border-bottom: 1px solid var(--line); padding-bottom: 7px; }
-  .brow.hd span { color: var(--dim); font: 10px var(--mono); letter-spacing: .05em;
-                  text-transform: uppercase; }
-  .brow:last-child { border-bottom: 0; }
-  .bpos b { font: 600 14px var(--mono); font-variant-numeric: tabular-nums; }
-  .bpos u { display: block; text-decoration: none; color: var(--dim);
-            font: 10px var(--mono); font-variant-numeric: tabular-nums; }
-  .bmodel { display: flex; align-items: center; gap: 7px; min-width: 0; }
-  .bmodel .t { min-width: 0; }
-  .bmodel b { display: block; font: 600 13px var(--mono); overflow: hidden;
-              text-overflow: ellipsis; white-space: nowrap; }
-  .bmodel u { display: block; text-decoration: none; color: var(--dim);
-              font: 10.5px var(--mono); }
-  .btag { flex: none; font: 10px var(--mono); color: var(--dim);
-          border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
-  .bval b { font: 600 13px var(--mono); font-variant-numeric: tabular-nums; }
-  .bval i { font-style: normal; color: var(--dim); font: 10.5px var(--mono);
-            margin-left: 5px; font-variant-numeric: tabular-nums; }
+          border-bottom: 1px solid var(--line); }}
+  .brow.hd {{ border-bottom: 1px solid var(--line); padding-bottom: 7px; }}
+  .brow.hd span {{ color: var(--dim); font: 10px var(--mono); letter-spacing: .05em;
+                  text-transform: uppercase; }}
+  .brow:last-child {{ border-bottom: 0; }}
+  .bpos b {{ font: 600 14px var(--mono); font-variant-numeric: tabular-nums; }}
+  .bpos u {{ display: block; text-decoration: none; color: var(--dim);
+            font: 10px var(--mono); font-variant-numeric: tabular-nums; }}
+  .bmodel {{ display: flex; align-items: center; gap: 7px; min-width: 0; }}
+  .bmodel .t {{ min-width: 0; }}
+  .bmodel b {{ display: block; font: 600 13px var(--mono); overflow: hidden;
+              text-overflow: ellipsis; white-space: nowrap; }}
+  .bmodel u {{ display: block; text-decoration: none; color: var(--dim);
+              font: 10.5px var(--mono); }}
+  .btag {{ flex: none; font: 10px var(--mono); color: var(--dim);
+          border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }}
+  .bval b {{ font: 600 13px var(--mono); font-variant-numeric: tabular-nums; }}
+  .bval i {{ font-style: normal; color: var(--dim); font: 10.5px var(--mono);
+            margin-left: 5px; font-variant-numeric: tabular-nums; }}
   /* the bar carries the interval, not just the point estimate */
-  .bbar { position: relative; height: 5px; border-radius: 3px; background: #ececec;
-          margin-top: 5px; overflow: hidden; }
-  .bbar span { position: absolute; top: 0; bottom: 0; background: #bfbfc6; }
-  .bbar em { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); }
-  .bcell { font: 500 12px var(--mono); font-variant-numeric: tabular-nums;
-           text-align: right; }
-  .bnote { color: var(--dim); font-size: 11.5px; line-height: 1.6; margin: 14px 2px 0; }
-  .plotwrap { overflow-x: auto; padding: 4px 0 0; }
-  .plot { width: 100%; min-width: 620px; height: auto; display: block; }
+  .bbar {{ position: relative; height: 5px; border-radius: 3px; background: #ececec;
+          margin-top: 5px; overflow: hidden; }}
+  .bbar span {{ position: absolute; top: 0; bottom: 0; background: #bfbfc6; }}
+  .bbar em {{ position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); }}
+  .bcell {{ font: 500 12px var(--mono); font-variant-numeric: tabular-nums;
+           text-align: right; }}
+  .bnote {{ color: var(--dim); font-size: 11.5px; line-height: 1.6; margin: 14px 2px 0; }}
+  .plotwrap {{ overflow-x: auto; padding: 4px 0 0; }}
+  .plot {{ width: 100%; min-width: 620px; height: auto; display: block; }}
   /* the frontier line runs behind the labels, so they carry a halo of the page
      background rather than being struck through by it */
-  .plot text { font: 11px var(--mono); fill: var(--ink);
+  .plot text {{ font: 11px var(--mono); fill: var(--ink);
                paint-order: stroke fill; stroke: var(--bg); stroke-width: 3.5px;
-               stroke-linejoin: round; }
-  .plot .ax { fill: var(--dim); font-size: 10px; }
-  .plot .on circle { fill: var(--ink); }
-  .plot .off circle { fill: #c9c9cf; }
-  .plot .off text { fill: var(--dim); }
-  .plot .tap { cursor: pointer; }
-  .plot .tap:hover circle { r: 7; }
-  .plot .tap:hover text { font-weight: 600; }
-  @media (max-width: 720px) {
+               stroke-linejoin: round; }}
+  .plot .ax {{ fill: var(--dim); font-size: 10px; }}
+  .plot .on circle {{ fill: var(--ink); }}
+  .plot .off circle {{ fill: #c9c9cf; }}
+  .plot .off text {{ fill: var(--dim); }}
+  .plot .tap {{ cursor: pointer; }}
+  .plot .tap:hover circle {{ r: 7; }}
+  .plot .tap:hover text {{ font-weight: 600; }}
+  @media (max-width: 720px) {{
     /* the second figure is the one that changes the reading, so it survives
        the narrow layout and only the last column is dropped */
-    .brow { grid-template-columns: 38px minmax(0,1fr) 104px 62px; gap: 9px;
-            padding: 10px 2px; }
-    .brow > :nth-child(n+5) { display: none; }
-    .prov { gap: 0 18px; }
-  }
-  #wname { display: inline-flex; align-items: center; gap: 6px; }
+    .brow {{ grid-template-columns: 38px minmax(0,1fr) 104px 62px; gap: 9px;
+            padding: 10px 2px; }}
+    .brow > :nth-child(n+5) {{ display: none; }}
+    .prov {{ gap: 0 18px; }}
+  }}
+  #wname {{ display: inline-flex; align-items: center; gap: 6px; }}
   /* played time reads as data, not as part of the outcome word */
-  .ptime { font-weight: 600; font-variant-numeric: tabular-nums; }
-  .dl { margin-left: auto; flex: none; border: 0; color: var(--dim);
-        display: inline-flex; padding: 3px; border-radius: 5px; }
-  .dl:hover { color: var(--ink); background: #f0f0f0; }
-  .kv { margin-top: 9px; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
-        font-size: 12px; }
+  .ptime {{ font-weight: 600; font-variant-numeric: tabular-nums; }}
+  .dl {{ margin-left: auto; flex: none; border: 0; color: var(--dim);
+        display: inline-flex; padding: 3px; border-radius: 5px; }}
+  .dl:hover {{ color: var(--ink); background: #f0f0f0; }}
+  .kv {{ margin-top: 9px; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
+        font-size: 12px; }}
 
   /* How far it got, before any of the numbers. Each rung is harder than the
      one before, so the row reads left to right as progress. */
-  .ladder { display: flex; align-items: center; gap: 4px; margin-top: 10px; }
-  .ladder i { width: 9px; height: 9px; border-radius: 50%; flex: none;
-              background: #e4e4e7; }
-  .ladder i.on { background: var(--ink); }
+  .ladder {{ display: flex; align-items: center; gap: 4px; margin-top: 10px; }}
+  .ladder i {{ width: 9px; height: 9px; border-radius: 50%; flex: none;
+              background: #e4e4e7; }}
+  .ladder i.on {{ background: var(--ink); }}
   /* hollow, not empty: this run predates the measurement */
-  .ladder i.unk { background: none; box-shadow: inset 0 0 0 1.5px #e0e0e4; }
-  .ladder b { margin-left: 5px; font: 600 12px var(--mono);
-              font-variant-numeric: tabular-nums; }
-  .ladder u { text-decoration: none; color: var(--dim); font: 11px var(--mono);
+  .ladder i.unk {{ background: none; box-shadow: inset 0 0 0 1.5px #e0e0e4; }}
+  .ladder b {{ margin-left: 5px; font: 600 12px var(--mono);
+              font-variant-numeric: tabular-nums; }}
+  .ladder u {{ text-decoration: none; color: var(--dim); font: 11px var(--mono);
               margin-left: 6px; overflow: hidden; text-overflow: ellipsis;
-              white-space: nowrap; }
-  .ladder.big i { width: 12px; height: 12px; }
-  .ladder.big b { font-size: 14px; }
+              white-space: nowrap; }}
+  .ladder.big i {{ width: 12px; height: 12px; }}
+  .ladder.big b {{ font-size: 14px; }}
 
-  .more { margin-top: 8px; }
-  .more summary { cursor: pointer; color: var(--dim); font: 11px var(--mono);
-                  list-style: none; padding: 2px 0; }
-  .more summary::-webkit-details-marker { display: none; }
-  .more summary::before { content: "+ "; }
-  .more[open] summary::before { content: "- "; }
-  .more summary:hover { color: var(--ink); }
-  .more .kv { margin-top: 4px; }
+  .more {{ margin-top: 8px; }}
+  .more summary {{ cursor: pointer; color: var(--dim); font: 11px var(--mono);
+                  list-style: none; padding: 2px 0; }}
+  .more summary::-webkit-details-marker {{ display: none; }}
+  .more summary::before {{ content: "+ "; }}
+  .more[open] summary::before {{ content: "- "; }}
+  .more summary:hover {{ color: var(--ink); }}
+  .more .kv {{ margin-top: 4px; }}
 
-  .wladder { margin: 14px 0 2px; display: flex; flex-wrap: wrap;
-             align-items: center; gap: 10px 26px; }
-  .wchar { display: flex; flex-wrap: wrap; gap: 4px 22px; }
-  .wchar span { display: flex; flex-direction: column; }
-  .wchar u { text-decoration: none; color: var(--dim); font: 10px var(--mono);
-             letter-spacing: .05em; text-transform: uppercase; }
-  .wchar b { font: 600 13px var(--mono); font-variant-numeric: tabular-nums; }
-  .kv span { color: var(--dim); }
-  .kv b { font: 500 12.5px var(--mono); font-variant-numeric: tabular-nums;
-          text-align: right; letter-spacing: -.1px; }
+  .wladder {{ margin: 14px 0 2px; display: flex; flex-wrap: wrap;
+             align-items: center; gap: 10px 26px; }}
+  .wchar {{ display: flex; flex-wrap: wrap; gap: 4px 22px; }}
+  .wchar span {{ display: flex; flex-direction: column; }}
+  .wchar u {{ text-decoration: none; color: var(--dim); font: 10px var(--mono);
+             letter-spacing: .05em; text-transform: uppercase; }}
+  .wchar b {{ font: 600 13px var(--mono); font-variant-numeric: tabular-nums; }}
+  .kv span {{ color: var(--dim); }}
+  .kv b {{ font: 500 12.5px var(--mono); font-variant-numeric: tabular-nums;
+          text-align: right; letter-spacing: -.1px; }}
   /* labelled: an unlabelled bar chart of keys says nothing about which key */
   /* the glyph rides on the foot of its own bar, which costs no extra height */
-  .spark { display: flex; gap: 4px; align-items: flex-end; height: 34px;
-           margin-top: 12px; }
-  .spark > div { flex: 1; min-width: 0; height: 100%; position: relative;
-                 display: flex; align-items: flex-end; }
-  .spark i { width: 100%; background: #d4d4d4; border-radius: 2px 2px 0 0;
-             min-height: 2px; }
-  .spark > div:hover i { background: #a3a3a3; }
-  .spark u { position: absolute; left: 0; right: 0; bottom: 1px;
+  .spark {{ display: flex; gap: 4px; align-items: flex-end; height: 34px;
+           margin-top: 12px; }}
+  .spark > div {{ flex: 1; min-width: 0; height: 100%; position: relative;
+                 display: flex; align-items: flex-end; }}
+  .spark i {{ width: 100%; background: #d4d4d4; border-radius: 2px 2px 0 0;
+             min-height: 2px; }}
+  .spark > div:hover i {{ background: #a3a3a3; }}
+  .spark u {{ position: absolute; left: 0; right: 0; bottom: 1px;
              text-align: center; text-decoration: none; font: 10px var(--mono);
-             color: var(--ink); line-height: 1; pointer-events: none; }
+             color: var(--ink); line-height: 1; pointer-events: none; }}
 
-  .why { display: inline-flex; align-items: center; gap: 4px; font: 11px var(--mono);
-         color: var(--dim); white-space: nowrap; }
-  .why.ok { color: var(--ok); } .why.warn { color: var(--warn); }
-  .why.bad { color: var(--bad); }
+  .why {{ display: inline-flex; align-items: center; gap: 4px; font: 11px var(--mono);
+         color: var(--dim); white-space: nowrap; }}
+  .why.ok {{ color: var(--ok); }} .why.warn {{ color: var(--warn); }}
+  .why.bad {{ color: var(--bad); }}
 
   /* ---------- list ---------- */
-  .rows { border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
-          background: var(--panel); }
-  .row { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 8px;
-         align-items: center; border-top: 1px solid var(--line); }
-  .row:first-child { border-top: 0; }
-  .row:nth-child(even) { background: #fbfcfd; }
-  .row .clip, .row video, .row .none { width: 140px; border-radius: 4px; }
-  .row video { display: block; aspect-ratio: 320/232; background: #eef0f3;
-               image-rendering: pixelated; }
-  .f { display: grid; gap: 3px 18px; align-items: center;
-       grid-template-columns: minmax(140px, 1.2fr) repeat(auto-fit, minmax(70px, 1fr)); }
-  .f div { min-width: 0; }
-  .f u { display: block; text-decoration: none; color: var(--dim);
-         font: 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; }
-  .f b { display: block; font: 500 13px var(--mono); font-variant-numeric: tabular-nums; }
-  .f .nm b { font-weight: 600; font-size: 13.5px; word-break: break-all;
-             display: flex; align-items: center; gap: 5px; }
-  .msg { color: var(--dim); text-align: center; padding: 52px 0; font: 12px var(--mono); }
+  .rows {{ border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+          background: var(--panel); }}
+  .row {{ display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 8px;
+         align-items: center; border-top: 1px solid var(--line); }}
+  .row:first-child {{ border-top: 0; }}
+  .row:nth-child(even) {{ background: #fbfcfd; }}
+  .row .clip, .row video, .row .none {{ width: 140px; border-radius: 4px; }}
+  .row video {{ display: block; aspect-ratio: 320/232; background: #eef0f3;
+               image-rendering: pixelated; }}
+  .f {{ display: grid; gap: 3px 18px; align-items: center;
+       grid-template-columns: minmax(140px, 1.2fr) repeat(auto-fit, minmax(70px, 1fr)); }}
+  .f div {{ min-width: 0; }}
+  .f u {{ display: block; text-decoration: none; color: var(--dim);
+         font: 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; }}
+  .f b {{ display: block; font: 500 13px var(--mono); font-variant-numeric: tabular-nums; }}
+  .f .nm b {{ font-weight: 600; font-size: 13.5px; word-break: break-all;
+             display: flex; align-items: center; gap: 5px; }}
+  .msg {{ color: var(--dim); text-align: center; padding: 52px 0; font: 12px var(--mono); }}
 
   /* ---------- live ---------- */
   /* Green, not red: a run in progress is healthy, not an alarm. */
-  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--ok);
+  .pulse {{ width: 7px; height: 7px; border-radius: 50%; background: var(--ok);
            display: inline-block; animation: p 1.6s ease-in-out infinite; flex: none;
-           box-shadow: 0 0 0 3px rgba(22,121,74,.14); }
-  @keyframes p { 50% { opacity: .3; } }
-  .card.on, .row.on { border-color: #a9c9b6; }
-  .live-cv { width: 100%; display: block; background: #0b1220;
-             image-rendering: pixelated; aspect-ratio: 320/200; object-fit: cover; }
-  .row .live-cv { width: 140px; border-radius: 4px; }
-  .runtag { display: inline-flex; align-items: center; gap: 5px; font: 11px var(--mono);
-            color: var(--ok); }
+           box-shadow: 0 0 0 3px rgba(22,121,74,.14); }}
+  @keyframes p {{ 50% {{ opacity: .3; }} }}
+  .card.on, .row.on {{ border-color: #a9c9b6; }}
+  .live-cv {{ width: 100%; display: block; background: #0b1220;
+             image-rendering: pixelated; aspect-ratio: 320/200; object-fit: cover; }}
+  .row .live-cv {{ width: 140px; border-radius: 4px; }}
+  .runtag {{ display: inline-flex; align-items: center; gap: 5px; font: 11px var(--mono);
+            color: var(--ok); }}
 
   /* ---------- watch ---------- */
   /* One flag on the body rather than per element hidden, so the five second
@@ -312,156 +518,156 @@
   body.watching header, body.watching .bar, body.watching main,
   body.watching #board,
   body.reading header, body.reading .bar, body.reading main,
-  body.reading #board { display: none; }
-  body:not(.watching) #watch, body:not(.reading) #doc { display: none; }
+  body.reading #board {{ display: none; }}
+  body:not(.watching) #watch, body:not(.reading) #doc {{ display: none; }}
 
-  .doc { margin: 0; background: var(--panel); border: 1px solid var(--line);
+  .doc {{ margin: 0; background: var(--panel); border: 1px solid var(--line);
          border-radius: 8px; padding: 22px 24px; max-width: 900px;
          font: 12.5px/1.8 var(--mono); white-space: pre-wrap; word-break: break-word;
-         overflow-x: auto; }
-  .wtop { display: flex; align-items: center; gap: 12px; padding: 22px 0 14px; }
-  .wtop b { font-size: 15px; }
-  .wro { margin-left: auto; font-size: 11px; color: var(--dim);
-         border: 1px solid var(--line); border-radius: 20px; padding: 2px 9px; }
+         overflow-x: auto; }}
+  .wtop {{ display: flex; align-items: center; gap: 12px; padding: 22px 0 14px; }}
+  .wtop b {{ font-size: 15px; }}
+  .wro {{ margin-left: auto; font-size: 11px; color: var(--dim);
+         border: 1px solid var(--line); border-radius: 20px; padding: 2px 9px; }}
   body:not(.islive) .wro, body:not(.islive) #wleft,
-  body:not(.islive) .wtop .pulse { display: none; }
-  .screen { position: relative; background: #0b1220; border: 1px solid var(--edge);
-            border-radius: 8px; padding: 14px; display: grid; place-items: center; }
-  #cv { image-rendering: pixelated; display: block; width: 100%; max-width: 960px;
-        aspect-ratio: 320/200; background: #000; }
-  #veil { position: absolute; inset: 0; display: grid; place-items: center;
+  body:not(.islive) .wtop .pulse {{ display: none; }}
+  .screen {{ position: relative; background: #0b1220; border: 1px solid var(--edge);
+            border-radius: 8px; padding: 14px; display: grid; place-items: center; }}
+  #cv {{ image-rendering: pixelated; display: block; width: 100%; max-width: 960px;
+        aspect-ratio: 320/200; background: #000; }}
+  #veil {{ position: absolute; inset: 0; display: grid; place-items: center;
           color: #8a93a3; font: 12px var(--mono); background: #0b1220;
-          border-radius: 8px; }
-  #veil.gone { display: none; }
-  #vid { image-rendering: pixelated; display: block; width: 100%;
+          border-radius: 8px; }}
+  #veil.gone {{ display: none; }}
+  #vid {{ image-rendering: pixelated; display: block; width: 100%;
          max-width: 960px; background: #000; aspect-ratio: 320/232;
-         object-fit: contain; }
+         object-fit: contain; }}
 
   /* ---------- replay transport ---------- */
-  .player { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-  .track { position: relative; flex: 1; height: 26px; cursor: pointer;
-           display: flex; align-items: center; }
-  .track::before { content: ""; position: absolute; left: 0; right: 0; height: 4px;
-                   background: var(--line); border-radius: 2px; }
-  .fill { position: absolute; left: 0; height: 4px; background: var(--ink);
-          border-radius: 2px; width: 0; }
-  .marks { position: absolute; inset: 0; pointer-events: none; }
+  .player {{ display: flex; align-items: center; gap: 8px; margin-top: 12px; }}
+  .track {{ position: relative; flex: 1; height: 26px; cursor: pointer;
+           display: flex; align-items: center; }}
+  .track::before {{ content: ""; position: absolute; left: 0; right: 0; height: 4px;
+                   background: var(--line); border-radius: 2px; }}
+  .fill {{ position: absolute; left: 0; height: 4px; background: var(--ink);
+          border-radius: 2px; width: 0; }}
+  .marks {{ position: absolute; inset: 0; pointer-events: none; }}
   /* every action is a tick you can aim at; the taller ones are held keys */
-  .marks i { position: absolute; top: 50%; width: 2px; margin-top: -7px;
-             height: 14px; background: #c4c4c4; border-radius: 1px; }
-  .marks i.long { height: 20px; margin-top: -10px; background: #9a9a9a; }
-  .head { position: absolute; width: 3px; height: 16px; margin-left: -1px;
-          background: var(--ink); border-radius: 2px; left: 0; }
-  .tc { font-size: 12px; color: var(--dim); min-width: 72px; text-align: right;
-        font-variant-numeric: tabular-nums; }
+  .marks i {{ position: absolute; top: 50%; width: 2px; margin-top: -7px;
+             height: 14px; background: #c4c4c4; border-radius: 1px; }}
+  .marks i.long {{ height: 20px; margin-top: -10px; background: #9a9a9a; }}
+  .head {{ position: absolute; width: 3px; height: 16px; margin-left: -1px;
+          background: var(--ink); border-radius: 2px; left: 0; }}
+  .tc {{ font-size: 12px; color: var(--dim); min-width: 72px; text-align: right;
+        font-variant-numeric: tabular-nums; }}
 
   /* One lane per key, marks where it was pressed, width for how long it was
      held. Anonymous ticks could not say which key or for how long. */
-  .roll { display: grid; grid-template-columns: 34px 1fr; gap: 8px;
+  .roll {{ display: grid; grid-template-columns: 34px 1fr; gap: 8px;
           margin-top: 10px; background: var(--panel); border: 1px solid var(--line);
-          border-radius: var(--r); padding: 8px 10px 8px 8px; }
-  .lanes { display: grid; }
-  .lanes span { height: 15px; display: flex; align-items: center;
+          border-radius: var(--r); padding: 8px 10px 8px 8px; }}
+  .lanes {{ display: grid; }}
+  .lanes span {{ height: 15px; display: flex; align-items: center;
                 justify-content: flex-end; font: 11px var(--mono);
-                color: var(--dim); }
-  .gridwrap { position: relative; }
-  .rgrid { position: relative; cursor: pointer; }
-  .rgrid .lane { position: absolute; left: 0; right: 0; height: 15px; }
-  .rgrid .lane::before { content: ""; position: absolute; left: 0; right: 0;
-                         top: 7px; height: 1px; background: var(--line); }
-  .rgrid b { position: absolute; top: 3px; height: 9px; min-width: 2px;
-             background: #9a9a9a; border-radius: 2px; }
-  .rgrid b.long { background: var(--ink); }
+                color: var(--dim); }}
+  .gridwrap {{ position: relative; }}
+  .rgrid {{ position: relative; cursor: pointer; }}
+  .rgrid .lane {{ position: absolute; left: 0; right: 0; height: 15px; }}
+  .rgrid .lane::before {{ content: ""; position: absolute; left: 0; right: 0;
+                         top: 7px; height: 1px; background: var(--line); }}
+  .rgrid b {{ position: absolute; top: 3px; height: 9px; min-width: 2px;
+             background: #9a9a9a; border-radius: 2px; }}
+  .rgrid b.long {{ background: var(--ink); }}
   /* while live, the head is the run's own clock: red, slowly breathing */
-  .islive .rhead { background: #e5484d; width: 2px;
-                   animation: lhead 2.4s ease-in-out infinite; }
-  @keyframes lhead { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-  .rcursor { position: absolute; top: 0; bottom: 0; width: 1.5px;
-             margin-left: -.75px; background: var(--dim); pointer-events: none; }
-  .rgrid { touch-action: none; }
-  .rhead { position: absolute; top: 0; bottom: 0; width: 1.5px; margin-left: -.75px;
-           background: var(--accent); pointer-events: none; z-index: 2; }
-  #rate { height: 30px; }
-  .wkeys { display: flex; gap: 6px; flex-wrap: wrap; min-height: 30px;
-           padding: 12px 2px 0; font-size: 12px; }
-  .wkeys i { font-style: normal; border: 1px solid var(--line); border-radius: 5px;
-             padding: 3px 9px; background: var(--panel); color: var(--dim); }
-  .wkeys i.on { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .wkeys i u { text-decoration: none; opacity: .65; margin-left: 5px;
-               font-size: 10.5px; }
+  .islive .rhead {{ background: #e5484d; width: 2px;
+                   animation: lhead 2.4s ease-in-out infinite; }}
+  @keyframes lhead {{ 0%, 100% {{ opacity: 1; }} 50% {{ opacity: 0.35; }} }}
+  .rcursor {{ position: absolute; top: 0; bottom: 0; width: 1.5px;
+             margin-left: -.75px; background: var(--dim); pointer-events: none; }}
+  .rgrid {{ touch-action: none; }}
+  .rhead {{ position: absolute; top: 0; bottom: 0; width: 1.5px; margin-left: -.75px;
+           background: var(--accent); pointer-events: none; z-index: 2; }}
+  #rate {{ height: 30px; }}
+  .wkeys {{ display: flex; gap: 6px; flex-wrap: wrap; min-height: 30px;
+           padding: 12px 2px 0; font-size: 12px; }}
+  .wkeys i {{ font-style: normal; border: 1px solid var(--line); border-radius: 5px;
+             padding: 3px 9px; background: var(--panel); color: var(--dim); }}
+  .wkeys i.on {{ background: var(--ink); color: #fff; border-color: var(--ink); }}
+  .wkeys i u {{ text-decoration: none; opacity: .65; margin-left: 5px;
+               font-size: 10.5px; }}
 
-  #wstats { margin-top: 14px; }
-  #wstats div { display: block; padding: 11px 16px; }
-  #wstats u { display: block; text-decoration: none; color: var(--dim);
+  #wstats {{ margin-top: 14px; }}
+  #wstats div {{ display: block; padding: 11px 16px; }}
+  #wstats u {{ display: block; text-decoration: none; color: var(--dim);
               font: 10px var(--mono); letter-spacing: .05em;
-              text-transform: uppercase; margin-bottom: 2px; }
-  .panes { display: grid; gap: 16px; margin-top: 16px;
-           grid-template-columns: minmax(240px, 1fr) minmax(300px, 1.5fr); }
-  .pane { min-width: 0; }
-  .lbl { margin: 0 0 7px; font: 11px var(--mono); letter-spacing: .09em;
-         text-transform: uppercase; color: var(--dim); }
-  .curve { width: 100%; height: 60px; display: block; overflow: visible; }
-  .curve path { fill: none; stroke: var(--ink); stroke-width: 1.6;
-                vector-effect: non-scaling-stroke; }
-  .curve .base { stroke: #d4d4d4; stroke-dasharray: 3 3; }
-  .hist { background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-          padding: 12px 14px; display: grid; gap: 5px; }
-  .hist div { display: grid; grid-template-columns: 46px 1fr 32px; gap: 10px;
+              text-transform: uppercase; margin-bottom: 2px; }}
+  .panes {{ display: grid; gap: 16px; margin-top: 16px;
+           grid-template-columns: minmax(240px, 1fr) minmax(300px, 1.5fr); }}
+  .pane {{ min-width: 0; }}
+  .lbl {{ margin: 0 0 7px; font: 11px var(--mono); letter-spacing: .09em;
+         text-transform: uppercase; color: var(--dim); }}
+  .curve {{ width: 100%; height: 60px; display: block; overflow: visible; }}
+  .curve path {{ fill: none; stroke: var(--ink); stroke-width: 1.6;
+                vector-effect: non-scaling-stroke; }}
+  .curve .base {{ stroke: #d4d4d4; stroke-dasharray: 3 3; }}
+  .hist {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+          padding: 12px 14px; display: grid; gap: 5px; }}
+  .hist div {{ display: grid; grid-template-columns: 46px 1fr 32px; gap: 10px;
               align-items: center; font: 12px var(--mono);
-              font-variant-numeric: tabular-nums; }
-  .hist u { text-decoration: none; color: var(--dim); }
-  .hist i { display: block; height: 8px; background: #a3a3a3; border-radius: 2px; }
-  .hist b { font-weight: 500; text-align: right; color: var(--dim); }
-  .log { background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-         max-height: 340px; overflow-y: auto; }
-  .log .r { display: grid; grid-template-columns: 62px 46px 1fr auto; gap: 12px;
+              font-variant-numeric: tabular-nums; }}
+  .hist u {{ text-decoration: none; color: var(--dim); }}
+  .hist i {{ display: block; height: 8px; background: #a3a3a3; border-radius: 2px; }}
+  .hist b {{ font-weight: 500; text-align: right; color: var(--dim); }}
+  .log {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+         max-height: 340px; overflow-y: auto; }}
+  .log .r {{ display: grid; grid-template-columns: 62px 46px 1fr auto; gap: 12px;
             padding: 5px 12px; border-top: 1px solid var(--line);
             font: 12px var(--mono); font-variant-numeric: tabular-nums;
-            align-items: baseline; }
-  .log .r:first-child { border-top: 0; }
-  .log .t { color: var(--dim); }
-  .log .v { color: var(--dim); font-size: 11px; }
-  .log .d { color: var(--dim); text-align: right; }
-  .log .bad { color: var(--bad); }
-  .log .seek { cursor: pointer; }
-  .log .seek:hover { background: #f5f5f5; }
-  @media (max-width: 760px) { .panes { grid-template-columns: 1fr; } }
+            align-items: baseline; }}
+  .log .r:first-child {{ border-top: 0; }}
+  .log .t {{ color: var(--dim); }}
+  .log .v {{ color: var(--dim); font-size: 11px; }}
+  .log .d {{ color: var(--dim); text-align: right; }}
+  .log .bad {{ color: var(--bad); }}
+  .log .seek {{ cursor: pointer; }}
+  .log .seek:hover {{ background: #f5f5f5; }}
+  @media (max-width: 760px) {{ .panes {{ grid-template-columns: 1fr; }} }}
 
-  footer { padding: 26px 0 38px; font: 11.5px var(--mono); }
-  footer a { color: var(--dim); }
-  .backend { color: var(--dim); }
-  .backend::before { content: " \00b7 "; }
-  .backend.down { opacity: .7; }
+  footer {{ padding: 26px 0 38px; font: 11.5px var(--mono); }}
+  footer a {{ color: var(--dim); }}
+  .backend {{ color: var(--dim); }}
+  .backend::before {{ content: " \00b7 "; }}
+  .backend.down {{ opacity: .7; }}
 
   /* Give the line the whole box width before shrinking the type to nothing
      beside the controls. Breakpoint sits just under .oneline's max-width. */
-  @media (max-width: 780px) {
-    .oneline { flex-wrap: wrap; }
-    .oneline code { flex: 1 0 100%; order: -1; border-bottom: 1px solid var(--edge); }
-    .mins { border-right: 1px solid var(--edge); }
-    .oneline button { flex: 1; justify-content: center; }
-  }
-  @media (max-width: 620px) {
-    .row { grid-template-columns: 1fr; }
-    .row video, .row .none, .row .clip, .row .live-cv { width: 100%; }
-    h1 { font-size: 17px; }
-    .wrap { padding: 0 16px; }
-    header { padding: 14px 0 20px; }
-    .hero { padding: 20px 0 0; }
-    .rules { flex-wrap: nowrap; }
-    .rules svg { width: 11px; height: 11px; }
-    .rules b { font-size: 11px; }
-    .rules { gap: 9px; }
-    #wstats div { padding: 9px 8px; text-align: center; }
-    #wstats u { font-size: 9px; }
-    .grid { grid-template-columns: 1fr; }
-    .bar { padding: 18px 0 12px; }
-    .panes { grid-template-columns: 1fr; }
-    .log .r { grid-template-columns: 58px 40px 1fr auto; gap: 8px;
-              padding: 5px 10px; font-size: 11px; }
-    .wtop { gap: 8px; }
-    .wro { display: none; }
-  }
+  @media (max-width: 780px) {{
+    .oneline {{ flex-wrap: wrap; }}
+    .oneline code {{ flex: 1 0 100%; order: -1; border-bottom: 1px solid var(--edge); }}
+    .mins {{ border-right: 1px solid var(--edge); }}
+    .oneline button {{ flex: 1; justify-content: center; }}
+  }}
+  @media (max-width: 620px) {{
+    .row {{ grid-template-columns: 1fr; }}
+    .row video, .row .none, .row .clip, .row .live-cv {{ width: 100%; }}
+    h1 {{ font-size: 17px; }}
+    .wrap {{ padding: 0 16px; }}
+    header {{ padding: 14px 0 20px; }}
+    .hero {{ padding: 20px 0 0; }}
+    .rules {{ flex-wrap: nowrap; }}
+    .rules svg {{ width: 11px; height: 11px; }}
+    .rules b {{ font-size: 11px; }}
+    .rules {{ gap: 9px; }}
+    #wstats div {{ padding: 9px 8px; text-align: center; }}
+    #wstats u {{ font-size: 9px; }}
+    .grid {{ grid-template-columns: 1fr; }}
+    .bar {{ padding: 18px 0 12px; }}
+    .panes {{ grid-template-columns: 1fr; }}
+    .log .r {{ grid-template-columns: 58px 40px 1fr auto; gap: 8px;
+              padding: 5px 10px; font-size: 11px; }}
+    .wtop {{ gap: 8px; }}
+    .wro {{ display: none; }}
+  }}
 </style>
 </head>
 <body>
@@ -470,9 +676,9 @@
 <div class="wrap">
 <header>
   <div class="top">
-    <div class="rules" id="stats"><div title="live"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 8h3l2-4.5L9 12.5l2-4.5h3.5"/></svg><b data-s="0">-</b></div><div title="runs"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.5" width="12.4" height="9" rx="1.4"/><path d="M6.5 6.4v3.2l3-1.6z"/></svg><b data-s="1">-</b></div><div title="models"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="7" height="7" rx="1"/><path d="M6.6 1.8v2.7M9.4 1.8v2.7M6.6 11.5v2.7M9.4 11.5v2.7M1.8 6.6h2.7M1.8 9.4h2.7M11.5 6.6h2.7M11.5 9.4h2.7"/></svg><b data-s="2">-</b></div><div title="played"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.4V8l2.4 1.6"/></svg><b data-s="3">-</b></div></div>
+    <div class="rules" id="stats">{stats_skeleton}</div>
     <div class="acts">
-      <a class="ico lang" href="../">中文</a>
+      <a class="ico lang" href="{other_href}">{other}</a>
       <a class="ico" href="https://github.com/hanxiao/jy-crpg-bench" title="GitHub">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
       </a>
@@ -480,22 +686,22 @@
   </div>
   <div class="hero">
     <h1><span class="px">jy-crpg-bench</span></h1>
-    <p class="tagline">A long-horizon CRPG benchmark for frontier agents</p>
+    <p class="tagline">{tagline}</p>
 
   <div class="oneline">
-    <select id="mins" class="mins" title="total playtime" aria-label="total playtime"><option value="240" selected>4 hours</option><option value="20">20 min</option><option value="60">1 hour</option><option value="480">8 hours</option><option value="1440">24 hours</option></select>
-    <code id="one">Read %U% and play it.</code>
-    <button id="view" title="view">
+    <select id="mins" class="mins" title="{playtime}" aria-label="{playtime}">{opts_html}</select>
+    <code id="one">{oneline}</code>
+    <button id="view" title="{view}">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.5"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z"/>
         <circle cx="8" cy="8" r="1.9"/></svg>
-      <span>view</span>
+      <span>{view}</span>
     </button>
-    <button id="copy" title="copy">
+    <button id="copy" title="{copy}">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.5"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5"/>
         <path d="M10.5 3.5v-1a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h1"/></svg>
-      <span>copy</span>
+      <span>{copy}</span>
     </button>
   </div>
   </div>
@@ -503,20 +709,20 @@
 
 <div class="bar">
   <div class="seg" id="viewseg">
-    <button class="ico" data-v="grid" aria-pressed="true" title="grid">
+    <button class="ico" data-v="grid" aria-pressed="true" title="{grid}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.4"><rect x="1.8" y="1.8" width="5" height="5" rx="1"/>
         <rect x="9.2" y="1.8" width="5" height="5" rx="1"/>
         <rect x="1.8" y="9.2" width="5" height="5" rx="1"/>
         <rect x="9.2" y="9.2" width="5" height="5" rx="1"/></svg>
     </button>
-    <button class="ico" data-v="list" aria-pressed="false" title="list">
+    <button class="ico" data-v="list" aria-pressed="false" title="{list}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.4" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
     </button>
   </div>
-  <select id="sort" class="mono" title="sort"></select>
-  <button class="ico" id="dir" title="descending">
+  <select id="sort" class="mono" title="{sort}"></select>
+  <button class="ico" id="dir" title="{desc}">
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
          stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" id="dirsvg">
       <path d="M8 3v10M4.5 9.5 8 13l3.5-3.5"/></svg>
@@ -524,22 +730,22 @@
   <span class="n" id="count"></span>
 </div>
 
-<main><div id="out" class="msg">loading</div></main>
+<main><div id="out" class="msg">{loading}</div></main>
 
 <section id="board">
-  <h2 class="bh">leaderboard</h2>
+  <h2 class="bh">{board}</h2>
   <div class="prov mono">
-    <div><u>edition</u><b id="pved">-</b></div>
-    <div><u>total runs</u><b id="pvruns">-</b></div>
-    <div><u>updated</u><b id="pvup">-</b></div>
-    <div><u>engine</u><b>DOSBox Pure</b></div>
+    <div><u>{b_edition}</u><b id="pved">-</b></div>
+    <div><u>{b_runs_n}</u><b id="pvruns">-</b></div>
+    <div><u>{b_updated}</u><b id="pvup">-</b></div>
+    <div><u>{b_engine}</u><b>DOSBox Pure</b></div>
   </div>
-  <p class="bhow">Every score comes from really running the unmodified 1996 game. No model judges another. All runs executed here, none vendor-reported.</p>
+  <p class="bhow">{b_how}</p>
   <div class="seg bviews" id="bviews">
-    <button data-b="ladder"   aria-pressed="true">progress</button>
-    <button data-b="progress" aria-pressed="false">character</button>
-    <button data-b="frontier" aria-pressed="false">trade-off</button>
-    <button data-b="overview" aria-pressed="false">behaviour</button>
+    <button data-b="ladder"   aria-pressed="true">{b_ladder}</button>
+    <button data-b="progress" aria-pressed="false">{b_progress}</button>
+    <button data-b="frontier" aria-pressed="false">{b_front}</button>
+    <button data-b="overview" aria-pressed="false">{b_overview}</button>
   </div>
   <div id="btable"></div>
   <p class="bnote" id="bnote"></p>
@@ -547,13 +753,13 @@
 
 <section id="doc">
   <div class="wtop">
-    <button class="ico" id="docback" title="back">
+    <button class="ico" id="docback" title="{back}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M10 3 5 8l5 5"/></svg>
     </button>
     <b class="mono">agents.md</b>
-    <a class="ico" data-brief href="agents.md" title="raw" style="margin-left:auto">
+    <a class="ico" data-brief href="{md}" title="{raw}" style="margin-left:auto">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M8 2v8M5 7.5 8 10.5l3-3M2.5 12.5v1h11v-1"/></svg>
@@ -564,32 +770,32 @@
 
 <section id="watch">
   <div class="wtop">
-    <button class="ico" id="back" title="back">
+    <button class="ico" id="back" title="{back}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M10 3 5 8l5 5"/></svg>
     </button>
     <b id="wname" class="mono"></b>
     <span class="why warn"><span class="pulse"></span><span id="wleft"></span></span>
-    <span class="wro mono">read-only</span>
+    <span class="wro mono">{watching}</span>
   </div>
   <div class="screen">
     <canvas id="cv" width="320" height="200"></canvas>
     <video id="vid" muted playsinline preload="metadata" hidden></video>
-    <div id="veil">waiting for the first frame</div>
+    <div id="veil">{waiting}</div>
   </div>
 
   <div id="player" class="player" hidden>
-    <button class="ico" id="pp" title="play/pause">
+    <button class="ico" id="pp" title="{playpause}">
       <svg id="ppi" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"
         ><path d="M5 3.2v9.6l7.5-4.8z"/></svg>
     </button>
-    <button class="ico" id="prev" title="previous action">
+    <button class="ico" id="prev" title="{prevact}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M11 3 6 8l5 5M4.5 3v10"/></svg>
     </button>
-    <button class="ico" id="next" title="next action">
+    <button class="ico" id="next" title="{nextact}">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M5 3l5 5-5 5M11.5 3v10"/></svg>
@@ -599,12 +805,12 @@
       <div class="head" id="head"></div>
     </div>
     <span class="tc mono" id="tc">0:00</span>
-    <select id="rate" class="mono" title="speed" aria-label="speed">
+    <select id="rate" class="mono" title="{speed}" aria-label="{speed}">
       <option value="0.5">0.5x</option><option value="1">1x</option>
       <option value="2">2x</option><option value="4">4x</option>
       <option value="8" selected>8x</option>
     </select>
-    <a class="ico" id="dl" title="download MP4" download>
+    <a class="ico" id="dl" title="{download}" download>
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
            stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
         ><path d="M8 2v8M5 7.5 8 10.5l3-3M2.5 12.5v1h11v-1"/></svg>
@@ -626,35 +832,35 @@
   <div id="wladder" class="wladder"></div>
 
   <div class="rules" id="wstats">
-    <div><u>decision calls</u><b data-w="0">-</b></div>
-    <div><u>decisions/s</u><b data-w="1">-</b></div>
-    <div><u>elapsed</u><b data-w="2">-</b></div>
-    <div><u>screen-changing</u><b data-w="3">-</b></div>
+    <div><u>{cols_actions}</u><b data-w="0">-</b></div>
+    <div><u>{cols_aps}</u><b data-w="1">-</b></div>
+    <div><u>{uptime}</u><b data-w="2">-</b></div>
+    <div><u>{explored}</u><b data-w="3">-</b></div>
   </div>
 
   <div class="panes">
     <div class="pane">
-      <p class="lbl">screen changes vs decisions</p>
+      <p class="lbl">{progress}</p>
       <div class="hist" style="padding:10px 12px"><svg id="wcurve" class="curve"
         viewBox="0 0 240 60" preserveAspectRatio="none"></svg></div>
-      <p class="lbl" style="margin-top:14px">key distribution</p>
+      <p class="lbl" style="margin-top:14px">{hist}</p>
       <div id="whist" class="hist"></div>
     </div>
     <div class="pane">
-      <p class="lbl">action log</p>
-      <div id="wlog" class="log"><p class="msg">no decisions yet</p></div>
+      <p class="lbl">{log}</p>
+      <div id="wlog" class="log"><p class="msg">{nolog}</p></div>
     </div>
   </div>
 </section>
 
 <footer>
-  <a data-brief href="agents.md">agents.md</a>
+  <a data-brief href="{md}">agents.md</a>
   <span id="backend" class="backend"></span>
 </footer>
 </div>
 
 <script>
-const T = {"oneline": "Read %U% and play it.", "base": "https://hanxiao.io/jy-crpg-bench/en/", "view": "view", "raw": "raw", "copy": "copy", "copied": "copied", "runs": "runs", "run1": "run", "empty": "no runs yet", "gone": "catalogue unavailable", "backend": "backend", "backend_down": "backend unreachable", "asc": "ascending", "desc": "descending", "cols": {"started": "when", "meaningful": "screen-changing decisions", "oscillation": "oscillation", "actions": "decision calls", "aps": "decisions/s", "exit_acts": "first-black proxy", "ttfa": "1st action", "gap_p50": "think p50", "gap_p95": "think p95", "distinct_keys": "key space", "reads": "screens", "played": "played", "usage_total": "tokens", "reason": "ended by"}, "agent": "agent", "video": "video", "novideo": "no video", "full": "finished", "idle": "went idle", "never": "never started", "err": "error", "publish_err": "recording or publication error", "keyspace": "action space", "live": "live now", "watch": "watch", "back": "back", "watching": "read-only", "running": "running", "log": "action log", "hist": "key distribution", "explored": "screen-changing", "progress": "screen changes vs decisions", "board": "leaderboard", "b_rank": "rank", "b_model": "model", "b_runs": "runs", "b_overview": "behaviour", "b_speed": "speed", "b_effort": "effort", "b_rely": "reliability", "b_score": "screen-changing decision ratio", "b_aps": "decisions/s", "b_acts": "decision calls", "b_think": "think p50 / p95", "b_keys": "key variety", "b_ttfa": "1st action", "b_done": "finished", "b_err": "errors", "b_played": "played", "b_edition": "edition", "b_runs_n": "total runs", "b_updated": "updated", "b_engine": "engine", "b_how": "Every score comes from really running the unmodified 1996 game. No model judges another. All runs executed here, none vendor-reported.", "b_ci": "Intervals are 95% Wilson references assuming independent decisions. Decisions within a run are correlated, so these do not establish model differences across runs.", "b_thin": "Older records without raw change counts are approximated from their saved ratios; unmeasured records do not enter the denominator.", "b_base": "baseline", "b_nocost": "Cost is not a ranking axis: token usage is reported by the harness that ran the model (the provider's meter, not the model's claim), and shown on the run record.", "b_usage": "token usage", "b_usage_unit": "tokens", "b_usage_turn": "turns", "b_usage_think": "thinking", "b_n_speed": "Faster is not better: the baseline leads because it does not think.", "b_n_effort": "More decision calls is not better: the baseline leads because it never stops to look.", "b_n_rely": "Request errors are not counted. Historical zero values were placeholders and do not establish an error-free run.", "b_front": "trade-off", "b_mact": "screen-changing decisions", "b_scenes": "black-frame segments", "b_reach": "ground covered", "b_exit": "first-black proxy", "b_map": "world map", "m_map": "reached the world map", "b_n_exit": "First exit currently uses the first decision that detects a fully black frame as a proxy; black alone does not establish its cause. The screen-changing ratio compares adjacent decision results, not uniform environment steps. The world-map flag matches a reference fingerprint calibrated just outside the spawn exit.", "b_ladder": "progress", "b_more": "more", "b_reads": "looks / decision", "b_inputs": "decisions · submitted keys · requested held frames", "m_act": "acted", "m_move": "screen responded", "m_item": "picked something up", "m_exp": "gained experience", "m_level": "reached level 2", "m_party": "recruited a companion", "m_book": "holds one of the fourteen", "m_compass": "holds the compass", "b_books": "books", "b_party": "party", "b_n_ladder": "Eight verifiable milestones. All but the first are the game's own numbers, read from its save and its character records rather than inferred from the picture. They show what a run achieved without assuming every milestone must occur in one order. A hollow rung means that run predates the measurement, not that it failed.", "b_progress": "character", "b_level": "level", "b_char": "level · skills · items", "b_exp": "exp", "b_skills": "skills", "b_items": "item types", "b_n_progress": "The game's own character and shared-inventory values, read from the machine rather than guessed from the picture. Level and experience describe character growth; level alone does not establish whether a run left the opening.", "b_explore": "exploration", "b_axis_s": "black-frame segments", "b_pre": "Ground covered is not being recorded: reading the character's position meant reloading a savestate into the running machine, which crashed it. Unmeasured shows as a dash, never as a zero.", "b_n_explore": "Black-frame segments are the initial frame plus detected fully black frames. This is a proxy and does not identify actual scenes. Ground covered keeps the furthest displacement per segment, so pacing back and forth cannot add to it.", "b_axis_q": "screen-changing decision ratio", "b_axis_t": "screen-changing decisions", "b_n_front": "The ratio alone rewards doing very little; the count alone rewards mashing keys. No other model matches or exceeds a model on the line on both measures while improving at least one.", "b_dom": "beaten", "replay": "replay", "download": "download MP4", "speed": "speed", "prevact": "previous action", "nextact": "next action", "playpause": "play/pause", "held": "held", "loading2": "loading replay", "uptime": "elapsed", "nolog": "no decisions yet", "left": "left", "waiting": "waiting for the first frame", "dropped": "disconnected, retrying", "over": "this run has ended"};
+const T = {strings};
 // Everything this page reads is a static object in the bucket. It never polls
 // the service that runs the games: a crowd arriving at once would otherwise be
 // competing for CPU with the emulators it came to watch.
@@ -670,24 +876,24 @@ const secs = v => v == null ? "-" : v < 10 ? Number(v.toFixed(1)) + "s" : Math.r
 const mmss = v => v == null ? "-"
   : Math.floor(v / 60) + ":" + String(Math.round(v % 60)).padStart(2, "0");
 const when = t => t ? new Date(t * 1000).toLocaleString([],
-  {month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"}) : "-";
+  {{month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"}}) : "-";
 
 const COLS = [
-  {k: "started",       f: r => when(r.started)},
-  {k: "actions",       f: r => r.actions ?? 0},
-  {k: "aps",           f: r => (r.aps ?? 0).toFixed(2)},
-  {k: "ttfa",          f: r => secs(r.ttfa)},
-  {k: "gap_p50",       f: r => secs(r.gap_p50)},
-  {k: "meaningful",    f: r => r.meaningful == null ? "-" : r.meaningful.toFixed(2)},
-  {k: "exit_acts",     f: r => fexit(r)},
-  {k: "oscillation",   f: r => r.oscillation == null ? "-" : r.oscillation.toFixed(2)},
-  {k: "distinct_keys", f: r => r.distinct_keys ?? "-"},
-  {k: "played",        f: r => mmss(r.played)},
-  {k: "usage_total",   f: r => fusage(r)},
-  {k: "reason",        f: r => why(r)},
+  {{k: "started",       f: r => when(r.started)}},
+  {{k: "actions",       f: r => r.actions ?? 0}},
+  {{k: "aps",           f: r => (r.aps ?? 0).toFixed(2)}},
+  {{k: "ttfa",          f: r => secs(r.ttfa)}},
+  {{k: "gap_p50",       f: r => secs(r.gap_p50)}},
+  {{k: "meaningful",    f: r => r.meaningful == null ? "-" : r.meaningful.toFixed(2)}},
+  {{k: "exit_acts",     f: r => fexit(r)}},
+  {{k: "oscillation",   f: r => r.oscillation == null ? "-" : r.oscillation.toFixed(2)}},
+  {{k: "distinct_keys", f: r => r.distinct_keys ?? "-"}},
+  {{k: "played",        f: r => mmss(r.played)}},
+  {{k: "usage_total",   f: r => fusage(r)}},
+  {{k: "reason",        f: r => why(r)}},
 ];
 
-const I = {
+const I = {{
   ok:   `<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"
           stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 4.5"/></svg>`,
   warn: `<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor"
@@ -697,22 +903,22 @@ const I = {
           stroke-width="1.6" stroke-linecap="round"><path d="M8 4v5M8 11.4v.2"/>
           <circle cx="8" cy="8" r="6.2" stroke-width="1.3"/></svg>`,
   play: `<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.5v9l7.5-4.5z"/></svg>`,
-};
+}};
 
 // The clock rides with the outcome. How long a run lasted is the first thing
 // worth knowing about it, and it used to sit at the bottom of the stat block
 // under everything else.
-function why(r) {
-  const t = `<b class="ptime">${mmss(r.played)}</b>`
-    + (r.error ? ` · ${T.publish_err}` : "");
+function why(r) {{
+  const t = `<b class="ptime">${{mmss(r.played)}}</b>`
+    + (r.error ? ` · ${{T.publish_err}}` : "");
   if (r.running) return `<span class="runtag"><span class="pulse"></span>`
-    + `${T.running} · ${t} · ${T.left} ${mmss(r.remaining)}</span>`;
-  if (r.reason === "time")  return `<span class="why ok">${I.ok}${T.full} · ${t}</span>`;
-  if (r.reason === "idle")  return `<span class="why warn">${I.warn}${T.idle} · ${t}</span>`;
+    + `${{T.running}} · ${{t}} · ${{T.left}} ${{mmss(r.remaining)}}</span>`;
+  if (r.reason === "time")  return `<span class="why ok">${{I.ok}}${{T.full}} · ${{t}}</span>`;
+  if (r.reason === "idle")  return `<span class="why warn">${{I.warn}}${{T.idle}} · ${{t}}</span>`;
   if (r.error && r.reason !== "never started")
-    return `<span class="why bad">${I.bad}${T.err} · ${t}</span>`;
-  return `<span class="why warn">${I.warn}${T.never} · ${t}</span>`;
-}
+    return `<span class="why bad">${{I.bad}}${{T.err}} · ${{t}}</span>`;
+  return `<span class="why warn">${{I.warn}}${{T.never}} · ${{t}}</span>`;
+}}
 
 // Which lab a run came from, read off the model name. The marks are the real
 // ones, from @lobehub/icons-static-svg (MIT), which carries the AI labs;
@@ -740,24 +946,24 @@ const VENDOR = [
 const MARK = new Set(["anthropic", "openai", "google", "qwen", "deepseek",
   "meta", "mistral", "xai", "moonshot", "zhipu", "minimax", "cohere"]);
 
-function mark(name) {
+function mark(name) {{
   const hit = VENDOR.find(([re]) => re.test(String(name || "").trim()));
   if (!hit || !MARK.has(hit[1])) return "";
-  return `<svg class="vend" role="img" aria-label="${hit[1]}">`
-    + `<use href="#lg-${hit[1]}"></use></svg>`;
-}
+  return `<svg class="vend" role="img" aria-label="${{hit[1]}}">`
+    + `<use href="#lg-${{hit[1]}}"></use></svg>`;
+}}
 
-function spark(keys) {
+function spark(keys) {{
   const e = Object.entries(foldKeys(keys));
   if (!e.length) return "";
   // labelled: an unlabelled bar chart of keys is unreadable
   const top = e.sort((a, b) => byKey(a[0], b[0])).slice(0, 8);
   const max = Math.max(...top.map(x => x[1]));
-  return `<div class="spark" title="${T.keyspace}">` + top.map(([k, n]) =>
-    `<div title="${k}: ${n}"><i style="height:${Math.max(14, n / max * 100)}%"></i>`
-    + `<u>${glyph(k)}</u></div>`
+  return `<div class="spark" title="${{T.keyspace}}">` + top.map(([k, n]) =>
+    `<div title="${{k}}: ${{n}}"><i style="height:${{Math.max(14, n / max * 100)}}%"></i>`
+    + `<u>${{glyph(k)}}</u></div>`
   ).join("") + `</div>`;
-}
+}}
 
 // Every run loops on its own, muted, so the page reads as a wall of agents
 // playing at once. Native controls on every card were the noisiest thing here;
@@ -775,122 +981,122 @@ function spark(keys) {
 // used to sit second is gone from the ladder - it measured the harness, not
 // the game - and remains a diagnostic column.
 const RUNGS = [
-  {k: "m_act",   at: r => r.key_events == null
-      ? (r.actions ?? 0) > 0 : r.key_events > 0},
-  {k: "m_item",  at: r => r.picked_item == null ? null : !!r.picked_item},
+  {{k: "m_act",   at: r => r.key_events == null
+      ? (r.actions ?? 0) > 0 : r.key_events > 0}},
+  {{k: "m_item",  at: r => r.picked_item == null ? null : !!r.picked_item}},
   // The game only offers to save from the world map, so a save it wrote is
   // its own record of having stood there. Runs from before the benchmark
   // could ask the game carry no saved_at at all and keep the fingerprint
   // flag they were scored with, credited only when the fade to black that
   // every scene change draws corroborates it.
-  {k: "m_map",   at: r => r.saved_at !== undefined ? r.saved_at != null
-      : (r.bigmap == null ? null : !!r.bigmap && r.exit_secs != null)},
+  {{k: "m_map",   at: r => r.saved_at !== undefined ? r.saved_at != null
+      : (r.bigmap == null ? null : !!r.bigmap && r.exit_secs != null)}},
   // The compass sits in the hermit's cabinet and is read from the same live
   // bag as the books. It and the companion close the opening, which needs no
   // fight; experience and levels need one, so they follow.
-  {k: "m_compass", at: r => r.saved_at !== undefined ? !!r.compass : (r.compass == null ? null : !!r.compass)},
-  {k: "m_party", at: r => r.saved_at !== undefined ? (r.team_size || 0) > 1 : (r.team_size == null ? null : r.team_size > 1)},
-  {k: "m_exp",   at: r => r.exp == null ? null : r.exp > 0},
-  {k: "m_level", at: r => r.level == null ? null : r.level > 1},
-  {k: "m_book",  at: r => r.saved_at !== undefined ? (r.books || 0) > 0 : (r.books == null ? null : r.books > 0)},
+  {{k: "m_compass", at: r => r.saved_at !== undefined ? !!r.compass : (r.compass == null ? null : !!r.compass)}},
+  {{k: "m_party", at: r => r.saved_at !== undefined ? (r.team_size || 0) > 1 : (r.team_size == null ? null : r.team_size > 1)}},
+  {{k: "m_exp",   at: r => r.exp == null ? null : r.exp > 0}},
+  {{k: "m_level", at: r => r.level == null ? null : r.level > 1}},
+  {{k: "m_book",  at: r => r.saved_at !== undefined ? (r.books || 0) > 0 : (r.books == null ? null : r.books > 0)}},
 ]; 
 
-function fexit(r) {
+function fexit(r) {{
   if (r.exit_acts == null && r.exit_secs == null)
     return r.scenes == null ? "-" : "\u2014";
-  return `${r.exit_acts} \u00b7 ${mmss(r.exit_secs || 0)}`;
-}
+  return `${{r.exit_acts}} \u00b7 ${{mmss(r.exit_secs || 0)}}`;
+}}
 
 // The usage report is the provider's meter relayed by the harness that ran
 // the model. Runs without a report (older records, or a harness that does
 // not meter) show a dash, never a zero.
-function fusage(r) {
+function fusage(r) {{
   const u = r.usage;
   if (!u || u.totalTokens == null) return "-";
   const t = u.totalTokens >= 1e6
-    ? `${(u.totalTokens / 1e6).toFixed(1)}M`
+    ? `${{(u.totalTokens / 1e6).toFixed(1)}}M`
     : u.totalTokens >= 1000
-      ? `${Math.round(u.totalTokens / 1000)}k`
+      ? `${{Math.round(u.totalTokens / 1000)}}k`
       : String(u.totalTokens);
   // A positive cost below a cent keeps enough digits to never render $0.00.
   return u.cost > 0
-    ? `${t} \u00b7 $${u.cost < 0.01 ? u.cost.toFixed(4) : u.cost.toFixed(2)}`
+    ? `${{t}} \u00b7 $${{u.cost < 0.01 ? u.cost.toFixed(4) : u.cost.toFixed(2)}}`
     : t;
-}
+}}
 
-function usageFull(r) {
+function usageFull(r) {{
   const u = r.usage;
   if (!u || u.totalTokens == null) return "-";
-  let s = `${u.totalTokens.toLocaleString()} ${T.b_usage_unit}`
-        + ` \u00b7 ${u.turns ?? "-"} ${T.b_usage_turn}`;
-  if (u.cost > 0) s += ` \u00b7 $${u.cost.toFixed(4)}`;
-  if (u.thinkingLevel) s += ` \u00b7 ${T.b_usage_think} ${u.thinkingLevel}`;
-  if (u.harness) s += ` \u00b7 ${u.harness}${u.piVersion ? " " + u.piVersion : ""}`;
-  if (u.language) s += ` \u00b7 ${u.language}`;
+  let s = `${{u.totalTokens.toLocaleString()}} ${{T.b_usage_unit}}`
+        + ` \u00b7 ${{u.turns ?? "-"}} ${{T.b_usage_turn}}`;
+  if (u.cost > 0) s += ` \u00b7 $${{u.cost.toFixed(4)}}`;
+  if (u.thinkingLevel) s += ` \u00b7 ${{T.b_usage_think}} ${{u.thinkingLevel}}`;
+  if (u.harness) s += ` \u00b7 ${{u.harness}}${{u.piVersion ? " " + u.piVersion : ""}}`;
+  if (u.language) s += ` \u00b7 ${{u.language}}`;
   return s;
-}
+}}
 
-function rungs(r) { return RUNGS.map(m => m.at(r)); }
-function reached(r) { return rungs(r).filter(v => v === true).length; }
+function rungs(r) {{ return RUNGS.map(m => m.at(r)); }}
+function reached(r) {{ return rungs(r).filter(v => v === true).length; }}
 
-function ladder(r, big) {
+function ladder(r, big) {{
   const got = rungs(r);
   const dots = got.map((v, i) =>
-    `<i class="${v === true ? "on" : v === null ? "unk" : "off"}"
-       title="${T[RUNGS[i].k]}"></i>`).join("");
+    `<i class="${{v === true ? "on" : v === null ? "unk" : "off"}}"
+       title="${{T[RUNGS[i].k]}}"></i>`).join("");
   const last = got.lastIndexOf(true);
-  const liveTag = r.running ? ` data-live="${r.id}:ladder"` : "";
-  return `<div class="ladder${big ? " big" : ""}"${liveTag}>${dots}`
-    + `<b>${reached(r)}/${RUNGS.length}</b>`
-    + (big && last >= 0 ? `<u>${T[RUNGS[last].k]}</u>` : "")
+  const liveTag = r.running ? ` data-live="${{r.id}}:ladder"` : "";
+  return `<div class="ladder${{big ? " big" : ""}}"${{liveTag}}>${{dots}}`
+    + `<b>${{reached(r)}}/${{RUNGS.length}}</b>`
+    + (big && last >= 0 ? `<u>${{T[RUNGS[last].k]}}</u>` : "")
     + `</div>`;
-}
+}}
 
-function clip(r) {
-  if (r.running) return `<img class="live-cv" data-sid="${r.id}" alt="" loading="lazy"
-    src="${STORE}/live/${r.id}.jpg?v=${r.shot || 0}">`;
-  if (!r.video_url) return `<div class="none">${T.novideo}</div>`;
+function clip(r) {{
+  if (r.running) return `<img class="live-cv" data-sid="${{r.id}}" alt="" loading="lazy"
+    src="${{STORE}}/live/${{r.id}}.jpg?v=${{r.shot || 0}}">`;
+  if (!r.video_url) return `<div class="none">${{T.novideo}}</div>`;
   // not a link any more: thumbnail and card both open the run.
   // The poster matters more than it looks: preload="none" means nothing is
   // fetched until the card scrolls into view, and on iOS often not then, so
   // without it most cards are blank boxes. Measured in WebKit at iPhone size:
   // two of eight ever painted a frame.
-  const p = r.poster_url ? ` poster="${r.poster_url}"` : "";
-  return `<video src="${r.video_url}"${p} muted loop playsinline
+  const p = r.poster_url ? ` poster="${{r.poster_url}}"` : "";
+  return `<video src="${{r.video_url}}"${{p}} muted loop playsinline
     preload="none"></video>`;
-}
+}}
 
 const DL = `<svg width="13" height="13" viewBox="0 0 16 16" fill="none"
   stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
   stroke-linejoin="round"><path d="M8 2v8M5 7.5 8 10.5l3-3M2.5 12.5v1h11v-1"/></svg>`;
 
 // Fifty runs is fifty video streams, so only what is on screen actually plays.
-const seen = new IntersectionObserver(es => es.forEach(e => {
+const seen = new IntersectionObserver(es => es.forEach(e => {{
   const v = e.target;
-  if (e.isIntersecting) { v.preload = "auto"; v.play().catch(() => {}); }
+  if (e.isIntersecting) {{ v.preload = "auto"; v.play().catch(() => {{}}); }}
   else v.pause();
-}), {rootMargin: "220px"});
+}}), {{rootMargin: "220px"}});
 
 let runs = [], view = "grid", sort = "started", desc = true;
 
 // The four numbers under the copy box. All derived, none hardcoded, redrawn on
 // both the catalogue poll and the five second live poll.
-function drawStats() {
+function drawStats() {{
   const all = entries();
   const secs = all.reduce((a, r) => a + (r.played || 0), 0);
   const dur = secs >= 3600 ? (secs / 3600).toFixed(1) + "h"
             : secs >= 60 ? Math.round(secs / 60) + "m" : secs + "s";
   const vals = [live.length, runs.length,
                 new Set(all.map(r => r.agent)).size, dur];
-  document.querySelectorAll("#stats b[data-s]").forEach(b => {
+  document.querySelectorAll("#stats b[data-s]").forEach(b => {{
     b.textContent = vals[+b.dataset.s];
-  });
+  }});
   const cell = document.querySelector("#stats div");
   const dot = cell.querySelector(".pulse");
   if (live.length && !dot) cell.insertAdjacentHTML("beforeend",
     '<span class="pulse" style="margin-left:2px"></span>');
   else if (!live.length && dot) dot.remove();
-}
+}}
 
 // A running session is shown alongside finished ones, carrying whatever the
 // stream has told us so far. It always sorts first: it is the newest thing
@@ -899,30 +1105,30 @@ function drawStats() {
 
 // A Wilson reference interval under an independent-decision assumption.
 // Decisions within a run are correlated; this is not cross-run uncertainty.
-function wilson(k, n, z) {
+function wilson(k, n, z) {{
   z = z || 1.96;
   if (!n) return [null, null, null];
   const p = k / n, d = 1 + z * z / n;
   const c = (p + z * z / (2 * n)) / d;
   const h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
   return [Math.max(0, c - h), p, Math.min(1, c + h)];
-}
+}}
 
 const num = v => (typeof v === "number" && isFinite(v)) ? v : null;
 const avg = xs => xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
 
 // One line per model, pooling its runs. Finished runs only: a run still going
 // has no final score, and one that never acted has nothing to pool.
-function boardRows() {
+function boardRows() {{
   const by = new Map();
-  for (const r of runs) {
+  for (const r of runs) {{
     if (r.running) continue;
     const k = r.agent || "?";
     if (!by.has(k)) by.set(k, []);
     by.get(k).push(r);
-  }
+  }}
   const out = [];
-  for (const [agent, rs] of by) {
+  for (const [agent, rs] of by) {{
     const acts = rs.reduce((a, r) => a + (r.actions || 0), 0);
     const measured = rs.filter(r => r.meaningful_count != null || r.meaningful != null);
     const samples = measured.reduce((a, r) => a + (r.actions || 0), 0);
@@ -932,7 +1138,7 @@ function boardRows() {
       ?? Math.round(r.meaningful * (r.actions || 0))), 0);
     const [lo, p, hi] = wilson(good, samples);
     const played = rs.reduce((a, r) => a + (r.played || 0), 0);
-    out.push({
+    out.push({{
       agent, runs: rs.length, actions: acts, meaningful: p, lo, hi,
       // Preserve the same legacy fallback as each run's acted milestone.
       key_events: rs.reduce((a, r) => a + (r.key_events ?? r.actions ?? 0), 0),
@@ -970,8 +1176,8 @@ function boardRows() {
       // save", which for a run recorded before saves existed is a claim the
       // data cannot make; the rung reads a missing field as unmeasured.
       ...(rs.some(r => "saved_at" in r)
-        ? {saved_at: rs.some(r => r.saved_at != null)
-            ? Math.max(...rs.map(r => r.saved_at ?? 0)) : null} : {}),
+        ? {{saved_at: rs.some(r => r.saved_at != null)
+            ? Math.max(...rs.map(r => r.saved_at ?? 0)) : null}} : {{}}),
       bigmap: rs.some(r => r.bigmap != null)
         ? rs.some(r => r.bigmap === true) : null,
       exit_acts: rs.some(r => r.exit_acts != null)
@@ -992,16 +1198,16 @@ function boardRows() {
       errors: null,
       done: rs.filter(r => r.reason === "time").length,
       baseline: /random|baseline/i.test(agent),
-    });
-  }
+    }});
+  }}
   return out;
-}
+}}
 
 // What each view ranks by, and the two columns it puts beside the score. Only
 // the overview carries an interval, so only it earns a rank range; the others
 // are a plain ordering and say so by not pretending otherwise.
-const BOARDS = {
-  ladder: {
+const BOARDS = {{
+  ladder: {{
     label: () => T.b_ladder, note: () => T.b_n_ladder + " " + T.b_n_exit,
     // Count verified milestones only. Behavioural and first-black measurements
     // remain diagnostic columns rather than hidden tie-breakers.
@@ -1010,48 +1216,48 @@ const BOARDS = {
     cols: [[() => T.b_exit, m => fexit(m)],
            [() => T.cols.meaningful,
             m => m.meaningful == null ? "-" : m.meaningful.toFixed(2)]],
-  },
-  progress: {
+  }},
+  progress: {{
     label: () => T.b_level, note: () => T.b_n_progress + " " + T.b_pre,
     // Books first: fourteen of them end the game, so one held outranks any
     // amount of levelling. Level and experience order everything below that.
     key: m => m.level == null && m.books == null ? -1
             : (m.books || 0) * 1e10
               + (m.level || 0) * 1e6 + Math.min(999999, m.exp || 0),
-    val: m => `<b>${m.level == null ? "-" : m.level}</b>`
-            + (m.exp ? `<i>${m.exp} ${T.b_exp}</i>` : ""),
+    val: m => `<b>${{m.level == null ? "-" : m.level}}</b>`
+            + (m.exp ? `<i>${{m.exp}} ${{T.b_exp}}</i>` : ""),
     cols: [[() => T.b_books, m => m.books == null ? "-" : m.books + "/14"],
            [() => T.b_party, m => m.team_size == null ? "-" : m.team_size]],
-  },
-  overview: {
+  }},
+  overview: {{
     label: () => T.b_score, ci: true,
     key: m => m.meaningful ?? -1,
-    val: m => m.meaningful == null ? "<b>-</b>" : `<b>${(m.meaningful * 100).toFixed(1)}%</b>`
-            + `<i>${(m.lo * 100).toFixed(1)}-${(m.hi * 100).toFixed(1)}</i>`,
-    cols: [[() => T.b_think, m => `${secs(m.think50)} / ${secs(m.think95)}`],
+    val: m => m.meaningful == null ? "<b>-</b>" : `<b>${{(m.meaningful * 100).toFixed(1)}}%</b>`
+            + `<i>${{(m.lo * 100).toFixed(1)}}-${{(m.hi * 100).toFixed(1)}}</i>`,
+    cols: [[() => T.b_think, m => `${{secs(m.think50)}} / ${{secs(m.think95)}}`],
            [() => T.b_aps, m => m.aps.toFixed(2)]],
-  },
-  frontier: { plot: true, label: () => T.b_front, note: () => T.b_n_front,
-    key: m => m.mact },
-};
+  }},
+  frontier: {{ plot: true, label: () => T.b_front, note: () => T.b_n_front,
+    key: m => m.mact }},
+}};
 
 // addressable, so a view can be linked to and so each one can be checked
 let bview = BOARDS[Q.get("board")] ? Q.get("board") : "ladder";
 
 // What this table was computed from. Every field is read off the data the page
 // already has, so it cannot claim a provenance the page cannot back up.
-function provenance() {
+function provenance() {{
   const done = runs.filter(r => !r.running);
   const last = Math.max(0, ...done.map(r => r.started || 0));
   const ed = document.querySelector('meta[name="build"]');
   $("pved").textContent = ed ? ed.content.slice(0, 8) : "-";
   $("pvruns").textContent = done.length;
   $("pvup").textContent = last ? new Date(last * 1000).toISOString().slice(0, 10) : "-";
-}
+}}
 
 // Plot the Pareto frontier: no other model matches or exceeds both diagnostics
 // while strictly improving at least one.
-function drawFrontier(el, rows) {
+function drawFrontier(el, rows) {{
   rows = rows.filter(m => m.meaningful != null);
   const W = 940, H = 342, L = 58, R = 18, TP = 30, BT = 40;
   const maxT = Math.max(1, ...rows.map(m => m.mact));
@@ -1063,162 +1269,162 @@ function drawFrontier(el, rows) {
                     .sort((a, b) => a.mact - b.mact);
 
   const grid = [0, .25, .5, .75, 1].map(v =>
-    `<line x1="${L}" y1="${y(v)}" x2="${W - R}" y2="${y(v)}"
+    `<line x1="${{L}}" y1="${{y(v)}}" x2="${{W - R}}" y2="${{y(v)}}"
        stroke="#ececec"></line>`
-    + `<text x="${L - 8}" y="${y(v) + 3.5}" text-anchor="end"
-        class="ax">${(v * 100).toFixed(0)}%</text>`).join("");
+    + `<text x="${{L - 8}}" y="${{y(v) + 3.5}}" text-anchor="end"
+        class="ax">${{(v * 100).toFixed(0)}}%</text>`).join("");
 
   const ticks = [0, .5, 1].map(f =>
-    `<text x="${x(maxT * f)}" y="${H - BT + 16}" text-anchor="middle"
-       class="ax">${Math.round(maxT * f)}</text>`).join("");
+    `<text x="${{x(maxT * f)}}" y="${{H - BT + 16}}" text-anchor="middle"
+       class="ax">${{Math.round(maxT * f)}}</text>`).join("");
 
   const line = front.length > 1
     ? `<polyline fill="none" stroke="var(--ink)" stroke-width="1.2"
-        stroke-dasharray="3 3" points="${
-        front.map(m => `${x(m.mact)},${y(m.meaningful)}`).join(" ")}"></polyline>`
+        stroke-dasharray="3 3" points="${{
+        front.map(m => `${{x(m.mact)}},${{y(m.meaningful)}}`).join(" ")}}"></polyline>`
     : "";
 
   // Place the labels before drawing them: two models a percentage point apart
   // put their names on top of each other otherwise. The dot stays on its true
   // position and only the text is nudged, so the plot keeps telling the truth.
-  const pts = rows.map(m => ({
+  const pts = rows.map(m => ({{
     m, px: x(m.mact), py: y(m.meaningful),
     // near the right edge the label would run off the canvas, so it flips
     flip: x(m.mact) > W - R - 130,
-  })).sort((a, b) => a.py - b.py);
-  for (let i = 1; i < pts.length; i++) {
+  }})).sort((a, b) => a.py - b.py);
+  for (let i = 1; i < pts.length; i++) {{
     const a = pts[i - 1], b = pts[i];
     if (b.py - a.py < 13 && Math.abs(b.px - a.px) < 170) b.py = a.py + 13;
-  }
+  }}
 
-  const dots = pts.map(({m, px, py, flip}) => {
+  const dots = pts.map(({{m, px, py, flip}}) => {{
     const on = front.includes(m);
     const ty = y(m.meaningful);
     // one run per model means the point can open that run; a native <title>
     // gives the numbers on hover and on a long press, with no tooltip code
     const one = m.runs === 1
-      ? (runs.find(r => r.agent === m.agent && !r.running) || {}).id : null;
-    const tip = `${m.agent}\n${T.b_score} ${(m.meaningful * 100).toFixed(1)}%`
-      + `\n${T.b_mact} ${m.mact}\n${T.b_acts} ${m.actions}`
-      + `\n${T.b_ladder} ${reached(m)}/${RUNGS.length}`;
-    return `<g class="${on ? "on" : "off"}${one ? " tap" : ""}"`
-      + (one ? ` data-open="${one}"` : "") + `>`
-      + `<title>${tip}</title>`
-      + `<circle cx="${px}" cy="${ty}" r="${on ? 5 : 4}"></circle>`
-      + `<text x="${px + (flip ? -9 : 9)}" y="${py + 3.5}"
-          text-anchor="${flip ? "end" : "start"}">${m.agent}${
-          on ? "" : ` <tspan class="ax">${T.b_dom}</tspan>`}</text></g>`;
-  }).join("");
+      ? (runs.find(r => r.agent === m.agent && !r.running) || {{}}).id : null;
+    const tip = `${{m.agent}}\n${{T.b_score}} ${{(m.meaningful * 100).toFixed(1)}}%`
+      + `\n${{T.b_mact}} ${{m.mact}}\n${{T.b_acts}} ${{m.actions}}`
+      + `\n${{T.b_ladder}} ${{reached(m)}}/${{RUNGS.length}}`;
+    return `<g class="${{on ? "on" : "off"}}${{one ? " tap" : ""}}"`
+      + (one ? ` data-open="${{one}}"` : "") + `>`
+      + `<title>${{tip}}</title>`
+      + `<circle cx="${{px}}" cy="${{ty}}" r="${{on ? 5 : 4}}"></circle>`
+      + `<text x="${{px + (flip ? -9 : 9)}}" y="${{py + 3.5}}"
+          text-anchor="${{flip ? "end" : "start"}}">${{m.agent}}${{
+          on ? "" : ` <tspan class="ax">${{T.b_dom}}</tspan>`}}</text></g>`;
+  }}).join("");
 
-  el.innerHTML = `<div class="plotwrap"><svg viewBox="0 0 ${W} ${H}"
+  el.innerHTML = `<div class="plotwrap"><svg viewBox="0 0 ${{W}} ${{H}}"
       class="plot" preserveAspectRatio="xMidYMid meet" role="img"
-      aria-label="${T.b_axis_q} / ${T.b_axis_t}">
-    ${grid}${ticks}${line}${dots}
-    <text x="${L}" y="${H - 6}" class="ax">${T.b_axis_t} &#8594;</text>
-    <text x="${L}" y="${TP - 4}" class="ax">&#8593; ${T.b_axis_q}</text>
+      aria-label="${{T.b_axis_q}} / ${{T.b_axis_t}}">
+    ${{grid}}${{ticks}}${{line}}${{dots}}
+    <text x="${{L}}" y="${{H - 6}}" class="ax">${{T.b_axis_t}} &#8594;</text>
+    <text x="${{L}}" y="${{TP - 4}}" class="ax">&#8593; ${{T.b_axis_q}}</text>
   </svg></div>`;
   wireOpen(el);
-}
+}}
 
-function drawBoard() {
+function drawBoard() {{
   const el = $("btable");
   if (!el) return;
   const B = BOARDS[bview] || BOARDS.ladder;
   const rows = boardRows().sort((a, b) => (B.key(b) - B.key(a))
                                        || String(a.agent).localeCompare(b.agent));
-  if (!rows.length) { el.innerHTML = `<p class="msg">${T.nolog}</p>`; return; }
-  if (B.plot) {
+  if (!rows.length) {{ el.innerHTML = `<p class="msg">${{T.nolog}}</p>`; return; }}
+  if (B.plot) {{
     drawFrontier(el, rows);
     $("bnote").textContent = B.note() + " " + T.b_nocost;
     return;
-  }
+  }}
 
   const top = Math.max(...rows.map(m => B.key(m)), 1e-9);
-  const head = `<div class="brow hd"><span>${T.b_rank}</span><span>${T.b_model}</span>`
-    + `<span>${B.label()}</span>`
-    + B.cols.map(c => `<span style="text-align:right">${c[0]()}</span>`).join("")
+  const head = `<div class="brow hd"><span>${{T.b_rank}}</span><span>${{T.b_model}}</span>`
+    + `<span>${{B.label()}}</span>`
+    + B.cols.map(c => `<span style="text-align:right">${{c[0]()}}</span>`).join("")
     + `</div>`;
 
-  el.innerHTML = head + rows.map((m, i) => {
+  el.innerHTML = head + rows.map((m, i) => {{
     // A rank range, not a rank: a model is only above another when their
     // intervals are actually apart. Ranking 6 runs to the integer would be a
     // precision this data does not have.
     const rank = B.ci ? i + 1 : rows.findIndex(o => B.key(o) === B.key(m)) + 1;
-    let pos = `<b>${rank}</b>`;
+    let pos = `<b>${{rank}}</b>`;
     if (B.ci && m.meaningful == null) pos = "<b>-</b>";
-    else if (B.ci) {
+    else if (B.ci) {{
       const measured = rows.filter(o => o.meaningful != null);
       const better = measured.filter(o => o.lo > m.hi).length;
       const worse = measured.filter(o => o.hi < m.lo).length;
       const a = better + 1, b = measured.length - worse;
-      if (b > a) pos += `<u>${a}-${b}</u>`;
-    }
+      if (b > a) pos += `<u>${{a}}-${{b}}</u>`;
+    }}
     const bar = B.ci && m.meaningful == null ? "" : B.ci
-      ? `<div class="bbar"><span style="left:${(m.lo * 100).toFixed(1)}%;`
-        + `width:${Math.max(1, (m.hi - m.lo) * 100).toFixed(1)}%"></span>`
-        + `<em style="left:${(m.meaningful * 100).toFixed(1)}%"></em></div>`
-      : `<div class="bbar"><span style="left:0;width:${
+      ? `<div class="bbar"><span style="left:${{(m.lo * 100).toFixed(1)}}%;`
+        + `width:${{Math.max(1, (m.hi - m.lo) * 100).toFixed(1)}}%"></span>`
+        + `<em style="left:${{(m.meaningful * 100).toFixed(1)}}%"></em></div>`
+      : `<div class="bbar"><span style="left:0;width:${{
           Math.max(0, B.key(m)) / Math.max(top, 1e-9) * 100
-        }%"></span></div>`;
-    return `<div class="brow" data-open="${m.runs === 1 ? (runs.find(
-        r => r.agent === m.agent && !r.running) || {}).id || "" : ""}"
-        ${m.runs === 1 ? 'style="cursor:pointer"' : ""}>
-      <div class="bpos">${pos}</div>
-      <div class="bmodel">${mark(m.agent)}<div class="t">
-        <b>${m.agent}</b>
-        <u>${vendorOf(m.agent)}</u></div>
-        ${m.baseline ? `<span class="btag">${T.b_base}</span>` : ""}</div>
-      <div class="bval">${B.val(m)}${bar}</div>
-      ${B.cols.map(c => `<div class="bcell">${c[1](m)}</div>`).join("")}
+        }}%"></span></div>`;
+    return `<div class="brow" data-open="${{m.runs === 1 ? (runs.find(
+        r => r.agent === m.agent && !r.running) || {{}}).id || "" : ""}}"
+        ${{m.runs === 1 ? 'style="cursor:pointer"' : ""}}>
+      <div class="bpos">${{pos}}</div>
+      <div class="bmodel">${{mark(m.agent)}}<div class="t">
+        <b>${{m.agent}}</b>
+        <u>${{vendorOf(m.agent)}}</u></div>
+        ${{m.baseline ? `<span class="btag">${{T.b_base}}</span>` : ""}}</div>
+      <div class="bval">${{B.val(m)}}${{bar}}</div>
+      ${{B.cols.map(c => `<div class="bcell">${{c[1](m)}}</div>`).join("")}}
     </div>`;
-  }).join("");
+  }}).join("");
 
   wireOpen(el);
   $("bnote").textContent =
       (B.ci ? T.b_ci + " " + T.b_thin + " " : (B.note ? B.note() + " " : ""))
       + T.b_nocost;
-}
+}}
 
 // the label under the model name; the mark already carries the logo
-function wireBoard() {
+function wireBoard() {{
   const seg = $("bviews");
   if (!seg) return;
   seg.querySelectorAll("button").forEach(x =>
     x.setAttribute("aria-pressed", String(x.dataset.b === bview)));
-  seg.addEventListener("click", e => {
+  seg.addEventListener("click", e => {{
     const b = e.target.closest("button[data-b]");
     if (!b) return;
     bview = b.dataset.b;
     seg.querySelectorAll("button").forEach(x =>
       x.setAttribute("aria-pressed", String(x === b)));
     drawBoard();
-  });
-}
+  }});
+}}
 
-function vendorOf(name) {
+function vendorOf(name) {{
   const hit = VENDOR.find(([re]) => re.test(String(name || "").trim()));
   return hit ? LAB[hit[1]] || hit[1] : "";
-}
-const LAB = {anthropic: "Anthropic", openai: "OpenAI", google: "Google",
+}}
+const LAB = {{anthropic: "Anthropic", openai: "OpenAI", google: "Google",
   qwen: "Alibaba Qwen", deepseek: "DeepSeek", meta: "Meta", mistral: "Mistral AI",
   xai: "xAI", moonshot: "Moonshot AI", zhipu: "Z.ai", minimax: "MiniMax",
-  cohere: "Cohere"};
+  cohere: "Cohere"}};
 
-function entries() {
+function entries() {{
   const now = Date.now() / 1000;
-  return live.map(s => {
-    const st = stat.get(s.id) || {};
+  return live.map(s => {{
+    const st = stat.get(s.id) || {{}};
     const up = st.uptime_s || s.uptime || Math.max(0, now - s.started);
     const acts = st.actions ?? s.actions ?? 0;
-    return {id: s.id, agent: s.agent, running: true, started: s.started,
+    return {{id: s.id, agent: s.agent, running: true, started: s.started,
             remaining: s.remaining, played: Math.round(up),
             actions: st.actions ?? s.actions ?? 0,
-            aps: (() => { const n = st.actions ?? s.actions ?? 0;
-                          return up > 1 && n ? +(n / up).toFixed(3) : 0; })(),
+            aps: (() => {{ const n = st.actions ?? s.actions ?? 0;
+                          return up > 1 && n ? +(n / up).toFixed(3) : 0; }})(),
             shot: s.shot || 0,
             meaningful: s.meaningful == null ? null : acts ? s.meaningful / acts : 0,
             meaningful_count: s.meaningful ?? null,
-            oscillation: null, keys: s.keys || {},
+            oscillation: null, keys: s.keys || {{}},
             scenes: s.scenes ?? null, frontier: s.frontier ?? null,
             bigmap: s.bigmap ?? null,
             exit_acts: s.exit_acts ?? null, exit_secs: s.exit_secs ?? null,
@@ -1233,62 +1439,62 @@ function entries() {
             compass: s.compass ?? null,
             // the save the game wrote is the world-map rung; a snapshot that
             // never carried the field keeps the fingerprint verdict instead
-            ...("saved_at" in s ? {saved_at: s.saved_at} : {}),
+            ...("saved_at" in s ? {{saved_at: s.saved_at}} : {{}}),
             team_size: s.team_size ?? null, books: s.books ?? null,
             // these are known from the first keypress, so a running card
             // shows them rather than dashes; oscillation is not, it is only
             // assembled at teardown
-            distinct_keys: Object.keys(s.keys || {}).length,
+            distinct_keys: Object.keys(s.keys || {{}}).length,
             reads: s.reads ?? null, ttfa: s.ttfa ?? null,
             gap_p50: s.gap_p50 ?? null, gap_p95: s.gap_p95 ?? null,
-            reason: "running"};
+            reason: "running"}};
   // usage_total is the numeric form of the run's usage report, for sorting;
   // the report itself (turns, cost) stays on the row for the cells to read.
-  }).concat(runs.map(r => ({...r, usage_total: r.usage?.totalTokens ?? null})));
-}
+  }}).concat(runs.map(r => ({{...r, usage_total: r.usage?.totalTokens ?? null}})));
+}}
 
 // Cells that must track a run in flight. Re-rendering would tear down the
 // canvases the live feeds are painting into, so these are patched in place.
-const lv = (r, f) => r.running ? `data-live="${r.id}:${f}"` : "";
+const lv = (r, f) => r.running ? `data-live="${{r.id}}:${{f}}"` : "";
 
-function refreshLive() {
-  const by = {};
+function refreshLive() {{
+  const by = {{}};
   for (const e of entries()) if (e.running) by[e.id] = e;
-  document.querySelectorAll("[data-live]").forEach(el => {
+  document.querySelectorAll("[data-live]").forEach(el => {{
     const [sid, f] = el.dataset.live.split(":");
     const r = by[sid];
     if (!r) return;
-    if (f === "acts") el.textContent = `${r.actions} · ${r.aps.toFixed(2)}/s`;
+    if (f === "acts") el.textContent = `${{r.actions}} · ${{r.aps.toFixed(2)}}/s`;
     else if (f === "reach") el.textContent =
-        `${r.frontier == null ? "-" : r.frontier} · ${
-            r.scenes == null ? "-" : r.scenes}`;
+        `${{r.frontier == null ? "-" : r.frontier}} · ${{
+            r.scenes == null ? "-" : r.scenes}}`;
     else if (f === "meaningful") el.textContent =
         r.meaningful == null ? "-" : r.meaningful.toFixed(2);
     else if (f === "played") el.textContent = mmss(r.played);
     else if (f === "tag") el.innerHTML = why(r);
-    else if (f === "inputs") el.textContent = `${
-      r.decision_calls ?? r.actions ?? 0} · ${
-      r.key_events == null ? "-" : r.key_events} · ${
-      r.input_frames == null ? "-" : r.input_frames}`;
+    else if (f === "inputs") el.textContent = `${{
+      r.decision_calls ?? r.actions ?? 0}} · ${{
+      r.key_events == null ? "-" : r.key_events}} · ${{
+      r.input_frames == null ? "-" : r.input_frames}}`;
     else if (f === "ladder") el.outerHTML = ladder(r);
-    else if (f === "hero") el.textContent = `${
-      r.level == null ? "-" : r.level} · ${
-      r.skills == null ? "-" : r.skills} · ${
-      r.inventory_distinct == null ? "-" : r.inventory_distinct}`;
+    else if (f === "hero") el.textContent = `${{
+      r.level == null ? "-" : r.level}} · ${{
+      r.skills == null ? "-" : r.skills}} · ${{
+      r.inventory_distinct == null ? "-" : r.inventory_distinct}}`;
     else if (f === "exit") el.textContent = fexit(r);
-    else if (f === "scenes") el.textContent = `${
-      r.scenes == null ? "-" : r.scenes}${
-      r.bigmap == null ? "" : r.bigmap ? " · ✓" : " · ✕"}`;
-    else {
+    else if (f === "scenes") el.textContent = `${{
+      r.scenes == null ? "-" : r.scenes}}${{
+      r.bigmap == null ? "" : r.bigmap ? " · ✓" : " · ✕"}}`;
+    else {{
       const c = COLS.find(x => x.k === f);
       if (c) el.innerHTML = c.f(r);
-    }
-  });
-}
+    }}
+  }});
+}}
 
-function sorted() {
+function sorted() {{
   const all = entries();
-  return all.sort((a, b) => {
+  return all.sort((a, b) => {{
     if (a.running !== b.running) return a.running ? -1 : 1;
     const x = a[sort], y = b[sort], bad = v => v == null || v === "";
     if (bad(x) && bad(y)) return 0;
@@ -1296,101 +1502,101 @@ function sorted() {
     if (bad(y)) return -1;
     const d = typeof x === "string" ? x.localeCompare(y) : x - y;
     return desc ? -d : d;
-  });
-}
+  }});
+}}
 
-function render() {
+function render() {{
   const out = document.getElementById("out");
   // running sessions count as rows, so an empty catalogue is not an empty page
   const rows = sorted();
-  if (!rows.length) { out.className = "msg"; out.textContent = T.empty; return; }
+  if (!rows.length) {{ out.className = "msg"; out.textContent = T.empty; return; }}
 
-  if (view === "list") {
+  if (view === "list") {{
     out.className = "rows";
     out.innerHTML = rows.map(r => `
-      <div class="row${r.running ? " on" : ""}" data-open="${r.id}"
-           data-agent="${r.agent}" data-mode="${r.running ? "live" : "replay"}"
+      <div class="row${{r.running ? " on" : ""}}" data-open="${{r.id}}"
+           data-agent="${{r.agent}}" data-mode="${{r.running ? "live" : "replay"}}"
            style="cursor:pointer">
-        ${clip(r)}
+        ${{clip(r)}}
         <div class="f">
-          <div class="nm"><u>${T.agent}</u>
-            <b>${mark(r.agent)}<span>${r.agent}</span></b></div>
-          ${COLS.filter(c => c.k !== "started").map(c =>
-            `<div><u>${T.cols[c.k]}</u><b ${lv(r, c.k)}>${c.f(r)}</b></div>`).join("")}
+          <div class="nm"><u>${{T.agent}}</u>
+            <b>${{mark(r.agent)}}<span>${{r.agent}}</span></b></div>
+          ${{COLS.filter(c => c.k !== "started").map(c =>
+            `<div><u>${{T.cols[c.k]}}</u><b ${{lv(r, c.k)}}>${{c.f(r)}}</b></div>`).join("")}}
         </div>
       </div>`).join("");
     out.querySelectorAll("video").forEach(v => seen.observe(v));
     wireOpen(out);
     bumpShots();
     return;
-  }
+  }}
 
   out.className = "grid";
   out.innerHTML = rows.map(r => `
-    <div class="card${r.running ? " on" : ""}" data-open="${r.id}"
-         data-agent="${r.agent}" data-mode="${r.running ? "live" : "replay"}"
+    <div class="card${{r.running ? " on" : ""}}" data-open="${{r.id}}"
+         data-agent="${{r.agent}}" data-mode="${{r.running ? "live" : "replay"}}"
          style="cursor:pointer">
-      ${clip(r)}
+      ${{clip(r)}}
       <div class="cmeta">
-        <div class="status" ${lv(r, "tag")}>${why(r)}</div>
+        <div class="status" ${{lv(r, "tag")}}>${{why(r)}}</div>
         <div class="who">
-          ${mark(r.agent)}<span>${r.agent}</span>
-          ${r.video_url ? `<a class="dl" href="${r.video_url}" download
-             title="${T.download}" aria-label="${T.download}">${DL}</a>` : ""}</div>
-        ${ladder(r)}
+          ${{mark(r.agent)}}<span>${{r.agent}}</span>
+          ${{r.video_url ? `<a class="dl" href="${{r.video_url}}" download
+             title="${{T.download}}" aria-label="${{T.download}}">${{DL}}</a>` : ""}}</div>
+        ${{ladder(r)}}
         <div class="kv">
-          <span>${T.cols.meaningful}</span><b ${lv(r, "meaningful")}>${
-            r.meaningful == null ? "-" : r.meaningful.toFixed(2)}${
-            r.oscillation == null ? "" : ` · ${r.oscillation.toFixed(2)}`}</b>
-          <span>${T.b_char}</span><b ${lv(r, "hero")}>${
-            r.level == null ? "-" : r.level} · ${
-            r.skills == null ? "-" : r.skills} · ${
-            r.inventory_distinct == null ? "-" : r.inventory_distinct}</b>
-          <span>${T.b_exit}</span><b ${lv(r, "exit")}>${fexit(r)}</b>
-          <span>${T.b_scenes}</span><b ${lv(r, "scenes")}>${
-            r.scenes == null ? "-" : r.scenes}${
-            r.bigmap == null ? "" : r.bigmap ? " \u00b7 \u2713" : " \u00b7 \u2715"}</b>
+          <span>${{T.cols.meaningful}}</span><b ${{lv(r, "meaningful")}}>${{
+            r.meaningful == null ? "-" : r.meaningful.toFixed(2)}}${{
+            r.oscillation == null ? "" : ` · ${{r.oscillation.toFixed(2)}}`}}</b>
+          <span>${{T.b_char}}</span><b ${{lv(r, "hero")}}>${{
+            r.level == null ? "-" : r.level}} · ${{
+            r.skills == null ? "-" : r.skills}} · ${{
+            r.inventory_distinct == null ? "-" : r.inventory_distinct}}</b>
+          <span>${{T.b_exit}}</span><b ${{lv(r, "exit")}}>${{fexit(r)}}</b>
+          <span>${{T.b_scenes}}</span><b ${{lv(r, "scenes")}}>${{
+            r.scenes == null ? "-" : r.scenes}}${{
+            r.bigmap == null ? "" : r.bigmap ? " \u00b7 \u2713" : " \u00b7 \u2715"}}</b>
         </div>
         <details class="more">
-          <summary>${T.b_more}</summary>
+          <summary>${{T.b_more}}</summary>
           <div class="kv">
-            <span>${T.b_inputs}</span><b ${lv(r, "inputs")}>${
-              r.decision_calls ?? r.actions ?? 0} · ${
-              r.key_events == null ? "-" : r.key_events} · ${
-              r.input_frames == null ? "-" : r.input_frames}</b>
-            <span>${T.b_reads}</span><b>${
-              r.reads == null ? "-" : r.reads}${
-              r.reads != null && r.actions ? ` · ${(r.reads / r.actions).toFixed(2)}` : ""}</b>
-            <span>${T.cols.distinct_keys}</span><b>${r.distinct_keys ?? "-"}</b>
-            <span>${T.cols.ttfa}</span><b>${secs(r.ttfa)}</b>
-            <span>${T.cols.gap_p50} / p95</span><b>${secs(r.gap_p50)} / ${secs(r.gap_p95)}</b>
-            <span>${T.b_usage}</span><b>${usageFull(r)}</b>
+            <span>${{T.b_inputs}}</span><b ${{lv(r, "inputs")}}>${{
+              r.decision_calls ?? r.actions ?? 0}} · ${{
+              r.key_events == null ? "-" : r.key_events}} · ${{
+              r.input_frames == null ? "-" : r.input_frames}}</b>
+            <span>${{T.b_reads}}</span><b>${{
+              r.reads == null ? "-" : r.reads}}${{
+              r.reads != null && r.actions ? ` · ${{(r.reads / r.actions).toFixed(2)}}` : ""}}</b>
+            <span>${{T.cols.distinct_keys}}</span><b>${{r.distinct_keys ?? "-"}}</b>
+            <span>${{T.cols.ttfa}}</span><b>${{secs(r.ttfa)}}</b>
+            <span>${{T.cols.gap_p50}} / p95</span><b>${{secs(r.gap_p50)}} / ${{secs(r.gap_p95)}}</b>
+            <span>${{T.b_usage}}</span><b>${{usageFull(r)}}</b>
           </div>
         </details>
-        ${spark(r.keys)}
+        ${{spark(r.keys)}}
       </div>
     </div>`).join("");
   out.querySelectorAll("video").forEach(v => seen.observe(v));
   wireOpen(out);
   bumpShots();
-}
+}}
 
-function wireOpen(root) {
-  root.querySelectorAll("[data-open]").forEach(el => el.onclick = ev => {
+function wireOpen(root) {{
+  root.querySelectorAll("[data-open]").forEach(el => el.onclick = ev => {{
     if (ev.target.closest("a")) return;
     const id = el.dataset.open;
     if (el.dataset.mode === "live") return open(id, el.dataset.agent, true);
     const run = runs.find(r => r.id === id);
     if (run && run.video_url) openReplay(run, true);
-  });
-}
+  }});
+}}
 
-async function load(attempt = 0) {
-  try {
-    const data = await fetch(CATALOG, {cache: "no-cache"}).then(r => {
+async function load(attempt = 0) {{
+  try {{
+    const data = await fetch(CATALOG, {{cache: "no-cache"}}).then(r => {{
       if (!r.ok) throw new Error(r.status);
       return r.json();
-    });
+    }});
     runs = Array.isArray(data) ? data : (data.runs || []);
     document.getElementById("count").textContent =
       runs.length + " " + (runs.length === 1 ? T.run1 : T.runs);
@@ -1398,43 +1604,43 @@ async function load(attempt = 0) {
     render();
     drawBoard();
     provenance();
-  } catch (e) {
+  }} catch (e) {{
     // A phone dropping one request should not leave the page blank until the
     // next poll thirty seconds later.
-    if (attempt < 2) {
+    if (attempt < 2) {{
       await new Promise(r => setTimeout(r, 800 * (attempt + 1)));
       return load(attempt + 1);
-    }
-    if (!runs.length) {
+    }}
+    if (!runs.length) {{
       const out = document.getElementById("out");
       out.className = "msg"; out.textContent = T.gone;
-    }
-  }
-}
+    }}
+  }}
+}}
 
 const sel = document.getElementById("sort");
 sel.innerHTML = [["agent", T.agent], ...COLS.map(c => [c.k, T.cols[c.k]])]
-  .map(([k, t]) => `<option value="${k}">${t}</option>`).join("");
+  .map(([k, t]) => `<option value="${{k}}">${{t}}</option>`).join("");
 sel.value = sort;
-sel.onchange = () => { sort = sel.value; render(); };
+sel.onchange = () => {{ sort = sel.value; render(); }};
 
-document.getElementById("dir").onclick = e => {
+document.getElementById("dir").onclick = e => {{
   desc = !desc;
   const b = e.currentTarget;
   b.title = desc ? T.desc : T.asc;
   b.querySelector("path").setAttribute("d",
     desc ? "M8 3v10M4.5 9.5 8 13l3.5-3.5" : "M8 13V3M4.5 6.5 8 3l3.5 3.5");
   render();
-};
+}};
 
-document.getElementById("viewseg").onclick = e => {
+document.getElementById("viewseg").onclick = e => {{
   const b = e.target.closest("[data-v]");
   if (!b) return;
   view = b.dataset.v;
   [...b.parentElement.children].forEach(x =>
     x.setAttribute("aria-pressed", String(x.dataset.v === view)));
   render();
-};
+}};
 
 // $ is defined further down, so this section uses the long form
 const ONE = T.oneline, ONE_PX = 13;
@@ -1445,33 +1651,33 @@ let brief = null;                    // cached text of the selected brief
 // The copied line shows the absolute address an agent will be handed; the
 // page's own links and the viewer use the relative one, so this works the same
 // on the deployed site and on a local server.
-function briefPath(mins) { return (mins === "240" ? "" : mins + "m/") + "agents.md"; }
-function briefUrl(mins) { return T.base + briefPath(mins); }
+function briefPath(mins) {{ return (mins === "240" ? "" : mins + "m/") + "agents.md"; }}
+function briefUrl(mins) {{ return T.base + briefPath(mins); }}
 
 // Monospace width is linear in font-size, so one ratio pass lands it; a second
 // pass covers rounding at the extremes.
-function fitOne() {
+function fitOne() {{
   const el = document.getElementById("one");
   el.style.fontSize = ONE_PX + "px";
   // Strictly greater: once the text fits, scrollWidth clamps to clientWidth, so
   // any slack in this test makes the condition permanently true and the loop
   // shrinks for no reason. Mixed Latin and CJK do not scale quite linearly, so
   // iterate rather than trusting a single ratio.
-  for (let i = 0; i < 8 && el.scrollWidth > el.clientWidth; i++) {
+  for (let i = 0; i < 8 && el.scrollWidth > el.clientWidth; i++) {{
     const px = parseFloat(el.style.fontSize);
     const next = Math.max(9, px * el.clientWidth / el.scrollWidth);
     if (next >= px) break;
     el.style.fontSize = next + "px";
-  }
-}
+  }}
+}}
 
-function drawOne() {
+function drawOne() {{
   const mins = document.getElementById("mins").value;
   document.getElementById("one").textContent = ONE.replace("%U%", briefUrl(mins));
   document.querySelectorAll("[data-brief]").forEach(a => a.href = briefPath(mins));
   brief = null;                      // the viewer must refetch the new one
   fitOne();
-}
+}}
 document.getElementById("mins").onchange = drawOne;
 drawOne();
 document.fonts.ready.then(fitOne);   // remeasure once the pixel face lands
@@ -1481,24 +1687,24 @@ document.fonts.ready.then(fitOne);   // remeasure once the pixel face lands
 // the container, and act only when its width actually changed - watching the
 // text element instead made the observer react to its own font writes.
 let lastW = 0;
-new ResizeObserver(es => {
+new ResizeObserver(es => {{
   const w = Math.round(es[0].contentRect.width);
   if (w === lastW) return;
   lastW = w;
   fitOne();
-}).observe(document.querySelector(".oneline"));
+}}).observe(document.querySelector(".oneline"));
 
-document.getElementById("copy").onclick = async e => {
+document.getElementById("copy").onclick = async e => {{
   const b = e.currentTarget, label = b.querySelector("span");
-  try { await navigator.clipboard.writeText(document.getElementById("one").textContent.trim()); }
-  catch {
+  try {{ await navigator.clipboard.writeText(document.getElementById("one").textContent.trim()); }}
+  catch {{
     const rg = document.createRange();
     rg.selectNode(document.getElementById("one"));
     getSelection().removeAllRanges(); getSelection().addRange(rg);
-  }
+  }}
   label.textContent = T.copied; b.classList.add("done");
-  setTimeout(() => { label.textContent = T.copy; b.classList.remove("done"); }, 1500);
-};
+  setTimeout(() => {{ label.textContent = T.copy; b.classList.remove("done"); }}, 1500);
+}};
 
 // ------------------------------------------------------------------ live
 
@@ -1506,20 +1712,20 @@ document.getElementById("copy").onclick = async e => {
 // page was built beside: a redeployed backend and a stale page would otherwise
 // disagree in silence. Re-read periodically so a deploy is visible without a
 // reload.
-async function showBackend() {
+async function showBackend() {{
   const el = document.getElementById("backend");
   if (!el) return;
-  try {
-    const h = await fetch(BACKEND + "/health", {cache: "no-store"}).then(r => r.json());
-    el.textContent = `${T.backend} ${h.version || "?"}`;
+  try {{
+    const h = await fetch(BACKEND + "/health", {{cache: "no-store"}}).then(r => r.json());
+    el.textContent = `${{T.backend}} ${{h.version || "?"}}`;
     el.classList.remove("down");
-    el.title = `${h.running}/${h.capacity} running`;
-  } catch (e) {
+    el.title = `${{h.running}}/${{h.capacity}} running`;
+  }} catch (e) {{
     el.textContent = T.backend_down;
     el.classList.add("down");
     el.title = "";
-  }
-}
+  }}
+}}
 showBackend();
 setInterval(showBackend, 60000);
 const $ = id => document.getElementById(id);
@@ -1529,109 +1735,109 @@ let live = [], sock = null, held = new Set(), recent = [], watchId = null;
 // every earlier copy of it
 let act = null;
 
-function mmssLeft(s) { return mmss(s); }
+function mmssLeft(s) {{ return mmss(s); }}
 
 // A card shows the thumbnail the backend publishes. One socket per card would
 // be one socket per card per visitor, which is the load the game box cannot
 // take on a launch day; a cached image in the bucket costs it nothing.
 // loading="lazy" keeps offscreen cards from fetching at all.
-function bumpShots() {
+function bumpShots() {{
   if (document.hidden) return;
-  document.querySelectorAll("img.live-cv").forEach(img => {
+  document.querySelectorAll("img.live-cv").forEach(img => {{
     const s = live.find(x => x.id === img.dataset.sid);
     if (!s) return;
-    const want = `${STORE}/live/${s.id}.jpg?v=${s.shot || 0}`;
-    if (!img.src.endsWith(`v=${s.shot || 0}`)) img.src = want;
-  });
-}
+    const want = `${{STORE}}/live/${{s.id}}.jpg?v=${{s.shot || 0}}`;
+    if (!img.src.endsWith(`v=${{s.shot || 0}}`)) img.src = want;
+  }});
+}}
 
 // kept so the detail view and the card list share one shape
 const stat = new Map();
-function drawLive() {}
+function drawLive() {{}}
 
-async function pollLive() {
+async function pollLive() {{
   // captured before the fetch replaces `live`, or the comparison below is
   // always true of itself and the list never re-renders
   const before = live.map(s => s.id).join();
-  try {
+  try {{
     const d = await fetch(LIVE).then(r => r.json());
     // a stale file from a dead container should not show phantom runs
     live = (Date.now() / 1000 - (d.t || 0) < 60) ? (d.running || []) : [];
-  } catch { live = []; }
+  }} catch {{ live = []; }}
   drawLive();
   drawStats();
   if (live.map(s => s.id).join() !== before) render();   // a run started or ended
   else refreshLive();
   bumpShots();
-  if (watchId) {
+  if (watchId) {{
     const s = live.find(x => x.id === watchId);
-    $("wleft").textContent = s ? `${T.left} ${mmss(s.remaining)}` : T.over;
-  }
-}
+    $("wleft").textContent = s ? `${{T.left}} ${{mmss(s.remaining)}}` : T.over;
+  }}
+}}
 
 // ------------------------------------------------------------------ watch
 
-async function inflate(buf) {
+async function inflate(buf) {{
   const st = new Blob([buf]).stream().pipeThrough(new DecompressionStream("deflate"));
   return new Uint8Array(await new Response(st).arrayBuffer());
-}
+}}
 
 // Paints one tile delta. Same wire format the interactive client uses; the
 // spectator just never sends anything back. Each canvas carries its own tile
 // cache so a wall of live cards and the big view can share this.
-function paintDelta(d, cv, cache) {
-  const c2d = cv.getContext("2d", {alpha: false});
+function paintDelta(d, cv, cache) {{
+  const c2d = cv.getContext("2d", {{alpha: false}});
   const dv = new DataView(d.buffer, d.byteOffset, d.byteLength);
   const w = dv.getUint16(1, true), h = dv.getUint16(3, true);
   const tw = d[5], th = d[6];
   const cols = dv.getUint16(7, true), count = dv.getUint16(11, true);
-  if (cv.width !== w || cv.height !== h) {
+  if (cv.width !== w || cv.height !== h) {{
     cv.width = w; cv.height = h; cache.img = null;
     c2d.fillStyle = "#000"; c2d.fillRect(0, 0, w, h);
-  }
+  }}
   if (!cache.img || cache.img.width !== tw || cache.img.height !== th)
     cache.img = c2d.createImageData(tw, th);
   const idxOff = 13, dataOff = idxOff + count * 2, len = tw * th;
   const px = cache.img.data;
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i++) {{
     const t = dv.getUint16(idxOff + i * 2, true);
     let p = dataOff + i * len * 3;
-    for (let q = 0; q < len; q++) {
+    for (let q = 0; q < len; q++) {{
       px[q * 4] = d[p++]; px[q * 4 + 1] = d[p++]; px[q * 4 + 2] = d[p++];
       px[q * 4 + 3] = 255;
-    }
+    }}
     c2d.putImageData(cache.img, (t % cols) * tw, Math.floor(t / cols) * th);
-  }
-}
+  }}
+}}
 
-const cache = {};
-function paint(d) { paintDelta(d, $("cv"), cache); $("veil").classList.add("gone"); }
+const cache = {{}};
+function paint(d) {{ paintDelta(d, $("cv"), cache); $("veil").classList.add("gone"); }}
 
 // The numpad diagonals get the direction they move you; the arrow keys get
 // the arrow printed on the key. They used to share a glyph, which put two
 // rows reading "↗" next to each other - the same complaint as two bars with
 // the same label, because that is what it was.
-const GLYPH = {kp7: "↖", kp9: "↗", kp1: "↙", kp3: "↘",
+const GLYPH = {{kp7: "↖", kp9: "↗", kp1: "↙", kp3: "↘",
                left: "←", up: "↑", down: "↓", right: "→",
                enter: "⏎", space: "␣", escape: "esc",
-               backspace: "⌫", tab: "⇥"};
+               backspace: "⌫", tab: "⇥"}};
 
 // One key, several spellings the server accepts. Counted apart these split a
 // single key across two bars that then rendered identically. Canonicalised on
 // the way in, which also repairs runs already recorded under either spelling.
-const ALIAS = {esc: "escape", cancel: "escape", "return": "enter", ok: "enter"};
+const ALIAS = {{esc: "escape", cancel: "escape", "return": "enter", ok: "enter"}};
 const canon = k => ALIAS[k] || k;
 const glyph = k => GLYPH[canon(k)] || canon(k);
 
 // Fold a key -> count map onto canonical names, summing the aliases.
-function foldKeys(keys) {
-  const out = {};
-  for (const [k, n] of Object.entries(keys || {})) {
+function foldKeys(keys) {{
+  const out = {{}};
+  for (const [k, n] of Object.entries(keys || {{}})) {{
     const c = canon(k);
     out[c] = (out[c] || 0) + n;
-  }
+  }}
   return out;
-}
+}}
 
 // A fixed reading order, so the same key sits in the same place on every run
 // and two runs can be compared at a glance. Frequency order moved the rows
@@ -1639,86 +1845,86 @@ function foldKeys(keys) {
 const KEY_ORDER = ["kp7", "left", "kp9", "up", "kp1", "down", "kp3", "right",
                    "enter", "space", "escape", "y", "n",
                    "tab", "backspace", "(wait)"];
-const keyRank = k => {
+const keyRank = k => {{
   const i = KEY_ORDER.indexOf(k);
   return i < 0 ? KEY_ORDER.length : i;
-};
+}};
 const byKey = (a, b) => keyRank(a) - keyRank(b) || String(a).localeCompare(b);
 
-function drawKeys(mark) {
-  if (mark) {
+function drawKeys(mark) {{
+  if (mark) {{
     // a replayed action knows exactly how long each key was down
     $("wkeys").innerHTML = (mark.keys || []).map(([k, hold]) =>
-      `<i class="on">${glyph(k)}${hold > 0.25
-        ? `<u>${hold.toFixed(1)}s</u>` : ""}</i>`).join("")
-      || `<i>${mark.do || ""}</i>`;
+      `<i class="on">${{glyph(k)}}${{hold > 0.25
+        ? `<u>${{hold.toFixed(1)}}s</u>` : ""}}</i>`).join("")
+      || `<i>${{mark.do || ""}}</i>`;
     return;
-  }
-  if (act && act.keys.length) {
+  }}
+  if (act && act.keys.length) {{
     // same shape as a replayed action: the keys of this action, with how long
     // the longest was held, and whichever are still down highlighted
     $("wkeys").innerHTML = act.keys.map((k, i) =>
-      `<i>${glyph(k)}${
-        i === 0 && act.hold ? `<u>${act.hold}</u>` : ""}</i>`).join("");
+      `<i>${{glyph(k)}}${{
+        i === 0 && act.hold ? `<u>${{act.hold}}</u>` : ""}}</i>`).join("");
     return;
-  }
+  }}
   $("wkeys").innerHTML = recent.slice(-8)
-    .map(k => `<i>${glyph(k)}</i>`).join("");
-}
+    .map(k => `<i>${{glyph(k)}}</i>`).join("");
+}}
 
 // ---- the detail view's live panes, all fed by the same socket ----
-let wlog = [], wsum = {}, wcurve = [];
+let wlog = [], wsum = {{}}, wcurve = [];
 // replay state, declared here because drawWatchPanes below reads it and a
 // `let` used before its declaration throws rather than reading undefined
 let tl = null, marks = [], vidT = 0, openSeq = 0;
 
-function keysOf(target) {
+function keysOf(target) {{
   // "kp3 x4" is one action pressing kp3 four times; "kp9 enter" is two keys
-  return String(target || "").split(/\s+/).filter(Boolean).flatMap(w => {
+  return String(target || "").split(/\s+/).filter(Boolean).flatMap(w => {{
     const m = w.match(/^x(\d+)$/);
     return m ? [] : [w];
-  });
-}
+  }});
+}}
 
-function drawCurve(pts) {
+function drawCurve(pts) {{
   const el = $("wcurve");
-  if (!pts || pts.length < 2) { el.innerHTML = ""; return; }
+  if (!pts || pts.length < 2) {{ el.innerHTML = ""; return; }}
   const mx = pts[pts.length - 1][0] || 1, my = Math.max(1, ...pts.map(p => p[1]));
-  const at = ([x, y]) => `${(x / mx * 240).toFixed(1)},${(60 - y / my * 58).toFixed(1)}`;
+  const at = ([x, y]) => `${{(x / mx * 240).toFixed(1)}},${{(60 - y / my * 58).toFixed(1)}}`;
   // the dashed line is one new place per action: the ceiling nothing beats
-  el.innerHTML = `<path class="base" d="M0,60 L${at([mx, Math.min(my, mx)])}"/>`
-    + `<path d="M${pts.map(at).join(" L")}"/>`;
-}
+  el.innerHTML = `<path class="base" d="M0,60 L${{at([mx, Math.min(my, mx)])}}"/>`
+    + `<path d="M${{pts.map(at).join(" L")}}"/>`;
+}}
 
-function drawWatchPanes() {
+function drawWatchPanes() {{
   const up = wsum.uptime_s || 0, n = wsum.actions || 0;
-  const counts = {};
+  const counts = {{}};
   // A replay has no socket to stream a log, but the timeline sidecar carries
   // every action already, so the panes are built from whatever is to the left
   // of the playhead. They then grow and shrink as you scrub.
   const upto = tl ? marks.slice(0, Math.max(0, vidT + 1)) : null;
-  if (upto) {
+  if (upto) {{
     for (const m of upto)
       for (const [k] of (m.keys || [])) counts[k] = (counts[k] || 0) + 1;
-  } else {
-    for (const e of wlog) {
+  }} else {{
+    for (const e of wlog) {{
       if (!["KEY", "KEYS", "WAIT"].includes(e.verb)) continue;
       const parts = String(e.target || "").split(/\s+/).filter(Boolean);
       const mult = (parts.find(w => /^x\d+$/.test(w)) || "x1").slice(1);
       for (const k of keysOf(e.target)) counts[k] = (counts[k] || 0) + (+mult || 1);
-    }
-  }
+    }}
+  }}
   const vals = [n, up > 1 && n ? (n / up).toFixed(2) : "0.00",
                 mmss(up), wsum.meaningful ?? 0];
-  document.querySelectorAll("#wstats b[data-w]").forEach(b => {
+  document.querySelectorAll("#wstats b[data-w]").forEach(b => {{
     b.textContent = vals[+b.dataset.w];
-  });
+  }});
 
   // screen-changing decisions against decision calls, sampled as the run goes
-  if (n && (!wcurve.length || n > wcurve[wcurve.length - 1][0])) {
+  if (n && (!wcurve.length || n > wcurve[wcurve.length - 1][0])) {{
     wcurve.push([n, wsum.meaningful || 0]);
     if (wcurve.length > 400) wcurve.splice(0, wcurve.length - 400);
-  }
+  }}
   drawCurve(wcurve);
 
   const top = Object.entries(foldKeys(counts)).sort((a, b) => byKey(a[0], b[0])).slice(0, 12);
@@ -1726,75 +1932,75 @@ function drawWatchPanes() {
   // was only ever true while this list was sorted by count
   const max = Math.max(1, ...top.map(x => x[1]));
   $("whist").innerHTML = top.length
-    ? top.map(([k, c]) => `<div><u>${glyph(k)}</u>`
-        + `<i style="width:${Math.max(3, c / max * 100)}%"></i><b>${c}</b></div>`).join("")
-    : `<p class="msg" style="padding:8px 0">${T.nolog}</p>`;
+    ? top.map(([k, c]) => `<div><u>${{glyph(k)}}</u>`
+        + `<i style="width:${{Math.max(3, c / max * 100)}}%"></i><b>${{c}}</b></div>`).join("")
+    : `<p class="msg" style="padding:8px 0">${{T.nolog}}</p>`;
 
-  if (upto) {
+  if (upto) {{
     // newest first, and every row is a seek target
     const rows = upto.slice(-160).reverse();
-    $("wlog").innerHTML = rows.length ? rows.map(m => {
+    $("wlog").innerHTML = rows.length ? rows.map(m => {{
       const hold = Math.max(0, ...(m.keys || []).map(k => k[1] || 0));
       const keys = (m.keys || []).map(([k]) => glyph(k)).join(" ")
                    || (m.do || "");
-      return `<div class="r seek" data-t="${m.t}"><span class="t">${gt(m.t)}</span>`
-        + `<span class="v">#${m.n}</span><span>${keys}</span>`
-        + `<span class="d">${hold >= 0.25 ? hold.toFixed(1) + "s" : ""}</span></div>`;
-    }).join("") : `<p class="msg">${T.nolog}</p>`;
+      return `<div class="r seek" data-t="${{m.t}}"><span class="t">${{gt(m.t)}}</span>`
+        + `<span class="v">#${{m.n}}</span><span>${{keys}}</span>`
+        + `<span class="d">${{hold >= 0.25 ? hold.toFixed(1) + "s" : ""}}</span></div>`;
+    }}).join("") : `<p class="msg">${{T.nolog}}</p>`;
     return;
-  }
+  }}
   const rows = wlog.slice(-120).reverse();
-  $("wlog").innerHTML = rows.length ? rows.map(e => {
-    const t = new Date(e.at * 1000).toLocaleTimeString([], {hour12: false});
-    return `<div class="r"><span class="t">${t}</span>`
-      + `<span class="v${e.ok ? "" : " bad"}">${e.verb}</span>`
-      + `<span>${keysOf(e.target).map(k => glyph(k)).join(" ") || e.target}</span>`
-      + `<span class="d">${e.detail || ""}</span></div>`;
-  }).join("") : `<p class="msg">${T.nolog}</p>`;
-}
+  $("wlog").innerHTML = rows.length ? rows.map(e => {{
+    const t = new Date(e.at * 1000).toLocaleTimeString([], {{hour12: false}});
+    return `<div class="r"><span class="t">${{t}}</span>`
+      + `<span class="v${{e.ok ? "" : " bad"}}">${{e.verb}}</span>`
+      + `<span>${{keysOf(e.target).map(k => glyph(k)).join(" ") || e.target}}</span>`
+      + `<span class="d">${{e.detail || ""}}</span></div>`;
+  }}).join("") : `<p class="msg">${{T.nolog}}</p>`;
+}}
 
 // clicking a logged action jumps the replay to it
-$("wlog").onclick = e => {
+$("wlog").onclick = e => {{
   const row = e.target.closest(".seek");
   if (row && tl) seek(+row.dataset.t);
-};
+}};
 
 // The replay gets its marks from the timeline sidecar; a live run has no
 // sidecar yet, so its marks are built from the action log the socket streams.
 // Same shape, so drawMarks, atTime and drawKeys work unchanged.
-function rebuildLiveMarks() {
+function rebuildLiveMarks() {{
   if (!isLive() || !liveStart) return;
   const acts = wlog.filter(e => ["KEY", "KEYS", "WAIT"].includes(e.verb));
-  marks = acts.map((e, i) => {
+  marks = acts.map((e, i) => {{
     const hold = parseFloat(e.detail) || 0.15;
-    return {n: i + 1, t: Math.max(0, e.at - liveStart),
-            do: `${e.verb} ${e.target || ""}`,
-            keys: keysOf(e.target).map(k => [k, hold]), hold};
-  });
+    return {{n: i + 1, t: Math.max(0, e.at - liveStart),
+            do: `${{e.verb}} ${{e.target || ""}}`,
+            keys: keysOf(e.target).map(k => [k, hold]), hold}};
+  }});
   drawMarks();
   liveHead();
-}
+}}
 
 // The sweep: where "now" sits on the budget. Red and slowly pulsing while the
 // run is going, so live reads as live.
-function liveHead() {
+function liveHead() {{
   if (!isLive() || !liveSpan) return;
   const el = Date.now() / 1000 - liveStart;
   $("rhead").style.left = Math.min(100, el / liveSpan * 100).toFixed(2) + "%";
-}
+}}
 
-function connect(sid) {
-  const url = BACKEND.replace(/^http/, "ws") + `/s/${sid}/ws`;
+function connect(sid) {{
+  const url = BACKEND.replace(/^http/, "ws") + `/s/${{sid}}/ws`;
   sock = new WebSocket(url);
   sock.binaryType = "arraybuffer";
-  sock.onmessage = e => {
+  sock.onmessage = e => {{
     if (typeof e.data !== "string") return inflate(e.data).then(paint);
     const m = JSON.parse(e.data);
-    if (m.t === "key") {
-      if (m.down) { held.add(m.k); recent.push(m.k); recent = recent.slice(-24); }
+    if (m.t === "key") {{
+      if (m.down) {{ held.add(m.k); recent.push(m.k); recent = recent.slice(-24); }}
       else held.delete(m.k);
       drawKeys();
-    } else if (m.t === "log") {
+    }} else if (m.t === "log") {{
       // the first message carries the backlog and the whole progress curve;
       // later ones carry a single entry
       if (m.c && !wcurve.length) wcurve = m.c.map(p => [p[0], p[1]]);
@@ -1802,24 +2008,24 @@ function connect(sid) {
       for (const x of m.e || []) if (!seen.has(x.id)) wlog.push(x);
       rebuildLiveMarks();
       const last = (m.e || []).filter(x => ["KEY", "KEYS", "WAIT"].includes(x.verb)).pop();
-      if (last) {
-        act = {keys: keysOf(last.target), hold: last.detail || ""};
+      if (last) {{
+        act = {{keys: keysOf(last.target), hold: last.detail || ""}};
         drawKeys();
-      }
+      }}
       if (m.s) wsum = m.s;
       drawWatchPanes();
-    }
-  };
-  sock.onclose = () => {
+    }}
+  }};
+  sock.onclose = () => {{
     if (!sock) return;                       // closed by going back
     const gone = live.length && !live.some(x => x.id === sid);
     $("veil").textContent = gone ? T.over : T.dropped;
     $("veil").classList.remove("gone");
     if (!gone) setTimeout(() => sock && connect(sid), 2000);
-  };
-}
+  }};
+}}
 
-function shell(agent, push, id, live) {
+function shell(agent, push, id, live) {{
   const s = sock; sock = null; if (s) s.close();
   const v = $("vid"); v.pause(); v.removeAttribute("src"); v.load();
   cache.img = null;
@@ -1829,20 +2035,20 @@ function shell(agent, push, id, live) {
   const wl = $("wladder");
   if (wl) wl.innerHTML = "";
   held.clear(); recent = []; act = null; drawKeys();
-  wlog = []; wsum = {}; wcurve = []; drawWatchPanes();
+  wlog = []; wsum = {{}}; wcurve = []; drawWatchPanes();
   document.body.classList.add("watching");
   document.body.classList.toggle("islive", !!live);
   watchId = live ? id : null;
   // One address per run, whatever state it is in. A link shared while a run is
   // live keeps working once it finishes; it just opens the replay instead.
-  if (push) history.pushState({run: id, agent}, "",
-    `?run=${encodeURIComponent(id)}`);
+  if (push) history.pushState({{run: id, agent}}, "",
+    `?run=${{encodeURIComponent(id)}}`);
   scrollTo(0, 0);
-}
+}}
 
-function open(sid, agent, push) {
+function open(sid, agent, push) {{
   shell(agent, push, sid, true);
-  const l = live.find(x => x.id === sid) || {};
+  const l = live.find(x => x.id === sid) || {{}};
   liveStart = l.started || Date.now() / 1000;
   liveSpan = l.budget || 1200;
   marks = [];
@@ -1852,16 +2058,16 @@ function open(sid, agent, push) {
   $("veil").textContent = T.waiting;
   $("veil").classList.remove("gone");
   connect(sid);
-}
+}}
 
-function close(push) {
+function close(push) {{
   const s = sock; sock = null; watchId = null; if (s) s.close();
   const v = $("vid"); v.pause(); v.removeAttribute("src"); v.load();
   tl = null; marks = []; liveStart = 0; liveSpan = 0;
   clearTimeout(inspectTimer);
   document.body.classList.remove("watching", "islive");
-  if (push) history.pushState({}, "", location.pathname);
-}
+  if (push) history.pushState({{}}, "", location.pathname);
+}}
 
 $("back").onclick = () => close(true);
 
@@ -1870,19 +2076,19 @@ $("back").onclick = () => close(true);
 // A finished run is watched by driving the MP4 from its timeline sidecar. The
 // recording itself runs to 100MB+; the video is about 1MB and the browser can
 // seek it natively, so the sidecar is a few KB of "what happened when".
-function fmt(t) {
+function fmt(t) {{
   t = Math.max(0, t);
   const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), sec = Math.floor(t % 60);
   const mm = h ? String(m).padStart(2, "0") : String(m);
   return (h ? h + ":" : "") + mm + ":" + String(sec).padStart(2, "0");
-}
+}}
 
 // The video is speed-compressed - eight times for a short run, more for a long
 // one - so its own clock means nothing to a reader. Every time shown is the
 // time inside the game.
-function gt(videoSeconds) {
+function gt(videoSeconds) {{
   return fmt(videoSeconds * ((tl && tl.speed) || 1));
-}
+}}
 
 // While a run is live the roll spans the whole budget, in real seconds; in a
 // replay it spans the compressed video. One helper so both drawers agree.
@@ -1891,56 +2097,56 @@ const isLive = () => document.body.classList.contains("islive");
 const rollSpan = () => isLive() ? liveSpan : (tl && tl.seconds) || 0;
 const rollSpeed = () => isLive() ? 1 : (tl && tl.speed) || 1;
 
-function drawMarks() {
+function drawMarks() {{
   if (!rollSpan()) return;
   // lanes ordered by how much the agent leaned on each key
-  const use = {};
-  for (const m of marks) for (const [k] of (m.keys || [])) {
+  const use = {{}};
+  for (const m of marks) for (const [k] of (m.keys || [])) {{
     const c = canon(k); use[c] = (use[c] || 0) + 1;
-  }
+  }}
   const lanes = Object.keys(use).sort(byKey).slice(0, 10);
   const row = new Map(lanes.map((k, i) => [k, i]));   // keyed on canonical names
   const longest = Math.max(0.001, ...marks.map(m => m.hold || 0));
 
   $("lanes").innerHTML = lanes.map(k =>
-    `<span title="${k}">${glyph(k)}</span>`).join("");
+    `<span title="${{k}}">${{glyph(k)}}</span>`).join("");
   $("rollgrid").style.height = (lanes.length * 15) + "px";
 
   let html = lanes.map((k, i) =>
-    `<div class="lane" style="top:${i * 15}px"></div>`).join("");
-  for (const m of marks) {
-    for (const [k, hold] of (m.keys || [])) {
+    `<div class="lane" style="top:${{i * 15}}px"></div>`).join("");
+  for (const m of marks) {{
+    for (const [k, hold] of (m.keys || [])) {{
       const i = row.get(canon(k));   // lanes are canonical; a raw alias
       if (i === undefined) continue;  // would find no lane and vanish
       const x = m.t / rollSpan() * 100;
       const w = Math.max(0.25, (hold / rollSpeed()) / rollSpan() * 100);
-      html += `<b class="${hold > longest * 0.4 ? "long" : ""}" title="${k} ${
-        hold.toFixed(2)}s @ ${fmt(m.t * rollSpeed())}" data-t="${m.t}"
-        style="left:${x.toFixed(3)}%;width:${w.toFixed(3)}%;top:${i * 15 + 3}px"></b>`;
-    }
-  }
+      html += `<b class="${{hold > longest * 0.4 ? "long" : ""}}" title="${{k}} ${{
+        hold.toFixed(2)}}s @ ${{fmt(m.t * rollSpeed())}}" data-t="${{m.t}}"
+        style="left:${{x.toFixed(3)}}%;width:${{w.toFixed(3)}}%;top:${{i * 15 + 3}}px"></b>`;
+    }}
+  }}
   $("rollgrid").innerHTML = html;
-}
+}}
 
-function atTime(t) {
+function atTime(t) {{
   let lo = 0, hi = marks.length - 1, k = -1;
-  while (lo <= hi) {
+  while (lo <= hi) {{
     const mid = (lo + hi) >> 1;
-    if (marks[mid].t <= t) { k = mid; lo = mid + 1; } else hi = mid - 1;
-  }
+    if (marks[mid].t <= t) {{ k = mid; lo = mid + 1; }} else hi = mid - 1;
+  }}
   return k;
-}
+}}
 
-function sync() {
+function sync() {{
   const v = $("vid");
   if (!tl || $("vid").hidden) return;
   const t = v.currentTime, pct = tl.seconds ? t / tl.seconds * 100 : 0;
   $("fill").style.width = pct + "%";
   $("head").style.left = pct + "%";
   $("rhead").style.left = pct + "%";
-  $("tc").textContent = `${gt(t)} / ${gt(tl.seconds)}`;
+  $("tc").textContent = `${{gt(t)}} / ${{gt(tl.seconds)}}`;
   const k = atTime(t);
-  if (k !== vidT) {
+  if (k !== vidT) {{
     vidT = k;
     const m = marks[k];
     recent = m ? (m.keys || []).map(x => x[0]) : [];
@@ -1952,23 +2158,23 @@ function sync() {
     const n = m ? m.n : 0;
     const up = (m ? m.t : 0) * (tl.speed || 1);
     wcurve = (tl.curve || []).filter(p => p[0] <= n);
-    wsum = {...wsum, actions: n, uptime_s: up,
-             meaningful: wcurve.length ? wcurve[wcurve.length - 1][1] : 0};
+    wsum = {{...wsum, actions: n, uptime_s: up,
+             meaningful: wcurve.length ? wcurve[wcurve.length - 1][1] : 0}};
     drawWatchPanes();
-  }
-}
+  }}
+}}
 
-function seek(t) {
+function seek(t) {{
   const v = $("vid");
   v.currentTime = Math.max(0, Math.min(tl.seconds - 0.05, t));
   sync();
-}
+}}
 
-function scrubFrom(e) {
+function scrubFrom(e) {{
   if (!tl || !tl.seconds) return;
   const r = e.currentTarget.getBoundingClientRect();
   seek((e.clientX - r.left) / r.width * tl.seconds);
-}
+}}
 $("track").onclick = scrubFrom;
 $("rhead").style.left = "0%";
 
@@ -1977,11 +2183,11 @@ $("rhead").style.left = "0%";
 // pins to the nearest action, the key strip shows what was pressed, and a
 // moment after the pointer lifts the view falls back to following live.
 let inspectTimer = 0;
-function rollAt(e) {
+function rollAt(e) {{
   const r = $("rollgrid").getBoundingClientRect();
   const t = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * rollSpan();
   if (!rollSpan()) return;
-  if (!isLive()) { if (tl) seek(t); return; }
+  if (!isLive()) {{ if (tl) seek(t); return; }}
   const k = atTime(t);
   if (k < 0 || !marks[k]) return;
   const m = marks[k];
@@ -1990,27 +2196,27 @@ function rollAt(e) {
   c.hidden = false;
   c.style.left = (m.t / rollSpan() * 100).toFixed(2) + "%";
   clearTimeout(inspectTimer);
-  inspectTimer = setTimeout(() => { c.hidden = true; drawKeys(); }, 2500);
-}
-$("rollgrid").addEventListener("pointerdown", e => {
+  inspectTimer = setTimeout(() => {{ c.hidden = true; drawKeys(); }}, 2500);
+}}
+$("rollgrid").addEventListener("pointerdown", e => {{
   e.preventDefault();
   rollAt(e);
   const mv = ev => rollAt(ev);
-  const up = () => {
+  const up = () => {{
     removeEventListener("pointermove", mv);
     removeEventListener("pointerup", up);
-  };
+  }};
   addEventListener("pointermove", mv);
   addEventListener("pointerup", up);
-});
-$("pp").onclick = () => { const v = $("vid"); v.paused ? v.play() : v.pause(); };
-$("prev").onclick = () => { const k = atTime($("vid").currentTime - 0.05);
-                           if (k > 0) seek(marks[k - 1].t); };
-$("next").onclick = () => { const k = atTime($("vid").currentTime);
-                           if (k + 1 < marks.length) seek(marks[k + 1].t); };
-$("rate").onchange = e => { $("vid").playbackRate = +e.target.value; };
+}});
+$("pp").onclick = () => {{ const v = $("vid"); v.paused ? v.play() : v.pause(); }};
+$("prev").onclick = () => {{ const k = atTime($("vid").currentTime - 0.05);
+                           if (k > 0) seek(marks[k - 1].t); }};
+$("next").onclick = () => {{ const k = atTime($("vid").currentTime);
+                           if (k + 1 < marks.length) seek(marks[k + 1].t); }};
+$("rate").onchange = e => {{ $("vid").playbackRate = +e.target.value; }};
 
-async function openReplay(run, push) {
+async function openReplay(run, push) {{
   shell(run.agent, push, run.id, false);
   tl = null; marks = []; vidT = -1;
   $("veil").textContent = T.loading2;
@@ -2020,103 +2226,103 @@ async function openReplay(run, push) {
   const v = $("vid");
   // handlers before src: metadata can arrive during the await below, and a
   // handler attached afterwards would simply miss it
-  v.onloadedmetadata = () => { if (!tl || !tl.seconds) {
-    tl = tl || {marks: []}; tl.seconds = v.duration; } sync(); };
+  v.onloadedmetadata = () => {{ if (!tl || !tl.seconds) {{
+    tl = tl || {{marks: []}}; tl.seconds = v.duration; }} sync(); }};
   v.ontimeupdate = sync;
   v.onplay = () => $("ppi").setAttribute("d", "M4.5 3h2.6v10H4.5zM8.9 3h2.6v10H8.9z");
   v.onpause = () => $("ppi").setAttribute("d", "M5 3.2v9.6l7.5-4.8z");
   v.playbackRate = +$("rate").value;
   $("dl").href = run.video_url;
-  try {
-    tl = await fetch(`${STORE}/runs/${run.id}.json`).then(r => r.json());
-  } catch { tl = null; }
-  if (!tl) { tl = {seconds: 0, marks: [], curve: run.curve || []}; }
+  try {{
+    tl = await fetch(`${{STORE}}/runs/${{run.id}}.json`).then(r => r.json());
+  }} catch {{ tl = null; }}
+  if (!tl) {{ tl = {{seconds: 0, marks: [], curve: run.curve || []}}; }}
   // Runs recorded before the metric change plot distinct screens against
   // decision calls, which is not what the axis says any more, so their curve is
   // dropped rather than relabelled. A `places` field is what dates them.
   if ("places" in run) tl.curve = [];
-  marks = (tl.marks || []).map(m => ({
-    ...m, hold: Math.max(0, ...(m.keys || []).map(k => k[1] || 0))}));
-  wsum = {meaningful: 0, uptime_s: run.played, actions: 0};
+  marks = (tl.marks || []).map(m => ({{
+    ...m, hold: Math.max(0, ...(m.keys || []).map(k => k[1] || 0))}}));
+  wsum = {{meaningful: 0, uptime_s: run.played, actions: 0}};
   // the run's own progress, from the catalogue entry that opened it
   const wl = $("wladder");
-  if (wl) {
+  if (wl) {{
     wl.innerHTML = ladder(run, true)
       + `<div class="wchar">`
       + [[T.b_level, run.level], [T.b_exp, run.exp], [T.b_skills, run.skills],
          [T.b_items, run.inventory_distinct], [T.b_books, run.books],
          [T.b_party, run.team_size], [T.b_scenes, run.scenes]]
-          .map(([k, v]) => `<span><u>${k}</u><b>${v == null ? "-" : v}</b></span>`)
+          .map(([k, v]) => `<span><u>${{k}}</u><b>${{v == null ? "-" : v}}</b></span>`)
           .join("")
       + `</div>`;
-  }
+  }}
   wlog = []; drawMarks();
   v.src = run.video_url;
   $("veil").classList.add("gone");
   // autoplay may be refused without a gesture; the panes must fill either way
   vidT = -1;
   sync();
-  v.play().catch(() => {});
+  v.play().catch(() => {{}});
   // Do not trust play() to report failure: autoplay can be refused, and a
   // browser without an H.264 decoder neither plays nor rejects. Judge on
   // whether the playhead actually moved, and if it did not, show the finished
   // run whole rather than leaving every panel frozen on its first action.
   const started = ++openSeq;
-  setTimeout(() => {
+  setTimeout(() => {{
     if (started !== openSeq || vidT > 0 || !marks.length) return;
     vidT = marks.length - 1;
     const m = marks[vidT];
     wcurve = tl.curve || [];
-    wsum = {actions: m.n, uptime_s: m.t * (tl.speed || 1),
-             meaningful: wcurve.length ? wcurve[wcurve.length - 1][1] : 0};
+    wsum = {{actions: m.n, uptime_s: m.t * (tl.speed || 1),
+             meaningful: wcurve.length ? wcurve[wcurve.length - 1][1] : 0}};
     drawKeys(m);
     drawWatchPanes();
-  }, 2500);
-}
+  }}, 2500);
+}}
 
 // ------------------------------------------------------------------ brief
 
-async function showDoc(push) {
+async function showDoc(push) {{
   document.body.classList.add("reading");
   scrollTo(0, 0);
-  if (brief === null) {
+  if (brief === null) {{
     $("doctext").textContent = T.loading;
     const url = briefPath(document.getElementById("mins").value);
-    try { brief = await fetch(url).then(r => r.text()); }
-    catch { brief = T.gone; }
-  }
+    try {{ brief = await fetch(url).then(r => r.text()); }}
+    catch {{ brief = T.gone; }}
+  }}
   $("doctext").textContent = brief;
-  if (push) history.pushState({doc: 1}, "", "?doc=1");
-}
-function hideDoc(push) {
+  if (push) history.pushState({{doc: 1}}, "", "?doc=1");
+}}
+function hideDoc(push) {{
   document.body.classList.remove("reading");
-  if (push) history.pushState({}, "", location.pathname);
-}
+  if (push) history.pushState({{}}, "", location.pathname);
+}}
 $("view").onclick = () => showDoc(true);
 $("docback").onclick = () => hideDoc(true);
-addEventListener("popstate", e => {
-  const st = e.state || {};
+addEventListener("popstate", e => {{
+  const st = e.state || {{}};
   if (st.doc) return showDoc(false);
   hideDoc(false);
   if (st.run) return route(st, false);
   close(false);
-});
+}});
 
-addEventListener("keydown", e => {
+addEventListener("keydown", e => {{
   if (e.key !== "Escape") return;
   if (document.body.classList.contains("reading")) hideDoc(true);
   else if (document.body.classList.contains("watching")) close(true);
-});
+}});
 
 // Polling stops while the tab is in the background and resumes on return, so
 // a reader with the page parked in a tab costs nothing.
-function tick(fn, ms) {
+function tick(fn, ms) {{
   let id = null;
-  const start = () => { if (!id) { fn(); id = setInterval(fn, ms); } };
-  const stop = () => { clearInterval(id); id = null; };
+  const start = () => {{ if (!id) {{ fn(); id = setInterval(fn, ms); }} }};
+  const stop = () => {{ clearInterval(id); id = null; }};
   document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
   start();
-}
+}}
 
 wireBoard();
 tick(liveHead, 1000);
@@ -2132,42 +2338,165 @@ const BUILD = document.querySelector('meta[name="build"]').content;
 // used to resolve to /en/version.txt with nothing there.
 const VERSION_URL = new URL("version.txt", T.base).href;
 let reloaded = false;
-tick(async () => {
+tick(async () => {{
   if (reloaded || document.body.classList.contains("watching")) return;
-  try {
-    const r = await fetch(VERSION_URL, {cache: "no-store"});
+  try {{
+    const r = await fetch(VERSION_URL, {{cache: "no-store"}});
     if (!r.ok) return;
     const v = (await r.text()).trim();
     // must look like a stamp, or a 404 page would compare unequal forever and
     // reload the page in a loop; and only ever act once per load
-    if (!/^[0-9a-f]{8,}$/.test(v) || v === BUILD) return;
+    if (!/^[0-9a-f]{{8,}}$/.test(v) || v === BUILD) return;
     reloaded = true;
     location.reload();
-  } catch {}
-}, 60000);
+  }} catch {{}}
+}}, 60000);
 
 // One address per run. Which view it opens depends on the run, not the link:
 // still going means watch it live, finished means replay it.
-async function route(st, push) {
+async function route(st, push) {{
   if (st.doc) return showDoc(push);
   const id = st.run;
   if (!id) return;
   const going = () => live.find(x => x.id === id);
   if (going()) return open(id, going().agent, push);
   let run = runs.find(r => r.id === id);
-  if (!run) {
+  if (!run) {{
     await Promise.all([load(), pollLive()]);
     if (going()) return open(id, going().agent, push);
     run = runs.find(r => r.id === id);
-  }
+  }}
   if (run && run.video_url) return openReplay(run, push);
   // named a run nobody has heard of: show the catalogue rather than a blank
   close(false);
-}
+}}
 
 const q = new URLSearchParams(location.search);
 // ?watch= was the old spelling for a live run; keep it resolving
-route({run: q.get("run") || q.get("watch"), doc: q.get("doc")}, false);
+route({{run: q.get("run") || q.get("watch"), doc: q.get("doc")}}, false);
 </script>
 </body>
 </html>
+"""
+
+
+def build(s, stamp="dev"):
+    # drawn empty and filled in from the catalogue, so nothing here is a
+    # number somebody has to remember to update
+    icons = [
+        '<path d="M1.5 8h3l2-4.5L9 12.5l2-4.5h3.5"/>',                 # live
+        '<rect x="1.8" y="3.5" width="12.4" height="9" rx="1.4"/>'
+        '<path d="M6.5 6.4v3.2l3-1.6z"/>',                              # runs
+        '<rect x="4.5" y="4.5" width="7" height="7" rx="1"/>'
+        '<path d="M6.6 1.8v2.7M9.4 1.8v2.7M6.6 11.5v2.7M9.4 11.5v2.7'
+        'M1.8 6.6h2.7M1.8 9.4h2.7M11.5 6.6h2.7M11.5 9.4h2.7"/>',        # models
+        '<circle cx="8" cy="8" r="6"/><path d="M8 4.4V8l2.4 1.6"/>',    # played
+    ]
+    skeleton = "".join(
+        f'<div title="{w}"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"'
+        f' stroke="currentColor" stroke-width="1.35" stroke-linecap="round"'
+        f' stroke-linejoin="round">{ic}</svg><b data-s="{i}">-</b></div>'
+        for i, (w, ic) in enumerate(zip(s["stats"], icons)))
+    # everything the script reads at runtime; missing a key here shows up as a
+    # literal "undefined" in the page, so it is derived rather than hand listed
+    skip = {"lang", "other", "other_href", "home", "url", "locale", "locale_alt",
+            "blurb", "tagline", "stats", "sort", "loading", "opts", "playtime",
+            "grid", "list"}
+    strings = {k: v for k, v in s.items() if k not in skip}
+    # each language ships its own brief alongside its page
+    c = s["cols"]
+    opts_html = "".join(f'<option value="{m}"{" selected" if m == 240 else ""}>{t}</option>'
+                        for m, t in s["opts"])
+    fields = dict(s, stats_skeleton=skeleton, md="agents.md", opts_html=opts_html,
+                  build=stamp,
+                  cols_actions=c["actions"], cols_aps=c["aps"],
+                  cols_keys=c["distinct_keys"],
+                  # json, not repr with the quotes swapped: that turned the
+                  # apostrophe in "scene's entrance" into a quote mark and broke
+                  # the whole string table
+                  strings=json.dumps(strings, ensure_ascii=False))
+    return TEMPLATE.format(**fields)
+
+
+def check(html):
+    # The string table is emitted as JSON and read by the page as an object
+    # literal. If it does not parse here it will not parse there, and the whole
+    # page dies rather than one label looking wrong.
+    for line in html.splitlines():
+        if line.startswith("const T = {"):
+            try:
+                json.loads(line[len("const T = "):].rstrip(";"))
+            except Exception as exc:
+                raise SystemExit(f"the string table is not valid JSON: {exc}")
+            break
+    else:
+        raise SystemExit("no string table found in the page")
+
+
+    """Two elements answering to one id is a silent, hard-to-see failure: the
+    later getElementById wins and one handler simply stops existing. It cost the
+    grid/list switcher once already."""
+    # .grid / .rows / .msg are set on the catalogue container from JS and then
+    # hold arbitrary card markup. A component that also styles descendants of
+    # one of them will silently restyle every card, which is how card values
+    # became invisible grey boxes once.
+    # Two keys drawn with one glyph read as a duplicated row in the histogram
+    # and the replay roll, because on screen that is exactly what they are.
+    m = re.search(r"const GLYPH = \{(.*?)\};", html, re.S)
+    if m:
+        seen = {}
+        for k, v in re.findall(r'(\w+):\s*"([^"]+)"', m.group(1)):
+            seen.setdefault(v, []).append(k)
+        clash = {v: ks for v, ks in seen.items() if len(ks) > 1}
+        if clash:
+            raise SystemExit(
+                f"two keys share a glyph, so they draw as one row twice: {clash}")
+
+    for owned in ("grid", "rows", "msg"):
+        stray = re.findall(rf"\.{owned}\s+[.\w#\[]", html)
+        if stray:
+            raise SystemExit(
+                f"CSS descends from .{owned}, which is the catalogue container: "
+                f"{sorted(set(stray))}")
+    fns = re.findall(r"\n(?:async )?function (\w+)\s*\(", html)
+    dupfn = {f for f in fns if fns.count(f) > 1}
+    if dupfn:
+        raise SystemExit(f"duplicate top-level functions: {sorted(dupfn)}")
+    ids = re.findall(r'\bid="([^"]+)"', html)
+    dupes = {i for i in ids if ids.count(i) > 1}
+    if dupes:
+        raise SystemExit(f"duplicate element ids: {sorted(dupes)}")
+    for ref in set(re.findall(r'getElementById\("([^"]+)"\)', html)
+                   + re.findall(r'\$\("([^"]+)"\)', html)):
+        if ref not in ids:
+            raise SystemExit(f"script references missing id: {ref}")
+    return html
+
+
+def main():
+    import hashlib
+    # The page reads every string off one table per language. A key present in
+    # one and missing in the other renders as a literal "undefined" in the
+    # other language, which is how the backend stamp shipped broken once.
+    only_zh, only_en = set(ZH) - set(EN), set(EN) - set(ZH)
+    if only_zh or only_en:
+        raise SystemExit(
+            f"string tables disagree: only in ZH {sorted(only_zh)}, "
+            f"only in EN {sorted(only_en)}")
+    # stamped so a page already open can notice a new build and reload itself
+    raw = build(ZH, "0") + build(EN, "0")
+    stamp = hashlib.sha256(raw.encode()).hexdigest()[:12]
+    # One per page directory rather than one at the root: the page asks for it
+    # relative to itself, and /en/version.txt was a 404 on every English load,
+    # so those readers never picked up a new build.
+    for d in (HERE, HERE / "en"):
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "version.txt").write_text(stamp + "\n", encoding="utf-8")
+    (HERE / "index.html").write_text(check(build(ZH, stamp)), encoding="utf-8")
+    (HERE / "en").mkdir(exist_ok=True)
+    (HERE / "en" / "index.html").write_text(check(build(EN, stamp)), encoding="utf-8")
+    print("wrote site/index.html (zh-Hans) and site/en/index.html (en)")
+
+
+if __name__ == "__main__":
+    main()

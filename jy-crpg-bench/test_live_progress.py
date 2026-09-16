@@ -1,0 +1,290 @@
+import importlib.util
+import json
+import pathlib
+import shutil
+import subprocess
+import unittest
+
+
+SITE_DIR = pathlib.Path(__file__).resolve().parent
+SPEC = importlib.util.spec_from_file_location("qunxia_site_build", SITE_DIR / "build.py")
+BUILD = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(BUILD)
+
+
+class LiveProgressTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.html = BUILD.build(BUILD.EN, "test")
+
+    def test_live_entries_carry_new_progress_fields(self):
+        for field in (
+            "level", "exp", "skills", "inventory_distinct", "picked_item",
+            "key_events", "input_frames", "wait_calls",
+        ):
+            self.assertIn(f"{field}: s.{field} ?? null", self.html)
+
+    def test_live_progress_cells_are_refreshed(self):
+        for field in ("ladder", "hero", "exit", "scenes", "inputs"):
+            self.assertIn(f'f === "{field}"', self.html)
+        self.assertIn('data-live="${r.id}:ladder"', self.html)
+
+
+@unittest.skipUnless(shutil.which("node"), "Node.js is required for site behavior tests")
+class ScoringBehaviorTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        html = BUILD.build(BUILD.EN, "test")
+        def section(start, end):
+            return html[html.index(start):html.index(end)]
+        cls.script = "\n".join((
+            "const T = " + json.dumps(BUILD.EN) + ";",
+            "const Q = new URLSearchParams(); let runs = [], live = []; const stat = new Map();",
+            section("const secs =", "// Which lab"),
+            section("const RUNGS =", "function clip("),
+            section("function wilson(", "// addressable,"),
+            section("function drawFrontier(", "// the label under"),
+            section("function entries()", "function sorted()"),
+            section("function sorted()", "function render()"),
+            "let sort = 'started', desc = true;",
+            "const wireOpen = () => {}; const mark = () => ''; const vendorOf = () => '';",
+        ))
+
+    def evaluate(self, expression, records=(), snapshots=()):
+        program = (self.script + "\nruns = " + json.dumps(records)
+                   + "; live = " + json.dumps(snapshots)
+                   + "; console.log(JSON.stringify(" + expression + "));")
+        result = subprocess.run(["node"], input=program, text=True,
+                                capture_output=True, check=True)
+        return json.loads(result.stdout)
+
+    def test_wait_only_milestone_is_consistent_on_card_and_board(self):
+        result = self.evaluate("[rungs(runs[0]), rungs(boardRows()[0])]", [
+            {"agent": "waiter", "actions": 4, "key_events": 0, "meaningful": 0},
+        ])
+        self.assertFalse(result[0][0])
+        self.assertEqual(result[0], result[1])
+
+    def test_the_ladder_is_the_game_own_numbers(self):
+        # Everything but "acted" is read from the game: its bag, its save, its
+        # character records. A run that only made the screen move reaches one
+        # rung, not two.
+        result = self.evaluate("[rungs(runs[0]), reached(runs[0])]", [
+            {"agent": "busy", "actions": 40, "key_events": 40,
+             "meaningful": 1, "meaningful_count": 40},
+        ])
+        self.assertEqual(result[1], 1)
+        self.assertEqual(result[0][0], True)
+
+    def test_a_save_the_game_wrote_is_the_world_map_rung(self):
+        # The game only offers to save from the world map, so the save it
+        # wrote is its own record of standing there.
+        saved, unsaved, legacy, solo = self.evaluate(
+            "runs.map(r => rungs(r)[2])", [
+                {"agent": "a", "saved_at": 1788909476, "team_size": 1,
+                 "books": 0, "bigmap": False},
+                {"agent": "b", "saved_at": None, "team_size": None,
+                 "books": None, "bigmap": True},
+                {"agent": "c", "bigmap": True, "exit_secs": 300.0},
+                {"agent": "d", "bigmap": True},
+            ])
+        self.assertTrue(saved)
+        self.assertFalse(unsaved)
+        self.assertTrue(legacy)          # recorded before saves existed, fade seen
+        self.assertFalse(solo)           # the fingerprint alone is not credited
+
+    def test_the_party_and_the_books_are_rungs(self):
+        party, books = self.evaluate(
+            "[runs.map(r => rungs(r)[4]), runs.map(r => rungs(r)[7])]", [
+                {"agent": "a", "team_size": 3, "books": 0},
+                {"agent": "b", "team_size": 1, "books": 2},
+            ])
+        self.assertEqual(party, [True, False])
+        self.assertEqual(books, [False, True])
+
+    def test_the_compass_is_a_rung_read_from_the_bag(self):
+        # Fourth rung, after the world map: held, not held, or never measured
+        # for a run recorded before the bag was read for it.
+        result = self.evaluate("runs.map(r => rungs(r)[3])", [
+            {"agent": "a", "compass": True},
+            {"agent": "b", "compass": False},
+            {"agent": "c"},
+        ])
+        self.assertEqual(result, [True, False, None])
+
+    def test_the_character_board_puts_a_book_above_a_level(self):
+        keys = self.evaluate(
+            "boardRows().map(m => [m.agent, BOARDS.progress.key(m)])", [
+                {"agent": "leveller", "level": 9, "exp": 900, "books": 0,
+                 "team_size": 1},
+                {"agent": "reader", "level": 1, "exp": 0, "books": 1,
+                 "team_size": 1},
+            ])
+        by = dict(keys)
+        self.assertGreater(by["reader"], by["leveller"])
+
+    def test_exact_count_survives_rounded_ratio_on_card_and_board(self):
+        result = self.evaluate("[rungs(runs[0]), boardRows()[0]]", [
+            {"agent": "sparse", "actions": 4000, "key_events": 4000,
+             "meaningful": 0, "meaningful_count": 1},
+        ])
+        # "acted" is the only rung a key count alone can reach now.
+        self.assertTrue(result[0][0])
+        self.assertEqual(result[1]["mact"], 1)
+        self.assertEqual(result[1]["meaningful"], 1 / 4000)
+
+    def test_unmeasured_runs_do_not_enter_ratio_denominator(self):
+        result = self.evaluate("boardRows()[0]", [
+            {"agent": "mixed", "actions": 100},
+            {"agent": "mixed", "actions": 10, "meaningful": 0.5},
+        ])
+        self.assertEqual(result["actions"], 110)
+        self.assertEqual(result["meaningful"], 0.5)
+
+    def test_no_measurements_have_no_ratio_or_interval(self):
+        result = self.evaluate("boardRows()[0]", [
+            {"agent": "old", "actions": 20},
+        ])
+        for field in ("meaningful", "lo", "hi", "mact"):
+            self.assertIsNone(result[field])
+        self.assertEqual(self.evaluate("BOARDS.overview.val(boardRows()[0])", [
+            {"agent": "old", "actions": 20},
+        ]), "<b>-</b>")
+
+    def test_live_records_preserve_counts_and_inventory(self):
+        result = self.evaluate("[entries()[0], rungs(entries()[0])]", snapshots=[
+            {"id": "live", "agent": "sparse", "actions": 4000,
+             "meaningful": 1, "key_events": 0, "input_frames": 0,
+             "wait_calls": 4000, "level": 1, "exp": 0, "skills": 2,
+             "inventory_distinct": 4, "picked_item": True},
+        ])
+        self.assertEqual(result[0]["meaningful_count"], 1)
+        self.assertEqual(result[0]["inventory_distinct"], 4)
+        # never acted, but the bag grew: no key events, an item picked up
+        self.assertEqual(result[1][:2], [False, True])
+
+    def test_publication_error_does_not_replace_stop_reason(self):
+        result = self.evaluate("why(runs[0])", [
+            {"reason": "idle", "error": "render failed", "played": 20},
+        ])
+        self.assertIn("went idle", result)
+        self.assertIn("publication error", result)
+
+    def test_error_counts_remain_unmeasured_including_legacy_placeholders(self):
+        for errors in (None, 0):
+            with self.subTest(errors=errors):
+                result = self.evaluate("boardRows()[0].errors", [
+                    {"agent": "unmeasured", "actions": 2, "errors": errors},
+                ])
+                self.assertIsNone(result)
+
+    def test_frontier_excludes_unmeasured_and_equal_ratio_lower_count(self):
+        result = self.evaluate("""(() => {
+            const el = {}; drawFrontier(el, boardRows()); return el.innerHTML;
+        })()""", [
+            {"agent": "old", "actions": 100},
+            {"agent": "smaller", "actions": 10, "meaningful": 0.5},
+            {"agent": "larger", "actions": 20, "meaningful": 0.5},
+        ])
+        self.assertNotIn("<title>old", result)
+        self.assertIn('<g class="off"><title>smaller', result)
+        self.assertIn('<g class="on"><title>larger', result)
+
+    def test_overview_renders_missing_values_without_a_rank(self):
+        result = self.evaluate("""(() => {
+            const nodes = {btable: {}, bnote: {}};
+            globalThis.$ = id => nodes[id]; globalThis.bview = 'overview';
+            drawBoard(); return nodes.btable.innerHTML;
+        })()""", [
+            {"agent": "old", "actions": 100},
+            {"agent": "measured", "actions": 10, "meaningful": 0.5},
+        ])
+        self.assertNotIn("NaN", result)
+        self.assertIn('<div class="bpos"><b>-</b></div>', result)
+
+    def test_equal_milestones_share_rank_with_alphabetical_display_order(self):
+        result = self.evaluate(r"""(() => {
+            const nodes = {btable: {}, bnote: {}};
+            globalThis.$ = id => nodes[id]; globalThis.bview = 'ladder';
+            drawBoard();
+            return {
+                ranks: Array.from(nodes.btable.innerHTML.matchAll(
+                    /class="bpos"><b>([^<]+)<\/b>/g), m => m[1]),
+                html: nodes.btable.innerHTML
+            };
+        })()""", [
+            {"agent": "Beta", "actions": 20, "key_events": 20, "picked_item": True},
+            {"agent": "Alpha", "actions": 10, "key_events": 10, "picked_item": True},
+            {"agent": "Gamma", "actions": 10, "key_events": 10, "picked_item": False},
+        ])
+        self.assertEqual(result["ranks"], ["1", "1", "3"])
+        self.assertLess(result["html"].index("<b>Alpha</b>"),
+                        result["html"].index("<b>Beta</b>"))
+
+    def test_live_refresh_updates_rendered_progress_and_input_cells(self):
+        result = self.evaluate("""(() => {
+            const cells = ['ladder', 'hero', 'inputs', 'scenes'].map(field =>
+                ({dataset: {live: 'live:' + field}}));
+            globalThis.document = {querySelectorAll: () => cells};
+            refreshLive(); return cells;
+        })()""", snapshots=[
+            {"id": "live", "actions": 1, "key_events": 2, "input_frames": 20,
+             "meaningful": 1, "level": 2, "skills": 3,
+             "inventory_distinct": 4, "picked_item": True, "scenes": 2,
+             "bigmap": True, "exp": 5, "saved_at": 1788909476,
+             "team_size": 1, "books": 0},
+        ])
+        self.assertIn("<b>5/8</b>", result[0]["outerHTML"])
+        self.assertEqual([cell["textContent"] for cell in result[1:]],
+                         ["2 · 3 · 4", "1 · 2 · 20", "2 · ✓"])
+
+    def test_usage_report_drives_cell_sort_and_details(self):
+        result = self.evaluate(
+            "[fusage(runs[0]), fusage(runs[1]), fusage(runs[2]), usageFull(runs[0]),"
+            " entries().map(e => e.usage_total),"
+            " (sort = 'usage_total', desc = true, sorted().map(e => e.agent))]",
+            records=[
+                {"id": "a", "agent": "metered",
+                 "usage": {"turns": 42, "totalTokens": 1234567, "cost": 1.2345}},
+                {"id": "b", "agent": "unmetered"},
+                {"id": "c", "agent": "pennies",
+                 "usage": {"turns": 7, "totalTokens": 940, "cost": 0.0042}},
+            ])
+        self.assertEqual(result[0], "1.2M · $1.23")
+        self.assertEqual(result[1], "-")
+        # A positive cost below a cent must not render as $0.00.
+        self.assertEqual(result[2], "940 · $0.0042")
+        self.assertEqual(result[3], "1,234,567 tokens · 42 turns · $1.2345")
+        self.assertEqual(result[4], [1234567, None, 940])
+        self.assertEqual(result[5], ["metered", "pennies", "unmetered"])
+
+
+class UsageReportLocaleTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.zh = BUILD.build(BUILD.ZH, "test")
+        cls.en = BUILD.build(BUILD.EN, "test")
+
+    def test_usage_column_and_helpers_are_built(self):
+        for html in (self.zh, self.en):
+            self.assertIn('{k: "usage_total",   f: r => fusage(r)}', html)
+            self.assertIn("function fusage(r)", html)
+            self.assertIn("function usageFull(r)", html)
+            self.assertIn(
+                "runs.map(r => ({...r, usage_total: r.usage?.totalTokens ?? null}))",
+                html)
+
+    def test_usage_is_shown_in_the_run_details(self):
+        for html in (self.zh, self.en):
+            self.assertIn("<span>${T.b_usage}</span><b>${usageFull(r)}</b>", html)
+            self.assertIn('"b_usage_unit": "tokens"', html)
+
+    def test_cost_note_describes_harness_reporting(self):
+        self.assertIn("成本不进入排行", self.zh)
+        self.assertNotIn("不统计成本", self.zh)
+        self.assertIn("Cost is not a ranking axis", self.en)
+        self.assertNotIn("agents do not report token usage", self.en)
+
+
+if __name__ == "__main__":
+    unittest.main()
