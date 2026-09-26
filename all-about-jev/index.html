@@ -428,6 +428,12 @@ const COLS = [
   {k:"domain",     l:"Domain",     w:84, t:"Application domain: general, agent, coding, gaming, computer-use, search, social, finance, science, security, health, robotics, voice, legal, marketing, writing, data, education, sleep, multimodal, misc"},
   {k:"arch",       l:"What it is", w:250, t:"Deep-read description extracted from the repo README, dataset card or paper: architecture, method, scope and the key design points - what this entry actually is, not a one-line tagline"},
   {k:"result",     l:"Findings",   w:250, t:"What was found or achieved: the published numbers and headline findings as of the sweep date, including negative results and the authors own caveats"},
+  {k:"lang",       l:"Language", w:74, t:"Primary programming language of the code, from the GitHub API; blank for non-code entries (models, datasets, papers, web pages)"},
+  {k:"updated",    l:"Updated",  w:92, t:"Last push to the GitHub repo or last update on Hugging Face - how fresh the source is"},
+  {k:"state",      l:"State",    w:64, t:"Live or archived; archived means the source is frozen and receives no more pushes"},
+  {k:"dl",         l:"DL / 30d", w:74, t:"Hugging Face downloads in the last 30 days, from the HF API"},
+  {k:"forks",      l:"Forks",    w:54, t:"GitHub fork count, from the GitHub API"},
+  {k:"version",    l:"Version",  w:74, t:"Latest release tag, from the GitHub releases API; blank when the repo publishes no releases"},
   {k:"metric",     l:"What is measured", w:120, t:"The metric or metrics the headline number is reported on: accuracy, Brier, ECE, AUROC, match rate, nDCG, AUC, latency, cost"},
   {k:"score",      l:"Headline score", w:104, t:"Headline benchmark score, normalized where possible; ranges shown as published"},
   {k:"benchmark",  l:"Eval suite", w:98, t:"The eval suite the score was measured on — JevBench, DecisionBench, Banking77, ... or the game arena for gaming rows"},
@@ -442,12 +448,6 @@ const COLS = [
   {k:"cost",       l:"Cost",       w:104, t:"Absolute or relative cost as reported — $/MTok, per-message, or Nx cheaper vs a baseline"},
   {k:"speedup",    l:"Speedup vs baseline", w:86, t:"Speed multiple vs the baseline, as reported"},
   {k:"paper",      l:"Paper (arXiv)", w:112, t:"Link to the paper (arXiv) when one exists"},
-  {k:"lang",       l:"Language", w:74, t:"Primary programming language of the code, from the GitHub API; blank for non-code entries (models, datasets, papers, web pages)"},
-  {k:"updated",    l:"Updated",  w:82, t:"Last push to the GitHub repo or last update on Hugging Face - how fresh the source is"},
-  {k:"state",      l:"State",    w:64, t:"Live or archived; archived means the source is frozen and receives no more pushes"},
-  {k:"dl",         l:"DL / 30d", w:74, t:"Hugging Face downloads in the last 30 days, from the HF API"},
-  {k:"forks",      l:"Forks",    w:54, t:"GitHub fork count, from the GitHub API"},
-  {k:"version",    l:"Version",  w:74, t:"Latest release tag, from the GitHub releases API; blank when the repo publishes no releases"},
   {k:"pop",        l:"Stars · Likes", w:76, t:"GitHub stars · Hugging Face likes"},
   {k:"url",        l:"Source",     w:118, t:"Source link — GitHub, Hugging Face, arXiv or web"}
 ];
@@ -835,6 +835,12 @@ function rowHTML(r){
         ? '<div class="clamp2" title="' + esc(arch) + '">' + esc(arch) + '</div>' : dim()) + '</td>',
       '<td class="c-result">' + (res
         ? '<div class="clamp2" title="' + esc(res) + '">' + esc(res) + '</div>' : dim()) + '</td>',
+      '<td class="c-lang" title="' + (lng ? 'Primary language, GitHub API' : '') + '">' + (lng ? esc(lng) : dim()) + '</td>',
+      '<td class="c-upd" title="' + (upd ? 'Last push (GitHub) or last update (Hugging Face)' : '') + '">' + (upd ? esc(upd) : dim()) + '</td>',
+      '<td class="c-state">' + (stt ? '<span class="st-arch" title="' + esc(stt) + '">' + esc(stt) + '</span>' : dim()) + '</td>',
+      '<td class="c-dl" title="' + (dls ? 'Hugging Face downloads, last 30 days' : '') + '">' + (dls ? esc(dls) : dim()) + '</td>',
+      '<td class="c-forks" title="' + (fk ? 'GitHub forks' : '') + '">' + (fk ? esc(fk) : dim()) + '</td>',
+      '<td class="c-ver" title="' + (ver ? 'Latest release tag' : '') + '">' + (ver ? esc(ver) : dim()) + '</td>',
       '<td>' + (String(r.metric || '').trim()
         ? '<span class="mchip" title="' + esc(r.metric) + '">' + esc(r.metric) + '</span>' : dim()) + '</td>',
       '<td class="c-score" title="' + esc(score) + '">' + (score ? esc(score) : dim()) + '</td>',
@@ -855,12 +861,6 @@ function rowHTML(r){
       '<td class="c-cost" title="' + esc(cost) + '">' + (cost ? esc(cost) : dim()) + '</td>',
       '<td class="c-speed" title="' + esc(spd) + '">' + (spd ? esc(spd) : dim()) + '</td>',
       '<td class="c-paper">' + paperCell(r) + '</td>',
-      '<td class="c-lang" title="' + (lng ? 'Primary language, GitHub API' : '') + '">' + (lng ? esc(lng) : dim()) + '</td>',
-      '<td class="c-upd" title="' + (upd ? 'Last push (GitHub) or last update (Hugging Face)' : '') + '">' + (upd ? esc(upd) : dim()) + '</td>',
-      '<td class="c-state">' + (stt ? '<span class="st-arch" title="' + esc(stt) + '">' + esc(stt) + '</span>' : dim()) + '</td>',
-      '<td class="c-dl" title="' + (dls ? 'Hugging Face downloads, last 30 days' : '') + '">' + (dls ? esc(dls) : dim()) + '</td>',
-      '<td class="c-forks" title="' + (fk ? 'GitHub forks' : '') + '">' + (fk ? esc(fk) : dim()) + '</td>',
-      '<td class="c-ver" title="' + (ver ? 'Latest release tag' : '') + '">' + (ver ? esc(ver) : dim()) + '</td>',
       '<td class="pop" title="GitHub stars · Hugging Face likes">' +
         (pop(r) || dim()) + '</td>',
       '<td class="c-url"><a href="' + esc(r.url) + '" target="_blank" rel="noopener" title="' +
