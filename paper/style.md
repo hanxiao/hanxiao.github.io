@@ -1,8 +1,9 @@
 # STYLE.md
 
-Writing rules for the omni-macos paper (`main.tex`, `short.tex`), reconstructed from every
-instruction Han gave on style, tone and structure between 2026-07-26 and 2026-08-07
-(sessions `683e03ae`, `0fa96710`, `eac03107`).
+Writing rules reconstructed from every instruction Han gave on style, tone and structure: for the
+omni-macos paper (`main.tex`, `short.tex`) between 2026-07-26 and 2026-08-07 (sessions `683e03ae`,
+`0fa96710`, `eac03107`), Sections 0 to 11, and for the jy-crpg-bench paper between 2026-09-14 and
+2026-09-25 (session `4c0a281b`), Section 12. The checklist in Section 13 covers both.
 
 Every rule below cites the original wording verbatim, typos included, with the date it was said.
 Where the same rule was repeated, the repetitions are listed too: repetition is itself the signal
@@ -13,7 +14,8 @@ of how strongly it is held.
 ## 0. The one-line summary
 
 **Lean and mean. Academic register, never blog. Final state, never process. No negative results.
-Remove beats rewrite.**
+Remove beats rewrite. One simple, consistent description, never a patched one. Explain the
+behaviour under study, not the mechanics around it.**
 
 > "Trivial things should use less words and be lean and mean." (2026-07-30)
 
@@ -739,7 +741,369 @@ Also, short.tex derives from main.tex by editing, never by round-tripping the PD
 
 ---
 
-## 12. Pre-submission checklist
+## 12. Rules added during the jy-crpg-bench paper
+
+Added from the second paper, the ICLR 2027 submission of `jy-crpg-bench` (session `4c0a281b`,
+2026-09-14 to 2026-09-25, dates in Pacific time). Most of these extend a rule above; when they
+change one, the change is stated. Each subsection gives the rule, what it asks for in practice,
+and the original words.
+
+### 12.1 Final state, never a log: the forms it takes
+
+Section 4.1 again, repeated in this paper more than any other rule. Diary writing hides in forms
+that do not look like process narrative: a date or version tag on a run ("ran on 16 September
+under the brief as released"), a condition described as "then in force", a counterfactual that
+justifies a revision ("dropping those sessions would cost X its finished battle"), a sentence that
+answers a past reviewer. The setup is stated once, as it applied to the results, in the present
+tense.
+
+> "', ran on 16 September 2026 under the brief as released. ' this is super mannered prose thing,
+> and voite the style guide, why dont u see it" (2026-09-16)
+
+> "i think my point is u cant do a lot of intermediate state description of our meta experiemtal
+> setup, this is a paper it is about descirbing a final end state, not a diary" (2026-09-16)
+
+> "also remember the style guide when u add or write sth new, dont describe some intemediate
+> diarly style." (2026-09-17)
+
+> "please review them based on the principle that i have told u, no diary no intermedidate diary,
+> final state." (2026-09-17)
+
+> "remove all intemediate updates recording/diary style writing like oh i did change here on xxx
+> and then later change here on next day this is what i categorized as mannered prose or
+> diary-style writing." (2026-09-21)
+
+> "wait i saw some intermeidate state/diary style/mannered prose writing..."Dropping those
+> sessions would cost gpt-6-astra its finished battle and change no other count" can u confirm
+> that? check other places where we have such style to justify our "upgrade/revision" places and
+> remove them. the paper is always about the whole thing's final state, not a log of how things
+> eovled..." (2026-09-25)
+
+### 12.2 Consistency over defensive explanation
+
+When a reviewer finds a gap, change the one rule so it covers the case, and state that rule
+simply. Do not patch the description with exceptions, per-case causes or "X would do this, so we
+do that". A single consistent description is stronger than a patched one. Example: the four-hour
+sessions stopped for many reasons (provider throttling among them); the paper states one rule for
+which sessions count and lists nothing else in the main text.
+
+> "also when u do thoese editing remember consistency matters much more than defensive
+> explaination, what is defensive explain/writing? upgrade logs, diary style, mannered prose to
+> explain xxx would this so we do this. keep a single consistent and SIMPLE description sends much
+> more strong msg then a patched description with more patched explainations." (2026-09-25)
+
+> "i mean some of them the api provider just stop us for throtilling etc and its not really our
+> fault, u should probably just say we run 4 hours bench whenever api decides to stop we stop in
+> this section" (2026-09-17)
+
+### 12.3 Less is more: leave out low-value mechanisms, and remove them silently
+
+Section 5.2, sharpened. A mechanism that carries little of the paper's value should not be
+described at all, because describing it invites doubts it does not deserve. The example was a
+save-injection policy: explained, it made readers ask whether it altered the game state, although
+the results never depended on it. When such a passage is removed, nothing replaces it: no
+sentence explaining why it is gone.
+
+> "one example is this save-injection policy, which tbh i dont feel we even need to explain that,
+> and bc we explain this, people will question if it alters game state etc, which tbh super
+> overconcern. like we only do this save injection bc we want to monitor the game progress by save
+> slot. but since throuughtout all experiments and analysis u basically watch every replay frame by
+> frame, so that save injection has essentially veyr little use. but yet we explain that, and this
+> adds confusion and lowers the credibility. and this is what i meant by less is more. and btw if u
+> delete save injection while adding your thought process to it, that's also bad, that's defensive
+> writing patch over patch, we should defintely avoid that." (2026-09-25)
+
+> "read through the paper again and see what else fall into similar defensive writing and
+> overdescribing sth that is not important to the value of the paper/system which gives
+> reviewer/reader more confusion than clarity" (2026-09-25)
+
+### 12.4 No over-specific detail
+
+A platform, hardware or implementation fact appears only where a claim or reproducibility needs
+it. Over-specific detail is a form of mannered prose: it adds a term the reader must decode and
+serves no claim. Fixed examples: "DOS keyboard" as the action in the comparison table (the action
+is "keys"); "the original DOS binary" (the game runs "unmodified"); "the speed of a 486DX2-66";
+"N key names over M distinct keys"; the item-record numbers of the books; a character standing
+"with his back to the camera"; the host spec of the server. Code vocabulary counts too: "panel",
+the scanner's name for a template, had leaked into captions and a figure (Section 4.3).
+
+> "action is action, wth is dos keyboard?" (2026-09-25)
+
+> "yeah make sure we dont add some weird DOS stuff in the main content/appendix/figure etc unless
+> it really matters. u see i told u many times about those mannered prose, like u add something
+> overspecific but it's useless to the paper main theme or even details, it's just add more
+> confusion" (2026-09-25)
+
+> "this is just an example, see other overspecific weird term u introduced which adds confusion"
+> (2026-09-25)
+
+### 12.5 Explain outcomes by the behaviour under study, not the mechanics of the environment
+
+In a paper about model behaviour, a result is explained by what the model did (it planned, it
+recovered, it returned), never by the rules or statistics of the environment ("it won because the
+party member has more attack"). Mechanics appear only so the reader can follow the environment.
+
+> "i mean any startegy showed in the battle? worth for sepearte analysis? is it pure luck then?
+> what makes win a win, dont do like game semantics "bc u have tianboguang and tianboguang has
+> more attack/inner power" these kind of game semantic is meaningless to the paper. the reason of
+> wining can be only: frontier model construct better strategy, frontier models earlier planning in
+> long-horizon task paid off. or sth like that, which is the purpose of the benchmark. i think it's
+> important to stick to this prinicple, dont overexplain an observation using game semantics, it's
+> helpful to understand the game, but our paper is about understandding the behaivor of frontier
+> model in long-horizon task." (2026-09-25)
+
+### 12.6 State the design principle once, plainly, and make the capabilities countable
+
+The reader should be able to say in one sentence what the benchmark is and why it is hard. For
+jy-crpg-bench: the model gets what a human player gets, the screen and the keyboard, no more and
+no less, so the difficulty is the task's own and not adversarial. The capabilities it tests are
+listed so they can be counted, and each paragraph leads with its point.
+
+> "our benchmark can and should be challenge on purpose not bc we want to fuck those frontier
+> models intentionally, but bc our benchmark is constructed in a normal human player way, no more
+> no less. this idea has to be highlighed wdyt" (2026-09-25)
+
+Co-author feedback relayed on 2026-09-16:
+
+> "还有在体现为什么必须是金庸这个游戏上，感觉还可以再清晰些，清晰到能列出 1 2 3 的程度，以体现出模型测了什么能力"
+
+> "现在 3.1/3.2感觉介绍得比较散，容易看一遍游戏也不清楚到底要求模型会啥"
+
+> "感觉每段增加一个要点总结会更好些，细节描述也可以放一部分到附录。"
+
+### 12.7 The conclusion gives insight, not a replay of the results
+
+Extends the conclusion rules in Section 7. A conclusion that re-lists observations is diary style,
+and so is any paragraph that piles up plain observations without the claim they support. The
+conclusion argues: why the task is hard, what general capability the models lack (each with one
+piece of evidence), and what would supply it. Rewriting it means rethinking it, not adding or
+deleting sentences. A single post on the finding can carry more insight than a conclusion; if it
+does, the conclusion is not done. Future work is one sentence at most, with no citation hung on
+it.
+
+> "this conclusion here is so plain diary style, which i really dont like, bc it is a repeatiton
+> of the observation. in the conclusion we should write about 1. why the game is challenging, 2.
+> what we found the general capability missing in frontier models 3. what future frontier models
+> can be improved on in terms of training vlm etc." (2026-09-25)
+
+> "in general, we should avoid overstating too much plain observation in the paper, which makes
+> the paper very boring and shallow." (2026-09-25)
+
+> "also conclusion still seems to do a lot of what evaluation section already did, not really
+> insightful about the frontier intelligence, long-horizon task etc. i feel like even my tweet
+> gives more alpha then the current conclusion. i think u need to think and read and think again
+> before write conclusion, it's not as simple as delete some sentences or add some sentences."
+> (2026-09-25)
+
+> "weird ref in conclusion Sessions of eight to twenty-four hours and a human reference run under
+> the same instructions, reported as Wei et al. (2025) recommend, will extend the scale into the
+> campaign and calibrate it against a first-time player." (2026-09-25)
+
+### 12.8 Directions must not read as training on the benchmark
+
+When the systems under test are general-purpose models evaluated zero-shot, a future direction
+that amounts to "train on this task" undermines the benchmark. The missing capabilities are named
+as general ones, acquired across many environments.
+
+> "i mean remember we are asking a general-purpose frontier model to play game, so u should not
+> point out some direction that looks like post-training a model on this game, it basically like
+> yeah in order to get better on this benchmark, u have to post-train the model on this benchmark,
+> nonsense." (2026-09-25)
+
+### 12.9 The abstract speaks the field's language, not the environment's
+
+Extends the abstract rules in Section 7. A reader of the abstract has not met the environment yet,
+so its results are stated in the field's terms (milestones, filters, budget), not in the names of
+places and characters. The conclusion may use those names, since by then the reader knows them.
+
+> "we introduced too many game terms in the abstract, which is a bit confusing for reviwerers and
+> readers especially when they havent read the intro etc and have no idea how the game is
+> described yet tbh. ... so maybe in the abtract keep it academic ai terms, like milestone or sth,
+> u decide. in conclusion i would expect it is fine to use those terms as the reader have read them
+> all." (2026-09-25)
+
+### 12.10 Use the established terms of each field, and use them precisely
+
+Extends Section 3. Use the terms the domain already has (for games: inventory, party member,
+battle, opening, world map; for agents: observation, action, environment) and do not coin new
+ones. Keep one term per concept and its matching verb ("pass a filter", "passed / not passed").
+Avoid a vivid borrowed name when the plain term says the same: "the Great Filter" was dropped as
+too science-fiction for ICLR, and the filters stayed. A table column is answered in the column's
+own terms: an "action" cell names what the model sends.
+
+> "Also I see sometimes u write it as interactive agent benchmark is that a good name for games
+> benchmark? Maybe we should search those ai for games workshop or papers and learn/adapt some
+> terminologies from there into our paper? Wdyt? Also long-horizon task planning papers terms."
+> (2026-09-24)
+
+> "Also game opening/spawn house/inventory instead of bags, team system, battle system etc
+> basically rpg terms have to be also followed I know it’s crpg but since we r writing a English
+> paper we better follow those rpg classic English terms instead of creating our own." (2026-09-24)
+
+> "also i think self-direct is unclear in the table, we should probably remove that, whats
+> important is probably the more formal facets in llm/agent/long-horizon task: which are actions,
+> enviroments, observations, context, memory or whatever u think make sense" (2026-09-25)
+
+> "i see u mention pass the step, should it be pass the filter?, also passed vs not passed right?
+> not "never passed"." (2026-09-25)
+
+> "do u think the great filter makes sense in the paper? or will it be considered as too scifi
+> and unprofessional in iclr paper" (2026-09-25)
+
+### 12.11 A reframing propagates into every paragraph's reasoning
+
+Extends Section 11.6. When a figure or a section adopts a new framing (here, the game as a state
+chart of three states), every paragraph that reasoned in the old framing (two "phases") is
+rewritten, along with captions, the abstract and the conclusion. Surface consistency is not
+enough; the argument of each paragraph has to follow the new frame.
+
+> "i think there are still some mismatch here and there, like we updated fig1 to talk about the
+> state machine of the game and briefly there r 3 states, but in sect 3 we still talk about "The
+> two phases test different capabilities." this looks to me like we update some thing in the
+> early paragrah but the other paragraphs's thought process is not updated accordingly, right?"
+> (2026-09-25)
+
+> "okay see if other sections, fig caption or other places need to be updated accordingly"
+> (2026-09-25)
+
+> "check all figures whether is appendix or main content if update is needed accordingly, same as
+> abstract and conclusion" (2026-09-25)
+
+### 12.12 Paragraph economy and order
+
+Extends Sections 5.4, 5.5 and 6.4. A two- or three-sentence paragraph joins its neighbour. A
+framing sentence that makes the reader stop and ask what it means is deleted, not rewritten. The
+roadmap is one sentence at the end of the last introduction paragraph, not a paragraph of its own
+(this refines the intro rule in Section 7). Related work runs from the general to the specific,
+so its last subsection leads into the paper.
+
+> "also why "Long horizons also complicate measurement. ..." this as a new paragraph, cant it be
+> merge into the last paragraph at the end of that? also should we swap 2.1 and 2.2 so first
+> long-horizon task in general and then game-specific wdyt?" (2026-09-25)
+
+> "can we move sect2 reviews to the end of last paragraph so no new paragraph created"
+> (2026-09-25)
+
+> "this part is confusing actually "This is the setting of reinforcement learning, and here a
+> frontier model plays it in context, with no training on the game. Two further properties make
+> the game a usable benchmark. ..." i prefer just delete this and also delete "The next section
+> reviews these benchmarks, Section 3 details ..." wdyt" (2026-09-25)
+
+### 12.13 Main text versus appendix, down to the sentence
+
+Placement is checked sentence by sentence, not only section by section: one sentence in the wrong
+place is fixed by moving that sentence, without restructuring. Things of the same kind sit
+together where a reader looks for them (the human references next to the random baseline). An
+appendix that grows long is cut. Every appendix section is referenced from the main text where the
+main text needs it.
+
+> "okay review again and see if anything need to be in the main content but got pushed into
+> appendix or vice versa, notice some time this mis place is just one or two sentences, so no need
+> to make big secction structural change" (2026-09-22)
+
+> "i think we should also move the human baseline mentions to here right? otherwise it's kind of
+> easy to miss?" (2026-09-25)
+
+> "still feel appendeix d is way too long..." (2026-09-17)
+
+> "also make sure every appendix section has its ref point in the main content (when main content
+> demands/requires that)" (2026-09-25)
+
+### 12.14 No enumerations of names, no labels that restate the obvious
+
+Listing the items that satisfy a condition (the models that reached a step, one per line) is
+mannered: give the count, and name only the one case the argument needs. The same holds in
+figures: a label that restates what the drawing already shows ("in every state" on an outline)
+is removed.
+
+> "also reached the hermit: gemini-3.7-flash gemini-3.8-flash (2) gpt-5.6-sol this looks mannered
+> prose man, dont add those, also now u introduce too many color dots, it's actually read more
+> confusing..." (2026-09-25)
+
+> "in every state here is so mannered prose, remove it" (2026-09-25)
+
+### 12.15 Non-English script belongs in a glossary
+
+Names from a non-English source are written in English or romanised form in the body, and the
+original script goes into one glossary table in the last appendix. Scattered characters in the
+body and footnotes read as less serious.
+
+> "also i know we have some chinese characters in the main paper and footnote, but im considering
+> to move most of them to the last appendix section as a translation table. bc put some of them
+> the main paper feels like it is not serious..." (2026-09-24)
+
+### 12.16 Figures: show the behaviour, encode time, and make every mark readable
+
+Extends Section 9. A figure that shows what the system under study did is worth more than one that
+shows the environment. Paths carry their time order (a colour map or arrowheads), all text is
+black, and a diagram has little text and a clear flow. Connectors are elbowed and never collide.
+Loops are true circles. Arrowheads are small, or dots where no direction is meant, and follow the
+tangent of their curve. Emphasis goes to the one case that matters (a dashed trace of the best
+session), not to a colour per item. Every mark must be explainable from the caption: if the
+author has to ask what an open dot means, the figure is not done. A real screenshot inside a
+diagram is welcome.
+
+> "i feel like the playthrough walking map (like fig6/7) could be more interesting than figure 4,
+> as fig4 is just some game screenshot where 6/7 really shows the model exploreing behavior ...
+> also, using red curves does not show the time transition, probably with a color map or sth on
+> the route, or arrows on the route so people now the walking direction and time order stuff."
+> (2026-09-24)
+
+> "also in all fig text labels/ axis should be mostly just black, it's hard to read grey-ish text
+> in fig especially when they r small and when people print it out." (2026-09-24)
+
+> "btw, i think fig2 has too many text (probably mannered prose) and the arrows/data flow probably
+> need to revise/highlight, anyway think and look it from a design perpsective" (2026-09-24)
+
+> "Hmm I actually like screenshot image in the artchecture graph in fig2 can u somehow add some
+> back" (2026-09-24)
+
+> "so many overlap text and arrows, on the arrows in the loop seems not right, the loop arrows
+> also the state transition is not visualized? use your best vision capability, resolve all visual
+> overlap and polish fig1 again" (2026-09-25)
+
+> "yeah but the loop shape should be a perfect circle man, this is weird" (2026-09-25)
+
+> "all other line arrow connectors better use some nice layout algorithm and elbow connectors to
+> avoid overlapping and collide on each others" (2026-09-25)
+
+> "arrows header maybe can be smaller or just a dot?" (2026-09-25)
+
+> "the arrow header here in fig1 is not perpendicular to it's curve line" (2026-09-25)
+
+> "also i dont understand why holdbook is zero yet still has an unfilled dot there? what does
+> that unfilled dot mean" (2026-09-25)
+
+> "oh i see then in fig 7b i think we should trace that dot best model opus 5.5 across all filters
+> with a dashed line, which eventually fail at the "hold at book"?" (2026-09-25)
+
+### 12.17 Every text the paper ships follows the same rules
+
+The agent instructions printed in the appendix and the documents a benchmark hands to models are
+held to the same standard: no mannered prose, no noise, nothing the reader of that text does not
+need. The same holds for explanations to the author in chat: plain words, no riddles.
+
+> "also remove all mannered prose in skill md file in the backend" (2026-09-15)
+
+> "things like this "根据画面和对话推进当前目标。..." are basically super noisy should be
+> removed" (2026-09-15)
+
+> "geez i dont understand what r u saying here "A doubling ladder is the wrong shape here,
+> because a session cannot be extended. ..." use simple chinese" (2026-09-15)
+
+### 12.18 Merged contributions must add net value
+
+Text merged from co-authors or other agents is revised to the same rules and kept only where it
+adds value. It is merged into the existing structure, not appended beside it.
+
+> "make sure we keep net postive value adding to the paper" (2026-09-24)
+
+> "Just don’t add more confusion but merge into what we have. No mannered prose or diary style
+> writing" (2026-09-21)
+
+---
+
+## 13. Pre-submission checklist
 
 Run through this before any compile that will be sent out.
 
@@ -762,3 +1126,22 @@ Run through this before any compile that will be sent out.
 13. Do all figures still pass the grid, layer, padding, no-overlap and emphasis-budget checks after
     the last edit?
 14. Are main.tex and short.tex consistent in every fix that applies to both?
+15. Any date, version tag, "then in force" condition, or counterfactual that justifies a revision
+    (12.1)?
+16. Any gap patched with an exception or a "X would do this, so we do that" instead of one simple
+    rule (12.2)? Any mechanism described that carries little of the paper's value, or a removal
+    that left an explanation behind (12.3)?
+17. Any platform, hardware or code term that no claim needs (12.4)?
+18. Any outcome explained by the mechanics of the environment instead of the behaviour of the
+    system under study (12.5)?
+19. Does the conclusion argue why the task is hard, what is missing and what would supply it,
+    without replaying results (12.7)? Does any direction read as training on the benchmark
+    (12.8)?
+20. Does the abstract use any name the reader has not met yet (12.9)? Is every term the field's own,
+    one per concept (12.10)?
+21. After a reframing, does every paragraph, caption, the abstract and the conclusion reason in the
+    new frame (12.11)?
+22. Any enumeration of names where a count serves, or a figure label that restates the drawing
+    (12.14)? Any non-English script outside the glossary (12.15)?
+23. Does every figure mark have a meaning the caption explains, with black text, time encoded on
+    paths and no colliding connectors (12.16)?
