@@ -422,15 +422,15 @@ const COLS = [
   {k:"author",     l:"Author / org", w:100, t:"Author, team or organization behind the entry"},
   {k:"category",   l:"Entry type", w:108, t:"Entry type, mutually exclusive by primary artifact: Official = TypeSafe AI's own · Model = Hugging Face weights · Runtime = code, never HF weights · Benchmark = evals/datasets · Paper = arXiv/publications · App = apps/demos · Interpretation = commentary"},
   {k:"domain",     l:"Domain",     w:84, t:"Application domain: general, agent, coding, gaming, computer-use, search, social, finance, science, security, health, robotics, voice, legal, marketing, writing, data, education, sleep, multimodal, misc"},
+  {k:"arch",       l:"What it is", w:250, t:"Deep-read description extracted from the repo README, dataset card or paper: architecture, method, scope and the key design points - what this entry actually is, not a one-line tagline"},
+  {k:"result",     l:"Findings",   w:250, t:"What was found or achieved: the published numbers and headline findings as of the sweep date, including negative results and the authors own caveats"},
+  {k:"metric",     l:"What is measured", w:120, t:"The metric or metrics the headline number is reported on: accuracy, Brier, ECE, AUROC, match rate, nDCG, AUC, latency, cost"},
+  {k:"score",      l:"Headline score", w:104, t:"Headline benchmark score, normalized where possible; ranges shown as published"},
+  {k:"benchmark",  l:"Eval suite", w:98, t:"The eval suite the score was measured on — JevBench, DecisionBench, Banking77, ... or the game arena for gaming rows"},
   {k:"base_model", l:"Base model / API", w:140, t:"Model or API the decisions are produced on; blank = undisclosed or not applicable (from-scratch model, pure harness)"},
   {k:"params",     l:"Params",     w:108, t:"Parameter count as published"},
   {k:"approach",   l:"Decision mechanism", w:104, t:"How decisions are produced: head = custom readout head · logits = probabilities read off existing token logits · fine-tune = SFT/LoRA/adapter on an open model · rl = RL post-training (RLCD/GRPO) · distill = trained on Jev or a teacher's data · constrained = constrained/parallel decoding · from-scratch = trained from scratch · diffusion = diffusion-model decisions · router = routes between models · sdk = client/harness for a Jev or LLM API · rules = deterministic rules, optional model cascade · modified = structural variant of an existing model · calibration = post-hoc probability calibration"},
   {k:"license",    l:"License",    w:96, t:"Model or code license as published; Closed = proprietary; mixed = different components carry different licenses"},
-  {k:"arch",       l:"What it is", w:250, t:"Deep-read description extracted from the repo README, dataset card or paper: architecture, method, scope and the key design points - what this entry actually is, not a one-line tagline"},
-  {k:"metric",     l:"What is measured", w:120, t:"The metric or metrics the headline number is reported on: accuracy, Brier, ECE, AUROC, match rate, nDCG, AUC, latency, cost"},
-  {k:"result",     l:"Findings",   w:250, t:"What was found or achieved: the published numbers and headline findings as of the sweep date, including negative results and the authors own caveats"},
-  {k:"score",      l:"Headline score", w:104, t:"Headline benchmark score, normalized where possible; ranges shown as published"},
-  {k:"benchmark",  l:"Eval suite", w:98, t:"The eval suite the score was measured on — JevBench, DecisionBench, Banking77, ... or the game arena for gaming rows"},
   {k:"training",   l:"Training method", w:150, t:"How it was built: fine-tuning rounds, RL objective, distillation teacher, from-scratch pretraining - as described by the authors"},
   {k:"data",       l:"Training / eval data", w:150, t:"Training and eval data: datasets, sizes, splits, licenses, and how rows were generated or labeled"},
   {k:"notes",      l:"Sweep notes / provenance", w:200, t:"Observations recorded at sweep time: star counts and dates, provenance, caveats, and cross-references to other rows"},
@@ -812,20 +812,20 @@ function rowHTML(r){
         ? '<div class="clamp2" title="' + esc(auth) + '">' + esc(auth) + '</div>' : dim()) + '</td>',
       '<td>' + badge(r.category) + '</td>',
       '<td class="c-domain" title="' + esc(dom) + '">' + (dom ? esc(dom) : dim()) + '</td>',
+      '<td class="c-arch">' + (arch
+        ? '<div class="clamp2" title="' + esc(arch) + '">' + esc(arch) + '</div>' : dim()) + '</td>',
+      '<td class="c-result">' + (res
+        ? '<div class="clamp2" title="' + esc(res) + '">' + esc(res) + '</div>' : dim()) + '</td>',
+      '<td>' + (String(r.metric || '').trim()
+        ? '<span class="mchip" title="' + esc(r.metric) + '">' + esc(r.metric) + '</span>' : dim()) + '</td>',
+      '<td class="c-score" title="' + esc(score) + '">' + (score ? esc(score) : dim()) + '</td>',
+      '<td class="c-bench" title="' + esc(bench) + '">' + (bench ? esc(bench) : dim()) + '</td>',
       '<td class="c-base">' + (base
         ? '<div class="clamp2" title="' + esc(base) + '">' + esc(base) + '</div>' : dim()) + '</td>',
       '<td class="c-params" title="' + esc(size) + '">' + (size ? esc(size) : dim()) + '</td>',
       '<td class="c-approach" title="' + esc(app) + '">' + (app ? esc(app) : dim()) + '</td>',
       '<td class="c-lic">' + (lic
         ? '<div class="clamp2" title="' + esc(lic) + '">' + esc(lic) + '</div>' : dim()) + '</td>',
-      '<td class="c-arch">' + (arch
-        ? '<div class="clamp2" title="' + esc(arch) + '">' + esc(arch) + '</div>' : dim()) + '</td>',
-      '<td>' + (String(r.metric || '').trim()
-        ? '<span class="mchip" title="' + esc(r.metric) + '">' + esc(r.metric) + '</span>' : dim()) + '</td>',
-      '<td class="c-result">' + (res
-        ? '<div class="clamp2" title="' + esc(res) + '">' + esc(res) + '</div>' : dim()) + '</td>',
-      '<td class="c-score" title="' + esc(score) + '">' + (score ? esc(score) : dim()) + '</td>',
-      '<td class="c-bench" title="' + esc(bench) + '">' + (bench ? esc(bench) : dim()) + '</td>',
       '<td class="c-training">' + (trn
         ? '<div class="clamp2" title="' + esc(trn) + '">' + esc(trn) + '</div>' : dim()) + '</td>',
       '<td class="c-data">' + (dat
