@@ -1,4 +1,4 @@
-// portrait.jpg -> hanzi mosaic (click to toggle, hover to disturb)
+// portrait.jpg -> hanzi mosaic (click to toggle, hover for a magnifying lens)
 // regions precomputed offline: 0 tian 1 qiao 2 shan 3 hai 4 shu 5 wo
 (function () {
   var COLS = 64, ROWS = 85;
@@ -14,8 +14,9 @@
 
     var canvas = null, ctx = null, on = false, raf = 0;
     var W, Hc, cw, chh;
-    var dx = new Float32Array(COLS * ROWS), dy = new Float32Array(COLS * ROWS);
-    var px = -1e4, py = -1e4, inside = false;
+    // lens: centre (lx, ly) eases toward the pointer (px, py); strength ls eases to 1 inside, 0 outside
+    var px = 0, py = 0, lx = 0, ly = 0, ls = 0, inside = false;
+    var near = [];
     var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function size() {
@@ -44,10 +45,11 @@
         if (still) return;
         var q = canvas.getBoundingClientRect();
         px = e.clientX - q.left; py = e.clientY - q.top;
+        if (ls < 0.01) { lx = px; ly = py; }
         inside = true; kick();
       });
       canvas.addEventListener('pointerleave', function () {
-        inside = false; px = py = -1e4; kick();
+        inside = false; kick();
       });
       window.addEventListener('resize', function () {
         if (on) { size(); draw(); }
@@ -58,41 +60,52 @@
       });
     }
 
+    // Magnifying lens. A glyph at distance r < R from the lens centre moves out to r * m(r) and is
+    // drawn m(r) times larger, m(r) = 1 + (M - 1) * ls * (1 - r/R)^2: M at the centre, 1 at the rim.
+    // r * m(r) stays monotonic for M < 5, so glyphs never cross or leave a hole; they bulge.
+    var M = 2.4;
     function draw() {
       ctx.clearRect(0, 0, W, Hc);
       ctx.font = (chh * 1.15).toFixed(2) + 'px "Songti SC","STSong","Noto Serif SC",serif';
+      var R = Math.max(60, W * 0.16), R2 = R * R, lens = ls > 0.002;
+      near.length = 0;
       for (var k = 0, j = 0; j < ROWS; j++) {
         var cy = (j + 0.5) * chh;
         for (var i = 0; i < COLS; i++, k++) {
+          var x = (i + 0.5) * cw;
+          if (lens) {
+            var vx = x - lx, vy = cy - ly, d2 = vx * vx + vy * vy;
+            if (d2 < R2) { near.push(d2, k, vx, vy); continue; }
+          }
           ctx.fillStyle = '#' + COL.substr(k * 3, 3);
-          ctx.fillText(CHARS[LAB.charCodeAt(k) - 48],
-            (i + 0.5) * cw + dx[k], cy + dy[k]);
+          ctx.fillText(CHARS[LAB.charCodeAt(k) - 48], x, cy);
         }
+      }
+      if (!near.length) return;
+      // rim first, centre last, so the most magnified glyphs sit on top
+      var idx = [];
+      for (var n = 0; n < near.length; n += 4) idx.push(n);
+      idx.sort(function (a, b) { return near[b] - near[a]; });
+      for (var q = 0; q < idx.length; q++) {
+        var o = idx[q], kk = near[o + 1], t = 1 - Math.sqrt(near[o]) / R;
+        var m = 1 + (M - 1) * ls * t * t;
+        ctx.fillStyle = '#' + COL.substr(kk * 3, 3);
+        ctx.save();
+        ctx.translate(lx + near[o + 2] * m, ly + near[o + 3] * m);
+        ctx.scale(m, m);
+        ctx.fillText(CHARS[LAB.charCodeAt(kk) - 48], 0, 0);
+        ctx.restore();
       }
     }
 
     function step() {
       raf = 0;
-      var R = Math.max(48, W * 0.13), F = R * 0.55, moving = false;
-      for (var k = 0, j = 0; j < ROWS; j++) {
-        var cy = (j + 0.5) * chh;
-        for (var i = 0; i < COLS; i++, k++) {
-          var tx = 0, ty = 0;
-          if (inside) {
-            var vx = (i + 0.5) * cw - px, vy = cy - py;
-            var d2 = vx * vx + vy * vy;
-            if (d2 < R * R && d2 > 1) {
-              var dd = Math.sqrt(d2), f = 1 - dd / R;
-              f = f * f * F;
-              tx = vx / dd * f; ty = vy / dd * f;
-            }
-          }
-          dx[k] += (tx - dx[k]) * 0.16;
-          dy[k] += (ty - dy[k]) * 0.16;
-          if (tx || ty || dx[k] * dx[k] + dy[k] * dy[k] > 0.02) moving = true;
-        }
-      }
+      var target = inside ? 1 : 0;
+      lx += (px - lx) * 0.35; ly += (py - ly) * 0.35;
+      ls += (target - ls) * 0.18;
+      if (Math.abs(target - ls) < 0.002) ls = target;
       draw();
+      var moving = ls !== target || Math.abs(px - lx) > 0.3 || Math.abs(py - ly) > 0.3;
       if (moving) raf = requestAnimationFrame(step);
     }
 
@@ -110,7 +123,7 @@
         canvas.style.display = 'none';
         img.style.visibility = '';
         if (raf) { cancelAnimationFrame(raf); raf = 0; }
-        for (var k = 0; k < dx.length; k++) { dx[k] = 0; dy[k] = 0; }
+        ls = 0; inside = false;
       }
     }
 
