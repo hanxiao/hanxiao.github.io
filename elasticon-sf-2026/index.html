@@ -439,19 +439,62 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
 .lat .ln{font-family:var(--mono);font-size:12px;font-weight:700;line-height:1.2}
 .lat .lb{height:20px;border-radius:4px;transform-origin:left center;animation:grow 1.4s ease-out both;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;white-space:nowrap}
 
-/* search_web_deep flow */
-.wflow{display:flex;align-items:stretch;gap:0;width:100%}
-.wbox{flex:1;border:1.4px solid var(--navy);border-radius:var(--r-card);background:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:10px;min-height:178px;position:relative}
-.wbox .wn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)}
-.wbox .wt{font-size:24px;font-weight:850;letter-spacing:-.02em;color:var(--navy)}
-.wbox .wd{font-size:15.5px;line-height:1.38;font-weight:450}
-.wbox.lit{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:#F7FAFF}
-.wbox.end{background:var(--navy);border-color:var(--navy);color:#fff}
-.wbox.end .wt{color:#fff}.wbox.end .wn{color:var(--teal-hi)}
-.warr{flex:0 0 40px;display:flex;align-items:center;justify-content:center}
-.wbrace{position:relative;margin:0 0 12px;height:30px}
-.wbrace .wbl{position:absolute;top:0;height:12px;border:2px solid var(--accent);border-bottom:0;border-radius:8px 8px 0 0}
-.wbrace .wbt{position:absolute;top:-22px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;background:#fff;padding:0 8px;transform:translateX(-50%)}
+/* tag-card shuffle (slide 20): cards live in a deck, two at a time come forward with their verbatim tags */
+.shuf{position:relative;width:100%;height:100%;min-height:440px}
+.scard{position:absolute;left:50%;top:50%;width:440px;margin:-214px 0 0 -220px;box-sizing:border-box;height:428px;background:#fff;border:1.4px solid var(--hair2);border-radius:14px;overflow:hidden;
+  box-shadow:0 12px 30px rgba(16,28,63,.16),0 2px 6px rgba(16,28,63,.10);
+  --x:var(--px);--y:var(--py);--r:var(--rot);--s:.44;z-index:var(--pz);
+  transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(var(--s));
+  transition:transform .62s cubic-bezier(.22,.75,.24,1),box-shadow .4s;will-change:transform}
+.scard.noanim{transition:none}
+.scard img{display:block;width:100%;height:330px;object-fit:cover}
+.scard .schips{display:flex;flex-wrap:wrap;gap:8px 8px;padding:12px 14px 14px;height:95px;box-sizing:border-box;align-content:flex-start;border-top:1.4px solid var(--hair2)}
+.schip{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--accent);background:var(--accent-soft);border:1.3px solid var(--accent);
+  border-radius:999px;padding:3px 12px 4px;line-height:1.25;opacity:0;transform:translateY(6px) scale(.7);transition:opacity .22s,transform .3s cubic-bezier(.3,1.5,.5,1)}
+.scard.front{box-shadow:0 22px 50px rgba(16,28,63,.24),0 4px 10px rgba(16,28,63,.12)}
+.scard.on .schip{opacity:1;transform:none;transition-delay:calc(var(--ci) * .13s)}
+.shufcap{position:absolute;left:50%;top:50%;transform:translate(-50%,224px);font-family:var(--mono);font-size:12.5px;font-weight:700;white-space:nowrap;color:var(--ink);text-align:center;z-index:1}
+
+/* isometric crop layers (slide 25): base image + three lifted crop layers (9 + 4 + 1 = 14 crops) */
+.iso{display:flex;flex-direction:column;gap:12px;width:100%}
+.isoscene{position:relative;height:372px;width:100%}
+.isoworld{position:absolute;left:34%;top:71%;width:0;height:0;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-45deg)}
+.ilayer{position:absolute;left:-112px;top:-122px;width:224px;height:244px;transform-style:preserve-3d;--z:0px;
+  transform:translateZ(0);opacity:0;transition:transform .85s cubic-bezier(.2,.8,.25,1),opacity .5s}
+.ilayer[data-l="1"]{--z:62px}.ilayer[data-l="2"]{--z:124px}.ilayer[data-l="3"]{--z:186px}
+.ilayer::before{content:"";position:absolute;inset:-6px;border:1.6px dashed rgba(11,100,221,.55);border-radius:6px;background:rgba(11,100,221,.06)}
+.ilayer.up{transform:translateZ(var(--z));opacity:1}
+.ilayer.ibase{opacity:1;transform:none}
+.ilayer.ibase::before{inset:-1px;border:none;background:none;box-shadow:-10px 10px 22px rgba(16,28,63,.28)}
+.iimg{position:absolute;inset:0;background:url(img/zebra.jpg) center/100% 100% no-repeat;border-radius:3px;outline:2px solid #fff}
+.ihl{position:absolute;box-sizing:border-box;border:3px solid var(--teal-hi);background:rgba(72,239,207,.30);opacity:0;transition:opacity .18s;border-radius:2px}
+.ihl.hot{opacity:1}
+.itile{position:absolute;box-sizing:border-box;background-image:url(img/zebra.jpg);background-repeat:no-repeat;border:2px solid #fff;border-radius:3px;
+  opacity:.62;transform:scale(1);transition:transform .7s cubic-bezier(.2,.8,.25,1),opacity .25s,border-color .18s,box-shadow .18s}
+.ilayer.up .itile{transform:scale(.9)}
+.itile.hot{opacity:1;border-color:var(--teal-hi);box-shadow:0 0 0 2px var(--teal-hi),0 0 18px rgba(72,239,207,.9)}
+.itile.lit{opacity:1;border-color:var(--accent)}
+.isolab{position:absolute;left:62%;font-family:var(--mono);font-size:13.5px;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:9px;
+  opacity:0;transform:translateX(-8px);transition:opacity .4s,transform .5s}
+.isolab::before{content:"";width:30px;height:0;border-top:1.6px dashed var(--accent)}
+.isolab b{font-weight:700;color:var(--accent)}
+.isolab[data-l="0"]{top:calc(71% - 11px)}
+.isolab[data-l="1"]{top:calc(71% - 11px - 53px)}
+.isolab[data-l="2"]{top:calc(71% - 11px - 105px)}
+.isolab[data-l="3"]{top:calc(71% - 11px - 158px)}
+.isolab.on{opacity:1;transform:none}
+.isocount{position:absolute;left:calc(62% + 39px);top:calc(71% + 30px);font-family:var(--mono);font-size:13px;font-weight:700;color:#fff;background:var(--navy);border-radius:6px;padding:5px 11px;
+  opacity:0;transition:opacity .35s}
+.isocount.on{opacity:1}
+.isores{display:flex;flex-direction:column;gap:8px;padding-left:4px}
+.irow{display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .45s}
+.irow.on{opacity:1;transform:none}
+.irl{font-family:var(--mono);font-size:13px;font-weight:700;width:214px;flex:0 0 214px;color:var(--ink)}
+.ichip{font-family:var(--mono);font-size:16px;font-weight:700;border-radius:999px;padding:3px 13px 4px;line-height:1.25;color:var(--accent);background:var(--accent-soft);border:1.3px solid var(--accent);
+  opacity:0;transform:scale(.7);transition:opacity .22s,transform .3s cubic-bezier(.3,1.5,.5,1)}
+.ichip.f{color:var(--foil-ink);background:#FDE7F1;border-color:var(--foil)}
+.ichip.hero{background:var(--accent);color:#fff}
+.irow.on .ichip{opacity:1;transform:none;transition-delay:calc(.15s + var(--ci) * .16s)}
 
 /* demo cards glyph helpers */
 .gimg{fill:#fff;stroke:var(--navy);stroke-width:1.4}
@@ -470,6 +513,19 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
   .cropov > g,.croplab,.cid{animation:none !important}
   .cropov .g33,.croplab.l33,.cid.c33{opacity:1}
   .beir .bb,.lat .lb{animation:none}
+  .scard,.schip,.ilayer,.itile,.ihl,.isolab,.isocount,.irow,.ichip{transition:none !important}
+  .scard{will-change:auto !important}
+  .scard{--x:var(--px) !important;--y:var(--py) !important;--r:var(--rot) !important;--s:.44 !important;z-index:var(--pz) !important;box-shadow:0 6px 16px rgba(16,28,63,.16) !important}
+  .scard .schip{opacity:0 !important}
+  .scard[data-i="0"]{--x:-358px !important;--y:0px !important;--r:0deg !important;--s:1 !important;z-index:100 !important}
+  .scard[data-i="1"]{--x:358px !important;--y:0px !important;--r:0deg !important;--s:1 !important;z-index:100 !important}
+  .scard[data-i="0"] .schip,.scard[data-i="1"] .schip{opacity:1 !important;transform:none !important}
+  .ilayer{transform:translateZ(var(--z)) !important;opacity:1 !important}
+  .ilayer.ibase{transform:none !important}
+  .ilayer.up .itile,.itile{transform:scale(.9) !important;opacity:.95 !important;border-color:#fff !important;box-shadow:none !important}
+  .ihl{opacity:0 !important}
+  .isolab,.irow,.ichip{opacity:1 !important;transform:none !important}
+  .isocount{opacity:0 !important}
 }
 .pchrome{display:none;position:absolute;left:60px;right:60px;bottom:16px;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;border-top:1px solid var(--hair);padding-top:9px}
 .pchrome img{height:19px}
@@ -943,21 +999,22 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
   <div class="dt">A retrieval model tags images</div>
 </section>
 
-<!-- ============ 20 TAG CARDS ============ -->
+<!-- ============ 20 TAG CARDS (shuffle) ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Open-vocabulary tags from a frozen embedding model</h2>
   <p class="ssub">No training, no second model, no dictionary, no POS tagger. Every tag below comes from test-time compute alone, verbatim.</p>
   <div class="body">
-    <div class="tgrid">
-      <figure class="tcell"><img src="img/grid/g1.jpg" alt=""><div class="tc">mountain &middot; phoenix &middot; sky &middot; rooftop &middot; location</div></figure>
-      <figure class="tcell"><img src="img/grid/g2.jpg" alt=""><div class="tc">clock &middot; thermostat &middot; dial &middot; dst &middot; wifi</div></figure>
-      <figure class="tcell"><img src="img/grid/g3.jpg" alt=""><div class="tc">fiyat &middot; pagamento &middot; brasile &middot; gratuiti &middot; utils</div></figure>
-      <figure class="tcell"><img src="img/grid/g4.jpg" alt=""><div class="tc">contiene &middot; liters &middot; dosage &middot; thirst &middot; consumo</div></figure>
-      <figure class="tcell"><img src="img/grid/g5.jpg" alt=""><div class="tc">harga &middot; lcd &middot; samsung &middot; refurbished &middot; warrants</div></figure>
-      <figure class="tcell"><img src="img/grid/g6.jpg" alt=""><div class="tc">sunglasses &middot; watches &middot; branded &middot; bronze &middot; necklace</div></figure>
-      <figure class="tcell"><img src="img/grid/g7.jpg" alt=""><div class="tc">tablet &middot; motherboard &middot; wearable &middot; celular &middot; datastore</div></figure>
-      <figure class="tcell"><img src="img/grid/g8.jpg" alt=""><div class="tc">award &middot; forwarding &middot; speaking &middot; defendant &middot; workshop</div></figure>
-      <figure class="tcell"><img src="img/grid/g9.jpg" alt=""><div class="tc">gift &middot; toy &middot; celebration &middot; balloons &middot; cheerful</div></figure>
+    <div class="shuf" id="shuf">
+      <figure class="scard" data-i="0" style="--rot:-7deg;--px:6.4px;--py:-6.4px;--pz:18"><img src="img/grid/g1.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">mountain</span><span class="schip" style="--ci:1">phoenix</span><span class="schip" style="--ci:2">sky</span><span class="schip" style="--ci:3">rooftop</span><span class="schip" style="--ci:4">location</span></figcaption></figure>
+      <figure class="scard" data-i="1" style="--rot:4deg;--px:4.8px;--py:-4.6px;--pz:17"><img src="img/grid/g2.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">clock</span><span class="schip" style="--ci:1">thermostat</span><span class="schip" style="--ci:2">dial</span><span class="schip" style="--ci:3">dst</span><span class="schip" style="--ci:4">wifi</span></figcaption></figure>
+      <figure class="scard" data-i="2" style="--rot:-2deg;--px:3.2px;--py:-2.8px;--pz:16"><img src="img/grid/g3.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">fiyat</span><span class="schip" style="--ci:1">pagamento</span><span class="schip" style="--ci:2">brasile</span><span class="schip" style="--ci:3">gratuiti</span><span class="schip" style="--ci:4">utils</span></figcaption></figure>
+      <figure class="scard" data-i="3" style="--rot:6deg;--px:1.6px;--py:-1.0px;--pz:15"><img src="img/grid/g4.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">contiene</span><span class="schip" style="--ci:1">liters</span><span class="schip" style="--ci:2">dosage</span><span class="schip" style="--ci:3">thirst</span><span class="schip" style="--ci:4">consumo</span></figcaption></figure>
+      <figure class="scard" data-i="4" style="--rot:-5deg;--px:0.0px;--py:0.8px;--pz:14"><img src="img/grid/g5.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">harga</span><span class="schip" style="--ci:1">lcd</span><span class="schip" style="--ci:2">samsung</span><span class="schip" style="--ci:3">refurbished</span><span class="schip" style="--ci:4">warrants</span></figcaption></figure>
+      <figure class="scard" data-i="5" style="--rot:2deg;--px:-1.6px;--py:2.6px;--pz:13"><img src="img/grid/g6.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">sunglasses</span><span class="schip" style="--ci:1">watches</span><span class="schip" style="--ci:2">branded</span><span class="schip" style="--ci:3">bronze</span><span class="schip" style="--ci:4">necklace</span></figcaption></figure>
+      <figure class="scard" data-i="6" style="--rot:-4deg;--px:-3.2px;--py:4.4px;--pz:12"><img src="img/grid/g7.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">tablet</span><span class="schip" style="--ci:1">motherboard</span><span class="schip" style="--ci:2">wearable</span><span class="schip" style="--ci:3">celular</span><span class="schip" style="--ci:4">datastore</span></figcaption></figure>
+      <figure class="scard" data-i="7" style="--rot:7deg;--px:-4.8px;--py:6.2px;--pz:11"><img src="img/grid/g8.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">award</span><span class="schip" style="--ci:1">forwarding</span><span class="schip" style="--ci:2">speaking</span><span class="schip" style="--ci:3">defendant</span><span class="schip" style="--ci:4">workshop</span></figcaption></figure>
+      <figure class="scard" data-i="8" style="--rot:-1deg;--px:-6.4px;--py:8.0px;--pz:10"><img src="img/grid/g9.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">gift</span><span class="schip" style="--ci:1">toy</span><span class="schip" style="--ci:2">celebration</span><span class="schip" style="--ci:3">balloons</span><span class="schip" style="--ci:4">cheerful</span></figcaption></figure>
+      <div class="shufcap">9 photos &middot; top-5 tags each &middot; verbatim</div>
     </div>
   </div>
 </section>
@@ -1154,48 +1211,66 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
   </div>
 </section>
 
-<!-- ============ 25 CROPS ============ -->
+<!-- ============ 25 CROPS (isometric layers) ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Crops give the model new pixels</h2>
   <p class="ssub">14 crops through the same frozen model. A small object fills its own crop, so weak evidence becomes strong. Per-label max works, averaging hurts.</p>
-  <div class="body row" style="gap:46px;align-items:center">
-    <div style="flex:1.05">
-      <div class="shot" style="position:relative"><img src="img/zebra.jpg" alt="a bear in tall grass" style="height:330px;object-fit:cover">
-        <svg class="cropov" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <g class="g33">
-            <g stroke="#101C3F" stroke-width="3.5" opacity="0.4"><line x1="33.3" y1="0" x2="33.3" y2="100" vector-effect="non-scaling-stroke"/><line x1="66.6" y1="0" x2="66.6" y2="100" vector-effect="non-scaling-stroke"/><line x1="0" y1="33.3" x2="100" y2="33.3" vector-effect="non-scaling-stroke"/><line x1="0" y1="66.6" x2="100" y2="66.6" vector-effect="non-scaling-stroke"/></g>
-            <g stroke="#fff" stroke-width="1.6"><line x1="33.3" y1="0" x2="33.3" y2="100" vector-effect="non-scaling-stroke"/><line x1="66.6" y1="0" x2="66.6" y2="100" vector-effect="non-scaling-stroke"/><line x1="0" y1="33.3" x2="100" y2="33.3" vector-effect="non-scaling-stroke"/><line x1="0" y1="66.6" x2="100" y2="66.6" vector-effect="non-scaling-stroke"/></g>
-            <rect x="33.3" y="0" width="33.3" height="33.3" fill="none" stroke="#48EFCF" stroke-width="2.2" vector-effect="non-scaling-stroke"/>
-          </g>
-          <g class="g22">
-            <g stroke="#101C3F" stroke-width="3.5" opacity="0.4"><line x1="50" y1="0" x2="50" y2="100" vector-effect="non-scaling-stroke"/><line x1="0" y1="50" x2="100" y2="50" vector-effect="non-scaling-stroke"/></g>
-            <g stroke="#fff" stroke-width="1.6" stroke-dasharray="6 4"><line x1="50" y1="0" x2="50" y2="100" vector-effect="non-scaling-stroke"/><line x1="0" y1="50" x2="100" y2="50" vector-effect="non-scaling-stroke"/></g>
-            <rect x="0" y="0" width="50" height="50" fill="none" stroke="#48EFCF" stroke-width="2.2" vector-effect="non-scaling-stroke"/>
-          </g>
-          <g class="gc">
-            <rect x="25" y="25" width="50" height="50" fill="none" stroke="#48EFCF" stroke-width="2.4" vector-effect="non-scaling-stroke"/>
-          </g>
-        </svg>
-        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(0.0% + 4px)">c1</div>
-        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(0.0% + 4px)">c2</div>
-        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(0.0% + 4px)">c3</div>
-        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(33.3% + 4px)">c4</div>
-        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(33.3% + 4px)">c5</div>
-        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(33.3% + 4px)">c6</div>
-        <div class="cid c33" style="left:calc(0.0% + 4px);top:calc(66.6% + 4px)">c7</div>
-        <div class="cid c33" style="left:calc(33.3% + 4px);top:calc(66.6% + 4px)">c8</div>
-        <div class="cid c33" style="left:calc(66.6% + 4px);top:calc(66.6% + 4px)">c9</div>
-        <div class="cid c22" style="left:calc(0% + 4px);top:calc(0% + 4px)">c10</div>
-        <div class="cid c22" style="left:calc(50% + 4px);top:calc(0% + 4px)">c11</div>
-        <div class="cid c22" style="left:calc(0% + 4px);top:calc(50% + 4px)">c12</div>
-        <div class="cid c22" style="left:calc(50% + 4px);top:calc(50% + 4px)">c13</div>
-        <div class="cid cc" style="left:calc(25% + 4px);top:calc(25% + 4px)">c14</div>
-        <div class="croplab l33">3&times;3 &middot; 9 crops</div>
-        <div class="croplab l22">2&times;2 &middot; 4 crops</div>
-        <div class="croplab lc">center &middot; 1 crop</div>
+  <div class="body row" style="gap:40px;align-items:center">
+    <div style="flex:1.12">
+      <div class="iso" id="iso">
+        <div class="isoscene">
+          <div class="isoworld">
+            <div class="ilayer ibase" data-l="0">
+              <div class="iimg"></div>
+            <div class="ihl" data-c="1" style="left:0%;top:0%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="2" style="left:33.333%;top:0%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="3" style="left:66.667%;top:0%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="4" style="left:0%;top:33.333%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="5" style="left:33.333%;top:33.333%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="6" style="left:66.667%;top:33.333%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="7" style="left:0%;top:66.667%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="8" style="left:33.333%;top:66.667%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="9" style="left:66.667%;top:66.667%;width:33.333%;height:33.333%"></div>
+            <div class="ihl" data-c="10" style="left:0%;top:0%;width:50%;height:50%"></div>
+            <div class="ihl" data-c="11" style="left:50%;top:0%;width:50%;height:50%"></div>
+            <div class="ihl" data-c="12" style="left:0%;top:50%;width:50%;height:50%"></div>
+            <div class="ihl" data-c="13" style="left:50%;top:50%;width:50%;height:50%"></div>
+            <div class="ihl" data-c="14" style="left:25%;top:25%;width:50%;height:50%"></div>
+            </div>
+            <div class="ilayer" data-l="1">
+            <div class="itile" data-c="1" style="left:0%;top:0%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:0% 0%"></div>
+            <div class="itile" data-c="2" style="left:33.333%;top:0%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:50% 0%"></div>
+            <div class="itile" data-c="3" style="left:66.667%;top:0%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:100% 0%"></div>
+            <div class="itile" data-c="4" style="left:0%;top:33.333%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:0% 50%"></div>
+            <div class="itile" data-c="5" style="left:33.333%;top:33.333%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:50% 50%"></div>
+            <div class="itile" data-c="6" style="left:66.667%;top:33.333%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:100% 50%"></div>
+            <div class="itile" data-c="7" style="left:0%;top:66.667%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:0% 100%"></div>
+            <div class="itile" data-c="8" style="left:33.333%;top:66.667%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:50% 100%"></div>
+            <div class="itile" data-c="9" style="left:66.667%;top:66.667%;width:33.333%;height:33.333%;background-size:300% 300%;background-position:100% 100%"></div>
+            </div>
+            <div class="ilayer" data-l="2">
+            <div class="itile" data-c="10" style="left:0%;top:0%;width:50%;height:50%;background-size:200% 200%;background-position:0% 0%"></div>
+            <div class="itile" data-c="11" style="left:50%;top:0%;width:50%;height:50%;background-size:200% 200%;background-position:100% 0%"></div>
+            <div class="itile" data-c="12" style="left:0%;top:50%;width:50%;height:50%;background-size:200% 200%;background-position:0% 100%"></div>
+            <div class="itile" data-c="13" style="left:50%;top:50%;width:50%;height:50%;background-size:200% 200%;background-position:100% 100%"></div>
+            </div>
+            <div class="ilayer" data-l="3">
+            <div class="itile" data-c="14" style="left:25%;top:25%;width:50%;height:50%;background-size:200% 200%;background-position:50% 50%"></div>
+            </div>
+          </div>
+          <div class="isolab" data-l="0"><b>full image</b> &middot; 1 pass</div>
+          <div class="isolab" data-l="1"><b>3&times;3</b> &middot; 9 crops</div>
+          <div class="isolab" data-l="2"><b>2&times;2</b> &middot; 4 crops</div>
+          <div class="isolab" data-l="3"><b>center</b> &middot; 1 crop</div>
+          <div class="isocount"><span id="isoN">0</span> / 14 crops</div>
+        </div>
+        <div class="isores">
+          <div class="irow" data-r="1"><span class="irl">1 pass</span><span class="ichip f" style="--ci:0">wolf</span><span class="ichip f" style="--ci:1">roar</span><span class="ichip f" style="--ci:2">muzzle</span></div>
+          <div class="irow" data-r="2"><span class="irl">+ 14 crops &middot; per-label max</span><span class="ichip" style="--ci:0">fur</span><span class="ichip hero" style="--ci:1">bear</span><span class="ichip" style="--ci:2">muzzle</span></div>
+        </div>
       </div>
     </div>
-    <div style="flex:.95">
+    <div style="flex:.88">
       <div class="blist">
         <p><b>+0.075 mAP</b> for 14x the passes: 0.635 to 0.710.</p>
         <p>P@1 goes from <b>0.753</b> to <b>0.813</b>.</p>
@@ -1346,27 +1421,6 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
     </div>
     <div style="flex:1.08"><div class="shot"><img src="img/inpage-ui.png" alt="in-page search: the answer highlighted inside the original page"></div></div>
   </div>
-</section>
-
-<!-- ============ 33 SEARCH_WEB_DEEP ============ -->
-<section class="slide" data-sec="03 · One call replaces an index">
-  <h2 class="h-slide">When the snippet is not enough, read the pages</h2>
-  <p class="ssub"><span class="mono" style="font-weight:700">search_web_deep</span> spends extra inference at query time instead of trusting the 20-word snippet from the engine.</p>
-  <div class="body" id="wdeep">
-    <div class="wbrace" id="wbrace"><div class="wbl"></div><div class="wbt">test-time compute</div></div>
-    <div class="wflow">
-      <div class="wbox"><div class="wn">01</div><div class="wt">SERP</div><div class="wd">top 20 results</div></div>
-      <div class="warr"><svg width="30" height="16" viewBox="0 0 30 16" aria-hidden="true"><line class="dline" x1="0" y1="8" x2="22" y2="8"/><path class="dhead" d="M17 2 L25 8 L17 14"/></svg></div>
-      <div class="wbox lit" data-wb="s"><div class="wn">02</div><div class="wt">Read</div><div class="wd">Reader fetches each page body</div></div>
-      <div class="warr"><svg width="30" height="16" viewBox="0 0 30 16" aria-hidden="true"><line class="dline" x1="0" y1="8" x2="22" y2="8"/><path class="dhead" d="M17 2 L25 8 L17 14"/></svg></div>
-      <div class="wbox lit"><div class="wn">03</div><div class="wt">Chunk</div><div class="wd">~100 words at sentence boundaries</div></div>
-      <div class="warr"><svg width="30" height="16" viewBox="0 0 30 16" aria-hidden="true"><line class="dline" x1="0" y1="8" x2="22" y2="8"/><path class="dhead" d="M17 2 L25 8 L17 14"/></svg></div>
-      <div class="wbox lit" data-wb="e"><div class="wn">04</div><div class="wt">Rerank</div><div class="wd">all chunks and snippets in one listwise jina-reranker-v3.5 call</div></div>
-      <div class="warr"><svg width="30" height="16" viewBox="0 0 30 16" aria-hidden="true"><line class="dline" x1="0" y1="8" x2="22" y2="8"/><path class="dhead" d="M17 2 L25 8 L17 14"/></svg></div>
-      <div class="wbox end"><div class="wn">05</div><div class="wt">Select</div><div class="wd">best chunk per URL, one shared scale</div></div>
-    </div>
-  </div>
-  <div class="fnote"><b>Related:</b> Rank1 (arXiv:2502.18418) trains a reranker for test-time reasoning. Drowning in Documents (arXiv:2411.11767) finds that reranker gains decline, and can reverse, as more documents are scored.</div>
 </section>
 
 <!-- ============ 34 DIVIDER 04 ============ -->
@@ -1530,6 +1584,7 @@ function show(n){
   footEl.classList.toggle('onteal', mode==='onteal');
   csec.textContent=s.dataset.sec||'Search is test-time compute';
   requestAnimationFrame(()=>layoutSlide(s));
+  if(typeof ANIM!=="undefined") ANIM.start(s);
   if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
 }
 function fit(){
@@ -1866,6 +1921,77 @@ function layoutSlide(s){
 }
 function layoutAll(){ slides.forEach(layoutSlide); }
 window.layoutAll=layoutAll;
+
+/* ---------------- slide animations restarted from show(): tag-card shuffle + isometric crop layers ---------------- */
+const ANIM=(function(){
+  let timers=[];
+  const at=(ms,fn)=>timers.push(setTimeout(fn,ms));
+  function stop(){ timers.forEach(clearTimeout); timers=[]; }
+
+  /* ---- tag-card shuffle: deck in the middle, two cards come forward with their tags ---- */
+  function shuffle(root){
+    const cards=[...root.querySelectorAll('.scard')];
+    let stack=cards.slice().reverse();           // bottom -> top, card 0 on top
+    const set=(c,x,y,r,s,z)=>{c.style.setProperty('--x',x+'px');c.style.setProperty('--y',y+'px');
+      c.style.setProperty('--r',r+'deg');c.style.setProperty('--s',s);c.style.zIndex=z;};
+    const deck=()=>stack.forEach((c,d)=>set(c,(d-4)*1.6,-d*1.8+8,parseFloat(c.style.getPropertyValue('--rot')),.44,10+d));
+    cards.forEach(c=>{c.classList.add('noanim');c.classList.remove('on','front');});
+    deck(); void root.offsetWidth; cards.forEach(c=>c.classList.remove('noanim'));
+    const FX=358, ROUND=5200;
+    function round(t0){
+      const a=stack.pop(), b=stack.pop();
+      at(t0,()=>{ set(a,-150,-112,-9,.56,120); set(b,150,-112,9,.56,121); a.classList.add('front'); b.classList.add('front'); deck(); });
+      at(t0+430,()=>{ set(a,-FX,0,0,1,120); set(b,FX,0,0,1,121); });
+      at(t0+1000,()=>{ a.classList.add('on'); b.classList.add('on'); });
+      at(t0+4150,()=>{ a.classList.remove('on'); b.classList.remove('on'); });
+      at(t0+4380,()=>{ set(a,-262,58,8,.5,120); set(b,262,58,-8,.5,121); });
+      at(t0+4820,()=>{ a.classList.remove('front'); b.classList.remove('front'); stack.unshift(a); stack.unshift(b); deck(); });
+      at(t0+ROUND,()=>round(0));
+    }
+    round(450);
+  }
+
+  /* ---- isometric crop layers: lift 3x3, 2x2, center; each crop lights its region on the base ---- */
+  function crops(root){
+    const L=[...root.querySelectorAll('.ilayer')], lab=[...root.querySelectorAll('.isolab')];
+    const rows=[...root.querySelectorAll('.irow')], cnt=root.querySelector('.isocount'), num=root.querySelector('#isoN');
+    const hl=c=>root.querySelector('.ihl[data-c="'+c+'"]'), tl=c=>root.querySelector('.itile[data-c="'+c+'"]');
+    function reset(){
+      L.forEach(l=>l.classList.remove('up')); lab.forEach(e=>e.classList.remove('on')); rows.forEach(r=>r.classList.remove('on'));
+      root.querySelectorAll('.hot,.lit').forEach(e=>e.classList.remove('hot','lit')); cnt.classList.remove('on'); num.textContent='0';
+    }
+    function flash(c,t,dur){
+      at(t,()=>{ tl(c).classList.add('hot'); hl(c).classList.add('hot'); num.textContent=String(c); });
+      at(t+dur-40,()=>{ tl(c).classList.remove('hot'); hl(c).classList.remove('hot'); });
+    }
+    function cycle(){
+      reset();
+      at(200,()=>lab[0].classList.add('on'));
+      at(450,()=>rows[0].classList.add('on'));
+      at(1500,()=>{ L[1].classList.add('up'); lab[1].classList.add('on'); cnt.classList.add('on'); });
+      for(let k=0;k<9;k++) flash(1+k,2300+k*360,360);
+      at(5600,()=>{ L[2].classList.add('up'); lab[2].classList.add('on'); });
+      for(let k=0;k<4;k++) flash(10+k,6400+k*440,440);
+      at(8250,()=>{ L[3].classList.add('up'); lab[3].classList.add('on'); });
+      flash(14,9050,650);
+      at(9800,()=>{ root.querySelectorAll('.itile').forEach(e=>e.classList.add('lit')); rows[1].classList.add('on'); });
+      at(14300,()=>{ rows.forEach(r=>r.classList.remove('on')); root.querySelectorAll('.lit').forEach(e=>e.classList.remove('lit')); cnt.classList.remove('on'); });
+      at(14500,()=>{ L[3].classList.remove('up'); lab[3].classList.remove('on'); });
+      at(14650,()=>{ L[2].classList.remove('up'); lab[2].classList.remove('on'); });
+      at(14800,()=>{ L[1].classList.remove('up'); lab[1].classList.remove('on'); });
+      at(16000,cycle);
+    }
+    cycle();
+  }
+
+  function start(s){
+    stop();
+    const sh=s&&s.querySelector('.shuf'), is=s&&s.querySelector('.iso');
+    if(sh) shuffle(sh);
+    if(is) crops(is);
+  }
+  return {start,stop};
+})();
 
 function renderAll(){drawPareto();drawMoney();drawPermodel();drawHead();drawHeatmap();TTC.render();layoutSlide(slides[i]);}
 

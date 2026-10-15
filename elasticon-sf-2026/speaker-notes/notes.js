@@ -143,11 +143,12 @@ That is why they carry over.` },
    { n: 19, sec: 10, title: "Section 02",
      note: `Demo two. A retrieval model tags images.` },
 
-   { n: 20, sec: 40, title: "Tags for free",
+   { n: 20, sec: 55, title: "Tags for free",
      note: `These tags come from an embedding model.
 No training, no second model, no dictionary, no part-of-speech tagger.
 Every tag here is verbatim output.
-Some are in other languages, because the label set is the model's own vocabulary.` },
+Some are in other languages, because the label set is the model's own vocabulary.
+The cards come up two at a time, and the tags are exactly what the model returned.` },
 
    { n: 21, sec: 40, title: "One space",
      note: `The model is jina-embeddings-v5-omni-nano, about one billion parameters.
@@ -177,10 +178,12 @@ No calibration set, no labels.
 A word-start gate keeps whole words,
 and embedding NMS merges cat, kitty and its Russian twin into one tag.` },
 
-   { n: 25, sec: 40, title: "Crops",
+   { n: 25, sec: 55, title: "Crops",
      note: `This is lever B, more passes.
 We run 14 crops through the same model.
+Watch the layers lift. Nine crops, then four, then the center, each one a fresh look at its own region.
 A small object fills its own crop, so weak evidence becomes strong.
+Per-label max keeps the strongest evidence from any crop.
 mAP goes from 0.635 to 0.710 for 14 times the passes.
 One pass reads wolf. With crops, it reads bear.` },
 
@@ -224,26 +227,19 @@ jina-reranker-v3 does this at 0.6 billion parameters.
 On BEIR it scores 61.94, against about 56 for two strong rerankers of the same size. //
 Same size. The gain comes from extra compute across candidates.` },
 
-   { n: 32, sec: 45, title: "Drop the index",
+   { n: 32, sec: 60, title: "Drop the index",
      note: `Now push that further.
 An index pays off over many queries.
 But a web page lives for one visit.
 So skip chunking, embedding and indexing, and run one listwise pass over the whole page.
 jina-reranker-v3.5 does a 53-chunk page in 143 milliseconds.
-The answer is highlighted right in the page.` },
-
-   { n: 33, sec: 45, title: "search_web_deep",
-     note: `Same idea for web search.
-The engine gives you a 20-word snippet. Sometimes that is not enough.
-search_web_deep reads the top 20 pages, chunks them,
-and reranks every chunk and snippet in one listwise call.
-Then it keeps the best chunk per URL.
+The answer is highlighted right in the page.
 That is extra inference, spent at query time, where it matters.` },
 
-   { n: 34, sec: 10, title: "Section 04",
+   { n: 33, sec: 10, title: "Section 04",
      note: `Demo four. An agent builds the pipeline.` },
 
-   { n: 35, sec: 50, title: "Long-horizon agents",
+   { n: 34, sec: 50, title: "Long-horizon agents",
      note: `In 2025, deep research was one loop. Search, read, reason, until the budget runs out.
 In 2026, long-horizon agents split the work.
 First research, with web access, to build a corpus.
@@ -251,28 +247,28 @@ Then an offline agent loop that works from that corpus.
 Research and execution want different tokens.
 Use cheap local tokens to build the corpus, and save frontier tokens for the work that needs them.` },
 
-   { n: 36, sec: 40, title: "dataroom",
+   { n: 35, sec: 40, title: "dataroom",
      note: `dataroom is the first half.
 A local model searches, reads and writes in a loop,
 until the knowledge sits in one cited zip file.
 It stops when coverage is good enough, not after a fixed number of tokens.
 The zip goes to searchbox, or to a frontier model.` },
 
-   { n: 37, sec: 40, title: "searchbox",
+   { n: 36, sec: 40, title: "searchbox",
      note: `searchbox is the second half.
 We lock an agent in with one dataroom and no web.
 It can only answer by composing its own pipeline from local tools.
 Grep, embed, rerank, cluster.
 And we get to ask real questions. Which tool comes first? When does grep win? Does more budget help?` },
 
-   { n: 38, sec: 40, title: "knowledge-graph",
+   { n: 37, sec: 40, title: "knowledge-graph",
      note: `To measure any of this you need hard questions.
 If one grep finds the answer, every method looks the same.
 So we turn the corpus into a graph, walk two or three hops, and hide the bridge.
 A question stays only if a closed-book model fails and a retrieval agent succeeds.
 That gives us a private verifier.` },
 
-   { n: 39, sec: 60, title: "What the demos share",
+   { n: 38, sec: 60, title: "What the demos share",
      note: `So what do the four demos share?
 All of them are training-free. Same frozen models.
 Compute buys quality. Programs, a tagger, an index replaced by one call.
@@ -280,19 +276,19 @@ But it converts only when *new information* enters. Patches and crops, yes. Cali
 And always check out of domain.
 Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
 
-   { n: 40, sec: 60, title: "Elasticsearch",
+   { n: 39, sec: 60, title: "Elasticsearch",
      note: `Here is how this maps to Elasticsearch today.
 Fuse rankings with the rrf retriever. The program search rediscovered exactly that.
 Rerank the top hits with the text similarity reranker, and let the candidates see each other.
 With semantic text chunking, rank by the best chunk instead of one pooled vector.
 And give your agents a budget and a private multi-hop eval before you give them more tokens.` },
 
-   { n: 41, sec: 25, title: "Closing",
+   { n: 40, sec: 25, title: "Closing",
      note: `So, to close.
 Search has always been test-time compute.
 Spend it where *new information* enters. //` },
 
-   { n: 42, sec: 20, title: "Thank you",
+   { n: 41, sec: 20, title: "Thank you",
      note: `Thank you.
 The paper is on arXiv, and the slides are at the QR code.
 Happy to take questions.` }
