@@ -11,12 +11,12 @@ And if you want the slides, scan the code in the corner. //` },
 
    { n: 2, sec: 30, title: "Training harder",
      note: `For most of its history, search got better by *training harder*.
-Bigger encoders, cleaner data, faster indexes, stronger rerankers.
-All of that happens *before* the user types anything.` },
+Bigger encoders, cleaner data, faster indexes and stronger rerankers.
+All of that happens *before* the first query.` },
 
    { n: 3, sec: 45, title: "The second axis",
      note: `Then large language models found a *second axis*.
-Instead of a bigger model, you let the same model do more work per query.
+You keep the model and let it do more work per query.
 You spend compute at inference, and quality climbs along a smooth curve.
 Noam Brown put it nicely for poker.
 Twenty seconds of thinking gave the same boost as scaling the model a hundred thousand times. //` },
@@ -25,18 +25,16 @@ Twenty seconds of thinking gave the same boost as scaling the model a hundred th
      note: `Here is the fun part.
 Search has *always* lived on that axis.
 Embed, retrieve, rerank, expand, fuse.
-None of it is training. All of it runs after the user presses Enter.
-So the question is not whether search uses test-time compute.
-It is where to spend it. //` },
+All of it runs after the user presses Enter.
+So the real question is where to spend it. //` },
 
    { n: 5, sec: 35, title: "A currency, not a KPI",
      note: `So what changes when you think this way?
 Until now, inference time was a *KPI*.
 A latency number in the SLA, a line you stay under.
-It never took part in a trade.
-If you wanted better results, you went back and swapped in a bigger model.
+If you wanted better accuracy, you needed a bigger model.
 In this talk, inference time is a *currency*.
-Keep the model, keep the weights, and raise the budget from 10 to 100 milliseconds.
+Keep the weights, and raise the budget from 10 to 100 milliseconds.
 What does it buy? //
 Two things.
 Relevance, the same task ranked better.
@@ -44,7 +42,7 @@ And a new capability, tasks the model was never trained for.` },
 
    { n: 6, sec: 45, title: "Four demos",
      note: `I will walk through four demos.
-One, an LLM writes retrieval programs over a frozen encoder, and some of them transfer.
+One, an LLM writes retrieval programs for a frozen encoder, and the cheapest ones transfer.
 Two, a frozen retrieval model becomes an image tagger.
 Three, one reranker call over a page replaces the whole index.
 Four, an agent builds its own search pipeline, per query.
@@ -53,18 +51,18 @@ No training anywhere.` },
    { n: 7, sec: 55, title: "Three ways to spend compute",
      note: `Before the demos, a small map.
 On a frozen model there are three ways to spend compute.
-*A*, a deeper pass. Read more of what you already computed, every token or patch, not only the pooled vector.
-*B*, more passes. Run the encoder again on new views, a crop, a sentence.
+*A*, a deeper pass. Read every token or patch vector of the pass you already ran.
+*B*, more passes. Run the encoder again on new views, such as a sentence or a crop.
 *C*, calibration. Transform the vectors you already have.
-The weights are identical in all three.
-What differs is whether *new information* enters. //` },
+All three keep the weights fixed.
+They differ in where *new information* comes from. //` },
 
    { n: 8, sec: 10, title: "Section 01",
      note: `Demo one. Programs on a frozen encoder.` },
 
    { n: 9, sec: 40, title: "Distilled embedders",
      note: `People say test-time compute belongs to big reasoning models.
-But look at today's small embedders.
+But look at current small embedders.
 E5 and NV-Embed come from Mistral, jina-embeddings-v5 from Qwen3, EmbeddingGemma from Gemma.
 They are distilled from LLMs.
 So maybe they inherit the same ability.
@@ -76,7 +74,7 @@ On the right, ColBERT, which needs a multi-vector model.
 In the middle is the trick.
 Same single-vector encoder, but split the document into sentences and keep the best match.
 That is test-time compute on a model you already have.
-Our rules were strict. No external LLM, no second retriever, no learned parameters.` },
+The rules are strict. Only the frozen encoder in the query path. No LLM, no second retriever, no learned parameters.` },
 
    { n: 11, sec: 50, title: "The loop",
      note: `So we let an agent do the research.
@@ -113,7 +111,7 @@ The cost goes from 1.2 to 14.7 times the baseline.` },
 Its median never goes above plus 0.003, no matter how much you spend.
 The blue dots are a second search I will explain in a moment.
 The best one costs *nothing* extra, c equals one.
-And it beats the program that spends 14.7 times the compute. //
+And it beats all twelve compute programs, even the one at 14.7 times the compute. //
 Compute alone did not transfer.` },
 
    { n: 16, sec: 45, title: "Heatmap",
@@ -142,7 +140,7 @@ They memorize. Structure transfers.` },
    { n: 19, sec: 45, title: "Classical IR",
      note: `What did the search actually find?
 Classical information retrieval, re-derived in embedding space.
-Reciprocal rank fusion and Fisher's discriminant appeared without any seed.
+Reciprocal rank fusion and the Fisher discriminant appeared without any seed.
 Rocchio feedback and sentence MaxSim grew out of seeded ideas.
 They all rely on cosine geometry, which every encoder shares.
 That is why they carry over.` },
@@ -192,8 +190,8 @@ mAP goes from 0.635 to 0.710 for 14 times the passes.
 One pass reads wolf. With crops, it reads bear.` },
 
    { n: 27, sec: 40, title: "The ladder",
-     note: `Reading more of the pass gives the big step.
-Re-encoding new views gives the next one, at higher latency.
+     note: `Patches give the big step.
+Crops give the next one, at higher latency.
 And down at the bottom, the calibration methods.
 Same 75 milliseconds as the patch pipeline, and they collapse.` },
 
@@ -208,8 +206,8 @@ The crops gain. Everything in the calibration group is flat or collapses. //` },
    { n: 29, sec: 25, title: "Only new information",
      note: `So the lesson of demo two.
 Only *new information* moves accuracy.
-Calibration rearranges what the model has already seen.
-Patches and crops give it more to look at.` },
+Patches and crops add information.
+Calibration only rearranges what is already there.` },
 
    { n: 30, sec: 40, title: "Omni",
      note: `And it ships.
@@ -223,14 +221,14 @@ Tags become snippets, so photos, video and scanned PDFs become searchable by key
 
    { n: 32, sec: 35, title: "1-bit funnel",
      note: `Let me start with the cheapest rescore, inside Omni.
-Omni has no ANN index, so every query scans the whole corpus.
+Omni builds no ANN index, so every query scans the whole corpus.
 A graph index would need 256 bytes of links per row.
 At four million chunks that is 0.95 gigabytes, close to three times the matrix a query scans.
 So we store the space twice.
 The scan reads a *1-bit replica*, one sixteenth the width of the exact vectors.
 The coarse score only picks a wide shortlist.
 Then we fetch the exact vectors for that shortlist and rescore. //
-The compute goes into rescoring, not into an index.` },
+Omni spends its compute on rescoring.` },
 
    { n: 33, sec: 50, title: "Listwise",
      note: `Now spend more on the rescore itself.
@@ -264,7 +262,7 @@ Use cheap local tokens to build the corpus, and save frontier tokens for the wor
      note: `dataroom is the first half.
 A local model searches, reads and writes in a loop,
 until the knowledge sits in one cited zip file.
-It stops when coverage is good enough, not after a fixed number of tokens.
+It stops when coverage reaches a measured floor.
 The zip goes to searchbox, or to a frontier model.` },
 
    { n: 38, sec: 40, title: "searchbox",
@@ -284,15 +282,15 @@ That gives us a private verifier.` },
    { n: 40, sec: 55, title: "What the demos share",
      note: `All of them are training-free. Same frozen models.
 Compute buys quality. Programs, a tagger, an index replaced by one call.
-But it converts only when *new information* enters. Patches and crops, yes. Calibration, no.
+Gains come only when *new information* enters. Patches and crops, yes. Calibration, no.
 And always check out of domain.
 Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
 
    { n: 41, sec: 55, title: "Elasticsearch",
      note: `Fuse rankings with the rrf retriever. The program search rediscovered exactly that.
 Rerank the top hits with the text similarity reranker, and let the candidates see each other.
-With semantic text chunking, rank by the best chunk instead of one pooled vector.
-And give your agents a budget and a private multi-hop eval before you give them more tokens.` },
+With semantic text chunking, rank each document by its best chunk.
+And give your agents a token budget, and test them on private multi-hop questions before you raise it.` },
 
    { n: 42, sec: 25, title: "Closing",
      note: `So, to close.
