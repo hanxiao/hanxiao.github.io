@@ -376,6 +376,47 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
 .dhead{stroke:var(--accent);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .dhead.static{stroke:var(--navy)}
 .xconn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+/* ---- pipeline slide: the bear image travels through the per-image lane ---- */
+.pflow{align-items:stretch}
+.pflow .farr{display:flex;align-items:center;position:relative}
+.pbox{justify-content:flex-start;padding:12px 8px 11px}
+.pbox .pv{height:72px;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:5px}
+.pthumb{position:relative;width:66px;height:72px;border-radius:4px;background:url(img/zebra.jpg) center/cover no-repeat;box-shadow:0 0 0 1.2px rgba(16,28,63,.25);overflow:hidden;flex:0 0 auto}
+.pthumb.grid::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(to right,rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.8) 1px,transparent 1px);background-size:11px 12px}
+.fbox.lit .pthumb{box-shadow:0 0 0 2px #fff}
+.pthumb.heat::before{content:"";position:absolute;inset:0;background:rgba(16,28,63,.3)}
+.pthumb .hc{position:absolute;width:16.667%;height:16.667%;background:var(--teal-hi);z-index:1}
+.pthumb .hc.best{opacity:1;background:rgba(72,239,207,.35);box-shadow:inset 0 0 0 2px var(--teal-hi),0 0 8px 2px rgba(72,239,207,.9);z-index:3;transition:transform .25s}
+.pthumb .hc.best.hot{transform:scale(1.35)}
+.pthumb.heat::after{z-index:2}
+.pvec{display:flex;flex-direction:column;gap:1px;width:11px;height:72px;flex:0 0 auto}
+.pvec i{flex:1;background:var(--accent);border-radius:1px}
+.pglyph{height:58px;width:auto}
+.ptags{flex-direction:column;gap:3px}
+.tchip{font-family:var(--mono);font-size:13px;font-weight:700;line-height:1;padding:2px 10px 3px;border-radius:999px;color:#fff;border:1.3px solid rgba(255,255,255,.55);background:rgba(255,255,255,.1);
+  transition:opacity .22s,transform .3s cubic-bezier(.3,1.5,.5,1);transition-delay:calc(var(--ci) * .16s)}
+.tchip.hero{background:var(--teal-hi);border-color:var(--teal-hi);color:var(--navy)}
+.pipe.run:not(.done) .tchip{opacity:0;transform:scale(.7);transition-delay:0s}
+.ptok{position:absolute;left:5px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--teal-hi);border:2px solid var(--navy);opacity:0;z-index:3}
+.farr.hop .ptok{animation:ptok .75s ease-in-out}
+@keyframes ptok{0%{opacity:0;transform:translateX(0)}20%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translateX(24px)}}
+.pbrow{justify-content:flex-start;margin-top:30px !important}
+.pbsp{flex:0 0 201px}
+.pbbox{flex:0 0 auto;flex-direction:row;align-items:center;gap:18px;border-color:var(--teal-ink);border-width:1.8px;padding:10px 18px 10px 12px;transition:box-shadow .3s}
+.pbbox.hot{box-shadow:0 0 0 4px rgba(10,123,116,.16)}
+.pcrops{display:flex;align-items:center;gap:6px}
+.pc33,.pc22,.pc11{display:grid;gap:2px}
+.pc33{grid-template-columns:repeat(3,16px);grid-auto-rows:16px}
+.pc22{grid-template-columns:repeat(2,25px);grid-auto-rows:25px}
+.pc11{grid-template-columns:52px;grid-auto-rows:52px}
+.pcrops i{display:block;background-image:url(img/zebra.jpg);background-repeat:no-repeat;border-radius:2px;box-shadow:0 0 0 1px rgba(16,28,63,.18);transition:box-shadow .15s}
+.pc33 i{background-size:300% 300%}
+.pc22 i,.pc11 i{background-size:200% 200%}
+.pcrops i.hot{box-shadow:0 0 0 2.5px var(--teal-hi),0 0 0 4px var(--teal-ink)}
+.pplus{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--teal-ink)}
+.pbtxt{text-align:left;display:flex;flex-direction:column;gap:4px}
+.dline.tl,.dhead.tl{stroke:var(--teal-ink)}
 .bgpool{display:flex;align-items:center;gap:10px;margin-top:12px;justify-content:center}
 .bgpool img{width:56px;height:40px;object-fit:cover;border-radius:5px;border:1.2px solid var(--hair2)}
 .bgpool .bglbl{font-family:var(--mono);font-size:12px;font-weight:700}
@@ -601,6 +642,12 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
   .ihl{opacity:0 !important}
   .isolab,.irow,.ichip{opacity:1 !important;transform:none !important}
   .isocount{opacity:0 !important}
+  .ptok{display:none !important}
+  .tchip,.pthumb .hc.best,.pcrops i,.pbbox{transition:none !important}
+  .tchip{opacity:1 !important;transform:none !important}
+  .pthumb .hc.best{transform:none !important}
+  .pcrops i{box-shadow:0 0 0 1px rgba(16,28,63,.18) !important}
+  .pbbox{box-shadow:none !important}
 }
 .pchrome{display:none;position:absolute;left:60px;right:60px;bottom:16px;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;border-top:1px solid var(--hair);padding-top:9px}
 .pchrome img{height:19px}
@@ -1226,25 +1273,51 @@ table.bt tbody td{border-bottom:1px solid var(--hair)}
         <div class="fbox compact" data-xs="3"><div class="fn">word-start gate</div><div class="fd">&rarr; 25,465 words</div></div>
       </div>
     </div>
-    <div class="lane">
+    <div class="lane pipe" id="pipe">
       <div class="lhd">Per image</div>
-      <div class="flow">
-        <div class="fbox compact"><div class="fn">image</div><div class="fd">one frozen forward</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact"><div class="fn">\(P,\;g\)</div><div class="fd">patches + global</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox lit compact" data-xt="1"><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact" data-xt="2"><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox compact" data-xt="3"><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
-        <div class="farr"><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
-        <div class="fbox dark compact"><div class="fn">top-k tags</div><div class="fd">kitty &middot; cosy &middot; paw</div></div>
+      <div class="flow pflow">
+        <div class="fbox compact pbox"><div class="pv"><div class="pthumb"></div></div><div class="fn">image</div><div class="fd">one frozen forward</div></div>
+        <div class="farr"><i class="ptok"></i><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact pbox"><div class="pv"><div class="pthumb grid"></div><div class="pvec"><i style="opacity:.9"></i><i style="opacity:.35"></i><i style="opacity:.7"></i><i style="opacity:.2"></i><i style="opacity:1"></i><i style="opacity:.5"></i><i style="opacity:.8"></i><i style="opacity:.3"></i></div></div><div class="fn">\(P,\;g\)</div><div class="fd">patches + global</div></div>
+        <div class="farr"><i class="ptok"></i><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox lit compact pbox" data-xt="1" data-xu="t"><div class="pv"><div class="pthumb grid heat">
+          <b class="hc" style="left:16.667%;top:33.333%;opacity:.25"></b><b class="hc" style="left:33.333%;top:33.333%;opacity:.35"></b><b class="hc" style="left:50%;top:33.333%;opacity:.25"></b>
+          <b class="hc" style="left:16.667%;top:50%;opacity:.45"></b><b class="hc" style="left:50%;top:50%;opacity:.45"></b>
+          <b class="hc" style="left:16.667%;top:66.667%;opacity:.25"></b><b class="hc" style="left:33.333%;top:66.667%;opacity:.6"></b><b class="hc" style="left:50%;top:66.667%;opacity:.25"></b>
+          <b class="hc best" style="left:33.333%;top:50%"></b>
+        </div></div><div class="fn"><span class="abc sm" style="background:#fff;color:var(--accent);margin-right:6px">A</span>score vs \(E\)</div><div class="fd">patch-max + global</div></div>
+        <div class="farr"><i class="ptok"></i><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact pbox" data-xt="2"><div class="pv"><svg class="pglyph" viewBox="0 0 64 56" aria-hidden="true">
+          <line x1="2" y1="52" x2="62" y2="52" stroke="#101C3F" stroke-width="1.4"/>
+          <rect x="8" y="22" width="12" height="30" fill="#F04E98"/><rect x="26" y="16" width="12" height="36" fill="#F04E98"/><rect x="44" y="12" width="12" height="40" fill="#0B64DD"/>
+          <line x1="5" y1="24" x2="23" y2="24" stroke="#101C3F" stroke-width="1.6" stroke-dasharray="3 2.5"/><line x1="23" y1="18" x2="41" y2="18" stroke="#101C3F" stroke-width="1.6" stroke-dasharray="3 2.5"/><line x1="41" y1="34" x2="59" y2="34" stroke="#101C3F" stroke-width="1.6" stroke-dasharray="3 2.5"/>
+        </svg></div><div class="fn">subtract \(\mu\)</div><div class="fd">remove base-rate bias</div></div>
+        <div class="farr"><i class="ptok"></i><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox compact pbox" data-xt="3"><div class="pv"><svg class="pglyph" viewBox="0 0 64 56" aria-hidden="true">
+          <rect x="8" y="5" width="44" height="9" rx="4.5" fill="#E8F1FC" stroke="#0B64DD" stroke-width="1.3"/>
+          <rect x="8" y="18" width="36" height="9" rx="4.5" fill="none" stroke="#B4BCCF" stroke-width="1.3"/><line x1="4" y1="22.5" x2="48" y2="22.5" stroke="#B4BCCF" stroke-width="1.5"/>
+          <rect x="8" y="31" width="32" height="9" rx="4.5" fill="#E8F1FC" stroke="#0B64DD" stroke-width="1.3"/>
+          <rect x="8" y="44" width="40" height="9" rx="4.5" fill="none" stroke="#B4BCCF" stroke-width="1.3"/><line x1="4" y1="48.5" x2="52" y2="48.5" stroke="#B4BCCF" stroke-width="1.5"/>
+        </svg></div><div class="fn">gate + NMS</div><div class="fd">words, deduped</div></div>
+        <div class="farr"><i class="ptok"></i><svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><line class="dline" x1="0" y1="7" x2="18" y2="7"/><path class="dhead" d="M14 2 L21 7 L14 12"/></svg></div>
+        <div class="fbox dark compact pbox"><div class="pv ptags"><span class="tchip" style="--ci:0">fur</span><span class="tchip hero" style="--ci:1">bear</span><span class="tchip" style="--ci:2">muzzle</span></div><div class="fn">top-k tags</div><div class="fd">with crops</div></div>
       </div>
-      <div class="flow" style="justify-content:flex-start;gap:0;margin-top:4px">
-        <div style="flex:0 0 176px"></div>
-        <div class="fbox compact" style="flex:0 0 auto;border-color:var(--teal-ink);border-width:1.8px;padding:10px 16px"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>14 crops &rarr; same model &rarr; per-label max</div><div class="fd">added to the score</div></div>
-        <div class="farr"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><line class="dline" style="stroke:var(--teal-ink)" x1="3" y1="19" x2="15" y2="7"/><path class="dhead" style="stroke:var(--teal-ink)" d="M9 5 L17 5 L17 13"/></svg></div>
+      <div class="flow pbrow">
+        <div class="pbsp"></div>
+        <div class="fbox compact pbbox" data-xu="s">
+          <div class="pcrops">
+            <div class="pc33">
+              <i style="background-position:0% 0%"></i><i style="background-position:50% 0%"></i><i style="background-position:100% 0%"></i>
+              <i style="background-position:0% 50%"></i><i style="background-position:50% 50%"></i><i style="background-position:100% 50%"></i>
+              <i style="background-position:0% 100%"></i><i style="background-position:50% 100%"></i><i style="background-position:100% 100%"></i>
+            </div>
+            <span class="pplus">+</span>
+            <div class="pc22"><i style="background-position:0% 0%"></i><i style="background-position:100% 0%"></i><i style="background-position:0% 100%"></i><i style="background-position:100% 100%"></i></div>
+            <span class="pplus">+</span>
+            <div class="pc11"><i style="background-position:50% 50%"></i></div>
+          </div>
+          <div class="pbtxt"><div class="fn"><span class="abc sm b" style="margin-right:6px">B</span>14 crops &rarr; same model &rarr; per-label max</div><div class="fd">added to the score</div></div>
+        </div>
       </div>
     </div>
     <p class="takeaway">Every box is the frozen model or arithmetic. <span class="abc sm" style="vertical-align:3px">A</span> reads more of one pass, <span class="abc sm b" style="vertical-align:3px">B</span> adds passes on crops.</p>
@@ -2106,6 +2179,13 @@ function layoutSlide(s){
       xc.appendChild(el('path',{class:'dline',d:`M${sx} ${sy} V ${my} H ${tx} V ${ty-7}`}));
       xc.appendChild(el('path',{class:'dhead',d:`M${tx-6} ${ty-8} L${tx} ${ty} L${tx+6} ${ty-8}`}));
     });
+    const us=s.querySelector('[data-xu="s"]'), ut=s.querySelector('[data-xu="t"]');
+    if(us&&ut){
+      const ra=rel(us), rb=rel(ut);
+      const x=Math.max(ra.x+24,Math.min(ra.x+ra.w-24,rb.x+rb.w/2)), y0=ra.y-1, y1=rb.y+rb.h+3;
+      xc.appendChild(el('path',{class:'dline tl',d:`M${x} ${y0} V ${y1+7}`}));
+      xc.appendChild(el('path',{class:'dhead tl',d:`M${x-6} ${y1+8} L${x} ${y1} L${x+6} ${y1+8}`}));
+    }
   }
   const wb=s.querySelector('#wbrace');
   if(wb){
@@ -2182,11 +2262,33 @@ const ANIM=(function(){
     cycle();
   }
 
+  /* ---- pipeline: a token hops box to box, the 14 crops light up, the bear's tags pop in ---- */
+  function pipe(root){
+    const arr=[...root.querySelectorAll('.pflow .farr')], tiles=[...root.querySelectorAll('.pcrops i')];
+    const best=root.querySelector('.hc.best'), bb=root.querySelector('.pbbox');
+    const hop=(k,t)=>{ at(t,()=>{ arr[k].classList.remove('hop'); void arr[k].offsetWidth; arr[k].classList.add('hop'); }); at(t+800,()=>arr[k].classList.remove('hop')); };
+    function cycle(){
+      root.classList.add('run'); root.classList.remove('done');
+      hop(0,300); hop(1,1100);
+      at(1100,()=>bb.classList.add('hot'));
+      tiles.forEach((e,k)=>{ at(1150+k*70,()=>e.classList.add('hot')); at(1150+k*70+260,()=>e.classList.remove('hot')); });
+      at(2300,()=>bb.classList.remove('hot'));
+      at(1900,()=>best.classList.add('hot')); at(2500,()=>best.classList.remove('hot'));
+      hop(2,2700); hop(3,3500); hop(4,4300);
+      at(5050,()=>root.classList.add('done'));
+      at(10500,()=>root.classList.remove('done'));
+      at(11000,cycle);
+    }
+    cycle();
+  }
+
   function start(s){
     stop();
-    const sh=s&&s.querySelector('.shuf'), is=s&&s.querySelector('.iso');
+    document.querySelectorAll('.pipe').forEach(p=>p.classList.remove('run','done'));
+    const sh=s&&s.querySelector('.shuf'), is=s&&s.querySelector('.iso'), pp=s&&s.querySelector('.pipe');
     if(sh) shuffle(sh);
     if(is) crops(is);
+    if(pp) pipe(pp);
   }
   return {start,stop};
 })();

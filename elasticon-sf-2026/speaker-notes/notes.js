@@ -165,7 +165,8 @@ But because both paths share one space, any patch can be scored against any word
 Offline, we encode all 128,260 tokens of the tokenizer once. That is the label matrix.
 We estimate a background prior and gate to 25,465 whole words.
 Per image, one forward pass gives patches and a global vector.
-Score, subtract the prior, deduplicate, take the top tags.` },
+Score, subtract the prior, deduplicate, take the top tags.
+This bear runs through every step and comes out as fur, bear, muzzle. It comes back on the crops slide.` },
 
    { n: 24, sec: 40, title: "Score every patch",
      note: `This is lever A, the deeper pass.
