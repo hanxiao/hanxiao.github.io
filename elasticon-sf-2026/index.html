@@ -1493,96 +1493,10 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   </div>
 </section>
 
-<!-- ============ 29 OMNI ============ -->
-<section class="slide hasqr" data-sec="02 · A retrieval model tags images">
-  <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-    <span class="qrtop">omni-macos</span><img src="img/qr-omni.png" alt="QR code to github.com/hanxiao/omni-macos"></a>
-  <h2 class="h-slide">Tagging runs on device in Omni</h2>
-  <div class="body row" style="gap:44px;align-items:center">
-    <div class="statcol" style="flex:.55;gap:30px">
-      <div class="stat"><div class="v o">~0.6 ms</div><div class="l">per image</div></div>
-      <div class="stat"><div class="v o">~4%</div><div class="l">of the embedding step</div></div>
-      <div class="stat"><div class="v o">64</div><div class="l">images calibrate the prior</div></div>
-    </div>
-    <div style="flex:1.45"><div class="shot"><img src="img/omni-ui.jpg" alt="Omni macOS app: search results with image tags as snippets"></div></div>
-  </div>
-</section>
-
 <!-- ============ 30 DIVIDER 03 ============ -->
 <section class="slide full divider dark" data-chrome="dark" data-sec="03 · One call replaces an index">
   <div class="num">03</div>
   <div class="dt">One call replaces an index</div>
-</section>
-
-<!-- ============ 32 1-BIT FUNNEL (ported from tencent #16, redrawn as animation) ============ -->
-<section class="slide" data-sec="03 · One call replaces an index">
-  <h2 class="h-slide">Omni builds no index and spends compute on rescoring</h2>
-  <div class="body row" style="gap:36px;align-items:center">
-    <div style="flex:0 0 640px;display:flex;flex-direction:column">
-      <svg class="fnl" viewBox="0 0 660 392" aria-label="two-stage funnel: scan a 1-bit replica of every row, shortlist, rescore exact vectors, top-k">
-        <defs><pattern id="fnlRows" width="6" height="6" patternUnits="userSpaceOnUse"><line x1="0" y1="5.5" x2="6" y2="5.5" stroke="#C9D3E6" stroke-width="1"/></pattern></defs>
-        <text class="flab" x="24" y="20">1-bit replica</text>
-        <text class="flab sm" x="24" y="38">d/8 bytes</text>
-        <text class="flab" x="294" y="20" text-anchor="middle">exact vectors (bf16)</text>
-        <text class="flab sm" x="294" y="38" text-anchor="middle">2d bytes per row, 16x the replica</text>
-        <text class="flab acc" x="565" y="20" text-anchor="middle">top-k</text>
-        <text class="flab sm" x="565" y="38" text-anchor="middle">exact scores</text>
-        <rect class="fmat" x="30" y="50" width="18" height="300"/>
-        <rect class="fscan" x="30" y="50" width="18" height="300"/>
-        <rect class="frows" x="30" y="50" width="18" height="300"/>
-        <rect class="fline" x="24" y="49" width="30" height="3" rx="1.5"/>
-        <rect class="fmat" x="150" y="50" width="288" height="300"/>
-        <rect class="frows" x="150" y="50" width="288" height="300"/>
-        <g class="fsls">
-          <rect class="fsl" x="30" y="72" width="18" height="6"/><rect class="fsl" x="30" y="102" width="18" height="6"/>
-          <rect class="fsl" x="30" y="136" width="18" height="6"/><rect class="fsl" x="30" y="168" width="18" height="6"/>
-          <rect class="fsl" x="30" y="246" width="18" height="6"/><rect class="fsl" x="30" y="278" width="18" height="6"/>
-          <rect class="fsl" x="30" y="312" width="18" height="6"/><rect class="fsl" x="30" y="338" width="18" height="6"/>
-        </g>
-        <g>
-          <text class="flab sm acc fcnl" x="99" y="64" text-anchor="middle">C rows</text>
-          <path class="fcn" d="M50 75 H150"/><path class="fcn" d="M50 105 H150"/><path class="fcn" d="M50 139 H150"/><path class="fcn" d="M50 171 H150"/>
-          <path class="fcn" d="M50 249 H150"/><path class="fcn" d="M50 281 H150"/><path class="fcn" d="M50 315 H150"/><path class="fcn" d="M50 341 H150"/>
-        </g>
-        <g>
-          <rect class="fex" x="150" y="72" width="288" height="6"/><rect class="fex win" x="150" y="102" width="288" height="6"/>
-          <rect class="fex" x="150" y="136" width="288" height="6"/><rect class="fex" x="150" y="168" width="288" height="6"/>
-          <rect class="fex win" x="150" y="246" width="288" height="6"/><rect class="fex" x="150" y="278" width="288" height="6"/>
-          <rect class="fex win" x="150" y="312" width="288" height="6"/><rect class="fex" x="150" y="338" width="288" height="6"/>
-        </g>
-        <g class="fnev">
-          <rect x="184" y="190" width="220" height="44" rx="5" fill="#EEF1F7"/>
-          <text class="flab sm" x="294" y="208" text-anchor="middle">the other N minus C rows</text>
-          <text class="flab sm" x="294" y="225" text-anchor="middle">are never read</text>
-        </g>
-        <text class="flab sm acc frsh" x="468" y="186" text-anchor="middle">rescore</text>
-        <path class="frs" d="M446 200 H484"/>
-        <polygon class="frsh" points="492,200 483,195 483,205"/>
-        <rect class="ftk" x="500" y="168" width="130" height="18" rx="4" fill="#0B64DD"/>
-        <rect class="ftk k2" x="500" y="192" width="112" height="18" rx="4" fill="#0B64DD"/>
-        <rect class="ftk k3" x="500" y="216" width="96" height="18" rx="4" fill="#0B64DD"/>
-        <text class="flab ftk" x="508" y="181" style="fill:#fff">1</text>
-        <text class="flab ftk k2" x="508" y="205" style="fill:#fff">2</text>
-        <text class="flab ftk k3" x="508" y="229" style="fill:#fff">3</text>
-        <text class="flab sm tl" x="24" y="368">all N rows,</text>
-        <text class="flab sm tl" x="24" y="384">read in full</text>
-        <text class="flab sm tl" x="294" y="368" text-anchor="middle">exact vectors fetched</text>
-        <text class="flab sm tl" x="294" y="384" text-anchor="middle">for the shortlist only</text>
-      </svg>
-      <div class="fsteps">
-        <div class="fstep s1"><b>01 SCAN</b>every row, 1 bit</div>
-        <div class="fstep s2"><b>02 SHORTLIST</b>top C, coarse</div>
-        <div class="fstep s3"><b>03 RESCORE</b>exact, C rows</div>
-        <div class="fstep s4"><b>04 TOP-K</b>exact order</div>
-      </div>
-      <div class="fnlcap">Teal marks what one query reads.</div>
-    </div>
-    <div class="fnltxt" style="flex:1">
-      <p class="cap">Every query scans the whole corpus. A graph index would add 256 bytes of links per row, <strong>0.95 GB at four million chunks</strong>, close to three times the scanned matrix, and edits keep invalidating it.</p>
-      <p class="cap"><strong>The scan reads a <span style="white-space:nowrap">1-bit</span> replica.</strong> Exact vectors are read only for the shortlist and set the final order.</p>
-      <p class="cap">Shortlist size: <span class="mono" style="font-size:15px">min(4096, max(1024, topK&times;32))</span></p>
-    </div>
-  </div>
 </section>
 
 <!-- ============ 33 LISTWISE ============ -->
