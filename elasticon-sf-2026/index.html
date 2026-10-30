@@ -761,7 +761,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 3 THE SECOND AXIS ============ -->
 <section class="slide" data-sec="Search is test-time compute">
   <h2 class="h-slide">Recent LLMs found a second axis: compute at inference</h2>
-  <p class="ssub">With test-time scaling, the same model does more work per query and quality rises with the budget.</p>
   <div class="body row" style="gap:46px;align-items:center">
     <div style="flex:1.05"><div class="shot"><img src="img/noam-icml2026.jpg" alt="Noam Brown presenting test-time scaling curves" style="height:380px;object-fit:cover"></div></div>
     <div style="flex:1">
@@ -836,7 +835,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 6 FOUR DEMOS ============ -->
 <section class="slide" data-sec="Search is test-time compute">
   <h2 class="h-slide">Four training-free demos</h2>
-  <p class="ssub">Each one buys relevance or a new capability with compute at test time.</p>
   <div class="body">
     <div class="grid2">
       <div class="dcard">
@@ -886,7 +884,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 6 THREE WAYS ============ -->
 <section class="slide" data-sec="Search is test-time compute">
   <h2 class="h-slide">Three ways to spend compute on a frozen model</h2>
-  <p class="ssub">All three keep the weights fixed and differ in where new information comes from.</p>
   <div class="body">
     <div class="cards" style="min-height:330px">
       <div class="card hero">
@@ -937,8 +934,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 9 SCORING SPECTRUM ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">Scoring runs from one cosine to late interaction</h2>
-  <p class="ssub">A single-vector encoder can split a document into sentences and keep the best match.</p>
+  <h2 class="h-slide">Retrieval Program defines the relevance score</h2>
   <div class="body">
     <div class="vsrow">
       <div class="vspanel">
@@ -997,7 +993,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 10 THE LOOP ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">An LLM agent writes programs over the frozen encoder</h2>
-  <p class="ssub">Each round changes one program, evaluates it at a fixed budget and keeps it only if the metric improves.</p>
   <div class="body">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
@@ -1065,7 +1060,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 12 PARETO ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">Rewarding compute gives a Pareto curve</h2>
-  <p class="ssub">Over 144 programs, the in-domain mean &Delta;nDCG@10 climbs from +0.07 to +0.24.</p>
   <div class="body row" style="gap:36px">
     <div class="fill" style="flex:1.7"><div class="chart" id="c-pareto"></div></div>
     <div class="statcol" style="flex:.6">
@@ -1080,7 +1074,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 13 PROGRAM GALLERY ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">Twelve programs on the compute frontier</h2>
-  <p class="ssub">Each recombines the same frozen vectors, at 1.2x to 14.7x the baseline cost.</p>
   <div class="body">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -1120,7 +1113,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 15 HEATMAP ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">Compute improves about half the cells and badly hurts others</h2>
-  <p class="ssub">12 programs &times; 19 held-out tasks &times; 4 encoders. 485 of 912 cells improve, the worst falls to &minus;0.98, and the pooled mean is &minus;0.016.</p>
   <div class="body" style="gap:16px">
     <div class="hmframe">
       <div class="hmyax">
@@ -1143,7 +1135,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 16 TRANSFER ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">A transfer search finds cheap programs that generalize</h2>
-  <p class="ssub">A program is kept only if a held-out validation split improves and no task drops by more than 0.05. Six pass, all at 1.5x or less.</p>
   <div class="body row" style="gap:40px">
     <div class="fill" style="flex:1.15;display:flex;flex-direction:column">
       <div class="legend">
@@ -1165,7 +1156,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 17 LEARNED HEAD ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">A learned head at the same data budget memorizes</h2>
-  <p class="ssub">Linear, low-rank and MLP heads trained on the 14 discovery tasks fall below baseline on every held-out encoder.</p>
   <div class="body" style="justify-content:flex-start">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
       <div class="legend" style="justify-content:center">
@@ -1181,7 +1171,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 18 CLASSICAL IR ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">The search re-derives classical IR in embedding space</h2>
-  <p class="ssub">All four rely only on cosine geometry, which every encoder shares.</p>
   <div class="body">
     <div class="rgrid">
       <div class="rcell">
@@ -1243,7 +1232,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 20 TAG CARDS (shuffle) ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Open-vocabulary tags from a frozen embedding model</h2>
-  <p class="ssub">The tags are verbatim, with no training, dictionary or second model.</p>
   <div class="body">
     <div class="shuf" id="shuf">
       <figure class="scard" data-i="0" style="--rot:-7deg;--px:6.4px;--py:-6.4px;--pz:18"><img src="img/grid/g1.jpg" alt=""><figcaption class="schips"><span class="schip" style="--ci:0">mountain</span><span class="schip" style="--ci:1">phoenix</span><span class="schip" style="--ci:2">sky</span><span class="schip" style="--ci:3">rooftop</span><span class="schip" style="--ci:4">location</span></figcaption></figure>
@@ -1263,7 +1251,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 21 ARCHITECTURE ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Images and text share one embedding space</h2>
-  <p class="ssub">jina-embeddings-v5-omni-nano is a retrieval encoder of about 1B parameters with no tagging head.</p>
   <div class="body" style="gap:22px">
     <div class="archrow">
       <div class="archin">
@@ -1391,7 +1378,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 23 PATCH ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Scoring every patch lifts mAP from 0.264 to 0.635</h2>
-  <p class="ssub">The patch vectors already exist in the forward pass. Each label keeps its best patch, as in ColBERT.</p>
   <div class="body">
     <div class="vsrow">
       <div class="vspanel foil">
@@ -1481,7 +1467,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 25 CROPS (isometric layers) ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Crops give the model new pixels</h2>
-  <p class="ssub">A small object fills its own crop, so weak evidence becomes strong. Each label takes its max over 14 crops.</p>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.12">
       <div class="iso" id="iso">
@@ -1583,7 +1568,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 26 LADDER + FRONTIER ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Accuracy climbs with each kind of new information</h2>
-  <p class="ssub">Patches give the big step. Crops give the next one at higher latency.</p>
   <div class="body row" style="gap:28px">
     <div style="flex:.62;display:flex;flex-direction:column">
       <div class="chart" style="flex:1;min-height:0"><div id="c-ladder" style="height:100%"></div></div>
@@ -1598,7 +1582,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 27 CALIBRATION LEVERS ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
   <h2 class="h-slide">Calibration does not move accuracy</h2>
-  <p class="ssub">Recent training-free methods rely on calibration. On this encoder, every calibration lever is flat or collapses.</p>
   <div class="body">
     <div class="chart" style="height:100%"><div id="c-levers" style="height:100%"></div></div>
   </div>
@@ -1615,7 +1598,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <a class="qr-corner" href="https://github.com/hanxiao/omni-macos" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">omni-macos</span><img src="img/qr-omni.png" alt="QR code to github.com/hanxiao/omni-macos"></a>
   <h2 class="h-slide">Tagging runs on device in Omni</h2>
-  <p class="ssub">It reuses the patch rows of the embedding pass. Tags become search snippets for images, video and scanned PDFs.</p>
   <div class="body row" style="gap:44px;align-items:center">
     <div class="statcol" style="flex:.55;gap:30px">
       <div class="stat"><div class="v o">~0.6 ms</div><div class="l">per image</div></div>
@@ -1706,7 +1688,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 33 LISTWISE ============ -->
 <section class="slide" data-sec="03 · One call replaces an index">
   <h2 class="h-slide">Let the candidates see each other in one forward pass</h2>
-  <p class="ssub">jina-reranker-v3 (0.6B) reads the query and up to 64 documents in one context.</p>
   <div class="body">
     <div class="lwrow">
       <div class="lwp">
@@ -1802,7 +1783,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 <!-- ============ 35 TREND ============ -->
 <section class="slide" data-sec="04 · An agent builds the pipeline">
   <h2 class="h-slide">Test-time compute is the pattern for long-horizon agents</h2>
-  <p class="ssub">Cheap local tokens build the corpus. Frontier tokens go to the work that needs them.</p>
   <div class="body" style="gap:26px">
     <div class="trendrow">
       <div class="trendh"><span class="yr">2025</span> &middot; Deep research</div>
@@ -1832,7 +1812,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="QR code to github.com/hanxiao/dataroom"></a>
   <h2 class="h-slide">dataroom: a token budget builds a corpus</h2>
-  <p class="ssub">A local model searches, reads and writes until the knowledge sits in one cited .zip.</p>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.6"><div class="shot"><img src="img/dr-hero.png" alt="dataroom live job page: coverage, token usage, tool-call distribution"></div></div>
     <div style="flex:.85">
@@ -1850,7 +1829,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="QR code to github.com/hanxiao/searchbox"></a>
   <h2 class="h-slide">searchbox: an agent builds its pipeline for each query</h2>
-  <p class="ssub">The agent gets one dataroom, local tools and no web access.</p>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.2;display:flex;justify-content:center"><img src="img/sb-comic.png" alt="searchbox: a dataroom.zip handed into an airgapped agent loop" style="width:100%;max-width:600px;display:block"></div>
     <div style="flex:.9">
