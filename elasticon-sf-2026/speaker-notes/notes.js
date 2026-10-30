@@ -83,8 +83,10 @@ That is the real test of whether a score function generalizes.` },
 
    { n: 12, sec: 40, title: "Pareto curve",
      note: `First we told the loop to spend compute.
+Cosine is the baseline, at the origin.
+Each dot is one of 144 score functions, in order of cost.
 And it does exactly what you hope.
-A clean Pareto curve, from plus 0.07 to plus 0.24 mean nDCG improvement.
+A clean Pareto curve, 12 functions, from plus 0.07 to plus 0.24 mean nDCG improvement.
 It looks just like test-time scaling in LLMs.
 But these are in-search numbers.
 The held-out test comes next. //` },
