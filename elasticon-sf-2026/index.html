@@ -1189,7 +1189,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 21 ARCHITECTURE ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
-  <h2 class="h-slide">Images and text share one embedding space</h2>
+  <h2 class="h-slide">Use jina-embeddings-v5-omni-nano for image tagging</h2>
   <div class="body" style="gap:22px">
     <div class="archrow">
       <div class="archin">
@@ -1316,7 +1316,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 23 PATCH ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
-  <h2 class="h-slide">Scoring every patch lifts mAP from 0.264 to 0.635</h2>
+  <h2 class="h-slide">Image as single vector or multi-vector?</h2>
   <div class="body">
     <div class="vsrow">
       <div class="vspanel foil">
@@ -1364,7 +1364,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 25 CROPS (isometric layers) ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
-  <h2 class="h-slide">Crops give the model new pixels</h2>
+  <h2 class="h-slide">Spend compute on crops</h2>
   <div class="body row" style="gap:40px;align-items:center">
     <div style="flex:1.12">
       <div class="iso" id="iso">
@@ -1432,7 +1432,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 27 RECURSIVE SCORING FUNCTION (ported from tencent #25) ============ -->
 <section class="slide ttc eqslide" data-sec="02 · A retrieval model tags images">
-  <h2 class="h-slide">The whole tagger is one recursive scoring function</h2>
+  <h2 class="h-slide">Image tagging as test-time compute</h2>
   <div class="body" style="justify-content:center">
     <div class="eqbox" id="eqbox">
       <svg class="eqsvg" id="xc-eq" aria-hidden="true">
@@ -1454,18 +1454,34 @@ table.bt thead th{font-size:14px;color:var(--accent)}
       <div class="eqlab eql3"><span class="abc sm b">B</span>Multi-crop re-encode</div>
     </div>
     <div class="eqlegend">
-      <div class="it eqi1"><span class="abc c">C</span><div class="tx"><b>Calibration</b><br>The pooled vector minus its own background prior, at no extra cost.</div></div>
-      <div class="it eqi2"><span class="abc">A</span><div class="tx"><b>Deeper pass</b><br>Arithmetic on patch rows the forward pass already produced, at no extra cost.</div></div>
-      <div class="it eqi3"><span class="abc b">B</span><div class="tx"><b>More passes</b><br>14 new forward passes over new pixels.</div></div>
+      <div class="it eqi1"><span class="abc c">C</span><div class="tx"><svg viewBox="0 0 220 70" style="display:block;width:100%;height:58px;margin:2px 0 8px" aria-hidden="true">
+          <line x1="8" y1="62.5" x2="212" y2="62.5" stroke="#101C3F" stroke-width="1.2"/>
+          <path d="M12 62 L12 61.9 L16 61.9 L20 61.8 L24 61.7 L28 61.5 L32 61.3 L36 61.0 L40 60.6 L44 60.0 L48 59.2 L52 58.3 L56 57.0 L60 55.5 L64 53.7 L68 51.5 L72 49.0 L76 46.2 L80 43.1 L84 39.9 L88 36.5 L92 33.1 L96 29.8 L100 26.8 L104 24.2 L108 22.2 L112 20.7 L116 20.0 L120 20.0 L124 20.7 L128 22.2 L132 24.2 L136 26.8 L140 29.8 L144 33.1 L148 36.5 L152 39.9 L156 43.1 L160 46.2 L164 49.0 L168 51.5 L172 53.7 L176 55.5 L180 57.0 L184 58.3 L188 59.2 L192 60.0 L196 60.6 L200 61.0 L204 61.3 L208 61.5 L208 62 Z" fill="none" stroke="#F04E98" stroke-width="1.4" stroke-dasharray="4 3" opacity=".75"/>
+          <path d="M12 62 L12 62.0 L16 62.0 L20 62.0 L24 62.0 L28 61.8 L32 61.4 L36 60.3 L40 57.5 L44 51.9 L48 42.9 L52 31.1 L56 19.4 L60 12.0 L64 12.0 L68 19.4 L72 31.1 L76 42.8 L80 51.6 L84 56.1 L88 56.1 L92 51.5 L96 43.3 L100 35.0 L104 31.4 L108 35.0 L112 43.4 L116 52.1 L120 57.9 L124 60.6 L128 61.6 L132 61.6 L136 60.9 L140 59.1 L144 56.3 L148 54.2 L152 54.2 L156 56.3 L160 59.1 L164 60.9 L168 61.7 L172 61.9 L176 62.0 L180 62.0 L184 62.0 L188 62.0 L192 62.0 L196 62.0 L200 62.0 L204 62.0 L208 62.0 L208 62 Z" fill="#101C3F" fill-opacity=".82">
+            <animate attributeName="d" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.15;0.5;0.68;1" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1;.45 0 .55 1" values="M12 62 L12 62.0 L16 62.0 L20 62.0 L24 62.0 L28 61.8 L32 61.4 L36 60.3 L40 57.5 L44 51.9 L48 42.9 L52 31.1 L56 19.4 L60 12.0 L64 12.0 L68 19.4 L72 31.1 L76 42.8 L80 51.6 L84 56.1 L88 56.1 L92 51.5 L96 43.3 L100 35.0 L104 31.4 L108 35.0 L112 43.4 L116 52.1 L120 57.9 L124 60.6 L128 61.6 L132 61.6 L136 60.9 L140 59.1 L144 56.3 L148 54.2 L152 54.2 L156 56.3 L160 59.1 L164 60.9 L168 61.7 L172 61.9 L176 62.0 L180 62.0 L184 62.0 L188 62.0 L192 62.0 L196 62.0 L200 62.0 L204 62.0 L208 62.0 L208 62 Z;M12 62 L12 62.0 L16 62.0 L20 62.0 L24 62.0 L28 61.8 L32 61.4 L36 60.3 L40 57.5 L44 51.9 L48 42.9 L52 31.1 L56 19.4 L60 12.0 L64 12.0 L68 19.4 L72 31.1 L76 42.8 L80 51.6 L84 56.1 L88 56.1 L92 51.5 L96 43.3 L100 35.0 L104 31.4 L108 35.0 L112 43.4 L116 52.1 L120 57.9 L124 60.6 L128 61.6 L132 61.6 L136 60.9 L140 59.1 L144 56.3 L148 54.2 L152 54.2 L156 56.3 L160 59.1 L164 60.9 L168 61.7 L172 61.9 L176 62.0 L180 62.0 L184 62.0 L188 62.0 L192 62.0 L196 62.0 L200 62.0 L204 62.0 L208 62.0 L208 62 Z;M12 62 L12 61.9 L16 61.9 L20 61.8 L24 61.7 L28 61.5 L32 61.3 L36 61.0 L40 60.6 L44 60.0 L48 59.2 L52 58.3 L56 57.0 L60 55.5 L64 53.7 L68 51.5 L72 49.0 L76 46.2 L80 43.1 L84 39.9 L88 36.5 L92 33.1 L96 29.8 L100 26.8 L104 24.2 L108 22.2 L112 20.7 L116 20.0 L120 20.0 L124 20.7 L128 22.2 L132 24.2 L136 26.8 L140 29.8 L144 33.1 L148 36.5 L152 39.9 L156 43.1 L160 46.2 L164 49.0 L168 51.5 L172 53.7 L176 55.5 L180 57.0 L184 58.3 L188 59.2 L192 60.0 L196 60.6 L200 61.0 L204 61.3 L208 61.5 L208 62 Z;M12 62 L12 61.9 L16 61.9 L20 61.8 L24 61.7 L28 61.5 L32 61.3 L36 61.0 L40 60.6 L44 60.0 L48 59.2 L52 58.3 L56 57.0 L60 55.5 L64 53.7 L68 51.5 L72 49.0 L76 46.2 L80 43.1 L84 39.9 L88 36.5 L92 33.1 L96 29.8 L100 26.8 L104 24.2 L108 22.2 L112 20.7 L116 20.0 L120 20.0 L124 20.7 L128 22.2 L132 24.2 L136 26.8 L140 29.8 L144 33.1 L148 36.5 L152 39.9 L156 43.1 L160 46.2 L164 49.0 L168 51.5 L172 53.7 L176 55.5 L180 57.0 L184 58.3 L188 59.2 L192 60.0 L196 60.6 L200 61.0 L204 61.3 L208 61.5 L208 62 Z;M12 62 L12 62.0 L16 62.0 L20 62.0 L24 62.0 L28 61.8 L32 61.4 L36 60.3 L40 57.5 L44 51.9 L48 42.9 L52 31.1 L56 19.4 L60 12.0 L64 12.0 L68 19.4 L72 31.1 L76 42.8 L80 51.6 L84 56.1 L88 56.1 L92 51.5 L96 43.3 L100 35.0 L104 31.4 L108 35.0 L112 43.4 L116 52.1 L120 57.9 L124 60.6 L128 61.6 L132 61.6 L136 60.9 L140 59.1 L144 56.3 L148 54.2 L152 54.2 L156 56.3 L160 59.1 L164 60.9 L168 61.7 L172 61.9 L176 62.0 L180 62.0 L184 62.0 L188 62.0 L192 62.0 L196 62.0 L200 62.0 L204 62.0 L208 62.0 L208 62 Z"/>
+            <animate attributeName="fill" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.15;0.5;0.68;1" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1;.45 0 .55 1" values="#101C3F;#101C3F;#F04E98;#F04E98;#101C3F"/>
+          </path>
+        </svg><b>Calibration</b><br>The pooled vector minus its own background prior, at no extra cost.</div></div>
+      <div class="it eqi2"><span class="abc">A</span><div class="tx"><svg viewBox="0 0 220 70" style="display:block;width:100%;height:58px;margin:2px 0 8px" aria-hidden="true">
+          <g stroke="#C9D3E6" stroke-width="1"><line x1="30" y1="14" x2="180" y2="14"/><line x1="30" y1="35" x2="180" y2="35"/><line x1="30" y1="56" x2="180" y2="56"/><line x1="30" y1="14" x2="180" y2="56"/><line x1="30" y1="56" x2="180" y2="14"/></g>
+          <line class="vwin" x1="30" y1="35" x2="180" y2="14"/><line class="vwin" x1="30" y1="14" x2="180" y2="35"/><line class="vwin" x1="30" y1="56" x2="180" y2="56"/>
+          <circle class="vq" cx="30" cy="14" r="4.5"/><circle class="vq" cx="30" cy="35" r="4.5"/><circle class="vq" cx="30" cy="56" r="4.5"/>
+          <circle class="vd pos" cx="180" cy="14" r="4.5"/><circle class="vd pos" cx="180" cy="35" r="4.5"/><circle class="vd pos" cx="180" cy="56" r="4.5"/>
+        </svg><b>Deeper pass</b><br>Arithmetic on patch rows the forward pass already produced, at no extra cost.</div></div>
+      <div class="it eqi3"><span class="abc b">B</span><div class="tx"><svg viewBox="0 0 220 70" style="display:block;width:100%;height:58px;margin:2px 0 8px" aria-hidden="true">
+          <rect x="20" y="8" width="72" height="54" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.4"/>
+          <g stroke="#0A7B74" stroke-width="1.3" stroke-dasharray="3 2.5"><line x1="56" y1="8" x2="56" y2="62"/><line x1="20" y1="35" x2="92" y2="35"/></g>
+          <rect class="vpulse" x="20" y="8" width="36" height="27" fill="rgba(10,123,116,.18)" stroke="#0A7B74" stroke-width="1.6"/>
+          <line class="dline" style="stroke:#0A7B74" x1="102" y1="35" x2="140" y2="35"/><path class="dhead" style="stroke:#0A7B74" d="M136 30 L143 35 L136 40"/>
+          <rect x="152" y="14" width="56" height="42" rx="6" fill="#0A7B74"/><text x="180" y="40" text-anchor="middle" font-family="SpaceMonoDeck,monospace" font-size="11" font-weight="700" fill="#fff">encode</text>
+        </svg><b>More passes</b><br>14 new forward passes over new pixels.</div></div>
     </div>
-    <p class="eqpost">\(\ell \in\) word-start gated vocabulary \(\;\rightarrow\;\) embedding-space NMS \((\tau = 0.6)\) \(\;\rightarrow\;\) top-\(k\)</p>
-    <p class="eqtake">The tagger has no classifier head, logits or learned thresholds. It uses <span class="accent">three fixed weights, two background priors and a few max operations</span>.</p>
   </div>
 </section>
 
 <!-- ============ 26 LADDER + FRONTIER ============ -->
 <section class="slide ttc" data-sec="02 · A retrieval model tags images">
-  <h2 class="h-slide">Accuracy climbs with each kind of new information</h2>
+  <h2 class="h-slide">Accuracy climbs with more test-time compute</h2>
   <div class="body row" style="gap:28px">
     <div style="flex:.62;display:flex;flex-direction:column">
       <div class="chart" style="flex:1;min-height:0"><div id="c-ladder" style="height:100%"></div></div>
