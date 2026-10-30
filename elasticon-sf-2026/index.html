@@ -845,7 +845,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
           <circle class="vq" cx="16" cy="37" r="6.5"/>
         </svg>
         <div><div class="dn">01</div></div>
-        <div><div class="dt">Retrieval programs</div><div class="dd">Higher relevance from the same frozen encoder.</div></div>
+        <div><div class="dt">Score functions</div><div class="dd">Higher relevance from the same frozen encoder.</div></div>
       </div>
       <div class="dcard">
         <svg viewBox="0 0 120 74" aria-hidden="true">
@@ -927,14 +927,14 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 7 DIVIDER 01 ============ -->
-<section class="slide full divider dark" data-chrome="dark" data-sec="01 · Programs on a frozen encoder">
+<section class="slide full divider dark" data-chrome="dark" data-sec="01 · Score functions on a frozen encoder">
   <div class="num">01</div>
-  <div class="dt">Programs on a frozen encoder</div>
+  <div class="dt">Score functions on a frozen encoder</div>
 </section>
 
 <!-- ============ 9 SCORING SPECTRUM ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">Retrieval Program defines the relevance score</h2>
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
+  <h2 class="h-slide">Score function defines the relevance score</h2>
   <div class="body">
     <div class="vsrow">
       <div class="vspanel">
@@ -991,29 +991,29 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 10 THE LOOP ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">An LLM agent writes programs over the frozen encoder</h2>
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
+  <h2 class="h-slide">An LLM agent writes score functions over the frozen encoder</h2>
   <div class="body">
     <div class="flowwrap" style="margin-top:0">
       <div class="flow">
         <div class="fbox"><div class="fn">Proposer</div><div class="fd">LLM agent, Opus 4.6</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox lit"><div class="fn">Program P</div><div class="fd">Python over j-v5-nano</div></div>
+        <div class="fbox lit"><div class="fn">Score function</div><div class="fd">Python over j-v5-nano</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Evaluator</div><div class="fd">&Delta;nDCG, 14 tasks</div></div>
         <div class="farr">&rarr;</div>
         <div class="fbox"><div class="fn">Memory</div><div class="fd">JSONL file</div></div>
         <div class="farr">&rarr;</div>
-        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 programs</div></div>
+        <div class="fbox dark"><div class="fn">Registry</div><div class="fd">144 score functions</div></div>
       </div>
       <svg class="loopsvg" viewBox="0 0 1160 58" preserveAspectRatio="none" aria-hidden="true">
         <path class="looppath" d="M 820 6 L 820 38 L 100 38 L 100 13"></path>
         <polygon class="looparrow" points="100,1 93,15 107,15"></polygon>
       </svg>
-      <div class="looplabel">memory conditions the next program</div>
+      <div class="looplabel">memory conditions the next score function</div>
     </div>
     <div class="fanno">
-      <div class="fxc"><span class="fxk">writes</span>one program<br>per round</div>
+      <div class="fxc"><span class="fxk">writes</span>one score function<br>per round</div>
       <div class="farr">&rarr;</div>
       <div class="fxc"><span class="fxk">encoder</span>239M<br>frozen</div>
       <div class="farr">&rarr;</div>
@@ -1021,14 +1021,14 @@ table.bt thead th{font-size:14px;color:var(--accent)}
       <div class="farr">&rarr;</div>
       <div class="fxc"><span class="fxk">logs</span>&Delta;, cost, parent<br>and lesson</div>
       <div class="farr">&rarr;</div>
-      <div class="fxc"><span class="fxk">keeps</span>144 scored<br>programs</div>
+      <div class="fxc"><span class="fxk">keeps</span>144 score<br>functions</div>
     </div>
   </div>
   <div class="fnote">The evaluator rejects hyperparameters, task-specific routing, external models and learned parameters.</div>
 </section>
 
 <!-- ============ 11 SETUP ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
   <h2 class="h-slide">We search on one encoder and test on three others</h2>
   <div class="body">
     <div class="setflow">
@@ -1040,7 +1040,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
       </div>
       <div class="setflowarr">
         <div class="saa">&rarr;</div>
-        <div class="sal">the same<br><span class="accent">program</span></div>
+        <div class="sal">the same<br><span class="accent">score function</span></div>
       </div>
       <div class="setzone test">
         <div class="setzh">Held-out &middot; the loop never sees these</div>
@@ -1058,12 +1058,12 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 12 PARETO ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
   <h2 class="h-slide">Rewarding compute gives a Pareto curve</h2>
   <div class="body row" style="gap:36px">
     <div class="fill" style="flex:1.7"><div class="chart" id="c-pareto"></div></div>
     <div class="statcol" style="flex:.6">
-      <div class="stat"><div class="v">144</div><div class="l">programs searched</div></div>
+      <div class="stat"><div class="v">144</div><div class="l">score functions searched</div></div>
       <div class="stat"><div class="v foil">12</div><div class="l">Pareto-optimal, from c = 1.2 to 14.7</div></div>
       <div class="stat"><div class="v o">+0.24</div><div class="l">best in-domain mean &Delta;nDCG@10</div></div>
     </div>
@@ -1072,8 +1072,8 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 13 PROGRAM GALLERY ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">Twelve programs on the compute frontier</h2>
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
+  <h2 class="h-slide">Twelve score functions on the compute frontier</h2>
   <div class="body">
     <div class="pgrid">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
@@ -1093,12 +1093,12 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 14 HELD-OUT ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">On held-out tasks, a program at c = 1.0 beats all 12 compute programs</h2>
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
+  <h2 class="h-slide">On held-out tasks, a score function at c = 1.0 beats all 12 frontier functions</h2>
   <div class="body row" style="gap:34px">
     <div class="fill" style="flex:1.7;display:flex;flex-direction:column">
       <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute search (12 frontier programs)</div>
+        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute search (12 frontier functions)</div>
         <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer search</div>
       </div>
       <div class="chart" id="c-money" style="flex:1;min-height:0"></div>
@@ -1111,7 +1111,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 15 HEATMAP ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
   <h2 class="h-slide">Compute improves about half the cells and badly hurts others</h2>
   <div class="body" style="gap:16px">
     <div class="hmframe">
@@ -1127,14 +1127,14 @@ table.bt thead th{font-size:14px;color:var(--accent)}
     </div>
     <div class="row" style="align-items:center;justify-content:center;gap:40px">
       <div class="hmleg"><span style="color:var(--foil-ink)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
-      <p class="cap" style="font-size:15.5px;max-width:70ch">52 of 76 task-encoder pairs improve under at least one program.</p>
+      <p class="cap" style="font-size:15.5px;max-width:70ch">52 of 76 task-encoder pairs improve under at least one score function.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ 16 TRANSFER ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">A transfer search finds cheap programs that generalize</h2>
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
+  <h2 class="h-slide">A transfer search finds cheap score functions that generalize</h2>
   <div class="body row" style="gap:40px">
     <div class="fill" style="flex:1.15;display:flex;flex-direction:column">
       <div class="legend">
@@ -1154,7 +1154,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 17 LEARNED HEAD ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
   <h2 class="h-slide">A learned head at the same data budget memorizes</h2>
   <div class="body" style="justify-content:flex-start">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
@@ -1169,7 +1169,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 18 CLASSICAL IR ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
+<section class="slide" data-sec="01 · Score functions on a frozen encoder">
   <h2 class="h-slide">The search re-derives classical IR in embedding space</h2>
   <div class="body">
     <div class="rgrid">
@@ -1865,10 +1865,10 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <h2 class="h-slide">Lessons from the four demos</h2>
   <div class="body">
     <div class="grid2">
-      <div class="dcard lesson"><div class="dt">Training-free</div><div class="dd">Programs, tags, listwise ranking and agent pipelines all run on frozen weights.</div></div>
-      <div class="dcard lesson tl"><div class="dt">Compute buys quality</div><div class="dd">Programs gain +0.24 in search, a retrieval model tags images, and one call replaces an index.</div></div>
+      <div class="dcard lesson"><div class="dt">Training-free</div><div class="dd">Score functions, tags, listwise ranking and agent pipelines all run on frozen weights.</div></div>
+      <div class="dcard lesson tl"><div class="dt">Compute buys quality</div><div class="dd">Score functions gain +0.24 in search, a retrieval model tags images, and one call replaces an index.</div></div>
       <div class="dcard lesson"><div class="dt">New information drives gains</div><div class="dd">Patches add +0.37 mAP at no cost, crops add +0.075 at 14x, and calibration adds about zero.</div></div>
-      <div class="dcard lesson pk"><div class="dt">Check out of domain</div><div class="dd">+0.24 in search became &minus;0.016 on held-out tasks. Cheap programs and private verifiers pass this check.</div></div>
+      <div class="dcard lesson pk"><div class="dt">Check out of domain</div><div class="dd">+0.24 in search became &minus;0.016 on held-out tasks. Cheap score functions and private verifiers pass this check.</div></div>
     </div>
   </div>
 </section>
@@ -1878,7 +1878,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <h2 class="h-slide">Test-time compute in Elasticsearch today</h2>
   <div class="body">
     <div class="grid2">
-      <div class="dcard lesson"><div class="kk">retriever &middot; rrf</div><div class="dt">Fuse rankings</div><div class="dd">Fuse lexical and dense results with the <span class="code">rrf</span> retriever, which the program search rediscovered.</div></div>
+      <div class="dcard lesson"><div class="kk">retriever &middot; rrf</div><div class="dt">Fuse rankings</div><div class="dd">Fuse lexical and dense results with the <span class="code">rrf</span> retriever, which the score-function search rediscovered.</div></div>
       <div class="dcard lesson"><div class="kk">retriever &middot; text_similarity_reranker</div><div class="dt">Rerank the top-k</div><div class="dd">Rerank the top hits with a listwise model through the <span class="code">text_similarity_reranker</span> retriever.</div></div>
       <div class="dcard lesson"><div class="kk">field &middot; semantic_text</div><div class="dt">Score chunks</div><div class="dd">With <span class="code">semantic_text</span> chunking, rank each document by its best chunk.</div></div>
       <div class="dcard lesson yl"><div class="kk">agents &middot; budget</div><div class="dt">Budget the agent</div><div class="dd">Give agents a token budget, and test them on private multi-hop questions before raising it.</div></div>

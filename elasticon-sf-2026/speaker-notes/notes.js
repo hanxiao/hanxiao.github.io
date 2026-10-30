@@ -41,7 +41,7 @@ And a new capability, tasks the model was never trained for.` },
 
    { n: 6, sec: 45, title: "Four demos",
      note: `I will walk through four demos.
-One, retrieval programs that get higher relevance from the same frozen encoder.
+One, score functions that get higher relevance from the same frozen encoder.
 Two, a tagger that annotates photos with any words.
 Three, a reranker that highlights the passages that match.
 Four, an agent that builds small search pipelines and reuses them in long-horizon tasks.
@@ -56,7 +56,7 @@ All three keep the weights fixed.
 They differ in where *new information* comes from. //` },
 
    { n: 8, sec: 10, title: "Section 01",
-     note: `Demo one. Programs on a frozen encoder.` },
+     note: `Demo one. Score functions on a frozen encoder.` },
 
    { n: 9, sec: 45, title: "Scoring spectrum",
      note: `On the left, plain cosine. One vector per document.
@@ -67,11 +67,11 @@ That is test-time compute on a model you already have.` },
 
    { n: 10, sec: 50, title: "The loop",
      note: `So we let an agent do the research.
-Opus 4.6 writes one Python program over the frozen jina-embeddings-v5-nano.
+Opus 4.6 writes one Python score function over the frozen jina-embeddings-v5-nano.
 An evaluator scores it on 14 retrieval tasks.
-The result goes into a memory file, and the memory conditions the next program.
+The result goes into a memory file, and the memory conditions the next score function.
 Keep it if it improves, revert if not.
-After 144 rounds we have 144 scored programs.
+After 144 rounds we have 144 scored functions.
 Anything that smuggles in hyperparameters or a learned model is rejected automatically.` },
 
    { n: 11, sec: 40, title: "Setup",
@@ -79,7 +79,7 @@ Anything that smuggles in hyperparameters or a learned model is rejected automat
 The loop only ever sees one encoder and 14 tasks.
 We test on 19 *other* tasks and three other encoders.
 One from the same family, and two families it has never seen, Gemma and Qwen.
-That is the real test of whether a program generalizes.` },
+That is the real test of whether a score function generalizes.` },
 
    { n: 12, sec: 40, title: "Pareto curve",
      note: `First we told the loop to spend compute.
@@ -89,8 +89,8 @@ It looks just like test-time scaling in LLMs.
 But these are in-search numbers.
 The held-out test comes next. //` },
 
-   { n: 13, sec: 30, title: "Twelve programs",
-     note: `These are the twelve programs on that frontier.
+   { n: 13, sec: 30, title: "Twelve score functions",
+     note: `These are the twelve score functions on that frontier.
 Z-scoring, sentence MaxSim, rank fusion, Rocchio, graph centrality.
 All of them recombine the same frozen vectors.
 The cost goes from 1.2 to 14.7 times the baseline.` },
@@ -100,12 +100,12 @@ The cost goes from 1.2 to 14.7 times the baseline.` },
 Its median never goes above plus 0.003, no matter how much you spend.
 The blue dots are a second search I will explain in a moment.
 The best one costs *nothing* extra, c equals one.
-And it beats all twelve compute programs, even the one at 14.7 times the compute. //
+And it beats all twelve frontier functions, even the one at 14.7 times the compute. //
 Compute alone did not transfer.` },
 
    { n: 15, sec: 45, title: "Heatmap",
      note: `Here is every cell.
-Twelve programs, nineteen tasks, four encoders.
+Twelve score functions, nineteen tasks, four encoders.
 About half the cells improve, 485 of 912.
 But look at the deep pink ones. The worst falls to minus 0.98.
 So the pooled mean is minus 0.016.
@@ -113,9 +113,9 @@ Spending compute helps often, and when it fails, it fails hard.` },
 
    { n: 16, sec: 50, title: "Transfer search",
      note: `So we changed the rubric.
-A program is admitted only if a held-out validation split improves,
+A score function is admitted only if a held-out validation split improves,
 and no single task gets worse by more than 0.05.
-Six programs pass, and all of them are cheap, 1.5 times or less.
+Six score functions pass, and all of them are cheap, 1.5 times or less.
 Transpose-Consensus never loses a task.
 And on French and Greek, unmodified, the median is plus 0.016 with an 86 percent win rate. //` },
 
@@ -278,13 +278,13 @@ That gives us a private verifier.` },
 
    { n: 40, sec: 50, title: "What the demos share",
      note: `All of them are training-free, on frozen models.
-Compute buys quality. Programs, a tagger, an index replaced by one call.
+Compute buys quality. Score functions, a tagger, an index replaced by one call.
 Gains come only when *new information* enters. Patches and crops, yes. Calibration, no.
 And always check out of domain.
 Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
 
    { n: 41, sec: 50, title: "Elasticsearch",
-     note: `Fuse rankings with the rrf retriever, which the program search rediscovered.
+     note: `Fuse rankings with the rrf retriever, which the score-function search rediscovered.
 Rerank the top hits with the text similarity reranker, and let the candidates see each other.
 With semantic text chunking, rank each document by its best chunk.
 And give your agents a token budget, and test them on private multi-hop questions before you raise it.` },
