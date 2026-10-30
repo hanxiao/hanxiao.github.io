@@ -935,25 +935,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
   <div class="dt">Programs on a frozen encoder</div>
 </section>
 
-<!-- ============ 8 LINEAGE ============ -->
-<section class="slide" data-sec="01 · Programs on a frozen encoder">
-  <h2 class="h-slide">Current small embedders are distilled from LLMs</h2>
-  <p class="ssub">If test-time compute works in the LLM representation space, distilled encoders may inherit it.</p>
-  <div class="body" style="padding-left:40px">
-    <div class="lin">
-      <div class="linrow"><div class="src">Mistral-7B</div><div class="arr">&rarr;</div><div class="dst">
-        <span class="pill">E5-Mistral</span><span class="pill">SFR-Embedding</span><span class="pill">GritLM</span><span class="pill">NV-Embed</span><span class="pill">bge-en-icl</span></div></div>
-      <div class="linrow"><div class="src">Qwen3</div><div class="arr">&rarr;</div><div class="dst">
-        <span class="pill">qwen3-embed</span><span class="pill" style="border-color:var(--accent);color:var(--accent);font-weight:700">jina-embeddings-v5</span></div></div>
-      <div class="linrow"><div class="src">Gemma 3</div><div class="arr">&rarr;</div><div class="dst">
-        <span class="pill">EmbeddingGemma</span></div></div>
-      <div class="linrow"><div class="src">LLaMA</div><div class="arr">&rarr;</div><div class="dst">
-        <span class="pill">RepLLaMA</span><span class="pill">LLM2Vec</span></div></div>
-    </div>
-  </div>
-  <div class="fnote">First raised in <b>jina.ai/news/scaling-test-time-compute-for-embedding-models</b></div>
-</section>
-
 <!-- ============ 9 SCORING SPECTRUM ============ -->
 <section class="slide" data-sec="01 · Programs on a frozen encoder">
   <h2 class="h-slide">Scoring runs from one cosine to late interaction</h2>
@@ -1014,7 +995,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
       </div>
     </div>
   </div>
-  <div class="fnote"><b>Rules:</b> only the frozen encoder in the query path, with no LLM, second retriever or learned parameters. One <b>embed_fn</b> call is one unit of compute.</div>
 </section>
 
 <!-- ============ 10 THE LOOP ============ -->
