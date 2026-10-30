@@ -160,28 +160,40 @@ And down at the bottom, the calibration methods.
 Same 75 milliseconds as the patch pipeline, and they collapse.` },
 
    { n: 23, sec: 10, title: "Section 03",
-     note: `Demo three. One call replaces an index.` },
+     note: `Demo three. Semantic highlighting.` },
 
-   { n: 24, sec: 50, title: "Listwise",
-     note: `Now spend more on the rescore itself.
-A bi-encoder scores every document alone.
-Each vector was computed before the other documents existed.
-A listwise reranker puts the query and up to 64 documents into one context.
-The candidates see each other before they are scored.
-jina-reranker-v3 does this at 0.6 billion parameters.
-On BEIR it scores 61.94, against about 56 for two strong rerankers of the same size. //` },
+   { n: 24, sec: 25, title: "The task",
+     note: `Here is the task.
+You have a query and a long document.
+Split the document into passages, score every passage against the query, and highlight the best ones *in place*.
+No index. Just the page and the question. //` },
 
-   { n: 25, sec: 50, title: "Drop the index",
-     note: `An index pays off over many queries.
-But a web page lives for one visit.
-So skip chunking, embedding and indexing, and run one listwise pass over the whole page.
-jina-reranker-v3.5 does a 53-chunk page in 143 milliseconds.
-That is extra inference, spent at query time, where it matters.` },
+   { n: 25, sec: 25, title: "Bi-encoder",
+     note: `The classic way is a bi-encoder.
+The query and each passage are encoded *separately*, so the passages can even be done offline.
+The score is a cosine.
+But each passage is scored alone. "That blue reaches us from all sides" does not know what *that* refers to.
+So it ranks the sentence that only mentions the color of the sky.` },
 
-   { n: 26, sec: 10, title: "Section 04",
+   { n: 26, sec: 25, title: "Listwise",
+     note: `A listwise reranker packs the query and all passages into *one* context.
+jina-reranker-v3, 0.6 billion parameters, up to 64 passages in a 131K window.
+Every passage attends to the query and to every other passage, and its score comes from its last token.
+Now "that blue" makes sense, and the two right sentences light up.
+On BEIR it scores 61.94, against about 56 for two rerankers of the same size. //` },
+
+   { n: 27, sec: 25, title: "Extra compute",
+     note: `So where does the extra compute go?
+The bi-encoder fills only the diagonal blocks, and the passage blocks can run offline.
+At query time it is one short query plus N dot products.
+Listwise fills the *whole* matrix, all at query time. Order N squared L squared.
+The pink blocks are the extra: query to passage, and passage to passage.
+That is where the quality comes from. //` },
+
+   { n: 28, sec: 10, title: "Section 04",
      note: `Demo four. An agent builds the pipeline.` },
 
-   { n: 27, sec: 50, title: "Long-horizon agents",
+   { n: 29, sec: 50, title: "Long-horizon agents",
      note: `In 2025, deep research was one loop. Search, read, reason, until the budget runs out.
 In 2026, long-horizon agents split the work.
 First research, with web access, to build a corpus.
@@ -189,46 +201,46 @@ Then an offline agent loop that works from that corpus.
 Research and execution want different tokens.
 Use cheap local tokens to build the corpus, and save frontier tokens for the work that needs them.` },
 
-   { n: 28, sec: 40, title: "dataroom",
+   { n: 30, sec: 40, title: "dataroom",
      note: `dataroom is the first half.
 A local model searches, reads and writes in a loop,
 until the knowledge sits in one cited zip file.
 It stops when coverage reaches a measured floor.
 The zip goes to searchbox, or to a frontier model.` },
 
-   { n: 29, sec: 40, title: "searchbox",
+   { n: 31, sec: 40, title: "searchbox",
      note: `searchbox is the second half.
 We lock an agent in with one dataroom and no web.
 It can only answer by composing its own pipeline from local tools.
 Grep, embed, rerank, cluster.
 And we get to ask real questions. Which tool comes first? When does grep win? Does more budget help?` },
 
-   { n: 30, sec: 40, title: "knowledge-graph",
+   { n: 32, sec: 40, title: "knowledge-graph",
      note: `To measure any of this you need hard questions.
 If one grep finds the answer, every method looks the same.
 So we turn the corpus into a graph, walk two or three hops, and hide the bridge.
 A question stays only if a closed-book model fails and a retrieval agent succeeds.
 That gives us a private verifier.` },
 
-   { n: 31, sec: 50, title: "What the demos share",
+   { n: 33, sec: 50, title: "What the demos share",
      note: `All of them are training-free, on frozen models.
 Compute buys quality. Score functions, a tagger, an index replaced by one call.
 Gains come only when *new information* enters. Patches and crops, yes. Calibration, no.
 And always check out of domain.
 Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
 
-   { n: 32, sec: 50, title: "Elasticsearch",
+   { n: 34, sec: 50, title: "Elasticsearch",
      note: `Fuse rankings with the rrf retriever, which the score-function search rediscovered.
 Rerank the top hits with the text similarity reranker, and let the candidates see each other.
 With semantic text chunking, rank each document by its best chunk.
 And give your agents a token budget, and test them on private multi-hop questions before you raise it.` },
 
-   { n: 33, sec: 25, title: "Closing",
+   { n: 35, sec: 25, title: "Closing",
      note: `So, to close.
 Search has always been test-time compute.
 Spend it where *new information* enters. //` },
 
-   { n: 34, sec: 15, title: "Thank you",
+   { n: 36, sec: 15, title: "Thank you",
      note: `Thank you.
 Happy to take questions.` }
 ];

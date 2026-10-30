@@ -704,6 +704,110 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 @keyframes eqglow{0%{background:rgba(72,239,207,0)}30%{background:rgba(72,239,207,.45)}100%{background:rgba(72,239,207,.22)}}
 .eqsrc{background:rgba(72,239,207,.22)}
 
+/* ---- 03 semantic highlighting (4 slides). CSS animations keyed on --d, restarted by ANIM.start via .shl.go; default style = final frame ---- */
+.sh-a{display:flex;gap:22px;width:100%;align-items:stretch}
+.sh-a .lwp{padding:18px 20px}
+.shqrow{display:flex;align-items:center;gap:12px}
+.shlab{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--navy)}
+.shq{background:var(--accent);color:#fff;font-weight:700;font-size:19px;border-radius:7px;padding:7px 16px}
+.shdoc{background:#fff;border:1.4px solid var(--hair2);border-radius:10px;padding:14px 22px 16px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.shghost i{display:block;height:9px;border-radius:5px;background:#E3E7EE;margin:10px 0}
+.shtext{font-size:19px;line-height:1.95;color:var(--ink);margin:6px 0}
+.sp{border-radius:4px;padding:3px 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sp.on{background:rgba(72,239,207,.55)}
+.pt{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:3px;padding:1px 4px;margin:0 5px 0 2px;vertical-align:2px}
+.shdef{display:flex;flex-direction:column;gap:9px;font-size:17px;line-height:1.3}
+.shdef>div{display:flex;gap:14px;align-items:baseline}
+.shdef .k{flex:0 0 66px;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)}
+.shsc{display:flex;flex-direction:column;gap:8px}
+.shsc .r{display:grid;grid-template-columns:30px 1fr 40px;gap:10px;align-items:center}
+.shsc .n{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--accent)}
+.shsc .tr{height:16px;background:#fff;border-radius:3px;overflow:hidden}
+.shb{height:16px;border-radius:3px;background:#B9C3D6;transform-origin:left center}
+.shb.top{background:var(--accent)}
+.shsc .v{font-family:var(--mono);font-size:13px;font-weight:700;text-align:right}
+.shsc .v.top{color:var(--accent)}
+.shrule{height:1px;background:var(--hair);margin:4px 0}
+.shrow .lwp{padding:14px 18px 16px}
+.shrow .lwh{font-size:18px}
+.shrow svg{width:100%;height:auto;display:block}
+.sh-t{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.sh-qt{font-family:var(--sans);font-size:15px;font-weight:700;fill:#fff}
+.sh-m{font-family:var(--mono);font-size:11px;font-weight:700;fill:var(--navy)}
+.sh-m.ac{fill:var(--accent)}.sh-m.tl{fill:var(--teal-ink)}.sh-m.pk{fill:var(--foil-ink)}.sh-m.w{fill:#fff}
+.sh-sub{font-size:.75em}
+.sh-v{font-family:var(--mono);font-size:14px;font-weight:700;fill:var(--navy)}
+.sh-v.top{fill:var(--accent)}
+.sh-enc{fill:var(--navy)}
+.sh-model{fill:#fff;stroke:var(--navy);stroke-width:1.5}
+.sh-card{fill:#fff;stroke:rgba(16,28,63,.30);stroke-width:1.3}
+.sh-wall{stroke:var(--foil);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
+.sh-ln{stroke:var(--navy);stroke-width:1.3;fill:none}
+.sh-ln.ac{stroke:var(--accent)}.sh-ln.tl{stroke:var(--teal-ink)}
+.sh-hd{fill:var(--navy)}.sh-hd.ac{fill:var(--accent)}.sh-hd.tl{fill:var(--teal-ink)}
+.sh-off{fill:rgba(0,191,179,.07);stroke:var(--teal-ink);stroke-width:1.3;stroke-dasharray:5 4}
+.sh-tok{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.sh-hl{fill:rgba(72,239,207,.55)}
+.sh-fl{fill:var(--accent-soft)}
+.sh-lt{fill:var(--teal-ink)}
+.sh-sa{stroke:var(--teal-ink);stroke-width:1.6;fill:none}
+.sh-bar{fill:#B9C3D6}.sh-bar.top{fill:var(--accent)}
+.shl .attn path{stroke-width:1.3}
+.shl .dim{opacity:.4}
+.beir.shbeir{gap:9px}
+.beir.shbeir .bb{height:18px}
+/* complexity slide */
+.shd .lwp{padding:14px 18px 16px;gap:10px}
+.shmx{display:flex;gap:14px;align-items:center}
+.shmx svg{flex:0 0 262px;width:262px;height:auto}
+.shleg{display:flex;flex-direction:column;gap:9px;font-size:14.5px;line-height:1.25}
+.shleg .it{display:flex;gap:9px;align-items:center}
+.shleg .sw{flex:0 0 16px;height:16px;border-radius:3px}
+.shleg .grp{border-left:3px solid var(--foil);padding-left:10px;display:flex;flex-direction:column;gap:9px}
+.shleg .gh{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--foil-ink)}
+.shcx{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--hair);padding-top:10px}
+.shcx>div{display:flex;gap:14px;align-items:baseline}
+.shcx .k{flex:0 0 96px;font-size:14px;font-weight:700}
+.shcx .v{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink)}
+.shcx .v.pk{color:var(--foil-ink)}
+.shcx .v.tl{color:var(--teal-ink)}
+.shcx .v.ac{color:var(--accent)}
+.shcx .x{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--navy);margin-left:6px}
+.sh-cell{stroke:#fff;stroke-width:1.5}
+.sh-mxbg{fill:#fff;stroke:rgba(16,28,63,.30);stroke-width:1.2}
+.sh-mxg{stroke:#E3E7EE;stroke-width:1;fill:none}
+/* animation primitives */
+.shl svg .gr,.shl svg .pop,.shl svg .tok{transform-box:fill-box}
+.shl svg .gr{transform-origin:left center}
+.shl svg .pop{transform-origin:center}
+.shl .tok,.shl .fl{opacity:0}
+.shl.go .fi{animation:shfi .5s ease-out var(--d,0s) both}
+.shl.go .gr{animation:shgr .6s ease-out var(--d,0s) both}
+.shl.go .pop{animation:shpop .45s cubic-bezier(.3,1.4,.6,1) var(--d,0s) both}
+.shl.go .sp.on{animation:shhl .7s ease-out var(--d,0s) both}
+.shl.go .shb.top{animation:shgr .6s ease-out var(--d,0s) both,shtob .5s ease-out var(--d2,0s) both}
+.shl.go .shsc .v.top{animation:shfi .5s ease-out var(--d,0s) both,shtoc .5s ease-out var(--d2,0s) both}
+.shl.go .gr.tob{animation:shgr .6s ease-out var(--d,0s) both,shtof .5s ease-out var(--d2,0s) both}
+.shl.go .fi.tob{animation:shfi .5s ease-out var(--d,0s) both,shtof .5s ease-out var(--d2,0s) both}
+.shl.go .fi.tobt{animation:shfi .5s ease-out var(--d,0s) both,shtoft .5s ease-out var(--d2,0s) both}
+.shl.go .fi.dim{animation:shfi1 .6s ease-out var(--d,0s) both,shdim .6s ease-out var(--d2,0s) forwards}
+.shl.go .tok{animation:shmv .8s ease-in-out var(--d,0s) both}
+.shl.go .fl{animation:shfl 1s ease-out var(--d,0s) both}
+@keyframes shfi{from{opacity:0}}
+@keyframes shfi1{from{opacity:0}to{opacity:1}}
+@keyframes shdim{from{opacity:1}}
+@keyframes shgr{from{transform:scaleX(0)}}
+@keyframes shpop{from{opacity:0;transform:scale(.4)}}
+@keyframes shhl{from{background-color:rgba(72,239,207,0)}}
+@keyframes shtob{from{background-color:#B9C3D6}}
+@keyframes shtoc{from{color:#1C1E23}}
+@keyframes shtof{from{fill:#B9C3D6}}
+@keyframes shtoft{from{fill:#101C3F}}
+@keyframes shmv{0%{opacity:0;transform:translateX(0)}20%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translateX(var(--tx,44px))}}
+@keyframes shfl{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.shl.go *{animation:none !important}}
+@media print{.shl *,.shl.go *{animation:none !important}}
+
 /* ---- print / PDF export: one slide per landscape page, animations frozen ---- */
 @media print{
   @page{size:1280px 720px;margin:0}
@@ -1494,97 +1598,410 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 30 DIVIDER 03 ============ -->
-<section class="slide full divider dark" data-chrome="dark" data-sec="03 · One call replaces an index">
+<section class="slide full divider dark" data-chrome="dark" data-sec="03 · Semantic highlighting">
   <div class="num">03</div>
-  <div class="dt">One call replaces an index</div>
+  <div class="dt">Semantic highlighting</div>
 </section>
 
-<!-- ============ 33 LISTWISE ============ -->
-<section class="slide" data-sec="03 · One call replaces an index">
-  <h2 class="h-slide">Let the candidates see each other in one forward pass</h2>
+<!-- ============ 03a SEMANTIC HIGHLIGHTING: THE TASK ============ -->
+<section class="slide hasqr shl" data-sec="03 · Semantic highlighting">
+  <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="QR code to the in-page search repo"></a>
+  <h2 class="h-slide">Highlight the passages that answer the query</h2>
   <div class="body">
-    <div class="lwrow">
-      <div class="lwp">
-        <div class="lwh">Bi-encoder<span class="lwtag">each document scored alone</span></div>
-        <svg viewBox="0 0 300 168" aria-hidden="true">
-          <text class="lw-ax" x="12" y="16">query</text>
-          <rect class="lw-q" x="12" y="24" width="62" height="26" rx="5"/>
-          <text class="lw-t w" x="43" y="41" text-anchor="middle">q</text>
-          <text class="lw-ax" x="150" y="16">encoded one by one</text>
-          <rect class="lw-d" x="150" y="24" width="62" height="22" rx="5"/><text class="lw-t" x="181" y="39" text-anchor="middle">d1</text>
-          <rect class="lw-d" x="150" y="54" width="62" height="22" rx="5"/><text class="lw-t" x="181" y="69" text-anchor="middle">d2</text>
-          <rect class="lw-d" x="150" y="84" width="62" height="22" rx="5"/><text class="lw-t" x="181" y="99" text-anchor="middle">d3</text>
-          <rect class="lw-d" x="150" y="114" width="62" height="22" rx="5"/><text class="lw-t" x="181" y="129" text-anchor="middle">d4</text>
-          <line class="lw-lnk" x1="74" y1="37" x2="150" y2="35"/>
-          <line class="lw-lnk" x1="74" y1="37" x2="150" y2="65"/>
-          <line class="lw-lnk" x1="74" y1="37" x2="150" y2="95"/>
-          <line class="lw-lnk" x1="74" y1="37" x2="150" y2="125"/>
-          <path class="lw-wall" d="M124 20 L124 150"/>
-          <text class="lw-wallt" x="124" y="162" text-anchor="middle">independent</text>
-          <text class="lw-ax" x="290" y="39" text-anchor="end">cos(q,d1)</text>
-          <text class="lw-ax" x="290" y="69" text-anchor="end">cos(q,d2)</text>
-          <text class="lw-ax" x="290" y="99" text-anchor="end">cos(q,d3)</text>
-          <text class="lw-ax" x="290" y="129" text-anchor="end">cos(q,d4)</text>
-        </svg>
-        <div class="lwn">Each document vector is computed without the others.</div>
-      </div>
-      <div class="lwp hero">
-        <div class="lwh">Listwise<span class="lwtag on">all candidates in one context</span></div>
-        <svg viewBox="0 0 300 168" aria-hidden="true">
-          <rect class="lw-ctx" x="10" y="14" width="280" height="124" rx="8"/>
-          <text class="lw-ctxt" x="150" y="31" text-anchor="middle">one 131K context</text>
-          <rect class="lw-q" x="22" y="44" width="48" height="24" rx="5"/><text class="lw-t w" x="46" y="60" text-anchor="middle">q</text>
-          <rect class="lw-d on" x="92" y="44" width="44" height="24" rx="5"/><text class="lw-t" x="114" y="60" text-anchor="middle">d1</text>
-          <rect class="lw-d on" x="146" y="44" width="44" height="24" rx="5"/><text class="lw-t" x="168" y="60" text-anchor="middle">d2</text>
-          <rect class="lw-d on" x="200" y="44" width="44" height="24" rx="5"/><text class="lw-t" x="222" y="60" text-anchor="middle">d3</text>
-          <rect class="lw-d on" x="92" y="86" width="44" height="24" rx="5"/><text class="lw-t" x="114" y="102" text-anchor="middle">d4</text>
-          <rect class="lw-d on" x="146" y="86" width="44" height="24" rx="5"/><text class="lw-t" x="168" y="102" text-anchor="middle">...</text>
-          <rect class="lw-d on" x="200" y="86" width="44" height="24" rx="5"/><text class="lw-t" x="222" y="102" text-anchor="middle">d64</text>
-          <g class="attn">
-            <path d="M114 68 C 132 78 150 78 168 68"/>
-            <path d="M168 68 C 186 78 204 78 222 68"/>
-            <path d="M114 68 C 150 92 186 92 222 68"/>
-            <path d="M114 86 C 132 76 150 76 168 86"/>
-            <path d="M168 86 C 186 76 204 76 222 86"/>
-            <path d="M70 56 C 84 62 84 74 92 92"/>
-          </g>
-          <text class="lw-ctxt" x="150" y="130" text-anchor="middle">attention across documents</text>
-          <text class="lw-ax" x="150" y="158" text-anchor="middle">score from the last token of each document</text>
-        </svg>
-        <div class="lwn">Each document is scored after attending to every other candidate.</div>
-      </div>
-      <div class="lwp" style="flex:.72">
-        <div class="lwh">BEIR nDCG@10<span class="lwtag">0.6B class</span></div>
-        <div class="beir" style="flex:1">
-          <div class="br"><div class="bn accent">jina-reranker-v3 (listwise)</div><div class="bt"><div class="bb on" style="width:190px"></div><span class="bv accent">61.94</span></div></div>
-          <div class="br"><div class="bn">bge-reranker-v2-m3</div><div class="bt"><div class="bb" style="width:173.3px;animation-delay:.15s"></div><span class="bv">56.51</span></div></div>
-          <div class="br"><div class="bn">Qwen3-Reranker-0.6B</div><div class="bt"><div class="bb" style="width:172.6px;animation-delay:.3s"></div><span class="bv">56.28</span></div></div>
+    <div class="sh-a">
+      <div class="lwp hero" style="flex:1.55;gap:14px">
+        <div class="shqrow"><span class="shlab">query</span><span class="shq">Why is the sky blue?</span></div>
+        <div class="shdoc">
+          <div class="shlab">document</div>
+          <div class="shghost"><i style="width:94%"></i><i style="width:81%"></i></div>
+          <p class="shtext"><span class="sp"><b class="pt fi" style="--d:1.20s">p1</b>The color of the sky puzzled people.</span> <span class="sp"><b class="pt fi" style="--d:1.34s">p2</b>Sunlight carries every rainbow color.</span> <span class="sp"><b class="pt fi" style="--d:1.48s">p3</b>Air molecules are tiny next to light.</span> <span class="sp on" style="--d:5.20s"><b class="pt fi" style="--d:1.62s">p4</b>They scatter blue far more than red.</span> <span class="sp on" style="--d:5.20s"><b class="pt fi" style="--d:1.76s">p5</b>That blue reaches us from all sides.</span> <span class="sp"><b class="pt fi" style="--d:1.90s">p6</b>At sunset, the blue scatters away.</span> <span class="sp"><b class="pt fi" style="--d:2.04s">p7</b>Clouds scatter all colors equally.</span> <span class="sp"><b class="pt fi" style="--d:2.18s">p8</b>On Mars, dust turns the sky tan.</span></p>
+          <div class="shghost"><i style="width:90%"></i><i style="width:96%"></i><i style="width:58%"></i></div>
         </div>
-        <div class="lwn" style="font-size:13.5px">At the same size, the listwise model leads.</div>
+      </div>
+      <div class="lwp" style="flex:1;gap:16px;justify-content:center">
+        <div class="shdef">
+          <div><span class="k">input</span><span>query <i>q</i>, long document <i>D</i></span></div>
+          <div class="fi" style="--d:1.20s"><span class="k">split</span><span><i>D</i> into passages p<sub>1</sub> &hellip; p<sub>N</sub></span></div>
+          <div class="fi" style="--d:3.00s"><span class="k">score</span><span>s(<i>q</i>, p<sub>i</sub>) for every passage</span></div>
+          <div class="fi" style="--d:5.20s"><span class="k">output</span><span>top passages, highlighted in place</span></div>
+        </div>
+        <div class="shrule"></div>
+        <div class="shsc">
+          <div class="r"><span class="n">p1</span><div class="tr"><div class="shb gr" style="width:21%;--d:3.00s"></div></div><span class="v fi" style="--d:3.30s">.21</span></div>
+          <div class="r"><span class="n">p2</span><div class="tr"><div class="shb gr" style="width:35%;--d:3.15s"></div></div><span class="v fi" style="--d:3.45s">.35</span></div>
+          <div class="r"><span class="n">p3</span><div class="tr"><div class="shb gr" style="width:52%;--d:3.30s"></div></div><span class="v fi" style="--d:3.60s">.52</span></div>
+          <div class="r"><span class="n">p4</span><div class="tr"><div class="shb gr top" style="width:94%;--d:3.45s;--d2:5.20s"></div></div><span class="v fi top" style="--d:3.75s;--d2:5.20s">.94</span></div>
+          <div class="r"><span class="n">p5</span><div class="tr"><div class="shb gr top" style="width:90%;--d:3.60s;--d2:5.20s"></div></div><span class="v fi top" style="--d:3.90s;--d2:5.20s">.90</span></div>
+          <div class="r"><span class="n">p6</span><div class="tr"><div class="shb gr" style="width:41%;--d:3.75s"></div></div><span class="v fi" style="--d:4.05s">.41</span></div>
+          <div class="r"><span class="n">p7</span><div class="tr"><div class="shb gr" style="width:12%;--d:3.90s"></div></div><span class="v fi" style="--d:4.20s">.12</span></div>
+          <div class="r"><span class="n">p8</span><div class="tr"><div class="shb gr" style="width:8%;--d:4.05s"></div></div><span class="v fi" style="--d:4.35s">.08</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 32 IN-PAGE SEARCH ============ -->
-<section class="slide hasqr" data-sec="03 · One call replaces an index">
-  <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-    <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="QR code to the in-page search repo"></a>
-  <h2 class="h-slide">A single page needs no index</h2>
-  <p class="ssub">An index pays off over many queries. A page lives for one visit.</p>
-  <div class="body row" style="gap:36px;align-items:center">
-    <div style="flex:.92;display:flex;flex-direction:column;gap:20px">
-      <div class="blist">
-        <p>jina-reranker-v3.5 scores a 53-chunk page in <b>143 ms</b> per call.</p>
-        <p>Answers are highlighted in place on the original page.</p>
+<!-- ============ 03b BI-ENCODER ============ -->
+<section class="slide shl" data-sec="03 · Semantic highlighting">
+  <h2 class="h-slide">Bi-encoder: score each passage alone</h2>
+  <div class="body">
+    <div class="lwrow shrow">
+      <div class="lwp" style="flex:.82;justify-content:center">
+        <div class="lwh">Bi-encoder</div>
+        <svg viewBox="0 0 380 392" aria-hidden="true">
+  <text class="sh-m" x="10" y="22">query time</text>
+  <rect class="lw-q" x="10" y="52" width="56" height="36" rx="6"/><text class="lw-t w" x="38" y="75" text-anchor="middle">q</text>
+  <path class="sh-ln" d="M66 70 H92"/><path class="sh-hd" d="M90 66 L98 70 L90 74 Z"/>
+  <rect class="sh-enc" x="98" y="44" width="104" height="52" rx="8"/><text class="sh-m w" x="150" y="74" text-anchor="middle">encoder</text>
+  <path class="sh-ln" d="M202 70 H220"/><path class="sh-hd" d="M218 66 L226 70 L218 74 Z"/>
+  <g><rect x="228" y="61" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.9"/><rect x="241" y="61" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.35"/><rect x="254" y="61" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.65"/><rect x="267" y="61" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.2"/><rect x="280" y="61" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.8"/></g>
+
+  <path class="sh-wall" d="M4 124 H300"/><text class="sh-m pk" x="10" y="117">independent</text>
+  <rect class="sh-off" x="2" y="142" width="300" height="214" rx="8"/><text class="sh-m tl" x="294" y="160" text-anchor="end">offline</text>
+  <rect class="lw-d" x="10" y="166" width="56" height="32" rx="6"/><text class="lw-t" x="38" y="187" text-anchor="middle">p<tspan class="sh-sub" dy="3">1</tspan></text>
+  <path class="sh-ln" d="M66 182 H92"/><path class="sh-hd" d="M90 178 L98 182 L90 186 Z"/>
+  <rect class="sh-enc" x="98" y="162" width="104" height="40" rx="8"/><text class="sh-m w" x="150" y="186" text-anchor="middle">encoder</text>
+  <path class="sh-ln" d="M202 182 H220"/><path class="sh-hd" d="M218 178 L226 182 L218 186 Z"/>
+  <g><rect x="228" y="173" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="241" y="173" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="254" y="173" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="267" y="173" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="280" y="173" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/></g>
+
+  <path class="sh-wall" d="M10 210 H294"/>
+  <rect class="lw-d" x="10" y="222" width="56" height="32" rx="6"/><text class="lw-t" x="38" y="243" text-anchor="middle">p<tspan class="sh-sub" dy="3">2</tspan></text>
+  <path class="sh-ln" d="M66 238 H92"/><path class="sh-hd" d="M90 234 L98 238 L90 242 Z"/>
+  <rect class="sh-enc" x="98" y="218" width="104" height="40" rx="8"/><text class="sh-m w" x="150" y="242" text-anchor="middle">encoder</text>
+  <path class="sh-ln" d="M202 238 H220"/><path class="sh-hd" d="M218 234 L226 238 L218 242 Z"/>
+  <g><rect x="228" y="229" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="241" y="229" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="254" y="229" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="267" y="229" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="280" y="229" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/></g>
+
+  <path class="sh-wall" d="M10 266 H294"/>
+  <rect class="lw-d" x="10" y="304" width="56" height="32" rx="6"/><text class="lw-t" x="38" y="325" text-anchor="middle">p<tspan class="sh-sub" dy="3">N</tspan></text>
+  <path class="sh-ln" d="M66 320 H92"/><path class="sh-hd" d="M90 316 L98 320 L90 324 Z"/>
+  <rect class="sh-enc" x="98" y="300" width="104" height="40" rx="8"/><text class="sh-m w" x="150" y="324" text-anchor="middle">encoder</text>
+  <path class="sh-ln" d="M202 320 H220"/><path class="sh-hd" d="M218 316 L226 320 L218 324 Z"/>
+  <g><rect x="228" y="311" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="241" y="311" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="254" y="311" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="267" y="311" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="280" y="311" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/></g>
+
+  <text class="lw-t" x="38" y="282" text-anchor="middle">&#8942;</text>
+  <path class="sh-ln ac" d="M293 70 H322 V320"/>
+  <path class="sh-ln" d="M293 182 H325"/><circle cx="340" cy="182" r="15" fill="#fff" stroke="#0B64DD" stroke-width="1.5"/><text class="sh-m ac" x="340" y="186" text-anchor="middle">cos</text>
+  <path class="sh-ln" d="M293 238 H325"/><circle cx="340" cy="238" r="15" fill="#fff" stroke="#0B64DD" stroke-width="1.5"/><text class="sh-m ac" x="340" y="242" text-anchor="middle">cos</text>
+  <path class="sh-ln" d="M293 320 H325"/><circle cx="340" cy="320" r="15" fill="#fff" stroke="#0B64DD" stroke-width="1.5"/><text class="sh-m ac" x="340" y="324" text-anchor="middle">cos</text>
+  <text class="sh-m" x="190" y="384" text-anchor="middle" style="font-size:13px">s<tspan class="sh-sub" dy="3">i</tspan><tspan dy="-3"> = cos(q, p</tspan><tspan class="sh-sub" dy="3">i</tspan><tspan dy="-3">)</tspan></text>
+</svg>
       </div>
-      <div class="lat">
-        <div class="lh">ms per call &middot; 53-chunk page</div>
-        <div class="lr"><div class="ln accent">jina-reranker-v3.5</div><div><div class="lb" style="width:max(3.4%,58px);background:var(--accent)">143</div></div></div>
-        <div class="lr"><div class="ln">jina-reranker-v2-base-multilingual</div><div><div class="lb" style="width:100%;background:var(--navy);animation-delay:.2s">4,194</div></div></div>
+      <div class="lwp hero" style="flex:1.4;justify-content:center">
+        <svg viewBox="0 0 680 440" aria-hidden="true">
+<text class="sh-m" x="396" y="16" text-anchor="middle">encoder</text>
+<text class="sh-m" x="484" y="16" text-anchor="middle">vectors</text>
+<text class="sh-m" x="548" y="16">cos(q, p<tspan class="sh-sub" dy="3">i</tspan><tspan dy="-3">)</tspan></text>
+<rect class="sh-fl fl" x="0" y="24" width="338" height="48" rx="9" style="--d:0.60s"/>
+<rect class="lw-q" x="4" y="28" width="330" height="40" rx="7"/><text class="sh-m w" x="16" y="52">query</text><text class="sh-qt" x="72" y="53.5">Why is the sky blue?</text>
+<rect class="sh-card" x="4" y="82" width="330" height="352" rx="9"/>
+<rect class="sh-fl fl" x="8" y="92" width="322" height="32" rx="5" style="--d:1.80s"/>
+<rect class="sh-hl fi" x="8" y="92" width="322" height="32" rx="5" style="--d:8.00s"/>
+<rect x="12" y="99" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="112" text-anchor="middle">p1</text>
+<text class="sh-t" x="46" y="112.5">The color of the sky puzzled people.</text>
+<rect class="sh-fl fl" x="8" y="134" width="322" height="32" rx="5" style="--d:2.25s"/>
+<rect x="12" y="141" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="154" text-anchor="middle">p2</text>
+<text class="sh-t" x="46" y="154.5">Sunlight carries every rainbow color.</text>
+<rect class="sh-fl fl" x="8" y="176" width="322" height="32" rx="5" style="--d:2.70s"/>
+<rect x="12" y="183" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="196" text-anchor="middle">p3</text>
+<text class="sh-t" x="46" y="196.5">Air molecules are tiny next to light.</text>
+<rect class="sh-fl fl" x="8" y="218" width="322" height="32" rx="5" style="--d:3.15s"/>
+<rect class="sh-hl fi" x="8" y="218" width="322" height="32" rx="5" style="--d:8.00s"/>
+<rect x="12" y="225" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="238" text-anchor="middle">p4</text>
+<text class="sh-t" x="46" y="238.5">They scatter blue far more than red.</text>
+<rect class="sh-fl fl" x="8" y="260" width="322" height="32" rx="5" style="--d:3.60s"/>
+<rect x="12" y="267" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="280" text-anchor="middle">p5</text>
+<text class="sh-t" x="46" y="280.5">That blue reaches us from all sides.</text>
+<rect class="sh-fl fl" x="8" y="302" width="322" height="32" rx="5" style="--d:4.05s"/>
+<rect x="12" y="309" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="322" text-anchor="middle">p6</text>
+<text class="sh-t" x="46" y="322.5">At sunset, the blue scatters away.</text>
+<rect class="sh-fl fl" x="8" y="344" width="322" height="32" rx="5" style="--d:4.50s"/>
+<rect x="12" y="351" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="364" text-anchor="middle">p7</text>
+<text class="sh-t" x="46" y="364.5">Clouds scatter all colors equally.</text>
+<rect class="sh-fl fl" x="8" y="386" width="322" height="32" rx="5" style="--d:4.95s"/>
+<rect x="12" y="393" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="406" text-anchor="middle">p8</text>
+<text class="sh-t" x="46" y="406.5">On Mars, dust turns the sky tan.</text>
+<rect class="sh-tok tok" x="326" y="41" width="26" height="14" rx="3" style="--d:0.60s"/>
+<rect class="sh-tok tok" x="326" y="101" width="26" height="14" rx="3" style="--d:1.80s"/>
+<rect class="sh-tok tok" x="326" y="143" width="26" height="14" rx="3" style="--d:2.25s"/>
+<rect class="sh-tok tok" x="326" y="185" width="26" height="14" rx="3" style="--d:2.70s"/>
+<rect class="sh-tok tok" x="326" y="227" width="26" height="14" rx="3" style="--d:3.15s"/>
+<rect class="sh-tok tok" x="326" y="269" width="26" height="14" rx="3" style="--d:3.60s"/>
+<rect class="sh-tok tok" x="326" y="311" width="26" height="14" rx="3" style="--d:4.05s"/>
+<rect class="sh-tok tok" x="326" y="353" width="26" height="14" rx="3" style="--d:4.50s"/>
+<rect class="sh-tok tok" x="326" y="395" width="26" height="14" rx="3" style="--d:4.95s"/>
+
+<rect class="sh-enc" x="356" y="28" width="80" height="406" rx="8"/>
+<path class="sh-wall" d="M360 78 H432"/>
+<path class="sh-wall" d="M360 129 H432"/>
+<path class="sh-wall" d="M360 171 H432"/>
+<path class="sh-wall" d="M360 213 H432"/>
+<path class="sh-wall" d="M360 255 H432"/>
+<path class="sh-wall" d="M360 297 H432"/>
+<path class="sh-wall" d="M360 339 H432"/>
+<path class="sh-wall" d="M360 381 H432"/>
+<g class="pop" style="--d:1.20s"><rect x="452" y="39" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.9"/><rect x="465" y="39" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.35"/><rect x="478" y="39" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.65"/><rect x="491" y="39" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.2"/><rect x="504" y="39" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.8"/></g>
+<g class="pop" style="--d:2.40s"><rect x="452" y="99" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="465" y="99" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="478" y="99" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="491" y="99" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="504" y="99" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/></g>
+<g class="pop" style="--d:2.85s"><rect x="452" y="141" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="465" y="141" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="478" y="141" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="491" y="141" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="504" y="141" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/></g>
+<g class="pop" style="--d:3.30s"><rect x="452" y="183" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="465" y="183" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="478" y="183" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="491" y="183" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="504" y="183" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/></g>
+<g class="pop" style="--d:3.75s"><rect x="452" y="225" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="465" y="225" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="478" y="225" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="491" y="225" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="504" y="225" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/></g>
+<g class="pop" style="--d:4.20s"><rect x="452" y="267" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="465" y="267" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="478" y="267" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="491" y="267" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="504" y="267" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/></g>
+<g class="pop" style="--d:4.65s"><rect x="452" y="309" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="465" y="309" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="478" y="309" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="491" y="309" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="504" y="309" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/></g>
+<g class="pop" style="--d:5.10s"><rect x="452" y="351" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="465" y="351" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="478" y="351" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="491" y="351" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="504" y="351" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/></g>
+<g class="pop" style="--d:5.55s"><rect x="452" y="393" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="465" y="393" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="478" y="393" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="491" y="393" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/><rect x="504" y="393" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/></g>
+<path class="sh-ln ac fi" d="M517 48 H530 V402" style="--d:5.90s" stroke-dasharray="3 3"/>
+<text class="sh-v fi top tobt" x="548" y="113" style="--d:6.30s;--d2:8.00s">.71</text>
+<rect class="sh-bar gr top tob" x="590" y="102" width="61.1" height="12" rx="3" style="--d:6.30s;--d2:8.00s"/>
+<text class="sh-v fi" x="548" y="155" style="--d:6.44s">.44</text>
+<rect class="sh-bar gr" x="590" y="144" width="37.8" height="12" rx="3" style="--d:6.44s"/>
+<text class="sh-v fi" x="548" y="197" style="--d:6.58s">.38</text>
+<rect class="sh-bar gr" x="590" y="186" width="32.7" height="12" rx="3" style="--d:6.58s"/>
+<text class="sh-v fi top tobt" x="548" y="239" style="--d:6.72s;--d2:8.00s">.66</text>
+<rect class="sh-bar gr top tob" x="590" y="228" width="56.8" height="12" rx="3" style="--d:6.72s;--d2:8.00s"/>
+<text class="sh-v fi" x="548" y="281" style="--d:6.86s">.52</text>
+<rect class="sh-bar gr" x="590" y="270" width="44.7" height="12" rx="3" style="--d:6.86s"/>
+<text class="sh-v fi" x="548" y="323" style="--d:7.00s">.57</text>
+<rect class="sh-bar gr" x="590" y="312" width="49.0" height="12" rx="3" style="--d:7.00s"/>
+<text class="sh-v fi" x="548" y="365" style="--d:7.14s">.35</text>
+<rect class="sh-bar gr" x="590" y="354" width="30.1" height="12" rx="3" style="--d:7.14s"/>
+<text class="sh-v fi" x="548" y="407" style="--d:7.28s">.49</text>
+<rect class="sh-bar gr" x="590" y="396" width="42.1" height="12" rx="3" style="--d:7.28s"/>
+</svg>
       </div>
     </div>
-    <div style="flex:1.3"><div class="shot"><img src="img/inpage-ui.png" alt="in-page search: the answer highlighted inside the original page"></div></div>
+  </div>
+</section>
+
+<!-- ============ 03c LISTWISE ============ -->
+<section class="slide shl" data-sec="03 · Semantic highlighting">
+  <h2 class="h-slide">Listwise: score passages together</h2>
+  <div class="body">
+    <div class="lwrow shrow">
+      <div class="lwp" style="flex:.82;justify-content:center;gap:12px">
+        <div class="lwh">Listwise<span class="lwtag on">jina-reranker-v3 &#183; 0.6B</span></div>
+        <svg viewBox="0 0 380 252" aria-hidden="true">
+  <rect class="sh-model" x="6" y="76" width="368" height="94" rx="9"/>
+  <text class="sh-m" x="296" y="98" text-anchor="middle">one forward pass</text>
+  <g class="attn">
+    <path d="M29 166 C 29 134, 110 134, 110 166"/>
+    <path d="M33 166 C 33 120, 197 120, 197 166"/>
+    <path d="M29 166 C 29 108, 328 108, 328 166"/>
+    <path d="M104 166 C 104 132, 200 132, 200 166"/>
+    <path d="M100 166 C 100 109, 331 109, 331 166"/>
+    <path d="M194 166 C 194 125, 328 125, 328 166"/>
+  </g>
+  <rect class="lw-ctx" x="6" y="180" width="368" height="40" rx="7"/>
+  <rect class="lw-q" x="14" y="186" width="42" height="28" rx="5"/><text class="lw-t w" x="35" y="205" text-anchor="middle">q</text>
+  <path class="sh-ln" d="M35 186 V176"/><path class="sh-hd" d="M31 177 L35 170 L39 177 Z"/>
+  <rect class="lw-d on" x="66" y="186" width="80" height="28" rx="5"/><text class="lw-t" x="100" y="205" text-anchor="middle">p<tspan class="sh-sub" dy="3">1</tspan></text>
+  <path class="sh-ln" d="M100 186 V176"/><path class="sh-hd" d="M96 177 L100 170 L104 177 Z"/>
+  <rect class="sh-lt" x="133" y="194" width="9" height="12" rx="1.5"/>
+  <path class="sh-sa" d="M137.5 194 V66"/><path class="sh-hd tl" d="M133.5 68 L137.5 61 L141.5 68 Z"/>
+  <rect x="118.5" y="34" width="38" height="26" rx="5" fill="#fff" stroke="#0A7B74" stroke-width="1.4"/><text class="sh-m tl" x="137.5" y="51" text-anchor="middle" style="font-size:12px">s<tspan class="sh-sub" dy="3">1</tspan></text>
+  <rect class="lw-d on" x="156" y="186" width="80" height="28" rx="5"/><text class="lw-t" x="190" y="205" text-anchor="middle">p<tspan class="sh-sub" dy="3">2</tspan></text>
+  <path class="sh-ln" d="M190 186 V176"/><path class="sh-hd" d="M186 177 L190 170 L194 177 Z"/>
+  <rect class="sh-lt" x="223" y="194" width="9" height="12" rx="1.5"/>
+  <path class="sh-sa" d="M227.5 194 V66"/><path class="sh-hd tl" d="M223.5 68 L227.5 61 L231.5 68 Z"/>
+  <rect x="208.5" y="34" width="38" height="26" rx="5" fill="#fff" stroke="#0A7B74" stroke-width="1.4"/><text class="sh-m tl" x="227.5" y="51" text-anchor="middle" style="font-size:12px">s<tspan class="sh-sub" dy="3">2</tspan></text>
+  <rect class="lw-d on" x="290" y="186" width="80" height="28" rx="5"/><text class="lw-t" x="324" y="205" text-anchor="middle">p<tspan class="sh-sub" dy="3">N</tspan></text>
+  <path class="sh-ln" d="M324 186 V176"/><path class="sh-hd" d="M320 177 L324 170 L328 177 Z"/>
+  <rect class="sh-lt" x="357" y="194" width="9" height="12" rx="1.5"/>
+  <path class="sh-sa" d="M361.5 194 V66"/><path class="sh-hd tl" d="M357.5 68 L361.5 61 L365.5 68 Z"/>
+  <rect x="342.5" y="34" width="38" height="26" rx="5" fill="#fff" stroke="#0A7B74" stroke-width="1.4"/><text class="sh-m tl" x="361.5" y="51" text-anchor="middle" style="font-size:12px">s<tspan class="sh-sub" dy="3">N</tspan></text>
+  <text class="lw-t" x="263" y="205" text-anchor="middle">&#183;&#183;&#183;</text>
+  <text class="sh-m" x="16" y="22">score = last token of each passage</text>
+  <text class="sh-m ac" x="190" y="240" text-anchor="middle">one 131K-token context &#183; up to 64 passages</text>
+</svg>
+        <div class="beir shbeir">
+          <div class="shlab" style="font-family:var(--sans);font-size:14px">BEIR nDCG@10 &#183; 0.6B class</div>
+          <div class="br"><div class="bn accent">jina-reranker-v3 (listwise)</div><div class="bt"><div class="bb on" style="width:200px"></div><span class="bv accent">61.94</span></div></div>
+          <div class="br"><div class="bn">bge-reranker-v2-m3</div><div class="bt"><div class="bb" style="width:182.5px"></div><span class="bv">56.51</span></div></div>
+          <div class="br"><div class="bn">Qwen3-Reranker-0.6B</div><div class="bt"><div class="bb" style="width:181.7px"></div><span class="bv">56.28</span></div></div>
+        </div>
+      </div>
+      <div class="lwp hero" style="flex:1.4;justify-content:center">
+        <svg viewBox="0 0 680 440" aria-hidden="true">
+<text class="sh-m ac" x="396" y="16" text-anchor="middle">one context</text>
+<text class="sh-m" x="548" y="16">s<tspan class="sh-sub" dy="3">i</tspan></text>
+<rect class="sh-fl fl" x="0" y="24" width="338" height="48" rx="9" style="--d:0.60s"/>
+<rect class="lw-q" x="4" y="28" width="330" height="40" rx="7"/><text class="sh-m w" x="16" y="52">query</text><text class="sh-qt" x="72" y="53.5">Why is the sky blue?</text>
+<rect class="sh-card" x="4" y="82" width="330" height="352" rx="9"/>
+<rect class="sh-fl fl" x="8" y="92" width="322" height="32" rx="5" style="--d:1.00s"/>
+<rect x="12" y="99" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="112" text-anchor="middle">p1</text>
+<text class="sh-t" x="46" y="112.5">The color of the sky puzzled people.</text>
+<rect class="sh-fl fl" x="8" y="134" width="322" height="32" rx="5" style="--d:1.15s"/>
+<rect x="12" y="141" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="154" text-anchor="middle">p2</text>
+<text class="sh-t" x="46" y="154.5">Sunlight carries every rainbow color.</text>
+<rect class="sh-fl fl" x="8" y="176" width="322" height="32" rx="5" style="--d:1.30s"/>
+<rect x="12" y="183" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="196" text-anchor="middle">p3</text>
+<text class="sh-t" x="46" y="196.5">Air molecules are tiny next to light.</text>
+<rect class="sh-fl fl" x="8" y="218" width="322" height="32" rx="5" style="--d:1.45s"/>
+<rect class="sh-hl fi" x="8" y="218" width="322" height="32" rx="5" style="--d:7.60s"/>
+<rect x="12" y="225" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="238" text-anchor="middle">p4</text>
+<text class="sh-t" x="46" y="238.5">They scatter blue far more than red.</text>
+<rect class="sh-fl fl" x="8" y="260" width="322" height="32" rx="5" style="--d:1.60s"/>
+<rect class="sh-hl fi" x="8" y="260" width="322" height="32" rx="5" style="--d:7.60s"/>
+<rect x="12" y="267" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="280" text-anchor="middle">p5</text>
+<text class="sh-t" x="46" y="280.5">That blue reaches us from all sides.</text>
+<rect class="sh-fl fl" x="8" y="302" width="322" height="32" rx="5" style="--d:1.75s"/>
+<rect x="12" y="309" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="322" text-anchor="middle">p6</text>
+<text class="sh-t" x="46" y="322.5">At sunset, the blue scatters away.</text>
+<rect class="sh-fl fl" x="8" y="344" width="322" height="32" rx="5" style="--d:1.90s"/>
+<rect x="12" y="351" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="364" text-anchor="middle">p7</text>
+<text class="sh-t" x="46" y="364.5">Clouds scatter all colors equally.</text>
+<rect class="sh-fl fl" x="8" y="386" width="322" height="32" rx="5" style="--d:2.05s"/>
+<rect x="12" y="393" width="27" height="18" rx="3" fill="#E7EEFC"/><text class="sh-m ac" x="25.5" y="406" text-anchor="middle">p8</text>
+<text class="sh-t" x="46" y="406.5">On Mars, dust turns the sky tan.</text>
+<rect class="sh-tok tok" x="326" y="41" width="26" height="14" rx="3" style="--d:0.60s"/>
+<rect class="sh-tok tok" x="326" y="101" width="26" height="14" rx="3" style="--d:1.00s"/>
+<rect class="sh-tok tok" x="326" y="143" width="26" height="14" rx="3" style="--d:1.15s"/>
+<rect class="sh-tok tok" x="326" y="185" width="26" height="14" rx="3" style="--d:1.30s"/>
+<rect class="sh-tok tok" x="326" y="227" width="26" height="14" rx="3" style="--d:1.45s"/>
+<rect class="sh-tok tok" x="326" y="269" width="26" height="14" rx="3" style="--d:1.60s"/>
+<rect class="sh-tok tok" x="326" y="311" width="26" height="14" rx="3" style="--d:1.75s"/>
+<rect class="sh-tok tok" x="326" y="353" width="26" height="14" rx="3" style="--d:1.90s"/>
+<rect class="sh-tok tok" x="326" y="395" width="26" height="14" rx="3" style="--d:2.05s"/>
+
+<rect class="lw-ctx" x="356" y="28" width="80" height="406" rx="8"/>
+<rect class="lw-q pop" x="364" y="36" width="64" height="24" rx="4" style="--d:1.15s"/><text class="lw-t w fi" x="396" y="52.5" text-anchor="middle" style="--d:1.15s">q</text>
+<g class="pop" style="--d:1.50s"><rect class="lw-d on" x="364" y="95" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="112.5" text-anchor="middle">p1</text></g>
+<g class="pop" style="--d:1.65s"><rect class="lw-d on" x="364" y="137" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="154.5" text-anchor="middle">p2</text></g>
+<g class="pop" style="--d:1.80s"><rect class="lw-d on" x="364" y="179" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="196.5" text-anchor="middle">p3</text></g>
+<g class="pop" style="--d:1.95s"><rect class="lw-d on" x="364" y="221" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="238.5" text-anchor="middle">p4</text></g>
+<g class="pop" style="--d:2.10s"><rect class="lw-d on" x="364" y="263" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="280.5" text-anchor="middle">p5</text></g>
+<g class="pop" style="--d:2.25s"><rect class="lw-d on" x="364" y="305" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="322.5" text-anchor="middle">p6</text></g>
+<g class="pop" style="--d:2.40s"><rect class="lw-d on" x="364" y="347" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="364.5" text-anchor="middle">p7</text></g>
+<g class="pop" style="--d:2.55s"><rect class="lw-d on" x="364" y="389" width="64" height="26" rx="4"/><text class="lw-t" x="388" y="406.5" text-anchor="middle">p8</text></g>
+<g class="attn fi dim" style="--d:3.00s;--d2:5.10s"><path d="M430 48 C 462 48, 462 108, 430 108"/><path d="M430 48 C 474.6 48, 474.6 150, 430 150"/><path d="M430 48 C 487.2 48, 487.2 192, 430 192"/><path d="M430 48 C 499.8 48, 499.8 234, 430 234"/><path d="M430 48 C 512.4 48, 512.4 276, 430 276"/><path d="M430 48 C 522 48, 522 318, 430 318"/><path d="M430 48 C 522 48, 522 360, 430 360"/><path d="M430 48 C 522 48, 522 402, 430 402"/></g>
+<g class="attn fi dim" style="--d:3.90s;--d2:5.10s"><path d="M430 111 C 454.8 111, 454.8 147, 430 147"/><path d="M430 153 C 454.8 153, 454.8 189, 430 189"/><path d="M430 195 C 454.8 195, 454.8 231, 430 231"/><path d="M430 237 C 454.8 237, 454.8 273, 430 273"/><path d="M430 279 C 454.8 279, 454.8 315, 430 315"/><path d="M430 321 C 454.8 321, 454.8 357, 430 357"/><path d="M430 363 C 454.8 363, 454.8 399, 430 399"/><path d="M430 111 C 480 111, 480 231, 430 231"/><path d="M430 195 C 467.4 195, 467.4 273, 430 273"/><path d="M430 237 C 480 237, 480 357, 430 357"/><path d="M430 153 C 492.6 153, 492.6 315, 430 315"/><path d="M430 279 C 480 279, 480 399, 430 399"/></g>
+<rect class="sh-lt pop" x="415" y="102" width="9" height="12" rx="1.5" style="--d:5.25s"/>
+<rect class="sh-lt pop" x="415" y="144" width="9" height="12" rx="1.5" style="--d:5.39s"/>
+<rect class="sh-lt pop" x="415" y="186" width="9" height="12" rx="1.5" style="--d:5.53s"/>
+<rect class="sh-lt pop" x="415" y="228" width="9" height="12" rx="1.5" style="--d:5.67s"/>
+<rect class="sh-lt pop" x="415" y="270" width="9" height="12" rx="1.5" style="--d:5.81s"/>
+<rect class="sh-lt pop" x="415" y="312" width="9" height="12" rx="1.5" style="--d:5.95s"/>
+<rect class="sh-lt pop" x="415" y="354" width="9" height="12" rx="1.5" style="--d:6.09s"/>
+<rect class="sh-lt pop" x="415" y="396" width="9" height="12" rx="1.5" style="--d:6.23s"/>
+<path class="sh-sa gr" d="M426 108 H536" style="--d:5.35s"/><path d="M532 104 L540 108 L532 112 Z" class="sh-hd tl fi" style="--d:5.55s"/>
+<text class="sh-v fi" x="548" y="113" style="--d:5.60s">.21</text>
+<rect class="sh-bar gr" x="590" y="102" width="18.1" height="12" rx="3" style="--d:5.60s"/>
+<path class="sh-sa gr" d="M426 150 H536" style="--d:5.49s"/><path d="M532 146 L540 150 L532 154 Z" class="sh-hd tl fi" style="--d:5.69s"/>
+<text class="sh-v fi" x="548" y="155" style="--d:5.74s">.35</text>
+<rect class="sh-bar gr" x="590" y="144" width="30.1" height="12" rx="3" style="--d:5.74s"/>
+<path class="sh-sa gr" d="M426 192 H536" style="--d:5.63s"/><path d="M532 188 L540 192 L532 196 Z" class="sh-hd tl fi" style="--d:5.83s"/>
+<text class="sh-v fi" x="548" y="197" style="--d:5.88s">.52</text>
+<rect class="sh-bar gr" x="590" y="186" width="44.7" height="12" rx="3" style="--d:5.88s"/>
+<path class="sh-sa gr" d="M426 234 H536" style="--d:5.77s"/><path d="M532 230 L540 234 L532 238 Z" class="sh-hd tl fi" style="--d:5.97s"/>
+<text class="sh-v fi top tobt" x="548" y="239" style="--d:6.02s;--d2:7.60s">.94</text>
+<rect class="sh-bar gr top tob" x="590" y="228" width="80.8" height="12" rx="3" style="--d:6.02s;--d2:7.60s"/>
+<path class="sh-sa gr" d="M426 276 H536" style="--d:5.91s"/><path d="M532 272 L540 276 L532 280 Z" class="sh-hd tl fi" style="--d:6.11s"/>
+<text class="sh-v fi top tobt" x="548" y="281" style="--d:6.16s;--d2:7.60s">.90</text>
+<rect class="sh-bar gr top tob" x="590" y="270" width="77.4" height="12" rx="3" style="--d:6.16s;--d2:7.60s"/>
+<path class="sh-sa gr" d="M426 318 H536" style="--d:6.05s"/><path d="M532 314 L540 318 L532 322 Z" class="sh-hd tl fi" style="--d:6.25s"/>
+<text class="sh-v fi" x="548" y="323" style="--d:6.30s">.41</text>
+<rect class="sh-bar gr" x="590" y="312" width="35.3" height="12" rx="3" style="--d:6.30s"/>
+<path class="sh-sa gr" d="M426 360 H536" style="--d:6.19s"/><path d="M532 356 L540 360 L532 364 Z" class="sh-hd tl fi" style="--d:6.39s"/>
+<text class="sh-v fi" x="548" y="365" style="--d:6.44s">.12</text>
+<rect class="sh-bar gr" x="590" y="354" width="10.3" height="12" rx="3" style="--d:6.44s"/>
+<path class="sh-sa gr" d="M426 402 H536" style="--d:6.33s"/><path d="M532 398 L540 402 L532 406 Z" class="sh-hd tl fi" style="--d:6.53s"/>
+<text class="sh-v fi" x="548" y="407" style="--d:6.58s">.08</text>
+<rect class="sh-bar gr" x="590" y="396" width="6.9" height="12" rx="3" style="--d:6.58s"/>
+</svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03d WHERE THE EXTRA COMPUTE GOES ============ -->
+<section class="slide shl shd" data-sec="03 · Semantic highlighting">
+  <h2 class="h-slide">Where the extra compute goes</h2>
+  <div class="body">
+    <div class="lwrow">
+      <div class="lwp">
+        <div class="lwh">Bi-encoder</div>
+        <svg viewBox="0 0 530 80" aria-hidden="true">
+  <rect class="lw-q" x="2" y="22" width="40" height="28" rx="5"/><text class="lw-t w" x="22" y="41" text-anchor="middle">q</text>
+  <path class="sh-ln" d="M42 36 H58"/><path class="sh-hd" d="M56 32 L63 36 L56 40 Z"/>
+  <rect class="sh-enc" x="64" y="18" width="84" height="36" rx="7"/><text class="sh-m w" x="106" y="40" text-anchor="middle">encoder</text>
+  <path class="sh-ln" d="M148 36 H160"/><path class="sh-hd" d="M158 32 L165 36 L158 40 Z"/>
+  <g><rect x="167" y="27" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.9"/><rect x="180" y="27" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.35"/><rect x="193" y="27" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.65"/><rect x="206" y="27" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.2"/><rect x="219" y="27" width="12" height="18" rx="2" fill="#0B64DD" fill-opacity="0.8"/></g>
+
+  <path class="sh-ln" d="M232 36 H250"/><circle cx="265" cy="36" r="15" fill="#fff" stroke="#0B64DD" stroke-width="1.5"/><text class="sh-m ac" x="265" y="40" text-anchor="middle">cos</text><path class="sh-ln" d="M280 36 H298"/>
+  <rect class="sh-off" x="292" y="2" width="236" height="74" rx="7"/>
+  <g><rect x="300" y="27" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.65"/><rect x="313" y="27" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.2"/><rect x="326" y="27" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.8"/><rect x="339" y="27" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.9"/><rect x="352" y="27" width="12" height="18" rx="2" fill="#0A7B74" fill-opacity="0.35"/></g>
+
+  <path class="sh-hd" d="M372 32 L365 36 L372 40 Z"/><path class="sh-ln" d="M371 36 H384"/>
+  <rect class="sh-enc" x="384" y="18" width="84" height="36" rx="7"/><text class="sh-m w" x="426" y="40" text-anchor="middle">encoder</text>
+  <path class="sh-hd" d="M476 32 L469 36 L476 40 Z"/><path class="sh-ln" d="M475 36 H484"/>
+  <rect class="lw-d" x="490" y="16" width="32" height="28" rx="5"/><rect class="lw-d" x="486" y="20" width="32" height="28" rx="5"/><rect class="lw-d" x="482" y="24" width="32" height="28" rx="5"/>
+  <text class="lw-t" x="498" y="43" text-anchor="middle">p<tspan class="sh-sub" dy="3">i</tspan></text>
+  <text class="sh-m tl" x="520" y="69" text-anchor="end">&#215;N &#183; offline</text>
+</svg>
+        <div class="shmx">
+          <svg viewBox="0 0 274 284" aria-hidden="true">
+<rect class="sh-mxbg" x="34" y="44" width="236" height="236"/>
+<path class="sh-mxg" d="M54 44 V280 M34 64 H270"/><path class="sh-mxg" d="M108 44 V280 M34 118 H270"/><path class="sh-mxg" d="M162 44 V280 M34 172 H270"/><path class="sh-mxg" d="M216 44 V280 M34 226 H270"/>
+<text class="sh-m" x="44" y="36" text-anchor="middle">q</text><text class="sh-m" x="27" y="58" text-anchor="end">q</text>
+<text class="sh-m" x="81" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">1</tspan></text><text class="sh-m" x="27" y="95" text-anchor="end">p<tspan class="sh-sub" dy="3">1</tspan></text>
+<text class="sh-m" x="135" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">2</tspan></text><text class="sh-m" x="27" y="149" text-anchor="end">p<tspan class="sh-sub" dy="3">2</tspan></text>
+<text class="sh-m" x="189" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">3</tspan></text><text class="sh-m" x="27" y="203" text-anchor="end">p<tspan class="sh-sub" dy="3">3</tspan></text>
+<text class="sh-m" x="243" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">N</tspan></text><text class="sh-m" x="27" y="257" text-anchor="end">p<tspan class="sh-sub" dy="3">N</tspan></text>
+<rect class="sh-cell pop" x="34" y="44" width="20" height="20" fill="#0B64DD" style="--d:0.80s"/><rect class="sh-cell pop" x="54" y="64" width="54" height="54" fill="#0A7B74" style="--d:1.00s"/><rect class="sh-cell pop" x="108" y="118" width="54" height="54" fill="#0A7B74" style="--d:1.20s"/><rect class="sh-cell pop" x="162" y="172" width="54" height="54" fill="#0A7B74" style="--d:1.40s"/><rect class="sh-cell pop" x="216" y="226" width="54" height="54" fill="#0A7B74" style="--d:1.60s"/>
+</svg>
+          <div class="shleg">
+            <div class="it fi" style="--d:1.10s"><span class="sw" style="background:#0A7B74"></span>passage &#8596; itself</div>
+            <div class="it fi" style="--d:0.80s"><span class="sw" style="background:#0B64DD"></span>query &#8596; itself</div>
+            <div class="it fi" style="--d:2.80s"><span class="sw" style="background:#fff;border:1.4px solid rgba(16,28,63,.30)"></span>never computed</div>
+          </div>
+        </div>
+        <div class="shcx">
+          <div class="fi" style="--d:1.10s"><span class="k">offline</span><span class="v tl">N&#183;O(L&#178;)</span></div>
+          <div class="fi" style="--d:1.70s"><span class="k">query time</span><span class="v ac">O(q&#178;)</span><span class="x">+ N dot products</span></div>
+        </div>
+      </div>
+      <div class="lwp hero">
+        <div class="lwh">Listwise</div>
+        <svg viewBox="0 0 530 80" aria-hidden="true">
+  <rect class="lw-ctx" x="0" y="30" width="284" height="38" rx="6"/>
+  <g class="attn"><path d="M19 34 C 19 20, 73 20, 73 34"/><path d="M19 34 C 19 11, 145 11, 145 34"/><path d="M19 34 C 19 4, 247 4, 247 34"/><path d="M73 34 C 73 17, 145 17, 145 34"/><path d="M73 34 C 73 5, 247 5, 247 34"/><path d="M145 34 C 145 14, 247 14, 247 34"/></g>
+  <rect class="lw-q" x="4" y="36" width="30" height="26" rx="4"/><text class="lw-t w" x="19" y="54" text-anchor="middle">q</text>
+  <rect class="lw-d on" x="40" y="36" width="66" height="26" rx="4"/><text class="lw-t" x="68" y="54" text-anchor="middle">p<tspan class="sh-sub" dy="3">1</tspan></text><rect class="sh-lt" x="95" y="43" width="7" height="12" rx="1.5"/>
+  <rect class="lw-d on" x="112" y="36" width="66" height="26" rx="4"/><text class="lw-t" x="140" y="54" text-anchor="middle">p<tspan class="sh-sub" dy="3">2</tspan></text><rect class="sh-lt" x="167" y="43" width="7" height="12" rx="1.5"/>
+  <rect class="lw-d on" x="214" y="36" width="66" height="26" rx="4"/><text class="lw-t" x="242" y="54" text-anchor="middle">p<tspan class="sh-sub" dy="3">N</tspan></text><rect class="sh-lt" x="269" y="43" width="7" height="12" rx="1.5"/>
+  <text class="lw-t" x="196" y="54" text-anchor="middle">&#183;&#183;&#183;</text>
+  <path class="sh-ln" d="M288 49 H304"/><path class="sh-hd" d="M302 45 L309 49 L302 53 Z"/>
+  <rect class="sh-enc" x="310" y="30" width="128" height="38" rx="7"/><text class="sh-m w" x="374" y="53" text-anchor="middle">jina-reranker-v3</text>
+  <path class="sh-ln" d="M438 49 H452"/><path class="sh-hd" d="M450 45 L457 49 L450 53 Z"/>
+  <text class="sh-m tl" x="462" y="54" style="font-size:12.5px">s<tspan class="sh-sub" dy="3">1</tspan><tspan dy="-3"> &#8230; s</tspan><tspan class="sh-sub" dy="3">N</tspan></text>
+  <text class="sh-m ac" x="142" y="79" text-anchor="middle">one context</text>
+</svg>
+        <div class="shmx">
+          <svg viewBox="0 0 274 284" aria-hidden="true">
+<path class="sh-ln" d="M34 18 V12 H270 V18"/><text class="sh-m" x="152" y="8" text-anchor="middle" style="font-size:11.5px">T = q + N&#183;L</text>
+<rect class="sh-mxbg" x="34" y="44" width="236" height="236"/>
+<path class="sh-mxg" d="M54 44 V280 M34 64 H270"/><path class="sh-mxg" d="M108 44 V280 M34 118 H270"/><path class="sh-mxg" d="M162 44 V280 M34 172 H270"/><path class="sh-mxg" d="M216 44 V280 M34 226 H270"/>
+<text class="sh-m" x="44" y="36" text-anchor="middle">q</text><text class="sh-m" x="27" y="58" text-anchor="end">q</text>
+<text class="sh-m" x="81" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">1</tspan></text><text class="sh-m" x="27" y="95" text-anchor="end">p<tspan class="sh-sub" dy="3">1</tspan></text>
+<text class="sh-m" x="135" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">2</tspan></text><text class="sh-m" x="27" y="149" text-anchor="end">p<tspan class="sh-sub" dy="3">2</tspan></text>
+<text class="sh-m" x="189" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">3</tspan></text><text class="sh-m" x="27" y="203" text-anchor="end">p<tspan class="sh-sub" dy="3">3</tspan></text>
+<text class="sh-m" x="243" y="36" text-anchor="middle">p<tspan class="sh-sub" dy="3">N</tspan></text><text class="sh-m" x="27" y="257" text-anchor="end">p<tspan class="sh-sub" dy="3">N</tspan></text>
+<rect class="sh-cell pop" x="34" y="44" width="20" height="20" fill="#0B64DD" style="--d:0.80s"/><rect class="sh-cell pop" x="54" y="44" width="54" height="20" fill="#F04E98" style="--d:2.80s"/><rect class="sh-cell pop" x="108" y="44" width="54" height="20" fill="#F04E98" style="--d:2.90s"/><rect class="sh-cell pop" x="162" y="44" width="54" height="20" fill="#F04E98" style="--d:3.00s"/><rect class="sh-cell pop" x="216" y="44" width="54" height="20" fill="#F04E98" style="--d:3.10s"/><rect class="sh-cell pop" x="34" y="64" width="20" height="54" fill="#F04E98" style="--d:3.20s"/><rect class="sh-cell pop" x="54" y="64" width="54" height="54" fill="#0B64DD" style="--d:1.00s"/><rect class="sh-cell pop" x="108" y="64" width="54" height="54" fill="#F7A8CB" style="--d:3.90s"/><rect class="sh-cell pop" x="162" y="64" width="54" height="54" fill="#F7A8CB" style="--d:3.98s"/><rect class="sh-cell pop" x="216" y="64" width="54" height="54" fill="#F7A8CB" style="--d:4.06s"/><rect class="sh-cell pop" x="34" y="118" width="20" height="54" fill="#F04E98" style="--d:3.30s"/><rect class="sh-cell pop" x="54" y="118" width="54" height="54" fill="#F7A8CB" style="--d:4.14s"/><rect class="sh-cell pop" x="108" y="118" width="54" height="54" fill="#0B64DD" style="--d:1.20s"/><rect class="sh-cell pop" x="162" y="118" width="54" height="54" fill="#F7A8CB" style="--d:4.22s"/><rect class="sh-cell pop" x="216" y="118" width="54" height="54" fill="#F7A8CB" style="--d:4.30s"/><rect class="sh-cell pop" x="34" y="172" width="20" height="54" fill="#F04E98" style="--d:3.40s"/><rect class="sh-cell pop" x="54" y="172" width="54" height="54" fill="#F7A8CB" style="--d:4.38s"/><rect class="sh-cell pop" x="108" y="172" width="54" height="54" fill="#F7A8CB" style="--d:4.46s"/><rect class="sh-cell pop" x="162" y="172" width="54" height="54" fill="#0B64DD" style="--d:1.40s"/><rect class="sh-cell pop" x="216" y="172" width="54" height="54" fill="#F7A8CB" style="--d:4.54s"/><rect class="sh-cell pop" x="34" y="226" width="20" height="54" fill="#F04E98" style="--d:3.50s"/><rect class="sh-cell pop" x="54" y="226" width="54" height="54" fill="#F7A8CB" style="--d:4.62s"/><rect class="sh-cell pop" x="108" y="226" width="54" height="54" fill="#F7A8CB" style="--d:4.70s"/><rect class="sh-cell pop" x="162" y="226" width="54" height="54" fill="#F7A8CB" style="--d:4.78s"/><rect class="sh-cell pop" x="216" y="226" width="54" height="54" fill="#0B64DD" style="--d:1.60s"/>
+</svg>
+          <div class="shleg">
+            <div class="it fi" style="--d:0.80s"><span class="sw" style="background:#0B64DD"></span>diagonal blocks</div>
+            <div class="grp">
+              <div class="gh fi" style="--d:2.80s">extra</div>
+              <div class="it fi" style="--d:2.80s"><span class="sw" style="background:#F04E98"></span>query &#8596; passage</div>
+              <div class="it fi" style="--d:3.90s"><span class="sw" style="background:#F7A8CB"></span>passage &#8596; passage</div>
+            </div>
+          </div>
+        </div>
+        <div class="shcx">
+          <div><span class="k">offline</span><span class="v" style="color:#8A93A6">none</span></div>
+          <div class="fi" style="--d:5.40s"><span class="k">query time</span><span class="v pk">O(T&#178;) &#8776; O(N&#178;L&#178;)</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2313,6 +2730,8 @@ const ANIM=(function(){
     PARETO.stop(); if(s&&s.querySelector("#c-pareto")) PARETO.play();
     document.querySelectorAll('.eqslide.go').forEach(e=>e.classList.remove('go'));
     if(s&&s.classList.contains('eqslide')){ void s.offsetWidth; s.classList.add('go'); }
+    document.querySelectorAll('.shl.go').forEach(e=>e.classList.remove('go'));
+    if(s&&s.classList.contains('shl')){ void s.offsetWidth; s.classList.add('go'); }
   }
   return {start,stop};
 })();
