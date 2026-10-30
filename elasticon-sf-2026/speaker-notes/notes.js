@@ -41,10 +41,10 @@ And a new capability, tasks the model was never trained for.` },
 
    { n: 6, sec: 45, title: "Four demos",
      note: `I will walk through four demos.
-One, an LLM writes retrieval programs for a frozen encoder, and the cheapest ones transfer.
-Two, a frozen retrieval model becomes an image tagger.
-Three, one reranker call over a page replaces the whole index.
-Four, an agent builds its own search pipeline, per query.
+One, retrieval programs that get higher relevance from the same frozen encoder.
+Two, a tagger that annotates photos with any words.
+Three, a reranker that highlights the passages that match.
+Four, an agent that builds small search pipelines and reuses them in long-horizon tasks.
 No training anywhere.` },
 
    { n: 7, sec: 50, title: "Three ways to spend compute",
