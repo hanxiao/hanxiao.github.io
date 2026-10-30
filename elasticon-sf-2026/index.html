@@ -952,7 +952,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
         </svg>
         <div class="vsform">\( \cos(q,\,d) \)</div>
         <div class="vssub">one vector per document</div>
-        <div class="vstag">frozen baseline</div>
       </div>
       <div class="vspanel hero">
         <div class="vshd">sentence MaxSim</div>
@@ -969,7 +968,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
         </svg>
         <div class="vsform">\( \max_{s}\ \cos(q,\,s) \)</div>
         <div class="vssub">same encoder, one vector per sentence</div>
-        <div class="vstag">test-time compute</div>
       </div>
       <div class="vspanel">
         <div class="vshd">ColBERT multi-vector</div>
@@ -991,7 +989,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
         </svg>
         <div class="vsform">\( \sum_i \max_j\ \cos(q_i,\,d_j) \)</div>
         <div class="vssub">max over document tokens for each query token</div>
-        <div class="vstag">needs a multi-vector model</div>
       </div>
     </div>
   </div>
