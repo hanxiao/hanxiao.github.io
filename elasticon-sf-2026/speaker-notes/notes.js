@@ -51,7 +51,7 @@ No training anywhere.` },
      note: `On a frozen model there are three ways to spend compute.
 *A*, a deeper pass. Read every token or patch vector of the pass you already ran.
 *B*, more passes. Run the encoder again on new views, such as a sentence or a crop.
-*C*, calibration. Transform the vectors you already have.
+*C*, calibration. Move the vectors you already have toward a global prior.
 All three keep the weights fixed.
 They differ in where *new information* comes from. //` },
 
