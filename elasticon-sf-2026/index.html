@@ -1069,13 +1069,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
     <div class="chart" id="c-pareto" style="flex:1;min-height:0"></div>
   </div>
   <div class="fnote">Measured on the 14 discovery tasks.</div>
-</section>
-
-<!-- ============ 13 PROGRAM GALLERY ============ -->
-<section class="slide" data-sec="01 · Score functions on a frozen encoder">
-  <h2 class="h-slide">Twelve score functions on the compute frontier</h2>
-  <div class="body">
-    <div class="pgrid">
+  <div class="pgrid" style="display:none" aria-hidden="true">
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vwin" x1="48" y1="54" x2="150" y2="54"/><polygon points="150,54 142,50 142,58" fill="#0B64DD"/><line class="vwin" x1="150" y1="66" x2="48" y2="66"/><polygon points="48,66 56,62 56,70" fill="#0B64DD"/><circle class="vd" cx="156" cy="60" r="4.5"/><circle class="vq" cx="42" cy="60" r="6.5"/><text class="vlbl" x="42" y="82" text-anchor="middle">q</text><text class="vlbl" x="156" y="82" text-anchor="middle">d</text></svg><div class="pname">BidirZScore <span class="pcost">c=1.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="30"/><line class="vconn" x1="40" y1="60" x2="150" y2="90"/><line class="vwin" x1="40" y1="60" x2="164" y2="60"/><circle class="vd" cx="150" cy="30" r="4"/><circle class="vd" cx="164" cy="60" r="6"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="81" text-anchor="middle">q</text></svg><div class="pname">SentMaxSim <span class="pcost">c=2.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="40" y1="60" x2="150" y2="38"/><line class="vwin" x1="40" y1="60" x2="150" y2="84"/><circle class="vd" cx="150" cy="38" r="6"/><circle class="vd" cx="172" cy="30" r="3.5"/><circle class="vd" cx="172" cy="46" r="3.5"/><circle class="vd vpulse" cx="150" cy="84" r="6"/><circle class="vd" cx="172" cy="76" r="3.5"/><circle class="vd" cx="172" cy="92" r="3.5"/><line class="vconn" x1="150" y1="38" x2="172" y2="30"/><line class="vconn" x1="150" y1="38" x2="172" y2="46"/><line class="vconn" x1="150" y1="84" x2="172" y2="76"/><line class="vconn" x1="150" y1="84" x2="172" y2="92"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">AdaptGranularity <span class="pcost">c=2.7</span></div></div>
@@ -1089,25 +1083,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="150" y1="34" x2="178" y2="58"/><line class="vconn" x1="178" y1="58" x2="150" y2="90"/><line class="vconn" x1="150" y1="90" x2="130" y2="62"/><line class="vconn" x1="130" y1="62" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="150" y2="34"/><line class="vconn" x1="158" y1="60" x2="178" y2="58"/><line class="vconn" x1="158" y1="60" x2="150" y2="90"/><line class="vconn" x1="158" y1="60" x2="130" y2="62"/><line class="vwin" x1="40" y1="60" x2="158" y2="60"/><circle class="vd" cx="150" cy="34" r="4"/><circle class="vd" cx="178" cy="58" r="4"/><circle class="vd" cx="150" cy="90" r="4"/><circle class="vd" cx="130" cy="62" r="4"/><circle class="vd vpulse" cx="158" cy="60" r="6"/><circle class="vq" cx="40" cy="60" r="6.5"/><text class="vlbl" x="40" y="80" text-anchor="middle">q</text></svg><div class="pname">GraphCentrality <span class="pcost">c=12.2</span></div></div>
       <div class="pcell"><svg viewBox="0 0 210 120" aria-hidden="true"><line class="vconn" x1="38" y1="60" x2="148" y2="30"/><line class="vconn" x1="38" y1="60" x2="148" y2="90"/><line class="vsingle" x1="156" y1="32" x2="156" y2="88"/><line class="vwin" x1="38" y1="60" x2="156" y2="60"/><circle class="vd" cx="148" cy="30" r="4.5"/><circle class="vd" cx="170" cy="36" r="4.5"/><circle class="vd" cx="158" cy="22" r="4.5"/><circle class="vd" cx="148" cy="90" r="4.5"/><circle class="vd" cx="170" cy="84" r="4.5"/><circle class="vd" cx="158" cy="98" r="4.5"/><circle class="vq vpulse" cx="38" cy="60" r="6.5"/><text class="vlbl" x="38" y="80" text-anchor="middle">q</text></svg><div class="pname">FisherStability <span class="pcost">c=14.7</span></div></div>
     </div>
-  </div>
-</section>
-
-<!-- ============ 14 HELD-OUT ============ -->
-<section class="slide" data-sec="01 · Score functions on a frozen encoder">
-  <h2 class="h-slide">On held-out tasks, a score function at c = 1.0 beats all 12 frontier functions</h2>
-  <div class="body row" style="gap:34px">
-    <div class="fill" style="flex:1.7;display:flex;flex-direction:column">
-      <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--foil)"></span>compute search (12 frontier functions)</div>
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>transfer search</div>
-      </div>
-      <div class="chart" id="c-money" style="flex:1;min-height:0"></div>
-    </div>
-    <div class="statcol" style="flex:.62">
-      <div class="stat"><div class="v foil">+0.003</div><div class="l">highest held-out median of the compute frontier, up to 14.7x</div></div>
-      <div class="stat"><div class="v o">+0.0051</div><div class="l">held-out median at c = 1.0, with a 68% win rate</div></div>
-    </div>
-  </div>
 </section>
 
 <!-- ============ 15 HEATMAP ============ -->
@@ -1128,42 +1103,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
     <div class="row" style="align-items:center;justify-content:center;gap:40px">
       <div class="hmleg"><span style="color:var(--foil-ink)">&minus;0.98</span><span class="bar"></span><span style="color:var(--teal-ink)">+0.16</span></div>
       <p class="cap" style="font-size:15.5px;max-width:70ch">52 of 76 task-encoder pairs improve under at least one score function.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 16 TRANSFER ============ -->
-<section class="slide" data-sec="01 · Score functions on a frozen encoder">
-  <h2 class="h-slide">A transfer search finds cheap score functions that generalize</h2>
-  <div class="body row" style="gap:40px">
-    <div class="fill" style="flex:1.15;display:flex;flex-direction:column">
-      <div class="legend">
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>mean held-out &Delta;nDCG@10</div>
-        <div class="it"><span class="sw" style="background:var(--teal)"></span>median</div>
-      </div>
-      <div class="chart" id="c-permodel" style="flex:1;min-height:0"></div>
-    </div>
-    <div style="flex:.9;display:flex;flex-direction:column;justify-content:center">
-      <div class="blist">
-        <p>Mean gains are positive on all four encoders and largest on unseen families.</p>
-        <p>Transpose-Consensus never loses a task: <b>83% win rate</b>, worst cell <b>0.000</b>.</p>
-        <p>Applied unmodified to French and Greek: median <b>+0.016</b>, <b>86%</b> win rate.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 17 LEARNED HEAD ============ -->
-<section class="slide" data-sec="01 · Score functions on a frozen encoder">
-  <h2 class="h-slide">A learned head at the same data budget memorizes</h2>
-  <div class="body" style="justify-content:flex-start">
-    <div style="flex:1;min-height:0;display:flex;flex-direction:column">
-      <div class="legend" style="justify-content:center">
-        <div class="it"><span class="sw" style="background:#fff;border:1.4px dashed var(--navy)"></span>learned head, in-domain</div>
-        <div class="it"><span class="sw" style="background:var(--foil)"></span>learned head, held-out</div>
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>structure, for reference</div>
-      </div>
-      <div class="chart" id="c-head" style="flex:1;min-height:0"></div>
     </div>
   </div>
 </section>
