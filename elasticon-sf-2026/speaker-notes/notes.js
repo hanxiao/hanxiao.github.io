@@ -160,7 +160,7 @@ And down at the bottom, the calibration methods.
 Same 75 milliseconds as the patch pipeline, and they collapse.` },
 
    { n: 23, sec: 10, title: "Section 03",
-     note: `Demo three. Semantic highlighting.` },
+     note: `Demo three. A reranker as a semantic highlighter.` },
 
    { n: 24, sec: 25, title: "The task",
      note: `Here is the task.

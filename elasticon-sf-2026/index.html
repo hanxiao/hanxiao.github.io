@@ -1612,13 +1612,13 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 30 DIVIDER 03 ============ -->
-<section class="slide full divider dark" data-chrome="dark" data-sec="03 · Semantic highlighting">
+<section class="slide full divider dark" data-chrome="dark" data-sec="03 · Reranker as semantic highlighter">
   <div class="num">03</div>
-  <div class="dt">Semantic highlighting</div>
+  <div class="dt">Reranker as semantic highlighter</div>
 </section>
 
 <!-- ============ 03a SEMANTIC HIGHLIGHTING: THE TASK ============ -->
-<section class="slide hasqr shl" data-sec="03 · Semantic highlighting">
+<section class="slide hasqr shl" data-sec="03 · Reranker as semantic highlighter">
   <a class="qr-corner" href="https://github.com/hanxiao/jina-reranker-v3.5-in-page-search" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-inpage.png" alt="QR code to the in-page search repo"></a>
   <h2 class="h-slide">Highlight the passages that answer the query</h2>
@@ -1657,7 +1657,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 03b CROSS-ENCODER ============ -->
-<section class="slide shl" data-sec="03 · Semantic highlighting">
+<section class="slide shl" data-sec="03 · Reranker as semantic highlighter">
   <h2 class="h-slide">Cross-encoder: score each passage alone</h2>
   <div class="body">
     <div class="lwrow shrow">
@@ -1810,12 +1810,12 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 03c LISTWISE ============ -->
-<section class="slide shl" data-sec="03 · Semantic highlighting">
-  <h2 class="h-slide">Listwise: score passages together</h2>
+<section class="slide shl" data-sec="03 · Reranker as semantic highlighter">
+  <h2 class="h-slide">jina-reranker-v3/v3.5 new listwise reranker that scores all passages in one shot</h2>
   <div class="body">
     <div class="lwrow shrow">
       <div class="lwp" style="flex:.82;justify-content:center;gap:12px">
-        <div class="lwh">Listwise<span class="lwtag on">jina-reranker-v3 &#183; 0.6B</span></div>
+        <div class="lwh">Listwise<span class="lwtag on">jina-reranker-v3 &#183; 0.6B</span><span class="lwtag on">jina-reranker-v3.5</span></div>
         <svg viewBox="0 0 380 252" aria-hidden="true">
   <rect class="sh-model" x="6" y="76" width="368" height="94" rx="9"/>
   <text class="sh-m" x="296" y="98" text-anchor="middle">one forward pass</text>
@@ -1950,7 +1950,7 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 03d WHERE THE EXTRA COMPUTE GOES ============ -->
-<section class="slide shl shd" data-sec="03 · Semantic highlighting">
+<section class="slide shl shd" data-sec="03 · Reranker as semantic highlighter">
   <h2 class="h-slide">Where the extra compute goes</h2>
   <div class="body">
     <div class="lwrow">
@@ -1989,7 +1989,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
           </div>
         </div>
         <div class="shcx">
-          <div><span class="k">offline</span><span class="v" style="color:#8A93A6">none</span></div>
           <div class="fi" style="--d:2.00s"><span class="k">query time</span><span class="v ac">N&#183;O((q+L)&#178;)</span></div>
         </div>
       </div>
@@ -2031,7 +2030,6 @@ table.bt thead th{font-size:14px;color:var(--accent)}
           </div>
         </div>
         <div class="shcx">
-          <div><span class="k">offline</span><span class="v" style="color:#8A93A6">none</span></div>
           <div class="fi" style="--d:4.40s"><span class="k">query time</span><span class="v pk">O(T&#178;) &#8776; O(N&#178;L&#178;)</span></div>
         </div>
       </div>
