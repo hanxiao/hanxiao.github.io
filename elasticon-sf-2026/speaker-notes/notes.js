@@ -168,26 +168,30 @@ You have a query and a long document.
 Split the document into passages, score every passage against the query, and highlight the best ones *in place*.
 No index. Just the page and the question. //` },
 
-   { n: 25, sec: 25, title: "Bi-encoder",
-     note: `The classic way is a bi-encoder.
-The query and each passage are encoded *separately*, so the passages can even be done offline.
-The score is a cosine.
-But each passage is scored alone. "That blue reaches us from all sides" does not know what *that* refers to.
-So it ranks the sentence that only mentions the color of the sky.` },
+   { n: 25, sec: 25, title: "Cross-encoder",
+     note: `The classic way is a cross-encoder, like bge-reranker-v2-m3.
+You chunk the document, and for every chunk you run the query plus that one chunk through the model.
+One pass per chunk, N passes, all at query time.
+The problem is that each chunk is scored *separately*.
+A chunk does not know the other chunks exist, and they never exchange information.
+So the context of the whole document is *lost*.
+"That blue reaches us from all sides." Alone, it cannot see what *that blue* refers to. It scores low and gets missed, and a sentence about sunsets is picked instead.
+The result is suboptimal. //` },
 
    { n: 26, sec: 25, title: "Listwise",
      note: `A listwise reranker packs the query and all passages into *one* context.
 jina-reranker-v3, 0.6 billion parameters, up to 64 passages in a 131K window.
 Every passage attends to the query and to every other passage, and its score comes from its last token.
 Now "that blue" makes sense, and the two right sentences light up.
-On BEIR it scores 61.94, against about 56 for two rerankers of the same size. //` },
+On BEIR it scores 61.94, against about 56 for the cross-encoder and for Qwen3 reranker of the same size. //` },
 
    { n: 27, sec: 25, title: "Extra compute",
      note: `So where does the extra compute go?
-The bi-encoder fills only the diagonal blocks, and the passage blocks can run offline.
-At query time it is one short query plus N dot products.
-Listwise fills the *whole* matrix, all at query time. Order N squared L squared.
-The pink blocks are the extra: query to passage, and passage to passage.
+The cross-encoder runs N separate passes, each over the query plus one passage.
+It re-reads the query every time, and nothing runs offline. N times q plus L, squared.
+Listwise runs *one* pass over everything. Order N squared L squared.
+The pink blocks are the extra: passage to passage.
+That is the context exchange across chunks, the thing the cross-encoder never has.
 That is where the quality comes from. //` },
 
    { n: 28, sec: 10, title: "Section 04",
@@ -224,7 +228,7 @@ That gives us a private verifier.` },
 
    { n: 33, sec: 50, title: "What the demos share",
      note: `All of them are training-free, on frozen models.
-Compute buys quality. Score functions, a tagger, an index replaced by one call.
+Compute buys quality. Score functions, a tagger, and a listwise reranker that highlights the answer.
 Gains come only when *new information* enters. Patches and crops, yes. Calibration, no.
 And always check out of domain.
 Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
