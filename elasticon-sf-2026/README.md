@@ -1,6 +1,6 @@
 # Search is test-time compute
 
-Han Xiao (VP of AI, Elastic), ElasticON AI San Francisco, November 4, 2026. 36 slides.
+Han Xiao (VP of AI, Elastic), ElasticON AI San Francisco, November 4, 2026. 35 slides.
 
 Live: https://hanxiao.io/elasticon-sf-2026/ · Speaker notes: https://hanxiao.io/elasticon-sf-2026/speaker-notes/
 
@@ -15,19 +15,19 @@ Four training-free demos:
 2. A retrieval model tags images (slides 15-22), ported from `ttc-embedding-image-tagging-2026`
 3. Semantic highlighting (slides 23-27): the task, a cross-encoder scoring each passage alone (context lost),
    jina-reranker-v3 scoring all passages in one context, and where the extra compute goes
-4. An agent builds the pipeline (slides 28-32): dataroom, searchbox, knowledge-graph
+4. Build reusable agentic pipelines at test time (slides 28-32): long-horizon agents, then three drawn, animated slides: dataroom (a local agent loop spends tokens to build a corpus .zip), searchbox (an airgapped agent composes a pipeline per query from local tools and keeps it), knowledge-graph (multi-hop questions with a hidden bridge as a private verifier)
 
-Close (slides 33-36): lessons from the four demos, test-time compute in Elasticsearch today, closing, thank you.
+Close (slides 33-35): summary of the four examples, closing, thank you.
 
 ## Files
 - `index.html` - the deck. All slides in one file. Charts are drawn client-side into SVG from `data.js`.
 - `data.js` - `window.DATA` (program-search figures, verbatim from aie-sf-2026) and `window.DATA_TTC`
   (image-tagging figures, verbatim from ttc-embedding-image-tagging-2026).
-- `speaker-notes/` - presenter page (iframes `../index.html`) + `notes.js`, exactly one entry per slide (36).
+- `speaker-notes/` - presenter page (iframes `../index.html`) + `notes.js`, exactly one entry per slide (35).
 - `sync.js` (+ optional `sync-worker.js`) - phone remote. Projector opens `?follow`, phone taps Remote.
 - `vendor/tex-svg.js` - self-hosted MathJax. `fonts/` - Inter (variable) and Space Mono subsets.
 - `img/` - template art, screenshots, QR codes. `tools/genqr.py` regenerates QRs (decode-verified).
-- `slides.pdf` - 36-page export, one 960x540 pt page per slide (final animation frames).
+- `slides.pdf` - 35-page export, one 960x540 pt page per slide (final animation frames).
 
 ## Maintenance
 - After editing `notes.js` or `sync.js`, bump `?v=` where they are loaded (Cloudflare caches them).
@@ -35,7 +35,7 @@ Close (slides 33-36): lessons from the four demos, test-time compute in Elastics
 - Runtime-measured pieces (pipeline connectors, braces and the recursion arrow) are laid out by `layoutSlide()`;
   for PDF export call `window.layoutAll()` under print media.
 - Animations restart from `show()` via `ANIM.start(slide)`: JS-timed ones (tag-card shuffle, isometric crops,
-  pipeline hops) and CSS ones keyed on `--d` (`.eqslide.go` for the recursive scoring function, `.shl.go` for the
+  pipeline hops) and CSS ones keyed on `--d` (`.eqslide.go` for the recursive scoring function, `.d4.go` for the demo-04 slides 30-32, `.shl.go` for the
   four semantic-highlighting slides). The default style of every CSS-animated element is its final frame, so
   print media and reduced motion show the full slide.
 - Template protocol: `template-audit.md` in the source workspace lists every ElasticON FY27 rule and the fix. Cover

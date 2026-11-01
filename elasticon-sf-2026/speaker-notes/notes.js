@@ -207,24 +207,27 @@ Use cheap local tokens to build the corpus, and save frontier tokens for the wor
 
    { n: 30, sec: 40, title: "dataroom",
      note: `dataroom is the first half.
-A local model searches, reads and writes in a loop,
-until the knowledge sits in one cited zip file.
-It stops when coverage reaches a measured floor.
-The zip goes to searchbox, or to a frontier model.` },
+You give it a query. A local model in a pi harness, on your own GPU,
+loops search, read, write, edit. Every pass adds sourced files to the dataroom.
+It stops when coverage reaches a floor, then hands you a zip.
+In this example run, about six hundred fifty thousand local tokens built a hundred and fourteen files.` },
 
    { n: 31, sec: 40, title: "searchbox",
      note: `searchbox is the second half.
-We lock an agent in with one dataroom and no web.
-It can only answer by composing its own pipeline from local tools.
-Grep, embed, rerank, cluster.
-And we get to ask real questions. Which tool comes first? When does grep win? Does more budget help?` },
+The zip goes into a box with no web.
+For each question, the agent builds its own pipeline from local tools.
+A lookup is grep, then read. A harder one adds embed and rerank. Another clusters first.
+Each run keeps the pipeline it built, so the next task can start from it.
+One turn already costs about six tool calls and twenty thousand tokens per question.` },
 
    { n: 32, sec: 40, title: "knowledge-graph",
-     note: `To measure any of this you need hard questions.
+     note: `To know if a pipeline is good, you need hard questions.
 If one grep finds the answer, every method looks the same.
-So we turn the corpus into a graph, walk two or three hops, and hide the bridge.
-A question stays only if a closed-book model fails and a retrieval agent succeeds.
-That gives us a private verifier.` },
+So an LLM turns the dataroom into a graph of facts. We walk two hops and hide the bridge.
+jina-embeddings-v3 is based on a model. What was that trained on? Common Crawl.
+Grep and read, in one turn, answered for the wrong model.
+On a hundred questions, one turn gets seventy-six percent of one-hop questions, and twenty-two percent of multi-hop.
+That gap is our private verifier. It scores every new pipeline.` },
 
    { n: 33, sec: 50, title: "Summary of four examples",
      note: `Let me recap the four examples.

@@ -823,6 +823,56 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.shl.go *{animation:none !important}}
 @media print{.shl *,.shl.go *{animation:none !important}}
 
+/* ---- 04 build reusable pipelines (slides 30-32). CSS animations keyed on --d, restarted by ANIM.start via .d4.go; default style = final frame ---- */
+.d4 svg.d4svg{width:100%;height:auto;display:block;overflow:visible}
+.d4-m{font-family:var(--mono);font-size:13px;font-weight:700;fill:var(--navy)}
+.d4-m.ac{fill:var(--accent)}.d4-m.tl{fill:var(--teal-ink)}.d4-m.pk{fill:var(--foil-ink)}.d4-m.w{fill:#fff}.d4-m.mu{fill:#5A6478}
+.d4-s{font-family:var(--sans);font-size:15px;font-weight:700;fill:var(--ink)}
+.d4-t{font-family:var(--sans);font-size:16px;font-weight:500;fill:var(--ink)}
+.d4-ln{fill:none;stroke:var(--navy);stroke-width:1.6}
+.d4-ln.ac{stroke:var(--accent)}
+.d4-ln.thin{stroke:#B9C3D6;stroke-width:1.3}
+.d4-hd{fill:var(--navy)}.d4-hd.ac{fill:var(--accent)}
+.d4-box{fill:#fff;stroke:var(--navy);stroke-width:2}
+.d4-tool{fill:#fff;stroke:var(--navy);stroke-width:1.4}
+.d4-tool.on{fill:var(--accent-soft);stroke:var(--accent)}
+.d4-flash{fill:none;stroke:var(--accent);stroke-width:2.6;opacity:0}
+.d4-q{fill:var(--accent)}
+.d4-ans{fill:#48EFCF}
+.d4-wall{fill:rgba(239,241,244,.55);stroke:var(--foil);stroke-width:1.8;stroke-dasharray:8 6}
+.d4-local{fill:rgba(0,191,179,.05);stroke:var(--teal-ink);stroke-width:1.6;stroke-dasharray:8 6}
+.d4-panel{fill:var(--panel)}
+.d4-arc{fill:none;stroke:var(--navy);stroke-width:4;stroke-linecap:round}
+.d4-arcg{fill:none;stroke:#48EFCF;stroke-width:12;stroke-linecap:round;opacity:0}
+.d4-march{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5;animation:march 1s linear infinite}
+.d4-node{fill:#fff;stroke:var(--navy);stroke-width:1.4}
+.d4-node.ac{fill:var(--accent);stroke:var(--accent)}
+.d4-ring{fill:#fff;stroke:var(--foil);stroke-width:2;stroke-dasharray:4 3}
+.d4-trk{fill:#fff}
+.d4-bar{fill:var(--accent)}.d4-bar.pk{fill:var(--foil)}
+.d4 svg .pop,.d4 svg .gr,.d4 svg .drop,.d4 svg .sl{transform-box:fill-box}
+.d4 svg .pop{transform-origin:center}
+.d4 svg .gr{transform-origin:left center}
+.d4 .mv,.d4 .fl{opacity:0}
+.d4 .gone{opacity:0}
+.d4.go .fi{animation:shfi .5s ease-out var(--d,0s) both}
+.d4.go .pop{animation:shpop .45s cubic-bezier(.3,1.4,.6,1) var(--d,0s) both}
+.d4.go .gr{animation:d4gr var(--dur,.7s) var(--ease,ease-out) var(--d,0s) both}
+@keyframes d4gr{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.d4.go .drop{animation:d4drop .6s cubic-bezier(.3,1.25,.6,1) var(--d,0s) both}
+.d4.go .sl{animation:d4sl .6s ease-out var(--d,0s) both}
+.d4.go .mv{animation:d4mv var(--dur,.7s) ease-in-out var(--d,0s) both}
+.d4.go .fl{animation:shfl 1s ease-out var(--d,0s) both}
+.d4.go .gone{animation:d4gone .5s ease-out var(--d,0s) both}
+.d4.go .arcg{animation:d4arc 2.4s linear var(--d,0s) 2}
+@keyframes d4drop{from{opacity:0;transform:translateY(-70px)}}
+@keyframes d4sl{from{opacity:0;transform:translateX(-36px)}}
+@keyframes d4mv{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(var(--tx,0px),var(--ty,0px))}}
+@keyframes d4gone{from{opacity:1}to{opacity:0}}
+@keyframes d4arc{0%{opacity:0}4%{opacity:.95}24%{opacity:.95}30%{opacity:0}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.d4.go *{animation:none !important}}
+@media print{.d4 *,.d4.go *{animation:none !important}}
+
 /* ---- print / PDF export: one slide per landscape page, animations frozen ---- */
 @media print{
   @page{size:1280px 720px;margin:0}
@@ -2072,55 +2122,231 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 </section>
 
 <!-- ============ 36 DATAROOM ============ -->
-<section class="slide hasqr" data-sec="04 · Build reusable agentic pipeline at test-time">
+<section class="slide hasqr d4" data-sec="04 · Build reusable agentic pipeline at test-time">
   <a class="qr-corner" href="https://github.com/hanxiao/dataroom" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-dataroom.png" alt="QR code to github.com/hanxiao/dataroom"></a>
   <h2 class="h-slide">dataroom: a token budget builds a corpus</h2>
-  <div class="body row" style="gap:40px;align-items:center">
-    <div style="flex:1.6"><div class="shot"><img src="img/dr-flow.png" alt="dataroom: query, local pi agent with harness and local model loops search, read, write, edit into a dataroom, exported as .zip"></div></div>
-    <div style="flex:.85">
-      <div class="blist">
-        <p>It stops at a measured coverage floor.</p>
-        <p>The job page tracks coverage, tokens and tool calls.</p>
-        <p>The .zip goes to searchbox or to a frontier model.</p>
-      </div>
-    </div>
+  <div class="body">
+    <svg class="d4svg" viewBox="0 0 1152 476" role="img" aria-label="dataroom: a query goes to a local pi agent with a harness and a local model on a GPU box; it loops search, read, write, edit and fills a dataroom folder, exported as a .zip">
+<defs><marker id="d4m30" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#101C3F"/></marker></defs>
+<!-- query -->
+<g class="pop" style="--d:.2s"><path class="d4-q" d="M30 200 H160 Q170 200 170 210 V252 Q170 262 160 262 H64 L44 282 L47 262 H30 Q20 262 20 252 V210 Q20 200 30 200 Z"/>
+<text class="d4-m w" x="95" y="237" text-anchor="middle" style="font-size:19px">query</text></g>
+<g class="fi" style="--d:.5s"><path class="d4-ln" d="M184 231 H250"/><path class="d4-hd" d="M248 225 L260 231 L248 237 Z"/></g>
+<circle class="mv" cx="186" cy="231" r="6" fill="#0B64DD" style="--d:.55s;--dur:.6s;--tx:68px"/>
+<!-- LOCAL box -->
+<rect class="d4-local" x="270" y="44" width="526" height="392" rx="16"/>
+<text class="d4-m" x="294" y="88" style="font-size:26px">LOCAL</text>
+<rect class="d4-box" x="300" y="140" width="130" height="196" rx="6"/>
+<rect x="314" y="154" width="102" height="32" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.6"/><rect x="323" y="164" width="11" height="11" rx="2" fill="none" stroke="#101C3F" stroke-width="1.6"/>
+<rect x="314" y="194" width="102" height="32" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.6"/><rect x="323" y="204" width="11" height="11" rx="2" fill="none" stroke="#101C3F" stroke-width="1.6"/>
+<rect x="314" y="234" width="102" height="32" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.6"/><rect x="323" y="244" width="11" height="11" rx="2" fill="none" stroke="#101C3F" stroke-width="1.6"/>
+<rect x="314" y="274" width="102" height="32" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.6"/><rect x="323" y="284" width="11" height="11" rx="2" fill="none" stroke="#101C3F" stroke-width="1.6"/>
+<path class="d4-ln" d="M318 316 V328 M325 316 V328 M332 316 V328 M339 316 V328" style="stroke-width:2"/>
+<rect class="d4-box" x="398" y="110" width="62" height="52" rx="6"/><text class="d4-m" x="429" y="144" text-anchor="middle" style="font-size:24px;font-weight:400">pi</text>
+<path class="d4-ln" d="M429 162 V300" style="stroke-width:1.4"/>
+<path class="d4-ln" d="M404 300 V292 M416 300 V292 M428 300 V292 M440 300 V292 M452 300 V292 M404 350 V358 M416 350 V358 M428 350 V358 M440 350 V358 M452 350 V358 M398 312 H390 M398 325 H390 M398 338 H390 M460 312 H468 M460 325 H468 M460 338 H468" style="stroke-width:1.6"/>
+<rect class="d4-box" x="398" y="300" width="62" height="50" rx="6"/><text class="d4-m" x="429" y="330" text-anchor="middle" style="font-size:15px">GPU</text>
+<!-- the loop -->
+<path class="d4-arc" d="M492 205 A115 115 0 0 1 580 126.7" marker-end="url(#d4m30)"/>
+<path class="d4-arc" d="M616 126.1 A115 115 0 0 1 708 205" marker-end="url(#d4m30)"/>
+<path class="d4-arc" d="M711.6 267.8 A115 115 0 0 1 625 352.5" marker-end="url(#d4m30)"/>
+<path class="d4-arc" d="M580 353.3 A115 115 0 0 1 492 275" marker-end="url(#d4m30)"/>
+<path class="d4-arcg arcg" d="M492 205 A115 115 0 0 1 580 126.7" style="--d:1.2s"/>
+<path class="d4-arcg arcg" d="M616 126.1 A115 115 0 0 1 708 205" style="--d:1.8s"/>
+<path class="d4-arcg arcg" d="M711.6 267.8 A115 115 0 0 1 625 352.5" style="--d:2.4s"/>
+<path class="d4-arcg arcg" d="M580 353.3 A115 115 0 0 1 492 275" style="--d:3.0s"/>
+<text class="d4-m" x="520" y="106" text-anchor="middle" style="font-size:17px;font-weight:400">search</text>
+<text class="d4-m" x="722" y="158" style="font-size:17px;font-weight:400">read</text>
+<text class="d4-m" x="722" y="340" style="font-size:17px;font-weight:400">write</text>
+<text class="d4-m" x="524" y="390" text-anchor="middle" style="font-size:17px;font-weight:400">edit</text>
+<text class="d4-m" x="533" y="422" text-anchor="middle" style="font-size:16px;font-weight:400">pi + harness + local model</text>
+<!-- main arrow to the dataroom -->
+<path class="d4-ln" d="M432 240 H826" style="stroke-width:2.4"/><path class="d4-hd" d="M822 231 L840 240 L822 249 Z"/>
+<path class="d4-march fi" d="M432 240 H818" style="--d:6.1s;stroke-width:3"/>
+<!-- dataroom folder -->
+<path class="d4-box" d="M850 186 H900 L912 198 H990 V300 H850 Z"/>
+<g class="drop" style="--d:2.6s"><rect class="d4-box" x="866" y="146" width="66" height="84" rx="3" style="stroke-width:1.6"/><path class="d4-ln" d="M876 162 H920 M876 174 H914 M876 186 H920" style="stroke-width:1.4"/></g>
+<g class="drop" style="--d:3.3s"><rect class="d4-box" x="880" y="158" width="66" height="84" rx="3" style="stroke-width:1.6"/><path class="d4-ln" d="M890 174 H934 M890 186 H928 M890 198 H934" style="stroke-width:1.4"/></g>
+<g class="drop" style="--d:5.0s"><rect class="d4-box" x="894" y="170" width="66" height="84" rx="3" style="stroke-width:1.6"/><path class="d4-ln" d="M904 186 H948 M904 198 H942 M904 210 H948" style="stroke-width:1.4"/></g>
+<g class="drop" style="--d:5.6s"><rect class="d4-box" x="908" y="182" width="66" height="84" rx="3" style="stroke-width:1.6"/><path class="d4-ln" d="M918 198 H962 M918 210 H956" style="stroke-width:1.4"/></g>
+<path class="d4-box" d="M842 222 H996 L984 304 H852 Z"/>
+<text class="d4-m" x="918" y="332" text-anchor="middle" style="font-size:17px;font-weight:400">dataroom</text>
+<text class="d4-m tl fi" x="918" y="358" text-anchor="middle" style="--d:6.5s;font-size:17px">114 files</text>
+<!-- zip -->
+<g class="fi" style="--d:6.8s"><path class="d4-ln" d="M1002 240 H1034"/><path class="d4-hd" d="M1032 234 L1044 240 L1032 246 Z"/></g>
+<g class="pop" style="--d:7.0s"><path class="d4-box" d="M1052 190 H1110 L1130 210 V292 H1052 Z" style="stroke-width:2.4"/><path class="d4-ln" d="M1110 190 V210 H1130" style="stroke-width:2"/>
+<path d="M1088 198 H1094 M1088 206 H1094 M1088 214 H1094 M1088 222 H1094 M1088 230 H1094" stroke="#101C3F" stroke-width="3.5"/><rect x="1085" y="236" width="12" height="16" rx="2" fill="#101C3F"/>
+<text class="d4-m" x="1091" y="280" text-anchor="middle" style="font-size:18px">.zip</text></g>
+<!-- tokens spent -->
+<text class="d4-s" x="300" y="465">tokens</text>
+<rect class="d4-panel" x="368" y="452" width="428" height="16" rx="8"/>
+<rect class="d4-bar gr" x="368" y="452" width="428" height="16" rx="8" style="--d:1.2s;--dur:4.8s;--ease:linear"/>
+<text class="d4-m ac fi" x="810" y="466" style="--d:6.0s;font-size:17px">651,736</text>
+    </svg>
   </div>
 </section>
 
 <!-- ============ 37 SEARCHBOX ============ -->
-<section class="slide hasqr" data-sec="04 · Build reusable agentic pipeline at test-time">
+<section class="slide hasqr d4" data-sec="04 · Build reusable agentic pipeline at test-time">
   <a class="qr-corner" href="https://github.com/hanxiao/searchbox" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-searchbox.png" alt="QR code to github.com/hanxiao/searchbox"></a>
   <h2 class="h-slide">searchbox: an agent builds its pipeline for each query</h2>
-  <div class="body row" style="gap:40px;align-items:center">
-    <div style="flex:1.2;display:flex;justify-content:center"><img src="img/sb-comic.png" alt="searchbox: a dataroom.zip handed into an airgapped agent loop" style="width:100%;max-width:600px;display:block"></div>
-    <div style="flex:.9">
-      <div class="blist">
-        <p><b>Tools:</b> grep, embed, rerank, similarity, cluster, select_diverse.</p>
-        <p class="q">Which tool does the agent call first?</p>
-        <p class="q">When does grep match a dense retriever?</p>
-        <p class="q">Does a larger token budget help on the hard questions?</p>
-      </div>
-    </div>
+  <div class="body">
+    <svg class="d4svg" viewBox="0 0 1152 470" role="img" aria-label="searchbox: a dataroom.zip goes into an airgapped box with no web; for each query the agent composes its own pipeline from local tools (grep, read, embed, rerank, similarity, cluster, select_diverse), answers, and keeps the pipeline for reuse">
+<!-- zip in -->
+<g class="pop" style="--d:.2s"><path class="d4-box" d="M10 196 H58 L76 214 V286 H10 Z"/><path class="d4-ln" d="M58 196 V214 H76" style="stroke-width:1.8"/>
+<path d="M40 203 H46 M40 210 H46 M40 217 H46 M40 224 H46" stroke="#101C3F" stroke-width="3"/><rect x="38" y="229" width="10" height="13" rx="2" fill="#101C3F"/>
+<text class="d4-m" x="43" y="274" text-anchor="middle" style="font-size:15px">.zip</text></g>
+<g class="fi" style="--d:.45s"><path class="d4-ln" d="M84 240 H120"/><path class="d4-hd" d="M118 234 L130 240 L118 246 Z"/></g>
+<!-- airgapped box -->
+<rect class="d4-wall" x="140" y="8" width="1004" height="414" rx="16"/>
+<g><circle cx="1110" cy="42" r="13" fill="none" stroke="#F04E98" stroke-width="2"/><ellipse cx="1110" cy="42" rx="5.5" ry="13" fill="none" stroke="#F04E98" stroke-width="1.6"/><path d="M1097 42 H1123" stroke="#F04E98" stroke-width="1.6"/><path d="M1093 59 L1127 25" stroke="#F04E98" stroke-width="2.6" stroke-linecap="round"/></g>
+<text class="d4-m pk" x="1088" y="47" text-anchor="end" style="font-size:15px">no web</text>
+<!-- dataroom folder + bus -->
+<g class="fi" style="--d:.75s"><path class="d4-box" d="M165 204 H198 L207 213 H255 V284 H165 Z" style="stroke-width:1.8"/><path class="d4-box" d="M160 228 H260 L252 286 H168 Z" style="stroke-width:1.8"/>
+<text class="d4-m" x="210" y="308" text-anchor="middle">dataroom/</text></g>
+<path class="d4-ln fi" d="M262 240 H278 M278 150 V350 M278 150 H290 M278 250 H290 M278 350 H290" style="--d:1.0s;stroke:#B9C3D6;stroke-width:2"/>
+<!-- tool shelf -->
+<text class="d4-s" x="296" y="81">local tools</text>
+<rect class="d4-tool" x="400" y="62" width="58" height="28" rx="5"/><text class="d4-m" x="429" y="81" text-anchor="middle">grep</text>
+<rect class="d4-tool" x="468" y="62" width="56" height="28" rx="5"/><text class="d4-m" x="496" y="81" text-anchor="middle">read</text>
+<rect class="d4-tool" x="534" y="62" width="66" height="28" rx="5"/><text class="d4-m" x="567" y="81" text-anchor="middle">embed</text>
+<rect class="d4-tool" x="610" y="62" width="72" height="28" rx="5"/><text class="d4-m" x="646" y="81" text-anchor="middle">rerank</text>
+<rect class="d4-tool" x="692" y="62" width="98" height="28" rx="5"/><text class="d4-m" x="741" y="81" text-anchor="middle">similarity</text>
+<rect class="d4-tool" x="800" y="62" width="72" height="28" rx="5"/><text class="d4-m" x="836" y="81" text-anchor="middle">cluster</text>
+<rect class="d4-tool" x="882" y="62" width="130" height="28" rx="5"/><text class="d4-m" x="947" y="81" text-anchor="middle">select_diverse</text>
+<!-- shelf flashes when a tool is picked -->
+<rect class="d4-flash fl" x="400" y="62" width="58" height="28" rx="5" style="--d:1.7s"/>
+<rect class="d4-flash fl" x="468" y="62" width="56" height="28" rx="5" style="--d:2.1s"/>
+<rect class="d4-flash fl" x="400" y="62" width="58" height="28" rx="5" style="--d:3.6s"/>
+<rect class="d4-flash fl" x="534" y="62" width="66" height="28" rx="5" style="--d:4.0s"/>
+<rect class="d4-flash fl" x="610" y="62" width="72" height="28" rx="5" style="--d:4.4s"/>
+<rect class="d4-flash fl" x="534" y="62" width="66" height="28" rx="5" style="--d:5.9s"/>
+<rect class="d4-flash fl" x="800" y="62" width="72" height="28" rx="5" style="--d:6.3s"/>
+<rect class="d4-flash fl" x="882" y="62" width="130" height="28" rx="5" style="--d:6.7s"/>
+<rect class="d4-flash fl" x="610" y="62" width="72" height="28" rx="5" style="--d:7.1s"/>
+<!-- kept pipelines (tray drawn first so the kept strips sit on top) -->
+<rect x="982" y="104" width="134" height="276" rx="10" fill="#fff" stroke="#101C3F" stroke-width="1.6"/>
+<text class="d4-m" x="1049" y="126" text-anchor="middle">pipelines</text>
+<!-- lane 1: grep -> read -->
+<g class="pop" style="--d:1.3s"><rect class="d4-q" x="294" y="132" width="58" height="36" rx="18"/><text class="d4-m w" x="323" y="155" text-anchor="middle" style="font-size:15px">q1</text></g>
+<g class="fi" style="--d:1.55s"><path class="d4-ln" d="M354 150 H372"/><path class="d4-hd" d="M370 145 L379 150 L370 155 Z"/></g>
+<g class="pop" style="--d:1.7s"><rect class="d4-tool on" x="382" y="131" width="110" height="38" rx="6"/><text class="d4-m ac" x="437" y="155" text-anchor="middle" style="font-size:14px">grep</text></g>
+<g class="fi" style="--d:1.95s"><path class="d4-ln" d="M494 150 H504"/><path class="d4-hd" d="M502 145 L511 150 L502 155 Z"/></g>
+<g class="pop" style="--d:2.1s"><rect class="d4-tool on" x="514" y="131" width="110" height="38" rx="6"/><text class="d4-m ac" x="569" y="155" text-anchor="middle" style="font-size:14px">read</text></g>
+<g class="fi" style="--d:2.35s"><path class="d4-ln" d="M626 150 H898"/><path class="d4-hd" d="M896 145 L905 150 L896 155 Z"/></g>
+<g class="pop" style="--d:2.5s"><path class="d4-box" d="M910 130 H932 L944 142 V170 H910 Z" style="stroke-width:1.6"/><path d="M917 151 L924 158 L936 144" fill="none" stroke="#0A7B74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="fi" style="--d:2.7s"><path class="d4-ln" d="M950 150 H970"/><path class="d4-hd" d="M968 145 L977 150 L968 155 Z"/></g>
+<g class="pop" style="--d:2.85s"><rect class="d4-tool on" x="1026" y="143" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1050" y="143" width="20" height="14" rx="3"/></g>
+<!-- lane 2: grep -> embed -> rerank -->
+<g class="pop" style="--d:3.2s"><rect class="d4-q" x="294" y="232" width="58" height="36" rx="18"/><text class="d4-m w" x="323" y="255" text-anchor="middle" style="font-size:15px">q2</text></g>
+<g class="fi" style="--d:3.45s"><path class="d4-ln" d="M354 250 H372"/><path class="d4-hd" d="M370 245 L379 250 L370 255 Z"/></g>
+<g class="pop" style="--d:3.6s"><rect class="d4-tool on" x="382" y="231" width="110" height="38" rx="6"/><text class="d4-m ac" x="437" y="255" text-anchor="middle" style="font-size:14px">grep</text></g>
+<g class="fi" style="--d:3.85s"><path class="d4-ln" d="M494 250 H504"/><path class="d4-hd" d="M502 245 L511 250 L502 255 Z"/></g>
+<g class="pop" style="--d:4.0s"><rect class="d4-tool on" x="514" y="231" width="110" height="38" rx="6"/><text class="d4-m ac" x="569" y="255" text-anchor="middle" style="font-size:14px">embed</text></g>
+<g class="fi" style="--d:4.25s"><path class="d4-ln" d="M626 250 H636"/><path class="d4-hd" d="M634 245 L643 250 L634 255 Z"/></g>
+<g class="pop" style="--d:4.4s"><rect class="d4-tool on" x="646" y="231" width="110" height="38" rx="6"/><text class="d4-m ac" x="701" y="255" text-anchor="middle" style="font-size:14px">rerank</text></g>
+<g class="fi" style="--d:4.65s"><path class="d4-ln" d="M758 250 H898"/><path class="d4-hd" d="M896 245 L905 250 L896 255 Z"/></g>
+<g class="pop" style="--d:4.8s"><path class="d4-box" d="M910 230 H932 L944 242 V270 H910 Z" style="stroke-width:1.6"/><path d="M917 251 L924 258 L936 244" fill="none" stroke="#0A7B74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="fi" style="--d:5.0s"><path class="d4-ln" d="M950 250 H970"/><path class="d4-hd" d="M968 245 L977 250 L968 255 Z"/></g>
+<g class="pop" style="--d:5.15s"><rect class="d4-tool on" x="1014" y="243" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1038" y="243" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1062" y="243" width="20" height="14" rx="3"/></g>
+<!-- lane 3: embed -> cluster -> select_diverse -> rerank -->
+<g class="pop" style="--d:5.5s"><rect class="d4-q" x="294" y="332" width="58" height="36" rx="18"/><text class="d4-m w" x="323" y="355" text-anchor="middle" style="font-size:15px">q3</text></g>
+<g class="fi" style="--d:5.75s"><path class="d4-ln" d="M354 350 H372"/><path class="d4-hd" d="M370 345 L379 350 L370 355 Z"/></g>
+<g class="pop" style="--d:5.9s"><rect class="d4-tool on" x="382" y="331" width="110" height="38" rx="6"/><text class="d4-m ac" x="437" y="355" text-anchor="middle" style="font-size:14px">embed</text></g>
+<g class="fi" style="--d:6.15s"><path class="d4-ln" d="M494 350 H504"/><path class="d4-hd" d="M502 345 L511 350 L502 355 Z"/></g>
+<g class="pop" style="--d:6.3s"><rect class="d4-tool on" x="514" y="331" width="110" height="38" rx="6"/><text class="d4-m ac" x="569" y="355" text-anchor="middle" style="font-size:14px">cluster</text></g>
+<g class="fi" style="--d:6.55s"><path class="d4-ln" d="M626 350 H636"/><path class="d4-hd" d="M634 345 L643 350 L634 355 Z"/></g>
+<g class="pop" style="--d:6.7s"><rect class="d4-tool on" x="646" y="331" width="122" height="38" rx="6"/><text class="d4-m ac" x="707" y="355" text-anchor="middle" style="font-size:13px">select_diverse</text></g>
+<g class="fi" style="--d:6.95s"><path class="d4-ln" d="M770 350 H778"/><path class="d4-hd" d="M776 345 L785 350 L776 355 Z"/></g>
+<g class="pop" style="--d:7.1s"><rect class="d4-tool on" x="788" y="331" width="104" height="38" rx="6"/><text class="d4-m ac" x="840" y="355" text-anchor="middle" style="font-size:14px">rerank</text></g>
+<g class="fi" style="--d:7.35s"><path class="d4-ln" d="M894 350 H898"/><path class="d4-hd" d="M896 345 L905 350 L896 355 Z"/></g>
+<g class="pop" style="--d:7.5s"><path class="d4-box" d="M910 330 H932 L944 342 V370 H910 Z" style="stroke-width:1.6"/><path d="M917 351 L924 358 L936 344" fill="none" stroke="#0A7B74" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="fi" style="--d:7.7s"><path class="d4-ln" d="M950 350 H970"/><path class="d4-hd" d="M968 345 L977 350 L968 355 Z"/></g>
+<g class="pop" style="--d:7.85s"><rect class="d4-tool on" x="1002" y="343" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1026" y="343" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1050" y="343" width="20" height="14" rx="3"/><rect class="d4-tool on" x="1074" y="343" width="20" height="14" rx="3"/></g>
+<!-- kept pipelines -->
+<g class="fi" style="--d:8.3s"><path class="d4-march" d="M1049 382 V402 H323 V376"/><path class="d4-hd ac" d="M317 378 L323 368 L329 378 Z"/>
+<rect x="650" y="392" width="72" height="20" fill="#F7F8F9"/><text class="d4-m ac" x="686" y="407" text-anchor="middle" style="font-size:14px">reuse</text></g>
+<!-- real numbers: searchbox-ttc-eval out/turn1.jsonl, 100 questions, one turn -->
+<g class="fi" style="--d:8.7s"><text class="d4-t" x="140" y="458">median per question, one turn:</text>
+<text class="d4-m ac" x="380" y="458" style="font-size:17px">6 tool calls · 20K tokens</text></g>
+    </svg>
   </div>
 </section>
 
 <!-- ============ 38 KNOWLEDGE GRAPH ============ -->
-<section class="slide hasqr" data-sec="04 · Build reusable agentic pipeline at test-time">
+<section class="slide hasqr d4" data-sec="04 · Build reusable agentic pipeline at test-time">
   <a class="qr-corner" href="https://github.com/hanxiao/knowledge-graph-extractor" target="_blank" rel="noopener" onclick="event.stopPropagation()">
     <span class="qrtop">GitHub</span><img src="img/qr-knowledge-graph.png" alt="QR code to github.com/hanxiao/knowledge-graph-extractor"></a>
   <h2 class="h-slide">knowledge-graph: hard questions as a private verifier</h2>
   <p class="ssub">If one grep finds the answer, every method scores the same. Agentic search needs questions that force several hops.</p>
-  <div class="body row" style="gap:40px;align-items:center">
-    <div style="flex:1.5"><div class="shot"><img src="img/kg-hero.png" alt="knowledge-graph UI: corpus facts as a force-directed graph"></div></div>
-    <div style="flex:.95">
-      <div class="blist">
-        <p>Turn the corpus into subject-predicate-object edges.</p>
-        <p>Walk paths of length 2 and 3, hide the bridge entities and ask for the endpoint.</p>
-        <p>Keep a question only if a closed-book probe fails and a retrieval agent succeeds.</p>
-      </div>
-    </div>
+  <div class="body">
+    <svg class="d4svg" viewBox="0 0 1152 430" role="img" aria-label="knowledge-graph: an LLM extracts subject-predicate-object facts from the dataroom into a graph; a two-hop path with a hidden bridge becomes a question; the question set is a private verifier that scores pipelines: one turn of grep and read gets 76 percent of one-hop questions and 22 percent of two- and three-hop questions">
+<rect class="d4-panel" x="0" y="0" width="700" height="430" rx="12"/>
+<!-- dataroom -> LLM extract -> graph -->
+<g class="fi" style="--d:.2s"><path class="d4-box" d="M28 46 H60 L69 55 H112 V114 H28 Z" style="stroke-width:1.8"/><path class="d4-box" d="M22 68 H118 L110 116 H30 Z" style="stroke-width:1.8"/>
+<text class="d4-m" x="70" y="140" text-anchor="middle">dataroom</text></g>
+<g class="fi" style="--d:.45s"><path class="d4-ln" d="M124 84 H146"/><path class="d4-hd" d="M144 78 L156 84 L144 90 Z"/></g>
+<g class="pop" style="--d:.6s"><rect x="160" y="60" width="132" height="48" rx="8" fill="#101C3F"/><text class="d4-m w" x="226" y="89" text-anchor="middle" style="font-size:14px">LLM extract</text></g>
+<text class="d4-m mu fi" x="226" y="134" text-anchor="middle" style="--d:.8s;font-size:13px">(s) -[p]-&gt; (o)</text>
+<g class="fi" style="--d:.9s"><path class="d4-ln" d="M296 84 H318"/><path class="d4-hd" d="M316 78 L328 84 L316 90 Z"/></g>
+<rect class="mv" x="300" y="79" width="26" height="10" rx="5" fill="#0B64DD" style="--d:1.0s;--dur:.8s;--tx:90px;--ty:-30px"/>
+<rect class="mv" x="300" y="79" width="26" height="10" rx="5" fill="#0B64DD" style="--d:1.25s;--dur:.8s;--tx:170px;--ty:40px"/>
+<rect class="mv" x="300" y="79" width="26" height="10" rx="5" fill="#0B64DD" style="--d:1.5s;--dur:.8s;--tx:260px;--ty:-10px"/>
+<!-- graph: background edges -->
+<g class="fi" style="--d:1.3s">
+<path class="d4-ln thin" d="M360 54 L445 36 M445 36 L520 90 M360 54 L350 128 M350 128 L400 196 M445 36 L452 98 M452 98 L360 54 M452 98 L520 90 M560 36 L520 90 M560 36 L660 62 M660 62 L640 196 M600 126 L640 196 M600 126 L660 62 M500 222 L400 196 M500 222 L640 196 M580 236 L640 196 M350 128 L452 98"/>
+</g>
+<g class="pop" style="--d:1.4s"><circle class="d4-node" cx="360" cy="54" r="7"/></g>
+<g class="pop" style="--d:1.5s"><circle class="d4-node" cx="445" cy="36" r="7"/></g>
+<g class="pop" style="--d:1.6s"><circle class="d4-node" cx="350" cy="128" r="7"/></g>
+<g class="pop" style="--d:1.7s"><circle class="d4-node" cx="452" cy="98" r="7"/></g>
+<g class="pop" style="--d:1.8s"><circle class="d4-node" cx="560" cy="36" r="7"/></g>
+<g class="pop" style="--d:1.9s"><circle class="d4-node" cx="660" cy="62" r="7"/></g>
+<g class="pop" style="--d:2.0s"><circle class="d4-node" cx="600" cy="126" r="7"/></g>
+<g class="pop" style="--d:2.1s"><circle class="d4-node" cx="500" cy="222" r="7"/></g>
+<g class="pop" style="--d:2.2s"><circle class="d4-node" cx="580" cy="236" r="7"/></g>
+<!-- the 2-hop path: jina-embeddings-v3 -based_on-> XLM-RoBERTa -trained_on-> Common Crawl -->
+<path class="d4-ln ac fi" d="M400 196 L520 90" style="--d:2.7s;stroke-width:3"/>
+<path class="d4-ln ac fi" d="M520 90 L640 196" style="--d:3.0s;stroke-width:3"/>
+<text class="d4-m ac fi" x="0" y="0" text-anchor="middle" transform="translate(472 156) rotate(-41.5)" style="--d:2.7s;font-size:12px">based_on</text>
+<text class="d4-m ac fi" x="0" y="0" text-anchor="middle" transform="translate(568 156) rotate(41.5)" style="--d:3.0s;font-size:12px">trained_on</text>
+<g class="pop" style="--d:2.4s"><circle class="d4-node ac" cx="400" cy="196" r="9"/></g>
+<g class="pop" style="--d:2.5s"><circle class="d4-node ac" cx="640" cy="196" r="9"/></g>
+<circle class="d4-node" cx="520" cy="90" r="9"/>
+<text class="d4-m gone" x="520" y="72" text-anchor="middle" style="--d:3.5s;font-size:12px">XLM-RoBERTa</text>
+<g class="pop" style="--d:3.6s"><circle class="d4-ring" cx="520" cy="90" r="17"/><text class="d4-m pk" x="520" y="96" text-anchor="middle" style="font-size:17px">?</text></g>
+<text class="d4-m pk fi" x="520" y="62" text-anchor="middle" style="--d:3.7s;font-size:12px">hidden bridge</text>
+<text class="d4-m ac" x="400" y="224" text-anchor="middle" style="font-size:12px">jina-embeddings-v3</text>
+<text class="d4-m ac" x="640" y="224" text-anchor="middle" style="font-size:12px">Common Crawl</text>
+<!-- the question (questions.jsonl id 12) -->
+<g class="fi" style="--d:4.0s">
+<rect x="22" y="258" width="656" height="150" rx="10" fill="#fff"/>
+<rect class="d4-q" x="40" y="278" width="30" height="26" rx="5"/><text class="d4-m w" x="55" y="296" text-anchor="middle" style="font-size:14px">Q</text>
+<text class="d4-t" x="84" y="297" style="font-size:17px">jina-embeddings-v3 is based on a model; what was that trained on?</text>
+</g>
+<g class="pop" style="--d:4.5s"><rect class="d4-ans" x="84" y="320" width="164" height="30" rx="6"/><text class="d4-m" x="166" y="340" text-anchor="middle" style="font-size:14px">Common Crawl</text></g>
+<g class="fi" style="--d:5.0s"><text class="d4-m pk" x="84" y="386" style="font-size:13px">grep + read, one turn: answered for jina-embeddings-v3</text><path d="M552 372 L564 384 M564 372 L552 384" stroke="#F04E98" stroke-width="2.6" stroke-linecap="round"/></g>
+<!-- private verifier -->
+<g class="fi" style="--d:5.5s"><path class="d4-ln ac" d="M682 333 H716" style="stroke-width:2"/><path class="d4-hd ac" d="M714 327 L726 333 L714 339 Z"/></g>
+<rect x="737" y="5" width="410" height="420" rx="12" fill="#101C3F"/>
+<rect x="732" y="0" width="410" height="420" rx="12" fill="#fff" stroke="#0B64DD" stroke-width="2"/>
+<rect x="756" y="40" width="22" height="18" rx="3" fill="#101C3F"/><path d="M761 40 V34 A6 6 0 0 1 773 34 V40" fill="none" stroke="#101C3F" stroke-width="2.6"/>
+<text class="d4-s" x="790" y="56" style="font-size:20px;font-weight:800">private verifier</text>
+<text class="d4-m mu" x="790" y="82">100 questions</text>
+<text class="d4-s" x="756" y="170">1 hop</text>
+<rect class="d4-panel" x="852" y="154" width="230" height="22" rx="4"/>
+<rect class="d4-bar gr" x="852" y="154" width="174.8" height="22" rx="4" style="--d:6.1s;--dur:.9s"/>
+<text class="d4-m ac fi" x="1034" y="171" style="--d:6.8s;font-size:18px">76%</text>
+<text class="d4-s" x="756" y="240">2–3 hops</text>
+<rect class="d4-panel" x="852" y="224" width="230" height="22" rx="4"/>
+<rect class="d4-bar pk gr" x="852" y="224" width="50.6" height="22" rx="4" style="--d:7.0s;--dur:.6s"/>
+<text class="d4-m pk fi" x="910" y="241" style="--d:7.4s;font-size:18px">22%</text>
+<text class="d4-m mu" x="756" y="290" style="font-size:12.5px">grep + read, one turn</text>
+<path d="M756 318 H1118" stroke="rgba(16,28,63,.16)" stroke-width="1"/>
+<text class="d4-t fi" x="756" y="360" style="--d:7.9s;font-weight:700;font-size:18px">Scores every new pipeline.</text>
+    </svg>
   </div>
 </section>
 
@@ -2788,6 +3014,8 @@ const ANIM=(function(){
     if(s&&s.classList.contains('eqslide')){ void s.offsetWidth; s.classList.add('go'); }
     document.querySelectorAll('.shl.go').forEach(e=>e.classList.remove('go'));
     if(s&&s.classList.contains('shl')){ void s.offsetWidth; s.classList.add('go'); }
+    document.querySelectorAll('.d4.go').forEach(e=>e.classList.remove('go'));
+    if(s&&s.classList.contains('d4')){ void s.offsetWidth; s.classList.add('go'); }
   }
   return {start,stop};
 })();
