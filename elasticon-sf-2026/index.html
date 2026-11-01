@@ -125,6 +125,7 @@ strong,b{font-weight:700}
 .card.foilcard .ttl{color:var(--foil-ink)}
 .card .desc{font-size:18px;line-height:1.42;font-weight:400}
 .card .foot{margin-top:auto;font-size:16px;font-weight:700;padding-top:14px}
+.dcard .sumk{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--muted,#5A6478);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px 22px}
 .dcard{border:1.4px solid var(--hair2);border-radius:var(--r-card);background:#fff;padding:26px 28px;display:flex;gap:24px;align-items:center;min-height:186px}
 .dcard .dn{font-family:var(--mono);font-size:40px;font-weight:700;color:var(--accent);line-height:1;flex:0 0 auto}
@@ -2125,26 +2126,49 @@ table.bt thead th{font-size:14px;color:var(--accent)}
 
 <!-- ============ 39 WHAT THE DEMOS SHARE ============ -->
 <section class="slide" data-sec="Search is test-time compute">
-  <h2 class="h-slide">Lessons from the four demos</h2>
+  <h2 class="h-slide">Summary of four examples</h2>
   <div class="body">
     <div class="grid2">
-      <div class="dcard lesson"><div class="dt">Training-free</div><div class="dd">Score functions, tags, listwise ranking and agent pipelines all run on frozen weights.</div></div>
-      <div class="dcard lesson tl"><div class="dt">Compute buys quality</div><div class="dd">Score functions gain +0.24 in search, a retrieval model tags images, and a listwise reranker highlights the passages that answer.</div></div>
-      <div class="dcard lesson"><div class="dt">New information drives gains</div><div class="dd">Patches add +0.37 mAP at no cost, crops add +0.075 at 14x, and calibration adds about zero.</div></div>
-      <div class="dcard lesson pk"><div class="dt">Check out of domain</div><div class="dd">+0.24 in search became &minus;0.016 on held-out tasks. Cheap score functions and private verifiers pass this check.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 40 ELASTICSEARCH ============ -->
-<section class="slide" data-sec="Search is test-time compute">
-  <h2 class="h-slide">Test-time compute in Elasticsearch today</h2>
-  <div class="body">
-    <div class="grid2">
-      <div class="dcard lesson"><div class="kk">retriever &middot; rrf</div><div class="dt">Fuse rankings</div><div class="dd">Fuse lexical and dense results with the <span class="code">rrf</span> retriever, which the score-function search rediscovered.</div></div>
-      <div class="dcard lesson"><div class="kk">retriever &middot; text_similarity_reranker</div><div class="dt">Rerank the top-k</div><div class="dd">Rerank the top hits with a listwise model through the <span class="code">text_similarity_reranker</span> retriever.</div></div>
-      <div class="dcard lesson"><div class="kk">field &middot; semantic_text</div><div class="dt">Score chunks</div><div class="dd">With <span class="code">semantic_text</span> chunking, rank each document by its best chunk.</div></div>
-      <div class="dcard lesson yl"><div class="kk">agents &middot; budget</div><div class="dt">Budget the agent</div><div class="dd">Give agents a token budget, and test them on private multi-hop questions before raising it.</div></div>
+      <div class="dcard">
+        <svg viewBox="0 0 120 74" aria-hidden="true">
+          <line class="vconn" x1="16" y1="37" x2="96" y2="14"/><line class="vconn" x1="16" y1="37" x2="96" y2="60"/>
+          <line class="vwin" x1="16" y1="37" x2="104" y2="37"/>
+          <circle class="vd" cx="96" cy="14" r="4"/><circle class="vd vpulse pos" cx="104" cy="37" r="6"/><circle class="vd" cx="96" cy="60" r="4"/>
+          <circle class="vq" cx="16" cy="37" r="6.5"/>
+        </svg>
+        <div><div class="dn">01</div></div>
+        <div><div class="sumk">Score functions</div><div class="dt"><span class="accent">Spend compute</span> to build advanced score functions</div></div>
+      </div>
+      <div class="dcard">
+        <svg viewBox="0 0 120 74" aria-hidden="true">
+          <rect class="gimg" x="6" y="10" width="54" height="54" rx="5"/>
+          <path d="M12 56 L28 36 L40 48 L48 40 L56 56 Z" fill="#0B64DD" opacity=".85"/><circle cx="22" cy="24" r="5" fill="#48EFCF"/>
+          <rect class="gchip" x="70" y="12" width="44" height="14" rx="7"/><rect class="gchip" x="70" y="30" width="36" height="14" rx="7"/><rect class="gchip vpulse" x="70" y="48" width="40" height="14" rx="7"/>
+        </svg>
+        <div><div class="dn">02</div></div>
+        <div><div class="sumk">Open-vocabulary tagger</div><div class="dt"><span class="accent">Spend compute</span> to unlock a new capability: image tagging</div></div>
+      </div>
+      <div class="dcard">
+        <svg viewBox="0 0 120 74" aria-hidden="true" class="attn">
+          <rect x="3" y="8" width="114" height="60" rx="8" fill="rgba(72,239,207,.12)" stroke="#0B64DD" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <rect x="10" y="30" width="18" height="16" rx="3" fill="#0B64DD"/>
+          <rect x="36" y="30" width="18" height="16" rx="3" fill="#E7EEFC" stroke="#0B64DD"/><rect x="62" y="30" width="18" height="16" rx="3" fill="#E7EEFC" stroke="#0B64DD"/><rect x="88" y="30" width="18" height="16" rx="3" fill="#E7EEFC" stroke="#0B64DD"/>
+          <path d="M45 30 C 54 20 62 20 71 30"/><path d="M71 30 C 80 20 88 20 97 30"/><path d="M45 46 C 60 60 82 60 97 46"/>
+        </svg>
+        <div><div class="dn">03</div></div>
+        <div><div class="sumk">Semantic highlighting</div><div class="dt"><span class="accent">Spend compute</span> on more interactions between candidate documents</div></div>
+      </div>
+      <div class="dcard">
+        <svg viewBox="0 0 120 74" aria-hidden="true">
+          <line class="vwin" x1="22" y1="37" x2="66" y2="13"/><line class="vwin" x1="22" y1="37" x2="66" y2="37"/><line class="vwin" x1="22" y1="37" x2="66" y2="61"/>
+          <rect x="66" y="5" width="50" height="16" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.1"/><text class="vtool" x="91" y="17" text-anchor="middle">grep</text>
+          <rect x="66" y="29" width="50" height="16" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.1"/><text class="vtool" x="91" y="41" text-anchor="middle">embed</text>
+          <rect x="66" y="53" width="50" height="16" rx="4" fill="#fff" stroke="#101C3F" stroke-width="1.1"/><text class="vtool" x="91" y="65" text-anchor="middle">rerank</text>
+          <circle class="vq vpulse" cx="16" cy="37" r="7"/>
+        </svg>
+        <div><div class="dn">04</div></div>
+        <div><div class="sumk">Reusable search pipelines</div><div class="dt"><span class="accent">Spend compute</span> to build reusable, verifiable pipelines</div></div>
+      </div>
     </div>
   </div>
 </section>

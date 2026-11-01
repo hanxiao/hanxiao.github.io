@@ -226,25 +226,20 @@ So we turn the corpus into a graph, walk two or three hops, and hide the bridge.
 A question stays only if a closed-book model fails and a retrieval agent succeeds.
 That gives us a private verifier.` },
 
-   { n: 33, sec: 50, title: "What the demos share",
-     note: `All of them are training-free, on frozen models.
-Compute buys quality. Score functions, a tagger, and a listwise reranker that highlights the answer.
-Gains come only when *new information* enters. Patches and crops, yes. Calibration, no.
-And always check out of domain.
-Plus 0.24 in search became minus 0.016 on held-out tasks. //` },
+   { n: 33, sec: 50, title: "Summary of four examples",
+     note: `Let me recap the four examples.
+One, we spent compute to build advanced score functions.
+Two, we spent compute to unlock a new capability, image tagging.
+Three, we spent compute on more interactions between candidate documents.
+Four, we spent compute to build reusable, verifiable pipelines.
+Four angles, one idea. Search is test-time compute. //` },
 
-   { n: 34, sec: 50, title: "Elasticsearch",
-     note: `Fuse rankings with the rrf retriever, which the score-function search rediscovered.
-Rerank the top hits with the text similarity reranker, and let the candidates see each other.
-With semantic text chunking, rank each document by its best chunk.
-And give your agents a token budget, and test them on private multi-hop questions before you raise it.` },
-
-   { n: 35, sec: 25, title: "Closing",
+   { n: 34, sec: 25, title: "Closing",
      note: `So, to close.
 Search has always been test-time compute.
 Spend it where *new information* enters. //` },
 
-   { n: 36, sec: 15, title: "Thank you",
+   { n: 35, sec: 15, title: "Thank you",
      note: `Thank you.
 Happy to take questions.` }
 ];
