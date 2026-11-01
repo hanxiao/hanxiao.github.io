@@ -1,209 +1,150 @@
 /* Speaker notes for elasticon-sf-2026 ("Search is test-time compute", ElasticON AI San Francisco, Nov 4 2026).
    window.NOTES[i] = {n, title, sec, note}. Exactly one entry per slide, keep 1:1 with ../index.html.
-   Annotations: line break = breathe   *word* = stress   // = a longer beat.   No dashes. Total sec = 1680 (28 min). */
+   Annotations: line break = breathe   *word* = stress   // = a longer beat.   No dashes. Total sec = 950 (15.8 min). */
 window.NOTES = [
-   { n: 1, sec: 30, title: "Search is test-time compute",
-     note: `Good morning, everyone, and thanks for coming.
-My name is Han Xiao, I run AI at Elastic.
-Search *is* test-time compute.
-I will show four small demos, all training-free. //` },
+   { n: 1, sec: 15, title: "Search is test-time compute",
+     note: `Good morning everyone!
+Welcome to ElasticOn San Francisco.
+My name is Han and I run the model training and inference team at Elastic and today I want to talk about search as test time compute.` },
 
-   { n: 2, sec: 30, title: "Training harder",
-     note: `For most of its history, search got better by *training harder*.
-Bigger encoders, cleaner data, faster indexes and stronger rerankers.
-All of that happens *before* the first query.` },
+   { n: 2, sec: 40, title: "Training harder",
+     note: `Lets start from the history, think about over last 10 years especially since 2017 where transformer/BERT model starts to take off in the field of information retrieval.
+Semantic search is mostly achieved by bigger and better transformers models that can represent document into vectors, and map those vectors into relevance.
+We started from the original very small BERT models with 110M parameters, all the way to multi- billion level parameters, by training longer, harder and better to get more relevant search results.
+People talk about scaling law and the idea there is the more computational resources u put into training the better outcome u will come` },
 
-   { n: 3, sec: 45, title: "The second axis",
-     note: `Then large language models found a *second axis*.
-You keep the model and let it do more work per query.
-You spend compute at inference, and quality climbs along a smooth curve.
-Noam Brown put it nicely for poker.
-Twenty seconds of thinking gave the same boost as scaling the model a hundred thousand times. //` },
+   { n: 3, sec: 35, title: "The second axis",
+     note: `This trend meets a turning point in late 2024, when OpenAI released the first reasoning model gpt-O1.
+What differs O1 from all its previous generations is the more computation resources are put at inference time by generating thinking process before giving the final answer.
+The same model, if u give it longer time to think, it will give better answer.
+Noam Brown call this as test-time compute or test-time scaling.
+It’s the first time people realize that better outcomes can be achieved by investing more at inference.` },
 
    { n: 4, sec: 35, title: "Search lives on that axis",
-     note: `Here is the fun part.
-Search has *always* lived on that axis.
-Embed, retrieve, rerank, expand, fuse.
-All of it runs after the user presses Enter.
-So the real question is where to spend it. //` },
+     note: `Since there there are a lot of new developments on the reasoning models, and today all of our daily used models are basically reasoning models, opus, gpt6 or gemini and one can change thinking level there at test time, from low to high to ultra high.
+The more you spend the more accurate result you will get.
+But so far this seems to be exclusive for LLM and generative models.
+In this talk, I send a clear message and convince everyone on this message is that search is always about test time compute.` },
 
-   { n: 5, sec: 35, title: "A currency, not a KPI",
-     note: `So what changes when you think this way?
-Until now, inference time was a *KPI*.
-A latency number in the SLA, a line you stay under.
-If you wanted better accuracy, you needed a bigger model.
-In this talk, inference time is a *currency*.
-Keep the weights, and raise the budget from 10 to 100 milliseconds.
-What does it buy? //
-Two things.
-Relevance, the same task ranked better.
-And a new capability, tasks the model was never trained for.` },
+   { n: 5, sec: 25, title: "A currency, not a KPI",
+     note: `To understand this message, the first thing you need to do is to change your mindset.
+The traditional mindset believes that search latency is important and must be minimized, so it’s a KPI a hard limit.
+Today, under the test time compute framework, please think the inference time as a currency, a budget where you can use it to buy relevancy or new capability.` },
 
-   { n: 6, sec: 45, title: "Four demos",
-     note: `I will walk through four demos.
-One, score functions that get higher relevance from the same frozen encoder.
-Two, a tagger that annotates photos with any words.
-Three, a reranker that highlights the passages that match.
-Four, an agent that builds small search pipelines and reuses them in long-horizon tasks.
-No training anywhere.` },
+   { n: 6, sec: 35, title: "Four demos",
+     note: `In particular in this talk, I will talk about four ways to spend your inference budget at test time.
+To build a retrieval program that gives higher relevance.
+An image tagger that can annotate photos with open vocabulary.
+A reranker that can do semantic highlighting based the matches.
+And finally an agent workflow that builds small search pipeline and reuse them in long horizon task.
+In all of these demos, none of them involve training a new model, so all of them are training-free.` },
 
-   { n: 7, sec: 50, title: "Three ways to spend compute",
-     note: `On a frozen model there are three ways to spend compute.
-*A*, a deeper pass. Read every token or patch vector of the pass you already ran.
-*B*, more passes. Run the encoder again on new views, such as a sentence or a crop.
-*C*, calibration. Move the vectors you already have toward a global prior.
-All three keep the weights fixed.
-They differ in where *new information* comes from. //` },
+   { n: 7, sec: 15, title: "Three ways to spend compute",
+     note: `So if the search model is frozen, the representation space is fixed where the improvements can come from?
+In this talk, we will talk about three ways to do that.
+Doing a deeper pass, doing more passes and doing calibration.` },
 
    { n: 8, sec: 10, title: "Section 01",
-     note: `Demo one. Score functions on a frozen encoder.` },
+     note: `Let’s first look at the first example, finding a retrieval program that use a frozen embedding model gives higher relevance.` },
 
-   { n: 9, sec: 45, title: "Scoring spectrum",
-     note: `On the left, plain cosine. One vector per document.
-On the right, ColBERT, which needs a multi-vector model.
-In the middle is the trick.
-Same single-vector encoder, but split the document into sentences and keep the best match.
-That is test-time compute on a model you already have.` },
+   { n: 9, sec: 30, title: "Scoring spectrum",
+     note: `We know in classic semantic search people use cosine similarity between a query vector and document vector to measure the relevancy.
+But that’s not the only way, one also chunk the document into sentences and use the maximum cosine of the query and every sentence as the final score.
+To put this into an extreme, one can even max over every document token and every query token.
+This is exactly what ColBERT model did.` },
 
-   { n: 10, sec: 50, title: "The loop",
-     note: `So we let an agent do the research.
-Opus 4.6 writes one Python score function over the frozen jina-embeddings-v5-nano.
-An evaluator scores it on 14 retrieval tasks.
-The result goes into a memory file, and the memory conditions the next score function.
-Keep it if it improves, revert if not.
-After 144 rounds we have 144 scored functions.
-Anything that smuggles in hyperparameters or a learned model is rejected automatically.` },
+   { n: 10, sec: 30, title: "The loop",
+     note: `And of course the score function is not stopping there.
+We can use auto research to find all score functions that give us better relevance.
+Here I design this research loop as follows: it starts with a frontier model proposing a score function, the score function is verified on some evaluator, the results is stored in a memory file which is basically a plain json file, and the LLM reads that memory and propose the next score function.` },
 
-   { n: 11, sec: 40, title: "Setup",
-     note: `The setup matters.
-The loop only ever sees one encoder and 14 tasks.
-We test on 19 *other* tasks and three other encoders.
-One from the same family, and two families it has never seen, Gemma and Qwen.
-That is the real test of whether a score function generalizes.` },
+   { n: 11, sec: 25, title: "Setup",
+     note: `In particular, in this discovery loop we use Jina-embedding-v5-nano as the base model as it is smallest best sota embedding model today, (2) because it’s small enough so the evaluation there is quite cheap, which is very important to for this discovery loop to run efficiently.
+For validating the effectiveness, we use three diff other models and some other benchmarks.` },
 
-   { n: 12, sec: 40, title: "Pareto curve",
-     note: `First we told the loop to spend compute.
-Cosine is the baseline, at the origin.
-Each dot is one of 144 score functions, in order of cost.
-And it does exactly what you hope.
-A clean Pareto curve, 12 functions, from plus 0.07 to plus 0.24 mean nDCG improvement.
-It looks just like test-time scaling in LLMs.
-But these are in-search numbers.
-The held-out test comes next. //` },
+   { n: 12, sec: 50, title: "Pareto curve",
+     note: `So we run this discovery loop long enough and we end up with 144 different score functions that use slightly more and more compute all thee way up to 16 times more compute than a simple cosine similarity. and to read this graph, x-axis is the computation cost, from origin point which represents the original cosine where given a query, u compute cosine against every doc in the corpus just once, and if a score function somehow require compute cosine over the entire corpus twice then it’s 2x.
+So all the way up to 16x.
+And we do see there is trend that a score function that uses more compute, tends to gives higher score.
+Y axis is the score, and +0.2 on ndcg is significant improvement.` },
 
-   { n: 13, sec: 45, title: "Heatmap",
-     note: `Here is every cell.
-Twelve score functions, nineteen tasks, four encoders.
-About half the cells improve, 485 of 912.
-But look at the deep pink ones. The worst falls to minus 0.98.
-So the pooled mean is minus 0.016.
-Spending compute helps often, and when it fails, it fails hard.` },
+   { n: 13, sec: 40, title: "Heatmap",
+     note: `So far our discovery loop only use jina-embeddings-v5-nano, so we need to test all these 12 score functions on their genearlibility on diff model and diff task.
+And the idea here is: if a score function is genuinely useful and meaningful it should generalize to other models and on other tasks.
+So here is a heat map of different programs and their win/loss rate on diff task under diff model.
+One can see that some program does generalize pretty well on diff embedding model and diff task, meaning that they might be some new useful score function that can be used for getting better relevance` },
 
-   { n: 14, sec: 45, title: "Classical IR",
-     note: `What did the search actually find?
-Classical information retrieval, re-derived in embedding space.
-Reciprocal rank fusion and the Fisher discriminant appeared without any seed.
-Rocchio feedback and sentence MaxSim grew out of seeded ideas.
-They all rely on cosine geometry, which every encoder shares.
-That is why they carry over.` },
+   { n: 14, sec: 20, title: "Classical IR",
+     note: `So what are these score functions then, it turns out many of them we already know from classical IR but probably forgotten recently, like reciprocal rank fusion, fisher linear discriminate and and maxsim.
+Each one of them is achieved by using the same frozen embedding model but spending more compute as test time` },
 
-   { n: 15, sec: 10, title: "Section 02",
-     note: `Demo two. A retrieval model tags images.` },
+   { n: 15, sec: 5, title: "Section 02",
+     note: `Our next example is to use a frozen embedding model for image tagging` },
 
-   { n: 16, sec: 50, title: "Tags for free",
-     note: `These tags come from an embedding model.
-No training, no second model, no dictionary, no part-of-speech tagger.
-Every tag here is verbatim output.
-Some are in other languages, because the label set is the model's own vocabulary.` },
+   { n: 16, sec: 25, title: "Tags for free",
+     note: `So here’s an illustration to show u want we want to achieve, those r real photos from my laptop and I hope to give them some annotations or tagging which help me to organize them later.
+But the challenge here is I can’t use any image annotation model, all I have is use embedding model, so how to do that?` },
 
-   { n: 17, sec: 40, title: "One space",
-     note: `The model is jina-embeddings-v5-omni-nano, about one billion parameters.
-Images and text land in the same 768-dimensional space.
-It is a retrieval encoder. It has no tagging head and was never trained to tag.
-But because both paths share one space, any patch can be scored against any word.` },
+   { n: 17, sec: 20, title: "One space",
+     note: `In this example, we will need jina-embeddings-v5-omni-nano, our smallest omni embedding model that can represent text, image, audio in one vector space.
+This model was released in May.
+So with this embedding model, we encode image and text into vectors, but how can we use those vectors and convert them into tags.` },
 
-   { n: 18, sec: 45, title: "The tagger",
-     note: `Here is the whole tagger.
-Offline, we encode all 128,260 tokens of the tokenizer once. That is the label matrix.
-We estimate a background prior and gate to 25,465 whole words.
-Per image, one forward pass gives patches and a global vector.
-Score, subtract the prior, deduplicate, take the top tags.
-This bear runs through every step and comes out as fur, bear, muzzle. It comes back on the crops slide.` },
+   { n: 18, sec: 35, title: "The tagger",
+     note: `So this is the entire tagging pipeline, it looks complicated but essentially it’s a one time offline process and then per-image online process combining together.
+In the offline procedure, we compute the embedding vector for every token in our vocabulary and store them first.
+In the online process we compute the image embedding at patch, crop, and global level to get visual embeddings from different perspectives, we then later subtract the background prior from the image, do deep and some gating based on threshold, and eventually get the top-k tags.` },
 
-   { n: 19, sec: 40, title: "Score every patch",
-     note: `This is lever A, the deeper pass.
-The pooled vector is dominated by the biggest object.
-But the patch vectors are already in the forward pass.
-Let each label keep its best patch, like ColBERT.
-mAP goes from 0.264 to 0.635. *For free.*` },
+   { n: 19, sec: 35, title: "Score every patch",
+     note: `What’s important here is number of vectors per image, if we only use one vector per image in our previous pipeline, it works.
+But the quality is pretty bad.
+If we stop pooling the image embeddings and use raw patch-level embedding to represent an image, this gives us multiple embeddings per image, and we will need more compute to do max-sim like similarity calculation, but this gives much better quality in the end.
+We can also combine these two together in the same pipline to get even better results.` },
 
-   { n: 20, sec: 45, title: "Crops",
-     note: `This is lever B, more passes.
-We run 14 crops through the same model.
-Watch the layers lift: nine crops, then four, then the center.
-A small object fills its own crop, so weak evidence becomes strong.
-mAP goes from 0.635 to 0.710 for 14 times the passes.
-One pass reads wolf. With crops, it reads bear.` },
+   { n: 20, sec: 25, title: "Crops",
+     note: `What interesting is if we spend more compute and do this step further, this will give us even better results.
+So here’s a simple example, we have these 2 score functions already and they applied to the input image level.
+If we do multiple crops and repeat the score functions there, it gives even more accurate results.` },
 
-   { n: 21, sec: 35, title: "One recursive scoring function",
-     note: `Here is the whole tagger as one formula.
-Three terms: calibration on the pooled vector, patch evidence from the same pass, and the crops.
-Look at the crop term.
-The score of each crop is this *same function*, called again on the crop as a new image.
-So the scorer is recursive.
-To spend more compute, we run it again on new views. //` },
+   { n: 21, sec: 25, title: "One recursive scoring function",
+     note: `Perhaps to see it more clearly, this equatiion shows exactly what’s happening.
+The final score function combines global, patch-level and crop information.
+And the crop information is recursively defined as the function of itself.
+I like this score function a lot, bc this very nice map to the three ways I talked earlier on how to spend compute at test time.
+Via calibration, deeper pass and more passes.` },
 
-   { n: 22, sec: 40, title: "The ladder",
-     note: `Patches give the big step.
-Crops give the next one, at higher latency.
-And down at the bottom, the calibration methods.
-Same 75 milliseconds as the patch pipeline, and they collapse.` },
+   { n: 22, sec: 25, title: "The ladder",
+     note: `Again we can plot a graph to show the effectiveness of adding more compute to the quality of tagging.
+We can see even with a fixed embedding model processing more information can significantly improve the quality.
+And what’s probably surprising to everyone is that the whole image tagging is done by jina-embeddings-v5-omni-nano, an embedding model with no extra training.` },
 
-   { n: 23, sec: 10, title: "Section 03",
-     note: `Demo three. A reranker as a semantic highlighter.` },
+   { n: 23, sec: 5, title: "Section 03",
+     note: `Next example is semantic highlighting using reranker and test time compute` },
 
-   { n: 24, sec: 25, title: "The task",
-     note: `Here is the task.
-You have a query and a long document.
-Split the document into passages, score every passage against the query, and highlight the best ones *in place*.
-No index. Just the page and the question. //` },
+   { n: 24, sec: 10, title: "The task",
+     note: `Semantic highlighting is select the most matched paragraphs or sections or sentences from the documents given the query, and highlight it to the user.` },
 
-   { n: 25, sec: 25, title: "Cross-encoder",
-     note: `The classic way is a cross-encoder, like bge-reranker-v2-m3.
-You chunk the document, and for every chunk you run the query plus that one chunk through the model.
-One pass per chunk, N passes, all at query time.
-The problem is that each chunk is scored *separately*.
-A chunk does not know the other chunks exist, and they never exchange information.
-So the context of the whole document is *lost*.
-"That blue reaches us from all sides." Alone, it cannot see what *that blue* refers to. It scores low and gets missed, and a sentence about sunsets is picked instead.
-The result is suboptimal. //` },
+   { n: 25, sec: 35, title: "Cross-encoder",
+     note: `Traditionally, one can use reranker, a bi-encoder transfromer model to solve this.
+So you basically cut the long document into chunks and encode them separately, and finally compute the cosine simlairy of the query against every passage.
+To get the score.
+But the problem of this approach is the lost of context, bc you chunk the document and evaluate them separately, each chunk dont know other chunk exist and they dont exchange information, so you are not leveraging the context of the entire document, which makes the result suboptimal` },
 
-   { n: 26, sec: 25, title: "Listwise",
-     note: `A listwise reranker packs the query and all passages into *one* context.
-jina-reranker-v3, 0.6 billion parameters, up to 64 passages in a 131K window.
-Every passage attends to the query and to every other passage, and its score comes from its last token.
-Now "that blue" makes sense, and the two right sentences light up.
-On BEIR it scores 61.94, against about 56 for the cross-encoder and for Qwen3 reranker of the same size. //` },
+   { n: 26, sec: 30, title: "Listwise",
+     note: `In jina-reranker-v3 and v3.5 we propose a new architecture called listwise reranker, the idea is u dont indepentdently compute pairwise similarity, but instead u put all sentences from the document in their original order into the context window and compute once.
+You insert special score token after each sentence or passage.
+By doing so, the information exchange happens between every document and with the query, and this gives a much better quality.` },
 
-   { n: 27, sec: 25, title: "Extra compute",
-     note: `So where does the extra compute go?
-The cross-encoder runs N separate passes, each over the query plus one passage.
-It re-reads the query every time, and nothing runs offline. N times q plus L, squared.
-Listwise runs *one* pass over everything. Order N squared L squared.
-The pink blocks are the extra: passage to passage.
-That is the context exchange across chunks, the thing the cross-encoder never has.
-That is where the quality comes from. //` },
+   { n: 27, sec: 20, title: "Extra compute",
+     note: `If we compare the two architecture side by side, we can immediately realize that the list wise approach add much more computation at query time, we spend this computation on calculating the interaction between every documents to get richer semantics, and this gives much better result.` },
 
-   { n: 28, sec: 10, title: "Section 04",
-     note: `Demo four. Build reusable agentic pipelines at test time.` },
+   { n: 28, sec: 5, title: "Section 04",
+     note: `Our last example is how to use agent to build reusable pipeline at test-time` },
 
-   { n: 29, sec: 50, title: "Long-horizon agents",
-     note: `In 2025, deep research was one loop. Search, read, reason, until the budget runs out.
-In 2026, long-horizon agents split the work.
-First research, with web access, to build a corpus.
-Then an offline agent loop that works from that corpus.
-Research and execution want different tokens.
-Use cheap local tokens to build the corpus, and save frontier tokens for the work that needs them.` },
+   { n: 29, sec: 35, title: "Long-horizon agents",
+     note: `In 2025 people talked about deep research, where there is a loop over search, read, reason and it happens at test-time, the whole model is fixed, but just by looping over these steps and get better quality repor.t. in 2026, the community moved to more challenging long horizon task, where research itself is not enough, we need excution and implementation.
+But the general idea is quite same, fixing the model, first do research loop and then do implementation loop.
+The current RSI basically follows very similar pattern.` },
 
    { n: 30, sec: 40, title: "dataroom",
      note: `dataroom is the first half.
