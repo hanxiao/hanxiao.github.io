@@ -195,7 +195,7 @@ That is the context exchange across chunks, the thing the cross-encoder never ha
 That is where the quality comes from. //` },
 
    { n: 28, sec: 10, title: "Section 04",
-     note: `Demo four. An agent builds the pipeline.` },
+     note: `Demo four. Build reusable agentic pipelines at test time.` },
 
    { n: 29, sec: 50, title: "Long-horizon agents",
      note: `In 2025, deep research was one loop. Search, read, reason, until the budget runs out.
