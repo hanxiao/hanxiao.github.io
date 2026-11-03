@@ -2451,14 +2451,25 @@ function fit(){
 }
 ['resize','orientationchange','load','pageshow'].forEach(ev=>window.addEventListener(ev,fit));
 if(window.visualViewport) window.visualViewport.addEventListener('resize',fit);
+/* ---- local two-window sync (same browser, same origin): the projected deck and the speaker notes
+   drive each other, so the clicker works whichever window has focus. Messages carry the absolute slide
+   index, receivers never re-broadcast, so fast flipping cannot loop or drift. ---- */
+const NAVCH=('BroadcastChannel' in window)?new BroadcastChannel('elasticon-sf-2026-nav'):null;
+const EMBED=window.parent!==window;
+function navSkip(){try{const s=JSON.parse(localStorage.getItem('elasticon-sf-2026-skip'));return new Set(Array.isArray(s)?s:[]);}catch(_){return new Set();}}
+function userShow(n){ if(n<0||n>=slides.length) return; show(n); if(NAVCH){ try{ NAVCH.postMessage({n:i,from:'deck'}); }catch(_){} } }
+function step(d){ const sk=navSkip(); let k=i+d; while(k>=0&&k<slides.length&&sk.has(k+1)) k+=d; if(k<0||k>=slides.length) return; userShow(k); }
+if(NAVCH){ NAVCH.onmessage=e=>{ const m=e.data||{};
+  if(typeof m.n==='number'){ if(m.n>=0&&m.n<slides.length&&m.n!==i) show(m.n); }
+  else if(m.q&&!EMBED){ try{ NAVCH.postMessage({n:i,from:'deck'}); }catch(_){} } }; }
 window.addEventListener('keydown',e=>{
-  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){show(i+1);e.preventDefault();}
-  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){show(i-1);e.preventDefault();}
-  else if(e.key==='Home'){show(0);}
-  else if(e.key==='End'){show(slides.length-1);}
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){step(1);e.preventDefault();}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){step(-1);e.preventDefault();}
+  else if(e.key==='Home'){userShow(0);}
+  else if(e.key==='End'){userShow(slides.length-1);}
   else if(e.key==='f'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
 });
-stage.addEventListener('click',e=>{ if(e.clientX < window.innerWidth*0.32) show(i-1); else show(i+1); });
+stage.addEventListener('click',e=>{ if(e.clientX < window.innerWidth*0.32) step(-1); else step(1); });
 
 /* ---------------- SVG chart toolkit ---------------- */
 const SVGNS='http://www.w3.org/2000/svg';
@@ -3035,6 +3046,7 @@ function init(){
   window.addEventListener('beforeprint',()=>PARETO.stop());
 }
 init();
+if(NAVCH&&!EMBED){ try{ NAVCH.postMessage({q:1}); }catch(_){} }   // late-opened deck: ask the notes window where we are
 
 /* ---- remote follow: open /elasticon-sf-2026/?follow on the projector to track the phone ---- */
 (function(){

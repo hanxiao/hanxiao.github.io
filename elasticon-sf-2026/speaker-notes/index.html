@@ -150,13 +150,17 @@ button.skip.on:hover{color:#fff;opacity:.92}
     <div class="bignav"><button id="backBig">◂ Back</button><button id="nextBig">Next ▸</button></div>
   </section>
 </main>
-<script src="notes.js?v=pause3"></script>
+<script src="notes.js?v=nav1"></script>
 <script src="../sync.js?v=1"></script>
 <script>
 const N = window.NOTES || [];
 const deck = document.getElementById('deck');
 const $ = id => document.getElementById(id);
 let cur = 0, fontPx = 24, remoteOn = false, userScrollAt = 0;
+// ---- local two-window sync with the projected deck (same browser): either window drives both ----
+const NAVCH = ('BroadcastChannel' in window) ? new BroadcastChannel('elasticon-sf-2026-nav') : null;
+let navRx = false, navBooted = false;
+function navPost(){ if(NAVCH && navBooted && !navRx){ try{ NAVCH.postMessage({n:cur, from:'notes'}); }catch(_){} } }
 const isMobile = window.matchMedia('(max-width:720px)').matches;
 // ---- skipped slides: excluded from nav, pace, and the projected deck ----
 const SKIP_KEY = 'elasticon-sf-2026-skip';
@@ -188,6 +192,7 @@ function nowElapsed(){ return elapsedAcc + (running ? (Date.now()-startEpoch)/10
 function navDeck(i){
   if(isMobile) return;   // phone: don't load/drive the deck iframe (the deck is on the projector)
   // try direct call into the deck's global show(); fall back to hash reload
+  try { if (deck.contentWindow && deck.contentWindow.location.hash === '#'+(i+1)) return; } catch(e){}   // already there (it heard the same sync message)
   try { if (deck.contentWindow && typeof deck.contentWindow.show === 'function'){ deck.contentWindow.show(i); return; } } catch(e){}
   deck.src = '../index.html#'+(i+1);
 }
@@ -205,6 +210,7 @@ function render(){
   slideEnterElapsed = nowElapsed();
   navDeck(cur);
   broadcast();
+  navPost();
   updatePace();
 }
 function go(d){
@@ -257,8 +263,8 @@ $('fdown').onclick=()=>{fontPx=Math.max(16,fontPx-2);$('note').style.fontSize=fo
 $('fsBtn').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
 
 document.addEventListener('keydown', e=>{
-  if(['ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); go(1); }
-  else if(['ArrowLeft','Backspace','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){ e.preventDefault(); go(1); }
+  else if(['ArrowLeft','ArrowUp','Backspace','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
   else if(e.key==='s'||e.key==='S'){ toggle(); }
   else if(e.key==='r'||e.key==='R'){ reset(); }
   else if(e.key==='f'||e.key==='F'){ $('fsBtn').onclick(); }
@@ -335,6 +341,13 @@ if(isMobile){ try{ deck.src='about:blank'; }catch(_){} }   // phone: don't load 
 })();
 
 render();
+navBooted = true;
+if(NAVCH){
+  NAVCH.onmessage = e=>{ const m = e.data || {};
+    if(typeof m.n === 'number'){ if(m.n>=0 && m.n<N.length && m.n!==cur){ navRx = true; cur = m.n; try{ render(); } finally { navRx = false; } } }
+    else if(m.q){ navPost(); } };
+  try{ NAVCH.postMessage({q:1}); }catch(_){}   // opened mid-talk: jump to wherever the deck is
+}
 </script>
 </body>
 </html>
