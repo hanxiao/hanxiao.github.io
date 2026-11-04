@@ -224,12 +224,13 @@ Grep and read, in one turn, // answered for the wrong model.
 On a hundred questions, one turn gets seventy-six percent of the one-hop questions, // but only twenty-two percent of the multi-hop ones.
 That gap is our *private verifier*. // It scores every new pipeline.` },
 
-   { n: 33, sec: 30, title: "Summary of four examples",
+   { n: 33, sec: 35, title: "Summary of four examples",
      note: `So let me recap the four examples.
 One, // we spent compute to build advanced score functions.
 Two, // we spent compute to unlock a new capability, image tagging.
 Three, // we spent compute on more interactions between candidate documents.
 Four, // we spent compute to build reusable, verifiable pipelines.
+And all four spend it in the same three ways. // A deeper pass, // more passes, // and calibration.
 Four angles, // one idea.
 Search is *test-time compute*.` },
 
