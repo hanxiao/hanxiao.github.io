@@ -866,7 +866,7 @@ const T = {strings};
 // competing for CPU with the emulators it came to watch.
 const Q = new URLSearchParams(location.search);
 const BACKEND = "https://jy-crpg-bench-366646433082.us-central1.run.app";
-const STORE = Q.get("store") || "https://storage.googleapis.com/jy-crpg-bench-runs";
+const STORE = Q.get("store") || "https://hanxiao.io/jy-crpg-bench-runs";
 // The catalogue and the live index come from the backend, which answers this
 // page and nothing else; the artifacts they name stay in the store.
 const CATALOG = Q.get("catalog") || BACKEND + "/api/catalog";
