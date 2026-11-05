@@ -2547,18 +2547,16 @@ const PARETO=(function(){
   const xmin=Math.log10(0.95),xmax=Math.log10(18),ymin=-0.03,ymax=0.40;
   const X=v=>L+(Math.log10(v)-xmin)/(xmax-xmin)*(W-L-RT);
   const Y=v=>H-B-(v-ymin)/(ymax-ymin)*(H-T-B);
-  const CW=200,CH=135,GAP=12;
+  const CW=150,CH=76;
   const HAIR='rgba(16,28,63,.30)';
-  function leader(x1,y1,px,py,gap){
-    const dx=px-x1,dy=py-y1,l=Math.hypot(dx,dy)||1;
-    return el('line',{x1,y1,x2:px-dx/l*gap,y2:py-dy/l*gap,stroke:INK,'stroke-width':1.2});
-  }
-  function hide(c,on){ if(!c) return; c.g.classList.toggle('h',on); c.ring.classList.toggle('h',on); }
+  const COLS=[[86,240,394],[676,830,984]];
+  const ROWS=[18,96];
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   function stop(){
     timers.forEach(clearTimeout); timers=[];
     if(!R) return;
     R.pts.forEach(p=>p.e.classList.remove('h'));
-    R.cards.forEach(c=>hide(c,true));
+    R.chips.forEach(c=>c.g.classList.add('h'));
     R.curve.style.transition=''; R.curve.style.strokeDasharray=''; R.curve.style.strokeDashoffset='';
   }
   function build(){
@@ -2578,8 +2576,8 @@ const PARETO=(function(){
     svg.appendChild(txt((L+W-RT)/2,H-8,'cost ratio c  (x baseline encoder passes, log)',{fs:16,fw:700,anchor:'middle'}));
     const yl=txt(20,(T+H-B)/2,'in-domain mean \u0394nDCG@10',{fs:16,fw:700,anchor:'middle'});
     yl.setAttribute('transform',`rotate(-90 20 ${(T+H-B)/2})`); svg.appendChild(yl);
-    const gP=el('g',{}), gC=el('g',{}), gF=el('g',{}), gO=el('g',{}), gK=el('g',{});
-    [gP,gC,gF,gO,gK].forEach(g=>svg.appendChild(g));
+    const gP=el('g',{}), gC=el('g',{}), gF=el('g',{}), gO=el('g',{}), gL=el('g',{}), gK=el('g',{});
+    [gP,gC,gF,gO,gL,gK].forEach(g=>svg.appendChild(g));
 
     /* searched points, ordered by cost; each frontier function is matched to its searched point */
     const frIdx=fr.map(f=>all.findIndex(p=>Math.abs(f[0]-p[0])<0.08 && Math.abs(f[1]-p[1])<0.0006));
@@ -2602,7 +2600,7 @@ const PARETO=(function(){
     /* cosine reference at the baseline point (c = 1, delta = 0), always shown */
     const ox=X(1), oy=Y(0);
     const cosBox={x:ox+94,y:oy-54,w:144,h:38};
-    gO.appendChild(leader(cosBox.x,cosBox.y+cosBox.h/2,ox,oy,9));
+    gO.appendChild(el('line',{x1:cosBox.x,y1:cosBox.y+cosBox.h/2,x2:ox+9,y2:oy,stroke:INK,'stroke-width':1.2}));
     gO.appendChild(el('rect',{x:cosBox.x,y:cosBox.y,width:cosBox.w,height:cosBox.h,rx:9,fill:'#fff',stroke:HAIR,'stroke-width':1.4}));
     const gx=cosBox.x+16, gy=cosBox.y+cosBox.h/2;
     gO.appendChild(el('line',{class:'vsingle',x1:gx,y1:gy+5,x2:gx+32,y2:gy-5,style:'stroke-width:2.4'}));
@@ -2611,46 +2609,33 @@ const PARETO=(function(){
     gO.appendChild(txt(gx+46,gy+5,'cos(q,d)',{fs:14,mono:1,fw:700}));
     gO.appendChild(el('circle',{cx:ox,cy:oy,r:6,fill:ACC,stroke:'#fff','stroke-width':1.5}));
 
-    /* callout cards: the slide-13 glyph of each frontier function, two per step */
+    /* the twelve frontier score functions: glyph chip + dotted annotation line to its point */
     const cells=[...document.querySelectorAll('.pgrid .pcell')];
-    const obst=[cosBox], cards=[];
-    for(let j=0;j<fr.length;j+=2){
-      const ks=[j,j+1].filter(k=>k<fr.length);
-      const px=ks.map(k=>X(fr[k][0])), py=ks.map(k=>Y(fr[k][1]));
-      let cx=px.slice();
-      if(cx.length===2 && cx[1]-cx[0]<CW+GAP){ const m=(cx[0]+cx[1])/2; cx=[m-(CW+GAP)/2,m+(CW+GAP)/2]; }
-      const lo=L+12-(cx[0]-CW/2); if(lo>0) cx=cx.map(v=>v+lo);
-      const hi=(cx[cx.length-1]+CW/2)-(W-4); if(hi>0) cx=cx.map(v=>v-hi);
-      const bots=ks.map((k,m)=>{
-        const x0=cx[m]-CW/2, x1=cx[m]+CW/2; let b=py[m]-34;
-        all.forEach(p=>{ const qx=X(p[0]); if(qx>x0-6 && qx<x1+6) b=Math.min(b,Y(p[1])-12); });
-        obst.forEach(o=>{ if(o.x<x1+6 && o.x+o.w>x0-6) b=Math.min(b,o.y-12); });
-        return b;
-      });
-      const top=Math.max(T+2,Math.min(...bots)-CH);
-      ks.forEach((k,m)=>{
-        const left=cx[m]-CW/2, px0=px[m], py0=py[m];
-        const g=el('g',{class:'pco h'});
-        const lx=Math.max(left+20,Math.min(left+CW-20,px0));
-        g.appendChild(leader(lx,top+CH,px0,py0,9));
-        g.appendChild(el('rect',{x:left,y:top,width:CW,height:CH,rx:10,fill:'#fff',stroke:HAIR,'stroke-width':1.4}));
-        const cell=cells[k];
-        if(cell){
-          const s=cell.querySelector('svg').cloneNode(true);
-          s.setAttribute('x',left+6); s.setAttribute('y',top+4);
-          s.setAttribute('width',CW-12); s.setAttribute('height',(CW-12)*120/210);
-          g.appendChild(s);
-          const nm=cell.querySelector('.pname'), cost=nm.querySelector('.pcost');
-          const t=txt(left+CW/2,top+CH-10,nm.firstChild.textContent.trim(),{fs:13,mono:1,fw:700,anchor:'middle'});
-          const ts=el('tspan',{fill:ACC,dx:7}); ts.textContent=cost?cost.textContent.trim():''; t.appendChild(ts);
-          g.appendChild(t);
-        }
-        const ring=el('circle',{cx:px0,cy:py0,r:11,fill:'none',stroke:FOIL,'stroke-width':2,class:'pring h'});
-        gK.appendChild(ring); gK.appendChild(g);
-        cards[k]={g,ring,box:{x:left,y:top,w:CW,h:CH}};
-      });
-    }
-    R={pts,cards,curve,cosBox,X,Y};
+    const chips=[];
+    fr.forEach((p,k)=>{
+      const cols=COLS[k<6?0:1], j=k%6;
+      const left=cols[j%3], top=ROWS[Math.floor(j/3)];
+      const px=X(p[0]), py=Y(p[1]);
+      const g=el('g',{class:'pco h'});
+      const sx=clamp(px,left+16,left+CW-16);
+      gL.appendChild(el('line',{x1:sx,y1:top+CH,x2:px,y2:py-9,stroke:INK,'stroke-width':1.1,'stroke-dasharray':'3 4','stroke-opacity':.42}));
+      g.appendChild(el('rect',{x:left,y:top,width:CW,height:CH,rx:9,fill:'#fff',stroke:HAIR,'stroke-width':1.2}));
+      const cell=cells[k];
+      if(cell){
+        const s=cell.querySelector('svg').cloneNode(true);
+        s.setAttribute('x',left+(CW-88)/2); s.setAttribute('y',top+4);
+        s.setAttribute('width',88); s.setAttribute('height',88*120/210);
+        g.appendChild(s);
+        const nm=cell.querySelector('.pname'), cost=nm.querySelector('.pcost');
+        const name=nm.firstChild.textContent.trim();
+        const t=txt(left+CW/2,top+CH-9,name,{fs:10,mono:1,fw:700,anchor:'middle'});
+        if(cost){ const ts=el('tspan',{fill:ACC,dx:6}); ts.textContent=cost.textContent.trim(); t.appendChild(ts); }
+        g.appendChild(t);
+      }
+      gK.appendChild(g);
+      chips.push({g});
+    });
+    R={pts,chips,curve,cosBox,X,Y};
     const s=slides[i];
     if(s && s.classList.contains('active') && s.contains(svg)) play();
   }
@@ -2659,28 +2644,21 @@ const PARETO=(function(){
     const host=document.getElementById('c-pareto'); if(!host) return;
     host.classList.add('pa-reset');
     R.pts.forEach(p=>p.e.classList.add('h'));
-    R.cards.forEach(c=>hide(c,true));
+    R.chips.forEach(c=>c.g.classList.add('h'));
     const len=R.curve.getTotalLength();
     R.curve.style.transition='none'; R.curve.style.strokeDasharray=len; R.curve.style.strokeDashoffset=len;
     void host.getBoundingClientRect(); host.classList.remove('pa-reset');
-    const DT=34, FIRST=550, HOLD=2300, OUT=380;
-    let t=700;
-    R.pts.forEach(p=>{
-      const e=p.e, k=p.k;
-      at(t,()=>e.classList.remove('h'));
-      if(k<0){ t+=DT; return; }
-      const c=R.cards[k];
-      at(t,()=>hide(c,false));
-      if(k%2===0 && k<R.cards.length-1){ t+=FIRST; return; }
-      const a=(k%2===1)?R.cards[k-1]:null;
-      t+=HOLD; at(t,()=>{ hide(a,true); hide(c,true); }); t+=OUT;
-    });
-    t+=400;
-    at(t,()=>{ R.curve.style.transition='stroke-dashoffset 1.8s ease-in-out'; R.curve.style.strokeDashoffset='0'; });
-    at(t+1900,()=>{ R.curve.style.transition=''; R.curve.style.strokeDasharray=''; R.curve.style.strokeDashoffset=''; });
+    let t=600;
+    R.pts.forEach(p=>{ const e=p.e, k=p.k; at(t,()=>e.classList.remove('h')); t+=k<0?22:70; });
+    t+=250;
+    at(t,()=>{ R.curve.style.transition='stroke-dashoffset 1.6s ease-in-out'; R.curve.style.strokeDashoffset='0'; });
+    at(t+1750,()=>{ R.curve.style.transition=''; R.curve.style.strokeDasharray=''; R.curve.style.strokeDashoffset=''; });
+    t+=1650;
+    R.chips.forEach((c,idx)=>{ at(t+idx*85,()=>c.g.classList.remove('h')); });
   }
   return {build,play,stop,state:()=>R};
 })();
+
 function drawPareto(){ PARETO.build(); }
 
 /* held-out median vs cost */
