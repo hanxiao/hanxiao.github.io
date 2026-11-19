@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>十道一句话测试</title>
+<style>
+  :root{
+    --bg:#fafafa; --card:#fff; --line:#e3e3e3; --ink:#111; --mute:#707070; --fill:#f5f5f5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink)}
+  body{font:14px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","PingFang SC",sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:56px 24px 96px}
+
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+  h1{font-size:26px;line-height:1.2;letter-spacing:-.02em;margin:0;font-weight:600}
+  .sub{color:var(--mute);margin:8px 0 0;font-size:13px}
+  .total{font:600 22px/1 ui-monospace,"SF Mono",Menlo,monospace;letter-spacing:-.02em}
+  .total span{color:var(--mute);font-weight:400;font-size:13px;margin-left:2px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:820px){.grid{grid-template-columns:1fr}.wrap{padding:32px 16px 64px}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+  .head{display:flex;gap:10px;align-items:baseline}
+  .n{font:500 12px/1 ui-monospace,"SF Mono",Menlo,monospace;color:#a8a8a8;padding-top:3px;min-width:18px}
+  .name{font-size:15px;font-weight:600;letter-spacing:-.01em;margin:0}
+  .tags{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+  .tag{font-size:11px;color:var(--mute);background:var(--fill);border-radius:5px;padding:2px 6px;white-space:nowrap}
+
+  .prompt{position:relative;background:var(--fill);border-radius:8px;padding:12px 40px 12px 12px;
+          font:13px/1.55 ui-monospace,"SF Mono",Menlo,monospace;word-break:break-word}
+  .copy{position:absolute;top:8px;right:8px;font-size:11px;color:var(--mute);background:#fff;border:1px solid var(--line);
+        border-radius:5px;padding:2px 7px;cursor:pointer}
+  .copy:hover{color:var(--ink)}
+  .copy.done{color:var(--ink);border-color:#bbb}
+
+  .drop{position:relative;border:1px dashed #d6d6d6;border-radius:8px;aspect-ratio:4/3;background:#fcfcfc;
+        display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+  .drop.over{border-color:#999;background:#f7f7f7}
+  .drop .hint{color:#9b9b9b;font-size:12px;text-align:center;pointer-events:none;padding:0 12px}
+  .drop iframe{width:100%;height:100%;border:0;background:#fff;display:none}
+  .drop.filled iframe{display:block}
+  .drop.filled .hint{display:none}
+  .clear{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);
+         background:rgba(255,255,255,.94);color:var(--mute);font-size:13px;line-height:19px;text-align:center;
+         cursor:pointer;display:none;padding:0}
+  .drop.filled .clear{display:block}
+  .clear:hover{color:var(--ink)}
+
+  dl{margin:0;display:grid;grid-template-columns:56px 1fr;gap:5px 10px;font-size:12.5px;line-height:1.55}
+  dt{color:#a0a0a0}
+  dd{margin:0;color:#2c2c2c}
+  dd.bad{color:#6d6d6d}
+
+  .foot{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:2px}
+  .score{display:flex;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .score button{font:12px/1 inherit;padding:6px 10px;background:#fff;border:0;border-right:1px solid var(--line);color:var(--mute);cursor:pointer}
+  .score button:last-child{border-right:0}
+  .score button.on{background:#111;color:#fff}
+  .src{margin-left:auto;font-size:11px;color:#a8a8a8;text-decoration:none;border-bottom:1px solid transparent}
+  .src:hover{color:var(--mute);border-bottom-color:#d8d8d8}
+
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:#9b9b9b;font-size:12px;line-height:1.7}
+  footer a{color:#8a8a8a;text-decoration:none;border-bottom:1px solid #e0e0e0}
+  footer a:hover{color:var(--ink)}
+  footer p{margin:0 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>十道一句话测试</h1>
+      <p class="sub">同一句话，不许追问，默认温度。看它能不能一次画对。</p>
+    </div>
+    <div class="total" id="total">0<span>/20</span></div>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <p>拖进卡片的是模型原样返回的文件，不改一个字。SVG 直接存成 .svg，网页存成 .html。</p>
+    <p>题源：<a href="https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle" target="_blank">Simon Willison 的鹈鹕</a>、
+      <a href="https://github.com/johnbean393/SVGBench" target="_blank">SVGBench</a>、
+      <a href="https://simonwillison.net/2025/Nov/25/llm-svg-generation-benchmark" target="_blank">Tom Gally 的 30 个 SVG 题</a>、
+      <a href="https://aivs.tv/topics/spinning-hexagon-balls" target="_blank">旋转六边形里的球</a>、
+      <a href="https://github.com/jdmnk/design-benchmark" target="_blank">Design Bench</a>。
+      钟表与河内塔两题由我改写，检查点写死在卡片里。</p>
+  </footer>
+</div>
+
+<script>
+const TESTS = [
+  {
+    name: "鹈鹕骑自行车",
+    tags: ["视觉", "推理", "代码", "品味"],
+    prompt: "Generate an SVG of a pelican riding a bicycle.",
+    look: "不可能的姿态能不能立住：鸟的身体、翅膀、脚和自行车的车架、链条、踏板要咬在一起。",
+    good: "喙和喉囊一眼是鹈鹕，坐在车座上，脚在踏板上，翅膀在车把上，两个轮子圆且着地。",
+    bad: "鸟浮在车上方，轮子不成对，车没有链条，腿多出两条。",
+    src: ["Simon Willison, 2024", "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle"]
+  },
+  {
+    name: "三点四十七的钟",
+    tags: ["推理", "视觉", "精度"],
+    prompt: "Generate an SVG of an analog clock showing 3:47.",
+    look: "把数字换成角度：分针 282°，时针 113.5°（3 点过 47 分，时针必须离开 3 的刻度）。",
+    good: "分针指向 9 和 10 之间偏 10，时针在 3 和 4 之间且明显靠近 4，十二个数字正着放，两根针长度不同。",
+    bad: "分针停在 9 或 10 的整点，时针死死压在 3 上，数字跟着圆周转倒，两根针一样长。",
+    src: ["ClockBench", "https://clockbench.ai"]
+  },
+  {
+    name: "旋转六边形里的球",
+    tags: ["代码", "物理", "动画"],
+    prompt: "Make a single HTML file: a ball bouncing inside a hexagon that is spinning.",
+    look: "碰撞检测要在旋转的坐标系里做，球永远不出界，反弹像弹性的，转一圈不抖不漂。",
+    good: "打开就跑，球在六个边之间来回弹，六边形匀速转，碰壁角度对，久跑不穿墙。",
+    bad: "白屏报错，球逃出六边形，球黏在边上，按外接矩形反弹而不是按边反弹。",
+    src: ["六边形测试", "https://aivs.tv/topics/spinning-hexagon-balls"]
+  },
+  {
+    name: "河内塔第七步",
+    tags: ["推理", "状态", "视觉"],
+    prompt: "Generate an SVG of the Tower of Hanoi with 4 disks, all starting on the left peg, after 7 moves of the optimal solution. Label the three pegs.",
+    look: "最优解唯一，第七步后的局面也唯一：大盘单独在左柱，小中大三盘叠在中柱，右柱空。",
+    good: "三个柱都画了，盘径从下到上递减，左柱只剩最大的盘，中柱三盘，右柱空，盘数一共四个。",
+    bad: "盘数不对，大盘不在最底下，第七步画成第四步，或者干脆画成开局。",
+    src: ["状态跟踪题，我出的", ""]
+  },
+  {
+    name: "斜看棋盘开局",
+    tags: ["知识", "透视", "代码"],
+    prompt: "Generate an SVG of a chessboard in the starting position, seen from 30 degrees above the board.",
+    look: "三件事同时要对：32 个棋子在正确格、a1 是深色、远处的棋子更小且被近处挡住。",
+    good: "8×8 交替格，白棋在一二横排，黑棋在七八横排，王后各站自己的颜色，格子随透视收窄。",
+    bad: "棋子少于 32 个，兵和车换位，a1 画成浅色，棋盘是平的而棋子斜着贴上去。",
+    src: ["SVGBench 同类题", "https://github.com/johnbean393/SVGBench"]
+  },
+  {
+    name: "侧看一杯水插吸管",
+    tags: ["视觉", "物理", "品味"],
+    prompt: "Generate an SVG of a glass of water with a straw in it, seen from the side.",
+    look: "折射是唯一答案：水面以下那段吸管要错位、变粗，杯口是椭圆，水是透明的。",
+    good: "杯口和杯底都是椭圆，水面一条水平线，吸管在水面处断开错位，影子落在桌上。",
+    bad: "吸管一根直线穿过整杯，水画成一块不透明的蓝，杯口是矩形，吸管压在杯壁前面。",
+    src: ["SVG 常识题", "https://github.com/johnbean393/SVGBench"]
+  },
+  {
+    name: "单文件贪吃蛇",
+    tags: ["代码", "交互"],
+    prompt: "Write a single HTML file with a playable Snake game. Arrow keys, no dependencies.",
+    look: "不是能不能写，是能不能跑：循环、输入、吃到变长、撞墙撞自己结束、重开。",
+    good: "双击就玩，蛇按方向键走，吃到食物变长，撞到自己停住并给出重开，速度不飘。",
+    bad: "白屏，蛇能穿墙穿自己，食物长在蛇身上，按一下方向键跳两格，没有结束。",
+    src: ["Design Bench 同类", "https://github.com/jdmnk/design-benchmark"]
+  },
+  {
+    name: "路上的 SALE",
+    tags: ["品味", "透视", "字体"],
+    prompt: "Generate an SVG of the word SALE in bold capitals, receding into the distance as if painted on the road.",
+    look: "四个字母共用同一个灭点，近大远小要按比例，压扁之后还得读得出 SALE。",
+    good: "字母逐级缩小、上下边向灭点收拢，笔画粗细分层，四个字母仍可辨认，路面有质感。",
+    bad: "字母只是整体缩小没有斜切，每个字母各朝一个方向跑，透视对了但字糊成一团。",
+    src: ["Tom Gally 的 30 题", "https://simonwillison.net/2025/Nov/25/llm-svg-generation-benchmark"]
+  },
+  {
+    name: "一棵树的四季",
+    tags: ["品味", "一致性", "构图"],
+    prompt: "Generate an SVG in a 2x2 grid: the same tree in spring, summer, autumn and winter. No labels.",
+    look: "四格必须是同一棵树，只换颜色和叶子。去掉文字标签还能不能看出季节。",
+    good: "树干和枝丫四格一致，春是花、夏是浓绿、秋是橙黄落叶、冬是雪和枯枝，四格同尺寸同地平线。",
+    bad: "四棵不同的树，靠文字写春夏秋冬，一格撑满另一格空，配色互相打架。",
+    src: ["Tom Gally 的 30 题", "https://simonwillison.net/2025/Nov/25/llm-svg-generation-benchmark"]
+  },
+  {
+    name: "手绘藏宝图",
+    tags: ["推理", "品味", "地理"],
+    prompt: "Generate an SVG of a hand-drawn treasure map of an island: a mountain, a river running from it to the sea, a beach, a village, and a north arrow.",
+    look: "地理逻辑不能错：河从山上往低处流进海里，沙滩贴着海岸线，指北针必须在。",
+    good: "河从山顶出发一路到海岸，沙滩沿海岸铺开，村子在河口平地，风格统一像旧纸。",
+    bad: "河在半路断掉，沙滩浮在岛中间，山画在海里，没有指北针，五个元素像贴纸拼的。",
+    src: ["SVG 常识题", "https://github.com/johnbean393/SVGBench"]
+  }
+];
+
+const KEY = "oneliner-scores-v1";
+let scores = {};
+try { scores = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { scores = {}; }
+
+const grid = document.getElementById("grid");
+const totalEl = document.getElementById("total");
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(scores)); } catch (e) {}
+  let sum = 0;
+  TESTS.forEach((_, i) => { sum += scores[i] || 0; });
+  totalEl.innerHTML = sum + "<span>/20</span>";
+}
+
+TESTS.forEach((t, i) => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="head">
+      <div class="n">${String(i + 1).padStart(2, "0")}</div>
+      <h2 class="name">${t.name}</h2>
+      <div class="tags">${t.tags.map(x => `<span class="tag">${x}</span>`).join("")}</div>
+    </div>
+    <div class="prompt">${t.prompt.replace(/</g, "&lt;")}<button class="copy">复制</button></div>
+    <div class="drop">
+      <div class="hint">拖入 SVG 或 HTML</div>
+      <iframe sandbox="allow-scripts" title="${t.name}"></iframe>
+      <button class="clear" title="清除">×</button>
+    </div>
+    <dl>
+      <dt>看什么</dt><dd>${t.look}</dd>
+      <dt>合格</dt><dd>${t.good}</dd>
+      <dt>失败</dt><dd class="bad">${t.bad}</dd>
+    </dl>
+    <div class="foot">
+      <div class="score">
+        <button data-v="0">失败</button><button data-v="1">合格</button><button data-v="2">好</button>
+      </div>
+      ${t.src[1] ? `<a class="src" href="${t.src[1]}" target="_blank">${t.src[0]}</a>` : `<span class="src">${t.src[0]}</span>`}
+    </div>`;
+  grid.appendChild(card);
+
+  // copy
+  const btn = card.querySelector(".copy");
+  btn.addEventListener("click", () => {
+    const text = t.prompt;
+    const done = () => { btn.textContent = "已复制"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "复制"; btn.classList.remove("done"); }, 1200); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+    } else { fallbackCopy(text, done); }
+  });
+
+  // drop / pick
+  const drop = card.querySelector(".drop");
+  const frame = drop.querySelector("iframe");
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".svg,.html,.htm,image/svg+xml,text/html";
+  input.style.display = "none";
+  card.appendChild(input);
+
+  function show(source) {
+    // An SVG dropped in bare has no width/height, so the browser stretches it to the
+    // viewport and crops it. Give it a page that centres it and keeps its aspect ratio.
+    frame.srcdoc = /^\s*<svg/i.test(source)
+      ? `<!doctype html><style>html,body{height:100%;margin:0;display:grid;place-items:center;background:#fff}svg{width:100%;height:100%;display:block}</style>${source}`
+      : source;
+    drop.classList.add("filled");
+  }
+  function load(file) {
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = () => {
+      let src = String(r.result);
+      if (!/^\s*<svg/i.test(src) && !/<html/i.test(src)) {
+        src = `<body style="margin:0;display:grid;place-items:center;height:100vh"><pre style="font:12px monospace;white-space:pre-wrap;padding:12px">${src.replace(/[<>&]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]))}</pre></body>`;
+      }
+      show(src);
+    };
+    r.readAsText(file);
+  }
+
+  drop.addEventListener("click", e => { if (e.target === drop.querySelector(".clear")) return; input.click(); });
+  input.addEventListener("change", () => { load(input.files[0]); input.value = ""; });
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", e => { load(e.dataTransfer.files[0]); });
+
+  drop.querySelector(".clear").addEventListener("click", e => {
+    e.stopPropagation();
+    frame.srcdoc = "";
+    drop.classList.remove("filled");
+  });
+
+  // score
+  const sb = card.querySelectorAll(".score button");
+  const paint = () => sb.forEach(b => b.classList.toggle("on", Number(b.dataset.v) === (scores[i] || 0) && (scores[i] || 0) !== 0));
+  sb.forEach(b => b.addEventListener("click", () => {
+    const v = Number(b.dataset.v);
+    scores[i] = (scores[i] || 0) === v ? 0 : v;
+    paint(); save();
+  }));
+  paint();
+});
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) {}
+  document.body.removeChild(ta);
+}
+
+save();
+</script>
+</body>
+</html>
